@@ -33,11 +33,7 @@
     </bean>
 
     <sec:http auto-config='false'>
-        <!-- 任何人都可以看到的登录界面 -->
-        <sec:intercept-url pattern="/mrna/index" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-        <!-- 只有管理员才能看到的admin界面 -->
-        <sec:intercept-url pattern="/**" access="ROLE_USER" />
-        <sec:form-login login-page="/login" default-target-url="/"
+        <sec:form-login login-page="/login" default-target-url="/mrna/index"
                         authentication-failure-url="/login?error=true" />
 
         <sec:logout invalidate-session="true" logout-success-url="/mrna/index" logout-url="/j_spring_security_logout" />
