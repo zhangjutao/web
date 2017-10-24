@@ -1,0 +1,18 @@
+# idea
+*.iml
+.idea/
+guaoqtl.iml
+
+# release package
+build/
+release.zip
+
+logs/
+*.log
+**/target/
+classes/
+
+# eclipse setting
+.settings
+.classpath
+.project

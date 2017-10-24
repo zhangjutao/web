@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.qtl.dao.AdvanceInfoDao">
+
+    <select id="findList" resultType="com.gooalgene.entity.AdvanceInfo">
+        SELECT * FROM advanceinfo;
+    </select>
+
+    <select id="findByTypeAllList" resultType="com.gooalgene.entity.AdvanceInfo">
+        SELECT * FROM advanceinfo WHERE 1=1
+        <if test="qtlName!=null">
+            AND qtl_name LIKE CONCAT('%',#{qtlName},'%')
+        </if>
+        <if test="plantTraitOntology!=null">
+            OR plant_trait_ontology LIKE CONCAT('%',#{plantTraitOntology},'%')
+        </if>
+        <if test="plantOntology!=null">
+            OR plant_ontology LIKE CONCAT('%',#{plantOntology},'%')
+        </if>
+        <if test="geneOntology!=null">
+            OR gene_ontology LIKE CONCAT('%',#{geneOntology},'%')
+        </if>
+        <if test="otherRelatedQtls!=null">
+            OR other_related_qtls LIKE CONCAT('%',#{otherRelatedQtls},'%')
+        </if>
+        <if test="otherNamesQtl!=null">
+            OR other_names_qtl LIKE CONCAT('%',#{otherNamesQtl},'%')
+        </if>
+    </select>
+
+    <select id="get" resultType="com.gooalgene.entity.AdvanceInfo">
+        SELECT * FROM advanceinfo WHERE qtl_name = #{id}
+    </select>
+
+    <select id="findAdvanceInfoById" parameterType="int" resultType="com.gooalgene.entity.AdvanceInfo">
+        SELECT * FROM advanceinfo WHERE id=#{id}
+    </select>
+
+    <insert id="saveAdvanceinfo" parameterType="com.gooalgene.entity.AdvanceInfo">
+        INSERT INTO advanceinfo (qtl_name,plant_trait_ontology,plant_ontology,gene_ontology,other_related_qtls,other_names_qtl)
+        VALUES(#{qtlName},#{plantTraitOntology},#{plantOntology},#{geneOntology},#{otherRelatedQtls},#{otherNamesQtl})
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO advanceinfo (qtl_name,plant_trait_ontology,plant_ontology,gene_ontology,other_related_qtls,other_names_qtl)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.qtlName,jdbcType=LONGVARCHAR},
+            #{item.plantTraitOntology,jdbcType=LONGVARCHAR},
+            #{item.plantOntology,jdbcType=LONGVARCHAR},
+            #{item.geneOntology,jdbcType=LONGVARCHAR},
+            #{item.otherRelatedQtls,jdbcType=LONGVARCHAR},
+            #{item.otherNamesQtl,jdbcType=LONGVARCHAR})
+        </foreach>
+    </insert>
+
+    <update id="updateAdvanceInfo" parameterType="com.gooalgene.entity.AdvanceInfo">
+        UPDATE advanceinfo SET qtl_name=#{qtlName},plant_trait_ontology=#{plantTraitOntology},plant_ontology=#{plantOntology},
+        gene_ontology=#{geneOntology},other_related_qtls=#{otherRelatedQtls},other_names_qtl=#{otherNamesQtl} WHERE id=#{id}
+    </update>
+
+    <delete id="deleteAdvanceInfo" parameterType="int">
+        DELETE FROM advanceinfo WHERE id=#{id}
+    </delete>
+
+</mapper>
