@@ -10,8 +10,8 @@
     <%@ include file="/WEB-INF/views/include/header-res.jsp" %>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>
-<%--<iqgs:iqgs-header></iqgs:iqgs-header>--%>
+<%--<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>--%>
+<iqgs:iqgs-header></iqgs:iqgs-header>
 
     <section class="container">
         <div class="banner">

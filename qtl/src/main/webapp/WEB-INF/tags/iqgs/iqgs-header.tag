@@ -9,7 +9,7 @@
     <div class="container">
         <div class="logo">
             <a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
-            <a href="${ctxroot}/iqgs/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">Integrated Database</a>
+            <a href="${ctxroot}/search/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">Integrated Database</a>
         </div>
         <div class="login-out">
             <c:choose>
