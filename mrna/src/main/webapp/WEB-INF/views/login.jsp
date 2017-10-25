@@ -30,8 +30,8 @@
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
                 </c:if>
-                <label class="user" for="u-mail"><input type="text" id="u-mail" name="username" placeholder="用户名/邮箱"/><span class="clear js-clear-u">X</span></label>
-                <label class="pwd"  for="pwd"><input type="password" id="pwd" name="password" placeholder="密码"/><span class="clear js-clear-p">X</span></label>
+                <label class="user" for="u-mail"><input type="text" id="u-mail" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" placeholder="用户名/邮箱"/><span class="clear js-clear-u">X</span></label>
+                <label class="pwd"  for="pwd"><input type="password" id="pwd" name="j_password" placeholder="密码"/><span class="clear js-clear-p">X</span></label>
                 <div class="m-unlogin">
                     <%--<div class="un-login">--%>
                         <%--<input type="checkbox" checked/>下次自动登录--%>
