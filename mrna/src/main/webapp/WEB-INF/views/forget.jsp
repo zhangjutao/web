@@ -16,7 +16,7 @@
 </head>
 <body >
 
-<iqgs:iqgs-header></iqgs:iqgs-header>
+<mrna:mrna-header />
 <!--header-->
 <div class="container">
     <div class="forget-h"><p>忘记密码</p></div>

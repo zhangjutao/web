@@ -145,8 +145,7 @@
 
 <body>
 
-<%@ include file="/WEB-INF/views/include/mrna-header.jsp"%>
-
+<mrna:mrna-header />
 <section class="container navigation-toggle">
     <div class="tab-search">
         <div class="search">

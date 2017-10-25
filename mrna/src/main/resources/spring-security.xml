@@ -7,7 +7,7 @@
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!-- 数据源配置, 使用 BoneCP 数据库连接池 -->
+    <!-- 数据源配置, 使用 Druid 数据库连接池 -->
     <bean id="secDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
         <property name="driverClassName" value="${jdbc.driver}"/>
@@ -32,11 +32,9 @@
         <property name="minEvictableIdleTimeMillis" value="300000"/>
     </bean>
 
+    <!-- 这里会覆盖ROLE_ADMIN用户/mrna/**权限设置 -->
+    <sec:http pattern="/mrna/index" security="none" />
     <sec:http auto-config='false'>
-        <!-- 任何人都可以看到的登录界面 -->
-        <sec:intercept-url pattern="/mrna/index" access="IS_AUTHENTICATED_ANONYMOUSLY" />
-        <!-- 只有管理员才能看到的admin界面 -->
-        <sec:intercept-url pattern="/**" access="ROLE_USER" />
         <sec:form-login login-page="/login" default-target-url="/"
                         authentication-failure-url="/login?error=true" />
 

@@ -16,7 +16,15 @@ header{background: #fff;height: 80px;box-shadow: 0px 1px 3px rgba(0,0,0,0.2);mar
 .logo img{width: 166px; height: 44px;margin-top: 16px; margin-left: 20px;}
 .logo img.back-index{width: 24px; margin-top: -9px; height: 23px;margin-left: 10px;    padding-right: 8px;}
 .login-out{line-height: 80px;float: right;padding-right: 30px;}
-.login-out a{font-size: 18px;margin-left: 5px;    width: 60px; height: 30px; display: inline-block; line-height: 30px; text-align: center;}
+.login-out a{
+    margin-left: 10px;
+    font-size: 14px;
+    height: 14px;
+    display: inline-block;
+    line-height: 14px;
+    text-align: center;
+    color: #5c8ce6;
+}
 .login-out a.register{background-color:#5c8ce6;color:#fff;border-radius:2px }
 button.btn:hover{background-color: #586cca!important;}
 button.btn-fill:hover{background-color:#5c8ce6;color:#fff}
