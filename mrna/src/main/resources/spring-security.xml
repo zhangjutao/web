@@ -32,8 +32,10 @@
         <property name="minEvictableIdleTimeMillis" value="300000"/>
     </bean>
 
+    <!-- 这里会覆盖ROLE_ADMIN用户/mrna/**权限设置 -->
+    <sec:http pattern="/mrna/index" security="none" />
     <sec:http auto-config='false'>
-        <sec:form-login login-page="/login" default-target-url="/mrna/index"
+        <sec:form-login login-page="/login" default-target-url="/"
                         authentication-failure-url="/login?error=true" />
 
         <sec:logout invalidate-session="true" logout-success-url="/mrna/index" logout-url="/j_spring_security_logout" />

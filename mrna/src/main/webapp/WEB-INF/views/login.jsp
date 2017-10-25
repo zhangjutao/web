@@ -15,7 +15,7 @@
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
 <body onload='document.loginForm.username.focus();'>
-<iqgs:iqgs-header></iqgs:iqgs-header>
+<mrna:mrna-header />
 <!--header-->
 <div class="container">
     <div class="loginC">
