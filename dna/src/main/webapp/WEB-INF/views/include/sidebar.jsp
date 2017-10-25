@@ -95,7 +95,7 @@
         <div class="select-item-hd">
             <span>Select Populations</span>
             <div class="custom-groups">
-                <spa class="custom-groups-btn">自定义群体</spa>
+                <span class="custom-groups-btn">自定义群体</span>
                 <div class="cover"></div>
                 <div class="custom-groups-content">
                     <div class="sample">
@@ -271,6 +271,7 @@
         </div>
     </div>
     <div class="confirmed-btn">
+        <!-- 该事件封到dna-index.jsp页面dna.js中 -->
         <button type="button" class="btn js-panel-btn">确定</button>
     </div>
 </div>
@@ -1180,8 +1181,10 @@
                         }
 
                     })
+                },
+                error: function(err){
+                    window.location.href = '${ctxroot}/login'
                 }
-
             });
         });
 

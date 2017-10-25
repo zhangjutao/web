@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
@@ -28,15 +29,7 @@
     </style>
 </head>
 <body>
-<header>
-    <div class="container">
-        <div class="logo">
-            <a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
-            <a href="${ctxroot}/dna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">SNP INDEL Database</a>
-        </div>
-        <div class="login-out"></div>
-    </div>
-</header>
+<dna:dna-header />
 <!--header-->
 <div class="container snp-content js-nav-ac">
     <%@ include file="/WEB-INF/views/include/sidebar.jsp" %>
