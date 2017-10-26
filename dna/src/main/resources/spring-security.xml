@@ -33,16 +33,16 @@
         <property name="minEvictableIdleTimeMillis" value="300000"/>
     </bean>
 
+    <!-- 目前不需要将ajax请求拒绝 -->
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
 
     <!-- 这里会覆盖ROLE_ADMIN用户/dna/**权限设置 -->
-    <sec:http pattern="/dna/index" security="none" />
-    <!--<sec:http pattern="/dna/queryByGene" security="none" />-->
-    <sec:http auto-config='false' entry-point-ref="authEntryPoint">
+    <!--<sec:http pattern="/dna/index" security="none" />-->
+    <sec:http auto-config='false'>
         <sec:form-login login-page="/login" default-target-url="/"
                         login-processing-url="/j_spring_security_check"
                         authentication-failure-url="/login?error=true" />
-
+        <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
     </sec:http>
