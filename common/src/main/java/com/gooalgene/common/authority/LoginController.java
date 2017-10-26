@@ -19,13 +19,13 @@ import javax.servlet.http.HttpServletResponse;
 public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-                              @RequestParam(value = "logout", required = false) String logout) {
+                              @RequestParam(value = "logout", required = false) String logout,
+                              HttpServletRequest request) {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
             model.addObject("error", "无效的用户名或密码!");
     }
-
         if (logout != null) {
             model.addObject("msg", "登出成功.");
         }

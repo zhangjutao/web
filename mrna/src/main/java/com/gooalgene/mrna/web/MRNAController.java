@@ -18,6 +18,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,6 +34,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
+import java.security.Principal;
 import java.util.*;
 
 
@@ -68,6 +72,24 @@ public class MRNAController {
     public ModelAndView index(HttpServletRequest request) {
 
         ModelAndView model = new ModelAndView("mRNA/mRNA-index");
+        //如果用户登录首页，直接登录：先跳转到登录页面后来到首页，然后将userName放入到session中
+//        String userName = "";
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+//        if (authentication != null){
+//            Object credentials = authentication.getCredentials();
+//            if (credentials != null){
+//                if (credentials instanceof UserDetails){
+//                    UserDetails userDetails = (UserDetails) credentials;
+//                    userName = userDetails.getUsername();
+//                } else if (credentials instanceof Principal) {
+//                    Principal principal = (Principal) credentials;
+//                    userName = principal.getName();
+//                }else {
+//                    userName = String.valueOf(userName);
+//                }
+//            }
+//            request.getSession().setAttribute("userName", userName);
+//        }
 
         List<Classifys> tree = tService.getClassifyTree();
         model.addObject("tree", tree);

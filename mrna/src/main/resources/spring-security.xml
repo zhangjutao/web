@@ -34,7 +34,8 @@
 
     <!-- 这里会覆盖ROLE_ADMIN用户/mrna/**权限设置 -->
     <sec:http pattern="/mrna/index" security="none" />
-    <sec:http auto-config='false'>
+    <sec:http auto-config='false' use-expressions="true">
+        <sec:intercept-url pattern="/mrna/**" access="hasRole('ROLE_ADMIN')" />
         <sec:form-login login-page="/login" default-target-url="/"
                         authentication-failure-url="/login?error=true" />
 
