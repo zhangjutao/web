@@ -169,7 +169,7 @@
     </style>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>
+<mrna:qtl-header />
 <section class="container navigation-toggle">
     <div class="tab-search">
         <div class="search">

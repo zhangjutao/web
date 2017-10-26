@@ -7,7 +7,7 @@
 <%@page session="true"%>
 <html>
 <head>
-    <title>忘记密码</title>
+    <title>修改密码</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
@@ -19,41 +19,49 @@
 <mrna:qtl-header />
 <!--header-->
 <div class="container">
-    <div class="forget-h"><p>忘记密码</p></div>
-    <div class="forget">
-        <form method="POST" action="${ctxroot}/signup/forget">
+    <div class="forget-h"><p>修改密码</p></div>
+    <div class="forget modify">
+        <form method="POST" action="">
             <c:if test="${not empty error}">
-                <div class="error">${error}</div>
+                <div class="er">${error}</div>
             </c:if>
-            <div class="forget-u">
+            <div class="modify-u">
                 <label>
-                    <span>用户姓名:</span>
-                    <input type="text" name="username" id="username" placeholder="请输入您注册时用户姓名" value="${username}">
+                    <span>原密码:</span>
+                    <input type="password" name="oldpwd" id="username" placeholder="请输入旧密码">
                 </label>
             </div>
-            <div class="forget-mail">
+            <div class="modify-pwd">
                 <label>
-                    <span>邮箱:</span>
-                    <input type="email" name="email" id="mail" placeholder="请输入注册时用户邮箱" value="${email}">
+                    <span>新密码:</span>
+                    <input type="password" name="password" id="new-pwd" placeholder="请输入新密码">
                     <span class="tips"></span>
                 </label>
             </div>
-            <button type="submit" class="js-ref" name="submit"  href="javascript:;">联系管理员</button>
+            <div class="confirm-modify-pwd">
+                <label>
+                    <span>确认新密码:</span>
+                    <input type="password" name="pwdverify" id="confirm-new-pwd" placeholder="请确认与新密码保持一致">
+                    <span class="tips"></span>
+                </label>
+            </div>
+            <button type="submit" class="js-ref" name="submit"  href="javascript:;">确定</button>
         </form>
     </div>
 </div>
-<!--container-->
+
+<%--遮挡层--%>
 <c:if test="${not empty user}">
     <div id="mask" class=""></div>
     <div id="waiting" class="waiting">
         <div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>
         <div class="waiting-b">
-            <div class="waiting-txt">24小时内审核完成，等待管理员进行联系</div>
+            <div class="waiting-txt">密码修改成功</div>
             <a class="btn b-index" href="${ctxroot}/iqgs/index">返回首页</a>
         </div>
     </div>
 </c:if>
-
+<!--container-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
 </body>

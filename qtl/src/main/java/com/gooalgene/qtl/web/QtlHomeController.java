@@ -1,4 +1,4 @@
-package com.gooalgene.mrna.web;
+package com.gooalgene.qtl.web;
 
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -10,7 +10,7 @@ import java.security.Principal;
 
 @Controller
 @RequestMapping("/home")
-public class InitController {
+public class QtlHomeController {
 
     @RequestMapping("/index")
     public String home(HttpServletRequest request){
@@ -30,6 +30,6 @@ public class InitController {
         }
         request.getSession().setAttribute("userName", userName);
 
-        return "redirect:/mrna/index";
+        return "redirect:/search/index";
     }
 }

@@ -260,7 +260,7 @@
 
 <body>
 
-<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>
+<mrna:qtl-header />
 <section class="container" style="background: #FFF;">
 
     <div class="search-section">

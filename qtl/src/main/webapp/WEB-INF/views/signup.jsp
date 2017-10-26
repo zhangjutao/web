@@ -1,10 +1,3 @@
-<%--
-  Created by IntelliJ IDEA.
-  User: hedingwei
-  Date: 16/10/2017
-  Time: 12:19 PM
-  To change this template use File | Settings | File Templates.
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
@@ -25,7 +18,7 @@
 </head>
 <body >
 
-<iqgs:iqgs-header></iqgs:iqgs-header>
+<mrna:qtl-header />
 <!--header-->
 <div class="container">
     <div class="signup">
@@ -36,9 +29,12 @@
             <div class="reg-u">
                 <label>
                     <span><b>*</b>用户名:</span>
-                    <input type="text" name="username" id="username" placeholder="请输入用户名" value="${username}">
+                    <input type="text" name="username" id="username" placeholder="请输入用户名" value="${username}"
+                           onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+                           onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
+                           oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')">
                 </label>
-                <span class="tips">输入后不可更改,<br/>中英文均可最长14个字符或7个字符</span>
+                <span class="tips">输入后不可更改,<br/>只支持2到14位的英文和数字</span>
             </div>
             <div class="reg-mail">
                 <label>
@@ -104,7 +100,8 @@
         rules: {
             username: {
                 required: true,
-                minlength: 7
+                minlength: 2,
+                maxlength:14
             },
             password: {
                 required: true,
@@ -123,7 +120,8 @@
         messages: {
             username: {
                 required: "请输入用户名",
-                minlength: "用户名必需由两个字符组成"
+                minlength: "用户名长度不能小于2个字符",
+                maxlength: "用户名长度不能大于14个字符"
             },
             password: {
                 required: "请输入密码",

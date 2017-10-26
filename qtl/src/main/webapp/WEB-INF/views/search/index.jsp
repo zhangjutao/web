@@ -11,7 +11,7 @@
 </head>
 <body>
 <%--<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>--%>
-<iqgs:iqgs-header></iqgs:iqgs-header>
+<mrna:qtl-header />
 
     <section class="container">
         <div class="banner">
