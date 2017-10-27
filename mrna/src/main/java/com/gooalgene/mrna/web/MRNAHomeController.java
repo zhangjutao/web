@@ -12,7 +12,7 @@ import java.security.Principal;
  * MRNA数据库root controller
  */
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/mrnahome")
 public class MRNAHomeController {
 
     @RequestMapping("/index")
