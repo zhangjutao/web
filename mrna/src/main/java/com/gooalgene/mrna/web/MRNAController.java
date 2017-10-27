@@ -72,24 +72,6 @@ public class MRNAController {
     public ModelAndView index(HttpServletRequest request) {
 
         ModelAndView model = new ModelAndView("mRNA/mRNA-index");
-        //如果用户登录首页，直接登录：先跳转到登录页面后来到首页，然后将userName放入到session中
-//        String userName = "";
-//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//        if (authentication != null){
-//            Object credentials = authentication.getCredentials();
-//            if (credentials != null){
-//                if (credentials instanceof UserDetails){
-//                    UserDetails userDetails = (UserDetails) credentials;
-//                    userName = userDetails.getUsername();
-//                } else if (credentials instanceof Principal) {
-//                    Principal principal = (Principal) credentials;
-//                    userName = principal.getName();
-//                }else {
-//                    userName = String.valueOf(userName);
-//                }
-//            }
-//            request.getSession().setAttribute("userName", userName);
-//        }
 
         List<Classifys> tree = tService.getClassifyTree();
         model.addObject("tree", tree);
