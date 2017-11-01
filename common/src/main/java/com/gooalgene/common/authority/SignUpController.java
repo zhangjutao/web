@@ -36,14 +36,14 @@ public class SignUpController {
 
     @RequestMapping(value="/action.do", method = RequestMethod.POST)
     public ModelAndView signupDo (
-                                      @RequestParam(value = "username",required = false)String username,
-                                      @RequestParam(value = "email",required = false)String email,
-                                      @RequestParam(value = "password",required = false)String password,
-                                      @RequestParam(value = "passwordVerify",required = false)String passwordVerify,
-                                      @RequestParam(value = "phone",required = false)String phone,
-                                      @RequestParam(value = "domains",required = false)String domains,
-                                      @RequestParam(value = "university",required = false)String university
-                                  ) {
+            @RequestParam(value = "username",required = false)String username,
+            @RequestParam(value = "email",required = false)String email,
+            @RequestParam(value = "password",required = false)String password,
+            @RequestParam(value = "passwordVerify",required = false)String passwordVerify,
+            @RequestParam(value = "phone",required = false)String phone,
+            @RequestParam(value = "domains",required = false)String domains,
+            @RequestParam(value = "university",required = false)String university
+    ) {
 
 
         ModelAndView modelAndView = new ModelAndView("signup");
