@@ -53,7 +53,7 @@
     <sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider>
             <sec:jdbc-user-service data-source-ref="secDataSource"
-                                   users-by-username-query="select username,password,status as enabled from user where username = ?"
+                                   users-by-username-query="select username,password,enabled from user where username = ?"
                                    authorities-by-username-query=
                                            "select u.username, r.name from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.username = ?"/>
         </sec:authentication-provider>

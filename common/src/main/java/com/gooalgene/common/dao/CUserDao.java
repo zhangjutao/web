@@ -3,6 +3,7 @@ package com.gooalgene.common.dao;
 
 import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.authority.CUser;
+import com.gooalgene.common.authority.User_Role;
 import com.gooalgene.common.persistence.MyBatisDao;
 
 import java.util.List;
@@ -26,4 +27,9 @@ public interface CUserDao extends CrudDao<CUser> {
     boolean updateUserPassword(CUser user);
 
     boolean updateUserForReset(CUser user);
+
+
+    /*此处新加了设置用户角色的接口*/
+    boolean setRole(User_Role user_role);
+
 }

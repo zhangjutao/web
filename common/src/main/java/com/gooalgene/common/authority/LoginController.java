@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by hedingwei on 16/10/2017.
- * dna数据库启动页面直接进登录页
  */
 @Controller
 public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-                              @RequestParam(value = "logout", required = false) String logout) {
+                              @RequestParam(value = "logout", required = false) String logout,
+                              HttpServletRequest request) {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
@@ -43,6 +43,7 @@ public class LoginController {
         }
         return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
+/*
 
     @RequestMapping(value="/signup", method = RequestMethod.GET)
     public String signupPage () {
@@ -60,11 +61,9 @@ public class LoginController {
                                       @RequestParam(value = "university",required = false)String university
                                   ) {
         ModelAndView modelAndView = new ModelAndView("signupDone");
-
-
-
         return modelAndView;
     }
+*/
 
     @RequestMapping("/403")
     public String err403(HttpServletRequest request) {
