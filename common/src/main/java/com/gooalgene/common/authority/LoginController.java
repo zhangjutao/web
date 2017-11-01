@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
 
 /**
  * Created by hedingwei on 16/10/2017.
+ * dna数据库启动页面直接进登录页
  */
 @Controller
 public class LoginController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView login(@RequestParam(value = "error", required = false) String error,
-                              @RequestParam(value = "logout", required = false) String logout,
-                              HttpServletRequest request) {
+                              @RequestParam(value = "logout", required = false) String logout) {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {

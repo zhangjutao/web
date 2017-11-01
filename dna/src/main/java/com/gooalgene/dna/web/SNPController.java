@@ -5,6 +5,7 @@ import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.*;
+import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -22,11 +23,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -49,6 +52,8 @@ public class SNPController {
 
     @Autowired
     private SNPService snpService;
+    @Autowired
+    private SMTPService smtpService;
 
     @Autowired
     private DNAMongoService dnaMongoService;
@@ -60,6 +65,15 @@ public class SNPController {
     public ModelAndView index(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
+        List<String> receivers = new ArrayList<>();
+        receivers.add("crabime@gmail.com");
+        try {
+            smtpService.send("songsx@gooalgene.com", receivers, "来自古奥基因的邮件通知", "您的注册账号已生效，请点击查收", false);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
         return model;
     }
 
