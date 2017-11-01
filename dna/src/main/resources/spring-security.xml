@@ -14,7 +14,7 @@
         <property name="driverClassName" value="${jdbc.driver}"/>
 
         <!-- 基本属性 url、user、password -->
-        <property name="url" value="jdbc:mysql://172.168.1.119:33069/qtldb?useUnicode=true&amp;characterEncoding=utf-8"/>
+        <property name="url" value="jdbc:mysql://172.168.1.119:33069/dev_auth?useUnicode=true&amp;characterEncoding=utf-8"/>
         <property name="username" value="root"/>
         <property name="password" value="gooalgene@Iqgs123"/>
 

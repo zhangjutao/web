@@ -32,7 +32,7 @@
         <commons-beanutils.version>1.9.1</commons-beanutils.version>
         <httpclient.version>4.5</httpclient.version>
         <jackson.version>2.7.4</jackson.version>
-        <guava.version>17.0</guava.version>
+        <guava.version>22.0</guava.version>
 
         <!-- jdbc driver setting -->
         <mysql.driver.version>5.1.30</mysql.driver.version>
@@ -81,6 +81,12 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-tx</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
         </dependency>
 
 
@@ -291,12 +297,6 @@
             <version>4.12</version>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>com.google.collections</groupId>
-            <artifactId>google-collections</artifactId>
-            <version>1.0</version>
-        </dependency>
-
         <dependency>
             <groupId>com.google.guava</groupId>
             <artifactId>guava</artifactId>
