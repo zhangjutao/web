@@ -13,8 +13,6 @@ import com.gooalgene.common.Global;
 import com.gooalgene.entity.AliMessage;
 import com.gooalgene.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;

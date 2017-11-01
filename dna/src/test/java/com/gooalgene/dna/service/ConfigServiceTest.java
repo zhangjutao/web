@@ -1,6 +1,5 @@
 package com.gooalgene.dna.service;
 
-import com.gooalgene.common.dao.ConfigDao;
 import com.gooalgene.common.service.ConfigService;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.entity.Configuration;
