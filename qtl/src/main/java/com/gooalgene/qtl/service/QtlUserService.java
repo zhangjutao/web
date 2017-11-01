@@ -2,7 +2,7 @@ package com.gooalgene.qtl.service;
 
 import com.gooalgene.common.Page;
 import com.gooalgene.qtl.dao.ChrlgDao;
-import com.gooalgene.qtl.dao.UserDao;
+import com.gooalgene.qtl.dao.QUserDao;
 import com.gooalgene.entity.Chrlg;
 import com.gooalgene.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,10 +14,10 @@ import java.util.List;
  * Created by Administrator on 2017/07/08.
  */
 @Service
-public class UserService {
+public class QtlUserService {
 
     @Autowired
-    private UserDao userDao;
+    private QUserDao userDao;
 
     @Autowired
     private ChrlgDao chrlgDao;
