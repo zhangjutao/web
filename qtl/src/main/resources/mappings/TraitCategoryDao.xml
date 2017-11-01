@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.qtl.dao.TraitCategoryDao">
+
+    <select id="findList" resultType="com.gooalgene.entity.TraitCategory">
+        SELECT * FROM trait_category;
+    </select>
+
+    <select id="findAllList" resultType="com.gooalgene.entity.TraitCategory">
+        SELECT * FROM trait_category;
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.gooalgene.entity.TraitCategory">
+        SELECT * FROM trait_category WHERE id=#{id};
+    </select>
+
+    <insert id="add" parameterType="com.gooalgene.entity.TraitCategory">
+        INSERT INTO trait_category (qtl_name,qtl_desc,qtl_othername,qtl_createtime) VALUES(#{qtlName},#{qtlDesc},#{qtlOthername},NOW())
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO trait_category (qtl_name,qtl_desc,qtl_othername,qtl_createtime)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            ( #{item.qtlName}, #{item.qtlDesc},#{item.qtlOthername},NOW())
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.gooalgene.entity.TraitCategory">
+        UPDATE trait_category SET qtl_name=#{qtlName},qtl_desc=#{qtlDesc},qtl_othername=#{qtlOthername},qtl_createtime=NOW() WHERE id=#{id};
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM trait_category WHERE id=#{id};
+    </delete>
+
+    <select id="get" resultType="com.gooalgene.entity.TraitCategory">
+        SELECT * FROM trait_category WHERE qtl_name = #{id}
+    </select>
+
+</mapper>

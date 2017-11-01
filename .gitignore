@@ -1,0 +1,14 @@
+# idea
+*.iml
+.idea/
+guaoqtl.iml
+
+logs/
+*.log
+**/target/
+classes/
+
+# eclipse setting
+.settings
+.classpath
+.project

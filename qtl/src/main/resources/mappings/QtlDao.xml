@@ -1,0 +1,472 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.qtl.dao.QtlDao">
+
+    <select id="findQTLList" resultType="com.gooalgene.entity.Qtl">
+        SELECT a.id,a.`qtl_name` AS
+        qtlName,trait,type,marker1,marker2,b.lg,b.chr,method,lod,parent1,parent2,genome_start AS
+        geneStart,genome_end AS geneEnd,ref,author
+        FROM qtl a
+        LEFT JOIN chrlg b ON a.chrlg_id = b.id
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')
+            OR type LIKE CONCAT('%',#{keywords},'%') OR lod LIKE CONCAT('%',#{keywords},'%')
+            OR marker1 LIKE CONCAT('%',#{keywords},'%') OR marker2 LIKE CONCAT('%',#{keywords},'%')
+            OR method LIKE CONCAT('%',#{keywords},'%') OR parent1 LIKE CONCAT('%',#{keywords},'%')
+            OR parent2 LIKE CONCAT('%',#{keywords},'%') OR genome_start LIKE CONCAT('%',#{keywords},'%')
+            OR genome_end LIKE CONCAT('%',#{keywords},'%') OR ref LIKE CONCAT('%',#{keywords},'%')
+            OR author LIKE CONCAT('%',#{keywords},'%') )
+        </if>
+    </select>
+
+    <select id="findQtlByNameNum" parameterType="string" resultType="int">
+        SELECT COUNT(*) FROM qtl WHERE qtl_name=#{qlt_name}
+    </select>
+
+    <select id="findQTLMap" resultType="Map">
+        SELECT a.id,a.`qtl_name` AS
+        qtlName,trait,type,marker1,marker2,b.lg,b.chr,method,lod,parent1,parent2,genome_start AS
+        geneStart,genome_end AS geneEnd,ref,author
+        FROM qtl a
+        LEFT JOIN chrlg b ON a.chrlg_id = b.id
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')
+            OR type LIKE CONCAT('%',#{keywords},'%') OR lod LIKE CONCAT('%',#{keywords},'%')
+            OR marker1 LIKE CONCAT('%',#{keywords},'%') OR marker2 LIKE CONCAT('%',#{keywords},'%')
+            OR method LIKE CONCAT('%',#{keywords},'%') OR parent1 LIKE CONCAT('%',#{keywords},'%')
+            OR parent2 LIKE CONCAT('%',#{keywords},'%') OR genome_start LIKE CONCAT('%',#{keywords},'%')
+            OR genome_end LIKE CONCAT('%',#{keywords},'%') OR ref LIKE CONCAT('%',#{keywords},'%')
+            OR author LIKE CONCAT('%',#{keywords},'%') )
+        </if>
+    </select>
+
+    <select id="findList" resultType="com.gooalgene.entity.Qtl">
+        SELECT a.id,a.`qtl_name` AS
+        qtlName,trait,type,marker1,marker2,b.lg,d.chr,method,lod,parent1,parent2,genome_start AS
+        geneStart,genome_end AS geneEnd,d.version AS version,ref,author
+        FROM qtl a
+        LEFT JOIN chrlg b ON a.chrlg_id = b.id
+        LEFT JOIN chrlg d ON b.`lg`=d.`lg`
+        WHERE 1=1
+        <if test="version!=null">
+            AND d.version=#{version}
+        </if>
+        <if test="keywords!=null">
+            AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')
+            OR type LIKE CONCAT('%',#{keywords},'%') OR lod LIKE CONCAT('%',#{keywords},'%')
+            OR marker1 LIKE CONCAT('%',#{keywords},'%') OR marker2 LIKE CONCAT('%',#{keywords},'%')
+            OR method LIKE CONCAT('%',#{keywords},'%') OR parent1 LIKE CONCAT('%',#{keywords},'%')
+            OR parent2 LIKE CONCAT('%',#{keywords},'%') OR genome_start LIKE CONCAT('%',#{keywords},'%')
+            OR genome_end LIKE CONCAT('%',#{keywords},'%') OR ref LIKE CONCAT('%',#{keywords},'%')
+            OR author LIKE CONCAT('%',#{keywords},'%') )
+        </if>
+        <if test="marker!=null">
+            AND (marker1 LIKE CONCAT('%',#{marker},'%') OR marker2 LIKE CONCAT('%',#{marker},'%'))
+        </if>
+        <if test="parent!=null">
+            AND (parent1 LIKE CONCAT('%',#{parent},'%') OR parent2 LIKE CONCAT('%',#{parent},'%'))
+        </if>
+        <if test="qtlName!=null">
+            AND a.qtl_name LIKE CONCAT('%',#{qtlName},'%')
+        </if>
+        <if test="trait!=null">
+            AND trait LIKE CONCAT('%',#{trait},'%')
+        </if>
+        <if test="type!=null">
+            AND type LIKE CONCAT('%',#{type},'%')
+        </if>
+        <if test="chr!=null">
+            AND d.chr = #{chr}
+        </if>
+        <if test="lg!=null">
+            AND b.lg = #{lg}
+        </if>
+        <if test="lod!=null">
+            <if test="lodType=='MORE'">AND lod &gt; #{lod}</if>
+            <if test="lodType=='EQUAL'">AND lod LIKE #{lod}</if>
+            <if test="lodType=='LESS'">AND lod &lt; #{lod}</if>
+        </if>
+        <if test="marker1!=null">
+            AND marker1 LIKE CONCAT('%',#{marker1},'%')
+        </if>
+        <if test="marker2!=null">
+            AND marker2 LIKE CONCAT('%',#{marker2},'%')
+        </if>
+        <if test="method!=null">
+            AND method LIKE CONCAT('%',#{method},'%')
+        </if>
+        <if test="parent1!=null">
+            AND parent1 LIKE CONCAT('%',#{parent1},'%')
+        </if>
+        <if test="parent2!=null">
+            AND parent2 LIKE CONCAT('%',#{parent2},'%')
+        </if>
+        <if test="genomeStart!=null">
+            <if test="genomeStartType=='MORE'">AND genome_start &gt; #{genomeStart}</if>
+            <if test="genomeStartType=='EQUAL'">AND genome_start LIKE #{genomeStart}</if>
+            <if test="genomeStartType=='LESS'">AND genome_start &lt; #{genomeStart}</if>
+        </if>
+        <if test="genomeEnd!=null">
+            <if test="genomeEndType=='MORE'">AND genome_end &gt; #{genomeEnd}</if>
+            <if test="genomeEndType=='EQUAL'">AND genome_end LIKE #{genomeEnd}</if>
+            <if test="genomeEndType=='LESS'">AND genome_end &lt; #{genomeEnd}</if>
+        </if>
+        <if test="ref!=null">
+            AND author LIKE CONCAT('%',#{ref},'%')
+        </if>
+        <if test="author!=null">
+            AND author LIKE CONCAT('%',#{author},'%')
+        </if>
+        ORDER BY type,qtlName
+    </select>
+
+    <select id="getByQtlNameAndVersion" resultType="com.gooalgene.entity.Qtl">
+        SELECT * FROM qtl WHERE qtl_name = #{name}
+    </select>
+
+    <insert id="insert" parameterType="com.gooalgene.entity.Qtl">
+        INSERT INTO `qtl`
+            (`qtl_name`,
+             `trait`,
+             `type`,
+             `chrlg_id`,
+             `marker1`,
+             `marker2`,
+             `associatedGenes_id`,
+             `version`,
+             `method`,
+             `genome_start`,
+             `genome_end`,
+             `lod`,
+             `parent1`,
+             `parent2`,
+             `ref`,
+             `author`,
+             `createtime`)
+VALUES (#{qtlName,jdbcType=VARCHAR},
+        #{trait,jdbcType=VARCHAR},
+        #{type,jdbcType=VARCHAR},
+        #{chrlgId,jdbcType=INTEGER},
+        #{marker1,jdbcType=VARCHAR},
+        #{marker2,jdbcType=VARCHAR},
+        #{associatedGenesId,jdbcType=INTEGER},
+        #{version,jdbcType=VARCHAR},
+        #{method,jdbcType=VARCHAR},
+        #{genomeStart,jdbcType=FLOAT},
+        #{genomeEnd,jdbcType=FLOAT},
+        #{lod,jdbcType=FLOAT},
+        #{parent1,jdbcType=VARCHAR},
+        #{parent2,jdbcType=VARCHAR},
+        #{ref,jdbcType=VARCHAR},
+        #{author,jdbcType=VARCHAR},
+        #{createtime,jdbcType=TIMESTAMP})
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO `qtl`
+        (`qtl_name`,
+        `trait`,
+        `type`,
+        `chrlg_id`,
+        `marker1`,
+        `marker2`,
+        `associatedGenes_id`,
+        `version`,
+        `method`,
+        `genome_start`,
+        `genome_end`,
+        `lod`,
+        `parent1`,
+        `parent2`,
+        `ref`,
+        `author`,
+        `createtime`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.qtlName,jdbcType=VARCHAR},
+            #{item.trait,jdbcType=VARCHAR},
+            #{item.type,jdbcType=VARCHAR},
+            #{item.chrlgId,jdbcType=INTEGER},
+            #{item.marker1,jdbcType=VARCHAR},
+            #{item.marker2,jdbcType=VARCHAR},
+            #{item.associatedGenesId,jdbcType=INTEGER},
+            #{item.version,jdbcType=VARCHAR},
+            #{item.method,jdbcType=VARCHAR},
+            #{item.genomeStart,jdbcType=FLOAT},
+            #{item.genomeEnd,jdbcType=FLOAT},
+            #{item.lod,jdbcType=FLOAT},
+            #{item.parent1,jdbcType=VARCHAR},
+            #{item.parent2,jdbcType=VARCHAR},
+            #{item.ref,jdbcType=VARCHAR},
+            #{item.author,jdbcType=VARCHAR},
+            #{item.createtime,jdbcType=TIMESTAMP})
+        </foreach>
+    </insert>
+
+    <select id="findByCondition" resultType="Map">
+        SELECT a.id,a.`qtl_name` AS
+        qtlName,trait,type,marker1,marker2,b.lg,d.chr,method,lod,parent1,parent2,genome_start AS
+        geneStart,genome_end AS geneEnd,d.version AS version,ref,author
+        FROM qtl a
+        LEFT JOIN chrlg b ON a.chrlg_id = b.id
+        LEFT JOIN chrlg d ON b.`lg`=d.`lg`
+        WHERE 1=1
+        <if test="version!=null">
+            AND d.version = #{version}
+        </if>
+        <if test="keywords!=null">
+            AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')
+            OR type LIKE CONCAT('%',#{keywords},'%') OR lod LIKE CONCAT('%',#{keywords},'%')
+            OR marker1 LIKE CONCAT('%',#{keywords},'%') OR marker2 LIKE CONCAT('%',#{keywords},'%')
+            OR method LIKE CONCAT('%',#{keywords},'%') OR parent1 LIKE CONCAT('%',#{keywords},'%')
+            OR parent2 LIKE CONCAT('%',#{keywords},'%') OR genome_start LIKE CONCAT('%',#{keywords},'%')
+            OR genome_end LIKE CONCAT('%',#{keywords},'%') OR ref LIKE CONCAT('%',#{keywords},'%')
+            OR author LIKE CONCAT('%',#{keywords},'%') )
+        </if>
+        <if test="marker!=null">
+            AND (marker1 LIKE CONCAT('%',#{marker},'%') OR marker2 LIKE CONCAT('%',#{marker},'%'))
+        </if>
+        <if test="parent!=null">
+            AND (parent1 LIKE CONCAT('%',#{parent},'%') OR parent2 LIKE CONCAT('%',#{parent},'%'))
+        </if>
+        <if test="qtlName!=null">
+            AND a.qtl_name LIKE CONCAT('%',#{qtlName},'%')
+        </if>
+        <if test="trait!=null">
+            AND trait LIKE CONCAT('%',#{trait},'%')
+        </if>
+        <if test="type!=null">
+            AND type LIKE CONCAT('%',#{type},'%')
+        </if>
+        <if test="chr!=null">
+            AND d.chr = #{chr}
+        </if>
+        <if test="lg!=null">
+            AND b.lg = #{lg}
+        </if>
+        <if test="lod!=null">
+            <if test="lodType=='MORE'">AND lod &gt; #{lod}</if>
+            <if test="lodType=='EQUAL'">AND lod LIKE #{lod}</if>
+            <if test="lodType=='LESS'">AND lod &lt; #{lod}</if>
+        </if>
+        <if test="marker1!=null">
+            AND marker1 LIKE CONCAT('%',#{marker1},'%')
+        </if>
+        <if test="marker2!=null">
+            AND marker2 LIKE CONCAT('%',#{marker2},'%')
+        </if>
+        <if test="method!=null">
+            AND method LIKE CONCAT('%',#{method},'%')
+        </if>
+        <if test="parent1!=null">
+            AND parent1 LIKE CONCAT('%',#{parent1},'%')
+        </if>
+        <if test="parent2!=null">
+            AND parent2 LIKE CONCAT('%',#{parent2},'%')
+        </if>
+        <if test="genomeStart!=null">
+            <if test="genomeStartType=='MORE'">AND genome_start &gt; #{genomeStart}</if>
+            <if test="genomeStartType=='EQUAL'">AND genome_start LIKE #{genomeStart}</if>
+            <if test="genomeStartType=='LESS'">AND genome_start &lt; #{genomeStart}</if>
+        </if>
+        <if test="genomeEnd!=null">
+            <if test="genomeEndType=='MORE'">AND genome_end &gt; #{genomeEnd}</if>
+            <if test="genomeEndType=='EQUAL'">AND genome_end LIKE #{genomeEnd}</if>
+            <if test="genomeEndType=='LESS'">AND genome_end &lt; #{genomeEnd}</if>
+        </if>
+        <if test="ref!=null">
+            AND author LIKE CONCAT('%',#{ref},'%')
+        </if>
+        <if test="author!=null">
+            AND author LIKE CONCAT('%',#{author},'%')
+        </if>
+        ORDER BY type,qtlName
+    </select>
+
+    <select id="findByTypeAllList" resultType="com.gooalgene.entity.Qtl">
+        SELECT a.id,a.`qtl_name` AS
+        qtlName,trait,type,marker1,marker2,b.lg,d.chr,method,lod,parent1,parent2,genome_start AS
+        geneStart,genome_end AS geneEnd,d.version AS version,ref,author
+        FROM qtl a
+        LEFT JOIN chrlg b ON a.chrlg_id = b.id
+        LEFT JOIN chrlg d ON b.`lg`=d.`lg`
+        WHERE 1=1
+        <if test="version!=null">
+            AND d.version = #{version}
+        </if>
+        <if test="keywords!=null">
+            AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')
+            OR type LIKE CONCAT('%',#{keywords},'%') OR lod LIKE CONCAT('%',#{keywords},'%')
+            OR marker1 LIKE CONCAT('%',#{keywords},'%') OR marker2 LIKE CONCAT('%',#{keywords},'%')
+            OR method LIKE CONCAT('%',#{keywords},'%') OR parent1 LIKE CONCAT('%',#{keywords},'%')
+            OR parent2 LIKE CONCAT('%',#{keywords},'%') OR genome_start LIKE CONCAT('%',#{keywords},'%')
+            OR genome_end LIKE CONCAT('%',#{keywords},'%') OR ref LIKE CONCAT('%',#{keywords},'%')
+            OR author LIKE CONCAT('%',#{keywords},'%') )
+        </if>
+        <if test="marker!=null">
+            AND (marker1 LIKE CONCAT('%',#{marker},'%') OR marker2 LIKE CONCAT('%',#{marker},'%'))
+        </if>
+        <if test="parent!=null">
+            AND (parent1 LIKE CONCAT('%',#{parent},'%') OR parent2 LIKE CONCAT('%',#{parent},'%'))
+        </if>
+        <if test="qtlName!=null">
+            AND a.qtl_name LIKE CONCAT('%',#{qtlName},'%')
+        </if>
+        <if test="chr!=null">
+            AND d.chr LIKE CONCAT('%',#{chr},'%')
+        </if>
+        <if test="lg!=null">
+            AND b.lg LIKE CONCAT('%',#{lg},'%')
+        </if>
+        <if test="trait!=null">
+            AND trait LIKE CONCAT('%',#{trait},'%')
+        </if>
+        <if test="type!=null">
+            AND type LIKE CONCAT('%',#{type},'%')
+        </if>
+        <if test="lod!=null">
+            AND lod LIKE CONCAT('%',#{lod},'%')
+        </if>
+        <if test="marker1!=null">
+            AND marker1 LIKE CONCAT('%',#{marker1},'%')
+        </if>
+        <if test="marker2!=null">
+            AND marker2 LIKE CONCAT('%',#{marker2},'%')
+        </if>
+        <if test="method!=null">
+            AND method LIKE CONCAT('%',#{method},'%')
+        </if>
+        <if test="parent1!=null">
+            AND parent1 LIKE CONCAT('%',#{parent1},'%')
+        </if>
+        <if test="parent2!=null">
+            AND parent2 LIKE CONCAT('%',#{parent2},'%')
+        </if>
+        <if test="genomeStart!=null">
+            AND genome_start LIKE CONCAT('%',#{genomeStart},'%')
+        </if>
+        <if test="genomeEnd!=null">
+            AND genome_end LIKE CONCAT('%',#{genomeEnd},'%')
+        </if>
+        <if test="ref!=null">
+            AND author LIKE CONCAT('%',#{ref},'%')
+        </if>
+        <if test="author!=null">
+            AND author LIKE CONCAT('%',#{author},'%')
+        </if>
+        ORDER BY type,qtlName
+    </select>
+
+    <select id="findByTypeAll" resultType="Map">
+        SELECT a.id,a.`qtl_name` AS
+        qtlName,trait,type,marker1,marker2,b.lg,d.chr,method,lod,parent1,parent2,genome_start AS
+        geneStart,genome_end AS geneEnd,d.version AS version,ref,author
+        FROM qtl a
+        LEFT JOIN chrlg b ON a.chrlg_id = b.id
+        LEFT JOIN chrlg d ON b.`lg`=d.`lg`
+        WHERE 1=1
+        <if test="version!=null">
+            AND d.version = #{version}
+        </if>
+        <if test="keywords!=null">
+            AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')
+            OR type LIKE CONCAT('%',#{keywords},'%') OR lod LIKE CONCAT('%',#{keywords},'%')
+            OR marker1 LIKE CONCAT('%',#{keywords},'%') OR marker2 LIKE CONCAT('%',#{keywords},'%')
+            OR method LIKE CONCAT('%',#{keywords},'%') OR parent1 LIKE CONCAT('%',#{keywords},'%')
+            OR parent2 LIKE CONCAT('%',#{keywords},'%') OR genome_start LIKE CONCAT('%',#{keywords},'%')
+            OR genome_end LIKE CONCAT('%',#{keywords},'%') OR ref LIKE CONCAT('%',#{keywords},'%')
+            OR author LIKE CONCAT('%',#{keywords},'%') )
+        </if>
+        <if test="marker!=null">
+            AND (marker1 LIKE CONCAT('%',#{marker},'%') OR marker2 LIKE CONCAT('%',#{marker},'%'))
+        </if>
+        <if test="parent!=null">
+            AND (parent1 LIKE CONCAT('%',#{parent},'%') OR parent2 LIKE CONCAT('%',#{parent},'%'))
+        </if>
+        <if test="qtlName!=null">
+            AND a.qtl_name LIKE CONCAT('%',#{qtlName},'%')
+        </if>
+        <if test="chr!=null">
+            AND d.chr LIKE CONCAT('%',#{chr},'%')
+        </if>
+        <if test="lg!=null">
+            AND b.lg LIKE CONCAT('%',#{lg},'%')
+        </if>
+        <if test="trait!=null">
+            AND trait LIKE CONCAT('%',#{trait},'%')
+        </if>
+        <if test="type!=null">
+            AND type LIKE CONCAT('%',#{type},'%')
+        </if>
+        <if test="lod!=null">
+            AND lod LIKE CONCAT('%',#{lod},'%')
+        </if>
+        <if test="marker1!=null">
+            AND marker1 LIKE CONCAT('%',#{marker1},'%')
+        </if>
+        <if test="marker2!=null">
+            AND marker2 LIKE CONCAT('%',#{marker2},'%')
+        </if>
+        <if test="method!=null">
+            AND method LIKE CONCAT('%',#{method},'%')
+        </if>
+        <if test="parent1!=null">
+            AND parent1 LIKE CONCAT('%',#{parent1},'%')
+        </if>
+        <if test="parent2!=null">
+            AND parent2 LIKE CONCAT('%',#{parent2},'%')
+        </if>
+        <if test="genomeStart!=null">
+            AND genome_start LIKE CONCAT('%',#{genomeStart},'%')
+        </if>
+        <if test="genomeEnd!=null">
+            AND genome_end LIKE CONCAT('%',#{genomeEnd},'%')
+        </if>
+        <if test="ref!=null">
+            AND author LIKE CONCAT('%',#{ref},'%')
+        </if>
+        <if test="author!=null">
+            AND author LIKE CONCAT('%',#{author},'%')
+        </if>
+        ORDER BY type,qtlName
+    </select>
+
+
+    <select id="queryQtlByLg" resultType="Map">
+         SELECT a.id,a.`qtl_name` AS qtlName,trait,type,marker1,marker2,lg,chr,method,lod,parent1,parent2,genome_start AS geneStart,genome_end AS geneEnd,a.version,ref,author
+          FROM qtl a LEFT JOIN chrlg b ON a.chrlg_id = b.id WHERE lg=#{lg}
+    </select>
+
+    <select id="getQtlByChrlgId" parameterType="string" resultType="com.gooalgene.entity.Qtl">
+        SELECT * FROM qtl WHERE chrlg_id=#{chrlgId}
+    </select>
+
+    <select id="findAllList" resultType="com.gooalgene.entity.Qtl">
+        SELECT * FROM qtl
+    </select>
+
+    <select id="findById" resultType="com.gooalgene.entity.Qtl" parameterType="int">
+        SELECT * FROM qtl WHERE id=#{id}
+    </select>
+
+    <insert id="add" parameterType="com.gooalgene.entity.Qtl">
+        INSERT INTO `qtl` (`qtl_name`,`trait`,`type`,`chrlg_id`,`marker1`,`marker2`,`associatedGenes_id`,`version`,
+        `method`,`genome_start`,`genome_end`,`lod`,`parent1`,`parent2`,`ref`,`author`,`createtime`)
+        values(#{qtlName},#{trait},#{type}, #{chrlgId},#{marker1},#{marker2},#{associatedGenesId},#{version},
+            #{method,},#{genomeStart},#{genomeEnd},#{lod},#{parent1},#{parent2},#{ref},#{author},now())
+    </insert>
+
+    <update id="update" parameterType="com.gooalgene.entity.Qtl">
+        UPDATE qtl SET qtl_name=#{qtlName},trait=#{trait},type=#{type},chrlg_id=#{chrlgId},marker1=#{marker1},
+        marker2=#{marker2},associatedGenes_id=#{associatedGenesId},version=#{version},method=#{method},
+        genome_start=#{genomeStart},genome_end=#{genomeEnd},lod=#{lod},parent1=#{parent1},parent2=#{parent2},
+        ref=#{ref},author=#{author},createtime=now()
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM qtl WHERE id=#{id}
+    </delete>
+</mapper>
