@@ -29,8 +29,8 @@ public class UserService {
     //判断用户名是否存在
     public boolean exist(String username){
          System.out.println(userDao.queryAll());
-        System.out.println(userDao.findByUsername(username));
-        return !userDao.findByUsername(username).isEmpty();
+         System.out.println(userDao.findByUsername(username));
+         return !userDao.findByUsername(username).isEmpty();
     }
     //通过用户名查询用户
     public User findByUsername(String username){
@@ -66,7 +66,7 @@ public class UserService {
         return userDao.updateUserEnabled(user);
     }
 
-
+    //设置密码重置标志位
     public boolean applyPasswdRest(User user) {
         user.setReset(1);
         try {

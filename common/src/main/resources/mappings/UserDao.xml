@@ -18,10 +18,11 @@
         SELECT * FROM user WHERE reset = #{reset}
     </select>
 
-    <insert id="insert" useGeneratedKeys="true" keyProperty="uid">
+    <insert id="insert">
         INSERT INTO user(username,email,password,phone,domains,university,enabled) VALUES
         (#{username},#{email},#{password},#{phone},#{domains},#{university},0)
     </insert>
+
     <select id="findLastInsertId" resultType="java.lang.Integer">
         SELECT LAST_INSERT_ID()
     </select>

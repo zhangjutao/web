@@ -19,15 +19,13 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO user(username,email,password,phone,domains,university,enabled) VALUES
-        (#{username},#{email},#{password},#{phone},#{domains},#{university},0)
+        INSERT INTO user(username,email,password,phone,domains,university,create_time,enabled) VALUES
+        (#{username},#{email},#{password},#{phone},#{domains},#{university},#{create_time},0)
     </insert>
 
     <select id="findLastInsertId" resultType="java.lang.Integer">
         SELECT LAST_INSERT_ID()
     </select>
-
-
     <select id="findByUsername" parameterType="string" resultType="com.gooalgene.common.authority.User">
         SELECT * FROM user WHERE username=#{username}
     </select>
