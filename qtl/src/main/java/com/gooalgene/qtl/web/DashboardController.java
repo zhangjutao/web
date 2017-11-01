@@ -2,7 +2,7 @@ package com.gooalgene.qtl.web;
 
 import com.gooalgene.entity.User;
 import com.gooalgene.qtl.service.QueryService;
-import com.gooalgene.qtl.service.UserService;
+import com.gooalgene.qtl.service.QtlUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class DashboardController {
     Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
     @Autowired
-    private UserService userService;
+    private QtlUserService userService;
 
     @Autowired
     private QueryService queryService;

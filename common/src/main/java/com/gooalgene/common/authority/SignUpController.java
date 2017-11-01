@@ -1,6 +1,7 @@
 package com.gooalgene.common.authority;
 
 import com.gooalgene.common.service.CUserService;
+import com.gooalgene.common.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
@@ -25,24 +26,24 @@ import java.security.NoSuchAlgorithmException;
 public class SignUpController {
 
     @Autowired
-    CUserService cUserService;
+    private UserService userService;
 
     @RequestMapping(value="/action", method = RequestMethod.GET)
     public String signupPage () {
-        System.out.println(cUserService.queryAll());
+        System.out.println(userService.queryAll());
         return "signup";
     }
 
-    @RequestMapping(value="/action", method = RequestMethod.POST)
+    @RequestMapping(value="/action.do", method = RequestMethod.POST)
     public ModelAndView signupDo (
-                                      @RequestParam(value = "username",required = false)String username,
-                                      @RequestParam(value = "email",required = false)String email,
-                                      @RequestParam(value = "password",required = false)String password,
-                                      @RequestParam(value = "passwordVerify",required = false)String passwordVerify,
-                                      @RequestParam(value = "phone",required = false)String phone,
-                                      @RequestParam(value = "domains",required = false)String domains,
-                                      @RequestParam(value = "university",required = false)String university
-                                  ) {
+            @RequestParam(value = "username",required = false)String username,
+            @RequestParam(value = "email",required = false)String email,
+            @RequestParam(value = "password",required = false)String password,
+            @RequestParam(value = "passwordVerify",required = false)String passwordVerify,
+            @RequestParam(value = "phone",required = false)String phone,
+            @RequestParam(value = "domains",required = false)String domains,
+            @RequestParam(value = "university",required = false)String university
+    ) {
 
 
         ModelAndView modelAndView = new ModelAndView("signup");
@@ -74,7 +75,7 @@ public class SignUpController {
             return modelAndView;
         }
 
-        if(cUserService.exist(username)){
+        if(userService.exist(username)){
             System.out.println("exist user? ["+username+"]="+true);
             modelAndView.addObject("error","用户已经存在，请换一个用户名");
             return modelAndView;
@@ -87,20 +88,25 @@ public class SignUpController {
             return modelAndView;
         }
 
-        CUser cUser = new CUser();
-        cUser.setUsername(username);
-        cUser.setEmail(email);
+        User user = new User();
+        user.setUsername(username);
+        user.setEmail(email);
         PasswordEncoder encoder = new Md5PasswordEncoder();
         System.out.println("p:"+password);
         password = encoder.encodePassword(password, null);
-        System.out.println("ph:"+password);
-//        password = md5(password);
-        cUser.setPassword(password);
-        cUser.setPhone(phone);
-        cUser.setDomains(domains);
-        cUser.setUniversity(university);
-        if(cUserService.createUser(cUser)){
-            modelAndView.addObject("user",cUser);
+        System.out.println("ph:" + password);
+//      //password = md5(password);
+        user.setPassword(password);
+        user.setPhone(phone);
+        user.setDomains(domains);
+        user.setUniversity(university);
+
+
+        if(userService.createUser(user)){
+            User_Role user_role=new User_Role(userService.findLastInsertId(),1);
+            userService.setRole(user_role);
+            System.out.println("userid:\t"+userService.findLastInsertId());
+            modelAndView.addObject("user",user);
         }else {
             modelAndView.addObject("error", "创建失败");
         }
@@ -132,7 +138,7 @@ public class SignUpController {
         ModelAndView mv = new ModelAndView("forget");
         model.addAttribute("username", username);
         model.addAttribute("email", email);
-        CUser user = cUserService.findByUsername(username);
+        User user = userService.findByUsername(username);
         if (user == null) {
             model.addAttribute("error", "用户不存在");
             return mv;
@@ -143,7 +149,7 @@ public class SignUpController {
             return mv;
         }
 
-        if (cUserService.applyPasswdRest(user)) {
+        if (userService.applyPasswdRest(user)) {
             model.addAttribute("user", user);
             return mv;
         } else {
@@ -183,12 +189,12 @@ public class SignUpController {
             return "redirect:/login";
         }
 //        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        try {
-            cUserService.modifyUserPassword(oldpwd, password, username);
+      /*  try {
+            userService.modifyUserPassword(oldpwd, password, username);
             model.addAttribute("user", username);
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
-        }
+        }*/
         return "modify-password";
     }
 }
