@@ -6,6 +6,8 @@ import com.gooalgene.common.authority.User_Role;
 import com.gooalgene.common.dao.UserDao;
 import com.gooalgene.entity.AliMessage;
 import com.google.common.collect.Maps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -14,6 +16,7 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +26,8 @@ import java.util.Map;
  */
 @Service
 public class UserService implements ApplicationContextAware {
+
+    private static final Logger logger= LoggerFactory.getLogger(UserService.class);
     @Autowired
     private UserDao userDao;
 
@@ -48,14 +53,11 @@ public class UserService implements ApplicationContextAware {
     }
     //判断用户名是否存在
     public boolean exist(String username){
-         System.out.println(userDao.queryAll());
-        System.out.println(userDao.findByUsername(username));
         return !userDao.findByUsername(username).isEmpty();
     }
     //通过用户名查询用户
     public User findByUsername(String username){
         List<User> list = userDao.findByUsername(username);
-        System.out.println(list);
         if(list.isEmpty()){
             return null;
         }else{
@@ -64,7 +66,16 @@ public class UserService implements ApplicationContextAware {
     }
      //向user表中插入用户
     public boolean createUser(User user){
-        user.setCreateTime(new Date());
+        Date date=new Date();
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        logger.debug("添加之前的时间:", date);
+        user.setCreate_time(date);
+        logger.debug("添加之后的时间:",date);
+        calendar.add(Calendar.MONTH, 2);
+        Date due_date=calendar.getTime();
+        logger.debug("due_time:",due_date);
+        user.setDue_time(due_date);
         Boolean flag=userDao.insert(user);
         if(flag){
             successPublish(user);

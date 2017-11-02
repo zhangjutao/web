@@ -68,7 +68,6 @@ $(function () {
                 $("#totals").text(totalDatas.length);
             },
             error: function (error) {
-                console.log("${basePath}/manager/users");
                 console.log("error")
             }
         })
