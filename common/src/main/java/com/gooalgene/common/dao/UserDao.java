@@ -1,6 +1,7 @@
 package com.gooalgene.common.dao;
 
 import com.gooalgene.common.CrudDao;
+import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.User;
 import com.gooalgene.common.authority.User_Role;
 import com.gooalgene.common.persistence.MyBatisDao;
@@ -16,7 +17,11 @@ public interface UserDao extends CrudDao<User>{
     User get(int id);
     List<User> queryAll();
 
+    Long getCount();
+
     List<User> findByUsername(String username);
+
+    List<User> queryByPage(Page<User> page);
 
     List<User> findByEnable(int enable);
 
