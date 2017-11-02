@@ -7,7 +7,7 @@ $(function () {
     window.onload = function () {
         $.ajax({
             type: "GET",
-            url: "/user/findAll",
+            url: "/manager/users",
             success: function (result) {
                 //获取数组列表
                 console.log(result)
