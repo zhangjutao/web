@@ -16,4 +16,12 @@ public class ConfigService {
     public List<Configuration> getAllConfig(){
         return configDao.getAllConfig();
     }
+
+    public Configuration findValueByKey(String key){
+        return configDao.findValueByKey(key);
+    }
+
+    public Configuration findKeyByValue(String value){
+        return configDao.findKeyByValue(value);
+    }
 }
