@@ -7,6 +7,7 @@ import com.gooalgene.entity.AliMessage;
 import com.google.common.collect.Maps;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -119,9 +120,10 @@ public class UserService implements ApplicationContextAware {
             aliMessage.setTemplateParam(map);
             applicationContext.publishEvent(aliMessage);
         }*/
+        Cache cache=cacheManager.getCache("config");
         AliMessage aliMessage=new AliMessage();
-        aliMessage.setDev(true);
-        aliMessage.setManagerPhone(cacheManager.getCache("config").get("admin.phone").get().toString());
+        aliMessage.setDev(cache.get("isDev").get().toString().equals("1")?true:false);
+        aliMessage.setManagerPhone(cache.get("admin.phone").get().toString());
         Map map= Maps.newHashMap();
         map.put("customer",user.getUsername());//
         aliMessage.setTemplateParam(map);
