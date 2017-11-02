@@ -9,4 +9,6 @@ import java.util.List;
 @MyBatisDao
 public interface ConfigDao extends CrudDao<Configuration> {
     List<Configuration> getAllConfig();
+    Configuration findValueByKey(String key);
+    Configuration findKeyByValue(String value);
 }

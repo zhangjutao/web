@@ -9,4 +9,18 @@
         FROM db_config
     </select>
 
+    <select id="findValueByKey" parameterType="String" resultType="com.gooalgene.entity.Configuration">
+        SELECT
+          prop_key AS "key",
+          prop_value AS "value"
+         FROM db_config WHERE prop_key=#{key}
+    </select>
+
+    <select id="findKeyByValue" parameterType="String" resultType="com.gooalgene.entity.Configuration">
+        SELECT
+          prop_key AS "key",
+          prop_value AS "value"
+         FROM db_config WHERE  prop_value=#{value}
+    </select>
+
 </mapper>
