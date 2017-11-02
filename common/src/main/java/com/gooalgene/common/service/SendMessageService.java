@@ -9,12 +9,16 @@ import com.aliyuncs.dysmsapi.model.v20170525.SendSmsResponse;
 import com.aliyuncs.exceptions.ClientException;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.gooalgene.common.Global;
 import com.gooalgene.entity.AliMessage;
 import com.gooalgene.utils.JsonUtils;
-import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -25,13 +29,17 @@ import java.util.Date;
 @Service
 public class SendMessageService {
     private static Logger logger= LoggerFactory.getLogger(SendMessageService.class);
+    @Autowired
+    private GuavaCacheManager cacheManager;
+
+    //private Cache cache= cacheManager.getCache("config");
 
     //String url = "http://gw.api.taobao.com/router/rest";
-    private static final String url= Global.getConfig("alidy.url");
-    private static final String accessKeyId= Global.getConfig("alidy.appKeyId");
-    private static final String accessKeySecret= Global.getConfig("alidy.appKeySecret");
-    private static final String signName= Global.getConfig("alidy.signName");
-    private static final String templateCode= Global.getConfig("alidy.templateCode");
+    //private static final String url= Global.getConfig("alidy.url");
+    /*private final String accessKeyId= cacheManager.getCache("config").get("alidy.appKeyId").get().toString();
+    private final String accessKeySecret= cacheManager.getCache("config").get("alidy.appKeySecret").get().toString();
+    private final String signName= cacheManager.getCache("config").get("alidy.signName").get().toString();
+    private final String templateCode= cacheManager.getCache("config").get("alidy.templateCode").get().toString();*/
 
     //产品名称:云通信短信API产品,开发者无需替换
     private static final String product = "Dysmsapi";
@@ -96,10 +104,17 @@ public class SendMessageService {
     @EventListener
     @Async
     public void sendMessage(AliMessage aliMessage) {
+        if(aliMessage.getDev()){
+            logger.info("注册成功，短信对象：{}",aliMessage);
+            System.out.println("注册成功，短信对象："+aliMessage);
+            return;
+        }
         SendSmsResponse response = null;
+        //从缓存中取参数
+        Cache cache= cacheManager.getCache("config");
         try {
             //发短信
-            response = sendSms(aliMessage);
+            response = sendSms(aliMessage,cache);
             logger.info("短信接口返回对象：{}",response);
             if(response!=null){
                 System.out.println("短信接口返回的数据----------------");
@@ -112,7 +127,7 @@ public class SendMessageService {
 
                 //查明细
                 if(response.getCode() != null && response.getCode().equals("OK")) {
-                    QuerySendDetailsResponse querySendDetailsResponse = querySendDetails(response.getBizId());
+                    QuerySendDetailsResponse querySendDetailsResponse = querySendDetails(response.getBizId(),cache);
                     System.out.println("短信明细查询接口返回数据----------------");
                     System.out.println("Code=" + querySendDetailsResponse.getCode());
                     System.out.println("Message=" + querySendDetailsResponse.getMessage());
@@ -142,13 +157,13 @@ public class SendMessageService {
 
     }
 
-    private SendSmsResponse sendSms(AliMessage aliMessage) throws ClientException {
+    private SendSmsResponse sendSms(AliMessage aliMessage, Cache cache) throws ClientException {
         //可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
         System.setProperty("sun.net.client.defaultReadTimeout", "10000");
 
         //初始化acsClient,暂不支持region化
-        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", cache.get("alidy.appKeyId").get().toString(), cache.get("alidy.appKeySecret").get().toString());
         DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
         IAcsClient acsClient = new DefaultAcsClient(profile);
 
@@ -156,13 +171,13 @@ public class SendMessageService {
         SendSmsRequest request = new SendSmsRequest();
         //必填:待发送手机号
         //request.setPhoneNumbers(aliMessage.getManagerPhone());
-        request.setPhoneNumbers("18171416480");
+        request.setPhoneNumbers(aliMessage.getManagerPhone());
         //必填:短信签名-可在短信控制台中找到
         //request.setSignName("云通信");
-        request.setSignName(signName);
+        request.setSignName(cache.get("alidy.signName").get().toString());
         //必填:短信模板-可在短信控制台中找到
         //request.setTemplateCode("SMS_1000000");
-        request.setTemplateCode(templateCode);
+        request.setTemplateCode(cache.get("alidy.templateCode").get().toString());
         //可选:模板中的变量替换JSON串,如模板内容为"亲爱的${name},您的验证码为${code}"时,此处的值为
         //request.setTemplateParam("{\"username\":\"Tom\"}");
         request.setTemplateParam(JsonUtils.Bean2Json(aliMessage.getTemplateParam()));
@@ -179,14 +194,14 @@ public class SendMessageService {
         return sendSmsResponse;
     }
 
-    private QuerySendDetailsResponse querySendDetails(String bizId) throws ClientException {
+    private QuerySendDetailsResponse querySendDetails(String bizId,Cache cache) throws ClientException {
 
         //可自助调整超时时间
         System.setProperty("sun.net.client.defaultConnectTimeout", "10000");
         System.setProperty("sun.net.client.defaultReadTimeout", "10000");
 
         //初始化acsClient,暂不支持region化
-        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", accessKeyId, accessKeySecret);
+        IClientProfile profile = DefaultProfile.getProfile("cn-hangzhou", cache.get("alidy.appKeyId").get().toString(), cache.get("alidy.appKeySecret").get().toString());
         DefaultProfile.addEndpoint("cn-hangzhou", "cn-hangzhou", product, domain);
         IAcsClient acsClient = new DefaultAcsClient(profile);
 

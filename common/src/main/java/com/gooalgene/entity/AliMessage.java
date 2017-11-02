@@ -1,5 +1,4 @@
 package com.gooalgene.entity;
-import lombok.Data;
 
 import java.util.Map;
 
@@ -7,6 +6,8 @@ import java.util.Map;
 * ali短信对象，需要传入：username，phone,
 * */
 public class AliMessage {
+    private Boolean isDev;
+
     private User user;
     private String username;
     private String managerPhone;
@@ -16,6 +17,14 @@ public class AliMessage {
     private String signName;
 
     private String templateCode;
+
+    public Boolean getDev() {
+        return isDev;
+    }
+
+    public void setDev(Boolean dev) {
+        isDev = dev;
+    }
 
     public User getUser() {
         return user;
@@ -63,5 +72,18 @@ public class AliMessage {
 
     public void setTemplateCode(String templateCode) {
         this.templateCode = templateCode;
+    }
+
+    @Override
+    public String toString() {
+        return "AliMessage{" +
+                "isDev=" + isDev +
+                ", user=" + user +
+                ", username='" + username + '\'' +
+                ", managerPhone='" + managerPhone + '\'' +
+                ", templateParam=" + templateParam +
+                ", signName='" + signName + '\'' +
+                ", templateCode='" + templateCode + '\'' +
+                '}';
     }
 }
