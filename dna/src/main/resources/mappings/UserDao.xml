@@ -19,8 +19,8 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO user(username,email,password,phone,domains,university,create_time,enabled) VALUES
-        (#{username},#{email},#{password},#{phone},#{domains},#{university},#{create_time},0)
+        INSERT INTO user(username,email,password,phone,domains,university,create_time,due_time,enabled) VALUES
+        (#{username},#{email},#{password},#{phone},#{domains},#{university},#{create_time},#{due_time},0)
     </insert>
 
     <select id="findLastInsertId" resultType="java.lang.Integer">

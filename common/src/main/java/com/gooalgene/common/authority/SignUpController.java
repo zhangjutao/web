@@ -1,8 +1,12 @@
 package com.gooalgene.common.authority;
 
 import com.gooalgene.common.service.CUserService;
+import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.common.service.UserService;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -12,10 +16,16 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Created by Crabime on 16/10/2017.
@@ -27,7 +37,12 @@ public class SignUpController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private SMTPService smtpService;
 
+    @Autowired
+    private GuavaCacheManager guavaCacheManager;
+    private Cache author_cache;
     @RequestMapping(value="/action", method = RequestMethod.GET)
     public String signupPage () {
         System.out.println(userService.queryAll());
@@ -133,6 +148,8 @@ public class SignUpController {
         return "forget";
     }
 
+
+    /*忘记密码  验证通过之后直接给相应的用户发送邮件*/
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
     public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model) {
         ModelAndView mv = new ModelAndView("forget");
@@ -143,19 +160,34 @@ public class SignUpController {
             model.addAttribute("error", "用户不存在");
             return mv;
         }
-
         if (!email.equals(user.getEmail())) {
             model.addAttribute("error", "不是注册邮箱");
             return mv;
         }
-
-        if (userService.applyPasswdRest(user)) {
+        System.out.println("逻辑正常");
+        List<String> recevers=new ArrayList<String>();
+        recevers.add(user.getEmail());
+        HashMap<String,String> message=new HashMap<String,String>();
+        message.put("subject","主题");
+        message.put("content","修改密码的确认邮件");
+        try {
+             author_cache=guavaCacheManager.getCache("config");
+             String admin_email=author_cache.get("mail.administrator").get().toString();
+             smtpService.send(admin_email,recevers,message.get("subject"),message.get("content"),true);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return mv;
+        /*此处代码为原来由后台重置密码  现在暂时不用*/
+       /* if (userService.applyPasswdRest(user)) {
             model.addAttribute("user", user);
             return mv;
         } else {
             model.addAttribute("error", "申请重置密码失败");
             return mv;
-        }
+        }*/
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
     public String toModifyPassword(HttpServletRequest req, Model model) {

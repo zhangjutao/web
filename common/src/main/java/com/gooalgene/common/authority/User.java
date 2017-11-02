@@ -18,8 +18,17 @@ public class User extends DataEntity<User> {
     private int reset;
     private int status;
     private Date create_time;
+    private Date due_time;    //用户试用的截止日期
     private String description;
-    private  int uid;
+    private  int uid;        //用户在数据库中的id 值  主要为获取当前记录的id使用
+
+    public Date getDue_time() {
+        return due_time;
+    }
+
+    public void setDue_time(Date due_time) {
+        this.due_time = due_time;
+    }
 
     public int getUid() {
         return uid;
