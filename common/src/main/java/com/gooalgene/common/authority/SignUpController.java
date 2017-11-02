@@ -1,9 +1,12 @@
 package com.gooalgene.common.authority;
 
-import com.gooalgene.common.service.CUserService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.common.service.UserService;
-import org.apache.log4j.Logger;
+import com.google.common.collect.Maps;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -14,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 
@@ -24,7 +28,9 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
 
 /**
@@ -34,6 +40,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/signup")
 public class SignUpController {
+    private final static Logger logger = LoggerFactory.getLogger(SignUpController.class);
 
     @Autowired
     private UserService userService;
@@ -126,6 +133,22 @@ public class SignUpController {
             modelAndView.addObject("error", "创建失败");
         }
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/nameexists", method = RequestMethod.GET, produces = "application/json")
+    @ResponseBody
+    public String userNameExists(@RequestParam(value = "username", required = true)String username){
+        boolean exists = userService.exist(username);
+        Map<String, Object> result = Collections.singletonMap("exists", exists);
+        ObjectMapper objectMapper = new ObjectMapper(); //这里转成ajax更好读取的格式JSON
+        String jsonResult = null;
+        try {
+            jsonResult = objectMapper.writeValueAsString(result);
+        } catch (JsonProcessingException e) {
+            logger.error("Map转换JSON出错", e);
+            e.printStackTrace();
+        }
+        return jsonResult;
     }
 
     public String md5(String v){

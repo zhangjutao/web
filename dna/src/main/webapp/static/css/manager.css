@@ -1,0 +1,149 @@
+body {
+    background: #F5F5F5;
+}
+#containerAdmin {
+    width: 1200px;
+    height: 716px;
+    margin: 0 auto;
+    margin-bottom:100px;
+
+    box-shadow: 0px 0px 38px #E7E7E7;
+    overflow: hidden;
+}
+
+#containerAdmin table {
+    border-collapse: collapse;
+    text-align: center;
+}
+
+#containerAdmin .auditUser {
+    font-size: 20px;
+    background: #fff;
+    height: 35px;
+    line-height: 35px;
+    padding: 15px 0;
+    margin: 0;
+    padding-left: 37px;
+    /* margin:15px 0; */
+}
+
+
+#containerAdmin .auditUserInfo {
+    background: #F5F8FF;
+    padding: 15px 0 15px 37px;
+    border-bottom: 1px solid #DDDEE2;
+    margin-bottom:20px;
+    margin-top:15px;
+}
+
+#containerAdmin #tblhead tr td:first-child,
+#containerAdmin #tblbody tr td:first-child {
+    width: 300px;
+    height: 50px;
+}
+
+
+
+#containerAdmin #tblhead tr td:nth-child(2),
+#containerAdmin #tblbody tr td:nth-child(2) {
+    width: 460px;
+    height: 50px;
+}
+
+#containerAdmin #tblhead tr td:nth-child(3),
+#containerAdmin #tblbody tr td:nth-child(3) {
+    width: 180px;
+    height: 50px;
+}
+
+#containerAdmin #tblhead tr td:nth-child(4),
+#containerAdmin #tblbody tr td:nth-child(4) {
+    width: 185px;
+    height: 50px;
+}
+/*#containerAdmin #tblhead tr td:first-child,#containerAdmin #tblhead tr td:nth-child(2),#containerAdmin #tblhead tr td:nth-child(3)，#containerAdmin #tblhead tr td:nth-child(4){*/
+    /*height:45px;*/
+/*}*/
+#containerAdmin .btnCommon {
+    padding: 3px 2px;
+    width: 100px;
+    height: 26px;
+    line-height: 26px;
+    margin: 0 auto;
+    cursor: pointer;
+    font-size: 14px;
+    color: #fff;
+}
+
+#containerAdmin .btnAudit {
+    background: #5D8CE6;
+}
+
+#containerAdmin .btnAudited {
+    background: #CCCCCC;
+    opacity: .6;
+}
+
+#containerAdmin #userDetail {
+    margin: 0 auto;
+    padding-left: 37px;
+    position: relative;
+    width: 1220px;
+    background: #fff;
+    height: 568px;
+}
+
+#containerAdmin #tblhead {
+    position: absolute;
+    top: 0;
+}
+
+#containerAdmin #tblbody {
+    position: relative;
+    top: 45px;
+    overflow-y: scroll;
+    height: 501px;
+}
+
+#containerAdmin .trColor {
+    background: #F5F8FF;
+}
+#paging{
+    width:800px;
+    height:100px;
+    /* border:1px solid #ccc; */
+    margin:0 auto;
+}
+#page{
+    overflow: hidden;
+    /* margin:0 auto; */
+}
+p.first{
+    margin-left:20px;
+    /* font-size:20px; */
+}
+
+#page>p,#page>b{
+    float:left;
+    width:30px;
+    height:30px;
+    border:1px solid #ddd;
+    line-height:30px;
+    text-align:center;
+    cursor:pointer;
+    margin:0 10px 0 0;
+
+}
+#page #inputNums{
+    float:left;
+    overflow:hidden;
+    padding-top:4px;
+}
+#inputNums>span,#inputNums>div,#inputNums>p{
+    float:left;
+    margin-right:10px;
+}
+.pageColor{
+    background:#5C8DE5;
+    color:#fff;
+}

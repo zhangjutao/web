@@ -1,5 +1,6 @@
 package com.gooalgene.common.service;
 
+import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.User;
 import com.gooalgene.common.authority.User_Role;
 import com.gooalgene.common.dao.UserDao;
@@ -42,6 +43,13 @@ public class UserService implements ApplicationContextAware {
     //查询全部用户
     public List<User> queryAll() {
         return userDao.queryAll();
+    }
+    //查询全部用户分页
+    public Page<User> queryByPage(Page page) {
+        List<User> list=userDao.queryByPage(page);
+        page.setCount(userDao.getCount());
+        page.setList(list);
+        return page;
     }
     //判断用户名是否存在
     public boolean exist(String username){
