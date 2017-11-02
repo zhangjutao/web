@@ -1,5 +1,4 @@
 package com.gooalgene.entity;
-import lombok.Data;
 
 import java.util.Map;
 
