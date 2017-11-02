@@ -88,32 +88,5 @@
         </div>
     </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<script>
-//    $(function () {
-//        $("#tblbody tr").mouseover(function (e) {
-//            // console.log(e)
-//            var $tr = $(e.target).parent();
-//            var trs = $tr.siblings();
-//            if (!$tr.hasClass("trColor")) {
-//                $tr.addClass("trColor");
-//            }
-//            for (var i=0;i<trs.length;i++){
-//                if($(trs[i]).hasClass("trColor")){
-//                    $(trs[i]).removeClass("trColor");
-//                }
-//
-//            }
-//        })
-//        $(".btnCommon").click(function (e){
-//            var $p = $(e.target);
-//            // console.log(p);
-//            if(!$p.hasClass("btnAudited")){
-//                $p.addClass("btnAudited");
-//                $p.text("已通过");
-//            }
-//        })
-//    })
-
-</script>
 </body>
 </html>
