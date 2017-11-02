@@ -1,5 +1,6 @@
 package com.gooalgene.common.service;
 
+import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.User;
 import com.gooalgene.common.authority.User_Role;
 import com.gooalgene.common.dao.UserDao;
@@ -7,6 +8,7 @@ import com.gooalgene.entity.AliMessage;
 import com.google.common.collect.Maps;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -36,6 +38,13 @@ public class UserService implements ApplicationContextAware {
     //查询全部用户
     public List<User> queryAll() {
         return userDao.queryAll();
+    }
+    //查询全部用户分页
+    public Page<User> queryByPage(Page page) {
+        List<User> list=userDao.queryByPage(page);
+        page.setCount(userDao.getCount());
+        page.setList(list);
+        return page;
     }
     //判断用户名是否存在
     public boolean exist(String username){
@@ -119,9 +128,10 @@ public class UserService implements ApplicationContextAware {
             aliMessage.setTemplateParam(map);
             applicationContext.publishEvent(aliMessage);
         }*/
+        Cache cache=cacheManager.getCache("config");
         AliMessage aliMessage=new AliMessage();
-        aliMessage.setDev(true);
-        aliMessage.setManagerPhone(cacheManager.getCache("config").get("admin.phone").get().toString());
+        aliMessage.setDev(cache.get("isDev").get().toString().equals("1")?true:false);
+        aliMessage.setManagerPhone(cache.get("admin.phone").get().toString());
         Map map= Maps.newHashMap();
         map.put("customer",user.getUsername());//
         aliMessage.setTemplateParam(map);

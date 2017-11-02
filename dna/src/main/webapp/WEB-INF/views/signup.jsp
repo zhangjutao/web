@@ -34,12 +34,14 @@
                            onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
                            oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')">
                 </label>
-                <span class="tips">输入后不可更改,<br/>只支持2到14位的英文和数字</span>
+                <span class="tips real">输入后不可更改,<br/>只支持2到14位的英文和数字</span>
+                <span class="tips errorU" style="display:none;">该用户名已存在</span>
             </div>
             <div class="reg-mail">
                 <label>
                     <span><b>*</b>邮箱:</span>
                     <input type="email" name="email" id="mail" placeholder="请输入用户邮箱" value="${email}">
+                    <span class="tips errorM" style="display:none;">该用户名已存在</span>
                 </label>
             </div>
             <div class="reg-pwd">
@@ -96,6 +98,45 @@
 
 <script src="${ctxStatic}/js/jquery-validation/jquery.validate.min.js"></script>
 <script>
+    // 用户名和邮箱的验证==begin===
+    $("#username").blur(function (){
+        var val = $(this).val().toLowerCase();
+        console.log(val);
+        $.ajax({
+            type:"POST",
+            url:"",
+            data:val,
+            success:function (result){
+                //定义返回字段为boolean 类型；
+                if(result == true){
+                    $(".real").hide();
+                    $(".errorU").show().css("color","#ff0000");
+                };
+            },
+            error:function (error){
+                console.log(error)
+            }
+        })
+    });
+    $("#mail").blur(function (){
+        var val = $("#mail").val();
+        console.log(val);
+        $.ajax({
+            type:"POST",
+            url:"",
+            data:val,
+            success:function (result){
+                //定义返回字段为boolean 类型；
+                if(result == true){
+                    $(".errorM").show().css("color","#ff0000");
+                };
+            },
+            error:function (error){
+                console.log(error)
+            }
+        })
+    })
+//    =======end======
     $("#signupForm").validate({
         rules: {
             username: {
