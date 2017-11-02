@@ -10,6 +10,7 @@ $(function () {
             url: "/user/findAll",
             success: function (result) {
                 //获取数组列表
+                console.log(result)
                 totalDatas = result;
                 //向上取整
                 nums = Math.ceil(result.length / pageNums);
