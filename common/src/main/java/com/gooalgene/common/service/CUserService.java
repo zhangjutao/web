@@ -2,7 +2,13 @@ package com.gooalgene.common.service;
 
 import com.gooalgene.common.authority.CUser;
 import com.gooalgene.common.dao.CUserDao;
+import com.gooalgene.entity.AliMessage;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
+import org.springframework.context.event.EventListener;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -15,10 +21,12 @@ import java.util.Random;
  * Modified by Crabime on 2017/10/50.
  */
 @Service
-public class CUserService {
+public class CUserService implements ApplicationContextAware {
 
     @Autowired
     private CUserDao userDao;
+
+    private ApplicationContext applicationContext;
 
 
     public List<CUser> queryAll() {
@@ -44,7 +52,15 @@ public class CUserService {
 
     public boolean createUser(CUser cUser){
         cUser.setCreateTime(new Date());
-        return userDao.insert(cUser);
+        Boolean flag=userDao.insert(cUser);
+        if(flag){
+            //todo 获取管理员电话
+            //userDao.findAllAdmins();
+            AliMessage aliMessage=new AliMessage();
+            aliMessage.setUsername(cUser.getUsername());
+            applicationContext.publishEvent(aliMessage);
+        }
+        return flag;
     }
 
     public List<CUser> queryUserForCheck() {
@@ -110,5 +126,10 @@ public class CUserService {
         }
         u.setPassword(encoder.encodePassword(password, null));
         userDao.updateUserPassword(u);
+    }
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        this.applicationContext=applicationContext;
     }
 }

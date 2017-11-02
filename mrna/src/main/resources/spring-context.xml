@@ -77,5 +77,14 @@
     <!-- 支持 @Async 注解 -->
     <task:executor id="annotationExecutor" pool-size="20" queue-capacity="25" />
 
-
+    <!-- Guava缓存管理器 -->
+    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+        <property name="cacheNames">
+            <list>
+                <value>config</value>
+            </list>
+        </property>
+        <property name="allowNullValues" value="false" />
+    </bean>
+    <bean id="smtpBean" class="com.gooalgene.common.service.SMTPService" init-method="init" depends-on="cacheManager"/>
 </beans>
