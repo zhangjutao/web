@@ -22,7 +22,7 @@
 <!--header-->
 <div class="container">
     <div class="signup">
-        <form method="POST" action="" class="form" id="signupForm">
+        <form method="POST" action="${pageContext.request.contextPath}/signup/action.do" class="form" id="signupForm">
             <c:if test="${not empty error}">
                 <div class="er">${error}</div>
             </c:if>
@@ -90,7 +90,7 @@
     <div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>
     <div class="waiting-b">
         <div class="waiting-txt">24小时内审核完成，等待管理员进行联系</div>
-        <a class="btn b-index" href="${ctxroot}/iqgs/index">返回首页</a>
+        <a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>
     </div>
 </div>
 </c:if>

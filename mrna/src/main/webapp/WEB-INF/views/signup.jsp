@@ -22,7 +22,7 @@
 <!--header-->
 <div class="container">
     <div class="signup">
-        <form method="POST" action="" class="form" id="signupForm">
+        <form method="POST" action="${pageContext.request.contextPath}/signup/action.do" class="form" id="signupForm">
             <c:if test="${not empty error}">
                 <div class="er">${error}</div>
             </c:if>

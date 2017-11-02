@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.common.dao.UserDao">
-   <!--这个userdao.xml是从common包中复制过来的 供注册使用-->
+
     <select id="get" resultType="com.gooalgene.common.authority.User">
         SELECT * FROM user WHERE id = #{id}
     </select>
@@ -47,5 +47,9 @@
         INSERT INTO user_role(user_id,role_id)VALUE (#{user_id},#{role_id});
     </insert>
 
+    <!--查找所有管理员-->
+    <insert id="findAllAdmins" parameterType="com.gooalgene.common.authority.User">
+        SELECT u.* FROM user u,user_role ur,role r WHERE u.id=ur.user_id and r.id=ur.role_id and r.id=1
+    </insert>
 
 </mapper>

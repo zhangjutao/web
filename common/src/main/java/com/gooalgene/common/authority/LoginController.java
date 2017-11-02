@@ -69,12 +69,8 @@ public class LoginController {
                                       @RequestParam(value = "university",required = false)String university
                                   ) {
         ModelAndView modelAndView = new ModelAndView("signupDone");
-
-
-
         return modelAndView;
     }
-
     @RequestMapping("/403")
     public String err403(HttpServletRequest request) {
         return "err403";

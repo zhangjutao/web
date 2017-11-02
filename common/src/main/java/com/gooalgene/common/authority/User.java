@@ -1,0 +1,122 @@
+package com.gooalgene.common.authority;
+
+import com.gooalgene.common.DataEntity;
+
+import java.util.Date;
+
+/**
+ * Created by liuyan on 2017/11/1.
+ */
+public class User extends DataEntity<User> {
+    private String username;// 登录名
+    private String email;
+    private String password;// 密码
+    private String phone;
+    private String domains;
+    private String university;
+    private int enabled;
+    private int reset;
+    private int status;
+    private Date create_time;
+    private String description;
+    private  int uid;
+
+    public int getUid() {
+        return uid;
+    }
+
+    public void setUid(int uid) {
+        this.uid = uid;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
+    }
+
+    public Date getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(Date create_time) {
+        this.create_time = create_time;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(int enabled) {
+        this.enabled = enabled;
+    }
+
+    public int getReset() {
+        return reset;
+    }
+
+    public void setReset(int reset) {
+        this.reset = reset;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
+    public String getDomains() {
+        return domains;
+    }
+
+    public void setDomains(String domains) {
+        this.domains = domains;
+    }
+
+    public String getUniversity() {
+        return university;
+    }
+
+    public void setUniversity(String university) {
+        this.university = university;
+    }
+
+
+}

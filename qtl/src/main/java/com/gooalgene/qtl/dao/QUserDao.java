@@ -10,7 +10,7 @@ import java.util.List;
  * Created by Administrator on 2017/07/08.
  */
 @MyBatisDao
-public interface UserDao extends CrudDao<User> {
+public interface QUserDao extends CrudDao<User> {
 
     List<User> queryAll();
 
