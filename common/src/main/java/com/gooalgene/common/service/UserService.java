@@ -3,28 +3,19 @@ package com.gooalgene.common.service;
 import com.gooalgene.common.authority.User;
 import com.gooalgene.common.authority.User_Role;
 import com.gooalgene.common.dao.UserDao;
-import com.gooalgene.entity.AliMessage;
-import com.google.common.collect.Maps;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
-import org.springframework.context.ApplicationContextAware;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * Created by liuyan on 2017/11/1.
  */
 @Service
-public class UserService implements ApplicationContextAware {
+public class UserService {
     @Autowired
     private UserDao userDao;
-
-    private ApplicationContext applicationContext;
 
     //通过用户ID查询用户信息
     public User getUserById(int id){
@@ -38,8 +29,8 @@ public class UserService implements ApplicationContextAware {
     //判断用户名是否存在
     public boolean exist(String username){
          System.out.println(userDao.queryAll());
-        System.out.println(userDao.findByUsername(username));
-        return !userDao.findByUsername(username).isEmpty();
+         System.out.println(userDao.findByUsername(username));
+         return !userDao.findByUsername(username).isEmpty();
     }
     //通过用户名查询用户
     public User findByUsername(String username){
@@ -54,11 +45,7 @@ public class UserService implements ApplicationContextAware {
      //向user表中插入用户
     public boolean createUser(User user){
         user.setCreateTime(new Date());
-        Boolean flag=userDao.insert(user);
-        if(flag){
-            successPublish(user);
-        }
-        return flag;
+        return userDao.insert(user);
     }
 
     /*得到最后插入数据的ID 即当前插入数据之后得到其ID*/
@@ -79,7 +66,7 @@ public class UserService implements ApplicationContextAware {
         return userDao.updateUserEnabled(user);
     }
 
-
+    //设置密码重置标志位
     public boolean applyPasswdRest(User user) {
         user.setReset(1);
         try {
@@ -100,22 +87,5 @@ public class UserService implements ApplicationContextAware {
     }
 
 
-    @Override
-    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        this.applicationContext=applicationContext;
-    }
 
-    /*注册*/
-    private void successPublish(User user){
-        List<User> users=userDao.findAllAdmins();
-        List<String> phones=users.stream().map(e->e.getPhone()).collect(Collectors.toList());
-        for (String phone:phones){
-            AliMessage aliMessage=new AliMessage();
-            aliMessage.setManagerPhone(phone);
-            Map map= Maps.newHashMap();
-            map.put("customerf",user.getUsername());//
-            aliMessage.setTemplateParam(map);
-            applicationContext.publishEvent(aliMessage);
-        }
-    }
 }

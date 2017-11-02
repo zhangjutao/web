@@ -2,7 +2,7 @@ package com.gooalgene.qtl.web;
 
 import com.gooalgene.entity.User;
 import com.gooalgene.qtl.service.QueryService;
-import com.gooalgene.qtl.service.QtlUserService;
+import com.gooalgene.qtl.service.QUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class DashboardController {
     Logger logger = LoggerFactory.getLogger(DashboardController.class);
 
     @Autowired
-    private QtlUserService userService;
+    private QUserService qUserService;
 
     @Autowired
     private QueryService queryService;
@@ -40,9 +40,9 @@ public class DashboardController {
     public String tologin(User user, Model model) {
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
-        List<User> userList = userService.findByUsername(user.getUsername());
+        List<User> userList = qUserService.findByUsername(user.getUsername());
         if (userList.size() > 0) {
-            List<User> users = userService.findByUsernameAndPassword(user);
+            List<User> users = qUserService.findByUsernameAndPassword(user);
             if (users.size() > 0) {
                 return "redirect:/traitcategory/list";
             } else {

@@ -11,7 +11,7 @@ import java.util.List;
  * Created by liuyan on 2017/11/1.
  */
 @MyBatisDao
-public interface UserDao extends CrudDao<User> {
+public interface UserDao extends CrudDao<User>{
 
     User get(int id);
     List<User> queryAll();
@@ -36,7 +36,4 @@ public interface UserDao extends CrudDao<User> {
 
     /*此处新加了设置用户角色的接口*/
     boolean setRole(User_Role user_role);
-
-    /*查询所有管理员*/
-    List<User> findAllAdmins();
 }

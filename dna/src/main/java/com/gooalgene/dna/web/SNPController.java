@@ -65,15 +65,16 @@ public class SNPController {
     public ModelAndView index(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
-        List<String> receivers = new ArrayList<>();
-        receivers.add("crabime@gmail.com");
-        try {
-            smtpService.send("songsx@gooalgene.com", receivers, "来自古奥基因的邮件通知", "您的注册账号已生效，请点击查收", false);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
+        //测试启动时发邮件是否正常
+//        List<String> receivers = new ArrayList<>();
+//        receivers.add("crabime@gmail.com");
+//        try {
+//            smtpService.send("songsx@gooalgene.com", receivers, "来自古奥基因的邮件通知", "您的注册账号已生效，请点击查收", false);
+//        } catch (MessagingException e) {
+//            e.printStackTrace();
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        }
         return model;
     }
 
