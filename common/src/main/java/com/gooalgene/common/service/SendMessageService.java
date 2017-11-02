@@ -13,6 +13,8 @@ import com.gooalgene.common.Global;
 import com.gooalgene.entity.AliMessage;
 import com.gooalgene.utils.JsonUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -21,9 +23,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 @Service
-@Slf4j
 public class SendMessageService {
-    //private static Logger logger= LoggerFactory.getLogger(SendMessageService.class);
+    private static Logger logger= LoggerFactory.getLogger(SendMessageService.class);
 
     //String url = "http://gw.api.taobao.com/router/rest";
     private static final String url= Global.getConfig("alidy.url");
@@ -99,7 +100,7 @@ public class SendMessageService {
         try {
             //发短信
             response = sendSms(aliMessage);
-            log.info("短信接口返回对象：{}",response);
+            logger.info("短信接口返回对象：{}",response);
             if(response!=null){
                 System.out.println("短信接口返回的数据----------------");
                 System.out.println("Code=" + response.getCode());
@@ -136,7 +137,7 @@ public class SendMessageService {
             }
         } catch (ClientException e) {
             //e.printStackTrace();
-            log.error("短信发送异常，{}",e.getMessage());
+            logger.error("短信发送异常，{}",e.getMessage());
         }
 
     }
