@@ -43,6 +43,15 @@ public class LoginController {
         }
         return "redirect:/login?logout";//You can redirect wherever you want, but generally it's a good practice to show login screen again.
     }
+//    ==============add administrator page begin=======
+    @RequestMapping(value="/managerPage",method=RequestMethod.GET)
+    public String managerPage(HttpServletRequest request,HttpServletResponse response){
+//        if (当前用户名 == administrator){
+            return "manager/manager";
+//        }
+    }
+
+//     ==============add administrator page end=======
 
     @RequestMapping(value="/signup", method = RequestMethod.GET)
     public String signupPage () {
