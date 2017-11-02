@@ -7,19 +7,19 @@ $(function () {
     window.onload = function () {
         $.ajax({
             type: "GET",
-            url: "/manager/users",
+            url: ctxRoot + "/manager/users",
             success: function (result) {
                 //获取数组列表
-                console.log(result)
+                console.log(result.list)
                 totalDatas = result;
                 //向上取整
                 nums = Math.ceil(result.length / pageNums);
                 //舍弃小数之后的取整
                 intNums = parseInt(result.length / pageNums);
 
-                console.log(intNums);
-                console.log("总长度为：" +totalDatas.length);
-                console.log("除以pageNums之后的整数部分为：" + nums);
+                // console.log(intNums);
+                // console.log("总长度为：" +totalDatas.length);
+                // console.log("除以pageNums之后的整数部分为：" + nums);
 
                 if (nums > 4) {
                     $(".first").hide().next().text(1).addClass("pageColor").next().hide();

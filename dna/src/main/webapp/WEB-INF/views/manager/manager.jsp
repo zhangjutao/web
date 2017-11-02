@@ -15,7 +15,7 @@
 
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
-    <script src="${ctxStatic}/js/manager.js"></script>
+
 </head>
 <body onload='document.loginForm.username.focus();'>
 <dna:dna-header />
@@ -88,5 +88,9 @@
         </div>
     </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script type="text/javascript">
+    var ctxRoot = "${ctxroot}";
+</script>
+<script src="${ctxStatic}/js/manager.js"></script>
 </body>
 </html>
