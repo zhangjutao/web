@@ -13,6 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -26,6 +28,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
@@ -170,7 +174,7 @@ public class SignUpController {
 
     /*忘记密码  验证通过之后直接给相应的用户发送邮件*/
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
-    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model) throws UnsupportedEncodingException, MessagingException {
+    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model) throws IOException, MessagingException {
         ModelAndView mv = new ModelAndView("forget");
         model.addAttribute("username", username);
         model.addAttribute("email", email);
@@ -186,8 +190,10 @@ public class SignUpController {
         List<String> recevers=new ArrayList<String>();
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
-        message.put("subject", "主题");
-        message.put("content", "忘记密码的确认邮件");
+        message.put("subject", "使用文件模板发送邮件");
+
+        Resource resource=new ClassPathResource("template.html");
+        File file=resource.getFile();
         Token token=new Token();
         token.setUserid(user.getId());
         System.out.println("用户的id" + user.getUid());
@@ -207,7 +213,7 @@ public class SignUpController {
         }
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
-             smtpService.send(admin_email,recevers,message.get("subject"),message.get("content"),true);
+             smtpService.send(admin_email,recevers,message.get("subject"),file,true);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
