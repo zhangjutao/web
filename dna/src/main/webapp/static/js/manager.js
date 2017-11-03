@@ -208,10 +208,13 @@ $(function () {
                 data:data,
                 success:function (result){
                     console.log(result);
+                    if(result.code == 0){
+                        $p.removeClass("btnAudit").addClass("btnAudited").text("已通过");
+                        $p.parent().prev().text("已审核");
+                    };
                 }
             })
-            $p.removeClass("btnAudit").addClass("btnAudited").text("已通过");
-            $p.parent().prev().text("已审核");
+
         }
     })
 })
