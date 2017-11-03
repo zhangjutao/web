@@ -137,7 +137,7 @@ public class SignUpController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/nameexists", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/nameexists", method = RequestMethod.GET)
     @ResponseBody
     public String userNameExists(@RequestParam(value = "username", required = true)String username) throws JsonProcessingException {
         boolean exists = userService.exist(username);
@@ -199,8 +199,12 @@ public class SignUpController {
         calendar.add(Calendar.HOUR, 2);
         Date due_date=calendar.getTime();
         token.setDue_time(due_date);
-        token.setToken_status(0);
-             tokenService.insertToken(token);
+        token.setToken_status(1);
+        if(tokenService.getTokenByUserId(user.getId())!=null){
+             tokenService.updateToken(token);
+        }else {
+            tokenService.insertToken(token);
+        }
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
              smtpService.send(admin_email,recevers,message.get("subject"),message.get("content"),true);
@@ -243,12 +247,26 @@ public class SignUpController {
 
     /**
      * 用户点击URL，修改密码生效
+     * 用户点击URL需要与入库的token进行比较，false则进入验证错误页面，打印错误日志
      * @param token 唯一的UUID值
      * @return 重定向页面
      */
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
-    public String verify(@RequestParam(name = "token", required = true) String token){
+    public String verify(@RequestParam(name = "token") String token,
+                         @RequestParam(name = "id") int id){
+        Token originToken = tokenService.getTokenByUserId(id);
+        Date dueTime = originToken.getDue_time();
+        Date currentTime = new Date();
+        String oldToken = originToken.getToken();
+        if (dueTime.before(currentTime)){
+            logger.warn("token已失效");
+            return "err403";
+        }
+        if (!oldToken.equals(token)){
+            logger.warn("传入token有异常");
+            return "err403";
+        }
 
-        return "redirect:/dna/index";
+        return "modify-password";
     }
 }

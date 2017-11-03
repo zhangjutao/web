@@ -1,6 +1,7 @@
 package com.gooalgene.common.authority;
 
 import com.github.pagehelper.PageInfo;
+import com.gooalgene.common.constant.ResultEnum;
 import com.gooalgene.common.service.UserService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.utils.ResultUtil;
@@ -16,9 +17,17 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
-    public ResultVO<User> findAll(@RequestParam(value = "pageNum",defaultValue = "0",required = false) Integer pageNum,
+    public ResultVO findAll(@RequestParam(value = "pageNum",defaultValue = "0",required = false) Integer pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize){
         PageInfo<User> users=userService.queryByPage(pageNum,pageSize);
         return ResultUtil.success(users);
+    }
+
+    @RequestMapping(value = "/change/enable",method = RequestMethod.POST)
+    public ResultVO changeEnable(@RequestParam("id") String id){
+        if(userService.enableUser(Integer.valueOf(id))){
+            return ResultUtil.success();
+        }
+        return ResultUtil.error(ResultEnum.ENABLE_FAILED);
     }
 }

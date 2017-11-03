@@ -14,14 +14,14 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.forwardedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy(@ContextConfiguration(locations = {"classpath:spring-context.xml", "classpath:spring-mvc.xml"}))
-public class SignUpServiceTest extends TestCase {
+public class DnaGenesControllerTest extends TestCase {
+
     @Autowired
     private WebApplicationContext webApplicationContext;
     MockMvc mockMvc;
@@ -32,12 +32,10 @@ public class SignUpServiceTest extends TestCase {
     }
 
     @Test
-    public void testSignUpUsernameExists() throws Exception{
-        mockMvc.perform(get("/nameexists")
-                .param("username", "crabime"))
+    public void testListPage() throws Exception {
+        mockMvc.perform(get("/dnagens/list"))
                 .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().string("{\"exists\":true}"))
+                .andExpect(forwardedUrl("/WEB-INF/views/dnagens/dnagens.jsp"))
                 .andReturn();
     }
 }
