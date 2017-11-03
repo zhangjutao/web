@@ -199,8 +199,12 @@ public class SignUpController {
         calendar.add(Calendar.HOUR, 2);
         Date due_date=calendar.getTime();
         token.setDue_time(due_date);
-        token.setToken_status(0);
-             tokenService.insertToken(token);
+        token.setToken_status(1);
+        if(tokenService.getTokenByUserId(user.getId())!=null){
+             tokenService.updateToken(token);
+        }else {
+            tokenService.insertToken(token);
+        }
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
              smtpService.send(admin_email,recevers,message.get("subject"),message.get("content"),true);

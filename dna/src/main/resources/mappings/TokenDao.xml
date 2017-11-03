@@ -16,5 +16,8 @@
         INSERT INTO token(userid,token,token_status,due_time)VALUE (#{userid},#{token},#{token_status},#{due_time})
     </insert>
 
+    <update id="disableToken">
+        update token set  token_status=0  where userid=#{userid} ;
+    </update>
 
 </mapper>
