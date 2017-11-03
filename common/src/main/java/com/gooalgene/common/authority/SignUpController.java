@@ -259,7 +259,7 @@ public class SignUpController {
      * @return 重定向页面
      */
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
-    public String verify(String token){
+    public String verify(@RequestParam(name = "token", required = true) String token){
 
         return "redirect:/dna/index";
     }
