@@ -338,6 +338,12 @@
             <artifactId>pagehelper</artifactId>
             <version>4.2.1</version>
         </dependency>
+        <!-- https://mvnrepository.com/artifact/org.bouncycastle/bcprov-jdk16 转码 -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk16</artifactId>
+            <version>1.46</version>
+        </dependency>
 
     </dependencies>
     <build>

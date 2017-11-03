@@ -1,6 +1,8 @@
 package com.gooalgene.utils;
 
-import com.sun.org.apache.xml.internal.security.utils.Base64;
+//import com.sun.org.apache.xml.internal.security.utils.Base64;
+import org.bouncycastle.util.encoders.Base64;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +15,7 @@ public class TokenUtils {
     /*产生128位随机的token*/
     public static String generateToken(){
         String temp2=getUuid()+getUuid();
-        return Base64.encode(temp2.getBytes());
+        return new String(Base64.encode(temp2.getBytes()));
     }
     public static String getUuid(){
         UUID uuid=UUID.randomUUID();
