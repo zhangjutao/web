@@ -2,6 +2,8 @@ package com.gooalgene.common.authority;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.service.UserService;
+import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -14,8 +16,9 @@ public class UserController {
     private UserService userService;
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
-    public PageInfo<User> findAll(@RequestParam(value = "pageNum",defaultValue = "0",required = false) Integer pageNum,
+    public ResultVO<User> findAll(@RequestParam(value = "pageNum",defaultValue = "0",required = false) Integer pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize){
-        return userService.queryByPage(pageNum,pageSize);
+        PageInfo<User> users=userService.queryByPage(pageNum,pageSize);
+        return ResultUtil.success(users);
     }
 }
