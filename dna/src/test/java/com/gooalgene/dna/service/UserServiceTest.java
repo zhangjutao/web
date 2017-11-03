@@ -1,5 +1,6 @@
 package com.gooalgene.dna.service;
 
+import com.gooalgene.common.authority.User;
 import com.gooalgene.common.service.UserService;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -20,4 +21,5 @@ public class UserServiceTest extends TestCase {
         boolean exists = userService.exist("crabime");
         assertTrue(exists);
     }
+
 }

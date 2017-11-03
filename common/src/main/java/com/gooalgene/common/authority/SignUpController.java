@@ -211,16 +211,17 @@ public class SignUpController {
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
-    public String toModifyPassword(HttpServletRequest req, Model model) {
+    public String toModifyPassword(HttpServletRequest req, Model model ) {
         String username = (String) req.getSession().getAttribute("userName");
-        if (username == null) {
-            return "redirect:/login";
-        }
         return "modify-password";
     }
 
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(String oldpwd, String password, String pwdverify, HttpServletRequest req, Model model) {
+       /* String username = (String) req.getSession().getAttribute("userName");
+        if (username == null) {
+            return "redirect:/login";
+        }*/
         if (oldpwd == null || oldpwd.isEmpty()) {
             model.addAttribute("error", "原密码未填写");
             return "modify-password";
@@ -237,11 +238,6 @@ public class SignUpController {
             model.addAttribute("error", "两次密码不一致");
             return "modify-password";
         }
-        String username = (String) req.getSession().getAttribute("userName");
-        if (username == null) {
-            return "redirect:/login";
-        }
-
         return "modify-password";
     }
 
