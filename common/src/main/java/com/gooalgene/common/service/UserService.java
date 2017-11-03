@@ -129,16 +129,6 @@ public class UserService implements ApplicationContextAware {
 
     /*注册完成时向管理员发送短信*/
     private void successPublish(User user){
-        /*List<User> users=userDao.findAllAdmins();
-        List<String> phones=users.stream().map(e->e.getPhone()).collect(Collectors.toList());
-        for (String phone:phones){
-            AliMessage aliMessage=new AliMessage();
-            aliMessage.setManagerPhone(phone);
-            Map map= Maps.newHashMap();
-            map.put("customerf",user.getUsername());//
-            aliMessage.setTemplateParam(map);
-            applicationContext.publishEvent(aliMessage);
-        }*/
         Cache cache=cacheManager.getCache("config");
         AliMessage aliMessage=new AliMessage();
         aliMessage.setDev(cache.get("isDev").get().toString().equals("1")?true:false);
