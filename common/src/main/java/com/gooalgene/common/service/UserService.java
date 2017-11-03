@@ -94,7 +94,7 @@ public class UserService implements ApplicationContextAware {
     }
 
     //更新用户enable的值
-    public boolean enableUser(String id) {
+    public boolean enableUser(int id) {
         User user = new User();
         user.setId(id);
         user.setEnabled(1);

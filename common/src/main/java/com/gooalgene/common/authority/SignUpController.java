@@ -2,8 +2,11 @@ package com.gooalgene.common.authority;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gooalgene.common.dao.TokenDao;
 import com.gooalgene.common.service.SMTPService;
+import com.gooalgene.common.service.TokenService;
 import com.gooalgene.common.service.UserService;
+import com.gooalgene.utils.TokenUtils;
 import com.google.common.collect.Maps;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,11 +30,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Crabime on 16/10/2017.
@@ -50,6 +49,10 @@ public class SignUpController {
     @Autowired
     private GuavaCacheManager guavaCacheManager;
     private Cache author_cache;
+
+    @Autowired
+    private TokenService tokenService;
+
     @RequestMapping(value="/action", method = RequestMethod.GET)
     public String signupPage () {
         System.out.println(userService.queryAll());
@@ -123,7 +126,6 @@ public class SignUpController {
         user.setDomains(domains);
         user.setUniversity(university);
 
-
         if(userService.createUser(user)){
             User_Role user_role=new User_Role(userService.findLastInsertId(),1);
             userService.setRole(user_role);
@@ -137,17 +139,12 @@ public class SignUpController {
 
     @RequestMapping(value = "/nameexists", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
-    public String userNameExists(@RequestParam(value = "username", required = true)String username){
+    public String userNameExists(@RequestParam(value = "username", required = true)String username) throws JsonProcessingException {
         boolean exists = userService.exist(username);
         Map<String, Object> result = Collections.singletonMap("exists", exists);
         ObjectMapper objectMapper = new ObjectMapper(); //这里转成ajax更好读取的格式JSON
-        String jsonResult = null;
-        try {
-            jsonResult = objectMapper.writeValueAsString(result);
-        } catch (JsonProcessingException e) {
-            logger.error("Map转换JSON出错", e);
-            e.printStackTrace();
-        }
+           String jsonResult = null;
+           jsonResult = objectMapper.writeValueAsString(result);
         return jsonResult;
     }
 
@@ -171,10 +168,9 @@ public class SignUpController {
         return "forget";
     }
 
-
     /*忘记密码  验证通过之后直接给相应的用户发送邮件*/
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
-    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model) {
+    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model) throws UnsupportedEncodingException, MessagingException {
         ModelAndView mv = new ModelAndView("forget");
         model.addAttribute("username", username);
         model.addAttribute("email", email);
@@ -190,17 +186,24 @@ public class SignUpController {
         List<String> recevers=new ArrayList<String>();
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
-        message.put("subject","主题");
-        message.put("content","忘记密码的确认邮件");
-        try {
+        message.put("subject", "主题");
+        message.put("content", "忘记密码的确认邮件");
+        Token token=new Token();
+        token.setUserid(user.getId());
+        System.out.println("用户的id" + user.getUid());
+        token.setToken(TokenUtils.generateToken());
+
+        Date date=new Date();
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        calendar.add(Calendar.HOUR, 2);
+        Date due_date=calendar.getTime();
+        token.setDue_time(due_date);
+        token.setToken_status(0);
+             tokenService.insertToken(token);
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
              smtpService.send(admin_email,recevers,message.get("subject"),message.get("content"),true);
-        } catch (MessagingException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
-            e.printStackTrace();
-        }
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
@@ -234,13 +237,7 @@ public class SignUpController {
         if (username == null) {
             return "redirect:/login";
         }
-//        UserDetails user = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-      /*  try {
-            userService.modifyUserPassword(oldpwd, password, username);
-            model.addAttribute("user", username);
-        } catch (Exception e) {
-            model.addAttribute("error", e.getMessage());
-        }*/
+
         return "modify-password";
     }
 

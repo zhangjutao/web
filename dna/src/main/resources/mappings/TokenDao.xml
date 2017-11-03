@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.common.dao.TokenDao">
+
+
+    <select id="getTokenByUserId" resultType="com.gooalgene.common.authority.Token">
+        SELECT * FROM token WHERE userid=#{user_id}
+    </select>
+
+    <insert id="insertToken">
+        INSERT INTO token(userid,token,token_status,due_time)VALUE (#{userid},#{token},#{token_status},#{due_time})
+    </insert>
+
+
+</mapper>
