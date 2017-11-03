@@ -26,4 +26,6 @@ public class TokenService {
     public boolean updateToken(Token token){
         return tokenDao.updateToken(token);
     }
+
+    public boolean disableToken(int userid){return tokenDao.disableToken(userid);}
 }

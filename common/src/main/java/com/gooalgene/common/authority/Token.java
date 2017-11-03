@@ -1,6 +1,5 @@
 package com.gooalgene.common.authority;
 
-import java.time.DateTimeException;
 import java.util.Date;
 
 /**
@@ -9,7 +8,7 @@ import java.util.Date;
 public class Token {
     private int userid;
     private String token;
-    private Date due_time;
+    private Date  due_time;
     private int token_status;
 
     public int getUserid() {

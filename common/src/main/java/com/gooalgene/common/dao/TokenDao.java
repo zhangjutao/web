@@ -8,7 +8,8 @@ import com.gooalgene.common.persistence.MyBatisDao;
  */
 @MyBatisDao
 public interface TokenDao {
-    Token getTokenByUserId(int userid);
+    Token getTokenByUserId(int user_id);
     boolean insertToken(Token token);
     boolean updateToken(Token token);
+    boolean disableToken(int userid);
 }

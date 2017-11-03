@@ -137,7 +137,7 @@ public class SignUpController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/nameexists", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/nameexists", method = RequestMethod.GET)
     @ResponseBody
     public String userNameExists(@RequestParam(value = "username", required = true)String username) throws JsonProcessingException {
         boolean exists = userService.exist(username);
@@ -190,6 +190,7 @@ public class SignUpController {
         message.put("content", "忘记密码的确认邮件");
         Token token=new Token();
         token.setUserid(user.getId());
+        System.out.println("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
 
         Date date=new Date();
@@ -198,11 +199,10 @@ public class SignUpController {
         calendar.add(Calendar.HOUR, 2);
         Date due_date=calendar.getTime();
         token.setDue_time(due_date);
-        System.out.println(due_date);
+        token.setToken_status(1);
         if(tokenService.getTokenByUserId(user.getId())!=null){
-            System.out.println(tokenService.getTokenByUserId(user.getId()).getDue_time());
-            tokenService.updateToken(token);
-        }else{
+             tokenService.updateToken(token);
+        }else {
             tokenService.insertToken(token);
         }
              author_cache=guavaCacheManager.getCache("config");
@@ -247,12 +247,25 @@ public class SignUpController {
 
     /**
      * 用户点击URL，修改密码生效
+     * 用户点击URL需要与入库的token进行比较，false则进入验证错误页面，打印错误日志
      * @param token 唯一的UUID值
      * @return 重定向页面
      */
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
-    public String verify(@RequestParam(name = "token", required = true) String token){
-
-        return "redirect:/dna/index";
+    public String verify(@RequestParam(name = "token") String token,
+                         @RequestParam(name = "id") int id){
+        Token originToken = tokenService.getTokenByUserId(id);
+        Date dueTime = originToken.getDue_time();
+        Date currentTime = new Date();
+        String oldToken = originToken.getToken();
+        if (dueTime.before(currentTime)){
+            logger.warn("token已失效");
+            return "error403";
+        }
+        if (!oldToken.equals(token)){
+            logger.warn("传入token有异常");
+            return "error403";
+        }
+        return "modifyPassword";
     }
 }
