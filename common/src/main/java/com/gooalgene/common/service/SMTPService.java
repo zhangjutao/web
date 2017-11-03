@@ -6,6 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -15,6 +17,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -81,7 +84,7 @@ public class SMTPService {
         transport.close();
     }
 
-    public void send(String from, List<String> receivers, String subject, File template, boolean debug) throws MessagingException, IOException {
+    public void send(String from, List<String> receivers, String subject, File template, boolean debug, String[] filePlaceHolder) throws MessagingException, IOException {
         Assert.isTrue(receivers != null && receivers.size() > 0, "邮件接收者为空");
         Address[] addresses = new InternetAddress[receivers.size()];
         Properties properties = new Properties();
@@ -104,16 +107,9 @@ public class SMTPService {
             logger.error("邮件模板为空");
             return;
         }
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(template), "UTF-8"));
-        String tmp;
-        StringBuilder buffer = new StringBuilder();
-        while ((tmp = br.readLine()) != null){
-            buffer.append(tmp);
-            buffer.append("\n");
-        }
-        br.close();
+        String concreteContent = getMailContent(template, filePlaceHolder); //拿到文件具体内容
         BodyPart bodyPart = new MimeBodyPart(); //内容承载体，可以是图片
-        bodyPart.setContent(buffer.toString(), "text/html;charset=UTF-8");
+        bodyPart.setContent(concreteContent, "text/html;charset=UTF-8");
         Multipart multipart = new MimeMultipart(); //bodypart承载体
         multipart.addBodyPart(bodyPart);
         message.setContent(multipart);
@@ -130,5 +126,18 @@ public class SMTPService {
         }
         transport.sendMessage(message, addresses);
         transport.close();
+    }
+
+    private String getMailContent(File template, Object[] params) throws IOException {
+        String line;
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(template)));
+        StringBuilder sb = new StringBuilder();
+        while ((line = br.readLine()) != null){
+            sb.append(line);
+            sb.append("\r\n");
+        }
+        MessageFormat messageFormat = new MessageFormat(sb.toString());
+        String result = messageFormat.format(params);
+        return result;
     }
 }

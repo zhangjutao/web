@@ -47,7 +47,7 @@
 
         </div>
     </div>
-    <div id="paging" class="pageMleftS">
+    <div id="paging">
         <div id="page">
             <b class="first">&lt;</b>
             <p class="two"></p>
@@ -58,14 +58,25 @@
             <b class="seven">...</b>
             <p class="eight"></p>
             <b class="last">&gt;</b>
-            <div id="inputNums">
-                <span>跳转到</span>
-                <div>
-                    <input type="number" name="number" value="" style="width:35px;height:20px;">
-                </div>
-                <span>页</span>
-                <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
+        </div>
+        <div id="inputNums">
+            <span>跳转到</span>
+            <div>
+            <input type="number" min="1" name="number" value="" id="inputNum" >
             </div>
+            <span>页</span>
+            <span>展示数量</span>
+            <div id="selectedNum">
+                <select name="selected" id="selectSize">
+                    <option value="10" selected = "true">10</option>
+                    <option value="10">20</option>
+                    <option value="10">30</option>
+                    <option value="10">40</option>
+                </select>
+            </div>
+
+            <span>/页</span>
+            <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
         </div>
     </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>

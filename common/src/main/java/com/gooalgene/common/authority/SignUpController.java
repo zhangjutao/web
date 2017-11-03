@@ -8,6 +8,7 @@ import com.gooalgene.common.service.TokenService;
 import com.gooalgene.common.service.UserService;
 import com.gooalgene.utils.TokenUtils;
 import com.google.common.collect.Maps;
+import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
 import java.util.*;
+import java.util.Calendar;
 
 /**
  * Created by Crabime on 16/10/2017.
@@ -174,7 +175,7 @@ public class SignUpController {
 
     /*忘记密码  验证通过之后直接给相应的用户发送邮件*/
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
-    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model) throws IOException, MessagingException {
+    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model,HttpServletRequest request) throws IOException, MessagingException {
         ModelAndView mv = new ModelAndView("forget");
         model.addAttribute("username", username);
         model.addAttribute("email", email);
@@ -191,11 +192,22 @@ public class SignUpController {
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
         message.put("subject", "使用文件模板发送邮件");
-
-        Resource resource=new ClassPathResource("template.html");
-        File file=resource.getFile();
         Token token=new Token();
         token.setUserid(user.getId());
+        Resource resource=new ClassPathResource("findBackPwd.html");
+        File file=resource.getFile();
+        String[] args = new String[7];
+        args[0]=user.getUsername();
+        Date tempDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
+        Calendar calendar1=Calendar.getInstance();
+        calendar1.setTime(tempDate);
+        args[1]= String.valueOf(calendar1.get(Calendar.YEAR));
+        args[2]= String.valueOf(calendar1.get(Calendar.MONTH));
+        args[3]= String.valueOf(calendar1.get(Calendar.DAY_OF_MONTH));
+        args[4]= String.valueOf(calendar1.get(Calendar.HOUR_OF_DAY));
+        args[5]= String.valueOf(calendar1.get(Calendar.MINUTE));
+        args[6]=request.getContextPath()+"/signup/verify?id="+user.getId()+"&token="+token.getToken();
+
         System.out.println("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
 
@@ -213,7 +225,7 @@ public class SignUpController {
         }
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
-             smtpService.send(admin_email,recevers,message.get("subject"),file,true);
+             smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
@@ -270,4 +282,5 @@ public class SignUpController {
         }
         return "modifyPassword";
     }
+
 }
