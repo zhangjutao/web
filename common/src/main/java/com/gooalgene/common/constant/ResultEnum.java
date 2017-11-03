@@ -1,7 +1,7 @@
 package com.gooalgene.common.constant;
 
 public enum ResultEnum {
-    UNKONW_ERROR(-1, "未知错误"),
+    UNKONW_ERROR(-1, "系统异常"),
     SUCCESS(0, "成功"),
     ;
     private Integer code;

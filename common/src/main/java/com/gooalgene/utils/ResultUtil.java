@@ -1,5 +1,6 @@
 package com.gooalgene.utils;
 
+import com.gooalgene.common.constant.ResultEnum;
 import com.gooalgene.common.vo.ResultVO;
 
 public class ResultUtil {
@@ -19,7 +20,15 @@ public class ResultUtil {
         return ResultVO;
     }
 
-    public static ResultVO error(Integer code, String msg){
+    public static ResultVO error(ResultEnum resultEnum){
+        ResultVO ResultVO = new ResultVO();
+        ResultVO.setCode(resultEnum.getCode());
+        ResultVO.setMsg(resultEnum.getMsg());
+        ResultVO.setData(null);
+        return ResultVO;
+    }
+
+    public static ResultVO error(Integer code,String msg){
         ResultVO ResultVO = new ResultVO();
         ResultVO.setCode(code);
         ResultVO.setMsg(msg);
