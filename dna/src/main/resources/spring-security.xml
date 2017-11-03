@@ -8,31 +8,6 @@
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!-- 数据源配置, 使用 Druid 数据库连接池 -->
-    <bean id="secDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
-        <property name="driverClassName" value="${jdbc.driver}"/>
-
-        <!-- 基本属性 url、user、password -->
-        <property name="url" value="jdbc:mysql://172.168.1.119:33069/dev_auth?useUnicode=true&amp;characterEncoding=utf-8"/>
-        <property name="username" value="root"/>
-        <property name="password" value="gooalgene@Iqgs123"/>
-
-        <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="${jdbc.pool.init}"/>
-        <property name="minIdle" value="${jdbc.pool.minIdle}"/>
-        <property name="maxActive" value="${jdbc.pool.maxActive}"/>
-
-        <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="60000"/>
-
-        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
-
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="300000"/>
-    </bean>
-
     <!-- 目前不需要将ajax请求拒绝 -->
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
 
@@ -47,7 +22,7 @@
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
     </sec:http>
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">
-        <property name="dataSource" ref="secDataSource" />
+        <property name="dataSource" ref="dataSource" />
         <property name="resourceQuery"
                         value="SELECT rc.res_string, r.name FROM resc rc, role r, role_resc rr WHERE r.id = rr.role_id AND rc.id = rr.resc_id" />
     </bean>
@@ -56,7 +31,8 @@
 
     <sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider>
-            <sec:jdbc-user-service data-source-ref="secDataSource"
+            <sec:password-encoder hash="md5" />
+            <sec:jdbc-user-service data-source-ref="dataSource"
                                    users-by-username-query="select username,password,enabled from user where username = ?"
                                    authorities-by-username-query=
                                            "select u.username, r.name from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.username = ?"/>

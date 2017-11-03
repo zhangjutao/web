@@ -24,8 +24,8 @@ public class UserController {
     }*/
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
-    public Page<User> findAll(@RequestParam(value = "pageNo",defaultValue = "0") Integer pageNo,
-                              @RequestParam(value = "pageSize",defaultValue = "10") Integer pageSize){
+    public Page<User> findAll(@RequestParam(value = "pageNo",defaultValue = "0",required = false) Integer pageNo,
+                              @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize){
         return userService.queryByPage(new Page(pageNo,pageSize));
     }
 }
