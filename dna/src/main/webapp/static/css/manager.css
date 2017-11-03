@@ -119,10 +119,13 @@ body {
     margin:0 auto;
     margin-top:30px;
     margin-bottom:100px;
+    overflow:hidden;
 }
 #page{
     overflow: hidden;
-    /* margin:0 auto; */
+    float:left;
+    padding-left: 250px;
+
 }
 p.first{
     margin-left:20px;
@@ -140,6 +143,7 @@ p.first{
     margin:0 10px 0 0;
 
 }
+
 #page #inputNums{
     float:left;
     overflow:hidden;
@@ -156,8 +160,23 @@ p.first{
 #tblbody>tr:nth-child(2n){
     background:#F5F8FF;
 }
-.pageMleftS{
-    padding-left:500px;
+/*.pageMleftS{*/
+    /*padding-left:500px;*/
+/*}*/
+.pageMleftB{
+    padding-left:233px;
 }
+#inputNum{
+    width:35px;height:20px;
+}
+#inputNums{
+    heigth:32px;
+    padding-top:6px;
+    float:right;
+    padding-right: 67px;
 
+}
+#selectedNum{
+    float:left;
+}
 

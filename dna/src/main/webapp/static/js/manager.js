@@ -3,14 +3,17 @@ $(function () {
     var totalDatas;
     var intNums;
     var count;
+    var page = {
+        pageNum:1,
+        pageSize:10
+    }
     //每页展示的数量
-    var pageSize = 10;
+    var paramData = {
+        pageNum:page.pageNum,
+        pageSize:page.pageSize
+    }
     window.onload = function () {
-        var param = {
-            pageNum:1,
-            pageSize:10
-        }
-        getData(param);
+        getData(paramData);
     };
     //ajax 请求
     function getData(data){
@@ -19,17 +22,23 @@ $(function () {
             url: ctxRoot + "/manager/users",
             data:data,
             success:function (result) {
-                    console.log(result);
+                console.log(result);
                     count = result.data.total;
+                    // count = 200;
                     totalDatas = result.data.list;
-                    nums = Math.ceil(count / pageSize);
+                    nums = Math.ceil(count / page.pageSize);
                     //舍弃小数之后的取整
-                    intNums = parseInt(count / pageSize);
+                    intNums = parseInt(count / page.pageSize);
                     $("#tblbody table>tr").remove();
                     for (var i=0;i<totalDatas.length;i++){
-                    var status = totalDatas[i].enabled==1?"已审核":"待审核";
+                    var status = totalDatas[i].enabled==1?"1":"0";
+                    if(status == 1){
+                        var str=" <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>已审核</td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
+                    }else{
+                        var str="  <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>待审核</td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
+                    }
                     console.log(status);
-                    var str=" <tr><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>" +status+"</td><td><p class=\'btnAudited btnCommon\'>"+status+"</p></td></tr>";
+
                     var $tbl = $("#tblbody table");
                     $tbl.append(str);
                     pageStyle(nums,intNums);
@@ -96,20 +105,19 @@ $(function () {
         $(".eight").hide();
         $(".last").hide();
     };
+
     //每个页码的点击事件
-    $("#page p").click(function (e) {
+    $("#page>p").click(function (e) {
         //样式
         if (nums > 4) {
             $(".first").show();
             $(".three").show();
             $(".eight").text(nums);
-        }
+        };
         var $p = $(e.target);
-        var data = {
-            pageNum:parseInt($p.text()),
-            pageSize:pageSize
-        }
-        getData(data);
+        page.pageNum = parseInt($p.text());
+        paramData.pageNum = page.pageNum;
+        getData(paramData);
         $p.addClass("pageColor");
         var plists = $p.siblings();
         for (var i = 0; i < plists.length; i++) {
@@ -118,6 +126,14 @@ $(function () {
             }
         }
     });
+    // pageSize 选择事件
+    $("#selectedNum").change(function (e){
+        var currentSelected = $("#selectedNum option:selected").text();
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
+        getData(paramData)
+        console.log(currentSelected);
+    })
     // "<" 点击事件
     $(".first").click(function () {
         var content6 = Number($(".six").text());
@@ -135,6 +151,16 @@ $(function () {
             $(".five").text(content5 - 1);
         }
     })
+    // enter 键盘事件
+    $("#inputNum").keydown(function(event){
+        event=document.all?window.event:event;
+        if((event.keyCode || event.which)==13){
+            var selectedNum = $(this).val();
+            page.pageNum = pageNum = selectedNum;
+            paramData.pageNum = page.pageNum;
+            getData(paramData);
+        }
+    });
     // ">" 点击事件
     $(".last").click(function () {
         var content6 = Number($(".six").text());
@@ -155,7 +181,7 @@ $(function () {
             $(".five").text(content5 + 1);
         }
     })
-    //     $("tr").mouseover(function (e) {
+    //     $("#tblbody table").on("mouseover",function (e) {
     //     var $tr = $(e.target).parent();
     //     console.log($tr)
     //     var trs = $tr.siblings();
@@ -169,12 +195,23 @@ $(function () {
     //
     //     }
     // })
-    $(".btnCommon").click(function (e) {
+    $("#tblbody table").on("click",function (e) {
         var $p = $(e.target);
-        // console.log(p);
-        if (!$p.hasClass("btnAudited")) {
-            $p.addClass("btnAudited");
-            $p.text("已通过");
+        var selfId = parseInt($p.parent().parent().attr("myid"));
+        var data = {
+                id:selfId
+        };
+        if ($p.hasClass("btnAudit")) {
+            $.ajax({
+                type:"POST",
+                url:ctxRoot + "/manager/change/enable",
+                data:data,
+                success:function (result){
+                    console.log(result);
+                }
+            })
+            $p.removeClass("btnAudit").addClass("btnAudited").text("已通过");
+            $p.parent().prev().text("已审核");
         }
     })
 })
