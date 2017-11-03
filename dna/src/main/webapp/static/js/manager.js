@@ -2,6 +2,7 @@ $(function () {
     var nums;
     var totalDatas;
     var intNums;
+    var count;
     //每页展示的数量
     var pageNums = 10;
     window.onload = function () {
@@ -10,15 +11,23 @@ $(function () {
             url: ctxRoot + "/manager/users",
             success: function (result) {
                 //获取数组列表
-                console.log(result.list)
-                totalDatas = result;
+                console.log(result)
+                totalDatas = result.list;
+                count = result.count;
                 //向上取整
-                nums = Math.ceil(result.length / pageNums);
+                nums = Math.ceil(totalDatas.length / pageNums);
                 //舍弃小数之后的取整
-                intNums = parseInt(result.length / pageNums);
-
+                intNums = parseInt(totalDatas.length / pageNums);
+                for (var i=0;i<totalDatas.length;i++){
+                    console.log(totalDatas[i].username);
+                    var status = totalDatas[i].enabled==1?"已审核":"待审核";
+                    var str=" <tr><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>" +status+"</td><td><p class=\'btnAudited btnCommon\'>"+status+"</p></td></tr>";
+                    var $tbl = $("#tblbody table");
+                        $tbl.append(str);
+                }
                 // console.log(intNums);
                 // console.log("总长度为：" +totalDatas.length);
+                // console.log("除以pageNums之后的整数部分为：" + nums);
                 // console.log("除以pageNums之后的整数部分为：" + nums);
 
                 if (nums > 4) {
@@ -65,10 +74,10 @@ $(function () {
                         $(".six").text(4);
                         break;
                 }
-                $("#totals").text(totalDatas.length);
+                $("#totals").text(count);
             },
             error: function (error) {
-                console.log("error")
+                console.log(error);
             }
         })
     };
