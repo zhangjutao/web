@@ -243,4 +243,15 @@ public class SignUpController {
         }*/
         return "modify-password";
     }
+
+    /**
+     * 用户点击URL，修改密码生效
+     * @param token 唯一的UUID值
+     * @return 重定向页面
+     */
+    @RequestMapping(value = "/verify", method = RequestMethod.GET)
+    public String verify(String token){
+
+        return "redirect:/dna/index";
+    }
 }

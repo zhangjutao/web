@@ -15,7 +15,7 @@
 
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
-    <script src="${ctxStatic}/js/manager.js"></script>
+
 </head>
 <body onload='document.loginForm.username.focus();'>
 <dna:dna-header />
@@ -25,7 +25,7 @@
         <p class="auditUserInfo">待审核用户信息</p>
         <div id="userDetail">
             <div id="tblhead">
-                <table border="1" cellspacing="0" cellpadding="0">
+                <table border="1" cellspacing="0" cellpadding="0" bordercolor="#ccc">
                     <tr style="background:#F5F8FF;">
                         <td style="height:45px;">待审核用户</td>
                         <td style="height:45px;">注册邮箱</td>
@@ -35,31 +35,8 @@
                 </table>
             </div>
             <div id="tblbody">
-                <table border="1" cellspacing="0" cellpadding="0">
-                    <tr>
-                        <td>fjasdfjfsl333</td>
-                        <td>fjasdfjfsl333@163.com</td>
-                        <td>待审核</td>
-                        <td>
-                            <p class="btnAudited btnCommon">已通过</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>fjasdfjfs34545</td>
-                        <td>fjasdfjfsl333@163.com</td>
-                        <td>待审核</td>
-                        <td>
-                            <p class="btnAudited btnCommon">已通过</p>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>fjasd365456</td>
-                        <td>fjasdfjfsl333@163.com</td>
-                        <td>待审核</td>
-                        <td>
-                            <p class="btnAudit btnCommon">待审核</p>
-                        </td>
-                    </tr>
+                <table border="1" cellspacing="0" cellpadding="0" bordercolor="#ccc">
+
 
                 </table>
             </div>
@@ -88,5 +65,9 @@
         </div>
     </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script type="text/javascript">
+    var ctxRoot = "${ctxroot}";
+</script>
+<script src="${ctxStatic}/js/manager.js"></script>
 </body>
 </html>
