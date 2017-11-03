@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.common.dao.MrnaGensDao">
+    <select id="findMrnaGensList" resultType="com.gooalgene.entity.MrnaGens">
+        SELECT id,gene,geneName,functions FROM mrna_gens
+        WHERE 1=1
+        <if test="keywords != null">
+            AND (gene LIKE CONCAT('%',#{keywords},'%')
+            OR geneName LIKE CONCAT('%',#{keywords},'%')
+            OR functions LIKE CONCAT('%', #{keywords},'%'))
+        </if>
+    </select>
+
+    <select id="findMrnaGensMap" resultType="Map">
+        SELECT id,gene,geneName,functions FROM mrna_gens
+        WHERE 1=1
+        <if test="keywords != null">
+            AND (gene LIKE CONCAT('%',#{keywords},'%')
+            OR geneName LIKE CONCAT('%',#{keywords},'%')
+            OR functions LIKE CONCAT('%',#{keywords},'%'))
+        </if>
+    </select>
+
+    <select id="findMrnaGensInfoByGene" parameterType="String" resultType="int">
+        SELECT COUNT(*) FROM mrna_gens WHERE gene=#{gene}
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.gooalgene.entity.MrnaGens">
+        SELECT * FROM mrna_gens WHERE id=#{id}
+    </select>
+
+    <insert id="add" parameterType="com.gooalgene.entity.MrnaGens">
+        INSERT INTO mrna_gens (gene, geneName, functions) VALUES(#{gene}, #{geneName}, #{functions})
+    </insert>
+
+    <insert id="insertBatch">
+        REPLACE INTO `mrna_gens`
+        (`gene`,
+        `geneName`,
+        `functions`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.gene,jdbcType=VARCHAR},
+            #{item.geneName,jdbcType=VARCHAR},
+            #{item.functions,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <update id="update" parameterType="com.gooalgene.entity.MrnaGens">
+        UPDATE mrna_gens SET gene=#{gene},geneName=#{geneName},functions=#{functions} WHERE id=#{id}
+    </update>
+
+    <update id="updateByGene" parameterType="com.gooalgene.entity.MrnaGens">
+        UPDATE mrna_gens SET gene=#{gene},geneName=#{geneName},functions=#{functions} WHERE gene=#{gene}
+    </update>
+
+    <update id="updateBatch" parameterType="java.util.List">
+        UPDATE mrna_gens
+          SET geneName = CASE gene
+          <foreach collection="list" item="item">
+            WHEN #{item.gene} THEN #{item.geneName}
+          </foreach>
+          END
+        ,functions = CASE gene
+        <foreach collection="list" item="item">
+            WHEN #{item.gene} THEN #{item.functions}
+        </foreach>
+        END
+        WHERE
+          gene IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+            #{item.gene}
+        </foreach>
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM mrna_gens WHERE id=#{id}
+    </delete>
+
+    <delete id="deleteSpecificMrnaGensInfo">
+        DELETE FROM mrna_gens WHERE LENGTH(geneName)>0 OR LENGTH(functions)>0;
+    </delete>
+</mapper>

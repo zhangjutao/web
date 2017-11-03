@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.qtl.dao.QtlrefDao">
+
+    <select id="findList" resultType="com.gooalgene.entity.Qtlref">
+        SELECT *,abstract AS summary FROM qtlref;
+    </select>
+
+    <select id="get" resultType="com.gooalgene.entity.Qtlref">
+        SELECT *, abstract AS summary FROM qtlref WHERE qtl_name = #{id}
+    </select>
+
+    <select id="findAllList" resultType="com.gooalgene.entity.Qtlref">
+        SELECT *,abstract AS summary FROM qtlref;
+    </select>
+
+    <insert id="add" parameterType="com.gooalgene.entity.Qtlref">
+        INSERT INTO qtlref (title,authors,source,abstract,pubmed,qtl_name) VALUES(#{title},#{authors},#{source},#{summary},#{pubmed},#{qtlName})
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO qtlref (title,authors,source,abstract,pubmed,qtl_name)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            ( #{item.title}, #{item.authors},#{item.source},#{item.summary},#{item.pubmed},#{item.qtlName})
+        </foreach>
+    </insert>
+
+    <select id="findById" parameterType="int" resultType="com.gooalgene.entity.Qtlref">
+        SELECT *,abstract AS summary FROM qtlref WHERE id=#{id};
+    </select>
+
+    <update id="update" parameterType="com.gooalgene.entity.Qtlref">
+        UPDATE  qtlref SET title=#{title},authors=#{authors},source=#{source},abstract=#{summary},pubmed=#{pubmed},qtl_name=#{qtlName}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM qtlref WHERE id=#{id}
+    </delete>
+
+    <select id="findByTypeAllList" resultType="com.gooalgene.entity.Qtlref">
+        SELECT *,abstract AS summary FROM qtlref
+        WHERE 1=1
+        <if test="qtlName!=null">
+            AND qtl_name LIKE CONCAT('%',#{qtlName},'%')
+        </if>
+        <if test="title!=null">
+            OR title LIKE CONCAT('%',#{title},'%')
+        </if>
+        <if test="authors!=null">
+            OR authors LIKE CONCAT('%',#{authors},'%')
+        </if>
+        <if test="source!=null">
+            OR source LIKE CONCAT('%',#{source},'%')
+        </if>
+        <if test="summary!=null">
+            OR abstract LIKE CONCAT('%',#{summary},'%')
+        </if>
+        <if test="pubmed!=null">
+            OR pubmed LIKE CONCAT('%',#{pubmed},'%')
+        </if>
+    </select>
+</mapper>
