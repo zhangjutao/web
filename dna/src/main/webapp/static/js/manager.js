@@ -20,8 +20,8 @@ $(function () {
             data:data,
             success:function (result) {
                     console.log(result);
-                    count = result.total;
-                    totalDatas = result.list;
+                    count = result.data.total;
+                    totalDatas = result.data.list;
                     nums = Math.ceil(count / pageSize);
                     //舍弃小数之后的取整
                     intNums = parseInt(count / pageSize);
@@ -106,7 +106,7 @@ $(function () {
         }
         var $p = $(e.target);
         var data = {
-            pageNum:parseInt($p),
+            pageNum:parseInt($p.text()),
             pageSize:pageSize
         }
         getData(data);
@@ -155,19 +155,20 @@ $(function () {
             $(".five").text(content5 + 1);
         }
     })
-    $("#tblbody tr").mouseover(function (e) {
-        var $tr = $(e.target).parent();
-        var trs = $tr.siblings();
-        if (!$tr.hasClass("trColor")) {
-            $tr.addClass("trColor");
-        }
-        for (var i = 0; i < trs.length; i++) {
-            if ($(trs[i]).hasClass("trColor")) {
-                $(trs[i]).removeClass("trColor");
-            }
-
-        }
-    })
+    //     $("tr").mouseover(function (e) {
+    //     var $tr = $(e.target).parent();
+    //     console.log($tr)
+    //     var trs = $tr.siblings();
+    //     if (!$tr.hasClass("trColor")) {
+    //         $tr.addClass("trColor");
+    //     }
+    //     for (var i = 0; i < trs.length; i++) {
+    //         if ($(trs[i]).hasClass("trColor")) {
+    //             $(trs[i]).removeClass("trColor");
+    //         }
+    //
+    //     }
+    // })
     $(".btnCommon").click(function (e) {
         var $p = $(e.target);
         // console.log(p);
