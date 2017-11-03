@@ -11,10 +11,10 @@
     </select>
 
     <select id="queryByPage" resultType="com.gooalgene.common.authority.User">
-        SELECT * FROM user where enabled=1
+        SELECT * FROM user
     </select>
     <select id="getCount" resultType="java.lang.Long">
-        SELECT count(1) from user where enabled=1
+        SELECT count(1) from user
     </select>
 
     <select id="findByEnable" resultType="com.gooalgene.common.authority.User">

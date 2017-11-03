@@ -3,7 +3,7 @@ body {
 }
 #containerAdmin {
     width: 1200px;
-    height: 716px;
+    max-height: 750px;
     margin: 0 auto;
     margin-bottom:100px;
 
@@ -90,7 +90,7 @@ body {
     position: relative;
     width: 1220px;
     background: #fff;
-    height: 568px;
+    max-height: 501px;
 }
 
 #containerAdmin #tblhead {
