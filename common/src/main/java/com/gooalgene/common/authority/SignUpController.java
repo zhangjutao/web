@@ -187,12 +187,11 @@ public class SignUpController {
             model.addAttribute("error", "不是注册邮箱");
             return mv;
         }
-        System.out.println("逻辑正常");
         List<String> recevers=new ArrayList<String>();
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
         message.put("subject","主题");
-        message.put("content","修改密码的确认邮件");
+        message.put("content","忘记密码的确认邮件");
         try {
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
@@ -203,14 +202,6 @@ public class SignUpController {
             e.printStackTrace();
         }
         return mv;
-        /*此处代码为原来由后台重置密码  现在暂时不用*/
-       /* if (userService.applyPasswdRest(user)) {
-            model.addAttribute("user", user);
-            return mv;
-        } else {
-            model.addAttribute("error", "申请重置密码失败");
-            return mv;
-        }*/
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
     public String toModifyPassword(HttpServletRequest req, Model model) {
