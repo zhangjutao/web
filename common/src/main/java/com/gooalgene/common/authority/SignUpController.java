@@ -243,12 +243,25 @@ public class SignUpController {
 
     /**
      * 用户点击URL，修改密码生效
+     * 用户点击URL需要与入库的token进行比较，false则进入验证错误页面，打印错误日志
      * @param token 唯一的UUID值
      * @return 重定向页面
      */
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
-    public String verify(@RequestParam(name = "token", required = true) String token){
-
-        return "redirect:/dna/index";
+    public String verify(@RequestParam(name = "token") String token,
+                         @RequestParam(name = "id") int id){
+        Token originToken = tokenService.getTokenByUserId(id);
+        Date dueTime = originToken.getDue_time();
+        Date currentTime = new Date();
+        String oldToken = originToken.getToken();
+        if (dueTime.before(currentTime)){
+            logger.warn("token已失效");
+            return "error403";
+        }
+        if (!oldToken.equals(token)){
+            logger.warn("传入token有异常");
+            return "error403";
+        }
+        return "modifyPassword";
     }
 }
