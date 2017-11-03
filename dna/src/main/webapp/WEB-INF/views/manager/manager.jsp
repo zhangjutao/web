@@ -15,13 +15,17 @@
 
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script type="text/javascript">
+        var ctxRoot = "${ctxroot}";
+    </script>
+    <script src="${ctxStatic}/js/manager.js"></script>
 
 </head>
 <body onload='document.loginForm.username.focus();'>
 <dna:dna-header />
 <!--header-->
     <div id="containerAdmin">
-        <p class="auditUser">待审核用户</p>
+            <p class="auditUser" onload="getDataPage1()">待审核用户</p>
         <p class="auditUserInfo">待审核用户信息</p>
         <div id="userDetail">
             <div id="tblhead">
@@ -65,9 +69,6 @@
         </div>
     </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<script type="text/javascript">
-    var ctxRoot = "${ctxroot}";
-</script>
-<script src="${ctxStatic}/js/manager.js"></script>
+
 </body>
 </html>
