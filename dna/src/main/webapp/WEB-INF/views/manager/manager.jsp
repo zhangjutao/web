@@ -25,7 +25,7 @@
 <dna:dna-header />
 <!--header-->
     <div id="containerAdmin">
-            <p class="auditUser" onload="getDataPage1()">待审核用户</p>
+            <p class="auditUser">待审核用户</p>
         <p class="auditUserInfo">待审核用户信息</p>
         <div id="userDetail">
             <div id="tblhead">
