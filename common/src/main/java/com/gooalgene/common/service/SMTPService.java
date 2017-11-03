@@ -84,6 +84,8 @@ public class SMTPService {
         transport.close();
     }
 
+
+
     public void send(String from, List<String> receivers, String subject, File template, boolean debug, String[] filePlaceHolder) throws MessagingException, IOException {
         Assert.isTrue(receivers != null && receivers.size() > 0, "邮件接收者为空");
         Address[] addresses = new InternetAddress[receivers.size()];

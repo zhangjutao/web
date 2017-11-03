@@ -2,6 +2,7 @@
 *.iml
 .idea/
 guaoqtl.iml
+out/
 
 logs/
 *.log
@@ -12,4 +13,4 @@ classes/
 .settings
 .classpath
 .project
-out/*
+out/

@@ -198,9 +198,9 @@ public class SignUpController {
         File file=resource.getFile();
         String[] args = new String[7];
         args[0]=user.getUsername();
-        Date tempDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
+        Date updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
         Calendar calendar1=Calendar.getInstance();
-        calendar1.setTime(tempDate);
+        calendar1.setTime(updateDate);
         args[1]= String.valueOf(calendar1.get(Calendar.YEAR));
         args[2]= String.valueOf(calendar1.get(Calendar.MONTH));
         args[3]= String.valueOf(calendar1.get(Calendar.DAY_OF_MONTH));
