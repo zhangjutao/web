@@ -7,7 +7,7 @@ import java.util.Date;
 /**
  * Created by liuyan on 2017/11/1.
  */
-public class User extends DataEntity<User> {
+public class User {
     private String username;// 登录名
     private String email;
     private String password;// 密码
@@ -21,6 +21,15 @@ public class User extends DataEntity<User> {
     private Date due_time;    //用户试用的截止日期
     private String description;
     private  int uid;        //用户在数据库中的id 值  主要为获取当前记录的id使用
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public Date getDue_time() {
         return due_time;

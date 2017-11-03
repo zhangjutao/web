@@ -3,9 +3,9 @@ body {
 }
 #containerAdmin {
     width: 1200px;
-    height: 716px;
+    height: 721px;
     margin: 0 auto;
-    margin-bottom:100px;
+    /*margin-bottom:100px;*/
 
     box-shadow: 0px 0px 38px #E7E7E7;
     overflow: hidden;
@@ -89,8 +89,8 @@ body {
     padding-left: 37px;
     position: relative;
     width: 1220px;
-    background: #fff;
-    max-height: 568px;
+    /*background: #fff;*/
+    /*height: 547px;*/
 }
 
 #containerAdmin #tblhead {
@@ -102,17 +102,23 @@ body {
     position: relative;
     top: 45px;
     overflow-y: scroll;
-    height: 501px;
+    background: #fff;
+    max-height: 501px;
 }
+#containerAdmin #tblbody tr{
+     cursor: pointer;
+ }
 
 #containerAdmin .trColor {
     background: #F5F8FF;
 }
 #paging{
     width:800px;
-    height:100px;
+    height:50px;
     /* border:1px solid #ccc; */
     margin:0 auto;
+    margin-top:30px;
+    margin-bottom:100px;
 }
 #page{
     overflow: hidden;
@@ -147,3 +153,11 @@ p.first{
     background:#5C8DE5;
     color:#fff;
 }
+#tblbody>tr:nth-child(2n){
+    background:#F5F8FF;
+}
+.pageMleftS{
+    padding-left:500px;
+}
+
+

@@ -4,37 +4,45 @@ $(function () {
     var intNums;
     var count;
     //每页展示的数量
-    var pageNums = 10;
-    var auditUserElement = $(".auditUser").get(0);
-    console.log(auditUserElement);
-    function getDataPage1(){
-        alert(44);
-    }
+    var pageSize = 10;
     window.onload = function () {
+        var param = {
+            pageNum:1,
+            pageSize:10
+        }
+        getData(param);
+    };
+    //ajax 请求
+    function getData(data){
         $.ajax({
-            type: "GET",
+            type:"GET",
             url: ctxRoot + "/manager/users",
-            success: function (result) {
-                //获取数组列表
-                console.log(result)
-                totalDatas = result.list;
-                count = result.count;
-                //向上取整
-                nums = Math.ceil(totalDatas.length / pageNums);
-                //舍弃小数之后的取整
-                intNums = parseInt(totalDatas.length / pageNums);
-                for (var i=0;i<totalDatas.length;i++){
-                    console.log(totalDatas[i].username);
+            data:data,
+            success:function (result) {
+                    console.log(result);
+                    count = result.data.total;
+                    totalDatas = result.data.list;
+                    nums = Math.ceil(count / pageSize);
+                    //舍弃小数之后的取整
+                    intNums = parseInt(count / pageSize);
+                    $("#tblbody table>tr").remove();
+                    for (var i=0;i<totalDatas.length;i++){
                     var status = totalDatas[i].enabled==1?"已审核":"待审核";
+                    console.log(status);
                     var str=" <tr><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>" +status+"</td><td><p class=\'btnAudited btnCommon\'>"+status+"</p></td></tr>";
                     var $tbl = $("#tblbody table");
-                        $tbl.append(str);
+                    $tbl.append(str);
+                    pageStyle(nums,intNums);
+                    $("#totals").text(count);
                 }
-                // console.log(intNums);
-                // console.log("总长度为：" +totalDatas.length);
-                // console.log("除以pageNums之后的整数部分为：" + nums);
-                // console.log("除以pageNums之后的整数部分为：" + nums);
-
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    }
+    // 样式调整方法
+    function pageStyle(nums,intNums){
                 if (nums > 4) {
                     $(".first").hide().next().text(1).addClass("pageColor").next().hide();
                     $(".four").text(2).next().text(3).next().text(4);
@@ -79,16 +87,9 @@ $(function () {
                         $(".six").text(4);
                         break;
                 }
-                $("#totals").text(count);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        })
-    };
+    }
     // 显示隐藏样式封装
     function styleChange() {
-        console.log(1234);
         $(".three").hide();
         $(".first").hide();
         $(".seven").hide();
@@ -104,7 +105,11 @@ $(function () {
             $(".eight").text(nums);
         }
         var $p = $(e.target);
-        alert($p.text())
+        var data = {
+            pageNum:parseInt($p.text()),
+            pageSize:pageSize
+        }
+        getData(data);
         $p.addClass("pageColor");
         var plists = $p.siblings();
         for (var i = 0; i < plists.length; i++) {
@@ -112,11 +117,6 @@ $(function () {
                 $(plists[i]).removeClass("pageColor");
             }
         }
-        //获取对应页面数据
-        var currentNum = (Number($p.text())) * pageNums - 1;
-        var showDatas = totalDatas.slice(currentNum, currentNum + pageNums);
-        console.log(currentNum);
-        console.log(showDatas);
     });
     // "<" 点击事件
     $(".first").click(function () {
@@ -155,19 +155,20 @@ $(function () {
             $(".five").text(content5 + 1);
         }
     })
-    $("#tblbody tr").mouseover(function (e) {
-        var $tr = $(e.target).parent();
-        var trs = $tr.siblings();
-        if (!$tr.hasClass("trColor")) {
-            $tr.addClass("trColor");
-        }
-        for (var i = 0; i < trs.length; i++) {
-            if ($(trs[i]).hasClass("trColor")) {
-                $(trs[i]).removeClass("trColor");
-            }
-
-        }
-    })
+    //     $("tr").mouseover(function (e) {
+    //     var $tr = $(e.target).parent();
+    //     console.log($tr)
+    //     var trs = $tr.siblings();
+    //     if (!$tr.hasClass("trColor")) {
+    //         $tr.addClass("trColor");
+    //     }
+    //     for (var i = 0; i < trs.length; i++) {
+    //         if ($(trs[i]).hasClass("trColor")) {
+    //             $(trs[i]).removeClass("trColor");
+    //         }
+    //
+    //     }
+    // })
     $(".btnCommon").click(function (e) {
         var $p = $(e.target);
         // console.log(p);

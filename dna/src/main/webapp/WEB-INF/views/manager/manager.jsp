@@ -25,7 +25,7 @@
 <dna:dna-header />
 <!--header-->
     <div id="containerAdmin">
-            <p class="auditUser" onload="getDataPage1()">待审核用户</p>
+            <p class="auditUser">待审核用户</p>
         <p class="auditUserInfo">待审核用户信息</p>
         <div id="userDetail">
             <div id="tblhead">
@@ -47,7 +47,7 @@
 
         </div>
     </div>
-    <div id="paging">
+    <div id="paging" class="pageMleftS">
         <div id="page">
             <b class="first">&lt;</b>
             <p class="two"></p>
@@ -61,7 +61,7 @@
             <div id="inputNums">
                 <span>跳转到</span>
                 <div>
-                    <input type="number" name="number" value="" style="width:30px;">
+                    <input type="number" name="number" value="" style="width:35px;height:20px;">
                 </div>
                 <span>页</span>
                 <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
