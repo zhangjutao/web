@@ -135,7 +135,7 @@ public class SignUpController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/nameexists", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/nameexists", method = RequestMethod.GET)
     @ResponseBody
     public String userNameExists(@RequestParam(value = "username", required = true)String username){
         boolean exists = userService.exist(username);
