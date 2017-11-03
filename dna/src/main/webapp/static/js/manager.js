@@ -5,6 +5,11 @@ $(function () {
     var count;
     //每页展示的数量
     var pageNums = 10;
+    var auditUserElement = $(".auditUser").get(0);
+    console.log(auditUserElement);
+    function getDataPage1(){
+        alert(44);
+    }
     window.onload = function () {
         $.ajax({
             type: "GET",

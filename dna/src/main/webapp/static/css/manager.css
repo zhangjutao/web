@@ -90,7 +90,7 @@ body {
     position: relative;
     width: 1220px;
     background: #fff;
-    height: 568px;
+    max-height: 568px;
 }
 
 #containerAdmin #tblhead {
