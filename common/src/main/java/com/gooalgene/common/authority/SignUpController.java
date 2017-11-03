@@ -186,7 +186,7 @@ public class SignUpController {
         List<String> recevers=new ArrayList<String>();
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
-        message.put("subject", "主题");
+        message.put("subject", "DNA数据库用户确认");
         message.put("content", "忘记密码的确认邮件");
         Token token=new Token();
         token.setUserid(user.getId());
@@ -266,7 +266,7 @@ public class SignUpController {
             logger.warn("传入token有异常");
             return "err403";
         }
-
+        tokenService.disableToken(id); //让当前token失效
         return "modify-password";
     }
 }
