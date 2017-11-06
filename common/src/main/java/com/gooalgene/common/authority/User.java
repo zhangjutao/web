@@ -23,6 +23,17 @@ public class User {
     private  int uid;        //用户在数据库中的id 值  主要为获取当前记录的id使用
     private int id;
 
+
+    private int loginCount;
+
+    public int getLoginCount() {
+        return loginCount;
+    }
+
+    public void setLoginCount(int loginCount) {
+        this.loginCount = loginCount;
+    }
+
     public int getId() {
         return id;
     }

@@ -55,4 +55,8 @@ public interface UserDao extends CrudDao<User>{
 
     /*此处新加了设置用户角色的接口*/
     boolean setRole(User_Role user_role);
+
+
+    /*增加更新用户登录次数*/
+    boolean updateUserLoginCount(User user);
 }

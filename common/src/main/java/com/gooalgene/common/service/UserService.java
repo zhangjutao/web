@@ -138,4 +138,9 @@ public class UserService implements ApplicationContextAware {
         aliMessage.setTemplateParam(map);
         applicationContext.publishEvent(aliMessage);
     }
+
+    /*更新用户的登录次数*/
+    public boolean updateUserLoginCount(User user){
+        return  userDao.updateUserLoginCount(user);
+    }
 }
