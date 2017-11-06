@@ -285,11 +285,11 @@ public class SignUpController {
         String oldToken = originToken.getToken();
         if (dueTime.before(currentTime)){
             logger.warn("token已失效");
-            return "error403";
+            return "err403";
         }
         if (!oldToken.equals(token)){
             logger.warn("传入token有异常");
-            return "error403";
+            return "err403";
         }
         tokenService.disableToken(id);
         //重定向到当前controller忘记密码的GET请求中

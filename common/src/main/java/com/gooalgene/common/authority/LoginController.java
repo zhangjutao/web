@@ -25,7 +25,7 @@ public class LoginController {
         ModelAndView model = new ModelAndView();
         if (error != null) {
             model.addObject("error", "无效的用户名或密码!");
-    }
+        }
         if (logout != null) {
             model.addObject("msg", "登出成功.");
         }
