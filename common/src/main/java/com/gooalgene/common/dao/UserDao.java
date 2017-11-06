@@ -20,7 +20,7 @@ public interface UserDao extends CrudDao<User>{
 
     Long getCount();
 
-    @Select("SELECT u.id,u.username,u.password,u.due_time,u.enabled from user u wehre username=#{username}")
+    @Select("SELECT u.id,u.username,u.password,u.due_time,u.enabled from user u where u.username=#{username}")
     User getByUsername(String username);
 
     List<User> findByUsername(String username);

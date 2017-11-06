@@ -69,4 +69,10 @@ public class PageTest extends TestCase {
         List<Role> roles=roleDao.getByUserId(26);
         System.out.println(roles);
     }
+
+    @Test
+    public void testGetByUsername(){
+        User user = userDao.getByUsername("crabime");
+        assertEquals("e10adc3949ba59abbe56e057f20f883e", user.getPassword());
+    }
 }
