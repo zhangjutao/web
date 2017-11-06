@@ -25,7 +25,6 @@ $(function () {
             success:function (result) {
                 console.log(result);
                 count = result.data.total;
-                count = 0;
                 if(count <40){
                     $("#page").css({"padding-left":"186px"});
                 }else {
