@@ -11,10 +11,13 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
+    <style type="text/css">
+
+    </style>
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
-<body >
+<body style="position:relative;">
 
 <dna:dna-header />
 <!--header-->
@@ -22,6 +25,7 @@
     <div class="forget-h"><p>忘记密码</p></div>
     <div class="forget">
         <form method="POST" action="${ctxroot}/signup/forget">
+
             <c:if test="${not empty error}">
                 <div class="error">${error}</div>
             </c:if>
@@ -38,15 +42,15 @@
                     <span class="tips"></span>
                 </label>
             </div>
-            <button type="submit" class="js-ref" name="submit"  href="javascript:;">联系管理员</button>
+            <button type="submit" class="js-ref" name="submit" id="connectAdmin">联系管理员</button>
         </form>
     </div>
 </div>
+
 <!--container-->
 <c:if test="${not empty user}">
     <div id="mask" class=""></div>
     <div id="waiting" class="waiting">
-
         <div class="waiting-b">
             <div class="waiting-txt">24小时内审核完成，等待管理员进行联系</div>
             <a class="btn b-index" href="${ctxroot}/iqgs/index">返回首页</a>
@@ -54,7 +58,15 @@
     </div>
 </c:if>
 
+
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
+
+<script type="text/javascript">
+//    $("#connectAdmin").click(function (){
+//        $(this).show();
+//        $("#mask").show();
+//    })
+</script>
 </body>
 </html>
