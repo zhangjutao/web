@@ -2,7 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.gooalgene.common.dao.LoginInfoDao">
     <resultMap id="LoginInfo" type="com.gooalgene.common.authority.LoginInfo">
-        <result column="userid" property="id" jdbcType="int"/>
+        <result column="userid" property="userid" jdbcType="INTEGER"/>
         <result column="logintime" property="loginTime" jdbcType="TIMESTAMP"/>
         <result column="logouttime" property="logoutTime" jdbcType="TIMESTAMP"/>
     </resultMap>
