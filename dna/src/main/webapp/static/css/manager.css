@@ -113,7 +113,7 @@ body {
     background: #F5F8FF;
 }
 #paging{
-    width:800px;
+    width:826px;
     height:50px;
     /* border:1px solid #ccc; */
     margin:0 auto;
@@ -124,8 +124,8 @@ body {
 #page{
     overflow: hidden;
     float:left;
-    padding-left: 250px;
-
+    /*padding-left: 250px;*/
+    text-align:right;
 }
 p.first{
     margin-left:20px;
@@ -178,5 +178,32 @@ p.first{
 }
 #selectedNum{
     float:left;
+}
+#errorImg{
+    display:none;
+    /*margin:0 auto;*/
+    padding-top:140px;
+
+    background:#fff;
+    padding-bottom:70px;
+    color:#666;
+}
+#errorImg>img{
+    padding-bottom:70px;
+    padding-left:430px;
+}
+#errorDes{
+    font-size:24px;
+    font-family:"Microsoft YaHei UI Light";
+    text-align:center;
+
+}
+#returnIndex{
+    font-size:18px;
+    text-align:center;
+    padding-top:30px;
+}
+#returnIndex>a{
+    color:#5c8ce6;
 }
 

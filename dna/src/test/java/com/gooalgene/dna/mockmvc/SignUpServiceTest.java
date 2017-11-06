@@ -17,6 +17,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -34,11 +35,30 @@ public class SignUpServiceTest extends TestCase {
 
     @Test
     public void testSignUpUsernameExists() throws Exception{
-        mockMvc.perform(get("/nameexists")
+        mockMvc.perform(get("/signup/nameexists")
                 .param("username", "crabime"))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.exists").value(true))
+                .andReturn();
+    }
+
+    @Test
+    public void testForgetPasswordController() throws Exception {
+        mockMvc.perform(post("/signup/forget")
+                .param("username", "huyao")
+                .param("email", "crabime@gmail.com"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    /**
+     * 这里使用MockHttpServletRequest竟然返回的是空!
+     * @throws Exception
+     */
+    @Test
+    public void testGetContextPath() throws Exception {
+        mockMvc.perform(get("/signup/getContextPath"))
                 .andDo(print())
-                .andExpect(content().string("{\"exists\":true}"))
                 .andReturn();
     }
 
