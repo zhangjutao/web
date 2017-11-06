@@ -16,7 +16,8 @@
     <sec:http auto-config='false'>
         <sec:form-login login-page="/login" default-target-url="/"
                         login-processing-url="/j_spring_security_check"
-                        authentication-failure-url="/login?error=true" />
+                        authentication-failure-url="/login?error=true"
+                        authentication-success-handler-ref="authenticationSuccessHandlerImpl"/>
         <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
@@ -29,13 +30,14 @@
 
     <bean id="accessDecisionManager" class="com.gooalgene.common.security.MyAccessDecisionManager" />
 
+    <!--<bean id="myUserDetailsService" class="com.gooalgene.common.security.MyUserDetailsService"></bean>-->
     <sec:authentication-manager alias="authenticationManager">
-        <sec:authentication-provider>
+        <sec:authentication-provider user-service-ref="myUserDetailsService">
             <sec:password-encoder hash="md5" />
-            <sec:jdbc-user-service data-source-ref="dataSource"
+            <!--<sec:jdbc-user-service data-source-ref="dataSource"
                                    users-by-username-query="select username,password,enabled from user where username = ?"
                                    authorities-by-username-query=
-                                           "select u.username, r.name from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.username = ?"/>
+                                           "select u.username, r.name from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.username = ?"/>-->
         </sec:authentication-provider>
     </sec:authentication-manager>
 
