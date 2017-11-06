@@ -132,7 +132,7 @@ public class SMTPService {
 
     private String getMailContent(File template, Object[] params) throws IOException {
         String line;
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(template)));
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(template),"UTF-8"));
         StringBuilder sb = new StringBuilder();
         while ((line = br.readLine()) != null){
             sb.append(line);

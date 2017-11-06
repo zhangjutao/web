@@ -208,7 +208,6 @@ public class SignUpController {
         args[5]= String.valueOf(calendar1.get(Calendar.MINUTE));
         args[6]=request.getContextPath()+"/signup/verify?id="+user.getId()+"&token="+token.getToken();
 
-        System.out.println("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
 
         Date date=new Date();

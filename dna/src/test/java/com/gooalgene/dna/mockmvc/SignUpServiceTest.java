@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -40,4 +41,25 @@ public class SignUpServiceTest extends TestCase {
                 .andExpect(content().string("{\"exists\":true}"))
                 .andReturn();
     }
+
+    @Test
+    public void testChangeEnable()throws Exception{
+        mockMvc.perform(post("/manager/change/enable")
+                .param("id", "44"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                 .andReturn();
+    }
+
+    @Test
+    public void testFoget()throws Exception{
+        mockMvc.perform(post("/signup/forget")
+               .param("username","test")
+               .param("email","1415775989@qq.com"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+
+
 }
