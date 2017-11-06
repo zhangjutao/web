@@ -186,6 +186,7 @@ public class SignUpController {
             model.addAttribute("error", "不是注册邮箱");
             return mv;
         }
+        mv.addObject("user", user);
         List<String> recevers=new ArrayList<String>();
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
