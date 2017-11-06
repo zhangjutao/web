@@ -2,7 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.common.dao.UserDao">
 
-    <select id="get" resultType="com.gooalgene.common.authority.User">
+    <resultMap id="userInfo" type="com.gooalgene.common.authority.User">
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="due_time" property="due_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="get" resultType="com.gooalgene.common.authority.User" resultMap="userInfo">
         SELECT * FROM user WHERE id = #{id}
     </select>
 

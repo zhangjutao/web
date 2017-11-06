@@ -8,11 +8,14 @@ import com.gooalgene.common.service.TokenService;
 import com.gooalgene.common.service.UserService;
 import com.gooalgene.utils.TokenUtils;
 import com.google.common.collect.Maps;
+import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -26,11 +29,13 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.MessageFormat;
 import java.util.*;
+import java.util.Calendar;
 
 /**
  * Created by Crabime on 16/10/2017.
@@ -170,7 +175,7 @@ public class SignUpController {
 
     /*忘记密码  验证通过之后直接给相应的用户发送邮件*/
     @RequestMapping(value = "/forget", method = RequestMethod.POST)
-    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model) throws UnsupportedEncodingException, MessagingException {
+    public ModelAndView forgetPwd(@RequestParam String username, @RequestParam String email, Model model,HttpServletRequest request) throws IOException, MessagingException {
         ModelAndView mv = new ModelAndView("forget");
         model.addAttribute("username", username);
         model.addAttribute("email", email);
@@ -186,12 +191,37 @@ public class SignUpController {
         List<String> recevers=new ArrayList<String>();
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
-        message.put("subject", "DNA数据库用户确认");
-        message.put("content", "忘记密码的确认邮件");
+        message.put("subject", "使用文件模板发送邮件");
         Token token=new Token();
         token.setUserid(user.getId());
-        System.out.println("用户的id" + user.getUid());
+        Resource resource=new ClassPathResource("findBackPwd.html");
+        File file=resource.getFile();
+        String[] args = new String[7];
+        args[0]=user.getUsername();
+        Date updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
+        //给用户一个token值
+        logger.debug("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
+        Calendar calendar1=Calendar.getInstance();
+        calendar1.setTime(updateDate);
+        args[1]= String.valueOf(calendar1.get(Calendar.YEAR));
+        args[2]= String.valueOf(calendar1.get(Calendar.MONTH));
+        args[3]= String.valueOf(calendar1.get(Calendar.DAY_OF_MONTH));
+        args[4]= String.valueOf(calendar1.get(Calendar.HOUR_OF_DAY));
+        args[5]= String.valueOf(calendar1.get(Calendar.MINUTE));
+        String scheme = request.getScheme();                // http
+        String serverName = request.getServerName();        // gooalgene.com
+        int serverPort = request.getServerPort();           // 8080
+        String contextPath = request.getContextPath();      // /dna
+        //重构请求URL
+        StringBuilder builder = new StringBuilder();
+        builder.append(scheme).append("://").append(serverName);
+        //针对nginx反向代理、https请求重定向，不需要加端口
+        if (serverPort != 80 && serverPort != 443){
+            builder.append(":").append(serverPort);
+        }
+        builder.append(contextPath);
+        args[6]= builder.append("/signup/verify?id=").append(user.getId()).append("&token=").append(token.getToken()).toString();
 
         Date date=new Date();
         Calendar calendar=Calendar.getInstance();
@@ -207,20 +237,21 @@ public class SignUpController {
         }
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
-             smtpService.send(admin_email,recevers,message.get("subject"),message.get("content"),true);
+             smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
-    public String toModifyPassword(HttpServletRequest req, Model model) {
+    public String toModifyPassword(HttpServletRequest req, Model model ) {
         String username = (String) req.getSession().getAttribute("userName");
-        if (username == null) {
-            return "redirect:/login";
-        }
         return "modify-password";
     }
 
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(String oldpwd, String password, String pwdverify, HttpServletRequest req, Model model) {
+       /* String username = (String) req.getSession().getAttribute("userName");
+        if (username == null) {
+            return "redirect:/login";
+        }*/
         if (oldpwd == null || oldpwd.isEmpty()) {
             model.addAttribute("error", "原密码未填写");
             return "modify-password";
@@ -237,11 +268,6 @@ public class SignUpController {
             model.addAttribute("error", "两次密码不一致");
             return "modify-password";
         }
-        String username = (String) req.getSession().getAttribute("userName");
-        if (username == null) {
-            return "redirect:/login";
-        }
-
         return "modify-password";
     }
 
@@ -260,13 +286,25 @@ public class SignUpController {
         String oldToken = originToken.getToken();
         if (dueTime.before(currentTime)){
             logger.warn("token已失效");
-            return "err403";
+            return "error403";
         }
         if (!oldToken.equals(token)){
             logger.warn("传入token有异常");
-            return "err403";
+            return "error403";
         }
-        tokenService.disableToken(id); //让当前token失效
-        return "modify-password";
+        //重定向到当前controller忘记密码的GET请求中
+        return "redirect:/signup/modifyPassword";
+    }
+
+    @RequestMapping(value = "/getContextPath", method = RequestMethod.GET)
+    @ResponseBody
+    public String getContextPath(HttpServletRequest request){
+        StringBuffer contextPath = request.getRequestURL();
+        String queryString = request.getQueryString();
+        if (queryString == null){
+            return contextPath.toString();
+        }else {
+            return contextPath.append("?").append(queryString).toString();
+        }
     }
 }
