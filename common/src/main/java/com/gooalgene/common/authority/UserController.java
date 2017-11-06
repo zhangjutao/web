@@ -13,8 +13,9 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Controller;
+
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RestController;
 
 
 import javax.mail.MessagingException;
