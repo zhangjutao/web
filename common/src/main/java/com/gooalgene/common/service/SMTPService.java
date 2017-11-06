@@ -24,8 +24,8 @@ import java.util.Properties;
 
 /**
  * @author Crabime
- * é‚®ä»¶å‘é€å·¥å…·ç±»
- * ä¾èµ–å­æ¨¡å—é…ç½®çš„GuavaCacheManager
+ * ÓÊ¼ş·¢ËÍ¹¤¾ßÀà
+ * ÒÀÀµ×ÓÄ£¿éÅäÖÃµÄGuavaCacheManager
  */
 public class SMTPService {
     private final static Logger logger = LoggerFactory.getLogger(SMTPService.class);
@@ -37,17 +37,17 @@ public class SMTPService {
         cache = guavaCacheManager.getCache("config");
     }
     /**
-     * ä½¿ç”¨è…¾è®¯ä¼ä¸šé‚®ç®±å‘é€é‚®ä»¶
-     * @param from é‚®ä»¶å‘é€è€…é‚®ç®±
-     * @param receivers é‚®ä»¶æ¥æ”¶è€…é‚®ç®±ï¼Œæ¥æ”¶è€…å¿…é¡»å¤šäºä¸€ä¸ª
-     * @param subject é‚®ä»¶ä¸»é¢˜
-     * @param sendMessage é‚®ä»¶æ­£æ–‡
-     * @param debug æ˜¯å¦ä½¿ç”¨debugæ¨¡å¼
+     * Ê¹ÓÃÌÚÑ¶ÆóÒµÓÊÏä·¢ËÍÓÊ¼ş
+     * @param from ÓÊ¼ş·¢ËÍÕßÓÊÏä
+     * @param receivers ÓÊ¼ş½ÓÊÕÕßÓÊÏä£¬½ÓÊÕÕß±ØĞë¶àÓÚÒ»¸ö
+     * @param subject ÓÊ¼şÖ÷Ìâ
+     * @param sendMessage ÓÊ¼şÕıÎÄ
+     * @param debug ÊÇ·ñÊ¹ÓÃdebugÄ£Ê½
      * @throws MessagingException
      * @throws UnsupportedEncodingException
      */
     public void send(String from, List<String> receivers, String subject, String sendMessage, boolean debug) throws MessagingException, UnsupportedEncodingException {
-        Assert.isTrue(receivers != null && receivers.size() > 0, "é‚®ä»¶æ¥æ”¶è€…ä¸ºç©º");
+        Assert.isTrue(receivers != null && receivers.size() > 0, "ÓÊ¼ş½ÓÊÕÕßÎª¿Õ");
         Address[] addresses = new InternetAddress[receivers.size()];
         Properties properties = new Properties();
         if (debug){
@@ -61,16 +61,16 @@ public class SMTPService {
         Session session = Session.getInstance(properties);
         Message message = new MimeMessage(session);
         if (StringUtils.isEmpty(subject)){
-            logger.error("å‘é€ä¸»é¢˜ä¸ºç©ºï¼Œé‚®ä»¶å‘é€å¤±è´¥");
+            logger.error("·¢ËÍÖ÷ÌâÎª¿Õ£¬ÓÊ¼ş·¢ËÍÊ§°Ü");
             return;
         }
         message.setSubject(subject);
         if (StringUtils.isEmpty(sendMessage)){
-            logger.error("å‘é€æ­£æ–‡ä¸ºç©ºï¼Œé‚®ä»¶å‘é€å¤±è´¥");
+            logger.error("·¢ËÍÕıÎÄÎª¿Õ£¬ÓÊ¼ş·¢ËÍÊ§°Ü");
             return;
         }
         message.setText(sendMessage);
-        message.setFrom(new InternetAddress(from, "å®‹ç»è´¤")); //è¿™é‡Œæ›´å¸Œæœ›æ˜¯å¯åŠ¨æ—¶ç›´æ¥ä»æ•°æ®åº“ä¸­æ‹¿å€¼
+        message.setFrom(new InternetAddress(from, "ËÎÉÜÏÍ")); //ÕâÀï¸üÏ£ÍûÊÇÆô¶¯Ê±Ö±½Ó´ÓÊı¾İ¿âÖĞÄÃÖµ
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("crabime@gmail.com"));
 
         Transport transport = session.getTransport();
@@ -87,7 +87,7 @@ public class SMTPService {
 
 
     public void send(String from, List<String> receivers, String subject, File template, boolean debug, String[] filePlaceHolder) throws MessagingException, IOException {
-        Assert.isTrue(receivers != null && receivers.size() > 0, "é‚®ä»¶æ¥æ”¶è€…ä¸ºç©º");
+        Assert.isTrue(receivers != null && receivers.size() > 0, "ÓÊ¼ş½ÓÊÕÕßÎª¿Õ");
         Address[] addresses = new InternetAddress[receivers.size()];
         Properties properties = new Properties();
         if (debug){
@@ -101,22 +101,22 @@ public class SMTPService {
         Session session = Session.getInstance(properties);
         Message message = new MimeMessage(session);
         if (StringUtils.isEmpty(subject)){
-            logger.error("å‘é€ä¸»é¢˜ä¸ºç©ºï¼Œé‚®ä»¶å‘é€å¤±è´¥");
+            logger.error("·¢ËÍÖ÷ÌâÎª¿Õ£¬ÓÊ¼ş·¢ËÍÊ§°Ü");
             return;
         }
         message.setSubject(subject);
         if (template == null){
-            logger.error("é‚®ä»¶æ¨¡æ¿ä¸ºç©º");
+            logger.error("ÓÊ¼şÄ£°åÎª¿Õ");
             return;
         }
-        String concreteContent = getMailContent(template, filePlaceHolder); //æ‹¿åˆ°æ–‡ä»¶å…·ä½“å†…å®¹
-        BodyPart bodyPart = new MimeBodyPart(); //å†…å®¹æ‰¿è½½ä½“ï¼Œå¯ä»¥æ˜¯å›¾ç‰‡
+        String concreteContent = getMailContent(template, filePlaceHolder); //ÄÃµ½ÎÄ¼ş¾ßÌåÄÚÈİ
+        BodyPart bodyPart = new MimeBodyPart(); //ÄÚÈİ³ĞÔØÌå£¬¿ÉÒÔÊÇÍ¼Æ¬
         bodyPart.setContent(concreteContent, "text/html;charset=UTF-8");
-        Multipart multipart = new MimeMultipart(); //bodypartæ‰¿è½½ä½“
+        Multipart multipart = new MimeMultipart(); //bodypart³ĞÔØÌå
         multipart.addBodyPart(bodyPart);
         message.setContent(multipart);
         message.saveChanges();
-        message.setFrom(new InternetAddress(from, "å®‹ç»è´¤")); //è¿™é‡Œæ›´å¸Œæœ›æ˜¯å¯åŠ¨æ—¶ç›´æ¥ä»æ•°æ®åº“ä¸­æ‹¿å€¼
+        message.setFrom(new InternetAddress(from, "ËÎÉÜÏÍ")); //ÕâÀï¸üÏ£ÍûÊÇÆô¶¯Ê±Ö±½Ó´ÓÊı¾İ¿âÖĞÄÃÖµ
         message.setRecipient(Message.RecipientType.TO, new InternetAddress("crabime@gmail.com"));
 
         Transport transport = session.getTransport();

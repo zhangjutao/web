@@ -25,7 +25,7 @@
 <dna:dna-header />
 <!--header-->
     <div id="containerAdmin">
-            <p class="auditUser">待审核用户</p>
+        <p class="auditUser">待审核用户</p>
         <p class="auditUserInfo">待审核用户信息</p>
         <div id="userDetail">
             <div id="tblhead">
@@ -45,6 +45,15 @@
                 </table>
             </div>
 
+        </div>
+        <div id="errorImg">
+            <img src="${ctxStatic}/images/430.jpg" alt="errorImg">
+            <p id="errorDes">
+                好像出现了一些小问题，请您返回重试
+            </p>
+            <p id="returnIndex">
+                点此 <a href="${ctxroot}/login">返回首页</a>
+            </p>
         </div>
     </div>
     <div id="paging">
@@ -79,6 +88,7 @@
             <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
         </div>
     </div>
+
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>
