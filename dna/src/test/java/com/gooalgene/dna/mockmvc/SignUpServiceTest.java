@@ -61,4 +61,25 @@ public class SignUpServiceTest extends TestCase {
                 .andDo(print())
                 .andReturn();
     }
+
+    @Test
+    public void testChangeEnable()throws Exception{
+        mockMvc.perform(post("/manager/change/enable")
+                .param("id", "44"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                 .andReturn();
+    }
+
+    @Test
+    public void testFoget()throws Exception{
+        mockMvc.perform(post("/signup/forget")
+               .param("username","test")
+               .param("email","1415775989@qq.com"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+
+
 }
