@@ -5,6 +5,7 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.User;
 import com.gooalgene.common.authority.User_Role;
 import com.gooalgene.common.persistence.MyBatisDao;
+import org.apache.ibatis.annotations.Select;
 
 import java.util.List;
 
@@ -18,6 +19,9 @@ public interface UserDao extends CrudDao<User>{
     List<User> queryAll();
 
     Long getCount();
+
+    @Select("SELECT u.id,u.username,u.password,u.due_time,u.enabled from user u wehre username=#{username}")
+    User getByUsername(String username);
 
     List<User> findByUsername(String username);
 
