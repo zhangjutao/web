@@ -44,4 +44,12 @@ public class LoginInfo {
     public void setLogoutTime(Date logoutTime) {
         this.logoutTime = logoutTime;
     }
+
+    public Integer getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Integer userId) {
+        this.userId = userId;
+    }
 }
