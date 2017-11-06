@@ -55,7 +55,7 @@
     <div id="waiting" class="waiting">
         <div class="waiting-b">
             <div class="waiting-txt" style="padding-top:17px;">24小时内审核完成，等待管理员进行联系</div>
-            <p id="returnType"> 点击<a id="mailAdress">邮箱</a> 进入邮箱进行确认！</p>
+            <p id="returnType"> 点击<a id="mailAdress" style="color:#72ACE3;" target="_blank;"> 邮箱 </a>进行确认！</p>
             <p id="otherMail">没有找到该qq.com类型邮箱</p>
             <a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>
         </div>
@@ -65,28 +65,26 @@
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
-
 <script type="text/javascript">
    $(function (){
-     $("#connectAdmin").click(function (){
+       var user = '${user}';
+       console.log(user);
+     if(user!=" "){
          var inputMail = $("#mail").val();
          var mailType = inputMail.split("@")[1].split(".")[0];
-        if(mailType == "gmail"){
-            alert("gmail")
-            $("#mailAdress").attr("href","https://www.baidu.com");
-   }else if (mailType == "qq"){
-            $("#returnType>a").css("href","https://mail.qq.com/")
-        }else if (mailType == "163"){
-            $("#returnType>a").css("href","http://mail.163.com/")
-        }else if (mailType == "sina"){
-            $("#returnType>a").css("href","http://mail.sina.com.cn/")
-        }else {
-            $("#returnType").hide().next().show();
-        }
-
-         console.log(mailType);
-         console.log(inputMail);
-     })
+         if(mailType == "gmail"){
+             console.log($("#mailAdress").get(0));
+             $("#mailAdress").attr("href","https://mail.google.com");
+         }else if (mailType == "qq"){
+             $("#returnType>a").attr("href","https://mail.qq.com/")
+         }else if (mailType == "163"){
+             $("#returnType>a").attr("href","http://mail.163.com/")
+         }else if (mailType == "sina"){
+             $("#returnType>a").attr("href","http://mail.sina.com.cn/")
+         }else {
+             $("#returnType").hide().next().show();
+         }
+     }
    })
 </script>
 </body>
