@@ -4,10 +4,10 @@ import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.User;
 import com.gooalgene.common.authority.User_Role;
+import com.gooalgene.common.dao.provider.UserDaoProvider;
 import com.gooalgene.common.persistence.MyBatisDao;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
+import org.apache.ibatis.type.JdbcType;
 
 import java.util.List;
 
@@ -23,9 +23,10 @@ public interface UserDao extends CrudDao<User>{
     Long getCount();
 
     @Select("SELECT u.id,u.username,u.password,u.due_time,u.enabled from user u where username=#{username}")
-    @Results({
-            @Result()
-    })
+    /*@Results({
+            @Result(column="due_time",property="due_time",jdbcType = JdbcType.TIMESTAMP)
+    })*/
+    @ResultMap("com.gooalgene.common.dao.UserDao.userInfo")
     User getByUsername(String username);
 
     List<User> findByUsername(String username);
@@ -33,6 +34,10 @@ public interface UserDao extends CrudDao<User>{
     List<User> queryByPage(Page<User> page);
 
     List<User> findByEnable(int enable);
+
+    @SelectProvider(type=UserDaoProvider.class,
+            method="getByUserId")
+    User getById(@Param("userId") Integer id,@Param("username") String username);
 
     boolean insert(User user);
     /*得到当前插入数据的id*/

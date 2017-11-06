@@ -65,7 +65,8 @@ public class PageTest extends TestCase {
 
     @Test
     public void testRoleDao(){
-        User user=userDao.getByUsername("huyao");
+        User user=userDao.getByUsername("zyp");
+        User user1=userDao.getById(26,"crabime");
         //User user=userDao.findByUserName("huyao");
         List<Role> roles=roleDao.getByUserId(26);
         System.out.println(roles);
