@@ -199,6 +199,9 @@ public class SignUpController {
         String[] args = new String[7];
         args[0]=user.getUsername();
         Date updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
+        //给用户一个token值
+        logger.debug("用户的id" + user.getUid());
+        token.setToken(TokenUtils.generateToken());
         Calendar calendar1=Calendar.getInstance();
         calendar1.setTime(updateDate);
         args[1]= String.valueOf(calendar1.get(Calendar.YEAR));
@@ -206,9 +209,20 @@ public class SignUpController {
         args[3]= String.valueOf(calendar1.get(Calendar.DAY_OF_MONTH));
         args[4]= String.valueOf(calendar1.get(Calendar.HOUR_OF_DAY));
         args[5]= String.valueOf(calendar1.get(Calendar.MINUTE));
-        args[6]=request.getContextPath()+"/signup/verify?id="+user.getId()+"&token="+token.getToken();
+        String scheme = request.getScheme();                // http
+        String serverName = request.getServerName();        // gooalgene.com
+        int serverPort = request.getServerPort();           // 8080
+        String contextPath = request.getContextPath();      // /dna
+        //重构请求URL
+        StringBuilder builder = new StringBuilder();
+        builder.append(scheme).append("://").append(serverName);
+        //针对nginx反向代理、https请求重定向，不需要加端口
+        if (serverPort != 80 && serverPort != 443){
+            builder.append(":").append(serverPort);
+        }
+        builder.append(contextPath);
+        args[6]= builder.append("/signup/verify?id=").append(user.getId()).append("&token=").append(token.getToken()).toString();
 
-        System.out.println("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
 
         Date date=new Date();
@@ -280,7 +294,19 @@ public class SignUpController {
             logger.warn("传入token有异常");
             return "error403";
         }
-        return "modifyPassword";
+        //重定向到当前controller忘记密码的GET请求中
+        return "redirect:/signup/modifyPassword";
     }
 
+    @RequestMapping(value = "/getContextPath", method = RequestMethod.GET)
+    @ResponseBody
+    public String getContextPath(HttpServletRequest request){
+        StringBuffer contextPath = request.getRequestURL();
+        String queryString = request.getQueryString();
+        if (queryString == null){
+            return contextPath.toString();
+        }else {
+            return contextPath.append("?").append(queryString).toString();
+}
+    }
 }
