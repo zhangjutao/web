@@ -11,8 +11,9 @@ $(function () {
     var paramData = {
         pageNum:page.pageNum,
         pageSize:page.pageSize
-    }
+    };
     window.onload = function () {
+        $(".two").addClass("pageColor");
         getData(paramData);
     };
     //ajax 请求
@@ -23,26 +24,37 @@ $(function () {
             data:data,
             success:function (result) {
                 console.log(result);
-                    count = result.data.total;
-                    // count = 200;
+                count = result.data.total;
+                count = 0;
+                if(count <40){
+                    $("#page").css({"padding-left":"186px"});
+                }else {
+                    $("#page").css({"padding-left":"10px"});
+                }
+                if(count == 0){
+                    $("#paging").hide();
+                    $("#errorImg").show();
+                    $("#containerAdmin").css("height","754px");
+                }else{
                     totalDatas = result.data.list;
                     nums = Math.ceil(count / page.pageSize);
                     //舍弃小数之后的取整
                     intNums = parseInt(count / page.pageSize);
                     $("#tblbody table>tr").remove();
                     for (var i=0;i<totalDatas.length;i++){
-                    var status = totalDatas[i].enabled==1?"1":"0";
-                    if(status == 1){
-                        var str=" <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>已审核</td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
-                    }else{
-                        var str="  <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>待审核</td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
+                        var status = totalDatas[i].enabled==1?"1":"0";
+                        if(status == 1){
+                            var str=" <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>已审核</td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
+                        }else{
+                            var str="  <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>待审核</td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
+                        }
+                        console.log(status);
+                        var $tbl = $("#tblbody table");
+                        $tbl.append(str);
+                        pageStyle(nums,intNums);
+                        $("#totals").text(count);
                     }
-                    console.log(status);
 
-                    var $tbl = $("#tblbody table");
-                    $tbl.append(str);
-                    pageStyle(nums,intNums);
-                    $("#totals").text(count);
                 }
             },
             error:function (error){
@@ -53,7 +65,7 @@ $(function () {
     // 样式调整方法
     function pageStyle(nums,intNums){
                 if (nums > 4) {
-                    $(".first").hide().next().text(1).addClass("pageColor").next().hide();
+                    $(".first").hide().next().text(1).next().hide();
                     $(".four").text(2).next().text(3).next().text(4);
                     $(".eight").text(nums);
                     $(".seven").show();
@@ -115,16 +127,18 @@ $(function () {
             $(".eight").text(nums);
         };
         var $p = $(e.target);
+
         page.pageNum = parseInt($p.text());
         paramData.pageNum = page.pageNum;
         getData(paramData);
-        $p.addClass("pageColor");
         var plists = $p.siblings();
         for (var i = 0; i < plists.length; i++) {
             if ($(plists[i]).hasClass("pageColor")) {
                 $(plists[i]).removeClass("pageColor");
             }
         }
+        $p.addClass("pageColor");
+
     });
     // pageSize 选择事件
     $("#selectedNum").change(function (e){
@@ -181,20 +195,19 @@ $(function () {
             $(".five").text(content5 + 1);
         }
     })
-    //     $("#tblbody table").on("mouseover",function (e) {
-    //     var $tr = $(e.target).parent();
-    //     console.log($tr)
-    //     var trs = $tr.siblings();
-    //     if (!$tr.hasClass("trColor")) {
-    //         $tr.addClass("trColor");
-    //     }
-    //     for (var i = 0; i < trs.length; i++) {
-    //         if ($(trs[i]).hasClass("trColor")) {
-    //             $(trs[i]).removeClass("trColor");
-    //         }
-    //
-    //     }
-    // })
+        $("#tblbody table").on("mouseover",function (e) {
+        var $tr = $(e.target).parent();
+        var trs = $tr.siblings();
+        if (!$tr.hasClass("trColor")) {
+            $tr.addClass("trColor");
+        }
+        for (var i = 0; i < trs.length; i++) {
+            if ($(trs[i]).hasClass("trColor")) {
+                $(trs[i]).removeClass("trColor");
+            }
+
+        }
+    })
     $("#tblbody table").on("click",function (e) {
         var $p = $(e.target);
         var selfId = parseInt($p.parent().parent().attr("myid"));
@@ -209,7 +222,7 @@ $(function () {
                 success:function (result){
                     console.log(result);
                     if(result.code == 0){
-                        $p.removeClass("btnAudit").addClass("btnAudited").text("已通过");
+                        $p.removeClass("btnAudit").addClass("btnAudited").text("已审核");
                         $p.parent().prev().text("已审核");
                     };
                 }

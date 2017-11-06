@@ -223,6 +223,8 @@ public class SignUpController {
         builder.append(contextPath);
         args[6]= builder.append("/signup/verify?id=").append(user.getId()).append("&token=").append(token.getToken()).toString();
 
+        token.setToken(TokenUtils.generateToken());
+
         Date date=new Date();
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(date);
@@ -305,6 +307,6 @@ public class SignUpController {
             return contextPath.toString();
         }else {
             return contextPath.append("?").append(queryString).toString();
-        }
+}
     }
 }
