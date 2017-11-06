@@ -14,9 +14,7 @@ import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 
 import javax.mail.MessagingException;
@@ -27,7 +25,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-@Controller
+@RestController
 @RequestMapping("/manager")
 public class UserController {
 
@@ -83,10 +81,6 @@ public class UserController {
 
             return ResultUtil.success();
         }
-
-
-
-
         return ResultUtil.error(ResultEnum.ENABLE_FAILED);
     }
 }
