@@ -8,11 +8,18 @@ import java.util.Date;
 public class LoginInfo {
 
     private int id;
+    private Integer userId;
     private Date loginTime;
     private Date logoutTime;
 
+    public LoginInfo(Integer userId,Date loginTime,Date logoutTime){
+        this.userId=userId;
+        this.loginTime=loginTime;
+        this.logoutTime=logoutTime;
+    }
+    public LoginInfo(){
 
-
+    }
 
     public int getId() {
         return id;
