@@ -6,9 +6,13 @@ import java.util.Date;
  * Created by liuyan on 2017/11/6.
  */
 public class LoginInfo {
+
     private int id;
     private Date loginTime;
     private Date logoutTime;
+
+
+
 
     public int getId() {
         return id;
