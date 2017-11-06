@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Date;
 
-@Component("authenticationSuccessHandlerImpl")
+@Component("authenticationSuccessHandler")
 public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHandler {
     private Logger logger= LoggerFactory.getLogger(AuthenticationSuccessHandlerImpl.class);
 
