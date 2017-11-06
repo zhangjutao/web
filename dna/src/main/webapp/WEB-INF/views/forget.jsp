@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <style type="text/css">
-
+    #otherMail{
+        display:none;
+    }
     </style>
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
@@ -52,8 +54,10 @@
     <div id="mask" class=""></div>
     <div id="waiting" class="waiting">
         <div class="waiting-b">
-            <div class="waiting-txt">24小时内审核完成，等待管理员进行联系</div>
-            <a class="btn b-index" href="${ctxroot}/iqgs/index">返回首页</a>
+            <div class="waiting-txt" style="padding-top:17px;">24小时内审核完成，等待管理员进行联系</div>
+            <p id="returnType"> 点击<a id="mailAdress">邮箱</a> 进入邮箱进行确认！</p>
+            <p id="otherMail">没有找到该qq.com类型邮箱</p>
+            <a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>
         </div>
     </div>
 </c:if>
@@ -63,10 +67,27 @@
 <!--footer-->
 
 <script type="text/javascript">
-//    $("#connectAdmin").click(function (){
-//        $(this).show();
-//        $("#mask").show();
-//    })
+   $(function (){
+     $("#connectAdmin").click(function (){
+         var inputMail = $("#mail").val();
+         var mailType = inputMail.split("@")[1].split(".")[0];
+        if(mailType == "gmail"){
+            alert("gmail")
+            $("#mailAdress").attr("href","https://www.baidu.com");
+   }else if (mailType == "qq"){
+            $("#returnType>a").css("href","https://mail.qq.com/")
+        }else if (mailType == "163"){
+            $("#returnType>a").css("href","http://mail.163.com/")
+        }else if (mailType == "sina"){
+            $("#returnType>a").css("href","http://mail.sina.com.cn/")
+        }else {
+            $("#returnType").hide().next().show();
+        }
+
+         console.log(mailType);
+         console.log(inputMail);
+     })
+   })
 </script>
 </body>
 </html>
