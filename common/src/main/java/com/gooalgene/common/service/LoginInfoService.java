@@ -7,7 +7,6 @@ import com.gooalgene.common.dao.LoginInfoDao;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import sun.plugin.javascript.navig.Array;
 
 import java.util.ArrayList;
 
