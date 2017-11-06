@@ -291,6 +291,7 @@ public class SignUpController {
             logger.warn("传入token有异常");
             return "error403";
         }
+        tokenService.disableToken(id);
         //重定向到当前controller忘记密码的GET请求中
         return "redirect:/signup/modifyPassword";
     }
