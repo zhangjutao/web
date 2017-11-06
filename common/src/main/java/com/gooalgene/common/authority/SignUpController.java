@@ -74,8 +74,6 @@ public class SignUpController {
             @RequestParam(value = "domains",required = false)String domains,
             @RequestParam(value = "university",required = false)String university
     ) {
-
-
         ModelAndView modelAndView = new ModelAndView("signup");
         modelAndView.addObject("username",username);
         modelAndView.addObject("email",email);
@@ -294,17 +292,5 @@ public class SignUpController {
         }
         //重定向到当前controller忘记密码的GET请求中
         return "redirect:/signup/modifyPassword";
-    }
-
-    @RequestMapping(value = "/getContextPath", method = RequestMethod.GET)
-    @ResponseBody
-    public String getContextPath(HttpServletRequest request){
-        StringBuffer contextPath = request.getRequestURL();
-        String queryString = request.getQueryString();
-        if (queryString == null){
-            return contextPath.toString();
-        }else {
-            return contextPath.append("?").append(queryString).toString();
-        }
     }
 }
