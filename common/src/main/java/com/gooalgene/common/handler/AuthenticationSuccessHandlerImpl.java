@@ -3,6 +3,7 @@ package com.gooalgene.common.handler;
 import com.gooalgene.common.authority.LoginInfo;
 import com.gooalgene.common.authority.SecurityUser;
 import com.gooalgene.common.dao.LoginInfoDao;
+import com.gooalgene.common.service.LoginInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +26,17 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
 
     @Autowired
     private LoginInfoDao loginInfoDao;
+    @Autowired
+    private LoginInfoService loginInfoService;
 
     private RedirectStrategy redirectStrategy=new DefaultRedirectStrategy();
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         logger.info("登录成功的用户：{}",authentication);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken=(UsernamePasswordAuthenticationToken)authentication;
         SecurityUser securityUser=(SecurityUser)authentication.getPrincipal();
         LoginInfo loginInfo=new LoginInfo(securityUser.getId(),new Date(),null);
-        loginInfoDao.insertLoginInfo(loginInfo);
+        //loginInfoDao.insertLoginInfo(loginInfo);
+        loginInfoService.insertLoginInfo(loginInfo);
         redirectStrategy.sendRedirect(request,response,"/dna/index");
     }
 }
