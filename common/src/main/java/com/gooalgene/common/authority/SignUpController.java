@@ -193,14 +193,13 @@ public class SignUpController {
         File file=resource.getFile();
         String[] args = new String[7];
         args[0]=user.getUsername();
+        Token token1=tokenService.getTokenByUserId(user.getId());
         Date updateDate=null;
-        if(tokenService.getTokenByUserId(user.getId())!=null){
-             updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
-        }
-        else{
+        if(token1==null){
             updateDate=new Date();
+        }else {
+            updateDate=token1.getUpdateTime();
         }
-        //Date updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
         //给用户一个token值
         logger.debug("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
@@ -232,14 +231,16 @@ public class SignUpController {
         Date due_date=calendar.getTime();
         token.setDue_time(due_date);
         token.setToken_status(1);
+        Date date1=new Date();
+        token.setUpdateTime(date1);
         if(tokenService.getTokenByUserId(user.getId())!=null){
              tokenService.updateToken(token);
         }else {
             tokenService.insertToken(token);
         }
-             author_cache=guavaCacheManager.getCache("config");
-             String admin_email=author_cache.get("mail.administrator").get().toString();
-             smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
+        author_cache = guavaCacheManager.getCache("config");
+        String admin_email=author_cache.get("mail.administrator").get().toString();
+        //smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)

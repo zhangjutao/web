@@ -13,11 +13,11 @@
     </select>
 
     <insert id="insertToken">
-        INSERT INTO token(userid,token,token_status,due_time)VALUE (#{userid},#{token},#{token_status},#{due_time})
+        INSERT INTO token(userid,token,token_status,due_time,update_time)VALUE (#{userid},#{token},#{token_status},#{due_time},#{updateTime})
     </insert>
 
     <update id="updateToken">
-        UPDATE token SET token=#{token},due_time=#{due_time} WHERE userid=#{userid}
+        UPDATE token SET token=#{token},due_time=#{due_time},update_time=#{updateTime} WHERE userid=#{userid}
     </update>
 
     <update id="disableToken">

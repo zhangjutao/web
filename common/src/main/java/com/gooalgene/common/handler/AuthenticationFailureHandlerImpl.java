@@ -6,6 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
@@ -33,6 +34,8 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
             errorMessgae="无效的账户名或密码";
         }else if(e instanceof AccountExpiredException){
             errorMessgae="账户已过期";
+        }else if(e instanceof DisabledException){
+            errorMessgae="账户未启用";
         }
         //RedirectAttributes
         redirectStrategy.sendRedirect(request,response,"/login?error="+ URLEncoder.encode(errorMessgae,"UTF-8"));
