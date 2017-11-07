@@ -44,6 +44,7 @@
                     %>
 
                     你好,<sec:authentication property="name"/>
+                    <a href="${ctxroot}/managerPage">管理员</a>
                     <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
                     <a  href="${ctxroot}/logout" class="tc">退出登录</a>
                     <%
