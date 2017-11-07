@@ -193,7 +193,14 @@ public class SignUpController {
         File file=resource.getFile();
         String[] args = new String[7];
         args[0]=user.getUsername();
-        Date updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
+        Date updateDate=null;
+        if(tokenService.getTokenByUserId(user.getId())!=null){
+             updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
+        }
+        else{
+            updateDate=new Date();
+        }
+        //Date updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
         //给用户一个token值
         logger.debug("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
