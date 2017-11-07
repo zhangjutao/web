@@ -33,7 +33,7 @@
         <httpclient.version>4.5</httpclient.version>
         <jackson.version>2.7.4</jackson.version>
         <mockito.version>2.10.0</mockito.version>
-        <guava.version>22.0</guava.version>
+        <guava.version>20.0</guava.version>
         <servletapi.version>3.1.0</servletapi.version>
 
         <!-- jdbc driver setting -->
