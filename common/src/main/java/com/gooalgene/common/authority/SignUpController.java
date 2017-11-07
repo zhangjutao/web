@@ -142,13 +142,9 @@ public class SignUpController {
 
     @RequestMapping(value = "/nameexists", method = RequestMethod.GET)
     @ResponseBody
-    public String userNameExists(@RequestParam(value = "username", required = true)String username) throws JsonProcessingException {
+    public String userNameExists(@RequestParam(value = "username", required = true)String username) {
         boolean exists = userService.exist(username);
-        Map<String, Object> result = Collections.singletonMap("exists", exists);
-        ObjectMapper objectMapper = new ObjectMapper(); //这里转成ajax更好读取的格式JSON
-           String jsonResult = null;
-           jsonResult = objectMapper.writeValueAsString(result);
-        return jsonResult;
+        return String.valueOf(exists);
     }
 
     public String md5(String v){
@@ -236,7 +232,7 @@ public class SignUpController {
         }
              author_cache=guavaCacheManager.getCache("config");
              String admin_email=author_cache.get("mail.administrator").get().toString();
-//             smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
+             smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
@@ -288,12 +284,13 @@ public class SignUpController {
         String oldToken = originToken.getToken();
         if (dueTime.before(currentTime)){
             logger.warn("token已失效");
-            return "error403";
+            return "err403";
         }
         if (!oldToken.equals(token)){
             logger.warn("传入token有异常");
-            return "error403";
+            return "err403";
         }
+        tokenService.disableToken(id);
         //重定向到当前controller忘记密码的GET请求中
         return "redirect:/signup/modifyPassword";
     }

@@ -30,7 +30,7 @@ public class PropertiesLoader {
 
 	private final Properties properties;
 
-	public PropertiesLoader(String... resourcesPaths) {
+	public PropertiesLoader(String resourcesPaths) {
 		properties = loadProperties(resourcesPaths);
 	}
 
@@ -131,23 +131,17 @@ public class PropertiesLoader {
 	/**
 	 * 载入多个文件, 文件路径使用Spring Resource格式.
 	 */
-	private Properties loadProperties(String... resourcesPaths) {
+	private Properties loadProperties(String location) {
 		Properties props = new Properties();
-
-		for (String location : resourcesPaths) {
-
-//			logger.debug("Loading properties file from:" + location);
-
-			InputStream is = null;
-			try {
-				Resource resource = resourceLoader.getResource(location);
-				is = resource.getInputStream();
-				props.load(is);
-			} catch (IOException ex) {
-				logger.info("Could not load properties from path:" + location + ", " + ex.getMessage());
-			} finally {
-				IOUtils.closeQuietly(is);
-			}
+		InputStream is = null;
+		try {
+			Resource resource = resourceLoader.getResource(location);
+			is = resource.getInputStream();
+			props.load(is);
+		} catch (IOException ex) {
+			logger.info("Could not load properties from path:" + location + ", " + ex.getMessage());
+		} finally {
+			IOUtils.closeQuietly(is);
 		}
 		return props;
 	}
