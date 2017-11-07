@@ -41,8 +41,6 @@
         <mongo.version>1.10.4.RELEASE</mongo.version>
         <mongo.driver.version>3.4.2</mongo.driver.version>
 
-        <!-- environment setting -->
-        <jdk.version>1.6</jdk.version>
         <tomcat.version>2.2</tomcat.version>
         <jetty.version>7.6.14.v20131031</jetty.version>
         <webserver.port>8181</webserver.port>
@@ -359,9 +357,9 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.7.0</version>
                 <configuration>
-                    <compilerVersion>1.8</compilerVersion>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <compilerVersion>1.7</compilerVersion>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
         </plugins>

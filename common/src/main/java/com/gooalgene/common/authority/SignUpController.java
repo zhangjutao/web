@@ -142,13 +142,9 @@ public class SignUpController {
 
     @RequestMapping(value = "/nameexists", method = RequestMethod.GET)
     @ResponseBody
-    public String userNameExists(@RequestParam(value = "username", required = true)String username) throws JsonProcessingException {
+    public String userNameExists(@RequestParam(value = "username", required = true)String username) {
         boolean exists = userService.exist(username);
-        Map<String, Object> result = Collections.singletonMap("exists", exists);
-        ObjectMapper objectMapper = new ObjectMapper(); //这里转成ajax更好读取的格式JSON
-           String jsonResult = null;
-           jsonResult = objectMapper.writeValueAsString(result);
-        return jsonResult;
+        return String.valueOf(exists);
     }
 
     public String md5(String v){
