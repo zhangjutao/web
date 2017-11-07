@@ -267,6 +267,9 @@ public class SignUpController {
             model.addAttribute("error", "两次密码不一致");
             return "modify-password";
         }
+
+
+
         return "modify-password";
     }
 
