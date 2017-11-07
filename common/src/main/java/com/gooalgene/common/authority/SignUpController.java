@@ -142,13 +142,9 @@ public class SignUpController {
 
     @RequestMapping(value = "/nameexists", method = RequestMethod.GET)
     @ResponseBody
-    public String userNameExists(@RequestParam(value = "username", required = true)String username) throws JsonProcessingException {
+    public String userNameExists(@RequestParam(value = "username", required = true)String username) {
         boolean exists = userService.exist(username);
-        Map<String, Object> result = Collections.singletonMap("exists", exists);
-        ObjectMapper objectMapper = new ObjectMapper(); //这里转成ajax更好读取的格式JSON
-           String jsonResult = null;
-           jsonResult = objectMapper.writeValueAsString(result);
-        return jsonResult;
+        return String.valueOf(exists);
     }
 
     public String md5(String v){
@@ -197,7 +193,13 @@ public class SignUpController {
         File file=resource.getFile();
         String[] args = new String[7];
         args[0]=user.getUsername();
-        Date updateDate=tokenService.getTokenByUserId(user.getId()).getUpdateTime();
+        Token token1=tokenService.getTokenByUserId(user.getId());
+        Date updateDate=null;
+        if(token1==null){
+            updateDate=new Date();
+        }else {
+            updateDate=token1.getUpdateTime();
+        }
         //给用户一个token值
         logger.debug("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
@@ -229,14 +231,16 @@ public class SignUpController {
         Date due_date=calendar.getTime();
         token.setDue_time(due_date);
         token.setToken_status(1);
+        Date date1=new Date();
+        token.setUpdateTime(date1);
         if(tokenService.getTokenByUserId(user.getId())!=null){
              tokenService.updateToken(token);
         }else {
             tokenService.insertToken(token);
         }
-             author_cache=guavaCacheManager.getCache("config");
-             String admin_email=author_cache.get("mail.administrator").get().toString();
-//             smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
+        author_cache = guavaCacheManager.getCache("config");
+        String admin_email=author_cache.get("mail.administrator").get().toString();
+        //smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
@@ -267,6 +271,9 @@ public class SignUpController {
             model.addAttribute("error", "两次密码不一致");
             return "modify-password";
         }
+
+
+
         return "modify-password";
     }
 
@@ -285,12 +292,13 @@ public class SignUpController {
         String oldToken = originToken.getToken();
         if (dueTime.before(currentTime)){
             logger.warn("token已失效");
-            return "error403";
+            return "err403";
         }
         if (!oldToken.equals(token)){
             logger.warn("传入token有异常");
-            return "error403";
+            return "err403";
         }
+        tokenService.disableToken(id);
         //重定向到当前controller忘记密码的GET请求中
         return "redirect:/signup/modifyPassword";
     }

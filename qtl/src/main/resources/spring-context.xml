@@ -2,8 +2,8 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
     <description>Spring Configuration</description>
 
     <!-- 加载配置属性文件 -->
@@ -75,6 +75,25 @@
         <property name="filters" value="stat"/>
     </bean>
 
+
+
+    <!--迁移时修改的部分   添加了task的命名空间-->
+
+    <!-- Guava缓存管理器 -->
+    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+        <property name="cacheNames">
+            <list>
+                <value>config</value>
+            </list>
+        </property>
+        <property name="allowNullValues" value="false" />
+    </bean>
+    <bean id="smtpBean" class="com.gooalgene.common.service.SMTPService" init-method="init" depends-on="cacheManager"/>
+
+    <!--异步支持-->
+    <task:annotation-driven executor="annotationExecutor" />
+    <!-- 支持 @Async 注解 -->
+    <task:executor id="annotationExecutor" pool-size="20" queue-capacity="25" />
 
 
 </beans>

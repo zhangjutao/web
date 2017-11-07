@@ -33,7 +33,7 @@ public class LoginController {
                 e.printStackTrace();
             }
             model.addObject("error", error);
-    }
+        }
         if (logout != null) {
             model.addObject("msg", "登出成功.");
         }
