@@ -28,6 +28,9 @@ public class LoginInfoService {
         int userid=loginInfo.getUserId();
         User user=userService.getUserById(userid);
         int count=user.getLoginCount();
+        if(new Integer(count)==null){
+            count=0;
+        }
         user.setLoginCount(count+1);
         userService.updateUserLoginCount(user);
         loginInfoDao.insertLoginInfo(loginInfo);
