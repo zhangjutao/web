@@ -230,9 +230,9 @@ public class SignUpController {
         }else {
             tokenService.insertToken(token);
         }
-             author_cache=guavaCacheManager.getCache("config");
-             String admin_email=author_cache.get("mail.administrator").get().toString();
-             smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
+        author_cache = guavaCacheManager.getCache("config");
+        String admin_email=author_cache.get("mail.administrator").get().toString();
+        smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
