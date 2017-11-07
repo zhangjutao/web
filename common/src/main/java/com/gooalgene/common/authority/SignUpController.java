@@ -18,6 +18,8 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -130,7 +132,7 @@ public class SignUpController {
         user.setUniversity(university);
 
         if(userService.createUser(user)){
-            User_Role user_role=new User_Role(userService.findLastInsertId(),1);
+            User_Role user_role=new User_Role(userService.findLastInsertId(),2);
             userService.setRole(user_role);
             System.out.println("userid:\t"+userService.findLastInsertId());
             modelAndView.addObject("user",user);
@@ -251,10 +253,18 @@ public class SignUpController {
 
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(String oldpwd, String password, String pwdverify, HttpServletRequest req, Model model) {
-       /* String username = (String) req.getSession().getAttribute("userName");
+        Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         String username=null;
+        if(principal instanceof UserDetails){
+            username=((UserDetails) principal).getUsername();
+        }else {
+            username=principal.toString();
+        }
+
+       // String username = (String) req.getSession().getAttribute("userName");
         if (username == null) {
             return "redirect:/login";
-        }*/
+        }
         if (oldpwd == null || oldpwd.isEmpty()) {
             model.addAttribute("error", "原密码未填写");
             return "modify-password";
@@ -272,7 +282,17 @@ public class SignUpController {
             return "modify-password";
         }
 
-
+        User user=userService.findByUsername(username);
+        if(user==null){
+            model.addAttribute("error","登录信息错误，用户不存在，请重新登录");
+            return "modify-password";
+        }else {
+            PasswordEncoder encoder=new Md5PasswordEncoder();
+            String newPwd=encoder.encodePassword(password,null);
+            user.setPassword(newPwd);
+            user.setReset(1);
+            userService.updateUserPassword(user);
+        }
 
         return "modify-password";
     }
