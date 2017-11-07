@@ -10,6 +10,7 @@ import org.springframework.core.io.DefaultResourceLoader;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -27,7 +28,7 @@ public class Global {
 	/**
 	 * 保存全局属性值
 	 */
-	private static Map<String, String> map = Maps.newHashMap();
+	private static Map<String, String> map = new HashMap<>();
 	
 	/**
 	 * 属性文件加载对象
