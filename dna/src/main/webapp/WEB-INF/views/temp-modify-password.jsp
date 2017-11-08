@@ -20,17 +20,13 @@
 <!--header-->
 <div class="container">
     <div class="forget-h"><p>修改密码</p></div>
+    <h1>${userId}</h1>
     <div class="forget modify">
-        <form method="POST" action="${ctxroot}/signup/modifyPassword">
+        <form method="POST" action="${ctxroot}/signup/temp/modifyPassword">
+            <input type="hidden" value="${userId}" name="userId">
             <c:if test="${not empty error}">
                 <div class="er">${error}</div>
             </c:if>
-            <div class="modify-u">
-                <label>
-                    <span>原密码:</span>
-                    <input type="password" name="oldpwd" id="username" placeholder="请输入旧密码">
-                </label>
-            </div>
             <div class="modify-pwd">
                 <label>
                     <span>新密码:</span>
