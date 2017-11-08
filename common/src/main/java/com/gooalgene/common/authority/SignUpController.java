@@ -333,9 +333,8 @@ public class SignUpController {
             user.setPassword(newPwd);
             user.setReset(1);
             userService.updateUserPassword(user);
-            //删除临时用户
-            SecurityUser tempUser=(SecurityUser)authentication.getPrincipal();
-            userService.deleteUser(tempUser.getId());
+            //SecurityUser tempUser=(SecurityUser)authentication.getPrincipal();
+            //userService.deleteUser(tempUser.getId());
             SecurityContextHolder.getContext().setAuthentication(null);
         }
         return "/login";
@@ -363,39 +362,40 @@ public class SignUpController {
             return "err403";
         }
         tokenService.disableToken(id);
+        User user=userService.getUserById(id);
         redirectAttributes.addFlashAttribute("userId",id);
 
         //创建临时用户
-        String username="temp_"+System.currentTimeMillis();
-        String email="temp@temp.com";
-        String password="123";
+        String username=user.getUsername();
+        //String email="temp@temp.com";
+        String password=UUID.randomUUID().toString();
 
         PasswordEncoder encoder = new Md5PasswordEncoder();
         String md5Password=encoder.encodePassword(password,null);
-        User user=new User(username,md5Password,email);
-        if(userService.createTempUser(user)){
-            request.getSession().setAttribute("temp",true);
+
+        //User user=new User(username,md5Password,email);
+        //if(userService.createTempUser(user)){
             Role role=roleService.findByName("ROLE_TEMP");
-            User_Role user_role=new User_Role(user.getId(),role.getId());
-            user_roleService.create(user_role);
-            /*List<Role> roles=new ArrayList<>();
-            roles.add(role);*/
-            /*UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
-                    username, password,roles);*/
+            /*User_Role user_role=new User_Role(user.getId(),role.getId());
+            user_roleService.create(user_role);*/
+            List<Role> roles=new ArrayList<>();
+            roles.add(role);
             UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
-                    username, password);
+                    username, password,roles);
+            /*UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
+                    username, password);*/
             try{
                 tempToken.setDetails(new WebAuthenticationDetails(request));
-                Authentication authenticatedUser = authenticationManager.authenticate(tempToken);
-
-                SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+                //Authentication authenticatedUser = authenticationManager.authenticate(tempToken);
+                //SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+                SecurityContextHolder.getContext().setAuthentication(tempToken);
                 request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
             }
             catch( AuthenticationException e ){
                 System.out.println("Authentication failed: " + e.getMessage());
                 //return new ModelAndView(new RedirectView("register"));
             }
-        }
+        //}
         //重定向到当前controller忘记密码的GET请求中
         return "redirect:/signup/temp/modifyPassword";
     }
