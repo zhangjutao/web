@@ -25,17 +25,18 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
     private Logger logger= LoggerFactory.getLogger(AuthenticationSuccessHandlerImpl.class);
 
     @Autowired
-    private LoginInfoDao loginInfoDao;
-    @Autowired
     private LoginInfoService loginInfoService;
 
     private RedirectStrategy redirectStrategy=new DefaultRedirectStrategy();
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        /*String flag= (String) request.getSession().getAttribute("temp");
+        if(flag!=null&&flag=="true"){
+            redirectStrategy.sendRedirect(request,response,"/signup/modifyPassword");
+        }*/
         logger.info("登录成功的用户：{}",authentication);
         SecurityUser securityUser=(SecurityUser)authentication.getPrincipal();
         LoginInfo loginInfo=new LoginInfo(securityUser.getId(),new Date(),null);
-        //loginInfoDao.insertLoginInfo(loginInfo);
         loginInfoService.insertLoginInfo(loginInfo);
         redirectStrategy.sendRedirect(request,response,"/dna/index");
     }
