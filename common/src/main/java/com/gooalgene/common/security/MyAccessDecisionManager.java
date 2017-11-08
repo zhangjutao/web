@@ -18,6 +18,7 @@ public class MyAccessDecisionManager implements AccessDecisionManager {
      * @param object 被调用的安全对象(secure object)
      * @param configAttributes 获取该安全对象需要的配置属性
      */
+    @Override
     public void decide(Authentication authentication, Object object, Collection<ConfigAttribute> configAttributes) throws AccessDeniedException, InsufficientAuthenticationException {
         if (configAttributes == null){
             return;
