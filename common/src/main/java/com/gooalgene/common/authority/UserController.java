@@ -47,7 +47,10 @@ public class UserController {
 
     @RequestMapping(value = "/user",method = RequestMethod.GET)
     public ResultVO user(Authentication authentication){
-        return ResultUtil.success(authentication);
+        if(authentication!=null){
+            return ResultUtil.success(authentication);
+        }
+        return ResultUtil.success();
     }
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
