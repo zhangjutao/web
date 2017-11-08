@@ -262,11 +262,6 @@ public class SignUpController {
         return "modify-password";
     }
 
-    /**
-     * todo 应该要有两个修改密码的界面，一个时已登录后要修改密码，此时要输入原密码和新密码，另一种时忘记密码的，通过发送邮件，暴露一个进入修改密码的接口，
-     * 此接口一般情况无法进入，进入后的界面直接填写新密码即可
-     */
-
 
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(String oldpwd, String password, String pwdverify, HttpServletRequest req, Model model) {
