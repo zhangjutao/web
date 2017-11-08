@@ -139,6 +139,10 @@ public class UserService implements ApplicationContextAware {
          }
     }
 
+  //更新用户密码
+    public boolean updateUserPassword(User user){
+        return  userDao.updateUserPassword(user);
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

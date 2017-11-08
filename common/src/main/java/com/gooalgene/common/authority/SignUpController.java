@@ -53,19 +53,10 @@ public class SignUpController {
     private UserService userService;
     @Autowired
     private SMTPService smtpService;
-    @Autowired
-    private RoleService roleService;
-    @Autowired
-    private User_RoleService user_roleService;
-    @Autowired
-    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Autowired
     private GuavaCacheManager guavaCacheManager;
     private Cache author_cache;
-
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
     private TokenService tokenService;
@@ -142,7 +133,7 @@ public class SignUpController {
         user.setUniversity(university);
 
         if(userService.createUser(user)){
-            User_Role user_role=new User_Role(userService.findLastInsertId(),1);
+            User_Role user_role=new User_Role(userService.findLastInsertId(),2);
             userService.setRole(user_role);
             System.out.println("userid:\t"+userService.findLastInsertId());
             modelAndView.addObject("user",user);
@@ -187,7 +178,7 @@ public class SignUpController {
         model.addAttribute("email", email);
         User user = userService.findByUsername(username);
         if (user == null) {
-            model.addAttribute("error", "用户不存在");
+            model.addAttribute("error", "用户名不存在");
             return mv;
         }
         if (!email.equals(user.getEmail())) {
@@ -255,20 +246,26 @@ public class SignUpController {
         //smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
-
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
     public String toModifyPassword(HttpServletRequest req, Model model ) {
         String username = (String) req.getSession().getAttribute("userName");
         return "modify-password";
     }
 
-
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
     public String modifyPassword(String oldpwd, String password, String pwdverify, HttpServletRequest req, Model model) {
-       /* String username = (String) req.getSession().getAttribute("userName");
+        Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         String username=null;
+        if(principal instanceof UserDetails){
+            username=((UserDetails) principal).getUsername();
+        }else {
+            username=principal.toString();
+        }
+
+       // String username = (String) req.getSession().getAttribute("userName");
         if (username == null) {
             return "redirect:/login";
-        }*/
+        }
         if (oldpwd == null || oldpwd.isEmpty()) {
             model.addAttribute("error", "原密码未填写");
             return "modify-password";
@@ -278,7 +275,7 @@ public class SignUpController {
             return "modify-password";
         }
         if (pwdverify == null || pwdverify.isEmpty()) {
-            model.addAttribute("error", "密码确认未填写");
+            model.addAttribute("error", "确认新密码未填写");
             return "modify-password";
         }
         if (!password.equals(pwdverify)) {
@@ -286,7 +283,17 @@ public class SignUpController {
             return "modify-password";
         }
 
-
+        User user=userService.findByUsername(username);
+        if(user==null){
+            model.addAttribute("error","登录信息错误，用户不存在，请重新登录");
+            return "modify-password";
+        }else {
+            PasswordEncoder encoder=new Md5PasswordEncoder();
+            String newPwd=encoder.encodePassword(password,null);
+            user.setPassword(newPwd);
+            user.setReset(1);
+            userService.updateUserPassword(user);
+        }
 
         return "modify-password";
     }
