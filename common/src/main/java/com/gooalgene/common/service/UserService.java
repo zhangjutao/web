@@ -111,6 +111,13 @@ public class UserService implements ApplicationContextAware {
         return userDao.findByEnable(0);
     }
 
+    public Boolean deleteTempUser(Integer id){
+        if(userDao.deleteTempUser(id)>0){
+            return true;
+        }
+        return false;
+    }
+
     //更新用户enable的值
     public boolean enableUser(int id) {
         User user = new User();
