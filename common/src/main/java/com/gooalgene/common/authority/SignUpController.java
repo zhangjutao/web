@@ -177,7 +177,7 @@ public class SignUpController {
         model.addAttribute("email", email);
         User user = userService.findByUsername(username);
         if (user == null) {
-            model.addAttribute("error", "用户不存在");
+            model.addAttribute("error", "用户名不存在");
             return mv;
         }
         if (!email.equals(user.getEmail())) {
@@ -274,7 +274,7 @@ public class SignUpController {
             return "modify-password";
         }
         if (pwdverify == null || pwdverify.isEmpty()) {
-            model.addAttribute("error", "密码确认未填写");
+            model.addAttribute("error", "确认新密码未填写");
             return "modify-password";
         }
         if (!password.equals(pwdverify)) {
