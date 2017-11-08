@@ -14,7 +14,7 @@
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
-<body onload='document.loginForm.username.focus();'>
+<body onload='document.loginForm.j_username.focus();'>
 <dna:dna-header />
 <!--header-->
 <div class="container">
