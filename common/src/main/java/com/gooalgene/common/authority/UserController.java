@@ -46,7 +46,7 @@ public class UserController {
 
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
-    public ResultVO findAll(@RequestParam(value = "pageNum",defaultValue = "0",required = false) Integer pageNum,
+    public ResultVO findAll(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize){
         PageInfo<User> users=userService.queryByPage(pageNum,pageSize);
         return ResultUtil.success(users);
