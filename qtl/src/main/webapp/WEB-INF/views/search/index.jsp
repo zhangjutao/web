@@ -10,7 +10,6 @@
     <%@ include file="/WEB-INF/views/include/header-res.jsp" %>
 </head>
 <body>
-<%--<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>--%>
 <mrna:qtl-header />
 
     <section class="container">
