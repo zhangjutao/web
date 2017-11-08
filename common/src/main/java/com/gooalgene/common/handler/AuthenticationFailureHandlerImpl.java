@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;
+import org.springframework.security.authentication.AuthenticationServiceException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.core.AuthenticationException;
@@ -31,7 +32,9 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
         logger.info("登录失败，异常信息：{}",e.getMessage());
         String errorMessgae="";
         if(e instanceof BadCredentialsException){
-            errorMessgae="无效的账户名或密码";
+            errorMessgae="密码错误";
+        }else if(e instanceof AuthenticationServiceException){
+            errorMessgae="账号不存在";
         }else if(e instanceof AccountExpiredException){
             errorMessgae="账户已过期";
         }else if(e instanceof DisabledException){

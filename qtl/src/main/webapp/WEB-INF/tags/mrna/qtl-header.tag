@@ -6,10 +6,18 @@
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags' %>
 <header>
+    <style type="text/css">
+        img.back-index {
+            width: 56px;
+            height: 30px;
+            margin-top: -10px;
+            margin-right: 20px;
+        }
+    </style>
     <div class="container">
         <div class="logo">
             <a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
-            <a href="${ctxroot}/search/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">QTL Database</a>
+            <a href="${ctxroot}/iqgs/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">Gene Expression Database</a>
         </div>
         <div class="login-out">
             <c:choose>
