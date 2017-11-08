@@ -144,9 +144,8 @@
             }
         }
     });
-//    $("#limb").mouseover(function(){
-//        $(".limb-mouseover").show();
-//    })
+
+
 </script>
 </body>
 </html>
