@@ -334,22 +334,9 @@ public class SignUpController {
             user.setReset(1);
             userService.updateUserPassword(user);
             //todo 删除临时用户
-            //securityContext中替换为非临时用户
-            UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
-                    user.getUsername(), password);
-            try{
-                tempToken.setDetails(new WebAuthenticationDetails(request));
-                Authentication authenticatedUser = authenticationManager.authenticate(tempToken);
-                SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-                //request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-            }
-            catch( AuthenticationException e ){
-                System.out.println("Authentication failed: " + e.getMessage());
-            }
+            SecurityContextHolder.getContext().setAuthentication(null);
         }
-        String contextPath = request.getContextPath();
-        return contextPath+"/index";
-        //return "temp-modify-password";
+        return "/login";
     }
     /**
      * 用户点击URL，修改密码生效
