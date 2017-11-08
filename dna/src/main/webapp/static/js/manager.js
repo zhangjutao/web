@@ -64,7 +64,8 @@ $(function () {
     // 样式调整方法
     function pageStyle(nums,intNums){
                 if (nums > 4) {
-                    $(".first").hide().next().text(1).next().hide();
+                    // $(".first").hide().next().text(1).next().hide();
+                    $(".first").next().text(1);
                     $(".four").text(2).next().text(3).next().text(4);
                     $(".eight").text(nums);
                     $(".seven").show();

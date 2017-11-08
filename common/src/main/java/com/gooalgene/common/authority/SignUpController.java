@@ -38,6 +38,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.Calendar;
+import java.util.regex.*;
+import java.util.regex.Matcher;
 
 /**
  * Created by Crabime on 16/10/2017.
@@ -108,7 +110,7 @@ public class SignUpController {
         }
 
         if((passwordVerify==null)||passwordVerify.isEmpty()){
-            modelAndView.addObject("error","请补全密码确认信息");
+            modelAndView.addObject("error", "请补全密码确认信息");
             return modelAndView;
         }
 
@@ -117,7 +119,7 @@ public class SignUpController {
             modelAndView.addObject("error","用户已经存在，请换一个用户名");
             return modelAndView;
         }else{
-            System.out.println("exist user? ["+username+"]="+false);
+            System.out.println("exist user? [" + username + "]=" + false);
         }
 
         if(!password.equals(passwordVerify)){
@@ -125,14 +127,47 @@ public class SignUpController {
             return modelAndView;
         }
 
+        //判断输入是否合法
+        //判断用户名
+        String usernameRex="[a-zA-Z0-9]{2,14}";
+        Pattern pattern=Pattern.compile(usernameRex);
+        Matcher matcher=pattern.matcher(username);
+        if(!matcher.matches()){
+            modelAndView.addObject("error","用户名输入不合法");
+            return modelAndView;
+        }
+        //判断邮箱
+        String passwordRex="[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+        Pattern emaliPatten=Pattern.compile(passwordRex);
+        Matcher emailMatcher=emaliPatten.matcher(email);
+        if(!emailMatcher.matches()){
+            modelAndView.addObject("error","邮箱输入不合法");
+            return modelAndView;
+        }
+        //判断密码
+        String passWordRex="[a-zA-Z0-9]{5,}";
+        Pattern passwordPatten=Pattern.compile(passWordRex);
+        Matcher passwordMatcher=passwordPatten.matcher(password);
+        if(!passwordMatcher.matches()){
+            modelAndView.addObject("error","密码输入不合法");
+            return modelAndView;
+        }
+        //判断联系方式
+        String phoneRex="\\d{3}-\\d{8}|\\d{4}-\\d{7,8}|\\d{11}";
+        Pattern phonePatten=Pattern.compile(phoneRex);
+        Matcher phoneMatcher=phonePatten.matcher(phone);
+        if(!phoneMatcher.matches()){
+            modelAndView.addObject("error","联系方式输入不合法");
+            return modelAndView;
+        }
+
+   
+
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         PasswordEncoder encoder = new Md5PasswordEncoder();
-        System.out.println("p:"+password);
         password = encoder.encodePassword(password, null);
-        System.out.println("ph:" + password);
-//      //password = md5(password);
         user.setPassword(password);
         user.setPhone(phone);
         user.setDomains(domains);
@@ -141,7 +176,6 @@ public class SignUpController {
         if(userService.createUser(user)){
             User_Role user_role=new User_Role(userService.findLastInsertId(),2);
             userService.setRole(user_role);
-            System.out.println("userid:\t"+userService.findLastInsertId());
             modelAndView.addObject("user",user);
         }else {
             modelAndView.addObject("error", "创建失败");
@@ -156,6 +190,7 @@ public class SignUpController {
         return String.valueOf(exists);
     }
 
+    //好像没有用到这个方法
     public String md5(String v){
         MessageDigest messageDigest = null;
         try {
@@ -254,7 +289,6 @@ public class SignUpController {
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
     public String toModifyPassword(HttpServletRequest req, Model model ) {
-        String username = (String) req.getSession().getAttribute("userName");
         return "modify-password";
     }
     @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.GET)
@@ -264,53 +298,74 @@ public class SignUpController {
     }
 
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
-    public String modifyPassword(String oldpwd, String password, String pwdverify, HttpServletRequest req, Model model) {
-        Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public ModelAndView modifyPassword(String oldpwd, String password, String pwdverify,Model model) {
+         Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
          String username=null;
+         ModelAndView modelAndView=new ModelAndView("/modify-password");
+         model.addAttribute("oldpwd",oldpwd);
+         model.addAttribute("password",password);
+         model.addAttribute("pwdverify",pwdverify);
+         String pwdRex="[a-zA-Z0-9]{5,}";
+         Pattern pattern=Pattern.compile(pwdRex);
+         Matcher oldPwdMatcher=pattern.matcher(oldpwd);
+         Matcher newPwdMatcher=pattern.matcher(password);
+        if (!oldPwdMatcher.matches()){
+            model.addAttribute("error","原密码输入不符合要求，请重新输入");
+            return modelAndView;
+        }
+        if(!newPwdMatcher.matches()){
+            model.addAttribute("error","新密码输入不符合要求，请重新输入");
+            return modelAndView;
+        }
+
         if(principal instanceof UserDetails){
             username=((UserDetails) principal).getUsername();
         }else {
             username=principal.toString();
         }
-       // String username = (String) req.getSession().getAttribute("userName");
-        if (username == null) {
-            return "redirect:/login";
-        }
         if (oldpwd == null || oldpwd.isEmpty()) {
             model.addAttribute("error", "原密码未填写");
-            return "modify-password";
+            return modelAndView;
         }
         if (password == null || password.isEmpty()) {
             model.addAttribute("error", "新密码未填写");
-            return "modify-password";
+            return modelAndView;
         }
         if (pwdverify == null || pwdverify.isEmpty()) {
             model.addAttribute("error", "确认新密码未填写");
-            return "modify-password";
+            return modelAndView;
         }
         if (!password.equals(pwdverify)) {
             model.addAttribute("error", "两次密码不一致");
-            return "modify-password";
+            return modelAndView;
         }
 
         User user=userService.findByUsername(username);
         if(user==null){
             model.addAttribute("error","登录信息错误，用户不存在，请重新登录");
-            return "modify-password";
+            return modelAndView;
         }else {
+            PasswordEncoder encoder1=new Md5PasswordEncoder();
+            String tempOldPwd=encoder1.encodePassword(oldpwd,null);
+            if(!tempOldPwd.equals(user.getPassword())){
+                model.addAttribute("error","原密码错误");
+                return modelAndView;
+            }
+
             PasswordEncoder encoder=new Md5PasswordEncoder();
             String newPwd=encoder.encodePassword(password,null);
             user.setPassword(newPwd);
             user.setReset(1);
             userService.updateUserPassword(user);
+            model.addAttribute("user",user);
         }
 
-        return "modify-password";
+        return modelAndView;
     }
 
     @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.POST)
     public String tempModifyPassword(@RequestParam("userId") Integer id,
-                                     String password, String pwdverify, HttpServletRequest request, Model model) {
+                                     String password, String pwdverify, HttpServletRequest request, Model model,Authentication authentication) {
         if (password == null || password.isEmpty()) {
             model.addAttribute("error", "新密码未填写");
             return "modify-password";
@@ -333,7 +388,9 @@ public class SignUpController {
             user.setPassword(newPwd);
             user.setReset(1);
             userService.updateUserPassword(user);
-            //todo 删除临时用户
+            //删除临时用户
+            SecurityUser tempUser=(SecurityUser)authentication.getPrincipal();
+            userService.deleteUser(tempUser.getId());
             SecurityContextHolder.getContext().setAuthentication(null);
         }
         return "/login";

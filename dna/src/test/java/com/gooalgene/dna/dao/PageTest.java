@@ -72,10 +72,8 @@ public class PageTest extends TestCase {
         System.out.println(roles);*/
         /*Role role=roleDao.findByName("ROLE_TEMP");
         assertNotNull(role);*/
-        User user=new User("dh3","dd","dddd@qq.com");
-        //userDao.insert(user);
-        userService.createUser(user);
-        System.out.println(user.getId());
+        Integer i=userDao.deleteUser(106);
+        System.out.println(i);
     }
 
 
