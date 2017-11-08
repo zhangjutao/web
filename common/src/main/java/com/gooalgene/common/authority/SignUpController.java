@@ -365,7 +365,7 @@ public class SignUpController {
 
     @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.POST)
     public String tempModifyPassword(@RequestParam("userId") Integer id,
-                                     String password, String pwdverify, HttpServletRequest request, Model model) {
+                                     String password, String pwdverify, HttpServletRequest request, Model model,Authentication authentication) {
         if (password == null || password.isEmpty()) {
             model.addAttribute("error", "新密码未填写");
             return "modify-password";
@@ -388,23 +388,12 @@ public class SignUpController {
             user.setPassword(newPwd);
             user.setReset(1);
             userService.updateUserPassword(user);
-            //todo 删除临时用户
-            //securityContext中替换为非临时用户
-            UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
-                    user.getUsername(), password);
-            try{
-                tempToken.setDetails(new WebAuthenticationDetails(request));
-                Authentication authenticatedUser = authenticationManager.authenticate(tempToken);
-                SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
-                //request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
-            }
-            catch( AuthenticationException e ){
-                System.out.println("Authentication failed: " + e.getMessage());
-            }
+            //删除临时用户
+            SecurityUser tempUser=(SecurityUser)authentication.getPrincipal();
+            userService.deleteUser(tempUser.getId());
+            SecurityContextHolder.getContext().setAuthentication(null);
         }
-        String contextPath = request.getContextPath();
-        return contextPath+"/index";
-        //return "temp-modify-password";
+        return "/login";
     }
     /**
      * 用户点击URL，修改密码生效

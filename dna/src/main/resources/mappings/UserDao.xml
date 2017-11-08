@@ -12,7 +12,7 @@
     </select>
 
     <select id="queryAll" resultType="com.gooalgene.common.authority.User">
-        SELECT * FROM user
+        SELECT * FROM user ORDER BY create_time
     </select>
 
     <select id="queryByPage" resultType="com.gooalgene.common.authority.User">
@@ -72,5 +72,9 @@
     <update id="updateUserLoginCount" parameterType="com.gooalgene.common.authority.User">
         UPDATE user SET logincount=#{loginCount} WHERE id=#{id}
     </update>
+
+    <delete id="deleteUser">
+        DELETE from user WHERE id=#{id}
+    </delete>
 
 </mapper>
