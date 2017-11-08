@@ -12,4 +12,10 @@ public interface RoleDao  extends CrudDao<Role> {
 
     @Select("SELECT r.name from role r,user u,user_role ur where r.id=ur.role_id and u.id=ur.user_id and u.id=#{id}")
     List<Role> getByUserId(Integer id);
+
+    @Select("SELECT * from role where name='ROLE_TEMP'")
+    Role findTempRole();
+
+    @Select("SELECT * from role where name=#{name}")
+    Role findByName(String name);
 }

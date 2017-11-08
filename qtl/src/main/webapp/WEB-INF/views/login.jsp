@@ -18,7 +18,7 @@
 <mrna:qtl-header />
 <!--header-->
 <div class="container">
-    <div class="loginC">
+    <div class="loginC"><%----%>
         <div class="login-h">
             <p>账号密码登录</p>
         </div>

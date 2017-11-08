@@ -15,6 +15,12 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <style type="text/css">
+       .confirmTip,.pwdTip{
+           color:#ff0000;
+           display:none;
+       }
+    </style>
 </head>
 <body >
 
@@ -47,14 +53,16 @@
             <div class="reg-pwd">
                 <label>
                     <span><b>*</b>密码:</span>
-                    <input type="password" name="password" id="pwd" placeholder="请输入用户密码" value="${password}">
+                    <input type="password" name="password" min="5" id="pwd" placeholder="请输入用户密码" value="${password}">
                 </label>
+                <span class="tips pwdTip">密码长度不能少于5位,且只能包含字符和数字。</span>
             </div>
             <div class="reg-confirm-pwd">
                 <label>
                     <span><b>*</b>确认密码:</span>
                     <input type="password" name="passwordVerify" id="confirmPwd" placeholder="请确认用户密码" value="${passwordVerify}">
                 </label>
+                <span class="tips confirmTip" style="display:none;color:#ff0000;">密码不一致</span>
             </div>
             <div class="reg-contact">
                 <label>
@@ -96,27 +104,17 @@
 </c:if>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
-<script src="${ctxStatic}/js/jquery-validation/jquery.validate.min.js"></script>
+<script src="${ctxStatic}/js/jquery_validate.min.js"></script>
 <script>
     // 用户名和邮箱的验证==begin===
     $("#username").blur(function (){
-        var val = $(this).val().toLowerCase();
-        console.log(val);
-        $.ajax({
-            type:"POST",
-            url:"",
-            data:val,
-            success:function (result){
-                //定义返回字段为boolean 类型；
-                if(result == true){
-                    $(".real").hide();
-                    $(".errorU").show().css("color","#ff0000");
-                };
-            },
-            error:function (error){
-                console.log(error)
-            }
-        })
+        var val = $(this).val().toLowerCase().trim().toString();
+        if(val.length<2){
+            $("#username").css("border","1px solid #ff0000");
+        }else {
+            $("#username").css("border","1px solid #E6E6E6");
+        }
+
     });
     $("#mail").blur(function (){
         var val = $("#mail").val();
@@ -135,6 +133,44 @@
                 console.log(error)
             }
         })
+    })
+    $("#pwd").blur(function (){
+        var val = $("#pwd").val();
+        console.log(val);
+        var reg = /^[0-9a-zA-Z]+$/;
+        if(val.toString().length<6 || !reg.test(val.toString())){
+            $("#pwd").css("border","1px solid #ff0000");
+            $(".pwdTip").show();
+        }else {
+            $("#pwd").css("border","1px solid #E6E6E6");
+
+        }
+    })
+    $("#confirmPwd").blur(function (){
+
+       var confirmVal = $(this).val().toString().trim();
+       console.log(confirmVal);
+       if(confirmVal != $("#pwd").val().toString() && confirmVal !=""){
+           $("#confirmPwd").css("border","1px solid #ff0000");
+           $(".confirmTip").show();
+       }else{
+           $("#confirmPwd").css("border","1px solid #E6E6E6");
+           $(".confirmTip").hide();
+       }
+    })
+    $("#contact").blur(function (){
+        var val = $(this).val().trim().toString();
+        var reg1 = /0?(13|14|15|17|18)[0-9]{9}/;
+        var reg2 = /^0[0-9]{2,3}-[0-9]{8}/;
+        console.log(val)
+        console.log(!reg1.test(val));
+//        console.log(!reg2.test(val));
+        if(!reg1.test(val)){
+            console.log(333)
+            $("#contact").css("border","1px solid #ff0000");
+        }else {
+            $("#contact").css("border","1px solid #E6E6E6");
+        }
     })
 //    =======end======
     $("#signupForm").validate({

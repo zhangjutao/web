@@ -18,7 +18,7 @@
         <sec:form-login login-page="/login" default-target-url="/"
                         login-processing-url="/j_spring_security_check"/>
         <sec:access-denied-handler error-page="/403" />
-        <sec:logout invalidate-session="true" logout-success-url="/search/index" logout-url="/j_spring_security_logout" />
+        <sec:logout invalidate-session="true" logout-success-url="/mrna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
     </sec:http>
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">

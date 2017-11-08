@@ -40,6 +40,7 @@ public interface UserDao extends CrudDao<User>{
     User getById(@Param("userId") Integer id,@Param("username") String username);
 
     boolean insert(User user);
+    boolean insertTemp(User user);
     /*得到当前插入数据的id*/
     int findLastInsertId();
 
@@ -55,6 +56,9 @@ public interface UserDao extends CrudDao<User>{
 
     /*此处新加了设置用户角色的接口*/
     boolean setRole(User_Role user_role);
+
+
+    Integer deleteTempUser(Integer id);
 
 
     /*增加更新用户登录次数*/

@@ -26,6 +26,14 @@ public class User {
 
     private int loginCount;
 
+    public User(){
+
+    }
+    public User(String username,String password,String email){
+        this.username=username;
+        this.password=password;
+        this.email=email;
+    }
     public int getLoginCount() {
         return loginCount;
     }
