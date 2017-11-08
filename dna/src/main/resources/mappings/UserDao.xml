@@ -73,4 +73,8 @@
         UPDATE user SET logincount=#{loginCount} WHERE id=#{id}
     </update>
 
+    <delete id="deleteUser">
+        DELETE from user WHERE id=#{id}
+    </delete>
+
 </mapper>
