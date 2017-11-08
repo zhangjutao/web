@@ -1,14 +1,7 @@
 package com.gooalgene.common.authority;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gooalgene.common.dao.TokenDao;
-import com.gooalgene.common.service.SMTPService;
-import com.gooalgene.common.service.TokenService;
-import com.gooalgene.common.service.UserService;
+import com.gooalgene.common.service.*;
 import com.gooalgene.utils.TokenUtils;
-import com.google.common.collect.Maps;
-import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,10 +9,16 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,15 +26,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.Calendar;
 
@@ -177,7 +178,7 @@ public class SignUpController {
         model.addAttribute("email", email);
         User user = userService.findByUsername(username);
         if (user == null) {
-            model.addAttribute("error", "用户不存在");
+            model.addAttribute("error", "用户名不存在");
             return mv;
         }
         if (!email.equals(user.getEmail())) {
@@ -274,7 +275,7 @@ public class SignUpController {
             return "modify-password";
         }
         if (pwdverify == null || pwdverify.isEmpty()) {
-            model.addAttribute("error", "密码确认未填写");
+            model.addAttribute("error", "确认新密码未填写");
             return "modify-password";
         }
         if (!password.equals(pwdverify)) {
@@ -305,8 +306,10 @@ public class SignUpController {
      */
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
     public String verify(@RequestParam(name = "token") String token,
-                         @RequestParam(name = "id") int id){
-        Token originToken = tokenService.getTokenByUserId(id);
+                         @RequestParam(name = "id") int id, HttpServletRequest request,
+                         HttpServletResponse response,
+                         RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
+        /*Token originToken = tokenService.getTokenByUserId(id);
         Date dueTime = originToken.getDue_time();
         Date currentTime = new Date();
         String oldToken = originToken.getToken();
@@ -318,7 +321,42 @@ public class SignUpController {
             logger.warn("传入token有异常");
             return "err403";
         }
-        tokenService.disableToken(id);
+        tokenService.disableToken(id);*/
+        //创建临时用户
+        String username="temp_"+System.currentTimeMillis();
+        String email="temp@temp.com";
+        String password="123";
+
+        PasswordEncoder encoder = new Md5PasswordEncoder();
+        String md5Password=encoder.encodePassword(password,null);
+        User user=new User(username,md5Password,email);
+        if(userService.createTempUser(user)){
+            /*request.setAttribute("username",username);
+            request.setAttribute("password",password);*/
+            request.getSession().setAttribute("temp",true);
+            Role role=roleService.findByName("ROLE_TEMP");
+            User_Role user_role=new User_Role(user.getId(),role.getId());
+            user_roleService.create(user_role);
+            /*List<Role> roles=new ArrayList<>();
+            roles.add(role);*/
+            /*UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
+                    username, password,roles);*/
+            UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
+                    username, password);
+            try{
+                tempToken.setDetails(new WebAuthenticationDetails(request));
+                Authentication authenticatedUser = authenticationManager.authenticate(tempToken);
+
+                SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+                request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+            }
+            catch( AuthenticationException e ){
+                System.out.println("Authentication failed: " + e.getMessage());
+                //return new ModelAndView(new RedirectView("register"));
+            }
+            //authenticationSuccessHandler.onAuthenticationSuccess(request,response,authenticatedUser);
+        }
+        //return "/error403";
         //重定向到当前controller忘记密码的GET请求中
         return "redirect:/signup/modifyPassword";
     }

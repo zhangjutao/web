@@ -40,6 +40,7 @@ public interface UserDao extends CrudDao<User>{
     User getById(@Param("userId") Integer id,@Param("username") String username);
 
     boolean insert(User user);
+    boolean insertTemp(User user);
     /*得到当前插入数据的id*/
     int findLastInsertId();
 

@@ -82,6 +82,24 @@ public class UserService implements ApplicationContextAware {
         }
         return flag;
     }
+    //插入临时用户
+    public boolean createTempUser(User user){
+        Date date=new Date();
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        logger.debug("添加之前的时间:", date);
+        user.setCreate_time(date);
+        logger.debug("添加之后的时间:",date);
+        calendar.add(Calendar.HOUR, 2);
+        Date due_date=calendar.getTime();
+        logger.debug("due_time:",due_date);
+        user.setDue_time(due_date);
+        Boolean flag=userDao.insertTemp(user);
+        if(flag){
+            successPublish(user);
+        }
+        return flag;
+    }
 
     /*得到最后插入数据的ID 即当前插入数据之后得到其ID*/
     public int findLastInsertId(){
