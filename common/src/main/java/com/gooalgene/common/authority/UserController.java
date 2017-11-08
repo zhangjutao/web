@@ -14,6 +14,7 @@ import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -44,6 +45,13 @@ public class UserController {
 
     private  Cache author_cache;
 
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    public ResultVO user(Authentication authentication){
+        if(authentication!=null){
+            return ResultUtil.success(authentication);
+        }
+        return ResultUtil.success();
+    }
 
     @RequestMapping(value = "/users",method = RequestMethod.GET)
     public ResultVO findAll(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,

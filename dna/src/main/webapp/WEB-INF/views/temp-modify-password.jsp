@@ -20,7 +20,6 @@
 <!--header-->
 <div class="container">
     <div class="forget-h"><p>修改密码</p></div>
-    <h1>${userId}</h1>
     <div class="forget modify">
         <form method="POST" action="${ctxroot}/signup/temp/modifyPassword">
             <input type="hidden" value="${userId}" name="userId">

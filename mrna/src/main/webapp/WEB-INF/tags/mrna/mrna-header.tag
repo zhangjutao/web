@@ -26,6 +26,7 @@
             <c:choose>
                 <c:when test="${not empty userName}">
                     你好,${userName}
+                    <a href="${ctxroot}/managerPage">管理员11</a>
                     <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
                     <a href="${ctxroot}/logout" class="tc">退出登录</a>
                 </c:when>
@@ -35,6 +36,7 @@
                         String name = "";
                         if (authentication != null) {
                             Object principal = authentication.getPrincipal();
+
                             if (principal instanceof UserDetails) {
                                 name =  ((UserDetails) principal).getUsername();
                             }else if (principal instanceof Principal) {
