@@ -1,16 +1,22 @@
 package com.gooalgene.qtl.web;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.qtl.service.QueryService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Collection;
 
 /**
  * Created by Administrator on 2017/07/08.
@@ -18,6 +24,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @RequestMapping("/search")
 public class SearchController {
+    private final static Logger logger = LoggerFactory.getLogger(SearchController.class);
 
     @Autowired
     private QueryService queryService;
@@ -26,6 +33,14 @@ public class SearchController {
 
     @RequestMapping("/index")
     public ModelAndView login(HttpServletRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null) {
+            // 拿到当前用户角色
+            Collection<Role> authorities = (Collection<Role>) authentication.getAuthorities();
+            for (Role authority : authorities) {
+                logger.info("当前用户拥有的权限为：" + authority.getAuthority());
+            }
+        }
         ModelAndView modelAndView = new ModelAndView("/search/index");
         String version = "Gmax_275_v2.0";
         modelAndView.addObject("types", queryService.queryAll());

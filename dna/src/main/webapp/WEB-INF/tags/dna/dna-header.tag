@@ -2,6 +2,8 @@
 <%@ tag import="org.springframework.security.core.Authentication" %>
 <%@ tag import="java.security.Principal" %>
 <%@ tag import="org.springframework.security.core.userdetails.UserDetails" %>
+<%@ tag import="com.gooalgene.common.authority.Role" %>
+<%@ tag import="java.util.Collection" %>
 <%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags' %>
@@ -43,13 +45,21 @@
                             }
                         }
                         if (name != null && !"".equals(name) && !"anonymousUser".equals(name)) {
+                            // 拿到当前用户角色
+                            Collection<Role> authorities = (Collection<Role>) authentication.getAuthorities();
+                            for (Role role : authorities){
+                                if (role.getAuthority().equals("ROLE_ADMIN")){
                     %>
-
                     你好,<sec:authentication property="name"/>
                     <a href="${ctxroot}/managerPage">管理员</a>
                     <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
                     <a  href="${ctxroot}/logout" class="tc">退出登录</a>
-                    <%
+                    <%}else {%>
+                    你好,<sec:authentication property="name"/>
+                    <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
+                    <a  href="${ctxroot}/logout" class="tc">退出登录</a>
+                    <%}
+                    }
                     } else {
                     %>
                     <a href="${ctxroot}/login" class="login">登录</a>
