@@ -58,7 +58,7 @@ public interface UserDao extends CrudDao<User>{
     boolean setRole(User_Role user_role);
 
 
-    Integer deleteTempUser(Integer id);
+    Integer deleteUser(Integer id);
 
 
     /*增加更新用户登录次数*/
