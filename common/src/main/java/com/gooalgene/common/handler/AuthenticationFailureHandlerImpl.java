@@ -10,6 +10,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
@@ -19,11 +20,13 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 @Component("authenticationFailureHandler")
-public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
+public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandler {
 
     private Logger logger= LoggerFactory.getLogger(AuthenticationFailureHandlerImpl.class);
 
     private RedirectStrategy redirectStrategy=new DefaultRedirectStrategy();
+
+
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         logger.info("登录失败，异常信息：{}",e.getMessage());
@@ -38,6 +41,7 @@ public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHa
             errorMessgae="账户未启用";
         }
         //RedirectAttributes
-        redirectStrategy.sendRedirect(request,response,"/login?error="+ URLEncoder.encode(errorMessgae,"UTF-8"));
+        //redirectStrategy.sendRedirect(request,response,"/login?error="+ URLEncoder.encode(errorMessgae,"UTF-8"));
+        super.onAuthenticationFailure(request,response,e);
     }
 }

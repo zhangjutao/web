@@ -10,12 +10,15 @@
 
     <!-- 目前不需要将ajax请求拒绝 -->
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
-
+    <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
+        <property name="defaultTargetUrl" value="/dna/index"></property>
+    </bean>
     <!-- 这里会覆盖ROLE_ADMIN用户/dna/**权限设置 -->
     <!--<sec:http pattern="/dna/index" security="none" />-->
     <!--authentication-failure-url="/login?error=true"-->
+    <!--default-target-url="/dna/index"-->
     <sec:http auto-config='false'>
-        <sec:form-login login-page="/login" default-target-url="/"
+        <sec:form-login login-page="/login"
                         login-processing-url="/j_spring_security_check"
 
                         authentication-success-handler-ref="authenticationSuccessHandler"

@@ -12,11 +12,18 @@
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
 
 
+    <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
+        <property name="defaultTargetUrl" value="/mrna/index"></property>
+    </bean>
     <sec:http pattern="/mrna/index" security="none" />
     <!--authentication-failure-url="/login?error=true"-->
+    <!--default-target-url="/mrna/index"-->
     <sec:http auto-config='false'>
-        <sec:form-login login-page="/login" default-target-url="/"
-                        login-processing-url="/j_spring_security_check"/>
+        <sec:form-login login-page="/login"
+                        login-processing-url="/j_spring_security_check"
+                        authentication-success-handler-ref="authenticationSuccessHandler"
+                        authentication-failure-handler-ref="authenticationFailureHandler"
+        />
         <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/mrna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
