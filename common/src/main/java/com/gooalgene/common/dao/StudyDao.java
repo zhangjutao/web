@@ -20,6 +20,8 @@ public interface StudyDao extends CrudDao<Study> {
 
     List<Study> findBySampleRuns(String[] runs);
 
+    List<Map> findByRuns(String[] runs);
+
     List<Map> findGenesForFirst();
 
     Map findGenesForFirstById(Integer id);
@@ -43,4 +45,6 @@ public interface StudyDao extends CrudDao<Study> {
     boolean deleteById(int id);
 
     int insertBatch(List<Study> toInsert);
+
+    List<String> findSampleruns();
 }

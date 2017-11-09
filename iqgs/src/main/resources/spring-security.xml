@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:c="http://www.springframework.org/schema/c"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+                        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+                        http://www.springframework.org/schema/security
+                        http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <!-- 目前不需要将ajax请求拒绝 -->
+    <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
+
+    <sec:http auto-config='false'>
+        <sec:form-login login-page="/login" default-target-url="/"
+                        login-processing-url="/j_spring_security_check"
+
+                        authentication-success-handler-ref="authenticationSuccessHandler"
+                        authentication-failure-handler-ref="authenticationFailureHandler"/>
+        <sec:access-denied-handler error-page="/403" />
+        <sec:logout invalidate-session="true" logout-success-url="/iqgs/index" logout-url="/j_spring_security_logout" />
+        <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+    </sec:http>
+    <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">
+        <property name="dataSource" ref="dataSource" />
+        <property name="resourceQuery"
+                        value="SELECT rc.res_string, r.name FROM resc rc, role r, role_resc rr WHERE r.id = rr.role_id AND rc.id = rr.resc_id" />
+    </bean>
+
+    <bean id="accessDecisionManager" class="com.gooalgene.common.security.MyAccessDecisionManager" />
+
+    <!--<bean id="myUserDetailsService" class="com.gooalgene.common.security.MyUserDetailsService"></bean>-->
+    <sec:authentication-manager alias="authenticationManager">
+        <sec:authentication-provider user-service-ref="myUserDetailsService">
+            <sec:password-encoder hash="md5" />
+        </sec:authentication-provider>
+    </sec:authentication-manager>
+
+    <!--自定义的切入点-->
+    <bean id="securityMetadataSource" class="com.gooalgene.common.security.MyFilterInvocationSecurityMetadataSource">
+        <property name="builder" ref="builder" />
+    </bean>
+
+    <!-- 执行HTTP请求资源的安全处理 -->
+    <bean id="filterSecurityInterceptor" class="org.springframework.security.web.access.intercept.FilterSecurityInterceptor">
+        <!-- 用户拥有的权限 -->
+        <property name="accessDecisionManager" ref="accessDecisionManager" />
+        <!-- 用户是否拥有所请求资源的权限 -->
+        <property name="authenticationManager" ref="authenticationManager" />
+        <!-- 资源与权限对应关系 -->
+        <property name="securityMetadataSource" ref="securityMetadataSource" />
+    </bean>
+
+</beans>

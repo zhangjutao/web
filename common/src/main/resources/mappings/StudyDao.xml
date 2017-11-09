@@ -22,6 +22,14 @@
         </foreach>
     </select>
 
+    <select id="findByRuns" resultType="Map">
+        SELECT * from study where sampleRun IN
+        <foreach item="item" index="index" collection="array"
+                 open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <select id="findStudyMap" resultType="Map">
         SELECT * from study
         WHERE 1=1
@@ -485,5 +493,9 @@ VALUES (
 
     <select id="queryLibraryLayouts" resultType="Map">
         SELECT DISTINCT libraryLayout FROM study
+    </select>
+
+    <select id="findSampleruns" resultType="string">
+        SELECT sampleRun FROM study
     </select>
 </mapper>
