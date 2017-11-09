@@ -1,7 +1,3 @@
-<%@ tag import="org.springframework.security.core.context.SecurityContextHolder" %>
-<%@ tag import="org.springframework.security.core.Authentication" %>
-<%@ tag import="java.security.Principal" %>
-<%@ tag import="org.springframework.security.core.userdetails.UserDetails" %>
 <%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags' %>
@@ -17,13 +13,14 @@
     <div class="container">
         <div class="logo">
             <a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
-            <%--todo--%>
             <a href="${ctxroot}/dna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">SNP INDEL Database</a>
         </div>
         <div class="login-out">
+            <sec:authorize var="login" access="isAuthenticated()"/>
             <c:choose>
-                <c:when test="${not empty userName}">
-                    你好,${userName}
+                <c:when test="${login}">
+                    <sec:authentication property="name" var="authenticationName" />
+                    你好,${authenticationName}
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <a href="${ctxroot}/managerPage">管理员</a>
                     </sec:authorize>
