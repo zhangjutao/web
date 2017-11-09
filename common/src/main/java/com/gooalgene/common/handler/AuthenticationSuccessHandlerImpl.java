@@ -38,6 +38,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
         SecurityUser securityUser=(SecurityUser)authentication.getPrincipal();
         LoginInfo loginInfo=new LoginInfo(securityUser.getId(),new Date(),null);
         loginInfoService.insertLoginInfo(loginInfo);
-        redirectStrategy.sendRedirect(request,response,"/dna/index");
+        String contextPath=request.getContextPath();
+        redirectStrategy.sendRedirect(request,response,contextPath+"/index");
     }
 }
