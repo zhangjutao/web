@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.iqgs.dao.DNAGenBaseInfoDao">
+    <select id="findByConditions" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
+        SELECT a.*, b.functions from gens_baseinfo a JOIN mrna_gens b on a.gene_id = b.gene
+        <where>
+            <if test="geneId!=null">
+                a.gene_id LIKE CONCAT('%', #{geneId}, '%')
+            </if>
+            <if test="geneName!=null">
+                OR a.gene_name LIKE CONCAT('%', #{geneName}, '%')
+            </if>
+            <if test="functions!=null">
+                OR b.functions LIKE CONCAT('%', #{functions}, '%')
+            </if>
+        </where>
+    </select>
+
+    <select id="findByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
+        SELECT a.*, b.functions from gens_baseinfo a JOIN mrna_gens b on a.gene_id = b.gene
+        WHERE a.gene_id = #{geneId}
+    </select>
+
+    <select id="findGenSequenceByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenSequence">
+        SELECT * FROM gens_sequence WHERE gene_id = #{geneId}
+    </select>
+
+    <select id="findGenAnnoGoByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenAnnoGo">
+        SELECT * FROM gens_anno_go WHERE gene_id = #{geneId}
+    </select>
+
+    <select id="findGenAnnoIprByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenAnnoIpr">
+        SELECT * FROM gens_anno_ipr WHERE gene_id = #{geneId}
+    </select>
+
+    <select id="findGenAnnoKeggByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenAnnoKegg">
+        SELECT * FROM gens_anno_kegg WHERE gene_id = #{geneId}
+    </select>
+
+    <select id="findGenStructureByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenStructure">
+        SELECT a.*, b.length AS maxLength, b.offset FROM gens_structure a LEFT JOIN gens_offset b  ON a.gene_id = b.gene_id
+        WHERE a.gene_id = #{geneId};
+    </select>
+
+    <select id="findGenByChr" parameterType="com.gooalgene.iqgs.entity.DNAGenStructure"
+            resultType="com.gooalgene.iqgs.entity.DNAGenStructure">
+        SELECT DISTINCT gene_id FROM gens_structure
+        WHERE chromosome = #{chromosome}
+        AND (
+            (start &gt;#{start} AND start &lt;#{end})
+             OR
+             (end &gt;#{start} AND end &lt;#{end})
+              OR
+              (start &lt;#{start} AND end &gt;#{start})
+            )
+    </select>
+    
+    <select id="findGenHomologousByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenHomologous">
+        SELECT * FROM gens_homologous WHERE gene_id = #{geneId};
+    </select>
+
+    <select id="findBaseInfoByFamilyId" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
+        SELECT b.* FROM gens_baseinfo b,gens_family_rel r WHERE b.gene_id=r.gene_id AND r.family_id = #{familyId}
+    </select>
+
+    <select id="findFamilyByGeneId" resultType="com.gooalgene.iqgs.entity.DNAGenFamilyRel">
+        SELECT * from gens_family_rel WHERE gene_id = #{geneId}
+    </select>
+
+    <select id="findOffsetByFamilyId" resultType="com.gooalgene.iqgs.entity.DNAGenOffset">
+        SELECT o.* from gens_family_rel f, gens_offset o WHERE f.gene_id=o.gene_id AND family_id = #{familyId}
+    </select>
+
+    <select id="findFamilyByFamilyId" resultType="com.gooalgene.iqgs.entity.DNAGenFamily">
+        SELECT * from gens_family WHERE family_id = #{familyId}
+    </select>
+
+    <select id="findStructureByFamilyId" resultType="com.gooalgene.iqgs.entity.DNAGenFamilyStructure">
+        SELECT * from gens_family_structure WHERE family_id = #{familyId}
+    </select>
+
+    <select id="findMaxLengthByFamilyId" resultType="int" parameterType="string">
+        SELECT MAX(s.end) FROM gens_family_structure s WHERE family_id = #{familyId}
+    </select>
+
+    <select id="findSequenceByTranscriptId" resultType="string" parameterType="string">
+        SELECT sequence FROM gens_transcript_seq WHERE transcript_id = #{transcriptId}
+    </select>
+
+</mapper>

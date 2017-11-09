@@ -10,6 +10,7 @@
         <module>common</module>
         <module>mrna</module>
         <module>qtl</module>
+        <module>iqgs</module>
     </modules>
     <name>guaoqtl Maven Webapp</name>
     <url>http://maven.apache.org</url>
