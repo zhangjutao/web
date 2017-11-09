@@ -422,17 +422,9 @@ public class SignUpController {
 
         //创建临时用户
         String username=user.getUsername();
-        //String email="temp@temp.com";
         String password=UUID.randomUUID().toString();
-
-        PasswordEncoder encoder = new Md5PasswordEncoder();
-        String md5Password=encoder.encodePassword(password,null);
-
-        //User user=new User(username,md5Password,email);
         //if(userService.createTempUser(user)){
             Role role=roleService.findByName("ROLE_TEMP");
-            /*User_Role user_role=new User_Role(user.getId(),role.getId());
-            user_roleService.create(user_role);*/
             List<Role> roles=new ArrayList<>();
             roles.add(role);
             UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
