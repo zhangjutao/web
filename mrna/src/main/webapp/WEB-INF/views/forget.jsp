@@ -17,7 +17,6 @@
 <body >
 
 <mrna:mrna-header />
-<!--header-->
 <div class="container">
     <div class="forget-h"><p>忘记密码</p></div>
     <div class="forget">
@@ -55,6 +54,27 @@
 </c:if>
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<!--footer-->
+<script type="text/javascript">
+    $(function (){
+        var user = '${user}';
+        console.log(user);
+        if(user!=""){
+            var inputMail = $("#mail").val();
+            var mailType = inputMail.split("@")[1].split(".")[0];
+            if(mailType == "gmail"){
+                console.log($("#mailAdress").get(0));
+                $("#mailAdress").attr("href","https://mail.google.com");
+            }else if (mailType == "qq"){
+                $("#returnType>a").attr("href","https://mail.qq.com/")
+            }else if (mailType == "163"){
+                $("#returnType>a").attr("href","http://mail.163.com/")
+            }else if (mailType == "sina"){
+                $("#returnType>a").attr("href","http://mail.sina.com.cn/")
+            }else {
+                $("#returnType").hide().next().show();
+            }
+        }
+    })
+</script>
 </body>
 </html>
