@@ -48,17 +48,35 @@
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <script>
-    $(function (){
-        var ctxRoot = '${ctxroot}';
+    window.onload = function (){
         $.ajax({
             type:"GET",
-            url:ctxRoot + "/manager/user",
-            success:function (result){
+            url:ctxRoot+ "/user",
+            success:function(result){
                 console.log(result);
-            }
-        })
-    })
+                if(result.data ==null){
+                    $("#general").show();
+                }else {
+                    $("#admin").show();
+                    var name = result.data.name;
+                    $(".username").text(name);
+                    var roles = result.data.authorities;
+                    for (var i=0;i<roles.length;i++){
+                        if(roles[i].name == "ROLE_ADMIN"){
+                            $("#adminUser").show();
+                        }
+                    }
+                }
 
+            },
+            error:function (error){
+                console.log(error);
+            }
+        });
+        $("#general a.login").addClass("active");
+        $("#general a.register").removeClass("active");
+
+    }
 </script>
 </body>
 </html>

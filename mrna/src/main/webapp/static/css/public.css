@@ -461,3 +461,25 @@ footer p{    clear: both;    text-align: center;padding-bottom: 25px}
     border-radius: 5px;
     background-color: #ccc;
 }
+/*#general a.register {*/
+    /*background-color: rgb(92, 140, 230);*/
+    /*color: rgb(255, 255, 255);*/
+    /*padding: 10px;*/
+    /*border-radius: 2px;*/
+/*}*/
+.active{
+    background-color: rgb(92, 140, 230);
+    color:#fff!important;
+    padding: 10px;
+    border-radius: 2px;
+}
+#general a {
+    margin-left: 10px;
+    font-size: 16px;
+    height: 16px;
+    display: inline-block;
+    line-height: 14px;
+    text-align: center;
+    /*color: rgb(92, 140, 230);*/
+}
+

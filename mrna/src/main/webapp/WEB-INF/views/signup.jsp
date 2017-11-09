@@ -89,7 +89,7 @@
 <c:if test="${not empty user}">
     <div id="mask" class=""></div>
     <div id="waiting" class="waiting">
-        <%--<div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>--%>
+        <div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>
         <div class="waiting-b">
             <div class="waiting-txt">24小时内审核完成，等待管理员进行联系</div>
             <a class="btn b-index" href="${ctxroot}/mrna/index">返回首页</a>

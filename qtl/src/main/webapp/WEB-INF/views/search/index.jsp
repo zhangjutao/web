@@ -143,32 +143,7 @@
             }
         }
     });
-//    判断当前用户是否是管理员
-    $(function (){
-        window.onload = function (){
-            console.log("search/index");
-            $("#admin").show();
-            $("#general").hide();
-            $.ajax({
-                type:"GET",
-                url:ctxRoot+ "/manager/user",
-                success:function(result){
-                    console.log(result);
-                    var name = result.data.name;
-                    $(".username").text(name);
-                    var roles = result.data.authorities;
-                    for (var i=0;i<roles.length;i++){
-                        if(roles[i].name == "ROLE_ADMIN"){
-                            $("#adminUser").show();
-                        }
-                    }
-                },
-                error:function (error){
-                    console.log(error);
-                }
-            })
-        }
-    })
+
 
 
 

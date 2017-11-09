@@ -7,12 +7,13 @@
 <%@page session="true"%>
 <html>
 <head>
+    <meta charset="UTF-8"/>
     <title>Login Page</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
-    <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/jquery-1.11.0.js" charset="UTF-8"></script>
 </head>
 <body onload='document.loginForm.j_username.focus();'>
 <dna:dna-header />
@@ -45,5 +46,13 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script>
+    window.onload = function (){
+        $(".login-out a.login").addClass("active");
+        $(".login-out a.register").removeClass("active");
+        console.log("${error}");
+
+    }
+</script>
 </body>
 </html>
