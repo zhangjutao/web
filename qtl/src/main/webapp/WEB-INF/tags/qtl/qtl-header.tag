@@ -54,7 +54,7 @@
                     <a  href="${ctxroot}/logout" class="tc">退出登录</a>--%>
                     <%--<%}else {%>--%>
                 <div id="admin">
-                    你好,<span class="username"></span>
+                    你好, <span class="username"></span>
                     <a href="${ctxroot}/managerPage" id="adminUser" style="display:none;">管理员</a>
                     <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
                     <a  href="${ctxroot}/logout" class="tc">退出登录</a>

@@ -25,7 +25,7 @@
         <div class="login-out">
             <c:choose>
                 <c:when test="${not empty userName}">
-                    你好,${userName}
+                    你好, ${userName}
                     <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
                     <a href="${ctxroot}/logout" class="tc">退出登录</a>
                 </c:when>

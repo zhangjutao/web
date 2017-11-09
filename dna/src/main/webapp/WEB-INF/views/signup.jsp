@@ -169,7 +169,7 @@
     })
     $("#mail").blur(function (){
         var val = $(this).val().trim().toString();
-        var reg = /^\w+[@][a-zA-Z]+[.]\w+([.]?[a-zA-Z])*$/;
+        var reg = /^\w+[@][a-zA-Z0-9]+[.]\w+([.]?[a-zA-Z])*$/;
         if(!reg.test(val) && val!=""){
             $("#mail").css("border","1px solid #ff0000");
             $(".mailTip").show();
