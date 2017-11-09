@@ -14,7 +14,6 @@
 
     <!-- 这里会覆盖ROLE_ADMIN用户/qtl/**权限设置 -->
     <sec:http pattern="/search/index" security="none"/>
-    <!--authentication-failure-url="/login?error=true"-->
     <sec:http auto-config='false' use-expressions="true">
         <sec:intercept-url pattern="/manager/user" access="permitAll"/>
         <sec:form-login login-page="/login" default-target-url="/search/index"
@@ -51,9 +50,7 @@
         <!-- 用户是否拥有所请求资源的权限 -->
         <property name="authenticationManager" ref="authenticationManager"/>
         <!-- 资源与权限对应关系 -->
-        <property name="securityMetadataSource" ref="securityMetadataSource">
-
-        </property>
+        <property name="securityMetadataSource" ref="securityMetadataSource"/>
     </bean>
 
 </beans>
