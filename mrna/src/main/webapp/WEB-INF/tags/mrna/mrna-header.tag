@@ -23,56 +23,19 @@
             <a href="${ctxroot}/mrna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">Gene Expression Database</a>
         </div>
         <div class="login-out">
-            <c:choose>
-                <c:when test="${not empty userName}">
-                    你好,${userName}
-                    <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
-                    <a href="${ctxroot}/logout" class="tc">退出登录</a>
-                </c:when>
-                <c:otherwise>
-                    <%
-                        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                        String name = "";
-                        if (authentication != null) {
-                            Object principal = authentication.getPrincipal();
-
-                            if (principal instanceof UserDetails) {
-                                name =  ((UserDetails) principal).getUsername();
-                            }else if (principal instanceof Principal) {
-                                name =  ((Principal) principal).getName();
-                            } else {
-                                name =  String.valueOf(principal);
-                            }
-                        }
-                        if (name != null && !"".equals(name) && !"anonymousUser".equals(name)) {
-                            // 拿到当前用户角色
-                            Collection<Role> authorities = (Collection<Role>) authentication.getAuthorities();
-                            for (Role role : authorities){
-                                if (role.getAuthority().equals("ROLE_ADMIN")){
-                    %>
-                    你好,<sec:authentication property="name"/>
+                <div id="admin" style="display:none;">
+                    你好, <span id="username"></span>
                     <a href="${ctxroot}/managerPage" id="adminUser" style="display:none;">管理员</a>
                     <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
                     <a  href="${ctxroot}/logout" class="tc">退出登录</a>
-                    <%}else {%>
-                    你好,<sec:authentication property="name"/>
-                    <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
-                    <a  href="${ctxroot}/logout" class="tc">退出登录</a>
-                    <%}
-                    }
-                    } else {
-                    %>
+                </div>
+                <div id="general">
                     <a href="${ctxroot}/login" class="login">登录</a>
                     <a href="${ctxroot}/signup/action" class="register active">注册</a>
-                    <%
-                        }
-                    %>
-                </c:otherwise>
-            </c:choose>
+                </div>
         </div>
     </div>
 </header>
 <script>
     var ctxRoot = '${ctxroot}';
-
 </script>

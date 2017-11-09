@@ -24,7 +24,7 @@
         <div class="login-b">
             <form method="POST" action="<c:url value='/j_spring_security_check' />" name='loginForm' class="form">
                 <c:if test="${not empty error}">
-                    <div class="er">${error}</div>
+                    <div class="er" style="color:#ff0000;font-size:16px;">${error}</div>
                 </c:if>
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
@@ -44,27 +44,5 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<script type="text/javascript">
-//    $(function (){
-//       window.onload = function (){
-//           $.ajax({
-//               type:"GET",
-//               url:ctxRoot+ "/manager/user",
-//               success:function(result){
-//                   console.log(result);
-//                   console.log(5555);
-//                   var roles = result.data.authorities;
-//                   for (var i=0;i<roles.length;i++){
-//                       if(roles[i].name == "ROLE_ADMIN"){
-//                           $("#adminUser").show();
-//                           console.log($("#adminUser").get(0));
-//                       }
-//                   }
-//               }
-//           })
-//       }
-//
-//    })
-</script>
 </body>
 </html>

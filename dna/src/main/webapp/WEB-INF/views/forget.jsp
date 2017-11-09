@@ -26,10 +26,9 @@
     <div class="forget-h"><p>忘记密码</p></div>
     <div class="forget">
         <form method="POST" action="${ctxroot}/signup/forget">
-
             <c:if test="${not empty error}">
-                <div class="error" style="color:#ff0000;">${error}</div>
-            </c:if>
+                <div class="error" style="color:#ff0000;font-size:16px;">${error}</div>
+            e:16px;
             <div class="forget-u">
                 <label>
                     <span>用户名:</span>
@@ -55,7 +54,7 @@
         <div class="waiting-b">
             <div class="waiting-txt" style="padding-top:17px;">24小时内审核完成，等待管理员进行联系</div>
             <p id="returnType"> 点击<a id="mailAdress" style="color:#72ACE3;" target="_blank;"> 邮箱 </a>进行确认！</p>
-            <p id="otherMail">没有找到该qq.com类型邮箱</p>
+            <p id="otherMail" style="display:none;">没有找到该类型邮箱</p>
             <a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>
         </div>
     </div>

@@ -21,7 +21,7 @@
     <div class="signup">
         <form method="POST" action="${pageContext.request.contextPath}/signup/action.do" class="form" id="signupForm">
             <c:if test="${not empty error}">
-                <div class="er">${error}</div>
+                <div class="er" style="color:#ff0000;font-size:16px;">${error}</div>
             </c:if>
             <div class="reg-u">
                 <label>
@@ -169,7 +169,7 @@
     })
     $("#mail").blur(function (){
         var val = $(this).val().trim().toString();
-        var reg = /^\w+[@][a-zA-Z]+[.]\w+([.]?[a-zA-Z])*$/;
+        var reg = /^\w+[@][a-zA-Z0-9]+[.]\w+([.]?[a-zA-Z])*$/;
         if(!reg.test(val) && val!=""){
             $("#mail").css("border","1px solid #ff0000");
             $(".mailTip").show();

@@ -24,7 +24,7 @@
     <div class="signup">
         <form method="POST" action="${pageContext.request.contextPath}/signup/action.do" class="form" id="signupForm">
             <c:if test="${not empty error}">
-                <div class="er">${error}</div>
+                <div class="er" style="color:#ff0000;font-size:16px;">${error}</div>
             </c:if>
             <div class="reg-u">
                 <label>
@@ -89,10 +89,10 @@
 <c:if test="${not empty user}">
     <div id="mask" class=""></div>
     <div id="waiting" class="waiting">
-        <div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>
+        <%--<div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>--%>
         <div class="waiting-b">
             <div class="waiting-txt">24小时内审核完成，等待管理员进行联系</div>
-            <a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>
+            <a class="btn b-index" href="${ctxroot}/mrna/index">返回首页</a>
         </div>
     </div>
 </c:if>
@@ -172,7 +172,7 @@
     })
     $("#mail").blur(function (){
         var val = $(this).val().trim().toString();
-        var reg = /^\w+[@][a-zA-Z]+[.]\w+([.]?[a-zA-Z])*$/;
+        var reg = /^\w+[@][a-zA-Z0-9]+[.]\w+([.]?[a-zA-Z])*$/;
         if(!reg.test(val) && val!=""){
             $("#mail").css("border","1px solid #ff0000");
             $(".mailTip").show();
