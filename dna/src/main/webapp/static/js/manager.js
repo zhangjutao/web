@@ -209,24 +209,28 @@ $(function () {
         }
     })
     $("#tblbody table").on("click",function (e) {
-
         var $p = $(e.target);
         var selfId = parseInt($p.parent().parent().attr("myid"));
         var data = {
                 id:selfId
         };
         if ($p.hasClass("btnAudit")) {
+            $p.removeClass("btnAudit").addClass("btnWait");
             $p.text("审核中");
             $.ajax({
                 type:"POST",
                 url:ctxRoot + "/manager/change/enable",
                 data:data,
                 success:function (result){
-                    console.log(result);
                     if(result.code == 0){
-                        $p.removeClass("btnAudit").addClass("btnAudited").text("已审核");
+                        $p.removeClass("btnWait").addClass("btnAudited").text("已审核");
                         $p.parent().prev().text("已审核");
-                    };
+                    }else{
+                        $p.text("待审核");
+                    }
+                },
+                error:function (error){
+
                 }
             })
 

@@ -59,7 +59,7 @@
     $(function (){
         var user = '${user}';
         console.log(user);
-        if(user != ''){
+        if(user!=""){
             var inputMail = $("#mail").val();
             var mailType = inputMail.split("@")[1].split(".")[0];
             if(mailType == "gmail"){
