@@ -41,7 +41,7 @@ public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFai
             errorMessgae="账户未启用";
         }
         //RedirectAttributes
-        //redirectStrategy.sendRedirect(request,response,"/login?error="+ URLEncoder.encode(errorMessgae,"UTF-8"));
-        super.onAuthenticationFailure(request,response,e);
+        redirectStrategy.sendRedirect(request,response,"/login?error="+ URLEncoder.encode(errorMessgae,"UTF-8"));
+        //super.onAuthenticationFailure(request,response,e);
     }
 }

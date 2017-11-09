@@ -39,7 +39,7 @@ public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         logger.info("登录成功的用户：{}",authentication);
-        SecurityUser securityUser=(SecurityUser)authentication. getPrincipal();
+        SecurityUser securityUser=(SecurityUser)authentication.getPrincipal();
         LoginInfo loginInfo=new LoginInfo(securityUser.getId(),new Date(),null);
         loginInfoService.insertLoginInfo(loginInfo);
 
