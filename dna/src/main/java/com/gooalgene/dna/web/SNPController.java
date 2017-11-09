@@ -1,6 +1,7 @@
 package com.gooalgene.dna.web;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
@@ -18,6 +19,9 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,10 +34,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/dna")
@@ -52,8 +53,6 @@ public class SNPController {
 
     @Autowired
     private SNPService snpService;
-    @Autowired
-    private SMTPService smtpService;
 
     @Autowired
     private DNAMongoService dnaMongoService;
@@ -65,16 +64,6 @@ public class SNPController {
     public ModelAndView index(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
-        //测试启动时发邮件是否正常
-//        List<String> receivers = new ArrayList<>();
-//        receivers.add("crabime@gmail.com");
-//        try {
-//            smtpService.send("songsx@gooalgene.com", receivers, "来自古奥基因的邮件通知", "您的注册账号已生效，请点击查收", false);
-//        } catch (MessagingException e) {
-//            e.printStackTrace();
-//        } catch (UnsupportedEncodingException e) {
-//            e.printStackTrace();
-//        }
         return model;
     }
 

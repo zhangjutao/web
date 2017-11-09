@@ -89,4 +89,6 @@
     <task:annotation-driven executor="annotationExecutor" />
     <!-- 支持 @Async 注解 -->
     <task:executor id="annotationExecutor" pool-size="20" queue-capacity="25" />
+
+
 </beans>

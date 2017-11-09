@@ -1,61 +1,42 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:sec="http://www.springframework.org/schema/security"
+       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security.xsd">
 
-    <!-- 数据源配置, 使用 Druid 数据库连接池 -->
-    <bean id="secDataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
-        <!-- 数据源驱动类可不写，Druid默认会自动根据URL识别DriverClass -->
-        <property name="driverClassName" value="${jdbc.driver}"/>
+    <!-- 目前不需要将ajax请求拒绝 -->
+    <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
 
-        <!-- 基本属性 url、user、password -->
-        <property name="url" value="jdbc:mysql://172.168.1.119:33069/dev_auth?useUnicode=true&amp;characterEncoding=utf-8"/>
-        <property name="username" value="root"/>
-        <property name="password" value="gooalgene@Iqgs123"/>
 
-        <!-- 配置初始化大小、最小、最大 -->
-        <property name="initialSize" value="${jdbc.pool.init}"/>
-        <property name="minIdle" value="${jdbc.pool.minIdle}"/>
-        <property name="maxActive" value="${jdbc.pool.maxActive}"/>
-
-        <!-- 配置获取连接等待超时的时间 -->
-        <property name="maxWait" value="60000"/>
-
-        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
-        <property name="timeBetweenEvictionRunsMillis" value="60000"/>
-
-        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
-        <property name="minEvictableIdleTimeMillis" value="300000"/>
-    </bean>
-
-    <!-- 这里会覆盖ROLE_ADMIN用户/mrna/**权限设置 -->
     <sec:http pattern="/mrna/index" security="none" />
-    <sec:http auto-config='false' use-expressions="true">
-        <sec:intercept-url pattern="/mrna/**" access="hasRole('ROLE_ADMIN')" />
+    <!--authentication-failure-url="/login?error=true"-->
+    <sec:http auto-config='false'>
         <sec:form-login login-page="/login" default-target-url="/"
-                        authentication-failure-url="/login?error=true" />
-
+                        login-processing-url="/j_spring_security_check"/>
+        <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/mrna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
     </sec:http>
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">
-        <property name="dataSource" ref="secDataSource" />
+        <property name="dataSource" ref="dataSource" />
         <property name="resourceQuery"
-                        value="SELECT rc.res_string, r.name FROM resc rc, role r, role_resc rr WHERE r.id = rr.role_id AND rc.id = rr.resc_id" />
+                  value="SELECT rc.res_string, r.name FROM resc rc, role r, role_resc rr WHERE r.id = rr.role_id AND rc.id = rr.resc_id" />
     </bean>
 
     <bean id="accessDecisionManager" class="com.gooalgene.common.security.MyAccessDecisionManager" />
 
+    <!--<bean id="myUserDetailsService" class="com.gooalgene.common.security.MyUserDetailsService"></bean>-->
     <sec:authentication-manager alias="authenticationManager">
-        <sec:authentication-provider>
-            <sec:jdbc-user-service data-source-ref="secDataSource"
-                                   users-by-username-query="select username,password,status as enabled from user where username = ?"
+        <sec:authentication-provider user-service-ref="myUserDetailsService">
+            <sec:password-encoder hash="md5" />
+            <!--<sec:jdbc-user-service data-source-ref="dataSource"
+                                   users-by-username-query="select username,password,enabled from user where username = ?"
                                    authorities-by-username-query=
-                                           "select u.username, r.name from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.username = ?"/>
+                                           "select u.username, r.name from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.username = ?"/>-->
         </sec:authentication-provider>
     </sec:authentication-manager>
 

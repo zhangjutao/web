@@ -1,13 +1,15 @@
 package com.gooalgene.common.security;
 
 import com.gooalgene.common.authority.Role;
+import com.gooalgene.common.authority.SecurityUser;
+import com.gooalgene.common.authority.User;
 import com.gooalgene.common.dao.RoleDao;
 import com.gooalgene.common.dao.UserDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.User;
+//import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -28,7 +30,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Boolean accountNonExpired=false;
         Boolean enabled=false;
-        com.gooalgene.common.authority.User user=userDao.getByUsername(username);
+        User user=userDao.getByUsername(username);
 
         //List<GrantedAuthority> authorities =new ArrayList<>();
         List<Role> roles=roleDao.getByUserId(user.getId());
@@ -40,7 +42,7 @@ public class MyUserDetailsService implements UserDetailsService {
             enabled=true;
         }
 
-        return new User(user.getUsername(),user.getPassword(),
+        return new SecurityUser(user.getId(),user.getUsername(),user.getPassword(),
                 enabled,accountNonExpired,true,true,roles);
     }
 }

@@ -24,9 +24,9 @@ if (Servlets.isAjaxRequest(request)) {
 else {
 %>
 <%@page import="org.slf4j.Logger,org.slf4j.LoggerFactory"%>
-<%@page import="com.gooalgene.guaoqtl.common.Servlets"%>
-<%@page import="com.gooalgene.guaoqtl.utils.Exceptions"%>
-<%@page import="com.gooalgene.guaoqtl.utils.StringUtils"%>
+<%@page import="com.gooalgene.common.Servlets"%>
+<%@page import="com.gooalgene.utils.Exceptions"%>
+<%@page import="com.gooalgene.utils.StringUtils"%>
 <%@page contentType="text/html;charset=UTF-8" isErrorPage="true"%>
 <%@include file="/WEB-INF/views/include/taglib.jsp"%>
 <!DOCTYPE html>

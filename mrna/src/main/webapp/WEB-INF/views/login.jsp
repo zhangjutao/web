@@ -11,10 +11,9 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
-    <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
-<body onload='document.loginForm.username.focus();'>
+<body onload='document.loginForm.j_username.focus();'>
 <mrna:mrna-header />
 <!--header-->
 <div class="container">
@@ -48,5 +47,18 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script>
+    $(function (){
+        var ctxRoot = '${ctxroot}';
+        $.ajax({
+            type:"GET",
+            url:ctxRoot + "/manager/user",
+            success:function (result){
+                console.log(result);
+            }
+        })
+    })
+
+</script>
 </body>
 </html>

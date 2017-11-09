@@ -35,7 +35,7 @@ public class SMTPMailTest extends TestCase {
         File file = resource.getFile();
         List<String> list = new ArrayList<>();
         list.add("crabime@gmail.com");
-        smtpService.send("songsx@gooalgene.com", list, "使用文件模板发送邮件", file, true);
+        smtpService.send("songsx@gooalgene.com", list, "使用文件模板发送邮件", file, true, new String[]{});
     }
 
     @Test

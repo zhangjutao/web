@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.common.dao.UserDao">
-   <!--这个userdao.xml是从common包中复制过来的 供注册使用-->
-    <select id="get" resultType="com.gooalgene.common.authority.User">
+
+    <resultMap id="userInfo" type="com.gooalgene.common.authority.User">
+        <result column="create_time" property="create_time" jdbcType="TIMESTAMP"/>
+        <result column="due_time" property="due_time" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <select id="get" resultType="com.gooalgene.common.authority.User" resultMap="userInfo">
         SELECT * FROM user WHERE id = #{id}
     </select>
 
     <select id="queryAll" resultType="com.gooalgene.common.authority.User">
         SELECT * FROM user
+    </select>
+
+    <select id="queryByPage" resultType="com.gooalgene.common.authority.User">
+        SELECT * FROM user
+    </select>
+    <select id="getCount" resultType="java.lang.Long">
+        SELECT count(1) from user
     </select>
 
     <select id="findByEnable" resultType="com.gooalgene.common.authority.User">
@@ -19,8 +31,8 @@
     </select>
 
     <insert id="insert">
-        INSERT INTO user(username,email,password,phone,domains,university,enabled) VALUES
-        (#{username},#{email},#{password},#{phone},#{domains},#{university},0)
+        INSERT INTO user(username,email,password,phone,domains,university,create_time,due_time,enabled) VALUES
+        (#{username},#{email},#{password},#{phone},#{domains},#{university},#{create_time},#{due_time},0)
     </insert>
 
     <select id="findLastInsertId" resultType="java.lang.Integer">
@@ -46,6 +58,9 @@
     <insert id="setRole" parameterType="com.gooalgene.common.authority.User_Role">
         INSERT INTO user_role(user_id,role_id)VALUE (#{user_id},#{role_id});
     </insert>
-
+    <!--更新用户的登录次数-->
+    <update id="updateUserLoginCount" parameterType="com.gooalgene.common.authority.User">
+        UPDATE user SET logincount=#{loginCount} WHERE id=#{id}
+    </update>
 
 </mapper>

@@ -11,6 +11,9 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 
 /**
  * Created by hedingwei on 16/10/2017.
@@ -24,8 +27,13 @@ public class LoginController {
 
         ModelAndView model = new ModelAndView();
         if (error != null) {
-            model.addObject("error", "无效的用户名或密码!");
-    }
+            try {
+                error= URLDecoder.decode(error,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            model.addObject("error", error);
+        }
         if (logout != null) {
             model.addObject("msg", "登出成功.");
         }

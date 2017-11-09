@@ -14,8 +14,10 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -33,11 +35,51 @@ public class SignUpServiceTest extends TestCase {
 
     @Test
     public void testSignUpUsernameExists() throws Exception{
-        mockMvc.perform(get("/nameexists")
+        mockMvc.perform(get("/signup/nameexists")
                 .param("username", "crabime"))
                 .andExpect(status().isOk())
-                .andDo(print())
-                .andExpect(content().string("{\"exists\":true}"))
+                .andExpect(jsonPath("$.exists").value(true))
                 .andReturn();
     }
+
+    @Test
+    public void testForgetPasswordController() throws Exception {
+        mockMvc.perform(post("/signup/forget")
+                .param("username", "huyao")
+                .param("email", "crabime@gmail.com"))
+                .andExpect(status().isOk())
+                .andReturn();
+    }
+
+    /**
+     * 这里使用MockHttpServletRequest竟然返回的是空!
+     * @throws Exception
+     */
+    @Test
+    public void testGetContextPath() throws Exception {
+        mockMvc.perform(get("/signup/getContextPath"))
+                .andDo(print())
+                .andReturn();
+    }
+
+    @Test
+    public void testChangeEnable()throws Exception{
+        mockMvc.perform(post("/manager/change/enable")
+                .param("id", "44"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                 .andReturn();
+    }
+
+    @Test
+    public void testFoget()throws Exception{
+        mockMvc.perform(post("/signup/forget")
+               .param("username","test")
+               .param("email","1415775989@qq.com"))
+                .andExpect(status().isOk())
+                .andDo(print());
+    }
+
+
+
 }

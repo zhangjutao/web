@@ -65,14 +65,16 @@ public class PageTest extends TestCase {
 
     @Test
     public void testRoleDao(){
-        //User user=userDao.getByUsername("huyao");
+        /*User user=userDao.getByUsername("zyp");
+        User user1=userDao.getById(26,"crabime");
+        //User user=userDao.findByUserName("huyao");
         List<Role> roles=roleDao.getByUserId(26);
-        System.out.println(roles);
+        System.out.println(roles);*/
+        /*Role role=roleDao.findByName("ROLE_TEMP");
+        assertNotNull(role);*/
+        Integer i=userDao.deleteUser(106);
+        System.out.println(i);
     }
 
-    @Test
-    public void testGetByUsername(){
-        User user = userDao.getByUsername("crabime");
-        assertEquals("e10adc3949ba59abbe56e057f20f883e", user.getPassword());
-    }
+
 }

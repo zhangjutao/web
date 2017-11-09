@@ -10,6 +10,15 @@ public class Token {
     private String token;
     private Date  due_time;
     private int token_status;
+    private Date updateTime;
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 
     public int getUserid() {
         return userid;

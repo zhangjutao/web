@@ -13,10 +13,13 @@
 
     <!-- 这里会覆盖ROLE_ADMIN用户/dna/**权限设置 -->
     <!--<sec:http pattern="/dna/index" security="none" />-->
+    <!--authentication-failure-url="/login?error=true"-->
     <sec:http auto-config='false'>
         <sec:form-login login-page="/login" default-target-url="/"
                         login-processing-url="/j_spring_security_check"
-                        authentication-failure-url="/login?error=true" />
+
+                        authentication-success-handler-ref="authenticationSuccessHandler"
+                        authentication-failure-handler-ref="authenticationFailureHandler"/>
         <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
