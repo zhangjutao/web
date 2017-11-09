@@ -469,4 +469,20 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
     <delete id="deleteById" parameterType="int">
         DELETE FROM qtl WHERE id=#{id}
     </delete>
+
+    <select id="findListByGene" resultType="Map">
+        SELECT a.id,a.`qtl_name` AS
+        qtlName,trait,type,marker1,marker2,b.lg,d.chr,method,lod,parent1,parent2,genome_start AS
+        geneStart,genome_end AS geneEnd,d.version AS version,ref,author
+        FROM qtl a
+        LEFT JOIN chrlg b ON a.chrlg_id = b.id
+        LEFT JOIN chrlg d ON b.`lg`=d.`lg`
+        WHERE 1=1
+        <if test="version!=null">
+            AND d.version=#{version}
+        </if>
+        AND a.qtl_name IN (
+        select qtl_name from `associatedgenes` where associated_genes like CONCAT('%',#{gene},'%')
+        )
+    </select>
 </mapper>

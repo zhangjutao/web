@@ -78,12 +78,13 @@ body {
 #containerAdmin .btnAudit {
     background: #5D8CE6;
 }
-
+#containerAdmin .btnWait{
+    background:#CCCCCC;
+}
 #containerAdmin .btnAudited {
     background: #CCCCCC;
     opacity: .6;
 }
-
 #containerAdmin #userDetail {
     margin: 0 auto;
     padding-left: 37px;

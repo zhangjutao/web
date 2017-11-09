@@ -82,6 +82,24 @@ public class UserService implements ApplicationContextAware {
         }
         return flag;
     }
+    //插入临时用户
+    public boolean createTempUser(User user){
+        Date date=new Date();
+        Calendar calendar=Calendar.getInstance();
+        calendar.setTime(date);
+        logger.debug("添加之前的时间:", date);
+        user.setCreate_time(date);
+        logger.debug("添加之后的时间:",date);
+        calendar.add(Calendar.HOUR, 2);
+        Date due_date=calendar.getTime();
+        logger.debug("due_time:",due_date);
+        user.setDue_time(due_date);
+        Boolean flag=userDao.insertTemp(user);
+        if(flag){
+            successPublish(user);
+        }
+        return flag;
+    }
 
     /*得到最后插入数据的ID 即当前插入数据之后得到其ID*/
     public int findLastInsertId(){
@@ -91,6 +109,13 @@ public class UserService implements ApplicationContextAware {
     //查询所有未激活（审核）enable=0的用户
     public List<User> queryUserForCheck() {
         return userDao.findByEnable(0);
+    }
+
+    public Boolean deleteUser(Integer id){
+        if(userDao.deleteUser(id)>0){
+            return true;
+        }
+        return false;
     }
 
     //更新用户enable的值
@@ -121,6 +146,10 @@ public class UserService implements ApplicationContextAware {
          }
     }
 
+  //更新用户密码
+    public boolean updateUserPassword(User user){
+        return  userDao.updateUserPassword(user);
+    }
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {

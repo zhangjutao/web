@@ -173,4 +173,22 @@ public class SNPService {
         }
         return jsonArray;
     }
+
+    public Map searchSNPByGene(String type, String gene, Page<DNAGens> page) {
+        List<SNP> snps = dnaMongoService.searchByGene(type,gene,page);
+        Map result = new HashMap();
+        result.put("pageNo", page.getPageNo());
+        result.put("pageSize", page.getPageSize());
+        JSONArray data = new JSONArray();
+        for (SNP snp : snps) {
+            JSONObject snp_Json = snp.toJSON();
+
+            JSONArray freqData = getFrequeData(snp.getSamples(), new HashMap<String, List<String>>());
+            snp_Json.put("freq", freqData);
+            data.add(snp_Json);
+        }
+        result.put("total", page.getCount());
+        result.put("data", data);
+        return result;
+    }
 }

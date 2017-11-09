@@ -10,9 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header-res.jsp" %>
 </head>
 <body>
-<%--<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>--%>
-<mrna:qtl-header />
-
+<qtl:qtl-header />
     <section class="container">
         <div class="banner">
             <div class="plant-pic">
@@ -145,9 +143,10 @@
             }
         }
     });
-//    $("#limb").mouseover(function(){
-//        $(".limb-mouseover").show();
-//    })
+
+
+
+
 </script>
 </body>
 </html>

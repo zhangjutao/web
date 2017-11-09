@@ -34,6 +34,7 @@ $(function () {
                     $("#paging").hide();
                     $("#errorImg").show();
                     $("#containerAdmin").css("height","754px");
+                    $("#paging").hide();
                 }else{
                     totalDatas = result.data.list;
                     nums = Math.ceil(count / page.pageSize);
@@ -47,13 +48,11 @@ $(function () {
                         }else{
                             var str="  <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>待审核</td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
                         }
-                        console.log(status);
                         var $tbl = $("#tblbody table");
                         $tbl.append(str);
                         pageStyle(nums,intNums);
                         $("#totals").text(count);
                     }
-
                 }
             },
             error:function (error){
@@ -64,7 +63,9 @@ $(function () {
     // 样式调整方法
     function pageStyle(nums,intNums){
                 if (nums > 4) {
-                    $(".first").hide().next().text(1).next().hide();
+                    // $(".first").hide().next().text(1).next().hide();
+                    $(".first").next().text(1);
+
                     $(".four").text(2).next().text(3).next().text(4);
                     $(".eight").text(nums);
                     $(".seven").show();
@@ -126,7 +127,7 @@ $(function () {
             $(".eight").text(nums);
         };
         var $p = $(e.target);
-
+        console.log($p);
         page.pageNum = parseInt($p.text());
         paramData.pageNum = page.pageNum;
         getData(paramData);
@@ -137,7 +138,6 @@ $(function () {
             }
         }
         $p.addClass("pageColor");
-
     });
     // pageSize 选择事件
     $("#selectedNum").change(function (e){

@@ -2,17 +2,17 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
         <mapper namespace="com.gooalgene.common.dao.LoginInfoDao">
     <resultMap id="LoginInfo" type="com.gooalgene.common.authority.LoginInfo">
-        <result column="userid" property="userid" jdbcType="INTRGER"/>
+        <result column="userid" property="userId" jdbcType="INTRGER"/>
         <result column="logintime" property="loginTime" jdbcType="TIMESTAMP"/>
         <result column="logouttime" property="logoutTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <insert id="insertLoginInfo">
-        INSERT  INTO  login_info (userid,logintime,logouttime)VALUE (#{userid},#{loginTime},#{logoutTime})
+        INSERT  INTO  login_info (userid,logintime,logouttime)VALUE (#{userId},#{loginTime},#{logoutTime})
     </insert>
 
     <select id="getLoginInfoById" resultMap="LoginInfo">
-        SELECT * FROM login_info WHERE userid=#{userid}
+        SELECT * FROM login_info WHERE userid=#{userId}
     </select>
 
     <select id="getAllLoginInfo" resultMap="LoginInfo">

@@ -13,6 +13,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationFailureHandler;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -24,7 +25,7 @@ import java.io.IOException;
 import java.net.URLEncoder;
 
 @Component("authenticationFailureHandler")
-public class AuthenticationFailureHandlerImpl implements AuthenticationFailureHandler {
+public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandler {
 
     private Logger logger= LoggerFactory.getLogger(AuthenticationFailureHandlerImpl.class);
 

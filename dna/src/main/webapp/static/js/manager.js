@@ -64,7 +64,8 @@ $(function () {
     // 样式调整方法
     function pageStyle(nums,intNums){
                 if (nums > 4) {
-                    $(".first").hide().next().text(1).next().hide();
+                    // $(".first").hide().next().text(1).next().hide();
+                    $(".first").next().text(1);
                     $(".four").text(2).next().text(3).next().text(4);
                     $(".eight").text(nums);
                     $(".seven").show();
@@ -214,6 +215,8 @@ $(function () {
                 id:selfId
         };
         if ($p.hasClass("btnAudit")) {
+            $p.removeClass("btnAudit").addClass("btnWait");
+            $p.text("审核中");
             $.ajax({
                 type:"POST",
                 url:ctxRoot + "/manager/change/enable",
@@ -221,9 +224,19 @@ $(function () {
                 success:function (result){
                     console.log(result);
                     if(result.code == 0){
-                        $p.removeClass("btnAudit").addClass("btnAudited").text("已审核");
+                        $p.removeClass("btnWait").addClass("btnAudited").text("已审核");
                         $p.parent().prev().text("已审核");
-                    };
+                    }else if(result.code == -1){
+                        $p.parent().prev().text("审核失败")
+                        $p.text("待审核");
+                        $p.removeClass("btnWait").addClass("btnAudit");
+                    }else{
+                        $p.removeClass("btnWait").addClass("btnAudited").text("未通过");
+                        $p.parent().prev().text("未通过");
+                    }
+                },
+                error:function (error){
+
                 }
             })
 

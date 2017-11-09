@@ -11,10 +11,9 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
-    <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
-<body onload='document.loginForm.username.focus();'>
+<body onload='document.loginForm.j_username.focus();'>
 <mrna:mrna-header />
 <!--header-->
 <div class="container">
@@ -25,7 +24,7 @@
         <div class="login-b">
             <form method="POST" action="<c:url value='/j_spring_security_check' />" name='loginForm' class="form">
                 <c:if test="${not empty error}">
-                    <div class="er">${error}</div>
+                    <div class="er" style="color:#ff0000;font-size:16px;">${error}</div>
                 </c:if>
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
@@ -48,5 +47,36 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script>
+    window.onload = function (){
+        $.ajax({
+            type:"GET",
+            url:ctxRoot+ "/user",
+            success:function(result){
+                console.log(result);
+                if(result.data ==null){
+                    $("#general").show();
+                }else {
+                    $("#admin").show();
+                    var name = result.data.name;
+                    $(".username").text(name);
+                    var roles = result.data.authorities;
+                    for (var i=0;i<roles.length;i++){
+                        if(roles[i].name == "ROLE_ADMIN"){
+                            $("#adminUser").show();
+                        }
+                    }
+                }
+
+            },
+            error:function (error){
+                console.log(error);
+            }
+        });
+        $("#general a.login").addClass("active");
+        $("#general a.register").removeClass("active");
+
+    }
+</script>
 </body>
 </html>

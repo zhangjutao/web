@@ -1,14 +1,7 @@
 package com.gooalgene.common.authority;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gooalgene.common.dao.TokenDao;
-import com.gooalgene.common.service.SMTPService;
-import com.gooalgene.common.service.TokenService;
-import com.gooalgene.common.service.UserService;
+import com.gooalgene.common.service.*;
 import com.gooalgene.utils.TokenUtils;
-import com.google.common.collect.Maps;
-import org.quartz.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +9,16 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.security.authentication.encoding.PasswordEncoder;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
+import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,17 +26,20 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.text.MessageFormat;
 import java.util.*;
 import java.util.Calendar;
+import java.util.regex.*;
+import java.util.regex.Matcher;
 
 /**
  * Created by Crabime on 16/10/2017.
@@ -50,10 +54,17 @@ public class SignUpController {
     private UserService userService;
     @Autowired
     private SMTPService smtpService;
+    @Autowired
+    private RoleService roleService;
+    @Autowired
+    private User_RoleService user_roleService;
 
     @Autowired
     private GuavaCacheManager guavaCacheManager;
     private Cache author_cache;
+
+    @Autowired
+    private AuthenticationManager authenticationManager;
 
     @Autowired
     private TokenService tokenService;
@@ -99,7 +110,7 @@ public class SignUpController {
         }
 
         if((passwordVerify==null)||passwordVerify.isEmpty()){
-            modelAndView.addObject("error","请补全密码确认信息");
+            modelAndView.addObject("error", "请补全密码确认信息");
             return modelAndView;
         }
 
@@ -108,7 +119,7 @@ public class SignUpController {
             modelAndView.addObject("error","用户已经存在，请换一个用户名");
             return modelAndView;
         }else{
-            System.out.println("exist user? ["+username+"]="+false);
+            System.out.println("exist user? [" + username + "]=" + false);
         }
 
         if(!password.equals(passwordVerify)){
@@ -116,23 +127,55 @@ public class SignUpController {
             return modelAndView;
         }
 
+        //判断输入是否合法
+        //判断用户名
+        String usernameRex="[a-zA-Z0-9]{2,14}";
+        Pattern pattern=Pattern.compile(usernameRex);
+        Matcher matcher=pattern.matcher(username);
+        if(!matcher.matches()){
+            modelAndView.addObject("error","用户名输入不合法");
+            return modelAndView;
+        }
+        //判断邮箱
+        String passwordRex="[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+        Pattern emaliPatten=Pattern.compile(passwordRex);
+        Matcher emailMatcher=emaliPatten.matcher(email);
+        if(!emailMatcher.matches()){
+            modelAndView.addObject("error","邮箱输入不合法");
+            return modelAndView;
+        }
+        //判断密码
+        String passWordRex="[a-zA-Z0-9]{5,}";
+        Pattern passwordPatten=Pattern.compile(passWordRex);
+        Matcher passwordMatcher=passwordPatten.matcher(password);
+        if(!passwordMatcher.matches()){
+            modelAndView.addObject("error","密码输入不合法");
+            return modelAndView;
+        }
+        //判断联系方式
+        String phoneRex="\\d{3}-\\d{8}|\\d{4}-\\d{7,8}|\\d{11}";
+        Pattern phonePatten=Pattern.compile(phoneRex);
+        Matcher phoneMatcher=phonePatten.matcher(phone);
+        if(!phoneMatcher.matches()){
+            modelAndView.addObject("error","联系方式输入不合法");
+            return modelAndView;
+        }
+
+   
+
         User user = new User();
         user.setUsername(username);
         user.setEmail(email);
         PasswordEncoder encoder = new Md5PasswordEncoder();
-        System.out.println("p:"+password);
         password = encoder.encodePassword(password, null);
-        System.out.println("ph:" + password);
-//      //password = md5(password);
         user.setPassword(password);
         user.setPhone(phone);
         user.setDomains(domains);
         user.setUniversity(university);
 
         if(userService.createUser(user)){
-            User_Role user_role=new User_Role(userService.findLastInsertId(),1);
+            User_Role user_role=new User_Role(userService.findLastInsertId(),2);
             userService.setRole(user_role);
-            System.out.println("userid:\t"+userService.findLastInsertId());
             modelAndView.addObject("user",user);
         }else {
             modelAndView.addObject("error", "创建失败");
@@ -147,6 +190,7 @@ public class SignUpController {
         return String.valueOf(exists);
     }
 
+    //好像没有用到这个方法
     public String md5(String v){
         MessageDigest messageDigest = null;
         try {
@@ -175,7 +219,7 @@ public class SignUpController {
         model.addAttribute("email", email);
         User user = userService.findByUsername(username);
         if (user == null) {
-            model.addAttribute("error", "用户不存在");
+            model.addAttribute("error", "用户名不存在");
             return mv;
         }
         if (!email.equals(user.getEmail())) {
@@ -240,43 +284,117 @@ public class SignUpController {
         }
         author_cache = guavaCacheManager.getCache("config");
         String admin_email=author_cache.get("mail.administrator").get().toString();
-        //smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
+        smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
     public String toModifyPassword(HttpServletRequest req, Model model ) {
-        String username = (String) req.getSession().getAttribute("userName");
         return "modify-password";
     }
 
+    @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.GET)
+    public String tempModifyPassword(HttpServletRequest req, Model model ) {
+        String username = (String) req.getSession().getAttribute("userName");
+        return "temp-modify-password";
+    }
+
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)
-    public String modifyPassword(String oldpwd, String password, String pwdverify, HttpServletRequest req, Model model) {
-       /* String username = (String) req.getSession().getAttribute("userName");
-        if (username == null) {
-            return "redirect:/login";
-        }*/
+    public ModelAndView modifyPassword(String oldpwd, String password, String pwdverify,Model model) {
+         Object principal=SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+         String username=null;
+         ModelAndView modelAndView=new ModelAndView("/modify-password");
+         model.addAttribute("oldpwd",oldpwd);
+         model.addAttribute("password",password);
+         model.addAttribute("pwdverify",pwdverify);
+         String pwdRex="[a-zA-Z0-9]{5,}";
+         Pattern pattern=Pattern.compile(pwdRex);
+         Matcher oldPwdMatcher=pattern.matcher(oldpwd);
+         Matcher newPwdMatcher=pattern.matcher(password);
+        if (!oldPwdMatcher.matches()){
+            model.addAttribute("error","原密码输入不符合要求，请重新输入");
+            return modelAndView;
+        }
+        if(!newPwdMatcher.matches()){
+            model.addAttribute("error","新密码输入不符合要求，请重新输入");
+            return modelAndView;
+        }
+
+        if(principal instanceof UserDetails){
+            username=((UserDetails) principal).getUsername();
+        }else {
+            username=principal.toString();
+        }
         if (oldpwd == null || oldpwd.isEmpty()) {
             model.addAttribute("error", "原密码未填写");
-            return "modify-password";
+            return modelAndView;
         }
+        if (password == null || password.isEmpty()) {
+            model.addAttribute("error", "新密码未填写");
+            return modelAndView;
+        }
+        if (pwdverify == null || pwdverify.isEmpty()) {
+            model.addAttribute("error", "确认新密码未填写");
+            return modelAndView;
+        }
+        if (!password.equals(pwdverify)) {
+            model.addAttribute("error", "两次密码不一致");
+            return modelAndView;
+        }
+
+        User user=userService.findByUsername(username);
+        if(user==null){
+            model.addAttribute("error","登录信息错误，用户不存在，请重新登录");
+            return modelAndView;
+        }else {
+            PasswordEncoder encoder1=new Md5PasswordEncoder();
+            String tempOldPwd=encoder1.encodePassword(oldpwd,null);
+            if(!tempOldPwd.equals(user.getPassword())){
+                model.addAttribute("error","原密码错误");
+                return modelAndView;
+            }
+
+            PasswordEncoder encoder=new Md5PasswordEncoder();
+            String newPwd=encoder.encodePassword(password,null);
+            user.setPassword(newPwd);
+            user.setReset(1);
+            userService.updateUserPassword(user);
+            model.addAttribute("user",user);
+        }
+
+        return modelAndView;
+    }
+
+    @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.POST)
+    public String tempModifyPassword(@RequestParam("userId") Integer id,
+                                     String password, String pwdverify, HttpServletRequest request, Model model,Authentication authentication) {
         if (password == null || password.isEmpty()) {
             model.addAttribute("error", "新密码未填写");
             return "modify-password";
         }
         if (pwdverify == null || pwdverify.isEmpty()) {
-            model.addAttribute("error", "密码确认未填写");
+            model.addAttribute("error", "确认新密码未填写");
             return "modify-password";
         }
         if (!password.equals(pwdverify)) {
             model.addAttribute("error", "两次密码不一致");
             return "modify-password";
         }
-
-
-
-        return "modify-password";
+        User user=userService.getUserById(id);
+        if(user==null){
+            model.addAttribute("error","登录信息错误，用户不存在，请重新登录");
+            return "modify-password";
+        }else {
+            PasswordEncoder encoder=new Md5PasswordEncoder();
+            String newPwd=encoder.encodePassword(password,null);
+            user.setPassword(newPwd);
+            user.setReset(1);
+            userService.updateUserPassword(user);
+            //SecurityUser tempUser=(SecurityUser)authentication.getPrincipal();
+            //userService.deleteUser(tempUser.getId());
+            SecurityContextHolder.getContext().setAuthentication(null);
+        }
+        return "/login";
     }
-
     /**
      * 用户点击URL，修改密码生效
      * 用户点击URL需要与入库的token进行比较，false则进入验证错误页面，打印错误日志
@@ -285,7 +403,8 @@ public class SignUpController {
      */
     @RequestMapping(value = "/verify", method = RequestMethod.GET)
     public String verify(@RequestParam(name = "token") String token,
-                         @RequestParam(name = "id") int id){
+                         @RequestParam(name = "id") int id, HttpServletRequest request,
+                         RedirectAttributes redirectAttributes) throws UnsupportedEncodingException {
         Token originToken = tokenService.getTokenByUserId(id);
         Date dueTime = originToken.getDue_time();
         Date currentTime = new Date();
@@ -299,7 +418,33 @@ public class SignUpController {
             return "err403";
         }
         tokenService.disableToken(id);
+        User user=userService.getUserById(id);
+        redirectAttributes.addFlashAttribute("userId",id);
+
+        //创建临时用户
+        String username=user.getUsername();
+        String password=UUID.randomUUID().toString();
+        //if(userService.createTempUser(user)){
+            Role role=roleService.findByName("ROLE_TEMP");
+            List<Role> roles=new ArrayList<>();
+            roles.add(role);
+            UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
+                    username, password,roles);
+            /*UsernamePasswordAuthenticationToken tempToken = new UsernamePasswordAuthenticationToken(
+                    username, password);*/
+            try{
+                tempToken.setDetails(new WebAuthenticationDetails(request));
+                //Authentication authenticatedUser = authenticationManager.authenticate(tempToken);
+                //SecurityContextHolder.getContext().setAuthentication(authenticatedUser);
+                SecurityContextHolder.getContext().setAuthentication(tempToken);
+                request.getSession().setAttribute(HttpSessionSecurityContextRepository.SPRING_SECURITY_CONTEXT_KEY, SecurityContextHolder.getContext());
+            }
+            catch( AuthenticationException e ){
+                System.out.println("Authentication failed: " + e.getMessage());
+                //return new ModelAndView(new RedirectView("register"));
+            }
+        //}
         //重定向到当前controller忘记密码的GET请求中
-        return "redirect:/signup/modifyPassword";
+        return "redirect:/signup/temp/modifyPassword";
     }
 }

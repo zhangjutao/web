@@ -11,17 +11,21 @@
     <!-- 目前不需要将ajax请求拒绝 -->
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
 
-    <!-- 这里会覆盖ROLE_ADMIN用户/dna/**权限设置 -->
-    <!--<sec:http pattern="/dna/index" security="none" />-->
-    <!--authentication-failure-url="/login?error=true"-->
-    <sec:http auto-config='false'>
-        <sec:form-login login-page="/login" default-target-url="/"
-                        login-processing-url="/j_spring_security_check"
 
+    <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
+        <property name="defaultTargetUrl" value="/mrna/index"></property>
+    </bean>
+    <sec:http pattern="/mrna/index" security="none" />
+    <!--authentication-failure-url="/login?error=true"-->
+    <!--default-target-url="/mrna/index"-->
+    <sec:http auto-config='false'>
+        <sec:form-login login-page="/login"
+                        login-processing-url="/j_spring_security_check"
                         authentication-success-handler-ref="authenticationSuccessHandler"
-                        authentication-failure-handler-ref="authenticationFailureHandler"/>
+                        authentication-failure-handler-ref="authenticationFailureHandler"
+        />
         <sec:access-denied-handler error-page="/403" />
-        <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
+        <sec:logout invalidate-session="true" logout-success-url="/mrna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
     </sec:http>
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">

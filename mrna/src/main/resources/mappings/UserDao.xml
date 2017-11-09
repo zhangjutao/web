@@ -29,6 +29,14 @@
         (#{username},#{email},#{password},#{phone},#{domains},#{university},#{create_time},0)
     </insert>
 
+    <insert id="insertTemp">
+        <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+        </selectKey>
+        INSERT INTO user(username,email,password,phone,domains,university,create_time,due_time,enabled) VALUES
+        (#{username},#{email},#{password},#{phone},#{domains},#{university},#{create_time},#{due_time},1)
+    </insert>
+
     <select id="findLastInsertId" resultType="java.lang.Integer">
         SELECT LAST_INSERT_ID()
     </select>

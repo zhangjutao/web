@@ -14,6 +14,7 @@ import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -27,7 +28,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/manager")
+//@RequestMapping("/manager")
 public class UserController {
 
     private final static  Logger logger= org.slf4j.LoggerFactory.getLogger(UserController.class);
@@ -44,15 +45,22 @@ public class UserController {
 
     private  Cache author_cache;
 
+    @RequestMapping(value = "/user",method = RequestMethod.GET)
+    public ResultVO user(Authentication authentication){
+            if(authentication!=null){
+            return ResultUtil.success(authentication);
+        }
+        return ResultUtil.success();
+    }
 
-    @RequestMapping(value = "/users",method = RequestMethod.GET)
-    public ResultVO findAll(@RequestParam(value = "pageNum",defaultValue = "0",required = false) Integer pageNum,
+    @RequestMapping(value = "/manager/users",method = RequestMethod.GET)
+    public ResultVO findAll(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize){
         PageInfo<User> users=userService.queryByPage(pageNum,pageSize);
         return ResultUtil.success(users);
     }
 
-    @RequestMapping(value = "/change/enable",method = RequestMethod.POST)
+    @RequestMapping(value = "/manager/change/enable",method = RequestMethod.POST)
     public ResultVO changeEnable(@RequestParam String id) throws IOException, MessagingException {
         if(userService.enableUser(Integer.valueOf(id))){
             int userid=Integer.parseInt(id);

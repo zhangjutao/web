@@ -660,7 +660,20 @@ $(function () {
             _form.find(".choices").val(choiceArr.join(","));
             _form.find(".group").val(params.group);
             _form.submit();
-        }
+        }/**/
     });
-
+    //判断当前用户是否是管理员
+            $.ajax({
+                type:"GET",
+                url:ctxRoot+ "/manager/user",
+                success:function(result){
+                    console.log(result);
+                    var roles = result.data.authorities;
+                    for (var i=0;i<roles.length;i++){
+                        if(roles[i].name == "ROLE_ADMIN"){
+                            $("#adminUser").show();
+                        }
+                    }
+                }
+            })
 })

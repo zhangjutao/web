@@ -89,4 +89,12 @@ public interface QtlDao extends CrudDao<Qtl> {
     Qtl findById(int id);
 
     int findQtlByNameNum(String qlt_name);
+
+    /**
+     * 根据基因查询对应的QTL数据
+     *
+     * @param map
+     * @return
+     */
+    List<Map> findListByGene(Map map);
 }
