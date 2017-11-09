@@ -660,8 +660,9 @@ $(function () {
             _form.find(".choices").val(choiceArr.join(","));
             _form.find(".group").val(params.group);
             _form.submit();
-        }
+        }/**/
     });
+    //判断当前用户是否是管理员
             $.ajax({
                 type:"GET",
                 url:ctxRoot+ "/manager/user",
