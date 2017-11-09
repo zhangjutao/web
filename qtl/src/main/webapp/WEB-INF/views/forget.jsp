@@ -11,7 +11,6 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
-    <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
 <body >
@@ -49,14 +48,13 @@
         <div class="waiting-b">
             <div class="waiting-txt" style="padding-top:17px;">24小时内审核完成，等待管理员进行联系</div>
             <p id="returnType"> 点击<a id="mailAdress" style="color:#72ACE3;" target="_blank;"> 邮箱 </a>进行确认！</p>
-            <p id="otherMail">没有找到该qq.com类型邮箱</p>
+            <p id="otherMail" style="display: none">没有找到该qq.com类型邮箱</p>
             <a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>
         </div>
     </div>
 </c:if>
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<!--footer-->
 <script type="text/javascript">
     $(function (){
         var user = '${user}';

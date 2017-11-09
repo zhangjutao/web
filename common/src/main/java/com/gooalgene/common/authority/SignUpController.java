@@ -294,7 +294,7 @@ public class SignUpController {
     @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.GET)
     public String tempModifyPassword(HttpServletRequest req, Model model ) {
         String username = (String) req.getSession().getAttribute("userName");
-        return "/temp-modify-password";
+        return "temp-modify-password";
     }
 
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.POST)

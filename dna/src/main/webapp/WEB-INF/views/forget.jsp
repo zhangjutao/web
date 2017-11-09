@@ -16,7 +16,6 @@
         display:none;
     }
     </style>
-    <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
 <body style="position:relative;">
@@ -64,12 +63,11 @@
 
 
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<!--footer-->
 <script type="text/javascript">
    $(function (){
        var user = '${user}';
        console.log(user);
-     if(user!=" "){
+     if(user!=""){
          var inputMail = $("#mail").val();
          var mailType = inputMail.split("@")[1].split(".")[0];
          if(mailType == "gmail"){
