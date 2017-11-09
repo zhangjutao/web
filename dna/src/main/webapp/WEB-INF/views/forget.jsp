@@ -80,7 +80,8 @@
          }else if (mailType == "sina"){
              $("#returnType>a").attr("href","http://mail.sina.com.cn/")
          }else {
-             $("#returnType").hide().next().show();
+             $("#returnType").hide();
+             $("#otherMail").show();
          }
      }
    })

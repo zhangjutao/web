@@ -929,4 +929,39 @@ public class QueryService {
             return false;
         }
     }
+
+    public Map<String, ?> qtlSearchbyGene(String gene, Page<Qtl> page) {
+        String version = "Gmax_275_v2.0";
+        Map para = new HashMap();
+        para.put("version", version);
+        para.put("gene", gene);
+        Map result = new HashMap();
+        result.put("gene", gene);
+        result.put("pageNo", page.getPageNo());
+        result.put("pageSize", page.getPageSize());
+        JSONArray data = new JSONArray();
+        List<Map> list = qtlDao.findListByGene(para);
+        Map lgAndMarkerlg = lgAndMarkerlg();
+        for (Map m : list) {
+            String qtlName = (String) m.get("qtlName");
+            String genes = null;
+            Associatedgenes associatedgenes = associatedgenesDao.getByNameAndVersion(qtlName, version);
+            if (associatedgenes != null) {
+                genes = associatedgenes.getAssociatedGenes();
+            }
+            m.put("genesNum", genes == null ? 0 : genes.split(",").length);
+            String lg = (String) m.get("lg");
+            if (lgAndMarkerlg.containsKey(lg)) {
+                m.put("markerlg", lgAndMarkerlg.get(lg));
+            }
+            if (version.equals("Gmax_275_v2.0") && genes != null) {
+                genes = genes.replaceAll("g", "G");
+            }
+            m.put("genes", genes == null ? "" : genes);
+            data.add(m);
+        }
+        result.put("total", page.getCount());
+        result.put("data", data);
+        return result;
+    }
 }

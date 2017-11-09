@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.dna.dao.DNAGroupsDao">
+    <select id="findDNAGroupsList" resultType="com.gooalgene.dna.entity.DNAGroups">
+        SELECT * FROM dna_groups
+        WHERE 1=1
+        <if test="name != null">
+            OR name LIKE CONCAT('%',#{name},'%')
+        </if>
+        ORDER BY id DESC
+    </select>
+
+    <select id="findById" parameterType="int" resultType="com.gooalgene.dna.entity.DNAGroups">
+        SELECT * FROM dna_groups WHERE id=#{id}
+    </select>
+
+    <insert id="add" parameterType="com.gooalgene.dna.entity.DNAGroups">
+        INSERT INTO dna_groups (`name`, `condition`) VALUES(#{name}, #{condition})
+    </insert>
+
+    <update id="update" parameterType="com.gooalgene.dna.entity.DNAGroups">
+        UPDATE dna_groups SET `name`=#{name},`condition`=#{condition} WHERE id=#{id}
+    </update>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM dna_groups WHERE id=#{id}
+    </delete>
+</mapper>

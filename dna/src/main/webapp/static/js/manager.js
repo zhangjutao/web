@@ -222,11 +222,17 @@ $(function () {
                 url:ctxRoot + "/manager/change/enable",
                 data:data,
                 success:function (result){
+                    console.log(result);
                     if(result.code == 0){
                         $p.removeClass("btnWait").addClass("btnAudited").text("已审核");
                         $p.parent().prev().text("已审核");
-                    }else{
+                    }else if(result.code == -1){
+                        $p.parent().prev().text("审核失败")
                         $p.text("待审核");
+                        $p.removeClass("btnWait").addClass("btnAudit");
+                    }else{
+                        $p.removeClass("btnWait").addClass("btnAudited").text("未通过");
+                        $p.parent().prev().text("未通过");
                     }
                 },
                 error:function (error){
