@@ -14,7 +14,7 @@
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
 <body onload='document.loginForm.j_username.focus();'>
-<mrna:qtl-header />
+<qtl:qtl-header />
 <!--header-->
 <div class="container">
     <div class="loginC">
@@ -44,5 +44,27 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script type="text/javascript">
+//    $(function (){
+//       window.onload = function (){
+//           $.ajax({
+//               type:"GET",
+//               url:ctxRoot+ "/manager/user",
+//               success:function(result){
+//                   console.log(result);
+//                   console.log(5555);
+//                   var roles = result.data.authorities;
+//                   for (var i=0;i<roles.length;i++){
+//                       if(roles[i].name == "ROLE_ADMIN"){
+//                           $("#adminUser").show();
+//                           console.log($("#adminUser").get(0));
+//                       }
+//                   }
+//               }
+//           })
+//       }
+//
+//    })
+</script>
 </body>
 </html>

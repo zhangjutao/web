@@ -4,12 +4,11 @@
 
 <footer>
     <div class="container">
-
         <dl class="">
             <dt>产品链接</dt>
-            <dd><a target="_blank" href="http://www.gooalgene.com/pages/product/reportIndex.html">可交互分析报告</a></dd>
-            <dd><a target="_blank" href="http://www.gooalgene.com/pages/product/multifunction.html">数据管理系统</a></dd>
-            <dd><a target="_blank" href="http://www.gooalgene.com/pages/product/dataBase.html">基因数据库</a></dd>
+            <dd><a target="_blank" href="http://www.gooalgene.com:82/ps/login/login.html">可交互分析报告</a></dd>
+            <dd><a target="_blank" href="http://www.gooalgene.com:81/ps/login/login.html">数据管理系统</a></dd>
+            <dd><a target="_blank" href="http://www.gooalgene.com/pages/dataBase.html">基因数据库</a></dd>
         </dl>
         <dl>
             <dt>热门资源</dt>
@@ -21,9 +20,9 @@
         </dl>
         <dl>
             <dt>关于我们</dt>
-            <dd><a target="_blank" href="http://www.gooalgene.com/pages/about/company.html">关于古奥基因</a></dd>
-            <dd><a target="_blank" href="http://www.gooalgene.com/pages/about/in.html">招贤纳士</a></dd>
-            <dd><a target="_blank" href="http://www.gooalgene.com/pages/about/concat.html">联系我们</a></dd>
+            <dd><a target="_blank" href="http://www.gooalgene.com/pages/company.html">关于古奥基因</a></dd>
+            <dd><a target="_blank" href="http://www.gooalgene.com/pages/joinus.html">招贤纳士</a></dd>
+            <dd><a target="_blank" href="http://www.gooalgene.com/pages/concat.html">联系我们</a></dd>
         </dl>
         <dl>
             <dt>关注古奥基因</dt>

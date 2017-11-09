@@ -45,10 +45,11 @@
 <c:if test="${not empty user}">
     <div id="mask" class=""></div>
     <div id="waiting" class="waiting">
-        <div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>
         <div class="waiting-b">
-            <div class="waiting-txt">24小时内审核完成，等待管理员进行联系</div>
-            <a class="btn b-index" href="${ctxroot}/iqgs/index">返回首页</a>
+            <div class="waiting-txt" style="padding-top:17px;">24小时内审核完成，等待管理员进行联系</div>
+            <p id="returnType"> 点击<a id="mailAdress" style="color:#72ACE3;" target="_blank;"> 邮箱 </a>进行确认！</p>
+            <p id="otherMail" style="display:none;">没有找到该类型邮箱</p>
+            <a class="btn b-index" href="${ctxroot}/mrna/index">返回首页</a>
         </div>
     </div>
 </c:if>
@@ -71,7 +72,8 @@
             }else if (mailType == "sina"){
                 $("#returnType>a").attr("href","http://mail.sina.com.cn/")
             }else {
-                $("#returnType").hide().next().show();
+                $("#returnType").hide();
+                $("#otherMail").show();
             }
         }
     })

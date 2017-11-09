@@ -10,8 +10,7 @@
     <%@ include file="/WEB-INF/views/include/header-res.jsp" %>
 </head>
 <body>
-<mrna:qtl-header />
-
+<qtl:qtl-header />
     <section class="container">
         <div class="banner">
             <div class="plant-pic">
@@ -144,6 +143,31 @@
             }
         }
     });
+//    判断当前用户是否是管理员
+    $(function (){
+        console.log(ctxRoot);
+        window.onload = function (){
+            $("#admin").show();
+            $("#general").hide();
+            $.ajax({
+                type:"GET",
+                url:ctxRoot+ "/manager/user",
+                success:function(result){
+                    console.log(result);
+                    console.log(5555);
+                    var roles = result.data.authorities;
+                    for (var i=0;i<roles.length;i++){
+                        if(roles[i].name == "ROLE_ADMIN"){
+                            $("#adminUser").show();
+                            console.log($("#adminUser").get(0));
+                        }
+                    }
+                }
+            })
+        }
+
+    })
+
 
 
 </script>
