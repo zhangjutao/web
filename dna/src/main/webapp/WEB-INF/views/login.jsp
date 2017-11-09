@@ -25,7 +25,7 @@
         <div class="login-b">
             <form method="POST" action="<c:url value='/j_spring_security_check' />" name='loginForm' class="form">
                 <c:if test="${not empty error}">
-                    <div class="er">${error}</div>
+                    <div class="er" style="color:#ff0000;font-size:16px;">${error}</div>
                 </c:if>
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
@@ -33,9 +33,6 @@
                 <label class="user" for="u-mail"><input type="text" id="u-mail" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" placeholder="用户名/邮箱"/><span class="clear js-clear-u">X</span></label>
                 <label class="pwd"  for="pwd"><input type="password" id="pwd" name="j_password" placeholder="密码"/><span class="clear js-clear-p">X</span></label>
                 <div class="m-unlogin">
-                    <%--<div class="un-login">--%>
-                        <%--<input type="checkbox" checked/>下次自动登录--%>
-                    <%--</div>--%>
                     <a href="${ctxroot}/signup/forget" class="forgetpwd" style="color:#5C8CE6;cursor: pointer;">忘记密码</a>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
