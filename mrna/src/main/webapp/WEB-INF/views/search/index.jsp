@@ -1,5 +1,4 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="tags-mrna" uri="urn:jsptagdir:/WEB-INF/tags/mrna" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <!DOCTYPE html>
@@ -7,9 +6,7 @@
 <head>
     <%@ include file="/WEB-INF/views/include/header-res.jsp" %>
 </head>
-
 <body>
-
 <%@ include file="/WEB-INF/views/include/header-bar.jsp" %>
     <section class="container">
         <div class="banner">

@@ -209,12 +209,14 @@ $(function () {
         }
     })
     $("#tblbody table").on("click",function (e) {
+
         var $p = $(e.target);
         var selfId = parseInt($p.parent().parent().attr("myid"));
         var data = {
                 id:selfId
         };
         if ($p.hasClass("btnAudit")) {
+            $p.text("审核中");
             $.ajax({
                 type:"POST",
                 url:ctxRoot + "/manager/change/enable",

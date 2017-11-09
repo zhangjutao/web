@@ -343,7 +343,11 @@
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
+<script>
+    var ctxRoot = '${ctxroot}';
+</script>
 <script src="${ctxStatic}/js/dna.js"></script>
+
 
 </body>
 </html>

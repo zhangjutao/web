@@ -4,13 +4,11 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<%@page session="true"%>
 <html>
 <head>
     <title>注册</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
-
     <link rel="stylesheet" href="${ctxStatic}/js/jquery-validation/jquery.validate.min.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
@@ -43,7 +41,6 @@
                     <span class="tips errorM" style="display:none;">该用户名已存在</span>
                 </label>
                 <span class="tips mailTip" style="display:none;color:#ff0000;">邮箱格式不对</span>
-            </div>
             </div>
             <div class="reg-pwd">
                 <label>
@@ -98,9 +95,8 @@
 </c:if>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
-<%--<script src="${ctxStatic}/js/jquery_validate.min.js"></script>--%>
+<script src="${ctxStatic}/js/jquery_validate.min.js"></script>
 <script>
-    // 用户名和邮箱的验证==begin===
     $("#username").blur(function (){
         var val = $(this).val().toLowerCase().trim().toString();
         if(val.length<2 && val!=""){
