@@ -23,7 +23,7 @@
     <div class="forget modify">
         <form method="POST" action="">
             <c:if test="${not empty error}">
-                <div class="er">${error}</div>
+                <div class="er" style="color:#ff0000;">${error}</div>
             </c:if>
             <div class="modify-u">
                 <label>

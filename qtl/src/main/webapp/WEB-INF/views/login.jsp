@@ -44,27 +44,5 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<script type="text/javascript">
-//    $(function (){
-//       window.onload = function (){
-//           $.ajax({
-//               type:"GET",
-//               url:ctxRoot+ "/manager/user",
-//               success:function(result){
-//                   console.log(result);
-//                   console.log(5555);
-//                   var roles = result.data.authorities;
-//                   for (var i=0;i<roles.length;i++){
-//                       if(roles[i].name == "ROLE_ADMIN"){
-//                           $("#adminUser").show();
-//                           console.log($("#adminUser").get(0));
-//                       }
-//                   }
-//               }
-//           })
-//       }
-//
-//    })
-</script>
 </body>
 </html>

@@ -35,7 +35,7 @@ public class AuthenticationSuccessHandlerImpl implements AuthenticationSuccessHa
             redirectStrategy.sendRedirect(request,response,"/signup/modifyPassword");
         }*/
         logger.info("登录成功的用户：{}",authentication);
-        SecurityUser securityUser=(SecurityUser)authentication.getPrincipal();
+        SecurityUser securityUser=(SecurityUser)authentication. getPrincipal();
         LoginInfo loginInfo=new LoginInfo(securityUser.getId(),new Date(),null);
         loginInfoService.insertLoginInfo(loginInfo);
         String contextPath=request.getContextPath();

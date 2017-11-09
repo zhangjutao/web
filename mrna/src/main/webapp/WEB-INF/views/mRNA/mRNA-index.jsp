@@ -139,8 +139,8 @@
         });
 
         window.onload = function (){
-            console.log(ctxRoot);
-            console.log("mrna00")
+            $("#admin").show();
+            $("#general").hide();
             $.ajax({
                 type:"GET",
                 url:ctxRoot +"/manager/user",
