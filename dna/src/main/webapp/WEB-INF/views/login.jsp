@@ -11,12 +11,10 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
-    <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
 <body onload='document.loginForm.username.focus();'>
 <dna:dna-header />
-<!--header-->
 <div class="container">
     <div class="loginC">
         <div class="login-h">
@@ -33,9 +31,6 @@
                 <label class="user" for="u-mail"><input type="text" id="u-mail" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" placeholder="用户名/邮箱"/><span class="clear js-clear-u">X</span></label>
                 <label class="pwd"  for="pwd"><input type="password" id="pwd" name="j_password" placeholder="密码"/><span class="clear js-clear-p">X</span></label>
                 <div class="m-unlogin">
-                    <%--<div class="un-login">--%>
-                        <%--<input type="checkbox" checked/>下次自动登录--%>
-                    <%--</div>--%>
                     <a href="${ctxroot}/signup/forget" class="forgetpwd">忘记密码</a>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
