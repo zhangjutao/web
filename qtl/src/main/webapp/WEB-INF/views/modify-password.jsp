@@ -16,7 +16,7 @@
 </head>
 <body >
 
-<mrna:qtl-header />
+<qlt:qtl-header />
 <!--header-->
 <div class="container">
     <div class="forget-h"><p>修改密码</p></div>
@@ -54,10 +54,10 @@
 <c:if test="${not empty user}">
     <div id="mask" class=""></div>
     <div id="waiting" class="waiting">
-        <div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>
+        <%--<div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>--%>
         <div class="waiting-b">
             <div class="waiting-txt">密码修改成功</div>
-            <a class="btn b-index" href="${ctxroot}/iqgs/index">返回首页</a>
+            <a class="btn b-index" href="${ctxroot}/search/index">返回首页</a>
         </div>
     </div>
 </c:if>

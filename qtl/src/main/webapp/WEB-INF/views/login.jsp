@@ -24,7 +24,7 @@
         <div class="login-b">
             <form method="POST" action="<c:url value='/j_spring_security_check' />" name='loginForm' class="form">
                 <c:if test="${not empty error}">
-                    <div class="er">${error}</div>
+                    <div class="er" style="color:#ff0000;">${error}</div>
                 </c:if>
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
