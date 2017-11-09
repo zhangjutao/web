@@ -47,5 +47,18 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script>
+    $(function (){
+        var ctxRoot = '${ctxroot}';
+        $.ajax({
+            type:"GET",
+            url:ctxRoot + "/manager/user",
+            success:function (result){
+                console.log(result);
+            }
+        })
+    })
+
+</script>
 </body>
 </html>
