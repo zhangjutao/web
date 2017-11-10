@@ -100,13 +100,7 @@
                 <div class="custom-groups-content">
                     <div class="sample">
                         <label><b>样本></b></label>
-                        <div class="sample-text">
-                            <%--<span>Glycine soja1<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja2<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja3<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja4<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja5<i class="js-colse-text">X</i></span>--%>
-                        </div>
+                        <div class="sample-text"></div>
                         <div class="colse-sample">
                             <button type="button" class="btn-fill sample-empty">清空</button><span>X</span></div>
                     </div>
