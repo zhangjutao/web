@@ -89,9 +89,6 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
 <script>
-
-
-
     $(function () {
         /*选项示例*/
         $(".js-search-select").change(function(){
@@ -137,24 +134,6 @@
                 }
             }
         });
-
-        window.onload = function (){
-            console.log(ctxRoot);
-            console.log("mrna00")
-            $.ajax({
-                type:"GET",
-                url:ctxRoot +"/manager/user",
-                success:function (result){
-                    console.log(result);
-                    var lists = result.data.authorities;
-                    for (var i=0;i<lists.length;i++){
-                        if(lists[i].name =="ROLE_ADMIN"){
-                            $("#adminUser").show();
-                        }
-                    }
-                }
-            })
-        }
     });
 
 </script>
