@@ -11,6 +11,9 @@
     #admin{
         display:none;
     }
+    #general{
+        display:none;
+    }
 </style>
 <header>
     <div class="container">
@@ -34,4 +37,44 @@
 </header>
 <script>
    var ctxRoot = '${ctxroot}';
+   //    判断当前用户是否是管理员
+   window.onload = function (){
+       $.ajax({
+           type:"GET",
+           url:ctxRoot+ "/user",
+           success:function(result){
+               console.log(result);
+               if(result.data ==null){
+                   $("#general").show();
+               }else {
+                   $("#admin").show();
+                   var name = result.data.name;
+                   $(".username").text(name);
+                   var roles = result.data.authorities;
+                   for (var i=0;i<roles.length;i++){
+                       if(roles[i].name == "ROLE_ADMIN"){
+                           $("#adminUser").show();
+
+                       }
+                   }
+               }
+
+           },
+           error:function (error){
+               console.log(error);
+           }
+       });
+//        console.log( $("#general").get(0));
+//       $("#general").on("click",function (e){
+//           var $self = $(e.target());
+//           console.log($self);
+//                debugger;
+//           if(!$self.hasClass("active")) {
+//               console.log($self.siblings())
+//               $self.addClass("active");
+//               $($self.siblings()[0]).removeClass("active");
+//           }
+//
+//       })
+   }
 </script>

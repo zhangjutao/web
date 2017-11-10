@@ -24,7 +24,7 @@
         <div class="login-b">
             <form method="POST" action="<c:url value='/j_spring_security_check' />" name='loginForm' class="form">
                 <c:if test="${not empty error}">
-                    <div class="er" style="color:#ff0000;font-size:16px;">${error}</div>
+                    <div class="er">${error}</div>
                 </c:if>
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
@@ -47,18 +47,5 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-<script>
-    $(function (){
-        var ctxRoot = '${ctxroot}';
-        $.ajax({
-            type:"GET",
-            url:ctxRoot + "/manager/user",
-            success:function (result){
-                console.log(result);
-            }
-        })
-    })
-
-</script>
 </body>
 </html>

@@ -356,7 +356,6 @@
 
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
 <script>
-
     function loadMask (el) {
         $(el).css({"position": "relative"});
         var _mask = $('<div class="ga-mask"><div>数据加载中...</div></div>');
@@ -837,28 +836,6 @@
 //                thSearch();
             }
         });
-        //判断当前用户是否是管理员
-
-       window.onload = function (){
-           console.log(3333333333)
-           console.log(ctxRoot);
-           console.log($("#adminUser").get(0));
-           $.ajax({
-               type:"GET",
-               url:ctxRoot+ "/manager/user",
-               success:function(result){
-                   console.log(result);
-                   console.log(1111111111);
-                   var roles = result.data.authorities;
-                   for (var i=0;i<roles.length;i++){
-                       if(roles[i].name == "ROLE_ADMIN"){
-                           $("#adminUser").show();
-
-                       }
-                   }
-               }
-           })
-       }
 
     })
 </script>

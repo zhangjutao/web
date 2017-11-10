@@ -32,7 +32,6 @@ public class MyUserDetailsService implements UserDetailsService {
         Boolean enabled=false;
         User user=userDao.getByUsername(username);
 
-        //List<GrantedAuthority> authorities =new ArrayList<>();
         List<Role> roles=roleDao.getByUserId(user.getId());
         logger.debug("得到其权限：{}", roles);
         if(System.currentTimeMillis()<user.getDue_time().getTime()){
