@@ -162,7 +162,7 @@ public class SignUpController {
         Pattern phonePatten=Pattern.compile(phoneRex);
         Matcher phoneMatcher=phonePatten.matcher(phone);
         if(!phoneMatcher.matches()){
-            modelAndView.addObject("error","联系方式输入不合法");
+//            modelAndView.addObject("error","联系方式输入不合法");
             return modelAndView;
         }
 
