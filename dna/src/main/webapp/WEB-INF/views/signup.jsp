@@ -100,7 +100,7 @@
     $("#username").blur(function (){
         var val = $(this).val().toLowerCase().trim().toString();
         if(val.length<2 && val!=""){
-//            $("#username").css("border","1px solid #ff0000");
+            $("#username").css("border","1px solid #ff0000");
         }else {
             $("#username").css("border","1px solid #E6E6E6");
         }
@@ -110,7 +110,7 @@
         console.log(val);
         var reg = /^[0-9a-zA-Z]+$/;
         if(val.toString().length<6 || !reg.test(val.toString())){
-//            $("#pwd").css("border","1px solid #ff0000");
+            $("#pwd").css("border","1px solid #ff0000");
             $(".pwdTip").show();
         }else {
             $("#pwd").css("border","1px solid #E6E6E6");
@@ -121,7 +121,7 @@
        var confirmVal = $(this).val().toString().trim();
        console.log(confirmVal);
        if(confirmVal != $("#pwd").val().toString() && confirmVal !=""){
-//           $("#confirmPwd").css("border","1px solid #ff0000");
+           $("#confirmPwd").css("border","1px solid #ff0000");
            $(".confirmTip").show();
        }else{
            $("#confirmPwd").css("border","1px solid #E6E6E6");
@@ -133,7 +133,7 @@
         RegExp = /^((0\d{2,3}-\d{7,8})|(1[35847]\d{9}))$/;
         console.log(val)
         if(!RegExp.test(val) && val !=""){
-//            $("#contact").css("border","1px solid #ff0000");
+            $("#contact").css("border","1px solid #ff0000");
 
         }else {
             $("#contact").css("border","1px solid #E6E6E6");
@@ -146,7 +146,7 @@
             regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
 
         if (regEn.test(val) || regCn.test(val)) {
-//            $("#industry").css("border","1px solid #ff0000");
+            $("#industry").css("border","1px solid #ff0000");
             $(".industryTip").show();
         }else {
             $("#industry").css("border","1px solid #E6E6E6");
@@ -160,7 +160,7 @@
             regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
 
         if (regEn.test(val) || regCn.test(val)) {
-//            $("#Colleges").css("border","1px solid #ff0000");
+            $("#Colleges").css("border","1px solid #ff0000");
             $(".CollegesTip").show();
         }else {
             $("#Colleges").css("border","1px solid #E6E6E6");
@@ -171,7 +171,7 @@
         var val = $(this).val().trim().toString();
         var reg = /^\w+[@][a-zA-Z0-9]+[.]\w+([.]?[a-zA-Z])*$/;
         if(!reg.test(val) && val!=""){
-//            $("#mail").css("border","1px solid #ff0000");
+            $("#mail").css("border","1px solid #ff0000");
             $(".mailTip").show();
         }else {
             $("#mail").css("border","1px solid #E6E6E6");
