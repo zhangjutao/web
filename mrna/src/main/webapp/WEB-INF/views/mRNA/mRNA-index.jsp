@@ -89,9 +89,6 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
 <script>
-
-
-
     $(function () {
         /*选项示例*/
         $(".js-search-select").change(function(){
@@ -137,7 +134,6 @@
                 }
             }
         });
-
     });
 
 </script>

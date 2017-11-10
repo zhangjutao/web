@@ -14,10 +14,9 @@
     <sec:http auto-config='false' use-expressions="true">
         <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
         <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
-        <sec:form-login login-page="/login" default-target-url="/"
+        <sec:form-login login-page="/login" default-target-url="/dna/index"
                         login-processing-url="/j_spring_security_check"
 
-                        authentication-success-handler-ref="authenticationSuccessHandler"
                         authentication-failure-handler-ref="authenticationFailureHandler"/>
         <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
