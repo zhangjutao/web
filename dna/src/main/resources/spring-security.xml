@@ -10,9 +10,8 @@
 
     <!-- 目前不需要将ajax请求拒绝 -->
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
-
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
-        <property name="defaultTargetUrl" value="/dna/index"></property>
+        <property name="defaultTargetUrl" value="/dna/index" />
     </bean>
     <sec:http auto-config='false' use-expressions="true">
         <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
@@ -33,7 +32,6 @@
 
     <bean id="accessDecisionManager" class="com.gooalgene.common.security.MyAccessDecisionManager" />
 
-    <!--<bean id="myUserDetailsService" class="com.gooalgene.common.security.MyUserDetailsService"></bean>-->
     <sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider user-service-ref="myUserDetailsService">
             <sec:password-encoder hash="md5" />

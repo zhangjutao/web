@@ -26,9 +26,6 @@ public interface UserDao extends CrudDao<User>{
     Long getCount();
 
     @Select("SELECT u.id,u.username,u.password,u.due_time,u.enabled from user u where username=#{username} or email=#{username}")
-    /*@Results({
-            @Result(column="due_time",property="due_time",jdbcType = JdbcType.TIMESTAMP)
-    })*/
     @ResultMap("com.gooalgene.common.dao.UserDao.userInfo")
     User getByUsername(String username);
 
