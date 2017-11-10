@@ -169,7 +169,7 @@
     </style>
 </head>
 <body>
-<mrna:qtl-header />
+<qtl:qtl-header/>
 <section class="container navigation-toggle">
     <div class="tab-search">
         <div class="search">

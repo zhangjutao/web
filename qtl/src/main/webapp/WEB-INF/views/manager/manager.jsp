@@ -21,7 +21,7 @@
     <script src="${ctxStatic}/js/manager.js"></script>
 </head>
 <body onload='document.loginForm.username.focus();'>
-<dna:dna-header />
+<qtl:qtl-header />
 <!--header-->
     <div id="containerAdmin">
         <p class="auditUser">待审核用户</p>

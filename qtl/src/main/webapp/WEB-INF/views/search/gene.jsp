@@ -260,7 +260,7 @@
 
 <body>
 
-<mrna:qtl-header />
+<qtl:qtl-header />
 <section class="container" style="background: #FFF;">
 
     <div class="search-section">
