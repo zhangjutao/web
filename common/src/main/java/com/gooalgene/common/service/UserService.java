@@ -172,4 +172,8 @@ public class UserService implements ApplicationContextAware {
     public boolean updateUserLoginCount(User user){
         return  userDao.updateUserLoginCount(user);
     }
+
+    public Integer getEmailCount(String email){
+        return userDao.getEmailCount(email);
+    }
 }

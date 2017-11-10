@@ -73,6 +73,7 @@ public class PageTest extends TestCase {
         System.out.println(roles);*/
         /*Role role=roleDao.findByName("ROLE_TEMP");
         assertNotNull(role);*/
+        System.out.println(userService.getEmailCount("1415775989@qq.com"));
     }
 
 
