@@ -6,10 +6,10 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>dna</module>
         <module>common</module>
-        <module>mrna</module>
+        <module>dna</module>
         <module>qtl</module>
+        <module>mrna</module>
         <module>iqgs</module>
     </modules>
     <name>guaoqtl Maven Webapp</name>
