@@ -63,8 +63,8 @@ public class SignUpController {
     private GuavaCacheManager guavaCacheManager;
     private Cache author_cache;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    /*@Autowired
+    private AuthenticationManager authenticationManager;*/
 
     @Autowired
     private TokenService tokenService;
@@ -102,6 +102,11 @@ public class SignUpController {
         if ((email == null) || email.isEmpty()) {
             modelAndView.addObject("error", "电子邮件没有填写");
             return modelAndView;
+        }else {
+            if(userService.getEmailCount(email)>0){
+                modelAndView.addObject("error","电子邮件已被使用");
+                return modelAndView;
+        }
         }
 
         if ((password == null) || password.isEmpty()) {
@@ -158,7 +163,7 @@ public class SignUpController {
             Pattern phonePatten = Pattern.compile(phoneRex);
             Matcher phoneMatcher = phonePatten.matcher(phone);
             if (!phoneMatcher.matches() && phone != null) {
-                modelAndView.addObject("error", "联系方式输入不合法");
+//            modelAndView.addObject("error","联系方式输入不合法");
                 return modelAndView;
             }
 
