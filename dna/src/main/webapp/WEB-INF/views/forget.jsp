@@ -26,9 +26,8 @@
     <div class="forget-h"><p>忘记密码</p></div>
     <div class="forget">
         <form method="POST" action="${ctxroot}/signup/forget">
-            <c:if test="${not empty error}">
+            <html test="${not empty error}">
                 <div class="error" style="color:#ff0000;font-size:16px;">${error}</div>
-            e:16px;
             <div class="forget-u">
                 <label>
                     <span>用户名:</span>
