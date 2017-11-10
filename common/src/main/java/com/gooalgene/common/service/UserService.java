@@ -69,9 +69,9 @@ public class UserService implements ApplicationContextAware {
         Date date=new Date();
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(date);
-        logger.debug("添加之前的时间:", date);
-        user.setCreate_time(date);
-        logger.debug("添加之后的时间:",date);
+        logger.error("添加之前的时间:", date);
+        user.setCreate_time(calendar.getTime());
+        logger.error("添加之后的时间:",date);
         calendar.add(Calendar.MONTH, 2);
         Date due_date=calendar.getTime();
         logger.debug("due_time:",due_date);

@@ -13,7 +13,7 @@
         SELECT * FROM token WHERE userid=#{user_id}
     </select>
     <insert id="insertToken">
-        INSERT INTO token(userid,token,token_status,due_time)VALUE (#{userid},#{token},#{token_status},#{due_time})
+        INSERT INTO token(userid,token,token_status,update_time,due_time)VALUE (#{userid},#{token},#{token_status},#{updateTime},#{due_time})
     </insert>
 
     <update id="updateToken">

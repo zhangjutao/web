@@ -13,7 +13,7 @@
     </select>
 
     <insert id="insertToken">
-        INSERT INTO token(userid,token,token_status,due_time)VALUE (#{userid},#{token},#{token_status},#{due_time})
+        INSERT INTO token(userid,token,token_status,due_time,update_time)VALUE (#{userid},#{token},#{token_status},#{due_time},#{updateTime})
     </insert>
 
     <update id="updateToken">
