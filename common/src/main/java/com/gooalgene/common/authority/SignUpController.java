@@ -236,7 +236,7 @@ public class SignUpController {
         List<String> recevers=new ArrayList<String>();
         recevers.add(user.getEmail());
         HashMap<String,String> message=new HashMap<String,String>();
-        message.put("subject", "使用文件模板发送邮件");
+        message.put("subject", "找回密码状态通知");
         Token token=new Token();
         token.setUserid(user.getId());
         Resource resource=new ClassPathResource("findBackPwd.html");
@@ -251,7 +251,7 @@ public class SignUpController {
 
         calendar1.setTime(updateDate);
         args[1]= String.valueOf(calendar1.get(Calendar.YEAR));
-        args[2]= String.valueOf(calendar1.get(Calendar.MONTH));
+        args[2]= String.valueOf(calendar1.get(Calendar.MONTH)+1);
         args[3]= String.valueOf(calendar1.get(Calendar.DAY_OF_MONTH));
         args[4]= String.valueOf(calendar1.get(Calendar.HOUR_OF_DAY));
         args[5]= String.valueOf(calendar1.get(Calendar.MINUTE));
@@ -365,7 +365,7 @@ public class SignUpController {
             user.setPassword(newPwd);
             user.setReset(1);
             userService.updateUserPassword(user);
-            model.addAttribute("user",user);
+            model.addAttribute("user", user);
             model.addAttribute("error","密码修改完成");
         }
 
