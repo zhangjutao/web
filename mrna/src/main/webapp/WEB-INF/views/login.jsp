@@ -35,12 +35,12 @@
                     <%--<div class="un-login">--%>
                         <%--<input type="checkbox" checked/>下次自动登录--%>
                     <%--</div>--%>
-                    <a href="${ctxroot}/signup/forget" class="forgetpwd">忘记密码</a>
+                    <a href="${ctxroot}/signup/forget" class="forgetpwd" style="color:#5C8CE6;">忘记密码</a>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
                 <button type="submit" href="javascript:;" class="loginbox">登录</button>
                 <div class="reg">
-                    <p>还没有账号,<a href="${ctxroot}/signup/action">立即注册</a></p>
+                    <p>还没有账号,<a href="${ctxroot}/signup/action"> 立即注册</a></p>
                 </div>
             </form>
         </div>
