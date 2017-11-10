@@ -271,8 +271,6 @@ public class SignUpController {
         builder.append(contextPath);
         args[6]= builder.append("/signup/verify?id=").append(user.getId()).append("&token=").append(token.getToken()).toString();
 
-
-
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(updateDate);
         calendar.add(Calendar.HOUR, 2);
