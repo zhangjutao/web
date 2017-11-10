@@ -68,13 +68,13 @@ public class UserService implements ApplicationContextAware {
     public boolean createUser(User user){
         Date date=new Date();
         Calendar calendar=Calendar.getInstance();
-        calendar.setTime(date);
-        logger.info("添加之前的时间:", calendar.getTime());
+        logger.info("添加之前的时间:", calendar.getTime().toString());
         user.setCreate_time(calendar.getTime());
-        logger.info("添加之后的时间:",calendar.getTime());
+        calendar.setTime(date);
         calendar.add(Calendar.MONTH, 2);
+        logger.info("添加之后的时间:", calendar.getTime());
         Date due_date=calendar.getTime();
-        logger.info("due_time:",due_date);
+        logger.info("due_time:",due_date.toString());
         user.setDue_time(due_date);
         Boolean flag=userDao.insert(user);
         if(flag){
@@ -89,10 +89,10 @@ public class UserService implements ApplicationContextAware {
         calendar.setTime(date);
         logger.debug("添加之前的时间:", date);
         user.setCreate_time(date);
-        logger.debug("添加之后的时间:",date);
+        logger.debug("添加之后的时间:", date);
         calendar.add(Calendar.HOUR, 2);
         Date due_date=calendar.getTime();
-        logger.debug("due_time:",due_date);
+        logger.debug("due_time:", due_date);
         user.setDue_time(due_date);
         Boolean flag=userDao.insertTemp(user);
         if(flag){
