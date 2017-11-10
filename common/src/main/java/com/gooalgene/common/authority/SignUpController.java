@@ -63,8 +63,8 @@ public class SignUpController {
     private GuavaCacheManager guavaCacheManager;
     private Cache author_cache;
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
+    /*@Autowired
+    private AuthenticationManager authenticationManager;*/
 
     @Autowired
     private TokenService tokenService;
@@ -86,82 +86,88 @@ public class SignUpController {
             @RequestParam(value = "university",required = false)String university
     ) {
         ModelAndView modelAndView = new ModelAndView("signup");
-        modelAndView.addObject("username",username);
-        modelAndView.addObject("email",email);
-        modelAndView.addObject("password",password);
-        modelAndView.addObject("passwordVerify",passwordVerify);
-        modelAndView.addObject("phone",phone);
-        modelAndView.addObject("domains",domains);
-        modelAndView.addObject("university",university);
+        modelAndView.addObject("username", username);
+        modelAndView.addObject("email", email);
+        modelAndView.addObject("password", password);
+        modelAndView.addObject("passwordVerify", passwordVerify);
+        modelAndView.addObject("phone", phone);
+        modelAndView.addObject("domains", domains);
+        modelAndView.addObject("university", university);
         boolean hasError = false;
-        if((username==null) ||username.isEmpty()){
-            modelAndView.addObject("error","用户名没有填写");
+        if ((username == null) || username.isEmpty()) {
+            modelAndView.addObject("error", "用户名没有填写");
             return modelAndView;
         }
 
-        if((email==null)||email.isEmpty()){
-            modelAndView.addObject("error","电子邮件没有填写");
+        if ((email == null) || email.isEmpty()) {
+            modelAndView.addObject("error", "电子邮件没有填写");
+            return modelAndView;
+        }else {
+            if(userService.getEmailCount(email)>0){
+                modelAndView.addObject("error","电子邮件已被使用");
+                return modelAndView;
+        }
+        }
+
+        if ((password == null) || password.isEmpty()) {
+            modelAndView.addObject("error", "密码没有填写");
             return modelAndView;
         }
 
-        if((password==null)||password.isEmpty()){
-            modelAndView.addObject("error","密码没有填写");
-            return modelAndView;
-        }
-
-        if((passwordVerify==null)||passwordVerify.isEmpty()){
+        if ((passwordVerify == null) || passwordVerify.isEmpty()) {
             modelAndView.addObject("error", "请补全密码确认信息");
             return modelAndView;
         }
 
-        if(userService.exist(username)){
-            System.out.println("exist user? ["+username+"]="+true);
-            modelAndView.addObject("error","用户已经存在，请换一个用户名");
+        if (userService.exist(username)) {
+            System.out.println("exist user? [" + username + "]=" + true);
+            modelAndView.addObject("error", "用户已经存在，请换一个用户名");
             return modelAndView;
-        }else{
+        } else {
             System.out.println("exist user? [" + username + "]=" + false);
         }
 
-        if(!password.equals(passwordVerify)){
-            modelAndView.addObject("error","两次密码不一致");
+        if (!password.equals(passwordVerify)) {
+            modelAndView.addObject("error", "两次密码不一致");
             return modelAndView;
         }
 
         //判断输入是否合法
         //判断用户名
-        String usernameRex="[a-zA-Z0-9]{2,14}";
-        Pattern pattern=Pattern.compile(usernameRex);
-        Matcher matcher=pattern.matcher(username);
-        if(!matcher.matches()){
-            modelAndView.addObject("error","用户名输入不合法");
+        String usernameRex = "[a-zA-Z0-9]{2,14}";
+        Pattern pattern = Pattern.compile(usernameRex);
+        Matcher matcher = pattern.matcher(username);
+        if (!matcher.matches()) {
+            modelAndView.addObject("error", "用户名输入不合法");
             return modelAndView;
         }
         //判断邮箱
-        String passwordRex="[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
-        Pattern emaliPatten=Pattern.compile(passwordRex);
-        Matcher emailMatcher=emaliPatten.matcher(email);
-        if(!emailMatcher.matches()){
-            modelAndView.addObject("error","邮箱输入不合法");
+        String passwordRex = "[\\w!#$%&'*+/=?^_`{|}~-]+(?:\\.[\\w!#$%&'*+/=?^_`{|}~-]+)*@(?:[\\w](?:[\\w-]*[\\w])?\\.)+[\\w](?:[\\w-]*[\\w])?";
+        Pattern emaliPatten = Pattern.compile(passwordRex);
+        Matcher emailMatcher = emaliPatten.matcher(email);
+        if (!emailMatcher.matches()) {
+            modelAndView.addObject("error", "邮箱输入不合法");
             return modelAndView;
         }
         //判断密码
-        String passWordRex="[a-zA-Z0-9]{5,}";
-        Pattern passwordPatten=Pattern.compile(passWordRex);
-        Matcher passwordMatcher=passwordPatten.matcher(password);
-        if(!passwordMatcher.matches()){
-            modelAndView.addObject("error","密码输入不合法");
+        String passWordRex = "[a-zA-Z0-9]{5,}";
+        Pattern passwordPatten = Pattern.compile(passWordRex);
+        Matcher passwordMatcher = passwordPatten.matcher(password);
+        if (!passwordMatcher.matches()) {
+            modelAndView.addObject("error", "密码输入不合法");
             return modelAndView;
         }
         //判断联系方式
-        String phoneRex="\\d{3}-\\d{8}|\\d{4}-\\d{7,8}|\\d{11}";
-        Pattern phonePatten=Pattern.compile(phoneRex);
-        Matcher phoneMatcher=phonePatten.matcher(phone);
-        if(!phoneMatcher.matches()){
-            modelAndView.addObject("error","联系方式输入不合法");
-            return modelAndView;
-        }
+        if(!phone.equals("")){
+            String phoneRex = "\\d{3}-\\d{8}|\\d{4}-\\d{7,8}|\\d{11}";
+            Pattern phonePatten = Pattern.compile(phoneRex);
+            Matcher phoneMatcher = phonePatten.matcher(phone);
+            if (!phoneMatcher.matches() && phone != null) {
+//            modelAndView.addObject("error","联系方式输入不合法");
+                return modelAndView;
+            }
 
-   
+        }
 
         User user = new User();
         user.setUsername(username);
@@ -237,23 +243,20 @@ public class SignUpController {
         File file=resource.getFile();
         String[] args = new String[7];
         args[0]=user.getUsername();
-        Token token1=tokenService.getTokenByUserId(user.getId());
-        Date updateDate=null;
-        if(token1==null){
-            updateDate=new Date();
-        }else {
-            updateDate=token1.getUpdateTime();
-        }
+
+        Date updateDate=Calendar.getInstance().getTime();
         //给用户一个token值
-        logger.debug("用户的id" + user.getUid());
         token.setToken(TokenUtils.generateToken());
         Calendar calendar1=Calendar.getInstance();
+
         calendar1.setTime(updateDate);
         args[1]= String.valueOf(calendar1.get(Calendar.YEAR));
         args[2]= String.valueOf(calendar1.get(Calendar.MONTH));
         args[3]= String.valueOf(calendar1.get(Calendar.DAY_OF_MONTH));
         args[4]= String.valueOf(calendar1.get(Calendar.HOUR_OF_DAY));
         args[5]= String.valueOf(calendar1.get(Calendar.MINUTE));
+
+
         String scheme = request.getScheme();                // http
         String serverName = request.getServerName();        // gooalgene.com
         int serverPort = request.getServerPort();           // 8080
@@ -268,15 +271,16 @@ public class SignUpController {
         builder.append(contextPath);
         args[6]= builder.append("/signup/verify?id=").append(user.getId()).append("&token=").append(token.getToken()).toString();
 
-        Date date=new Date();
+
+
         Calendar calendar=Calendar.getInstance();
-        calendar.setTime(date);
+        calendar.setTime(updateDate);
         calendar.add(Calendar.HOUR, 2);
         Date due_date=calendar.getTime();
         token.setDue_time(due_date);
         token.setToken_status(1);
-        Date date1=new Date();
-        token.setUpdateTime(date1);
+        token.setUpdateTime(updateDate);
+
         if(tokenService.getTokenByUserId(user.getId())!=null){
              tokenService.updateToken(token);
         }else {

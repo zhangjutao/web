@@ -29,7 +29,7 @@
                     <input type="text" name="username" id="username" placeholder="请输入用户名" value="${username}"
                            onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
                            onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
-                           oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" required>
+                           oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" >
                 </label>
                 <span class="tips real">输入后不可更改,<br/>只支持2到14位的英文和数字</span>
                 <span class="tips errorU" style="display:none;">该用户名已存在</span>
@@ -37,7 +37,7 @@
             <div class="reg-mail">
                 <label>
                     <span><b>*</b>邮箱:</span>
-                    <input type="email" name="email" id="mail" placeholder="请输入用户邮箱" value="${email}" required>
+                    <input type="email" name="email" id="mail" placeholder="请输入用户邮箱" value="${email}" >
                     <span class="tips errorM" style="display:none;">该用户名已存在</span>
                 </label>
                 <span class="tips mailTip" style="display:none;color:#ff0000;">邮箱格式不对</span>
@@ -45,14 +45,14 @@
             <div class="reg-pwd">
                 <label>
                     <span><b>*</b>密码:</span>
-                    <input type="password" name="password" min="5" id="pwd" placeholder="请输入用户密码" value="${password}" required>
+                    <input type="password" name="password" min="5" id="pwd" placeholder="请输入用户密码" value="${password}" >
                 </label>
                 <span class="tips pwdTip">密码长度不能少于5位,且只能包含字符和数字。</span>
             </div>
             <div class="reg-confirm-pwd">
                 <label>
                     <span><b>*</b>确认密码:</span>
-                    <input type="password" name="passwordVerify" id="confirmPwd" placeholder="请确认用户密码" value="${passwordVerify}" required>
+                    <input type="password" name="passwordVerify" id="confirmPwd" placeholder="请确认用户密码" value="${passwordVerify}" >
                 </label>
                 <span class="tips confirmTip" style="display:none;color:#ff0000;">密码不一致</span>
             </div>
