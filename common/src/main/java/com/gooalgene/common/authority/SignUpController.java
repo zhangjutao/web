@@ -314,13 +314,16 @@ public class SignUpController {
          Pattern pattern=Pattern.compile(pwdRex);
          Matcher oldPwdMatcher=pattern.matcher(oldpwd);
          Matcher newPwdMatcher=pattern.matcher(password);
-        if (!oldPwdMatcher.matches()){
+        if (!oldPwdMatcher.matches()&&!oldpwd.equals("")){
             model.addAttribute("error","原密码输入不符合要求，请重新输入");
             return modelAndView;
         }
-        if(!newPwdMatcher.matches()){
+        if(!newPwdMatcher.matches()&&!password.equals("")){
             model.addAttribute("error","新密码输入不符合要求，请重新输入");
             return modelAndView;
+        }
+        if (pwdverify.equals("")){
+            model.addAttribute("error","确认密码未填写");
         }
 
         if(principal instanceof UserDetails){
@@ -363,6 +366,7 @@ public class SignUpController {
             user.setReset(1);
             userService.updateUserPassword(user);
             model.addAttribute("user",user);
+            model.addAttribute("error","密码修改完成");
         }
 
         return modelAndView;
