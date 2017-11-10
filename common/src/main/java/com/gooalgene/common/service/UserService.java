@@ -69,12 +69,12 @@ public class UserService implements ApplicationContextAware {
         Date date=new Date();
         Calendar calendar=Calendar.getInstance();
         calendar.setTime(date);
-        logger.error("添加之前的时间:", date);
+        logger.info("添加之前的时间:", calendar.getTime());
         user.setCreate_time(calendar.getTime());
-        logger.error("添加之后的时间:",date);
+        logger.info("添加之后的时间:",calendar.getTime());
         calendar.add(Calendar.MONTH, 2);
         Date due_date=calendar.getTime();
-        logger.debug("due_time:",due_date);
+        logger.info("due_time:",due_date);
         user.setDue_time(due_date);
         Boolean flag=userDao.insert(user);
         if(flag){
