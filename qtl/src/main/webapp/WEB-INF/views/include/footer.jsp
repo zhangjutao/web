@@ -22,7 +22,6 @@
             <dt>关于我们</dt>
             <dd><a target="_blank" href="http://www.gooalgene.com/pages/company.html">关于古奥基因</a></dd>
             <dd><a target="_blank" href="http://www.gooalgene.com/pages/joinus.html">招贤纳士</a></dd>
-            <dd><a target="_blank" href="http://www.gooalgene.com/pages/concat.html">联系我们</a></dd>
         </dl>
         <dl>
             <dt>关注古奥基因</dt>

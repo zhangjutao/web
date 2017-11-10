@@ -28,6 +28,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      */
     private JdbcRequestMapBuilder builder;
 
+    @Override
     public void afterPropertiesSet() throws Exception {
         this.requestMap = this.bindRequestMap();
     }
@@ -36,6 +37,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      * 访问某个资源文件需要的权限
      * 该方法在每次发起http请求时均会进入
      */
+    @Override
     public Collection<ConfigAttribute> getAttributes(Object object) throws IllegalArgumentException {
         HttpServletRequest httpRequest = ((FilterInvocation) object).getHttpRequest();
         Set<ConfigAttribute> roles = new HashSet<ConfigAttribute>(); //将某一个URL匹配的ROLE全部存入Set中，保证不重复

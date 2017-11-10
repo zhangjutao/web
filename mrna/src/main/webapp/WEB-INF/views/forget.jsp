@@ -22,7 +22,7 @@
     <div class="forget">
         <form method="POST" action="${ctxroot}/signup/forget">
             <c:if test="${not empty error}">
-                <div class="error">${error}</div>
+                <div class="error" style="color:#ff0000;font-size:16px;">${error}</div>
             </c:if>
             <div class="forget-u">
                 <label>

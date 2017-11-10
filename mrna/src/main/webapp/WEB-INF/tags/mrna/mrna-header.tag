@@ -1,3 +1,10 @@
+<%@ tag import="org.springframework.security.core.context.SecurityContextHolder" %>
+<%@ tag import="org.springframework.security.core.Authentication" %>
+<%@ tag import="java.security.Principal" %>
+<%@ tag import="org.springframework.security.core.userdetails.UserDetails" %>
+<%@ tag import="org.springframework.security.core.authority.SimpleGrantedAuthority" %>
+<%@ tag import="java.util.Collection" %>
+<%@ tag import="com.gooalgene.common.authority.Role" %>
 <%@ tag language="java" pageEncoding="UTF-8" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp"%>
 <%@ taglib prefix='sec' uri='http://www.springframework.org/security/tags' %>
@@ -16,23 +23,42 @@
             <a href="${ctxroot}/mrna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">Gene Expression Database</a>
         </div>
         <div class="login-out">
-            <%-- 如果从登录页面跳转到MRNAHomeController，然后跳转到index页面时，会携带userName参数
-             否则通过spring security拦截或者其它方式跳转到其它页面，该页面又包含这个header，那么需要从
-             全局中找到这个Role对象，有则已登录，否则未登录 --%>
-            <c:choose>
-                <c:when test="${not empty userName}">
-                    你好,${userName}
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <a href="${ctxroot}/managerPage" id="adminUser" style="display:none;">管理员</a>
-                    </sec:authorize>
+                <div id="admin" style="display:none;">
+                    你好, <span id="username"></span>
+                    <a href="${ctxroot}/managerPage" id="adminUser" style="display:none;">管理员</a>
                     <a href="${ctxroot}/signup/modifyPassword" class="modifyPassword">修改密码</a>
-                    <a href="${ctxroot}/logout" class="tc">退出登录</a>
-                </c:when>
-                <c:otherwise>
+                    <a  href="${ctxroot}/logout" class="tc">退出登录</a>
+                </div>
+                <div id="general" style="display:none;">
                     <a href="${ctxroot}/login" class="login">登录</a>
                     <a href="${ctxroot}/signup/action" class="register active">注册</a>
-                </c:otherwise>
-            </c:choose>
+                </div>
         </div>
     </div>
 </header>
+<script>
+    var ctxRoot = '${ctxroot}';
+    //判断当前用户是否是管理员
+    window.onload = function (){
+        $.ajax({
+            type:"GET",
+            url:ctxRoot+ "/user",
+            success:function(result){
+                console.log(result);
+                if(result.data == null){
+                    $("#general").show();
+                }else {
+                    $("#admin").show();
+                    var name = result.data.name;
+                    $("#username").text(name);
+                    var roles = result.data.authorities;
+                    for (var i=0;i<roles.length;i++){
+                        if(roles[i].name == "ROLE_ADMIN"){
+                            $("#adminUser").show();
+                        }
+                    }
+                }
+            }
+        })
+    }
+</script>
