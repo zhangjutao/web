@@ -76,11 +76,12 @@ public class DNARun extends DataEntity<DNARun> {
     private String upperLeafletLength_min;
     private String upperLeafletLength_max;
 
-    private String floweringDate;//开花日期（月，日）
-
-    private String maturityDate;//成熟日期（月，日）
+    private String maturityDate;//成熟期组
 
     private float yield;//产量（Mg/ha）
+
+    private String group; //组别
+
     private String yield_min;
     private String yield_max;
 
@@ -260,14 +261,6 @@ public class DNARun extends DataEntity<DNARun> {
 
     public void setUpperLeafletLength(float upperLeafletLength) {
         this.upperLeafletLength = upperLeafletLength;
-    }
-
-    public String getFloweringDate() {
-        return floweringDate;
-    }
-
-    public void setFloweringDate(String floweringDate) {
-        this.floweringDate = floweringDate;
     }
 
     public String getMaturityDate() {
@@ -470,6 +463,14 @@ public class DNARun extends DataEntity<DNARun> {
         this.keywords = keywords;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", getId());
@@ -495,9 +496,9 @@ public class DNARun extends DataEntity<DNARun> {
         jsonObject.put("cotyledonColor", cotyledonColor == null ? "" : cotyledonColor);
         jsonObject.put("weightPer100seeds", weightPer100seeds == 0 ? "" : weightPer100seeds);
         jsonObject.put("upperLeafletLength", upperLeafletLength == 0 ? "" : upperLeafletLength);
-        jsonObject.put("floweringDate", floweringDate == null ? "" : floweringDate);
         jsonObject.put("maturityDate", maturityDate == null ? "" : maturityDate);
         jsonObject.put("yield", yield == 0 ? "" : yield);
+        jsonObject.put("group", group);
         return jsonObject;
     }
 
@@ -546,11 +547,11 @@ public class DNARun extends DataEntity<DNARun> {
                 ", upperLeafletLength=" + upperLeafletLength +
                 ", upperLeafletLength_min='" + upperLeafletLength_min + '\'' +
                 ", upperLeafletLength_max='" + upperLeafletLength_max + '\'' +
-                ", floweringDate='" + floweringDate + '\'' +
                 ", maturityDate='" + maturityDate + '\'' +
                 ", yield=" + yield +
                 ", yield_min='" + yield_min + '\'' +
                 ", yield_max='" + yield_max + '\'' +
+                ", group='" + group + '\'' +
                 '}';
     }
 }
