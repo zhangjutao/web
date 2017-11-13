@@ -62,10 +62,14 @@ public class UserController {
 
     @RequestMapping(value = "/manager/change/enable",method = RequestMethod.POST)
     public ResultVO changeEnable(@RequestParam String id) throws IOException, MessagingException {
+        User user=userService.getUserById(Integer.valueOf(id));
+        if(userService.getEmailCount(user.getEmail())>1){
+            return ResultUtil.error(ResultEnum.EMAIL_REPEAT);
+        }
         if(userService.enableUser(Integer.valueOf(id))){
-            int userid=Integer.parseInt(id);
+            //int userid=Integer.parseInt(id);
 
-            User user=userService.getUserById(userid);  //传入的用户信息
+            //User user=userService.getUserById(userid);  //传入的用户信息
 
             Resource resource=new ClassPathResource("notification.html");
             File file=resource.getFile();
@@ -79,7 +83,7 @@ public class UserController {
             String[] args=new String[6];
             args[0]=user.getUsername();
             args[1]=String.valueOf(calendar.get(Calendar.YEAR));
-            args[2]=String.valueOf(calendar.get(Calendar.MONTH));
+            args[2]=String.valueOf(calendar.get(Calendar.MONTH)+1);
             args[3]=String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
             args[4]=String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
             args[5]=String.valueOf(calendar.get(Calendar.MINUTE));

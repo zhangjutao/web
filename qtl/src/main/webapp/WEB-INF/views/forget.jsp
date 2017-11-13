@@ -15,7 +15,7 @@
 </head>
 <body >
 
-<mrna:qtl-header />
+<qtl:qtl-header/>
 <!--header-->
 <div class="container">
     <div class="forget-h"><p>忘记密码</p></div>
@@ -26,8 +26,8 @@
             </c:if>
             <div class="forget-u">
                 <label>
-                    <span>用户姓名:</span>
-                    <input type="text" name="username" id="username" placeholder="请输入您注册时用户姓名" value="${username}">
+                    <span>用户名:</span>
+                    <input type="text" name="username" id="username" placeholder="请输入您注册时用户名" value="${username}">
                 </label>
             </div>
             <div class="forget-mail">

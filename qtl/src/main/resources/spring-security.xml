@@ -12,15 +12,12 @@
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint"
           c:loginFormUrl="/login"/>
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
-        <property name="defaultTargetUrl" value="/search/index"></property>
+        <property name="defaultTargetUrl" value="/search/index" />
     </bean>
 
-    <!-- 这里会覆盖ROLE_ADMIN用户/qtl/**权限设置 -->
-    <sec:http pattern="/search/index" security="none"/>
-    <!--authentication-failure-url="/login?error=true"-->
-    <!--default-target-url="/search/index"-->
-    <sec:http auto-config='false' ><!--use-expressions="true"-->
-        <!--<sec:intercept-url pattern="/manager/user" access="permitAll"/>-->
+    <sec:http auto-config='false' use-expressions="true">
+        <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
+        <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
         <sec:form-login login-page="/login"
                         authentication-success-handler-ref="authenticationSuccessHandler"
                         authentication-failure-handler-ref="authenticationFailureHandler"
@@ -57,8 +54,6 @@
         <property name="authenticationManager" ref="authenticationManager"/>
         <!-- 资源与权限对应关系 -->
         <property name="securityMetadataSource" ref="securityMetadataSource">
-
         </property>
     </bean>
-
 </beans>

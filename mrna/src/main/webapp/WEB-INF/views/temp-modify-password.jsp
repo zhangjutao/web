@@ -16,7 +16,7 @@
 </head>
 <body >
 
-<dna:dna-header />
+<mrna:mrna-header />
 <!--header-->
 <div class="container">
     <div class="forget-h"><p>修改密码</p></div>
