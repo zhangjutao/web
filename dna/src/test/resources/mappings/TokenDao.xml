@@ -6,22 +6,22 @@
         <result column="token_status" property="token_status" />
         <result column="token" property="token" />
         <result column="due_time" property="due_time" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
     </resultMap>
 
     <select id="getTokenByUserId" resultMap="tokenInfo">
         SELECT * FROM token WHERE userid=#{user_id}
     </select>
+
     <insert id="insertToken">
-        INSERT INTO token(userid,token,token_status,update_time,due_time)VALUE (#{userid},#{token},#{token_status},#{updateTime},#{due_time})
+        INSERT INTO token(userid,token,token_status,due_time)VALUE (#{userid},#{token},#{token_status},#{due_time})
     </insert>
 
     <update id="updateToken">
         UPDATE token SET token=#{token},due_time=#{due_time} WHERE userid=#{userid}
     </update>
- 
+
     <update id="disableToken">
         update token set  token_status=0  where userid=#{userid} ;
     </update>
-    
+
 </mapper>

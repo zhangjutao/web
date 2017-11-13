@@ -173,6 +173,7 @@ public class SNPController {
 
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
 
+
     @RequestMapping("/dataExport")
     @ResponseBody
     public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
