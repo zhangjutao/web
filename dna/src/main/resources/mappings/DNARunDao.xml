@@ -28,7 +28,7 @@
         <result column="upper_leaflet_length" property="upperLeafletLength" jdbcType="REAL" />
         <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR" />
         <result column="yield" property="yield" jdbcType="REAL" />
-        <result column="category" property="category" jdbcType="VARCHAR" />
+        <result column="category" property="group" jdbcType="VARCHAR" />
     </resultMap>
     <sql id="Base_Column_List" >
         id, run_no, species, sample_name, cultivar, plant_name, locality, protein, oil, linoleic,
@@ -309,6 +309,9 @@
             </if>
             <if test="yield!=null">
                 AND yield like #{yield}
+            </if>
+            <if test="group!=null">
+                AND category like #{group}
             </if>
         </trim>
     </select>
