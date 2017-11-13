@@ -71,7 +71,6 @@ public class SMTPService {
         }
         message.setText(sendMessage);
         message.setFrom(new InternetAddress(from, "古奥基因")); //这里更希望是启动时直接从数据库中拿值
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress("crabime@gmail.com"));
 
         Transport transport = session.getTransport();
         String username = cache.get("mail.administrator").get().toString();
@@ -80,6 +79,7 @@ public class SMTPService {
         for (int i = 0; i < receivers.size(); i++) {
             addresses[i] = new InternetAddress(receivers.get(i));
         }
+        message.setRecipients(Message.RecipientType.TO, addresses);
         transport.sendMessage(message, addresses);
         transport.close();
     }
@@ -115,7 +115,6 @@ public class SMTPService {
         message.setContent(multipart);
         message.saveChanges();
         message.setFrom(new InternetAddress(from, "古奥基因")); //这里更希望是启动时直接从数据库中拿值
-        message.setRecipient(Message.RecipientType.TO, new InternetAddress("crabime@gmail.com"));
 
         Transport transport = session.getTransport();
         String username = cache.get("mail.administrator").get().toString();
@@ -124,6 +123,7 @@ public class SMTPService {
         for (int i = 0; i < receivers.size(); i++) {
             addresses[i] = new InternetAddress(receivers.get(i));
         }
+        message.setRecipients(Message.RecipientType.TO, addresses);
         transport.sendMessage(message, addresses);
         transport.close();
     }

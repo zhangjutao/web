@@ -78,9 +78,12 @@ public class DNARun extends DataEntity<DNARun> {
 
     private String floweringDate;//开花日期（月，日）
 
-    private String maturityDate;//成熟日期（月，日）
+    private String maturityDate;//成熟期组
 
     private float yield;//产量（Mg/ha）
+
+    private String group; //组别
+
     private String yield_min;
     private String yield_max;
 
@@ -470,6 +473,14 @@ public class DNARun extends DataEntity<DNARun> {
         this.keywords = keywords;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", getId());
@@ -498,6 +509,7 @@ public class DNARun extends DataEntity<DNARun> {
         jsonObject.put("floweringDate", floweringDate == null ? "" : floweringDate);
         jsonObject.put("maturityDate", maturityDate == null ? "" : maturityDate);
         jsonObject.put("yield", yield == 0 ? "" : yield);
+        jsonObject.put("group", group);
         return jsonObject;
     }
 
@@ -551,6 +563,7 @@ public class DNARun extends DataEntity<DNARun> {
                 ", yield=" + yield +
                 ", yield_min='" + yield_min + '\'' +
                 ", yield_max='" + yield_max + '\'' +
+                ", group='" + group + '\'' +
                 '}';
     }
 }

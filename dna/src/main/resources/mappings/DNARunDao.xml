@@ -14,17 +14,14 @@
         INSERT INTO `dna_run`(`run_no`,`species`,`sample_name`,`cultivar`,`plant_name`,`locality`,
         `protein`,`oil`,`linoleic`,`linolenic`,`oleic`,`palmitic`,`stearic`,`height`,
         `flower_color`,`hilum_color`,`pod_color`,`pubescence_color`,`seed_coat_color`,`cotyledon_color`,
-        `weight_per_100seeds`,`upper_leaflet_length`,
-        `flowering_date`,`maturity_date`,
-        `yield`)
+        `weight_per_100seeds`,`upper_leaflet_length`,`maturity_date`,`yield`, `category`)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.runNo,jdbcType=VARCHAR},#{item.species,jdbcType=VARCHAR},#{item.sampleName,jdbcType=VARCHAR},#{item.cultivar,jdbcType=VARCHAR},#{item.plantName,jdbcType=VARCHAR},#{item.locality,jdbcType=VARCHAR},
             #{item.protein,jdbcType=FLOAT},#{item.oil,jdbcType=FLOAT},#{item.linoleic,jdbcType=FLOAT},#{item.linolenic,jdbcType=FLOAT},#{item.oleic,jdbcType=FLOAT},#{item.palmitic,jdbcType=FLOAT},#{item.stearic,jdbcType=FLOAT},#{item.height,jdbcType=FLOAT},
             #{item.flowerColor,jdbcType=VARCHAR},#{item.hilumColor,jdbcType=VARCHAR},#{item.podColor,jdbcType=VARCHAR},#{item.pubescenceColor,jdbcType=VARCHAR},#{item.seedCoatColor,jdbcType=VARCHAR},#{item.cotyledonColor,jdbcType=VARCHAR},
             #{item.weightPer100seeds,jdbcType=FLOAT},#{item.upperLeafletLength,jdbcType=FLOAT},
-            #{item.floweringDate,jdbcType=VARCHAR},#{item.maturityDate,jdbcType=VARCHAR},
-            #{item.yield,jdbcType=FLOAT})
+            #{item.maturityDate,jdbcType=VARCHAR},#{item.yield,jdbcType=FLOAT},#{item.group,jdbcType=VARCHAR})
         </foreach>
     </insert>
 
