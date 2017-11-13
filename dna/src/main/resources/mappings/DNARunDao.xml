@@ -30,8 +30,7 @@
         `protein`,`oil`,`linoleic`,`linolenic`,`oleic`,`palmitic`,`stearic`,`height`,
         `flower_color`,`hilum_color`,`pod_color`,`pubescence_color`,`seed_coat_color`,`cotyledon_color`,
         `weight_per_100seeds`,`upper_leaflet_length`,
-        `flowering_date`,`maturity_date`,
-        `yield`)
+        `flowering_date`,`maturity_date`,`yield`)
         VALUES (#{runNo,jdbcType=VARCHAR},#{species,jdbcType=VARCHAR},#{sampleName,jdbcType=VARCHAR},#{cultivar,jdbcType=VARCHAR},#{plantName,jdbcType=VARCHAR},#{locality,jdbcType=VARCHAR},
         #{protein,jdbcType=FLOAT},#{oil,jdbcType=FLOAT},#{linoleic,jdbcType=FLOAT},#{linolenic,jdbcType=FLOAT},#{oleic,jdbcType=FLOAT},#{palmitic,jdbcType=FLOAT},#{stearic,jdbcType=FLOAT},#{height,jdbcType=FLOAT},
         #{flowerColor,jdbcType=VARCHAR},#{hilumColor,jdbcType=VARCHAR},#{podColor,jdbcType=VARCHAR},#{pubescenceColor,jdbcType=VARCHAR},#{seedCoatColor,jdbcType=VARCHAR},#{cotyledonColor,jdbcType=VARCHAR},
@@ -121,7 +120,7 @@
         <if test="yield_min!=null and yield_max!=null">
             AND (yield BETWEEN #{yield_min} AND #{yield_max})
         </if>
-        <if test="category!=null">
+        <if test="group!=null">
             AND category = #{group}
         </if>
     </select>
