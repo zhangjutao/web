@@ -63,22 +63,54 @@ $(function (){
         // console.log(posEnd);
     }).mousemove(function (e){
     })
+
+    //选中状态代码封装
+    function checkStatus(bool){
+        var lists = $("#selectedDetails li");
+        if(bool){
+            for(var i=0;i<lists.length;i++){
+                var $input = $(lists[i]).find("input");
+                if(!$input.is(":checked")){
+                    $input.get(0).checked = true;
+                }
+            }
+        }else {
+            for(var i=0;i<lists.length;i++){
+                var $input = $(lists[i]).find("input");
+                if($input.is(":checked")){
+                    $input.removeAttr("checked");
+                }
+            }
+        }
+    }
     // 全选
     $("#SelectAllBox").click(function (){
         var status = $(this).prop("checked");
         console.log(status);
+        checkStatus(status);
+    })
+    // 清空所有选中的
+    $(".selectedAll").click(function  (){
         var lists = $("#selectedDetails li");
-        console.log(lists)
-           if(status){
-               for(var i=0;i<lists.length;i++){
-                   // $(lists[i]).
-               }
-           }
+        var status = $("#SelectAllBox").prop("checked");
+        if(status){
+            $("#SelectAllBox").removeAttr("checked");
+        }
+        for(var i=0;i<lists.length;i++){
+            var $input = $(lists[i]).find("input");
+            if($input.is(":checked")){
+                $input.removeAttr("checked");
+            }
+        }
 
     })
+    $(".packUp").click(function (){
+        $(".selecting").hide();
+        $("#operate").hide();
+    })
+    $('#tableSet').click(function (){
+        $(".selecting").show();
+        $("#operate").show();
+    })
+
 })
-{   key:num
-    value:89，
-
-
-}

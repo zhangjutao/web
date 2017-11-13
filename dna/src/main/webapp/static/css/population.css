@@ -143,7 +143,9 @@
     margin-right:26px;
     margin-bottom:12px;
 }
-#exportData{
+#exportData,#tableSet{
+   float:left;
+    /*display:inline-block;*/
     background:#5C8CE6;
     color:#fff;
     width:100px;
@@ -153,13 +155,16 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    margin-right:0px;
-    margin-left:56px;
     cursor:pointer;
+}
+#tableSet{
+    margin-right:10px;
+    margin-left:10px;
 }
 #operate{
     overflow: hidden;
-    padding-top:30px;
+    padding-top:47px;
+    padding-left:60px;
 }
 .opOthers{
     margin-top:4px;
@@ -176,7 +181,7 @@
     cursor: pointer;
 }
 .changeStauts{
-    width:195px;
+    width:270px;
     margin:0 auto;
     float:right;
 }
@@ -193,4 +198,10 @@
 .opOthers{
     float:left;
     overflow:hidden;
+}
+.sets{
+    overflow: hidden;
+}
+#tableShow>table{
+
 }

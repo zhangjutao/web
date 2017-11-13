@@ -19,7 +19,7 @@
 <mrna:mrna-header />
 <!--header-->
 <div class="container">
-    <div class="forget-h"><p>找回密码</p></div>
+    <div class="forget-h"><p>修改密码</p></div>
     <div class="forget modify">
         <form method="POST" action="">
             <c:if test="${not empty error}">

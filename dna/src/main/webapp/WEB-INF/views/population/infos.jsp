@@ -91,6 +91,7 @@
                             <input type="checkbox" name="cultivar"> 品种名
                         </li>
                         <li>
+                            <%--无--%>
                             <input type="checkbox" name="population"> 群体
                         </li>
                         <li>
@@ -103,58 +104,59 @@
                             <input type="checkbox" name="sampleName"> 样品名
                         </li>
                         <li>
-                            <input type="checkbox" name="bailizhong"> 百粒重
+                            <input type="checkbox" name="weightPer100seeds"> 百粒重
                         </li>
                         <li>
                             <input type="checkbox" name="protein"> 蛋白质含量
                         </li>
                         <li>
-                            <input type="checkbox" name="ripeTime"> 熟期
+                            <input type="checkbox" name="maturityDate"> 熟期
                         </li>
                         <li>
-                            <input type="checkbox" name="zhugao"> 株高
+                            <input type="checkbox" name="height"> 株高
                         </li>
                         <li>
-                            <input type="checkbox" name="testaColor"> 种皮色
+                            <input type="checkbox" name="seedCoatColor"> 种皮色
                         </li>
                         <li>
-                            <input type="checkbox" name="umbiliciColor"> 种脐色
+                            <input type="checkbox" name="hilumColor"> 种脐色
                         </li>
                         <li>
-                            <input type="checkbox" name="subpageColor"> 子叶色
+                            <input type="checkbox" name="cotyledonColor"> 子叶色
                         </li>
                         <li>
                             <input type="checkbox" name="flowerColor"> 花色
                         </li>
                         <li>
-                            <input type="checkbox" name="subpageColor"> 子叶色
+                            <input type="checkbox" name="cotyledonColor"> 子叶色
                         </li>
                         <li>
                             <input type="checkbox" name="podColor"> 荚色
                         </li>
                         <li>
-                            <input type="checkbox" name="fuzzColor"> 茸毛色
+                            <input type="checkbox" name="pubescenceColor"> 茸毛色
                         </li>
                         <li>
+                            <%--无--%>
                             <input type="checkbox" name="yield"> 产量
                         </li>
                         <li>
-                            <input type="checkbox" name="topLeafLength"> 顶端小叶长度
+                            <input type="checkbox" name="upperLeafletLength"> 顶端小叶长度
                         </li>
                         <li>
-                            <input type="checkbox" name="yayouAcid">亚油酸
+                            <input type="checkbox" name="linoleic">亚油酸
                         </li>
                         <li>
-                            <input type="checkbox" name="yamaAcid"> 亚麻酸
+                            <input type="checkbox" name="linolenic"> 亚麻酸
                         </li>
                         <li>
-                            <input type="checkbox" name="oilAcid"> 油酸
+                            <input type="checkbox" name="oleic"> 油酸
                         </li>
                         <li>
-                            <input type="checkbox" name="palmiticAcid"> 软脂酸
+                            <input type="checkbox" name="palmitic"> 软脂酸
                         </li>
                         <li>
-                            <input type="checkbox" name="stearicAcid"> 硬脂酸
+                            <input type="checkbox" name="stearic"> 硬脂酸
                         </li>
                     </ul>
                     <div>
@@ -163,7 +165,12 @@
                 </div>
             </div>
             <div class="changeStauts">
-                <p id="exportData">导出数据</p>
+                <div class="sets">
+                    <p id="tableSet">表格设置</p>
+                    <p id="exportData">导出数据</p>
+                </div>
+                <%--<p id="tableSet">表格设置</p>--%>
+                <%--<p id="exportData">导出数据</p>--%>
                 <div id="operate">
                     <p class="sure">确定</p>
                     <div class="opOthers">
@@ -175,6 +182,37 @@
 
                 </div>
             </div>
+        </div>
+        <div id="tableShow">
+            <table border="1" cellspacing="0" cellpadding="0">
+                <thead>
+                    <tr>
+                        <th>品种名</th>
+                        <th>群体</th>
+                        <th>物种</th>
+                        <th>位置</th>
+                        <th>样品名</th>
+                        <th>百粒重</th>
+                        <th>蛋白质含量</th>
+                        <th>熟期</th>
+                        <th>株高</th>
+                        <th>种皮色</th>
+                        <th>种脐色</th>
+                        <th>子叶色</th>
+                        <th>花色</th>
+                        <th>子叶色</th>
+                        <th>荚色</th>
+                        <th>茸毛色</th>
+                        <th>产量</th>
+                        <th>顶端小叶长度</th>
+                        <th>亚油酸</th>
+                        <th>亚麻酸</th>
+                        <th>油酸</th>
+                        <th>软脂酸</th>
+                        <th>硬脂酸</th>
+                    </tr>
+                </thead>
+            </table>
         </div>
         <%--弹出框--%>
         <div id="popTips">
