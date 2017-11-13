@@ -66,6 +66,11 @@ public class SNPController {
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
         return model;
     }
+    @RequestMapping("/populationInfos")
+    public ModelAndView populationInfos(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("population/infos");
+        return model;
+    }
 
     /**
      * 按基因条件搜索

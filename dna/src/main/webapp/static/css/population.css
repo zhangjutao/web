@@ -1,0 +1,196 @@
+#topTitle{
+    overflow: hidden;
+    padding-top:20px;
+}
+#topTitle p{
+    float:left;
+}
+.container>div{
+    padding-left:30px;
+}
+.systree{
+    font-family:"Microsoft YaHei UI Light";
+    font-size:24px;
+    color:#5c8ce6;
+    margin-left:18px;
+}
+.popDes{
+    padding-right:20px;
+    padding-left:30px;
+    font-size:14px;
+    color:#808080;
+    font-family:"Microsoft Yahei";
+    line-height:24px;
+    margin-top:20px;
+    padding-bottom:20px;
+    border-bottom:1px solid #F0F0F0;
+}
+#groups ul{
+    overflow: hidden;
+    padding-top:30px;
+    padding-bottom:30px;
+    border-bottom:1px solid #F0F0F0;
+}
+#groups ul>li{
+    float:left;
+    width:210px;
+    height:130px;
+    border:1px solid #E7E8EB;
+    margin-right:20px;
+    margin-bottom:20px;
+    cursor: pointer;
+}
+#groups ul>li>img{
+    padding-left:81px;
+    padding-top:26px;
+
+}
+.groupDes{
+    padding-top:15px;
+    padding-left:78px;
+    padding-bottom:26px;
+    font-family:ArialMT;
+    font-size:16px;
+    color:#5c8ce6;
+}
+#groups ul>li:hover{
+    box-shadow: 0 0 5px #DBDBDB;
+}
+#popTips{
+    width:600px;
+    margin:0 auto;
+    background:#fff;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+    padding-left:0px;
+    border:1px solid #ccc;
+    position:absolute;
+    top:180px;
+    left:300px;
+    display:none;
+}
+.tipTop{
+    height:40px;
+    color:#fff;
+    background:#386CCA;
+    position:relative;
+    text-align:center;
+    line-height:40px;
+}
+.tipTopCnt{
+    margin:0 auto;
+    font-family:ArialMT;
+    font-size:18px;
+}
+.closeBtn{
+    position:absolute;
+    right:10px;
+    top:0px;
+}
+.closeBtn img{
+    padding:8px;
+    cursor:pointer;
+}
+.titCnt{
+    font-size:18px;
+    font-family:"Microsoft Yahei";
+    color:#3f77e0;
+    padding-left:36px;
+    margin-top:30px;
+}
+.titCnt:before{
+    content:"|";
+    color:#3f77e0;
+    margin-right:8px;
+}
+.groupCnt{
+    font-family:"Microsoft Yahei";
+    font-size:14px;
+    color:#999;
+    line-height:24px;
+    margin-top:14px;
+    padding-left:36px;
+    padding-bottom:20px;
+    padding-right:36px;
+}
+#tableCnt{
+    overflow: hidden;
+    padding-left:30px;
+    padding-top:20px;
+    padding-bottom:30px;
+}
+.selecting{
+    float:left;
+    overflow: hidden;
+}
+.selecting>p{
+    float:left;
+    font-size:18px;
+    margin-right:10px;
+    font-family:"Microsoft Yahei";
+    color:#000;
+}
+#selectedDetails{
+    float:left;
+    width:730px;
+}
+#selectedDetails ul{
+    overflow: hidden;
+}
+#selectedDetails ul li{
+   float:left;
+    margin-right:26px;
+    margin-bottom:12px;
+}
+#exportData{
+    background:#5C8CE6;
+    color:#fff;
+    width:100px;
+    text-align:center;
+    font-size:16px;
+    padding:5px 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin-right:0px;
+    margin-left:56px;
+    cursor:pointer;
+}
+#operate{
+    overflow: hidden;
+    padding-top:30px;
+}
+.opOthers{
+    margin-top:4px;
+}
+#operate p{
+
+    color:#5C8CE6;
+}
+#operate .sure{
+    border:1px solid #5C8CE6;
+    padding:5px 16px;
+    float:left;
+    margin-right:10px;
+    cursor: pointer;
+}
+.changeStauts{
+    width:195px;
+    margin:0 auto;
+    float:right;
+}
+.selectedAll,.packUp{
+    float:left;
+    cursor: pointer;
+}
+.selectedAll:after{
+    content:"|";
+    color:#ccc;
+    padding-left:5px;
+    padding-right:5px;
+}
+.opOthers{
+    float:left;
+    overflow:hidden;
+}
