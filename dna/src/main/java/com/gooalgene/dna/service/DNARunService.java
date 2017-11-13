@@ -139,7 +139,7 @@ public class DNARunService {
             dnaRun.setProtein_max(content.getString("max"));
         }
         if (jsonObject.containsKey("floweringDate")) {
-            dnaRun.setFloweringDate(jsonObject.getString("floweringDate"));
+//            dnaRun.setFloweringDate(jsonObject.getString("floweringDate"));
         }
         if (jsonObject.containsKey("maturityDate")) {
             dnaRun.setMaturityDate(jsonObject.getString("maturityDate"));

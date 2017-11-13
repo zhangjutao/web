@@ -7,7 +7,7 @@
 <%@page session="true"%>
 <html>
 <head>
-    <title>修改密码</title>
+    <title>找回密码</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
@@ -19,7 +19,7 @@
 <mrna:mrna-header />
 <!--header-->
 <div class="container">
-    <div class="forget-h"><p>修改密码</p></div>
+    <div class="forget-h"><p>找回密码</p></div>
     <div class="forget modify">
         <form method="POST" action="${ctxroot}/signup/temp/modifyPassword">
             <input type="hidden" value="${userId}" name="userId">
