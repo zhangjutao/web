@@ -76,8 +76,6 @@ public class DNARun extends DataEntity<DNARun> {
     private String upperLeafletLength_min;
     private String upperLeafletLength_max;
 
-    private String floweringDate;//开花日期（月，日）
-
     private String maturityDate;//成熟期组
 
     private float yield;//产量（Mg/ha）
@@ -263,14 +261,6 @@ public class DNARun extends DataEntity<DNARun> {
 
     public void setUpperLeafletLength(float upperLeafletLength) {
         this.upperLeafletLength = upperLeafletLength;
-    }
-
-    public String getFloweringDate() {
-        return floweringDate;
-    }
-
-    public void setFloweringDate(String floweringDate) {
-        this.floweringDate = floweringDate;
     }
 
     public String getMaturityDate() {
@@ -506,7 +496,6 @@ public class DNARun extends DataEntity<DNARun> {
         jsonObject.put("cotyledonColor", cotyledonColor == null ? "" : cotyledonColor);
         jsonObject.put("weightPer100seeds", weightPer100seeds == 0 ? "" : weightPer100seeds);
         jsonObject.put("upperLeafletLength", upperLeafletLength == 0 ? "" : upperLeafletLength);
-        jsonObject.put("floweringDate", floweringDate == null ? "" : floweringDate);
         jsonObject.put("maturityDate", maturityDate == null ? "" : maturityDate);
         jsonObject.put("yield", yield == 0 ? "" : yield);
         jsonObject.put("group", group);
@@ -558,7 +547,6 @@ public class DNARun extends DataEntity<DNARun> {
                 ", upperLeafletLength=" + upperLeafletLength +
                 ", upperLeafletLength_min='" + upperLeafletLength_min + '\'' +
                 ", upperLeafletLength_max='" + upperLeafletLength_max + '\'' +
-                ", floweringDate='" + floweringDate + '\'' +
                 ", maturityDate='" + maturityDate + '\'' +
                 ", yield=" + yield +
                 ", yield_min='" + yield_min + '\'' +
