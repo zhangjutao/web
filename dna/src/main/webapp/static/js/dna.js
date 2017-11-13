@@ -162,13 +162,16 @@ $(function () {
         params['ctype'] = CTypeSnp;
 
         loadMask ("#mask-test");
-
+        console.log(params);
+        console.log(url);
         $.ajax({
             url: url,
             data: params,
             type: "POST",
             dataType: "json",
             success: function(res) {
+                console.log(11);
+                console.log(res);
                 maskClose("#mask-test");
                 SNPData = res.data;
                 if(res.data.length > 0) {

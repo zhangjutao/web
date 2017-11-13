@@ -1,0 +1,19 @@
+#populationInfos{
+    padding:8px 20px;
+    background:#5D8CE6;
+    color:#fff;
+    position:absolute;
+    right:374px;
+    bottom:-231px;
+    cursor:pointer;
+    font-size:16px;
+    z-index:100;
+}
+#popContainer{
+    background:#fff;
+}
+#popDes span{
+    font-size:21px;
+    color:#7A9EE8;
+    margin-left:10px;
+}

@@ -12,6 +12,8 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
+
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
@@ -281,7 +283,7 @@
         </div>
     </div>
 
-    <div class="contant page-circle">
+    <div class="contant page-circle" id="systreeContainer">
         <div class="box-shadow">
             <div class="item-header">
                 <div class="icon-left"><img src="${ctxStatic}/images/tag-name.png"> 树形图</div>
@@ -292,8 +294,9 @@
                     <%--<!--<li>标签2</li>-->--%>
                 <%--</ul>--%>
                 <div class="tab">
-                    <div class="tab-txt tab-txt-ac">
+                    <div class="tab-txt tab-txt-ac" style="position:relative;">
                         <img src="${ctxStatic}/images/dnatree.png">
+                        <p id="populationInfos">群体信息</p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>
@@ -318,6 +321,16 @@
             </div>
         </div>
     </div>
+
+
+    <!--群体信息页面 begin-->
+    <div id="popContainer">
+        <div id="popDes">
+            <img src="${ctxStatic}/images/systree.png" alt="logo" style="width:30px; height:30px;">
+            <span>系统进化树</span>
+        </div>
+    </div>
+    <!--群体信息页面 end-->
 
     <form id="exportRegionForm" action="${ctxroot}/dna/dataExport" method="get">
         <input class="model" name="model" type="hidden" value="REGION"/>
@@ -347,6 +360,7 @@
     var ctxRoot = '${ctxroot}';
 </script>
 <script src="${ctxStatic}/js/dna.js"></script>
+<script src="${ctxStatic}/js/newAdd.js"></script>
 
 
 </body>
