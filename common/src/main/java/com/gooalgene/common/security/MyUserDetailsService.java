@@ -29,6 +29,7 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Boolean accountNonExpired=false;
+
         Boolean enabled=false;
         User user=userDao.getByUsername(username);
 
