@@ -94,8 +94,7 @@
         `protein`,`oil`,`linoleic`,`linolenic`,`oleic`,`palmitic`,`stearic`,`height`,
         `flower_color`,`hilum_color`,`pod_color`,`pubescence_color`,`seed_coat_color`,`cotyledon_color`,
         `weight_per_100seeds`,`upper_leaflet_length`,
-        `flowering_date`,`maturity_date`,
-        `yield`)
+        `flowering_date`,`maturity_date`,`yield`)
         VALUES (#{runNo,jdbcType=VARCHAR},#{species,jdbcType=VARCHAR},#{sampleName,jdbcType=VARCHAR},#{cultivar,jdbcType=VARCHAR},#{plantName,jdbcType=VARCHAR},#{locality,jdbcType=VARCHAR},
         #{protein,jdbcType=FLOAT},#{oil,jdbcType=FLOAT},#{linoleic,jdbcType=FLOAT},#{linolenic,jdbcType=FLOAT},#{oleic,jdbcType=FLOAT},#{palmitic,jdbcType=FLOAT},#{stearic,jdbcType=FLOAT},#{height,jdbcType=FLOAT},
         #{flowerColor,jdbcType=VARCHAR},#{hilumColor,jdbcType=VARCHAR},#{podColor,jdbcType=VARCHAR},#{pubescenceColor,jdbcType=VARCHAR},#{seedCoatColor,jdbcType=VARCHAR},#{cotyledonColor,jdbcType=VARCHAR},
@@ -337,8 +336,8 @@
             linoleic LIKE CONCAT('%',#{keywords},'%') OR linolenic LIKE CONCAT('%',#{keywords},'%') OR oleic LIKE CONCAT('%',#{keywords},'%') OR palmitic LIKE CONCAT('%',#{keywords},'%') OR
             stearic LIKE CONCAT('%',#{keywords},'%') OR height LIKE CONCAT('%',#{keywords},'%') OR flower_color LIKE CONCAT('%',#{keywords},'%') OR hilum_color LIKE CONCAT('%',#{keywords},'%') OR
             pod_color LIKE CONCAT('%',#{keywords},'%') OR pubescence_color LIKE CONCAT('%',#{keywords},'%') OR seed_coat_color LIKE CONCAT('%',#{keywords},'%') OR cotyledon_color LIKE CONCAT('%',#{keywords},'%') OR
-            weight_per_100seeds LIKE CONCAT('%',#{keywords},'%') OR upper_leaflet_length LIKE CONCAT('%',#{keywords},'%') OR flowering_date LIKE CONCAT('%',#{keywords},'%') OR
-            maturity_date LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%')
+            weight_per_100seeds LIKE CONCAT('%',#{keywords},'%') OR upper_leaflet_length LIKE CONCAT('%',#{keywords},'%') OR
+            maturity_date LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%') OR category LIKE concat('%',#{group},'%')
             )
         </if>
         <if test="species!=null">
@@ -353,9 +352,6 @@
                     AND locality LIKE CONCAT('%',#{locality},'%')
                 </otherwise>
             </choose>
-        </if>
-        <if test="floweringDate!=null">
-            AND flowering_date LIKE CONCAT('',#{floweringDate},'%')
         </if>
         <if test="maturityDate!=null">
             AND maturity_date LIKE CONCAT('',#{maturityDate},'%')
@@ -411,6 +407,9 @@
         <if test="yield_min!=null and yield_max!=null">
             AND (yield BETWEEN #{yield_min} AND #{yield_max})
         </if>
+        <if test="group!=null">
+            AND category = #{group}
+        </if>
     </select>
 
     <update id="update" parameterType="com.gooalgene.dna.entity.DNARun">
@@ -438,9 +437,9 @@
               `cotyledon_color` = #{cotyledonColor,jdbcType=VARCHAR},
               `weight_per_100seeds` = #{weightPer100seeds},
               `upper_leaflet_length` = #{upperLeafletLength},
-              `flowering_date` = #{floweringDate,jdbcType=VARCHAR},
               `maturity_date` = #{maturityDate,jdbcType=VARCHAR},
-              `yield` = #{yield,jdbcType=FLOAT}
+              `yield` = #{yield,jdbcType=FLOAT},
+              `category` = #{group,jdbcType=VARCHAR}
           WHERE `id` = #{id};
     </update>
 

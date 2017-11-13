@@ -5,8 +5,8 @@
         <result column="userid" property="userid" />
         <result column="token_status" property="token_status" />
         <result column="token" property="token" />
-        <result column="due_time" property="due_time" jdbcType="TIMESTAMP" />
-        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP"/>
+        <result column="due_time" property="due_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
     </resultMap>
 
     <select id="getTokenByUserId" resultMap="tokenInfo">

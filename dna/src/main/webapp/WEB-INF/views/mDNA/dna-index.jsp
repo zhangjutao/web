@@ -12,7 +12,6 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
-    <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
 
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
@@ -28,6 +27,19 @@
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <style>
         .total-page-count {display: none!important;}
+        #populationInfos{
+            padding:8px 20px;
+            background:#5D8CE6;
+            color:#fff;
+            width:68px;
+            float:right;
+            cursor:pointer;
+            font-size:16px;
+            margin-bottom:16px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
@@ -294,9 +306,9 @@
                     <%--<!--<li>标签2</li>-->--%>
                 <%--</ul>--%>
                 <div class="tab">
-                    <div class="tab-txt tab-txt-ac" style="position:relative;">
+                    <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
                         <img src="${ctxStatic}/images/dnatree.png">
-                        <p id="populationInfos">群体信息</p>
+                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;">群体信息</a></p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>
@@ -321,16 +333,6 @@
             </div>
         </div>
     </div>
-
-
-    <!--群体信息页面 begin-->
-    <div id="popContainer">
-        <div id="popDes">
-            <img src="${ctxStatic}/images/systree.png" alt="logo" style="width:30px; height:30px;">
-            <span>系统进化树</span>
-        </div>
-    </div>
-    <!--群体信息页面 end-->
 
     <form id="exportRegionForm" action="${ctxroot}/dna/dataExport" method="get">
         <input class="model" name="model" type="hidden" value="REGION"/>
@@ -360,7 +362,6 @@
     var ctxRoot = '${ctxroot}';
 </script>
 <script src="${ctxStatic}/js/dna.js"></script>
-<script src="${ctxStatic}/js/newAdd.js"></script>
 
 
 </body>
