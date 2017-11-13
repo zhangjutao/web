@@ -2,6 +2,70 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.dna.dao.DNARunDao">
 
+    <resultMap id="BaseResultMap" type="com.gooalgene.dna.entity.DNARun" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="run_no" property="runNo" jdbcType="VARCHAR" />
+        <result column="species" property="species" jdbcType="VARCHAR" />
+        <result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
+        <result column="cultivar" property="cultivar" jdbcType="VARCHAR" />
+        <result column="plant_name" property="plantName" jdbcType="VARCHAR" />
+        <result column="locality" property="locality" jdbcType="VARCHAR" />
+        <result column="protein" property="protein" jdbcType="REAL" />
+        <result column="oil" property="oil" jdbcType="REAL" />
+        <result column="linoleic" property="linoleic" jdbcType="REAL" />
+        <result column="linolenic" property="linolenic" jdbcType="REAL" />
+        <result column="oleic" property="oleic" jdbcType="REAL" />
+        <result column="palmitic" property="palmitic" jdbcType="REAL" />
+        <result column="stearic" property="stearic" jdbcType="REAL" />
+        <result column="height" property="height" jdbcType="REAL" />
+        <result column="flower_color" property="flowerColor" jdbcType="VARCHAR" />
+        <result column="hilum_color" property="hilumColor" jdbcType="VARCHAR" />
+        <result column="pod_color" property="podColor" jdbcType="VARCHAR" />
+        <result column="pubescence_color" property="pubescenceColor" jdbcType="VARCHAR" />
+        <result column="seed_coat_color" property="seedCoatColor" jdbcType="VARCHAR" />
+        <result column="cotyledon_color" property="cotyledonColor" jdbcType="VARCHAR" />
+        <result column="weight_per_100seeds" property="weightPer100seeds" jdbcType="REAL" />
+        <result column="upper_leaflet_length" property="upperLeafletLength" jdbcType="REAL" />
+        <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR" />
+        <result column="yield" property="yield" jdbcType="REAL" />
+        <result column="category" property="group" jdbcType="VARCHAR" />
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, run_no, species, sample_name, cultivar, plant_name, locality, protein, oil, linoleic,
+        linolenic, oleic, palmitic, stearic, height, flower_color, hilum_color, pod_color,
+        pubescence_color, seed_coat_color, cotyledon_color, weight_per_100seeds, upper_leaflet_length,
+        maturity_date, yield, category
+    </sql>
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
     <select id="get" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run where id=#{id}
     </select>
@@ -38,7 +102,233 @@
         #{floweringDate,jdbcType=VARCHAR},#{maturityDate,jdbcType=VARCHAR},
         #{yield,jdbcType=FLOAT})
     </insert>
+    <select id="getListByCondition" resultMap="BaseResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
+        select
+        <include refid="Base_Column_List" />
+        from dna_run
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="runNo!=null">
+                AND run_no like CONCAT('%',${runNo},'%' )
+            </if>
+            <if test="species!=null">
+                AND species like CONCAT('%',${species},'%' )
+            </if>
+            <if test="sampleName!=null">
+                AND sample_name like CONCAT('%',${sampleName},'%' )
+            </if>
+            <if test="cultivar!=null">
+                AND cultivar like CONCAT('%',${cultivar},'%' )
+            </if>
+            <if test="plantName!=null">
+                AND plant_name like CONCAT('%',${plantName},'%' )
+            </if>
+            <if test="locality!=null">
+                AND locality like CONCAT('%',${locality},'%' )
+            </if>
+            <if test="protein!=null">
+                <if test="protein.operation!=null">
+                    <choose>
+                        <when test="protein.operation=='eq'">
+                            AND protein =#{protein.value}
+                        </when>
+                        <when test="protein.operation=='lt'">
+                            AND protein <![CDATA[ < ]]>#{protein.value}
+                        </when>
+                        <when test="protein.operation=='gt'">
+                            AND protein  >#{protein.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="oil!=null">
+                <if test="oil.operation!=null">
+                    <choose>
+                        <when test="oil.operation=='eq'">
+                            AND oil =#{oil.value}
+                        </when>
+                        <when test="oil.operation=='lt'">
+                            AND oil <![CDATA[ < ]]>#{oil.value}
+                        </when>
+                        <when test="oil.operation=='gt'">
+                            AND oil >#{oil.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="linoleic!=null">
+                <if test="linoleic.operation!=null">
+                    <choose>
+                        <when test="linoleic.operation=='eq'">
+                            AND linoleic =#{linoleic.value}
+                        </when>
+                        <when test="linoleic.operation=='lt'">
+                            AND linoleic <![CDATA[ < ]]>#{linoleic.value}
+                        </when>
+                        <when test="linoleic.operation=='gt'">
+                            AND linoleic >#{linoleic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="linolenic!=null">
+                <if test="linolenic.operation!=null">
+                    <choose>
+                        <when test="linolenic.operation=='eq'">
+                            AND linolenic =#{linolenic.value}
+                        </when>
+                        <when test="linolenic.operation=='lt'">
+                            AND linolenic <![CDATA[ < ]]>#{linolenic.value}
+                        </when>
+                        <when test="linolenic.operation=='gt'">
+                            AND linolenic >#{linolenic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
 
+            <if test="oleic!=null">
+                <if test="oleic.operation!=null">
+                    <choose>
+                        <when test="oleic.operation=='eq'">
+                            AND oleic =#{oleic.value}
+                        </when>
+                        <when test="oleic.operation=='lt'">
+                            AND oleic <![CDATA[ < ]]>#{oleic.value}
+                        </when>
+                        <when test="oleic.operation=='gt'">
+                            AND oleic >#{oleic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="palmitic!=null">
+                <if test="palmitic.operation!=null">
+                    <choose>
+                        <when test="palmitic.operation=='eq'">
+                            AND palmitic =#{palmitic.value}
+                        </when>
+                        <when test="palmitic.operation=='lt'">
+                            AND palmitic <![CDATA[ < ]]>#{palmitic.value}
+                        </when>
+                        <when test="palmitic.operation=='gt'">
+                            AND palmitic >#{palmitic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="stearic!=null">
+                <if test="stearic.operation!=null">
+                    <choose>
+                        <when test="stearic.operation=='eq'">
+                            AND stearic =#{stearic.value}
+                        </when>
+                        <when test="stearic.operation=='lt'">
+                            AND stearic <![CDATA[ < ]]>#{stearic.value}
+                        </when>
+                        <when test="stearic.operation=='gt'">
+                            AND stearic >#{stearic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="height!=null">
+                <if test="height.operation!=null">
+                    <choose>
+                        <when test="height.operation=='eq'">
+                            AND height =#{height.value}
+                        </when>
+                        <when test="height.operation=='lt'">
+                            AND height <![CDATA[ < ]]>#{height.value}
+                        </when>
+                        <when test="height.operation=='gt'">
+                            AND height >#{height.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="flowerColor!=null">
+                AND flower_color like #{flowerColor}
+            </if>
+            <if test="hilumColor!=null">
+                AND hilum_color like #{hilumColor}
+            </if>
+            <if test="podColor!=null">
+                AND pod_color like #{podColor}
+            </if>
+            <if test="pubescenceColor!=null">
+                AND pubescence_color like #{pubescenceColor}
+            </if>
+            <if test="seedCoatColor!=null">
+                AND seed_coat_color like #{seedCoatColor}
+            </if>
+            <if test="cotyledonColor!=null">
+                AND cotyledon_color like #{cotyledonColor}
+            </if>
+            <if test="pubescenceColor!=null">
+                AND pubescence_color like #{pubescenceColor}
+            </if>
+
+            <if test="weightPer100seeds!=null">
+                <if test="weightPer100seeds.operation!=null">
+                    <choose>
+                        <when test="weightPer100seeds.operation=='eq'">
+                            AND weight_per_100seeds =#{weightPer100seeds.value}
+                        </when>
+                        <when test="weightPer100seeds.operation=='lt'">
+                            AND weight_per_100seeds <![CDATA[ < ]]>#{weightPer100seeds.value}
+                        </when>
+                        <when test="weightPer100seeds.operation=='gt'">
+                            AND weight_per_100seeds >#{weightPer100seeds.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="upperLeafletLength!=null">
+                <if test="upperLeafletLength.operation!=null">
+                    <choose>
+                        <when test="upperLeafletLength.operation=='eq'">
+                            AND upper_leaflet_length =#{upperLeafletLength.value}
+                        </when>
+                        <when test="upperLeafletLength.operation=='lt'">
+                            AND upper_leaflet_length <![CDATA[ < ]]>#{upperLeafletLength.value}
+                        </when>
+                        <when test="upperLeafletLength.operation=='gt'">
+                            AND upper_leaflet_length >#{upperLeafletLength.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="floweringDate!=null">
+                AND flowering_date like #{floweringDate}
+            </if>
+            <if test="maturityDate!=null">
+                AND maturity_date like #{maturityDate}
+            </if>
+            <if test="yield!=null">
+                AND yield like #{yield}
+            </if>
+            <if test="group!=null">
+                AND category like #{group}
+            </if>
+        </trim>
+    </select>
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gooalgene.dna.entity.DnaRunExample" >
+        select
+        <if test="distinct" >
+            distinct
+        </if>
+        <include refid="Base_Column_List" />
+        from dna_run
+        <if test="_parameter != null" >
+            <include refid="Example_Where_Clause" />
+        </if>
+        <if test="orderByClause != null" >
+            order by ${orderByClause}
+        </if>
+    </select>
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run
         WHERE 1=1

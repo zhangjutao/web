@@ -58,8 +58,6 @@
         </div>
     </div>
 </c:if>
-
-
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <script type="text/javascript">
    $(function (){
@@ -77,10 +75,11 @@
              $("#returnType>a").attr("href","http://mail.163.com/")
          }else if (mailType == "sina"){
              $("#returnType>a").attr("href","http://mail.sina.com.cn/")
-         }else {
-             $("#returnType").hide();
-             $("#otherMail").show();
          }
+//         else {
+////             $("#returnType").hide();
+////             $("#otherMail").show();
+//         }
      }
    })
 </script>
