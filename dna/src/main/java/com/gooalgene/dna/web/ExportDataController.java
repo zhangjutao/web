@@ -1,8 +1,8 @@
 package com.gooalgene.dna.web;
 
-import com.aliyuncs.http.HttpResponse;
+
+import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
-import com.gooalgene.dna.entity.DNARunNew;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.utils.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
@@ -45,9 +45,10 @@ public class ExportDataController {
               if(columns.contains("fattyAcid")){
                   columns.replace("fattAcid","linoleic,linolenic,oleic,palmitic,stearic");
               }
-              //List<DNARun> result=dnaRunService.queryByondition();
+              List<DNARun> result=dnaRunService.getByCondition(new DnaRunDto());
 
-              //csvStr=createCsvStr(result,columns.split(","));
+            //  List<Map> result=queryService.SearchbyResultExport();
+              csvStr=createCsvStr(result,columns.split(","));
 
         }
         if (!csvStr.equals("")) {
@@ -109,6 +110,7 @@ public class ExportDataController {
      *@param  result 要导出的内容
      *@param  titles  表头
      */
+
     public static String  createCsvStr(List<DNARun> result,String[] titles){
         StringBuilder sb=new StringBuilder();
         Map<String,Integer> map=new HashedMap();
