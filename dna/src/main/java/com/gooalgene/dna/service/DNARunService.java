@@ -1,5 +1,6 @@
 package com.gooalgene.dna.service;
 
+import com.github.pagehelper.PageHelper;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.entity.DNARun;
@@ -65,6 +66,14 @@ public class DNARunService {
             result.add(dnaRun1.getRunNo());
         }
         return result;
+    }
+    /**
+     * 根据条件查询dnaRun
+     */
+    public List<DNARun> queryByondition(DNARun dnaRun,Integer pageNum,Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        List<DNARun> list = dnaRunDao.findList(dnaRun);
+        return list;
     }
 
     /**
