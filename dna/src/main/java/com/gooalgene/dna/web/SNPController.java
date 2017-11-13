@@ -23,6 +23,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -530,10 +531,10 @@ public class SNPController {
     }
 
 
-    //    @RequestMapping(value = "/insert")
+//    @RequestMapping(value = "/insert", method = RequestMethod.GET)
     @ResponseBody
     public String insert(HttpServletRequest request, HttpServletResponse response) {
-        String efile = "E:\\古奥科技资料\\DNA\\9.15soyDNA_sampleinfo.xls";
+        String efile = "F:\\古奥科技\\20171107soyDNA_sampleinfo_withgroupV1.1.xls";
         HSSFWorkbook workbook = null;
         try {
             workbook = new HSSFWorkbook(new FileInputStream(efile));
@@ -565,36 +566,39 @@ public class SNPController {
                         }
                         switch (i) {
                             case 0:
+                                dnaRun.setGroup(content);
+                                break;
+                            case 1:
                                 if (content != null) {
                                     dnaRun.setRunNo(content);
                                 }
                                 break;
-                            case 1:
+                            case 2:
                                 if (content != null) {
                                     dnaRun.setSpecies(content);
                                 }
                                 break;
-                            case 2:
+                            case 3:
                                 if (content != null) {
                                     dnaRun.setSampleName(content);
                                 }
                                 break;
-                            case 3:
+                            case 4:
                                 if (content != null) {
                                     dnaRun.setCultivar(content);
                                 }
                                 break;
-                            case 4:
+                            case 5:
                                 if (content != null) {
                                     dnaRun.setPlantName(content);
                                 }
                                 break;
-                            case 5:
+                            case 6:
                                 if (content != null) {
                                     dnaRun.setLocality(content);
                                 }
                                 break;
-                            case 6:
+                            case 7:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setProtein(Float.parseFloat(content));
@@ -603,7 +607,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 7:
+                            case 8:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setOil(Float.parseFloat(content));
@@ -612,7 +616,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 8:
+                            case 9:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setLinoleic(Float.parseFloat(content));
@@ -621,7 +625,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 9:
+                            case 10:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setLinolenic(Float.parseFloat(content));
@@ -630,7 +634,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 10:
+                            case 11:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setOleic(Float.parseFloat(content));
@@ -639,7 +643,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 11:
+                            case 12:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setPalmitic(Float.parseFloat(content));
@@ -648,7 +652,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 12:
+                            case 13:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setStearic(Float.parseFloat(content));
@@ -657,7 +661,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 13:
+                            case 14:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setHeight(Float.parseFloat(content));
@@ -666,37 +670,37 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 14:
+                            case 15:
                                 if (content != null) {
                                     dnaRun.setFlowerColor(content);
                                 }
                                 break;
-                            case 15:
+                            case 16:
                                 if (content != null) {
                                     dnaRun.setHilumColor(content);
                                 }
                                 break;
-                            case 16:
+                            case 17:
                                 if (content != null) {
                                     dnaRun.setPodColor(content);
                                 }
                                 break;
-                            case 17:
+                            case 18:
                                 if (content != null) {
                                     dnaRun.setPubescenceColor(content);
                                 }
                                 break;
-                            case 18:
+                            case 19:
                                 if (content != null) {
                                     dnaRun.setSeedCoatColor(content);
                                 }
                                 break;
-                            case 19:
+                            case 20:
                                 if (content != null) {
                                     dnaRun.setCotyledonColor(content);
                                 }
                                 break;
-                            case 20:
+                            case 21:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setWeightPer100seeds(Float.parseFloat(content));
@@ -705,18 +709,13 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 21:
+                            case 22:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setUpperLeafletLength(Float.parseFloat(content));
                                     } catch (NumberFormatException e) {
                                         logger.error(dnaRun.getRunNo() + " UpperLeafletLength content", e);
                                     }
-                                }
-                                break;
-                            case 22:
-                                if (content != null) {
-                                    dnaRun.setFloweringDate(content);
                                 }
                                 break;
                             case 23:
