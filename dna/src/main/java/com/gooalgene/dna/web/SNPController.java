@@ -115,7 +115,8 @@ public class SNPController {
     public List<DNARun> getByExample(HttpServletRequest request, HttpServletResponse response,
                                      DnaRunDto dnaRunDto) {
 
-        return dnaRunService.getByCondition(dnaRunDto);
+        List<DNARun> list=dnaRunService.getByCondition(dnaRunDto);
+        return list;
     }
 
     /**
