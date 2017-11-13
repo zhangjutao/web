@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.qtl.dao.MarkerDao">
+
+    <select id="findList" resultType="com.gooalgene.entity.Marker">
+        SELECT * FROM marker WHERE 1=1
+        <if test="markerName!=null">
+            AND marker_name = #{markerName}
+        </if>
+        <if test="markerLg!=null">
+            AND marker_lg = #{markerLg}
+        </if>
+    </select>
+
+    <select id="findByTypeAllList" resultType="com.gooalgene.entity.Marker">
+        SELECT * FROM marker WHERE 1=1
+        <if test="markerName!=null">
+            AND marker_name LIKE CONCAT('%',#{markerName},'%')
+        </if>
+        <if test="markerType!=null">
+            OR marker_type LIKE CONCAT('%',#{markerType},'%')
+        </if>
+        <if test="markerLg!=null">
+            OR marker_lg LIKE CONCAT('%',#{markerLg},'%')
+        </if>
+        <if test="amplificationInfo!=null">
+            OR amplification_info LIKE CONCAT('%',#{amplificationInfo},'%')
+        </if>
+        <if test="provider!=null">
+            OR provider LIKE CONCAT('%',#{provider},'%')
+        </if>
+        <if test="ref!=null">
+            OR ref LIKE CONCAT('%',#{ref},'%')
+        </if>
+    </select>
+
+    <select id="findMarkerById" parameterType="int" resultType="com.gooalgene.entity.Marker">
+        SELECT * FROM marker WHERE id=#{id}
+    </select>
+
+    <insert id="saveMarker" parameterType="com.gooalgene.entity.Marker">
+        INSERT INTO marker (marker_name,marker_type,marker_lg,`position`,amplification_info,provider,ref)
+        VALUES(#{markerName},#{markerType},#{markerLg},#{position},#{amplificationInfo},#{provider},#{ref})
+    </insert>
+
+    <update id="updateMarker" parameterType="com.gooalgene.entity.Marker">
+        UPDATE marker SET marker_name=#{markerName},marker_type=#{markerType},marker_lg=#{markerLg},
+        `position`=#{position},amplification_info=#{amplificationInfo},provider=#{provider},ref=#{ref}
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteMarker">
+        DELETE FROM marker WHERE id=#{id}
+    </delete>
+
+    <insert id="insert" parameterType="com.gooalgene.entity.Marker">
+       INSERT INTO `marker` (`marker_name`,`marker_type`,`marker_lg`,`position`,`amplification_info`,`provider`,`ref`)
+       VALUES
+       (#{markerName,jdbcType=VARCHAR},
+       #{markerType,jdbcType=VARCHAR},
+       #{markerLg,jdbcType=VARCHAR},
+       #{position,jdbcType=FLOAT},
+       #{amplificationInfo,jdbcType=VARCHAR},
+       #{provider,jdbcType=VARCHAR},
+       #{ref,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO `marker` (`marker_name`,`marker_type`,`marker_lg`,`position`,`amplification_info`,`provider`,`ref`)
+        values
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.markerName,jdbcType=VARCHAR},
+            #{item.markerType,jdbcType=VARCHAR},
+            #{item.markerLg,jdbcType=VARCHAR},
+            #{item.position,jdbcType=FLOAT},
+            #{item.amplificationInfo,jdbcType=VARCHAR},
+            #{item.provider,jdbcType=VARCHAR},
+            #{item.ref,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <select id="get" resultType="com.gooalgene.entity.Marker">
+        SELECT * FROM marker WHERE marker_name = #{id}
+    </select>
+
+</mapper>

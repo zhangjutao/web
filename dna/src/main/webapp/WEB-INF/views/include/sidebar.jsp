@@ -245,20 +245,6 @@
             </div>
         </div>
         <div class="select-item-bd">
-            <%--<dl id="select-populations-checkbox">--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">1</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">2</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">3</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">4</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">5</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">6</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">7</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">8</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">9</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">10</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">11</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">12</span></label></dd>--%>
-            <%--</dl>--%>
             <div class="js-default-add"></div>
             <div class="js-cursom-add2"></div>
             <div class="js-cursom-add"></div>
