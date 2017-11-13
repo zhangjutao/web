@@ -108,22 +108,22 @@
         from dna_run
         <trim prefix="where" prefixOverrides="and|or">
             <if test="runNo!=null">
-                AND run_no like CONCAT('%',${runNo},'%' )
+                AND run_no like CONCAT('%',#{runNo},'%' )
             </if>
             <if test="species!=null">
-                AND species like CONCAT('%',${species},'%' )
+                AND species like CONCAT('%',#{species},'%' )
             </if>
             <if test="sampleName!=null">
-                AND sample_name like CONCAT('%',${sampleName},'%' )
+                AND sample_name like CONCAT('%',#{sampleName},'%' )
             </if>
             <if test="cultivar!=null">
-                AND cultivar like CONCAT('%',${cultivar},'%' )
+                AND cultivar like CONCAT('%',#{cultivar},'%' )
             </if>
             <if test="plantName!=null">
-                AND plant_name like CONCAT('%',${plantName},'%' )
+                AND plant_name like CONCAT('%',#{plantName},'%' )
             </if>
             <if test="locality!=null">
-                AND locality like CONCAT('%',${locality},'%' )
+                AND locality like CONCAT('%',#{locality},'%' )
             </if>
             <if test="protein!=null">
                 <if test="protein.operation!=null">
@@ -248,25 +248,25 @@
                 </if>
             </if>
             <if test="flowerColor!=null">
-                AND flower_color like #{flowerColor}
+                AND flower_color like CONCAT('%',#{flowerColor},'%')
             </if>
             <if test="hilumColor!=null">
-                AND hilum_color like #{hilumColor}
+                AND hilum_color like CONCAT('%',#{hilumColor},'%')
             </if>
             <if test="podColor!=null">
-                AND pod_color like #{podColor}
+                AND pod_color like CONCAT('%',#{podColor},'%')
             </if>
             <if test="pubescenceColor!=null">
-                AND pubescence_color like #{pubescenceColor}
+                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
             </if>
             <if test="seedCoatColor!=null">
-                AND seed_coat_color like #{seedCoatColor}
+                AND seed_coat_color like CONCAT('%',#{seedCoatColor},'%')
             </if>
             <if test="cotyledonColor!=null">
-                AND cotyledon_color like #{cotyledonColor}
+                AND cotyledon_color like CONCAT('%',#{cotyledonColor},'%')
             </if>
             <if test="pubescenceColor!=null">
-                AND pubescence_color like #{pubescenceColor}
+                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
             </if>
 
             <if test="weightPer100seeds!=null">
@@ -302,16 +302,16 @@
             </if>
 
             <if test="floweringDate!=null">
-                AND flowering_date like #{floweringDate}
+                AND flowering_date like CONCAT('%',#{floweringDate},'%')
             </if>
             <if test="maturityDate!=null">
-                AND maturity_date like #{maturityDate}
+                AND maturity_date like CONCAT('%',#{maturityDate},'%')
             </if>
             <if test="yield!=null">
-                AND yield like #{yield}
+                AND yield like CONCAT('%',#{yield},'%')
             </if>
             <if test="group!=null">
-                AND category like #{group}
+                AND category like CONCAT('%',#{group},'%')
             </if>
         </trim>
     </select>
