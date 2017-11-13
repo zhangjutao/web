@@ -33,6 +33,8 @@
 
     <build>
         <plugins>
+            <!-- 这里先不使用attach/classes模式，这样会将resources下面xml配置文件全部导入到mrna中，在生产环境下会有冲突 -->
+            <!-- 现在的模式是将war包中的.class文件打包为jar包，然后install到本地，然后再在mrna中做引用 -->
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
                 <version>2.4</version>
@@ -40,8 +42,47 @@
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <warName>qtl</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <attachClasses>true</attachClasses>
                 </configuration>
+            </plugin>
+            <!-- 将当前class文件打包，exclude resouces下面文件 -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>makeJar</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>${project.artifactId}-1.0</finalName>
+                            <excludes>
+                                <exclude>*.xml</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 将打包后的jar包安装到本地，这里我规定1.0版本jar包install到本地，所以mrna中也应该用1.0而不是SNAPSHOT -->
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <packaging>jar</packaging>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <groupId>${project.groupId}</groupId>
+                            <version>1.0</version>
+                            <file>${project.build.directory}/${project.artifactId}-1.0.jar</file>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

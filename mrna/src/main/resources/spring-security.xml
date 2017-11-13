@@ -13,12 +13,11 @@
 
 
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
-        <property name="defaultTargetUrl" value="/mrna/index"></property>
+        <property name="defaultTargetUrl" value="/mrna/index" />
     </bean>
-    <sec:http pattern="/mrna/index" security="none" />
-    <!--authentication-failure-url="/login?error=true"-->
-    <!--default-target-url="/mrna/index"-->
-    <sec:http auto-config='false'>
+    <sec:http auto-config='false' use-expressions="true">
+        <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
+        <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
         <sec:form-login login-page="/login"
                         login-processing-url="/j_spring_security_check"
                         authentication-success-handler-ref="authenticationSuccessHandler"
@@ -40,11 +39,6 @@
     <sec:authentication-manager alias="authenticationManager">
         <sec:authentication-provider user-service-ref="myUserDetailsService">
             <sec:password-encoder hash="md5" />
-
-            <!--<sec:jdbc-user-service data-source-ref="dataSource"
-                                   users-by-username-query="select username,password,enabled from user where username = ?"
-                                   authorities-by-username-query=
-                                           "select u.username, r.name from user u, role r, user_role ur where u.id = ur.user_id AND r.id = ur.role_id AND u.username = ?"/>-->
         </sec:authentication-provider>
     </sec:authentication-manager>
 

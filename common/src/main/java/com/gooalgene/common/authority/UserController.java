@@ -83,7 +83,7 @@ public class UserController {
             String[] args=new String[6];
             args[0]=user.getUsername();
             args[1]=String.valueOf(calendar.get(Calendar.YEAR));
-            args[2]=String.valueOf(calendar.get(Calendar.MONTH));
+            args[2]=String.valueOf(calendar.get(Calendar.MONTH)+1);
             args[3]=String.valueOf(calendar.get(Calendar.DAY_OF_MONTH));
             args[4]=String.valueOf(calendar.get(Calendar.HOUR_OF_DAY));
             args[5]=String.valueOf(calendar.get(Calendar.MINUTE));

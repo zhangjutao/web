@@ -16,7 +16,7 @@
 </head>
 <body >
 
-<qlt:qtl-header />
+<qtl:qtl-header/>
 <!--header-->
 <div class="container">
     <div class="forget-h"><p>找回密码</p></div>
@@ -28,20 +28,20 @@
             <div class="modify-u">
                 <label>
                     <span>原密码:</span>
-                    <input type="password" name="oldpwd" id="username" placeholder="请输入旧密码">
+                    <input type="password" name="oldpwd" id="username" placeholder="请输入旧密码" value="${oldpwd}">
                 </label>
             </div>
             <div class="modify-pwd">
                 <label>
                     <span>新密码:</span>
-                    <input type="password" name="password" id="new-pwd" placeholder="请输入新密码">
+                    <input type="password" name="password" id="new-pwd" placeholder="请输入新密码" value="${password}">
                     <span class="tips"></span>
                 </label>
             </div>
             <div class="confirm-modify-pwd">
                 <label>
                     <span>确认新密码:</span>
-                    <input type="password" name="pwdverify" id="confirm-new-pwd" placeholder="请确认与新密码保持一致">
+                    <input type="password" name="pwdverify" id="confirm-new-pwd" placeholder="请确认与新密码保持一致" value="${pwdverify}">
                     <span class="tips"></span>
                 </label>
             </div>

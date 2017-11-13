@@ -52,7 +52,7 @@
         <constructor-arg name="mongoConverter" ref="mappingMongoConverter" />
     </bean>
 
-    <mongo:repositories base-package="com.gooalgene.guaomrna" />
+    <mongo:repositories base-package="com.gooalgene" />
     
     <bean class="org.springframework.data.mongodb.core.mapping.event.LoggingEventListener"/>
 
