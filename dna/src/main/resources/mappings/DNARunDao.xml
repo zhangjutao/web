@@ -315,20 +315,6 @@
             </if>
         </trim>
     </select>
-    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.gooalgene.dna.entity.DnaRunExample" >
-        select
-        <if test="distinct" >
-            distinct
-        </if>
-        <include refid="Base_Column_List" />
-        from dna_run
-        <if test="_parameter != null" >
-            <include refid="Example_Where_Clause" />
-        </if>
-        <if test="orderByClause != null" >
-            order by ${orderByClause}
-        </if>
-    </select>
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run
         WHERE 1=1
