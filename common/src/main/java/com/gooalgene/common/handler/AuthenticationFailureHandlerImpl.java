@@ -1,5 +1,6 @@
 package com.gooalgene.common.handler;
 
+import com.gooalgene.common.annotations.TestExcluded;
 import com.gooalgene.common.dao.LoginInfoDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +25,7 @@ import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.net.URLEncoder;
 
+@TestExcluded
 @Component("authenticationFailureHandler")
 public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFailureHandler {
 

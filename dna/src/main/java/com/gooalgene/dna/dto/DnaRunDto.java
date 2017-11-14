@@ -1,7 +1,5 @@
 package com.gooalgene.dna.dto;
 
-import com.gooalgene.dna.entity.DNARun;
-
 public class DnaRunDto{
     public static final String EQ="eq";
     public static final String GT="gt";
