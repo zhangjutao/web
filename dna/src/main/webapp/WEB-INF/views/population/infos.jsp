@@ -239,7 +239,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
-                                    <option value=""></option>
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -256,6 +256,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -272,6 +273,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -298,6 +300,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -384,6 +387,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -400,6 +404,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -416,6 +421,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -432,6 +438,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -448,6 +455,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -464,6 +472,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
