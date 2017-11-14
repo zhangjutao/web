@@ -308,8 +308,21 @@
             <if test="maturityDate!=null and maturityDate!=''">
                 AND maturity_date like CONCAT('%',#{maturityDate},'%')
             </if>
-            <if test="yield!=null and yield!=''">
-                AND yield like CONCAT('%',#{yield},'%')
+
+            <if test="yield!=null">
+                <if test="yield.operation!=null and yield.operation!=''">
+                    <choose>
+                        <when test="yield.operation=='eq'">
+                            AND yield =#{yield.value}
+                        </when>
+                        <when test="yield.operation=='lt'">
+                            AND yield <![CDATA[ < ]]>#{yield.value}
+                        </when>
+                        <when test="yield.operation=='gt'">
+                            AND yield >#{yield.value}
+                        </when>
+                    </choose>
+                </if>
             </if>
             <if test="group!=null and group!=''">
                 AND category like CONCAT('%',#{group},'%')
