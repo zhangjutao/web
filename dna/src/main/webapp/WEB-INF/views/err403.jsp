@@ -9,9 +9,7 @@
     </style>
 </head>
 <body >
-
-<p>尊敬的用户,</p>
-<p>对不起, 您的找回密码链接已失效, 请再次提交申请！</p>
+<h1>Access Denied</h1>
 
 </body>
 </html>
