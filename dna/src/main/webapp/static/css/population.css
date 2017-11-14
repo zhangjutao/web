@@ -220,6 +220,7 @@
     padding:2px 15px;
     white-space: nowrap;
     cursor: pointer;
+    position:relative;
 }
 .param img{
     width: 15px;
@@ -233,9 +234,30 @@
     background: #5c8ce6;
     color: #fff;
 }
+.inputComponent{
+    margin-top:13px;
+    display:none;
+    position:absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 1;
+    padding: 15px 10px;
+    width: 114px;
+    background-color: #fff;
+    margin-left:-16px;
+}
+.inputComponent p{
+    margin-top:10px;
+}
 .inputComponent p a {
     padding: 2px 8px;
     display: inline-block;
     border: 1px solid #5c8ce6;
     border-radius: 3px;
 }
+.inputStyle{
+    width:90px;
+}
+.inputComponent .selectOperate{
+    width:30px;
+}
+
