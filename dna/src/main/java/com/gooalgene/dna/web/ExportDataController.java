@@ -32,6 +32,7 @@ import java.util.Map;
  *
  */
 @RestController
+@RequestMapping("/export")
 public class ExportDataController {
 
     @Autowired
@@ -42,9 +43,9 @@ public class ExportDataController {
     private Cache DnaRunCache;
 
 
-    @RequestMapping("/export")
+
     @ResponseBody
-    public void exportData(@RequestParam(value = "titles[]") String[] titles,HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void exportData(@RequestParam String[] titles,HttpServletRequest request,HttpServletResponse response) throws IOException {
 
         String fileName="test";
         String csvStr="";
