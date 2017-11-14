@@ -1,6 +1,7 @@
 package com.gooalgene.dna.service;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
@@ -112,12 +113,14 @@ public class DNARunService {
     /**
      * 动态查询dnarun
      */
-    public List<DNARun> getByCondition(DnaRunDto dnaRunDto){
+    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize){
         Cache cache = cacheManager.getCache("config");
         cache.evict("dna_run");
+        PageHelper.startPage(pageNum,pageSize);
         List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
         cache.putIfAbsent("dna_run",list);
-        return list;
+        PageInfo<DNARun> pageInfo=new PageInfo(list);
+        return pageInfo;
     }
 
 

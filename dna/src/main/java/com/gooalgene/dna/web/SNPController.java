@@ -1,13 +1,16 @@
 package com.gooalgene.dna.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
+import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -116,9 +119,11 @@ public class SNPController {
      */
     @RequestMapping(value = "/condition",method = RequestMethod.GET)
     @ResponseBody
-    public List<DNARun> getByExample(HttpServletRequest request, HttpServletResponse response,
-                                     DnaRunDto dnaRunDto) {
-        return dnaRunService.getByCondition(dnaRunDto);
+    public ResultVO getByExample(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
+                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                 DnaRunDto dnaRunDto) {
+        PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize);
+        return ResultUtil.success(dnaRunPageInfo);
     }
 
     /**
