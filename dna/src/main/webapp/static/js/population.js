@@ -49,6 +49,8 @@ $(function (){
 
         }
     })
+    // 默认表格内容全选
+
     $(".closeBtn img").click(function (){
         $("#popTips").hide();
     })
@@ -96,6 +98,7 @@ $(function (){
         }
     }
     // 全选
+
     $("#SelectAllBox").click(function (){
         var status = $(this).prop("checked");
         console.log(status);
@@ -138,14 +141,15 @@ $(function (){
              var newClassVal = "." + classVal + "T";
              $("#tableShow thead").find(newClassVal).hide();
              $("#tableShow tbody").find(newClassVal).hide();
-            }else {
-                var classVal = $input.attr("name");
-                var newClassVal = "." + classVal + "T";
-                if($("#tableShow thead").find(newClassVal).is(":hidden")){
-                    $("#tableShow thead").find(newClassVal).show();
-                    $("#tableShow tbody").find(newClassVal).show();
-                }
             }
+            // else {
+            //     var classVal = $input.attr("name");
+            //     var newClassVal = "." + classVal + "T";
+            //     if($("#tableShow thead").find(newClassVal).is(":hidden")){
+            //         $("#tableShow thead").find(newClassVal).show();
+            //         $("#tableShow tbody").find(newClassVal).show();
+            //     }
+            // }
         }
     })
        getData();
@@ -457,7 +461,7 @@ $(function (){
         $.ajax({
             type:"GET",
             url:CTXROOT + "/export",
-            data:unSelectedLists,
+            data:JSON.stringify(unSelectedLists),
             success:function (result){
                 console.log(result);
             },

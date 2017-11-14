@@ -160,7 +160,7 @@
                         </li>
                     </ul>
                     <div>
-                        <input type="checkbox" id="SelectAllBox"> 全选
+                        <input type="checkbox" id="SelectAllBox" checked="checked"> 全选
                     </div>
                 </div>
             </div>
