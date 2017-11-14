@@ -21,7 +21,7 @@ public class TokenServiceTest extends TestCase {
     public void testFindTokenById(){
         Token token = tokenService.getTokenByUserId(44);
         String encryptValue = token.getToken();
-//        assertNull(token.getDue_time()); //这个地方为什么取出来的时间为空?
+        assertNull(token.getDue_time()); //这个地方为什么取出来的时间为空?
         System.out.println(token.getDue_time());
     }
 }
