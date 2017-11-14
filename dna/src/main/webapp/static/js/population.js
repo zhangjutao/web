@@ -154,28 +154,18 @@ $(function (){
             locality:$(".localityI").val(), // 位置
             sampleName:$(".sampleNameI").val(), // 样品名
             // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
-            weightPer100seeds:{
-                operation:$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                value:$(".weightPer100seedsI").val()
-            },
-
+                "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "weightPer100seeds.value":$(".weightPer100seedsI").val(),
             // protein:$(".proteinI").val(), //蛋白质含量
-            protein:{
-                operation:$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".proteinI").val()
-            },
+                "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "protein.value":$(".proteinI").val(),
             // 含油量
-            oil:{
-                operation:$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".oilI").val()
-            },
+                "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "oil.value":$(".oilI").val(),
             maturityDate:$(".maturityDateI").val(), // 熟期
             // height:$(".heightI").val(),//株高
-            height:{
-                operation:$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".heightI").val()
-            },
-
+            "height.operation":$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":$(".heightI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "height.value":$(".heightI").val(),
             seedCoatColor:$(".seedCoatColorI").val(),//种皮色
             hilumColor:$(".hilumColorI").val(),//种脐色
             cotyledonColor:$(".cotyledonColorI").val(), //子叶色
@@ -185,38 +175,27 @@ $(function (){
             yield:$(".yieldI").val(),// 产量
             // upperLeafletLength:$(".upperLeafletLengthI").val(), //顶端小叶长度
             upperLeafletLength:{
-                operation:$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".upperLeafletLengthI").val()
+                "upperLeafletLengthoperation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
             },
 
             // linoleic:$(".linoleicI").val(), //亚油酸
-            linoleic:{
-                operation:$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".linoleicI").val()
-            },
+                "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "linoleicvalue":$(".linoleicI").val(),
             // linolenic:$(".linolenicI").val(), //亚麻酸
-            linolenic:{
-                operation:$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".linolenicI").val()
-            },
+                "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "linolenic.value":$(".linolenicI").val(),
             // oleic:$(".oleicI").val(), //油酸
-            oleic:{
-                operation:$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".oleicI").val()
-            },
+                "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "oleic.value":$(".oleicI").val(),
             // palmitic:$(".palmiticI").val(),  //软脂酸
-            palmitic:{
-                operation:$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".palmiticI").val()
-            },
+                "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "palmitic.value":$(".palmiticI").val(),
             // stearic:$(".stearicI").val(), //硬脂酸
-            stearic:{
-                operation:$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
-                value:$(".stearicI").val()
-            }
+            "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "stearic.value":$(".stearicI").val()
         };
         console.log(data);
-        console.log($(".upperLeafletLengthI").parent().find("option:selected").text());
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
