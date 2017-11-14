@@ -3,6 +3,7 @@ package com.gooalgene.dna.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
@@ -115,10 +116,10 @@ public class DNARunService {
      */
     public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize){
         Cache cache = cacheManager.getCache("config");
-        cache.evict("dna_run");
+        cache.evict(CommonConstant.RUN_DNA);
         PageHelper.startPage(pageNum,pageSize);
         List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
-        cache.putIfAbsent("dna_run",list);
+        cache.putIfAbsent(CommonConstant.RUN_DNA,list);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
     }

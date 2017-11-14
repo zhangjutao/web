@@ -17,7 +17,7 @@
     </insert>
 
     <update id="updateToken">
-        UPDATE token SET token=#{token},due_time=#{due_time} WHERE userid=#{userid}
+        UPDATE token SET token=#{token},due_time=#{due_time},update_time=#{updateTime},token_status=#{token_status} WHERE userid=#{userid}
     </update>
  
     <update id="disableToken">
