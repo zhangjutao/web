@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -32,8 +33,7 @@ import java.util.Map;
  * Created by liuyan on 2017/11/13
  *
  */
-@RestController
-@RequestMapping("/export")
+@Controller
 public class ExportDataController {
 
     @Autowired
@@ -44,8 +44,7 @@ public class ExportDataController {
     private Cache DnaRunCache;
 
 
-
-    @ResponseBody
+    @RequestMapping("/export")
     public void exportData(String choices,HttpServletResponse response) throws IOException {
 
         String titles=choices.substring(0,choices.length()-1);
