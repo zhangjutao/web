@@ -384,32 +384,30 @@ public class SignUpController {
         Matcher newPwdMatcher=pattern.matcher(password);
         if(!newPwdMatcher.matches()&&!password.equals("")){
             model.addAttribute("error","新密码输入不符合要求，请重新输入");
-            return "modify-password";
+            return "temp-modify-password";
         }
         if (password == null || password.isEmpty()) {
             model.addAttribute("error", "新密码未填写");
-            return "modify-password";
+            return "temp-modify-password";
         }
         if (pwdverify == null || pwdverify.isEmpty()) {
             model.addAttribute("error", "确认新密码未填写");
-            return "modify-password";
+            return "temp-modify-password";
         }
         if (!password.equals(pwdverify)) {
             model.addAttribute("error", "两次密码不一致");
-            return "modify-password";
+            return "temp-modify-password";
         }
         User user=userService.getUserById(id);
         if(user==null){
             model.addAttribute("error","登录信息错误，用户不存在，请重新登录");
-            return "modify-password";
+            return "temp-modify-password";
         }else {
             PasswordEncoder encoder=new Md5PasswordEncoder();
             String newPwd=encoder.encodePassword(password,null);
             user.setPassword(newPwd);
             user.setReset(1);
             userService.updateUserPassword(user);
-            //SecurityUser tempUser=(SecurityUser)authentication.getPrincipal();
-            //userService.deleteUser(tempUser.getId());
             SecurityContextHolder.getContext().setAuthentication(null);
         }
         return "/login";
