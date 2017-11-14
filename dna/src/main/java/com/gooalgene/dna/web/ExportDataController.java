@@ -1,16 +1,20 @@
 package com.gooalgene.dna.web;
 
 
-import com.gooalgene.dna.dto.DnaRunDto;
+
+
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.utils.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -33,14 +37,20 @@ public class ExportDataController {
     @Autowired
     private DNARunService dnaRunService;
 
+    @Autowired
+    private GuavaCacheManager guavaCacheManager;
+    private Cache DnaRunCache;
+
+
     @RequestMapping("/export")
     @ResponseBody
     public void exportData(@RequestParam(value = "titles[]") String[] titles,HttpServletRequest request,HttpServletResponse response) throws IOException {
 
         String fileName="test";
         String csvStr="";
+        DnaRunCache=guavaCacheManager.getCache("config");
 
-              List<DNARun> result=null;
+        List<DNARun> result= (List<DNARun>) DnaRunCache.get("run_dna").get();
 
         csvStr=createCsvStr(result,titles);
 
@@ -57,8 +67,6 @@ public class ExportDataController {
             toClient.flush();
             toClient.close();
         }
-
-
     }
 
     //调整表头显示
