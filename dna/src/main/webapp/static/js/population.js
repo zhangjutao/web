@@ -145,28 +145,25 @@ $(function (){
             }
         }
     })
-    window.onload = function (){
-        $(".btnConfirmInfo").trigger("click");
-    }
-
-
-    // 获取表格数据
-    $(".btnConfirmInfo").click(function (){
-        var data={
+       getData();
+        $("#page .two").addClass("pageColor");
+    // 获取当前参数 封装
+    function getParamas (){
+        var datas={
             cultivar:$(".cultivarI").val(),  // 品种名
             // population:$(".populationI").val(), // 群体
             species:$(".speciesI").val(),// 物种
             locality:$(".localityI").val(), // 位置
             sampleName:$(".sampleNameI").val(), // 样品名
             // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
-                "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "weightPer100seeds.value":$(".weightPer100seedsI").val(),
+            "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "weightPer100seeds.value":$(".weightPer100seedsI").val(),
             // protein:$(".proteinI").val(), //蛋白质含量
-                "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "protein.value":$(".proteinI").val(),
+            "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "protein.value":$(".proteinI").val(),
             // 含油量
-                "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "oil.value":$(".oilI").val(),
+            "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "oil.value":$(".oilI").val(),
             maturityDate:$(".maturityDateI").val(), // 熟期
             // height:$(".heightI").val(),//株高
             "height.operation":$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":$(".heightI").parent().find("option:selected").text().trim()=="<"?"lt":"",
@@ -182,59 +179,32 @@ $(function (){
             "yield.value":$(".yieldI").val(),
             // upperLeafletLength:$(".upperLeaf
             // letLengthI").val(), //顶端小叶长度
-                "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
+            "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
             // linoleic:$(".linoleicI").val(), //亚油酸
-                "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "linoleicvalue":$(".linoleicI").val(),
+            "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "linoleicvalue":$(".linoleicI").val(),
             // linolenic:$(".linolenicI").val(), //亚麻酸
-                "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "linolenic.value":$(".linolenicI").val(),
+            "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "linolenic.value":$(".linolenicI").val(),
             // oleic:$(".oleicI").val(), //油酸
-                "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "oleic.value":$(".oleicI").val(),
+            "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "oleic.value":$(".oleicI").val(),
             // palmitic:$(".palmiticI").val(),  //软脂酸
-                "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "palmitic.value":$(".palmiticI").val(),
+            "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "palmitic.value":$(".palmiticI").val(),
             // stearic:$(".stearicI").val(), //硬脂酸
             "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
             "stearic.value":$(".stearicI").val()
         };
-        $.ajax({
-            type:"GET",
-            url:CTXROOT + "/dna/condition",
-            data:data,
-            success:function (result){
-                var $tbody = $("#tableShow table tbody");
-                for (var i=0;i<result.length;i++){
-                    var tr = "<tr><td class='param cultivarT'>" + result[i].cultivar +
-                        "</td><td class='param speciesT'>" + result[i].species +
-                        "</td><td class='param localityT'>" + result[i].locality +
-                        "</td><td class='param sampleNameT'>" + result[i].sampleName +
-                        "</td><td class='param weightPer100seedsT'>" + result[i].weightPer100seeds +
-                        "</td><td class='param proteinT'>" + result[i].protein +
-                        "</td><td class='param maturityDateT'>" + result[i].maturityDate +
-                        "</td><td class='param heightT'>" + result[i].height +
-                        "</td><td class='param seedCoatColorT'>" + result[i].seedCoatColor +
-                        "</td><td class='param hilumColorT'>" + result[i].hilumColor +
-                        "</td><td class='param cotyledonColorT'>" + result[i].cotyledonColor +
-                        "</td><td class='param flowerColorT'>" + result[i].flowerColor +
-                        "</td><td class='param podColorT'>" + result[i].podColor +
-                        "</td><td class='param pubescenceColorT'>" + result[i].pubescenceColor +
-                        "</td><td class='param yieldT'>" + result[i].yield +
-                        "</td><td class='param upperLeafletLengthT'>" + result[i].upperLeafletLength +
-                        "</td><td class='param linoleicT'>" + result[i].linoleic +
-                        "</td><td class='param linolenicT'>" + result[i].linolenic +
-                        "</td><td class='param oleicT'>" + result[i].oleic +
-                        "</td><td class='param palmiticT'>" + result[i].palmitic +
-                        "</td><td class='param stearicT'>" + result[i].stearic +"</td></tr>"
-                    $tbody.append(tr);
-                }
-            },
-            error:function (error){
-                console.log(error);
-            }
-        })
+        return datas;
+    };
+
+    // 获取表格数据
+    $(".btnConfirmInfo").click(function (){
+        var data = getParamas();
+        console.log(data);
+        getData(data);
     })
 
     //表格筛选框显示隐藏
@@ -272,7 +242,7 @@ $(function (){
             data:data,
             success:function (result) {
                 console.log(result);
-                var $tbody = $("#tableShow table tbody");
+                // var $tbody = $("#tableShow table tbody");
                 count = result.data.total;
                 if(count <40){
                     $("#page").css({"padding-left":"186px"});
@@ -285,9 +255,36 @@ $(function (){
                     $("#containerAdmin").css("height","754px");
                 }else{
                     totalDatas = result.data.list;
+                    console.log(totalDatas);
                     nums = Math.ceil(count / page.pageSize);
                     //舍弃小数之后的取整
                     intNums = parseInt(count / page.pageSize);
+                    for (var i=0;i<totalDatas.length;i++){
+                        var tr = "<tr><td class='param cultivarT'>" + totalDatas[i].cultivar +
+                            "</td><td class='param speciesT'>" + totalDatas[i].species +
+                            "</td><td class='param localityT'>" + totalDatas[i].locality +
+                            "</td><td class='param sampleNameT'>" + totalDatas[i].sampleName +
+                            "</td><td class='param weightPer100seedsT'>" + totalDatas[i].weightPer100seeds +
+                            "</td><td class='param proteinT'>" + totalDatas[i].protein +
+                            "</td><td class='param oilT'>" + totalDatas[i].oil +
+                            "</td><td class='param maturityDateT'>" + totalDatas[i].maturityDate +
+                            "</td><td class='param heightT'>" + totalDatas[i].height +
+                            "</td><td class='param seedCoatColorT'>" + totalDatas[i].seedCoatColor +
+                            "</td><td class='param hilumColorT'>" + totalDatas[i].hilumColor +
+                            "</td><td class='param cotyledonColorT'>" + totalDatas[i].cotyledonColor +
+                            "</td><td class='param flowerColorT'>" + totalDatas[i].flowerColor +
+                            "</td><td class='param podColorT'>" + totalDatas[i].podColor +
+                            "</td><td class='param pubescenceColorT'>" + totalDatas[i].pubescenceColor +
+                            "</td><td class='param yieldT'>" + totalDatas[i].yield +
+                            "</td><td class='param upperLeafletLengthT'>" + totalDatas[i].upperLeafletLength +
+                            "</td><td class='param linoleicT'>" + totalDatas[i].linoleic +
+                            "</td><td class='param linolenicT'>" + totalDatas[i].linolenic +
+                            "</td><td class='param oleicT'>" + totalDatas[i].oleic +
+                            "</td><td class='param palmiticT'>" + totalDatas[i].palmitic +
+                            "</td><td class='param stearicT'>" + totalDatas[i].stearic +"</td></tr>"
+                        var $tbody = $("#tableShow table tbody");
+                        $tbody.append(tr);
+                    }
                         pageStyle(nums,intNums);
                         $("#totals").text(count);
                 }
@@ -366,7 +363,11 @@ $(function (){
 
         page.pageNum = parseInt($p.text());
         paramData.pageNum = page.pageNum;
-        getData(paramData);
+        var selectedDatas = getParamas();
+        selectedDatas.pageNum = paramData.pageNum;
+        selectedDatas.pageSize = paramData.pageSize;
+        console.log(selectedDatas);
+        getData(selectedDatas);
         var plists = $p.siblings();
         for (var i = 0; i < plists.length; i++) {
             if ($(plists[i]).hasClass("pageColor")) {
@@ -430,5 +431,30 @@ $(function (){
             $(".four").text(content4 + 1);
             $(".five").text(content5 + 1);
         }
+    })
+    // 表格导出
+    $("#exportData").click(function (){
+        var exportParams = {};
+        var unSelectes = $("#selectedDetails ul input");
+        var unSelectedLists = [];
+        for(var i=0;i<unSelectes.length;i++){
+            if(!$(unSelectes[i]).is(":checked")){
+                var unSelecteNames = $(unSelectes[i]).attr("name");
+                unSelectedLists.push(unSelecteNames);
+            }
+        }
+        console.log(unSelectedLists);
+        $.ajax({
+            type:"GET",
+            url:CTXROOT + "/export",
+            data:unSelectedLists,
+            success:function (result){
+                console.log(result);
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+
     })
 })
