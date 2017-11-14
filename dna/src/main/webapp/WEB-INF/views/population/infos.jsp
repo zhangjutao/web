@@ -90,10 +90,10 @@
                         <li>
                             <input type="checkbox" name="cultivar" class="cultivar"> 品种名
                         </li>
-                        <li>
-                            <%--无--%>
-                            <input type="checkbox" name="population" class="population"> 群体
-                        </li>
+                        <%--<li>--%>
+                            <%--&lt;%&ndash;无&ndash;%&gt;--%>
+                            <%--<input type="checkbox" name="population" class="population"> 群体--%>
+                        <%--</li>--%>
                         <li>
                             <input type="checkbox" name="species" class="species"> 物种
                         </li>
@@ -177,12 +177,11 @@
                             <img src="${ctxStatic}/images/packUp.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
                         </p>
                     </div>
-
                 </div>
             </div>
         </div>
         <div id="tableShow">
-            <table border="1" cellspacing="0" cellpadding="5">
+            <table border="1" cellspacing="0" cellpadding="5" style="height:500px;overflow: scroll; min-height:100px;">
                 <thead style="overflow-x: scroll;">
                     <tr style="background: #F5F8FF;">
                         <th class="param cultivarT">品种名
@@ -195,16 +194,16 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param populationT">群体
-                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                            <div class="inputComponent">
-                                <input type="text" placeholder="请输入" class="populationI inputStyle">
-                                <p>
-                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                                </p>
-                            </div>
-                        </th>
+                        <%--<th class="param populationT">群体--%>
+                            <%--<img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">--%>
+                            <%--<div class="inputComponent">--%>
+                                <%--<input type="text" placeholder="请输入" class="populationI inputStyle">--%>
+                                <%--<p>--%>
+                                    <%--<a href="javascript:void(0);" class="btnCancel">取消</a>--%>
+                                    <%--<a href="javascript:void(0);" class="btnConfirmInfo">确定</a>--%>
+                                <%--</p>--%>
+                            <%--</div>--%>
+                        <%--</th>--%>
                         <th class="param speciesT">物种
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
@@ -239,7 +238,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
-                                    <option value=""></option>
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -256,6 +255,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -272,6 +272,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -298,6 +299,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -373,6 +375,13 @@
                         <th class="param yieldT">产量
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
                                 <input type="text" placeholder="请输入" class="yieldI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
@@ -384,6 +393,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -400,6 +410,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -416,6 +427,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -432,6 +444,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -448,6 +461,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -464,6 +478,7 @@
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
                                     <option value="<"> < </option>
                                     <option value="="> = </option>
                                     <option value=">"> > </option>
@@ -479,193 +494,44 @@
                     </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <th class="param cultivarT">品种名
-                    </th>
-                    <th class="param populationT">群体
-                    </th>
-                    <th class="param speciesT">物种
-                    </th>
-                    <th class="param localityT">位置
-                    </th>
-                    <th class="param sampleNameT">样品名
-                    </th>
-                    <th class="param weightPer100seedsT">百粒重
-                    </th>
-                    <th class="param proteinT">蛋白质含量
-                    </th>
-                    <th class="param maturityDateT">熟期
-                    </th>
-                    <th class="param heightT">株高
-                    </th>
-                    <th class="param seedCoatColorT">种皮色
-                    </th>
-                    <th class="param hilumColorT">种脐色
-                    </th>
-                    <th class="param cotyledonColorT">子叶色
-                    </th>
-                    <th class="param flowerColorT">花色
-                    </th>
-                    <th class="param podColorT">荚色
-                    </th>
-                    <th class="param pubescenceColorT">茸毛色
-                    </th>
-                    <th class="param yieldT">产量
-                    </th>
-                    <th class="param upperLeafletLengthT">顶端小叶长度
-                    </th>
-                    <th class="param linoleicT">亚油酸
-                    </th>
-                    <th class="param linolenicT">亚麻酸
-                    </th>
-                    <th class="param oleicT">油酸
-                    </th>
-                    <th class="param palmiticT">软脂酸
-                    </th>
-                    <th class="param stearicT">硬脂酸
-                    </th>
-                </tr>
-                <tr>
-                    <th class="param cultivarT">品种名
-                    </th>
-                    <th class="param populationT">群体
-                    </th>
-                    <th class="param speciesT">物种
-                    </th>
-                    <th class="param localityT">位置
-                    </th>
-                    <th class="param sampleNameT">样品名
-                    </th>
-                    <th class="param weightPer100seedsT">百粒重
-                    </th>
-                    <th class="param proteinT">蛋白质含量
-                    </th>
-                    <th class="param maturityDateT">熟期
-                    </th>
-                    <th class="param heightT">株高
-                    </th>
-                    <th class="param seedCoatColorT">种皮色
-                    </th>
-                    <th class="param hilumColorT">种脐色
-                    </th>
-                    <th class="param cotyledonColorT">子叶色
-                    </th>
-                    <th class="param flowerColorT">花色
-                    </th>
-                    <th class="param podColorT">荚色
-                    </th>
-                    <th class="param pubescenceColorT">茸毛色
-                    </th>
-                    <th class="param yieldT">产量
-                    </th>
-                    <th class="param upperLeafletLengthT">顶端小叶长度
-                    </th>
-                    <th class="param linoleicT">亚油酸
-                    </th>
-                    <th class="param linolenicT">亚麻酸
-                    </th>
-                    <th class="param oleicT">油酸
-                    </th>
-                    <th class="param palmiticT">软脂酸
-                    </th>
-                    <th class="param stearicT">硬脂酸
-                    </th>
-                </tr>
-                <tr>
-                    <th class="param cultivarT">品种名
-                    </th>
-                    <th class="param populationT">群体
-                    </th>
-                    <th class="param speciesT">物种
-                    </th>
-                    <th class="param localityT">位置
-                    </th>
-                    <th class="param sampleNameT">样品名
-                    </th>
-                    <th class="param weightPer100seedsT">百粒重
-                    </th>
-                    <th class="param proteinT">蛋白质含量
-                    </th>
-                    <th class="param maturityDateT">熟期
-                    </th>
-                    <th class="param heightT">株高
-                    </th>
-                    <th class="param seedCoatColorT">种皮色
-                    </th>
-                    <th class="param hilumColorT">种脐色
-                    </th>
-                    <th class="param cotyledonColorT">子叶色
-                    </th>
-                    <th class="param flowerColorT">花色
-                    </th>
-                    <th class="param podColorT">荚色
-                    </th>
-                    <th class="param pubescenceColorT">茸毛色
-                    </th>
-                    <th class="param yieldT">产量
-                    </th>
-                    <th class="param upperLeafletLengthT">顶端小叶长度
-                    </th>
-                    <th class="param linoleicT">亚油酸
-                    </th>
-                    <th class="param linolenicT">亚麻酸
-                    </th>
-                    <th class="param oleicT">油酸
-                    </th>
-                    <th class="param palmiticT">软脂酸
-                    </th>
-                    <th class="param stearicT">硬脂酸
-                    </th>
-                </tr>
-                <tr>
-                    <th class="param cultivarT">品种名
-                    </th>
-                    <th class="param populationT">群体
-                    </th>
-                    <th class="param speciesT">物种
-                    </th>
-                    <th class="param localityT">位置
-                    </th>
-                    <th class="param sampleNameT">样品名
-                    </th>
-                    <th class="param weightPer100seedsT">百粒重
-                    </th>
-                    <th class="param proteinT">蛋白质含量
-                    </th>
-                    <th class="param maturityDateT">熟期
-                    </th>
-                    <th class="param heightT">株高
-                    </th>
-                    <th class="param seedCoatColorT">种皮色
-                    </th>
-                    <th class="param hilumColorT">种脐色
-                    </th>
-                    <th class="param cotyledonColorT">子叶色
-                    </th>
-                    <th class="param flowerColorT">花色
-                    </th>
-                    <th class="param podColorT">荚色
-                    </th>
-                    <th class="param pubescenceColorT">茸毛色
-                    </th>
-                    <th class="param yieldT">产量
-                    </th>
-                    <th class="param upperLeafletLengthT">顶端小叶长度
-                    </th>
-                    <th class="param linoleicT">亚油酸
-                    </th>
-                    <th class="param linolenicT">亚麻酸
-                    </th>
-                    <th class="param oleicT">油酸
-                    </th>
-                    <th class="param palmiticT">软脂酸
-                    </th>
-                    <th class="param stearicT">硬脂酸
-                    </th>
-                </tr>
                 </tbody>
             </table>
+
         </div>
+        <%--// 分页显示 begin--%>
+        <div id="paging">
+            <div id="page">
+                <b class="first">&lt;</b>
+                <p class="two"></p>
+                <b class="three">...</b>
+                <p class="four"></p>
+                <p class="five"></p>
+                <p class="six"></p>
+                <b class="seven">...</b>
+                <p class="eight"></p>
+                <b class="last">&gt;</b>
+            </div>
+            <div id="inputNums">
+                <span>跳转到</span>
+                <div>
+                    <input type="number" min="1" name="number" value="" id="inputNum" >
+                </div>
+                <span>页</span>
+                <span>展示数量</span>
+                <div id="selectedNum">
+                    <select name="selected" id="selectSize">
+                        <option value="10" selected = "true">10</option>
+                        <option value="10">20</option>
+                        <option value="10">30</option>
+                        <option value="10">40</option>
+                    </select>
+                </div>
+
+                <span>/页</span>
+                <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
+            </div>
+        </div>
+        <%--// 分页显示 end--%>
         <%--弹出框--%>
         <div id="popTips">
             <div class="tipTop">

@@ -40,7 +40,7 @@ public class ExportDataController {
         String fileName="test";
         String csvStr="";
 
-        List<DNARun> result=dnaRunService.getByCondition(new DnaRunDto());
+              List<DNARun> result=null;
 
         csvStr=createCsvStr(result,titles);
 
