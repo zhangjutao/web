@@ -270,7 +270,7 @@ $(function (){
                     intNums = parseInt(count / page.pageSize);
                     for (var i=0;i<totalDatas.length;i++){
                         var tr = "<tr><td class='param cultivarT'>" + totalDatas[i].cultivar +
-                            "</td><td class='param speciesT'>" + totalDatas[i].species +
+                            "</td><td class='param speciesT'>" + totalDatas[i].species+
                             "</td><td class='param localityT'>" + totalDatas[i].locality +
                             "</td><td class='param sampleNameT'>" + totalDatas[i].sampleName +
                             "</td><td class='param weightPer100seedsT'>" + totalDatas[i].weightPer100seeds +
@@ -450,18 +450,18 @@ $(function (){
     $("#exportData").click(function (){
         var exportParams = {};
         var unSelectes = $("#selectedDetails ul input");
-        var unSelectedLists = [];
+        var unSelectedLists;
         for(var i=0;i<unSelectes.length;i++){
-            if(!$(unSelectes[i]).is(":checked")){
+            if($(unSelectes[i]).is(":checked")){
                 var unSelecteNames = $(unSelectes[i]).attr("name");
-                unSelectedLists.push(unSelecteNames);
+                unSelectedLists+=unSelecteNames + ",";
             }
         }
         console.log(unSelectedLists);
         $.ajax({
             type:"GET",
             url:CTXROOT + "/export",
-            data:JSON.stringify(unSelectedLists),
+            data:unSelectedLists,
             success:function (result){
                 console.log(result);
             },
