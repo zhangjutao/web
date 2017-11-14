@@ -184,6 +184,13 @@
                     <tr style="background: #F5F8FF;">
                         <th class="param cultivarT">品种名
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div>
+                                <input type="text" placeholder="请输入" class="cultivarI">
+                                <p class="inputComponent">
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param populationT">群体
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">

@@ -133,5 +133,23 @@ $(function (){
         }
 
     })
+    $(".btnConfirmInfo").click(function (){
+        $.ajax({
+            type:"GET",
+            url:CTXROOT + "/dna/condition",
+            data:{
+                oleic:{
+                    operation:"gt",
+                    value:2
+                }
+            },
+            success:function (e){
+                console.log(e);
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    })
 
 })

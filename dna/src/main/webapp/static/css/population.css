@@ -225,3 +225,17 @@
     width: 15px;
     vertical-align: middle;
 }
+.btnCancel{
+    margin-right: 5px;
+    color: #5c8ce6;
+}
+.btnConfirmInfo{
+    background: #5c8ce6;
+    color: #fff;
+}
+.inputComponent p a {
+    padding: 2px 8px;
+    display: inline-block;
+    border: 1px solid #5c8ce6;
+    border-radius: 3px;
+}
