@@ -1,5 +1,6 @@
 package com.gooalgene.common.authority;
 
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.service.*;
 import com.gooalgene.utils.TokenUtils;
 import org.slf4j.Logger;
@@ -180,7 +181,7 @@ public class SignUpController {
         user.setUniversity(university);
 
         if(userService.createUser(user)){
-            User_Role user_role=new User_Role(userService.findLastInsertId(),2);
+            User_Role user_role=new User_Role(userService.findLastInsertId(), CommonConstant.USER_VALUE);
             userService.setRole(user_role);
             modelAndView.addObject("user",user);
         }else {
@@ -195,6 +196,7 @@ public class SignUpController {
         boolean exists = userService.exist(username);
         return String.valueOf(exists);
     }
+
 
     //好像没有用到这个方法
     public String md5(String v){
@@ -211,6 +213,10 @@ public class SignUpController {
         }
         return hashedPass;
     }
+
+
+
+
 
     @RequestMapping(value = "/forget", method = RequestMethod.GET)
     public String toForget(Model model) {
@@ -229,7 +235,7 @@ public class SignUpController {
             return mv;
         }
         if (!email.equals(user.getEmail())) {
-            model.addAttribute("error", "不是注册邮箱");
+            model.addAttribute("error", "邮箱和用户名不匹配");
             return mv;
         }
         mv.addObject("user", user);
@@ -286,7 +292,7 @@ public class SignUpController {
         }
         author_cache = guavaCacheManager.getCache("config");
         String admin_email=author_cache.get("mail.administrator").get().toString();
-        smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
+        smtpService.send(admin_email,recevers,message.get("subject"),file,false, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
@@ -415,16 +421,16 @@ public class SignUpController {
         Date dueTime = originToken.getDue_time();
         Date currentTime = new Date();
         String oldToken = originToken.getToken();
+        tokenService.disableToken(id);
+        User user=userService.getUserById(id);
         if (dueTime.before(currentTime)){
             logger.warn("token已失效");
-            return "err403";
+            return "linkError";
         }
         if (!oldToken.equals(token)){
             logger.warn("传入token有异常");
-            return "err403";
+            return "linkError";
         }
-        tokenService.disableToken(id);
-        User user=userService.getUserById(id);
         redirectAttributes.addFlashAttribute("userId",id);
 
         //创建临时用户
