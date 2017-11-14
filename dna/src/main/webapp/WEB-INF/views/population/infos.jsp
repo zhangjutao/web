@@ -181,7 +181,7 @@
             </div>
         </div>
         <div id="tableShow">
-            <table border="1" cellspacing="0" cellpadding="5" style="height:500px;overflow: scroll; min-height:100px;">
+            <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;">
                 <thead style="overflow-x: scroll;">
                     <tr style="background: #F5F8FF;">
                         <th class="param cultivarT">品种名
@@ -194,16 +194,6 @@
                                 </p>
                             </div>
                         </th>
-                        <%--<th class="param populationT">群体--%>
-                            <%--<img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">--%>
-                            <%--<div class="inputComponent">--%>
-                                <%--<input type="text" placeholder="请输入" class="populationI inputStyle">--%>
-                                <%--<p>--%>
-                                    <%--<a href="javascript:void(0);" class="btnCancel">取消</a>--%>
-                                    <%--<a href="javascript:void(0);" class="btnConfirmInfo">确定</a>--%>
-                                <%--</p>--%>
-                            <%--</div>--%>
-                        <%--</th>--%>
                         <th class="param speciesT">物种
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
@@ -519,14 +509,13 @@
                 <span>页</span>
                 <span>展示数量</span>
                 <div id="selectedNum">
-                    <select name="selected" id="selectSize">
+                    <select name="selected" id="selectSize" style="width:35px;">
                         <option value="10" selected = "true">10</option>
                         <option value="10">20</option>
                         <option value="10">30</option>
                         <option value="10">40</option>
                     </select>
                 </div>
-
                 <span>/页</span>
                 <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
             </div>
