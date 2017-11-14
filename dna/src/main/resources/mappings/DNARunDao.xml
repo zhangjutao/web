@@ -36,6 +36,7 @@
         pubescence_color, seed_coat_color, cotyledon_color, weight_per_100seeds, upper_leaflet_length,
         maturity_date, yield, category
     </sql>
+
     <sql id="Example_Where_Clause" >
         <where >
             <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -107,26 +108,26 @@
         <include refid="Base_Column_List" />
         from dna_run
         <trim prefix="where" prefixOverrides="and|or">
-            <if test="runNo!=null">
+            <if test="runNo!=null and runNo!=''">
                 AND run_no like CONCAT('%',#{runNo},'%' )
             </if>
-            <if test="species!=null">
+            <if test="species!=null and species!=''">
                 AND species like CONCAT('%',#{species},'%' )
             </if>
-            <if test="sampleName!=null">
+            <if test="sampleName!=null and sampleName!=''">
                 AND sample_name like CONCAT('%',#{sampleName},'%' )
             </if>
-            <if test="cultivar!=null">
+            <if test="cultivar!=null and cultivar!=''">
                 AND cultivar like CONCAT('%',#{cultivar},'%' )
             </if>
-            <if test="plantName!=null">
+            <if test="plantName!=null and plantName!=''">
                 AND plant_name like CONCAT('%',#{plantName},'%' )
             </if>
-            <if test="locality!=null">
+            <if test="locality!=null and locality!=''">
                 AND locality like CONCAT('%',#{locality},'%' )
             </if>
             <if test="protein!=null">
-                <if test="protein.operation!=null">
+                <if test="protein.operation!=null and protein.operation!=''">
                     <choose>
                         <when test="protein.operation=='eq'">
                             AND protein =#{protein.value}
@@ -141,7 +142,7 @@
                 </if>
             </if>
             <if test="oil!=null">
-                <if test="oil.operation!=null">
+                <if test="oil.operation!=null and oil.operation!=''">
                     <choose>
                         <when test="oil.operation=='eq'">
                             AND oil =#{oil.value}
@@ -156,7 +157,7 @@
                 </if>
             </if>
             <if test="linoleic!=null">
-                <if test="linoleic.operation!=null">
+                <if test="linoleic.operation!=null and linoleic.operation!=''">
                     <choose>
                         <when test="linoleic.operation=='eq'">
                             AND linoleic =#{linoleic.value}
@@ -171,7 +172,7 @@
                 </if>
             </if>
             <if test="linolenic!=null">
-                <if test="linolenic.operation!=null">
+                <if test="linolenic.operation!=null and linolenic.operation!=''">
                     <choose>
                         <when test="linolenic.operation=='eq'">
                             AND linolenic =#{linolenic.value}
@@ -187,7 +188,7 @@
             </if>
 
             <if test="oleic!=null">
-                <if test="oleic.operation!=null">
+                <if test="oleic.operation!=null and oleic.operation!=''">
                     <choose>
                         <when test="oleic.operation=='eq'">
                             AND oleic =#{oleic.value}
@@ -202,7 +203,7 @@
                 </if>
             </if>
             <if test="palmitic!=null">
-                <if test="palmitic.operation!=null">
+                <if test="palmitic.operation!=null and palmitic.operation!=''">
                     <choose>
                         <when test="palmitic.operation=='eq'">
                             AND palmitic =#{palmitic.value}
@@ -218,7 +219,7 @@
             </if>
 
             <if test="stearic!=null">
-                <if test="stearic.operation!=null">
+                <if test="stearic.operation!=null and stearic.operation!=''">
                     <choose>
                         <when test="stearic.operation=='eq'">
                             AND stearic =#{stearic.value}
@@ -233,7 +234,7 @@
                 </if>
             </if>
             <if test="height!=null">
-                <if test="height.operation!=null">
+                <if test="height.operation!=null and height.operation!=''">
                     <choose>
                         <when test="height.operation=='eq'">
                             AND height =#{height.value}
@@ -247,30 +248,30 @@
                     </choose>
                 </if>
             </if>
-            <if test="flowerColor!=null">
+            <if test="flowerColor!=null and flowerColor!=''">
                 AND flower_color like CONCAT('%',#{flowerColor},'%')
             </if>
-            <if test="hilumColor!=null">
+            <if test="hilumColor!=null and hilumColor!=''">
                 AND hilum_color like CONCAT('%',#{hilumColor},'%')
             </if>
-            <if test="podColor!=null">
+            <if test="podColor!=null and podColor!=''">
                 AND pod_color like CONCAT('%',#{podColor},'%')
             </if>
-            <if test="pubescenceColor!=null">
+            <if test="pubescenceColor!=null and pubescenceColor!=''">
                 AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
             </if>
-            <if test="seedCoatColor!=null">
+            <if test="seedCoatColor!=null and seedCoatColor!=''">
                 AND seed_coat_color like CONCAT('%',#{seedCoatColor},'%')
             </if>
-            <if test="cotyledonColor!=null">
+            <if test="cotyledonColor!=null and cotyledonColor!=''">
                 AND cotyledon_color like CONCAT('%',#{cotyledonColor},'%')
             </if>
-            <if test="pubescenceColor!=null">
+            <if test="pubescenceColor!=null and pubescenceColor!=''">
                 AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
             </if>
 
             <if test="weightPer100seeds!=null">
-                <if test="weightPer100seeds.operation!=null">
+                <if test="weightPer100seeds.operation!=null and weightPer100seeds.operation!=''">
                     <choose>
                         <when test="weightPer100seeds.operation=='eq'">
                             AND weight_per_100seeds =#{weightPer100seeds.value}
@@ -286,7 +287,7 @@
             </if>
 
             <if test="upperLeafletLength!=null">
-                <if test="upperLeafletLength.operation!=null">
+                <if test="upperLeafletLength.operation!=null and upperLeafletLength.operation!=''">
                     <choose>
                         <when test="upperLeafletLength.operation=='eq'">
                             AND upper_leaflet_length =#{upperLeafletLength.value}
@@ -301,20 +302,21 @@
                 </if>
             </if>
 
-            <if test="floweringDate!=null">
+            <if test="floweringDate!=null and floweringDate!=''">
                 AND flowering_date like CONCAT('%',#{floweringDate},'%')
             </if>
-            <if test="maturityDate!=null">
+            <if test="maturityDate!=null and maturityDate!=''">
                 AND maturity_date like CONCAT('%',#{maturityDate},'%')
             </if>
-            <if test="yield!=null">
+            <if test="yield!=null and yield!=''">
                 AND yield like CONCAT('%',#{yield},'%')
             </if>
-            <if test="group!=null">
+            <if test="group!=null and group!=''">
                 AND category like CONCAT('%',#{group},'%')
             </if>
         </trim>
     </select>
+    
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run
         WHERE 1=1
