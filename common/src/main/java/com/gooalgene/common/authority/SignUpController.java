@@ -1,5 +1,6 @@
 package com.gooalgene.common.authority;
 
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.service.*;
 import com.gooalgene.utils.TokenUtils;
 import org.slf4j.Logger;
@@ -180,7 +181,7 @@ public class SignUpController {
         user.setUniversity(university);
 
         if(userService.createUser(user)){
-            User_Role user_role=new User_Role(userService.findLastInsertId(),2);
+            User_Role user_role=new User_Role(userService.findLastInsertId(), CommonConstant.USER_VALUE);
             userService.setRole(user_role);
             modelAndView.addObject("user",user);
         }else {
