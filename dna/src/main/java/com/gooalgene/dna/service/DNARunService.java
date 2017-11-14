@@ -9,6 +9,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,6 +23,8 @@ public class DNARunService {
 
     @Autowired
     private DNARunDao dnaRunDao;
+    @Autowired
+    private GuavaCacheManager cacheManager;
 
     public int insertBatch(List<DNARun> list) {
         return dnaRunDao.insertBatch(list);
@@ -109,8 +113,11 @@ public class DNARunService {
      * 动态查询dnarun
      */
     public List<DNARun> getByCondition(DnaRunDto dnaRunDto){
-
-        return dnaRunDao.getListByCondition(dnaRunDto);
+        Cache cache = cacheManager.getCache("config");
+        cache.evict("dna_run");
+        List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
+        cache.putIfAbsent("dna_run",list);
+        return list;
     }
 
 

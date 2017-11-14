@@ -11,6 +11,7 @@ import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -20,6 +21,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +61,7 @@ public class SNPController {
 
     @Autowired
     private DNAGroupsService dnaGroupsService;
+
 
     @RequestMapping("/index")
     public ModelAndView index(HttpServletRequest request) {
@@ -114,9 +118,7 @@ public class SNPController {
     @ResponseBody
     public List<DNARun> getByExample(HttpServletRequest request, HttpServletResponse response,
                                      DnaRunDto dnaRunDto) {
-
-        List<DNARun> list=dnaRunService.getByCondition(dnaRunDto);
-        return list;
+        return dnaRunService.getByCondition(dnaRunDto);
     }
 
     /**
