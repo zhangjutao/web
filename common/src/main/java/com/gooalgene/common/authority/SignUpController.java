@@ -415,16 +415,16 @@ public class SignUpController {
         Date dueTime = originToken.getDue_time();
         Date currentTime = new Date();
         String oldToken = originToken.getToken();
+        tokenService.disableToken(id);
+        User user=userService.getUserById(id);
         if (dueTime.before(currentTime)){
             logger.warn("token已失效");
-            return "err403";
+            return "linkError";
         }
         if (!oldToken.equals(token)){
             logger.warn("传入token有异常");
-            return "err403";
+            return "linkError";
         }
-        tokenService.disableToken(id);
-        User user=userService.getUserById(id);
         redirectAttributes.addFlashAttribute("userId",id);
 
         //创建临时用户
