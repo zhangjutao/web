@@ -10,6 +10,7 @@ import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.data.repository.query.Param;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -45,7 +46,12 @@ public class ExportDataController {
 
 
     @ResponseBody
-    public void exportData(@RequestParam String[] titles,HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void exportData(String choices,HttpServletResponse response) throws IOException {
+
+        
+
+
+
 
         String fileName="test";
         String csvStr="";
