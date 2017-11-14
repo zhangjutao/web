@@ -1,5 +1,6 @@
 package com.gooalgene.common.authority;
 
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.service.*;
 import com.gooalgene.utils.TokenUtils;
 import org.slf4j.Logger;
@@ -180,7 +181,7 @@ public class SignUpController {
         user.setUniversity(university);
 
         if(userService.createUser(user)){
-            User_Role user_role=new User_Role(userService.findLastInsertId(),2);
+            User_Role user_role=new User_Role(userService.findLastInsertId(), CommonConstant.USER_VALUE);
             userService.setRole(user_role);
             modelAndView.addObject("user",user);
         }else {
@@ -378,30 +379,35 @@ public class SignUpController {
     @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.POST)
     public String tempModifyPassword(@RequestParam("userId") Integer id,
                                      String password, String pwdverify, HttpServletRequest request, Model model,Authentication authentication) {
+        String pwdRex="[a-zA-Z0-9]{5,}";
+        Pattern pattern=Pattern.compile(pwdRex);
+        Matcher newPwdMatcher=pattern.matcher(password);
+        if(!newPwdMatcher.matches()&&!password.equals("")){
+            model.addAttribute("error","新密码输入不符合要求，请重新输入");
+            return "temp-modify-password";
+        }
         if (password == null || password.isEmpty()) {
             model.addAttribute("error", "新密码未填写");
-            return "modify-password";
+            return "temp-modify-password";
         }
         if (pwdverify == null || pwdverify.isEmpty()) {
             model.addAttribute("error", "确认新密码未填写");
-            return "modify-password";
+            return "temp-modify-password";
         }
         if (!password.equals(pwdverify)) {
             model.addAttribute("error", "两次密码不一致");
-            return "modify-password";
+            return "temp-modify-password";
         }
         User user=userService.getUserById(id);
         if(user==null){
             model.addAttribute("error","登录信息错误，用户不存在，请重新登录");
-            return "modify-password";
+            return "temp-modify-password";
         }else {
             PasswordEncoder encoder=new Md5PasswordEncoder();
             String newPwd=encoder.encodePassword(password,null);
             user.setPassword(newPwd);
             user.setReset(1);
             userService.updateUserPassword(user);
-            //SecurityUser tempUser=(SecurityUser)authentication.getPrincipal();
-            //userService.deleteUser(tempUser.getId());
             SecurityContextHolder.getContext().setAuthentication(null);
         }
         return "/login";
@@ -420,16 +426,16 @@ public class SignUpController {
         Date dueTime = originToken.getDue_time();
         Date currentTime = new Date();
         String oldToken = originToken.getToken();
+        tokenService.disableToken(id);
+        User user=userService.getUserById(id);
         if (dueTime.before(currentTime)){
             logger.warn("token已失效");
-            return "err403";
+            return "linkError";
         }
         if (!oldToken.equals(token)){
             logger.warn("传入token有异常");
-            return "err403";
+            return "linkError";
         }
-        tokenService.disableToken(id);
-        User user=userService.getUserById(id);
         redirectAttributes.addFlashAttribute("userId",id);
 
         //创建临时用户
