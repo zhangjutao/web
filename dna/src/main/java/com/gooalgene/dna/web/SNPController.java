@@ -3,6 +3,7 @@ package com.gooalgene.dna.web;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
+import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.*;
@@ -22,10 +23,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
@@ -103,6 +101,22 @@ public class SNPController {
         logger.info("QueryByGroup:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
         return dnaRunService.queryDNARunByGroup(group, page);
+    }
+
+    /**
+     * 按基因条件搜索
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/condition",method = RequestMethod.GET)
+    @ResponseBody
+    public List<DNARun> getByExample(HttpServletRequest request, HttpServletResponse response,
+                                     DnaRunDto dnaRunDto) {
+
+        List<DNARun> list=dnaRunService.getByCondition(dnaRunDto);
+        return list;
     }
 
     /**

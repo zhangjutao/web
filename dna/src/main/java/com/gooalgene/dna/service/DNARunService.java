@@ -3,6 +3,7 @@ package com.gooalgene.dna.service;
 import com.github.pagehelper.PageHelper;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
+import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -10,10 +11,7 @@ import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by ShiYun on 2017/9/6 0006.
@@ -105,6 +103,14 @@ public class DNARunService {
         result.put("total", page.getCount());
         result.put("data", data);
         return result;
+    }
+
+    /**
+     * 动态查询dnarun
+     */
+    public List<DNARun> getByCondition(DnaRunDto dnaRunDto){
+
+        return dnaRunDao.getListByCondition(dnaRunDto);
     }
 
 

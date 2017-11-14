@@ -37,6 +37,7 @@
         INSERT INTO user(username,email,password,phone,domains,university,create_time,due_time,enabled) VALUES
         (#{username},#{email},#{password},#{phone},#{domains},#{university},#{create_time},#{due_time},0)
     </insert>
+
     <insert id="insertTemp">
         <selectKey resultType="int" order="AFTER" keyProperty="id">
             SELECT LAST_INSERT_ID() AS id
