@@ -202,6 +202,26 @@
 .sets{
     overflow: hidden;
 }
+#tableShow{
+    width:1137px;
+    overflow-x: scroll;
+}
 #tableShow>table{
-
+    border-collapse: collapse;
+    overflow-x: scroll;
+    width:1200px;
+    border:1px solid #E4E4E4;
+}
+#tableShow>table tbody>tr:nth-child(even){
+    background: #F5F8FF;
+}
+.param{
+    height:40px;
+    padding:2px 15px;
+    white-space: nowrap;
+    cursor: pointer;
+}
+.param img{
+    width: 15px;
+    vertical-align: middle;
 }

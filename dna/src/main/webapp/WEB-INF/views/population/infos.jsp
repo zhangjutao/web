@@ -88,75 +88,72 @@
                 <div id="selectedDetails">
                     <ul>
                         <li>
-                            <input type="checkbox" name="cultivar"> 品种名
+                            <input type="checkbox" name="cultivar" class="cultivar"> 品种名
                         </li>
                         <li>
                             <%--无--%>
-                            <input type="checkbox" name="population"> 群体
+                            <input type="checkbox" name="population" class="population"> 群体
                         </li>
                         <li>
-                            <input type="checkbox" name="species"> 物种
+                            <input type="checkbox" name="species" class="species"> 物种
                         </li>
                         <li>
-                            <input type="checkbox" name="locality"> 位置
+                            <input type="checkbox" name="locality" class="locality"> 位置
                         </li>
                         <li>
-                            <input type="checkbox" name="sampleName"> 样品名
+                            <input type="checkbox" name="sampleName" class="sampleName"> 样品名
                         </li>
                         <li>
-                            <input type="checkbox" name="weightPer100seeds"> 百粒重
+                            <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds"> 百粒重
                         </li>
                         <li>
-                            <input type="checkbox" name="protein"> 蛋白质含量
+                            <input type="checkbox" name="protein" class="protein"> 蛋白质含量
                         </li>
                         <li>
-                            <input type="checkbox" name="maturityDate"> 熟期
+                            <input type="checkbox" name="maturityDate" class="maturityDate"> 熟期
                         </li>
                         <li>
-                            <input type="checkbox" name="height"> 株高
+                            <input type="checkbox" name="height" class="height"> 株高
                         </li>
                         <li>
-                            <input type="checkbox" name="seedCoatColor"> 种皮色
+                            <input type="checkbox" name="seedCoatColor" class="seedCoatColor"> 种皮色
                         </li>
                         <li>
-                            <input type="checkbox" name="hilumColor"> 种脐色
+                            <input type="checkbox" name="hilumColor" class="hilumColor"> 种脐色
                         </li>
                         <li>
-                            <input type="checkbox" name="cotyledonColor"> 子叶色
+                            <input type="checkbox" name="cotyledonColor" class="cotyledonColor"> 子叶色
                         </li>
                         <li>
-                            <input type="checkbox" name="flowerColor"> 花色
+                            <input type="checkbox" name="flowerColor" class="flowerColor"> 花色
                         </li>
                         <li>
-                            <input type="checkbox" name="cotyledonColor"> 子叶色
+                            <input type="checkbox" name="podColor" class="podColor"> 荚色
                         </li>
                         <li>
-                            <input type="checkbox" name="podColor"> 荚色
-                        </li>
-                        <li>
-                            <input type="checkbox" name="pubescenceColor"> 茸毛色
+                            <input type="checkbox" name="pubescenceColor" class="pubescenceColor"> 茸毛色
                         </li>
                         <li>
                             <%--无--%>
-                            <input type="checkbox" name="yield"> 产量
+                            <input type="checkbox" name="yield" class="yield"> 产量
                         </li>
                         <li>
-                            <input type="checkbox" name="upperLeafletLength"> 顶端小叶长度
+                            <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength"> 顶端小叶长度
                         </li>
                         <li>
-                            <input type="checkbox" name="linoleic">亚油酸
+                            <input type="checkbox" name="linoleic" class="linoleic">亚油酸
                         </li>
                         <li>
-                            <input type="checkbox" name="linolenic"> 亚麻酸
+                            <input type="checkbox" name="linolenic" class="linolenic"> 亚麻酸
                         </li>
                         <li>
-                            <input type="checkbox" name="oleic"> 油酸
+                            <input type="checkbox" name="oleic" class="oleic"> 油酸
                         </li>
                         <li>
-                            <input type="checkbox" name="palmitic"> 软脂酸
+                            <input type="checkbox" name="palmitic" class="palmitic"> 软脂酸
                         </li>
                         <li>
-                            <input type="checkbox" name="stearic"> 硬脂酸
+                            <input type="checkbox" name="stearic" class="stearic"> 硬脂酸
                         </li>
                     </ul>
                     <div>
@@ -169,8 +166,6 @@
                     <p id="tableSet">表格设置</p>
                     <p id="exportData">导出数据</p>
                 </div>
-                <%--<p id="tableSet">表格设置</p>--%>
-                <%--<p id="exportData">导出数据</p>--%>
                 <div id="operate">
                     <p class="sure">确定</p>
                     <div class="opOthers">
@@ -184,34 +179,263 @@
             </div>
         </div>
         <div id="tableShow">
-            <table border="1" cellspacing="0" cellpadding="0">
-                <thead>
-                    <tr>
-                        <th>品种名</th>
-                        <th>群体</th>
-                        <th>物种</th>
-                        <th>位置</th>
-                        <th>样品名</th>
-                        <th>百粒重</th>
-                        <th>蛋白质含量</th>
-                        <th>熟期</th>
-                        <th>株高</th>
-                        <th>种皮色</th>
-                        <th>种脐色</th>
-                        <th>子叶色</th>
-                        <th>花色</th>
-                        <th>子叶色</th>
-                        <th>荚色</th>
-                        <th>茸毛色</th>
-                        <th>产量</th>
-                        <th>顶端小叶长度</th>
-                        <th>亚油酸</th>
-                        <th>亚麻酸</th>
-                        <th>油酸</th>
-                        <th>软脂酸</th>
-                        <th>硬脂酸</th>
+            <table border="1" cellspacing="0" cellpadding="5">
+                <thead style="overflow-x: scroll;">
+                    <tr style="background: #F5F8FF;">
+                        <th class="param cultivarT">品种名
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param populationT">群体
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param speciesT">物种
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param localityT">位置
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param sampleNameT">样品名
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param weightPer100seedsT">百粒重
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param proteinT">蛋白质含量
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param maturityDateT">熟期
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param heightT">株高
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param seedCoatColorT">种皮色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param hilumColorT">种脐色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param cotyledonColorT">子叶色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param flowerColorT">花色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param podColorT">荚色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param pubescenceColorT">茸毛色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param yieldT">产量
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param upperLeafletLengthT">顶端小叶长度
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param linoleicT">亚油酸
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param linolenicT">亚麻酸
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param oleicT">油酸
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param palmiticT">软脂酸
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
+                        <th class="param stearicT">硬脂酸
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        </th>
                     </tr>
                 </thead>
+                <tbody>
+                <tr>
+                    <th class="param cultivarT">品种名
+                    </th>
+                    <th class="param populationT">群体
+                    </th>
+                    <th class="param speciesT">物种
+                    </th>
+                    <th class="param localityT">位置
+                    </th>
+                    <th class="param sampleNameT">样品名
+                    </th>
+                    <th class="param weightPer100seedsT">百粒重
+                    </th>
+                    <th class="param proteinT">蛋白质含量
+                    </th>
+                    <th class="param maturityDateT">熟期
+                    </th>
+                    <th class="param heightT">株高
+                    </th>
+                    <th class="param seedCoatColorT">种皮色
+                    </th>
+                    <th class="param hilumColorT">种脐色
+                    </th>
+                    <th class="param cotyledonColorT">子叶色
+                    </th>
+                    <th class="param flowerColorT">花色
+                    </th>
+                    <th class="param podColorT">荚色
+                    </th>
+                    <th class="param pubescenceColorT">茸毛色
+                    </th>
+                    <th class="param yieldT">产量
+                    </th>
+                    <th class="param upperLeafletLengthT">顶端小叶长度
+                    </th>
+                    <th class="param linoleicT">亚油酸
+                    </th>
+                    <th class="param linolenicT">亚麻酸
+                    </th>
+                    <th class="param oleicT">油酸
+                    </th>
+                    <th class="param palmiticT">软脂酸
+                    </th>
+                    <th class="param stearicT">硬脂酸
+                    </th>
+                </tr>
+                <tr>
+                    <th class="param cultivarT">品种名
+                    </th>
+                    <th class="param populationT">群体
+                    </th>
+                    <th class="param speciesT">物种
+                    </th>
+                    <th class="param localityT">位置
+                    </th>
+                    <th class="param sampleNameT">样品名
+                    </th>
+                    <th class="param weightPer100seedsT">百粒重
+                    </th>
+                    <th class="param proteinT">蛋白质含量
+                    </th>
+                    <th class="param maturityDateT">熟期
+                    </th>
+                    <th class="param heightT">株高
+                    </th>
+                    <th class="param seedCoatColorT">种皮色
+                    </th>
+                    <th class="param hilumColorT">种脐色
+                    </th>
+                    <th class="param cotyledonColorT">子叶色
+                    </th>
+                    <th class="param flowerColorT">花色
+                    </th>
+                    <th class="param podColorT">荚色
+                    </th>
+                    <th class="param pubescenceColorT">茸毛色
+                    </th>
+                    <th class="param yieldT">产量
+                    </th>
+                    <th class="param upperLeafletLengthT">顶端小叶长度
+                    </th>
+                    <th class="param linoleicT">亚油酸
+                    </th>
+                    <th class="param linolenicT">亚麻酸
+                    </th>
+                    <th class="param oleicT">油酸
+                    </th>
+                    <th class="param palmiticT">软脂酸
+                    </th>
+                    <th class="param stearicT">硬脂酸
+                    </th>
+                </tr>
+                <tr>
+                    <th class="param cultivarT">品种名
+                    </th>
+                    <th class="param populationT">群体
+                    </th>
+                    <th class="param speciesT">物种
+                    </th>
+                    <th class="param localityT">位置
+                    </th>
+                    <th class="param sampleNameT">样品名
+                    </th>
+                    <th class="param weightPer100seedsT">百粒重
+                    </th>
+                    <th class="param proteinT">蛋白质含量
+                    </th>
+                    <th class="param maturityDateT">熟期
+                    </th>
+                    <th class="param heightT">株高
+                    </th>
+                    <th class="param seedCoatColorT">种皮色
+                    </th>
+                    <th class="param hilumColorT">种脐色
+                    </th>
+                    <th class="param cotyledonColorT">子叶色
+                    </th>
+                    <th class="param flowerColorT">花色
+                    </th>
+                    <th class="param podColorT">荚色
+                    </th>
+                    <th class="param pubescenceColorT">茸毛色
+                    </th>
+                    <th class="param yieldT">产量
+                    </th>
+                    <th class="param upperLeafletLengthT">顶端小叶长度
+                    </th>
+                    <th class="param linoleicT">亚油酸
+                    </th>
+                    <th class="param linolenicT">亚麻酸
+                    </th>
+                    <th class="param oleicT">油酸
+                    </th>
+                    <th class="param palmiticT">软脂酸
+                    </th>
+                    <th class="param stearicT">硬脂酸
+                    </th>
+                </tr>
+                <tr>
+                    <th class="param cultivarT">品种名
+                    </th>
+                    <th class="param populationT">群体
+                    </th>
+                    <th class="param speciesT">物种
+                    </th>
+                    <th class="param localityT">位置
+                    </th>
+                    <th class="param sampleNameT">样品名
+                    </th>
+                    <th class="param weightPer100seedsT">百粒重
+                    </th>
+                    <th class="param proteinT">蛋白质含量
+                    </th>
+                    <th class="param maturityDateT">熟期
+                    </th>
+                    <th class="param heightT">株高
+                    </th>
+                    <th class="param seedCoatColorT">种皮色
+                    </th>
+                    <th class="param hilumColorT">种脐色
+                    </th>
+                    <th class="param cotyledonColorT">子叶色
+                    </th>
+                    <th class="param flowerColorT">花色
+                    </th>
+                    <th class="param podColorT">荚色
+                    </th>
+                    <th class="param pubescenceColorT">茸毛色
+                    </th>
+                    <th class="param yieldT">产量
+                    </th>
+                    <th class="param upperLeafletLengthT">顶端小叶长度
+                    </th>
+                    <th class="param linoleicT">亚油酸
+                    </th>
+                    <th class="param linolenicT">亚麻酸
+                    </th>
+                    <th class="param oleicT">油酸
+                    </th>
+                    <th class="param palmiticT">软脂酸
+                    </th>
+                    <th class="param stearicT">硬脂酸
+                    </th>
+                </tr>
+                </tbody>
             </table>
         </div>
         <%--弹出框--%>

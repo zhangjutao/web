@@ -112,5 +112,26 @@ $(function (){
         $(".selecting").show();
         $("#operate").show();
     })
+    // 确定按钮（过滤条件）
+    $("#operate .sure").click(function (){
+        var lists = $("#selectedDetails li");
+        for(var i=0;i<lists.length;i++){
+            var $input = $(lists[i]).find("input");
+            if($input.is(":checked")){
+             var classVal = $input.attr("name");
+             var newClassVal = "." + classVal + "T";
+             $("#tableShow thead").find(newClassVal).hide();
+             $("#tableShow tbody").find(newClassVal).hide();
+            }else {
+                var classVal = $input.attr("name");
+                var newClassVal = "." + classVal + "T";
+                if($("#tableShow thead").find(newClassVal).is(":hidden")){
+                    $("#tableShow thead").find(newClassVal).show();
+                    $("#tableShow tbody").find(newClassVal).show();
+                }
+            }
+        }
+
+    })
 
 })
