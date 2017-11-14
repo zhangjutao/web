@@ -1,6 +1,7 @@
 package com.gooalgene.dna.service;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
@@ -9,6 +10,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -21,6 +24,8 @@ public class DNARunService {
 
     @Autowired
     private DNARunDao dnaRunDao;
+    @Autowired
+    private GuavaCacheManager cacheManager;
 
     public int insertBatch(List<DNARun> list) {
         return dnaRunDao.insertBatch(list);
@@ -108,9 +113,14 @@ public class DNARunService {
     /**
      * 动态查询dnarun
      */
-    public List<DNARun> getByCondition(DnaRunDto dnaRunDto){
-
-        return dnaRunDao.getListByCondition(dnaRunDto);
+    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize){
+        Cache cache = cacheManager.getCache("config");
+        cache.evict("dna_run");
+        PageHelper.startPage(pageNum,pageSize);
+        List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
+        cache.putIfAbsent("dna_run",list);
+        PageInfo<DNARun> pageInfo=new PageInfo(list);
+        return pageInfo;
     }
 
 

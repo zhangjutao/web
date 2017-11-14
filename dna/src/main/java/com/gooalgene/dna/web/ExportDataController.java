@@ -45,7 +45,7 @@ public class ExportDataController {
               if(columns.contains("fattyAcid")){
                   columns.replace("fattAcid","linoleic,linolenic,oleic,palmitic,stearic");
               }
-              List<DNARun> result=dnaRunService.getByCondition(new DnaRunDto());
+              List<DNARun> result=null;
 
             //  List<Map> result=queryService.SearchbyResultExport();
               csvStr=createCsvStr(result,columns.split(","));

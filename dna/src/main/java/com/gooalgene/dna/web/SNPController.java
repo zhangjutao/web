@@ -1,16 +1,20 @@
 package com.gooalgene.dna.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
+import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -20,6 +24,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,6 +64,7 @@ public class SNPController {
 
     @Autowired
     private DNAGroupsService dnaGroupsService;
+
 
     @RequestMapping("/index")
     public ModelAndView index(HttpServletRequest request) {
@@ -112,11 +119,11 @@ public class SNPController {
      */
     @RequestMapping(value = "/condition",method = RequestMethod.GET)
     @ResponseBody
-    public List<DNARun> getByExample(HttpServletRequest request, HttpServletResponse response,
-                                     DnaRunDto dnaRunDto) {
-
-        List<DNARun> list=dnaRunService.getByCondition(dnaRunDto);
-        return list;
+    public ResultVO getByExample(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
+                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                 DnaRunDto dnaRunDto) {
+        PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize);
+        return ResultUtil.success(dnaRunPageInfo);
     }
 
     /**
