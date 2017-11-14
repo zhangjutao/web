@@ -8,6 +8,7 @@ import com.gooalgene.utils.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -34,23 +35,15 @@ public class ExportDataController {
 
     @RequestMapping("/export")
     @ResponseBody
-    public void exportData(HttpServletRequest request,HttpServletResponse response) throws IOException {
-
-        //获取表头列
-        String columns=request.getParameter("choices");
+    public void exportData(@RequestParam(value = "titles[]") String[] titles,HttpServletRequest request,HttpServletResponse response) throws IOException {
 
         String fileName="test";
         String csvStr="";
-        if(StringUtils.isNoneBlank(columns)){
-              if(columns.contains("fattyAcid")){
-                  columns.replace("fattAcid","linoleic,linolenic,oleic,palmitic,stearic");
-              }
+
               List<DNARun> result=null;
 
-            //  List<Map> result=queryService.SearchbyResultExport();
-              csvStr=createCsvStr(result,columns.split(","));
+        csvStr=createCsvStr(result,titles);
 
-        }
         if (!csvStr.equals("")) {
             byte[] buffer = csvStr.getBytes("gbk");
             response.reset();
@@ -67,6 +60,7 @@ public class ExportDataController {
 
 
     }
+
     //调整表头显示
     private static Map<String, String> changeCloumn2Web() {
         Map<String, String> map = new HashMap<String, String>();
@@ -184,8 +178,6 @@ public class ExportDataController {
                 float linoleic=dnaRun.getLinoleic();
                 sb.append(linoleic!=0?String.valueOf(linoleic):"0").append(",");
             }
-
-
             //亚麻酸
             if (map.containsKey("linolenic")){
                 float linolenic=dnaRun.getLinolenic();

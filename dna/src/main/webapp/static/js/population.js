@@ -144,8 +144,12 @@ $(function (){
                 }
             }
         }
-
     })
+    window.onload = function (){
+        $(".btnConfirmInfo").trigger("click");
+    }
+
+
     // 获取表格数据
     $(".btnConfirmInfo").click(function (){
         var data={
@@ -174,7 +178,6 @@ $(function (){
             podColor:$(".podColorI").val(),//荚色
             pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
             // yield:$(".yieldI").val(),// 产量
-
             "yield.operation":$(".yieldI").parent().find("option:selected").text().trim() == ">"?"gt":$(".yieldI").parent().find("option:selected").text().trim()=="="?"eq":$(".yieldI").parent().find("option:selected").text().trim()=="<"?"lt":"",
             "yield.value":$(".yieldI").val(),
             // upperLeafletLength:$(".upperLeaf
@@ -197,13 +200,36 @@ $(function (){
             "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
             "stearic.value":$(".stearicI").val()
         };
-        console.log(data);
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
             data:data,
             success:function (result){
-                console.log(result);
+                var $tbody = $("#tableShow table tbody");
+                for (var i=0;i<result.length;i++){
+                    var tr = "<tr><td class='param cultivarT'>" + result[i].cultivar +
+                        "</td><td class='param speciesT'>" + result[i].species +
+                        "</td><td class='param localityT'>" + result[i].locality +
+                        "</td><td class='param sampleNameT'>" + result[i].sampleName +
+                        "</td><td class='param weightPer100seedsT'>" + result[i].weightPer100seeds +
+                        "</td><td class='param proteinT'>" + result[i].protein +
+                        "</td><td class='param maturityDateT'>" + result[i].maturityDate +
+                        "</td><td class='param heightT'>" + result[i].height +
+                        "</td><td class='param seedCoatColorT'>" + result[i].seedCoatColor +
+                        "</td><td class='param hilumColorT'>" + result[i].hilumColor +
+                        "</td><td class='param cotyledonColorT'>" + result[i].cotyledonColor +
+                        "</td><td class='param flowerColorT'>" + result[i].flowerColor +
+                        "</td><td class='param podColorT'>" + result[i].podColor +
+                        "</td><td class='param pubescenceColorT'>" + result[i].pubescenceColor +
+                        "</td><td class='param yieldT'>" + result[i].yield +
+                        "</td><td class='param upperLeafletLengthT'>" + result[i].upperLeafletLength +
+                        "</td><td class='param linoleicT'>" + result[i].linoleic +
+                        "</td><td class='param linolenicT'>" + result[i].linolenic +
+                        "</td><td class='param oleicT'>" + result[i].oleic +
+                        "</td><td class='param palmiticT'>" + result[i].palmitic +
+                        "</td><td class='param stearicT'>" + result[i].stearic +"</td></tr>"
+                    $tbody.append(tr);
+                }
             },
             error:function (error){
                 console.log(error);
@@ -224,4 +250,185 @@ $(function (){
         $(this).parent().parent().hide();
     })
 
+    // 分页
+    var nums;
+    var totalDatas;
+    var intNums;
+    var count;
+    var page = {
+        pageNum:1,
+        pageSize:10
+    }
+    //每页展示的数量
+    var paramData = {
+        pageNum:page.pageNum,
+        pageSize:page.pageSize
+    };
+    //ajax 请求
+    function getData(data){
+        $.ajax({
+            type:"GET",
+            url:CTXROOT + "/dna/condition",
+            data:data,
+            success:function (result) {
+                console.log(result);
+                var $tbody = $("#tableShow table tbody");
+                count = result.data.total;
+                if(count <40){
+                    $("#page").css({"padding-left":"186px"});
+                }else {
+                    $("#page").css({"padding-left":"10px"});
+                };
+                if(count == 0){
+                    $("#paging").hide();
+                    $("#errorImg").show();
+                    $("#containerAdmin").css("height","754px");
+                }else{
+                    totalDatas = result.data.list;
+                    nums = Math.ceil(count / page.pageSize);
+                    //舍弃小数之后的取整
+                    intNums = parseInt(count / page.pageSize);
+                        pageStyle(nums,intNums);
+                        $("#totals").text(count);
+                }
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    }
+    // 样式调整方法
+    function pageStyle(nums,intNums){
+        if (nums > 4) {
+            // $(".first").hide().next().text(1).next().hide();
+            $(".first").next().text(1);
+            $(".four").text(2).next().text(3).next().text(4);
+            $(".eight").text(nums);
+            $(".seven").show();
+            $(".last").show();
+        };
+        if (intNums == 0) {
+            styleChange();
+            $(".two").text(1);
+            $(".four").hide();
+            $(".five").hide();
+            $(".six").hide();
+        }
+        switch (nums) {
+            case 1:
+                styleChange();
+                $(".two").text(1);
+                $(".four").hide();
+                $(".five").hide();
+                $(".six").hide();
+                break;
+            case 2:
+                styleChange();
+                $(".two").text(1);
+                $(".four").text(2);
+                $(".five").hide();
+                $(".six").hide();
+                break;
+            case 3:
+                styleChange();
+                $(".two").text(1);
+                $(".four").text(2);
+                $(".five").text(3);
+                $(".six").hide();
+                break;
+            case 4:
+                styleChange();
+                $(".two").text(1);
+                $(".four").text(2);
+                $(".five").text(3);
+                $(".six").text(4);
+                break;
+        }
+    }
+    // 显示隐藏样式封装
+    function styleChange() {
+        $(".three").hide();
+        $(".first").hide();
+        $(".seven").hide();
+        $(".eight").hide();
+        $(".last").hide();
+    };
+
+    //每个页码的点击事件
+    $("#page>p").click(function (e) {
+        //样式
+        if (nums > 4) {
+            $(".first").show();
+            $(".three").show();
+            $(".eight").text(nums);
+        };
+        var $p = $(e.target);
+
+        page.pageNum = parseInt($p.text());
+        paramData.pageNum = page.pageNum;
+        getData(paramData);
+        var plists = $p.siblings();
+        for (var i = 0; i < plists.length; i++) {
+            if ($(plists[i]).hasClass("pageColor")) {
+                $(plists[i]).removeClass("pageColor");
+            }
+        }
+        $p.addClass("pageColor");
+
+    });
+    // pageSize 选择事件
+    $("#selectedNum").change(function (e){
+        var currentSelected = $("#selectedNum option:selected").text();
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
+        getData(paramData)
+        console.log(currentSelected);
+    })
+    // "<" 点击事件
+    $(".first").click(function () {
+        var content6 = Number($(".six").text());
+        var content4 = Number($(".four").text());
+        var content5 = Number($(".five").text());
+        if (content6 < nums) {
+            $(".last").show();
+            $(".seven").show();
+        }
+        if (content4 <= 2) {
+            $(".first").hide().next().next().hide();
+        } else {
+            $(".six").text(content6 - 1);
+            $(".four").text(content4 - 1);
+            $(".five").text(content5 - 1);
+        }
+    })
+    // enter 键盘事件
+    $("#inputNum").keydown(function(event){
+        event=document.all?window.event:event;
+        if((event.keyCode || event.which)==13){
+            var selectedNum = $(this).val();
+            page.pageNum = pageNum = selectedNum;
+            paramData.pageNum = page.pageNum;
+            getData(paramData);
+        }
+    });
+    // ">" 点击事件
+    $(".last").click(function () {
+        var content6 = Number($(".six").text());
+        var content4 = Number($(".four").text());
+        var content5 = Number($(".five").text());
+        var content2 = Number($(".two").text());
+        if (content2 == 1) {
+            $(".first").show();
+            $(".three").show();
+        }
+
+        if (content6 >= nums - 1) {
+            $(".seven").hide();
+            $(this).hide();
+        } else {
+            $(".six").text(content6 + 1);
+            $(".four").text(content4 + 1);
+            $(".five").text(content5 + 1);
+        }
+    })
 })

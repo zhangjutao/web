@@ -196,6 +196,7 @@ public class SignUpController {
         return String.valueOf(exists);
     }
 
+
     //好像没有用到这个方法
     public String md5(String v){
         MessageDigest messageDigest = null;
@@ -211,6 +212,10 @@ public class SignUpController {
         }
         return hashedPass;
     }
+
+
+
+
 
     @RequestMapping(value = "/forget", method = RequestMethod.GET)
     public String toForget(Model model) {
@@ -229,7 +234,7 @@ public class SignUpController {
             return mv;
         }
         if (!email.equals(user.getEmail())) {
-            model.addAttribute("error", "不是注册邮箱");
+            model.addAttribute("error", "邮箱和用户名不匹配");
             return mv;
         }
         mv.addObject("user", user);
@@ -286,7 +291,7 @@ public class SignUpController {
         }
         author_cache = guavaCacheManager.getCache("config");
         String admin_email=author_cache.get("mail.administrator").get().toString();
-        smtpService.send(admin_email,recevers,message.get("subject"),file,true, args);
+        smtpService.send(admin_email,recevers,message.get("subject"),file,false, args);
         return mv;
     }
     @RequestMapping(value = "/modifyPassword", method = RequestMethod.GET)
