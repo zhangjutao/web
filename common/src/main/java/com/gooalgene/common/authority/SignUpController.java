@@ -379,6 +379,13 @@ public class SignUpController {
     @RequestMapping(value = "/temp/modifyPassword", method = RequestMethod.POST)
     public String tempModifyPassword(@RequestParam("userId") Integer id,
                                      String password, String pwdverify, HttpServletRequest request, Model model,Authentication authentication) {
+        String pwdRex="[a-zA-Z0-9]{5,}";
+        Pattern pattern=Pattern.compile(pwdRex);
+        Matcher newPwdMatcher=pattern.matcher(password);
+        if(!newPwdMatcher.matches()&&!password.equals("")){
+            model.addAttribute("error","新密码输入不符合要求，请重新输入");
+            return "modify-password";
+        }
         if (password == null || password.isEmpty()) {
             model.addAttribute("error", "新密码未填写");
             return "modify-password";
