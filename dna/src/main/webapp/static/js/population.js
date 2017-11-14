@@ -119,10 +119,13 @@ $(function (){
     $(".packUp").click(function (){
         $(".selecting").hide();
         $("#operate").hide();
+        $("#tableSet").show();
     })
     $('#tableSet').click(function (){
         $(".selecting").show();
         $("#operate").show();
+        $(this).hide();
+        $("#exportData").css("marginRight","20px")
     })
 
     // 确定按钮（过滤条件）
@@ -130,7 +133,7 @@ $(function (){
         var lists = $("#selectedDetails li");
         for(var i=0;i<lists.length;i++){
             var $input = $(lists[i]).find("input");
-            if($input.is(":checked")){
+            if(!$input.is(":checked")){
              var classVal = $input.attr("name");
              var newClassVal = "." + classVal + "T";
              $("#tableShow thead").find(newClassVal).hide();
@@ -242,7 +245,7 @@ $(function (){
             data:data,
             success:function (result) {
                 console.log(result);
-                // var $tbody = $("#tableShow table tbody");
+
                 count = result.data.total;
                 if(count <40){
                     $("#page").css({"padding-left":"186px"});
@@ -256,6 +259,8 @@ $(function (){
                 }else{
                     totalDatas = result.data.list;
                     console.log(totalDatas);
+                    $("#tableShow table tbody tr").remove();
+
                     nums = Math.ceil(count / page.pageSize);
                     //舍弃小数之后的取整
                     intNums = parseInt(count / page.pageSize);
@@ -382,8 +387,10 @@ $(function (){
         var currentSelected = $("#selectedNum option:selected").text();
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
-        getData(paramData)
-        console.log(currentSelected);
+        var selectedDatas = getParamas();
+        selectedDatas.pageNum = paramData.pageNum;
+        selectedDatas.pageSize = paramData.pageSize;
+        getData(selectedDatas);
     })
     // "<" 点击事件
     $(".first").click(function () {
@@ -409,7 +416,10 @@ $(function (){
             var selectedNum = $(this).val();
             page.pageNum = pageNum = selectedNum;
             paramData.pageNum = page.pageNum;
-            getData(paramData);
+            var selectedDatas = getParamas();
+            selectedDatas.pageNum = paramData.pageNum;
+            selectedDatas.pageSize = paramData.pageSize;
+            getData(selectedDatas);
         }
     });
     // ">" 点击事件

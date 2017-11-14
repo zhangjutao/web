@@ -144,7 +144,7 @@
     margin-bottom:12px;
 }
 #exportData,#tableSet{
-   float:left;
+   float:right;
     /*display:inline-block;*/
     background:#5C8CE6;
     color:#fff;
@@ -205,10 +205,6 @@
 #tableShow{
     width:1137px;
     overflow-x: scroll;
-}
-#tableShow{
-    max-height:700px;
-    overflow: auto;
 }
 #tableShow>table{
     border-collapse: collapse;
