@@ -13,11 +13,13 @@
     <import resource="spring-mongodb.xml" />
 
     <!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
-    <context:component-scan base-package="com.gooalgene" />
+    <context:component-scan base-package="com.gooalgene">
+        <context:exclude-filter type="annotation" expression="com.gooalgene.common.annotations.TestExcluded"/>
+    </context:component-scan>
 
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.gooalgene.*.dao"/>
+        <property name="basePackage" value="com.gooalgene.dna.dao;com.gooalgene.common.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <property name="annotationClass" value="com.gooalgene.common.persistence.MyBatisDao"/>
     </bean>
@@ -26,7 +28,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:/mappings/*.xml"/>
-        <property name="configLocation" value="classpath:/mybatis-config.xml" />
+        <property name="configLocation" value="classpath:/mybatis-config-test.xml" />
     </bean>
     <!-- 定义事务 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -75,7 +77,7 @@
     </bean>
 
     <!-- Guava缓存管理器 -->
-    <bean class="org.springframework.cache.guava.GuavaCacheManager">
+    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
         <property name="cacheNames">
             <list>
                 <value>config</value>
@@ -83,10 +85,12 @@
         </property>
         <property name="allowNullValues" value="false" />
     </bean>
+    <bean id="smtpBean" class="com.gooalgene.common.service.SMTPService" init-method="init" depends-on="cacheManager"/>
 
     <!--异步支持-->
     <task:annotation-driven executor="annotationExecutor" />
     <!-- 支持 @Async 注解 -->
     <task:executor id="annotationExecutor" pool-size="20" queue-capacity="25" />
+
 
 </beans>
