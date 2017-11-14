@@ -206,6 +206,10 @@
     width:1137px;
     overflow-x: scroll;
 }
+#tableShow{
+    max-height:700px;
+    overflow: auto;
+}
 #tableShow>table{
     border-collapse: collapse;
     overflow-x: scroll;
@@ -221,6 +225,7 @@
     white-space: nowrap;
     cursor: pointer;
     position:relative;
+    text-align:center;
 }
 .param img{
     width: 15px;
@@ -260,4 +265,97 @@
 .inputComponent .selectOperate{
     width:30px;
 }
+/*// 分页*/
+#paging{
+    width:826px;
+    height:50px;
+    /* border:1px solid #ccc; */
+    margin:0 auto;
+    margin-top:30px;
+    margin-bottom:100px;
+    overflow:hidden;
+}
+#page{
+    overflow: hidden;
+    float:left;
+    /*padding-left: 250px;*/
+    text-align:right;
+}
+p.first{
+    margin-left:20px;
+    /* font-size:20px; */
+}
 
+#page>p,#page>b{
+    float:left;
+    width:30px;
+    height:30px;
+    border:1px solid #ddd;
+    line-height:30px;
+    text-align:center;
+    cursor:pointer;
+    margin:0 10px 0 0;
+
+}
+
+#page #inputNums{
+    float:left;
+    overflow:hidden;
+    padding-top:4px;
+}
+#inputNums>span,#inputNums>div,#inputNums>p{
+    float:left;
+    margin-right:10px;
+}
+.pageColor{
+    background:#5C8DE5;
+    color:#fff;
+}
+#tblbody>tr:nth-child(2n){
+    background:#F5F8FF;
+}
+/*.pageMleftS{*/
+/*padding-left:500px;*/
+/*}*/
+.pageMleftB{
+    padding-left:233px;
+}
+#inputNum{
+    width:35px;height:20px;
+}
+#inputNums{
+    heigth:32px;
+    padding-top:6px;
+    float:right;
+    padding-right: 67px;
+}
+#selectedNum{
+    float:left;
+}
+#errorImg{
+    display:none;
+    /*margin:0 auto;*/
+    padding-top:140px;
+
+    background:#fff;
+    padding-bottom:70px;
+    color:#666;
+}
+#errorImg>img{
+    padding-bottom:70px;
+    padding-left:430px;
+}
+#errorDes{
+    font-size:24px;
+    font-family:"Microsoft YaHei UI Light";
+    text-align:center;
+
+}
+#returnIndex{
+    font-size:18px;
+    text-align:center;
+    padding-top:30px;
+}
+#returnIndex>a{
+    color:#5c8ce6;
+}
