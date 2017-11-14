@@ -53,15 +53,26 @@ $(function (){
         $("#popTips").hide();
     })
     // 弹框移动
-    var posStart;
-    var posEnd;
-    var isMove = true;
-    $(".tipTop").click(function (e){
-       posStart = e.pageX;
-        posEnd = e.pageY;
-        // console.log(posStart);
-        // console.log(posEnd);
+   var x1,y1,x2,y2,offLeft,offTop,isClick = 0;
+
+    $("#popTips .tipTop").mousedown(function (e){
+        // 点击时的坐标位置
+        x1 = e.pageX;
+        y1 = e.pageY;
+        // 点击时相对于屏幕左边和上边的距离
+        offLeft = parseInt($(this).css("left"));
+        offTop = parseInt($(this).css("top"));
+        isClick = 1;
     }).mousemove(function (e){
+        if(isClick = 1){
+            x2 = e.pagex;
+            y2 = e.pageY;
+            var xx = x2 - x1 + offLeft;
+            var yy = y2 - y1 + offTop;
+            $("#popTips .tipTop").css("left",xx+"px");
+            $("#popTips .tipTop").css("top",yy+"px");
+        }
+
     })
 
     //选中状态代码封装
@@ -112,6 +123,7 @@ $(function (){
         $(".selecting").show();
         $("#operate").show();
     })
+
     // 确定按钮（过滤条件）
     $("#operate .sure").click(function (){
         var lists = $("#selectedDetails li");
@@ -133,23 +145,102 @@ $(function (){
         }
 
     })
+    // 获取表格数据
     $(".btnConfirmInfo").click(function (){
+        var data={
+            cultivar:$(".cultivarI").val(),  // 品种名
+            population:$(".populationI").val(), // 群体
+            species:$(".speciesI").val(),// 物种
+            locality:$(".localityI").val(), // 位置
+            sampleName:$(".sampleNameI").val(), // 样品名
+            // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
+            weightPer100seeds:{
+                operation:$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                value:$(".weightPer100seedsI").val()
+            },
+
+            // protein:$(".proteinI").val(), //蛋白质含量
+            protein:{
+                operation:$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".proteinI").val()
+            },
+            // 含油量
+            oil:{
+                operation:$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".oilI").val()
+            },
+            maturityDate:$(".maturityDateI").val(), // 熟期
+            // height:$(".heightI").val(),//株高
+            height:{
+                operation:$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".heightI").val()
+            },
+
+            seedCoatColor:$(".seedCoatColorI").val(),//种皮色
+            hilumColor:$(".hilumColorI").val(),//种脐色
+            cotyledonColor:$(".cotyledonColorI").val(), //子叶色
+            flowerColor:$(".flowerColorI").val(),//花色
+            podColor:$(".podColorI").val(),//荚色
+            pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
+            yield:$(".yieldI").val(),// 产量
+            // upperLeafletLength:$(".upperLeafletLengthI").val(), //顶端小叶长度
+            upperLeafletLength:{
+                operation:$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".upperLeafletLengthI").val()
+            },
+
+            // linoleic:$(".linoleicI").val(), //亚油酸
+            linoleic:{
+                operation:$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".linoleicI").val()
+            },
+            // linolenic:$(".linolenicI").val(), //亚麻酸
+            linolenic:{
+                operation:$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".linolenicI").val()
+            },
+            // oleic:$(".oleicI").val(), //油酸
+            oleic:{
+                operation:$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".oleicI").val()
+            },
+            // palmitic:$(".palmiticI").val(),  //软脂酸
+            palmitic:{
+                operation:$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".palmiticI").val()
+            },
+            // stearic:$(".stearicI").val(), //硬脂酸
+            stearic:{
+                operation:$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":"lt",
+                value:$(".stearicI").val()
+            }
+        };
+        console.log(data);
+        console.log($(".upperLeafletLengthI").parent().find("option:selected").text());
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
-            data:{
-                oleic:{
-                    operation:"gt",
-                    value:2
-                }
-            },
-            success:function (e){
-                console.log(e);
+            data:data,
+            success:function (result){
+                console.log(result);
             },
             error:function (error){
                 console.log(error);
             }
         })
+    })
+
+    //表格筛选框显示隐藏
+    $("#tableShow thead th").mouseover(function (){
+        $(this).find(".inputComponent").show();
+    }).mouseleave(function (){
+        $(this).find(".inputComponent").hide();
+    })
+
+    // 筛选取消按钮 样式
+    $("#tableShow .inputComponent .btnCancel").click(function (){
+        $(this).parent().parent().find("input").val("");
+        $(this).parent().parent().hide();
     })
 
 })

@@ -110,6 +110,9 @@
                             <input type="checkbox" name="protein" class="protein"> 蛋白质含量
                         </li>
                         <li>
+                            <input type="checkbox" name="oil" class="oil"> 含油量
+                        </li>
+                        <li>
                             <input type="checkbox" name="maturityDate" class="maturityDate"> 熟期
                         </li>
                         <li>
@@ -184,9 +187,9 @@
                     <tr style="background: #F5F8FF;">
                         <th class="param cultivarT">品种名
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                            <div>
-                                <input type="text" placeholder="请输入" class="cultivarI">
-                                <p class="inputComponent">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="cultivarI inputStyle">
+                                <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                                 </p>
@@ -194,66 +197,284 @@
                         </th>
                         <th class="param populationT">群体
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="populationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param speciesT">物种
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="speciesI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param localityT">位置
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="localityI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param sampleNameT">样品名
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sampleNameI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param weightPer100seedsT">百粒重
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value=""></option>
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="weightPer100seedsI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param proteinT">蛋白质含量
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="proteinI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param oilT">含油量
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="oilI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param maturityDateT">熟期
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param heightT">株高
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="heightI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param seedCoatColorT">种皮色
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="seedCoatColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param hilumColorT">种脐色
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="hilumColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param cotyledonColorT">子叶色
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="cotyledonColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param flowerColorT">花色
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="flowerColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param podColorT">荚色
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="podColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param pubescenceColorT">茸毛色
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="pubescenceColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param yieldT">产量
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="yieldI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param upperLeafletLengthT">顶端小叶长度
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="upperLeafletLengthI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param linoleicT">亚油酸
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="linoleicI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param linolenicT">亚麻酸
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="linolenicI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param oleicT">油酸
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="oleicI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param palmiticT">软脂酸
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="palmiticI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                         <th class="param stearicT">硬脂酸
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
+                                <input type="text" placeholder="请输入" class="stearicI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
                         </th>
                     </tr>
                 </thead>
