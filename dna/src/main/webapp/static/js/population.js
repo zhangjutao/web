@@ -174,11 +174,8 @@ $(function (){
             pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
             yield:$(".yieldI").val(),// 产量
             // upperLeafletLength:$(".upperLeafletLengthI").val(), //顶端小叶长度
-            upperLeafletLength:{
-                "upperLeafletLengthoperation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
                 "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
-            },
-
             // linoleic:$(".linoleicI").val(), //亚油酸
                 "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
                 "linoleicvalue":$(".linoleicI").val(),
