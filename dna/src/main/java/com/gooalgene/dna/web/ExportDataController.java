@@ -48,18 +48,14 @@ public class ExportDataController {
     @ResponseBody
     public void exportData(String choices,HttpServletResponse response) throws IOException {
 
-        
-
-
-
-
+        String titles=choices.substring(0,choices.length()-1);
         String fileName="test";
         String csvStr="";
         DnaRunCache=guavaCacheManager.getCache("config");
 
         List<DNARun> result= (List<DNARun>) DnaRunCache.get("run_dna").get();
 
-        csvStr=createCsvStr(result,titles);
+        csvStr=createCsvStr(result,titles.split(","));
 
         if (!csvStr.equals("")) {
             byte[] buffer = csvStr.getBytes("gbk");
