@@ -90,10 +90,10 @@
                         <li>
                             <input type="checkbox" name="cultivar" class="cultivar"> 品种名
                         </li>
-                        <li>
-                            <%--无--%>
-                            <input type="checkbox" name="population" class="population"> 群体
-                        </li>
+                        <%--<li>--%>
+                            <%--&lt;%&ndash;无&ndash;%&gt;--%>
+                            <%--<input type="checkbox" name="population" class="population"> 群体--%>
+                        <%--</li>--%>
                         <li>
                             <input type="checkbox" name="species" class="species"> 物种
                         </li>
@@ -195,16 +195,16 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param populationT">群体
-                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                            <div class="inputComponent">
-                                <input type="text" placeholder="请输入" class="populationI inputStyle">
-                                <p>
-                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                                </p>
-                            </div>
-                        </th>
+                        <%--<th class="param populationT">群体--%>
+                            <%--<img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">--%>
+                            <%--<div class="inputComponent">--%>
+                                <%--<input type="text" placeholder="请输入" class="populationI inputStyle">--%>
+                                <%--<p>--%>
+                                    <%--<a href="javascript:void(0);" class="btnCancel">取消</a>--%>
+                                    <%--<a href="javascript:void(0);" class="btnConfirmInfo">确定</a>--%>
+                                <%--</p>--%>
+                            <%--</div>--%>
+                        <%--</th>--%>
                         <th class="param speciesT">物种
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
@@ -376,6 +376,13 @@
                         <th class="param yieldT">产量
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
+                                <select class="selectOperate">
+                                    <option value="" selected="selected"></option>
+                                    <option value="<"> < </option>
+                                    <option value="="> = </option>
+                                    <option value=">"> > </option>
+                                </select>
+                                <br>
                                 <input type="text" placeholder="请输入" class="yieldI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>

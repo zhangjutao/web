@@ -55,7 +55,7 @@ $(function (){
     // 弹框移动
    var x1,y1,x2,y2,offLeft,offTop,isClick = 0;
 
-    $("#popTips .tipTop").mousedown(function (e){
+    $("#popTips").mousedown(function (e){
         // 点击时的坐标位置
         x1 = e.pageX;
         y1 = e.pageY;
@@ -64,16 +64,17 @@ $(function (){
         offTop = parseInt($(this).css("top"));
         isClick = 1;
     }).mousemove(function (e){
-        if(isClick = 1){
-            x2 = e.pagex;
+        if(isClick == 1){
+            x2 = e.pageX;
             y2 = e.pageY;
             var xx = x2 - x1 + offLeft;
             var yy = y2 - y1 + offTop;
-            $("#popTips .tipTop").css("left",xx+"px");
-            $("#popTips .tipTop").css("top",yy+"px");
+            $("#popTips").css("left",xx+"px");
+            $("#popTips").css("top",yy+"px");
         }
-
-    })
+    }).mouseup(function (){
+        isClick = 0;
+    });
 
     //选中状态代码封装
     function checkStatus(bool){
@@ -149,7 +150,7 @@ $(function (){
     $(".btnConfirmInfo").click(function (){
         var data={
             cultivar:$(".cultivarI").val(),  // 品种名
-            population:$(".populationI").val(), // 群体
+            // population:$(".populationI").val(), // 群体
             species:$(".speciesI").val(),// 物种
             locality:$(".localityI").val(), // 位置
             sampleName:$(".sampleNameI").val(), // 样品名
@@ -172,8 +173,12 @@ $(function (){
             flowerColor:$(".flowerColorI").val(),//花色
             podColor:$(".podColorI").val(),//荚色
             pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
-            yield:$(".yieldI").val(),// 产量
-            // upperLeafletLength:$(".upperLeafletLengthI").val(), //顶端小叶长度
+            // yield:$(".yieldI").val(),// 产量
+
+            "yield.operation":$(".yieldI").parent().find("option:selected").text().trim() == ">"?"gt":$(".yieldI").parent().find("option:selected").text().trim()=="="?"eq":$(".yieldI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "yield.value":$(".yieldI").val(),
+            // upperLeafletLength:$(".upperLeaf
+            // letLengthI").val(), //顶端小叶长度
                 "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
                 "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
             // linoleic:$(".linoleicI").val(), //亚油酸
