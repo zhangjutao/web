@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * 此控制器和基因图谱绘画数据有关
@@ -136,8 +137,9 @@ public class GeneViewController {
     }
 
     @RequestMapping("/geneInfo")
-    public String geneInfo(HttpServletRequest request) {
-        return "/qtl/genesInfo";
+    public String geneInfo(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        return "/search/genesInfo";
     }
 
 }
