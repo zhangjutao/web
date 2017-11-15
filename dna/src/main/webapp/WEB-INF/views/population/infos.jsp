@@ -81,7 +81,7 @@
             </ul>
         </div>
         <div id="tableCnt">
-            <div class="selecting">
+            <div class="selecting" >
                 <p>
                     表格内容：
                 </p>
@@ -166,8 +166,8 @@
             </div>
             <div class="changeStauts">
                 <div class="sets">
-                    <p id="tableSet">表格设置</p>
-                    <p id="exportData">导出数据</p>
+                    <span id="exportData">导出数据</span>
+                    <span id="tableSet">表格设置</span>
                 </div>
                 <div id="operate">
                     <p class="sure">确定</p>
@@ -490,6 +490,25 @@
         </div>
         <%--// 分页显示 begin--%>
         <div id="paging">
+
+            <div id="inputNums">
+                <span>跳转到</span>
+                <div>
+                    <input type="number" min="1" name="number" value="" id="inputNum" >
+                </div>
+                <span>页</span>
+                <span>展示数量</span>
+                <div id="selectedNum">
+                    <select name="selected" id="selectSize" style="width:40px;">
+                        <option value="10" selected = "true">10</option>
+                        <option value="10">20</option>
+                        <option value="10">30</option>
+                        <option value="10">40</option>
+                    </select>
+                </div>
+                <span>/页</span>
+                <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
+            </div>
             <div id="page">
                 <b class="first">&lt;</b>
                 <p class="two"></p>
@@ -500,24 +519,6 @@
                 <b class="seven">...</b>
                 <p class="eight"></p>
                 <b class="last">&gt;</b>
-            </div>
-            <div id="inputNums">
-                <span>跳转到</span>
-                <div>
-                    <input type="number" min="1" name="number" value="" id="inputNum" >
-                </div>
-                <span>页</span>
-                <span>展示数量</span>
-                <div id="selectedNum">
-                    <select name="selected" id="selectSize" style="width:35px;">
-                        <option value="10" selected = "true">10</option>
-                        <option value="10">20</option>
-                        <option value="10">30</option>
-                        <option value="10">40</option>
-                    </select>
-                </div>
-                <span>/页</span>
-                <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
             </div>
         </div>
         <%--// 分页显示 end--%>
