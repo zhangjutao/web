@@ -10,6 +10,14 @@ public class User extends DataEntity<User> {
     private String username;// 登录名
     private String password;// 密码
 
+    public User(String username,String password){
+        this.username=username;
+        this.password=password;
+    }
+    public User(){
+
+    }
+
     public String getPassword() {
         return password;
     }
