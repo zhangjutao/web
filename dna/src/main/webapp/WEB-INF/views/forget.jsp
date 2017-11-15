@@ -75,6 +75,8 @@
              $("#returnType>a").attr("href","http://mail.163.com/")
          }else if (mailType == "sina"){
              $("#returnType>a").attr("href","http://mail.sina.com.cn/")
+         }else if(mailType == "gooalgene"){
+             $("#returnType>a").attr("href","https://exmail.qq.com/login")
          }
 //         else {
 ////             $("#returnType").hide();
