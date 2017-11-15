@@ -9,6 +9,8 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
@@ -35,9 +37,9 @@ public class ExportDataController {
 
     @RequestMapping(value = "/export",method = RequestMethod.GET)
     @ResponseBody
-    public void exportData(String choices,HttpServletResponse response) throws IOException {
+    public void exportData(@RequestParam String data,HttpServletResponse response) throws IOException {
 
-        String titles=choices.substring(0,choices.length()-1);
+        String titles=data.substring(0,data.length()-1);
         String fileName="test";
         String csvStr="";
         DnaRunCache=guavaCacheManager.getCache("config");
