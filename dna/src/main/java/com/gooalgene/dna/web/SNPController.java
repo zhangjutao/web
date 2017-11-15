@@ -156,7 +156,8 @@ public class SNPController {
 //      String conditions = request.getParameter("conditions");
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
-        return snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        return result;
     }
 
     @RequestMapping("/findSampleBySNPId")

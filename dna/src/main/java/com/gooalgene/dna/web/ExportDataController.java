@@ -1,24 +1,21 @@
 package com.gooalgene.dna.web;
 
 
-import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
-import com.gooalgene.utils.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,20 +26,19 @@ import java.util.Map;
  */
 @RestController
 public class ExportDataController {
-
+    private static final Logger logger = LoggerFactory.getLogger(ExportDataController.class);
     @Autowired
     private DNARunService dnaRunService;
 
-    @RequestMapping("/export")
-    @ResponseBody
-    public void exportData(@RequestParam(value = "titles[]") String[] titles,HttpServletRequest request,HttpServletResponse response) throws IOException {
+    @RequestMapping(value = "/export", method = RequestMethod.GET, produces = "application/json")
+    public void exportData(HttpServletRequest request,HttpServletResponse response) throws IOException {
 
         String fileName="test";
         String csvStr="";
-
-              List<DNARun> result=null;
-
-        csvStr=createCsvStr(result,titles);
+        List<DNARun> result=null;
+        String titles = request.getParameter("titles");
+        logger.info(titles);
+        csvStr=createCsvStr(result,null);
 
         if (!csvStr.equals("")) {
             byte[] buffer = csvStr.getBytes("gbk");
@@ -57,8 +53,6 @@ public class ExportDataController {
             toClient.flush();
             toClient.close();
         }
-
-
     }
 
     //调整表头显示

@@ -474,7 +474,6 @@ $(function (){
     })
     // 表格导出
     $("#exportData").click(function (){
-        var exportParams = {};
         var unSelectes = $("#selectedDetails ul input");
         var unSelectedLists;
         for(var i=0;i<unSelectes.length;i++){
@@ -483,11 +482,16 @@ $(function (){
                 unSelectedLists+=unSelecteNames + ",";
             }
         }
-        console.log(unSelectedLists);
+        // modify by Crabime
+        // 修复tomcat8无法识别的JSON格式问题
         $.ajax({
             type:"GET",
             url:CTXROOT + "/export",
-            data:unSelectedLists,
+            data:{
+                  "titles":unSelectedLists
+                },
+            dataType: "json",
+            contentType: "application/json",
             success:function (result){
                 console.log(result);
             },

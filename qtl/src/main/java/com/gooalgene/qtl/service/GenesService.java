@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * Created by ShiYun on 2017/8/9 0009.
+ *
+ * @author ShiYun
+ * @date 2017/8/9 0009
  */
 @Service
 public class GenesService {
