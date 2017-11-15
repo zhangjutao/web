@@ -26,7 +26,7 @@
             </c:if>
             <div class="forget-u">
                 <label>
-                    <span>用户姓名:</span>
+                    <span>用户名:</span>
                     <input type="text" name="username" id="username" placeholder="请输入您注册时用户姓名" value="${username}">
                 </label>
             </div>
