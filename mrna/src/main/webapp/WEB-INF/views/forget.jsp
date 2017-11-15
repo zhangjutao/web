@@ -26,7 +26,7 @@
             </c:if>
             <div class="forget-u">
                 <label>
-                    <span>用户姓名:</span>
+                    <span>用户名:</span>
                     <input type="text" name="username" id="username" placeholder="请输入您注册时用户姓名" value="${username}">
                 </label>
             </div>
@@ -71,6 +71,8 @@
                 $("#returnType>a").attr("href","http://mail.163.com/")
             }else if (mailType == "sina"){
                 $("#returnType>a").attr("href","http://mail.sina.com.cn/")
+            }else if(mailType == "gooalgene"){
+                $("#returnType>a").attr("href","https://exmail.qq.com/login")
             }
 //            else {
 //                $("#returnType").hide();
