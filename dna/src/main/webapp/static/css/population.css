@@ -69,6 +69,7 @@
     top:180px;
     left:300px;
     display:none;
+    cursor: pointer;
 }
 .tipTop{
     height:40px;
@@ -123,6 +124,7 @@
 .selecting{
     float:left;
     overflow: hidden;
+    display:none;
 }
 .selecting>p{
     float:left;
@@ -145,6 +147,7 @@
 }
 #exportData,#tableSet{
    float:right;
+    display:inline-block;
     /*display:inline-block;*/
     background:#5C8CE6;
     color:#fff;
@@ -156,15 +159,17 @@
     -moz-border-radius: 3px;
     border-radius: 3px;
     cursor:pointer;
+    margin-right:20px;
 }
 #tableSet{
+    /*margin-right:20px;*/
     margin-right:10px;
-    margin-left:10px;
 }
 #operate{
     overflow: hidden;
     padding-top:47px;
     padding-left:60px;
+    display:none;
 }
 .opOthers{
     margin-top:4px;
@@ -201,19 +206,26 @@
 }
 .sets{
     overflow: hidden;
+    padding-right:10px;
+    text-align:right;
 }
 #tableShow{
     width:1137px;
     overflow-x: scroll;
+    min-height: 300px;
 }
 #tableShow>table{
     border-collapse: collapse;
     overflow-x: scroll;
     width:1200px;
     border:1px solid #E4E4E4;
+    min-height: 300px;
 }
 #tableShow>table tbody>tr:nth-child(even){
     background: #F5F8FF;
+}
+#tableShow>table tbody>tr>td,#tableShow>table thead>tr>th{
+    border:1px solid #E4E4E4;
 }
 .param{
     height:40px;
@@ -263,7 +275,7 @@
 }
 /*// 分页*/
 #paging{
-    width:826px;
+    width:1204px;
     height:50px;
     /* border:1px solid #ccc; */
     margin:0 auto;
@@ -273,9 +285,11 @@
 }
 #page{
     overflow: hidden;
-    float:left;
+    float:right;
     /*padding-left: 250px;*/
     text-align:right;
+    margin-right:10px;
+
 }
 p.first{
     margin-left:20px;
@@ -290,7 +304,7 @@ p.first{
     line-height:30px;
     text-align:center;
     cursor:pointer;
-    margin:0 10px 0 0;
+    /*margin:0 10px 0 0;*/
 
 }
 
@@ -317,7 +331,8 @@ p.first{
     padding-left:233px;
 }
 #inputNum{
-    width:35px;height:20px;
+    width:62px;height:20px;
+    text-align:center;
 }
 #inputNums{
     heigth:32px;
@@ -354,4 +369,7 @@ p.first{
 }
 #returnIndex>a{
     color:#5c8ce6;
+}
+.pageUpMargin{
+    margin-right:20px!important;
 }

@@ -123,12 +123,15 @@ $(function (){
         $(".selecting").hide();
         $("#operate").hide();
         $("#tableSet").show();
+        $("#tableSet").css("margin-right","10px");
+        // $("#tableSet").removeClass("pageUpMargin");
     })
     $('#tableSet').click(function (){
         $(".selecting").show();
         $("#operate").show();
         $(this).hide();
-        $("#exportData").css("marginRight","20px")
+        // $("#exportData").addClass("pageUpMargin")
+        // $("#exportData").css("margin-right","20px")
     })
 
     // 确定按钮（过滤条件）
@@ -269,28 +272,51 @@ $(function (){
                     //舍弃小数之后的取整
                     intNums = parseInt(count / page.pageSize);
                     for (var i=0;i<totalDatas.length;i++){
-                        var tr = "<tr><td class='param cultivarT'>" + totalDatas[i].cultivar +
-                            "</td><td class='param speciesT'>" + totalDatas[i].species+
-                            "</td><td class='param localityT'>" + totalDatas[i].locality +
-                            "</td><td class='param sampleNameT'>" + totalDatas[i].sampleName +
-                            "</td><td class='param weightPer100seedsT'>" + totalDatas[i].weightPer100seeds +
-                            "</td><td class='param proteinT'>" + totalDatas[i].protein +
-                            "</td><td class='param oilT'>" + totalDatas[i].oil +
-                            "</td><td class='param maturityDateT'>" + totalDatas[i].maturityDate +
-                            "</td><td class='param heightT'>" + totalDatas[i].height +
-                            "</td><td class='param seedCoatColorT'>" + totalDatas[i].seedCoatColor +
-                            "</td><td class='param hilumColorT'>" + totalDatas[i].hilumColor +
-                            "</td><td class='param cotyledonColorT'>" + totalDatas[i].cotyledonColor +
-                            "</td><td class='param flowerColorT'>" + totalDatas[i].flowerColor +
-                            "</td><td class='param podColorT'>" + totalDatas[i].podColor +
-                            "</td><td class='param pubescenceColorT'>" + totalDatas[i].pubescenceColor +
-                            "</td><td class='param yieldT'>" + totalDatas[i].yield +
-                            "</td><td class='param upperLeafletLengthT'>" + totalDatas[i].upperLeafletLength +
-                            "</td><td class='param linoleicT'>" + totalDatas[i].linoleic +
-                            "</td><td class='param linolenicT'>" + totalDatas[i].linolenic +
-                            "</td><td class='param oleicT'>" + totalDatas[i].oleic +
-                            "</td><td class='param palmiticT'>" + totalDatas[i].palmitic +
-                            "</td><td class='param stearicT'>" + totalDatas[i].stearic +"</td></tr>"
+                        var cultivarTV = totalDatas[i].cultivar==null?"":totalDatas[i].cultivar;
+                        var speciesTV = totalDatas[i].species==null?"":totalDatas[i].species;
+                        var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;
+                        var sampleNameTV = totalDatas[i].sampleName==null?"":totalDatas[i].sampleName;
+                        var weightPer100seedsTV = totalDatas[i].weightPer100seeds==null?"":totalDatas[i].weightPer100seeds;
+                        var proteinTV = totalDatas[i].protein==null?"":totalDatas[i].protein;
+                        var oilTV = totalDatas[i].oil==null?"":totalDatas[i].oil;
+                        var maturityDateTV = totalDatas[i].maturityDate==null?"":totalDatas[i].maturityDate;
+                        var heightTV = totalDatas[i].height==null?"":totalDatas[i].height
+                        var seedCoatColorTV = totalDatas[i].seedCoatColor==null?"":totalDatas[i].seedCoatColor;
+                        var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor==null;
+                        var cotyledonColorTV = totalDatas[i].cotyledonColor==null?"":totalDatas[i].cotyledonColor;
+                        var flowerColorTV = totalDatas[i].flowerColor==null?"":totalDatas[i].flowerColor;
+                        var podColorTV = totalDatas[i].podColor==null?"":totalDatas[i].podColor;
+                        var pubescenceColorTV = totalDatas[i].pubescenceColor ==null?"":totalDatas[i].pubescenceColor;
+                        var yieldTV = totalDatas[i].yield==null?"":totalDatas[i].yield;
+                        var upperLeafletLengthTV = totalDatas[i].upperLeafletLength==null?"":totalDatas[i].upperLeafletLength;
+                        var linoleicTV = totalDatas[i].linoleic==null?"":totalDatas[i].linoleic;
+                        var linolenicTV = totalDatas[i].linolenic==null?"":totalDatas[i].linolenic;
+                        var oleicTV = totalDatas[i].oleic==null?"":totalDatas[i].oleic;
+                        var palmiticTV = totalDatas[i].palmitic==null?"":totalDatas[i].palmitic;
+                        var stearicTV = totalDatas[i].stearic==null?"":totalDatas[i].stearic;
+
+                        var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
+                            "</td><td class='param speciesT'>" + speciesTV+
+                            "</td><td class='param localityT'>" + localityTV +
+                            "</td><td class='param sampleNameT'>" + sampleNameTV +
+                            "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
+                            "</td><td class='param proteinT'>" + proteinTV +
+                            "</td><td class='param oilT'>" + oilTV +
+                            "</td><td class='param maturityDateT'>" + maturityDateTV +
+                            "</td><td class='param heightT'>" + heightTV +
+                            "</td><td class='param seedCoatColorT'>" + seedCoatColorTV +
+                            "</td><td class='param hilumColorT'>" + hilumColorTV +
+                            "</td><td class='param cotyledonColorT'>" + cotyledonColorTV +
+                            "</td><td class='param flowerColorT'>" +flowerColorTV +
+                            "</td><td class='param podColorT'>" + podColorTV +
+                            "</td><td class='param pubescenceColorT'>" + pubescenceColorTV +
+                            "</td><td class='param yieldT'>" + yieldTV +
+                            "</td><td class='param upperLeafletLengthT'>" + upperLeafletLengthTV +
+                            "</td><td class='param linoleicT'>" + linoleicTV +
+                            "</td><td class='param linolenicT'>" + linolenicTV +
+                            "</td><td class='param oleicT'>" + oleicTV +
+                            "</td><td class='param palmiticT'>" + palmiticTV +
+                            "</td><td class='param stearicT'>" + stearicTV +"</td></tr>"
                         var $tbody = $("#tableShow table tbody");
                         $tbody.append(tr);
                     }
