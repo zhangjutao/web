@@ -1,30 +1,18 @@
 package com.gooalgene.dna.web;
 
-
-
-
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
-import com.gooalgene.utils.StringUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-
-import javax.servlet.http.HttpServletRequest;
+import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +21,8 @@ import java.util.Map;
  * Created by liuyan on 2017/11/13
  *
  */
-@Controller
+
+@RestController
 public class ExportDataController {
 
     @Autowired
@@ -44,7 +33,8 @@ public class ExportDataController {
     private Cache DnaRunCache;
 
 
-    @RequestMapping("/export")
+    @RequestMapping(value = "/export",method = RequestMethod.GET)
+    @ResponseBody
     public void exportData(String choices,HttpServletResponse response) throws IOException {
 
         String titles=choices.substring(0,choices.length()-1);
@@ -52,7 +42,7 @@ public class ExportDataController {
         String csvStr="";
         DnaRunCache=guavaCacheManager.getCache("config");
 
-        List<DNARun> result= (List<DNARun>) DnaRunCache.get("run_dna").get();
+            List<DNARun> result= (List<DNARun>) DnaRunCache.get(CommonConstant.RUN_DNA).get();
 
         csvStr=createCsvStr(result,titles.split(","));
 
