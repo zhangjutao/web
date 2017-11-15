@@ -477,17 +477,23 @@ $(function (){
         var exportParams = {};
         var unSelectes = $("#selectedDetails ul input");
         var unSelectedLists;
+        var datas={};
+        var formData = new FormData();
+        var result = {};
         for(var i=0;i<unSelectes.length;i++){
             if($(unSelectes[i]).is(":checked")){
                 var unSelecteNames = $(unSelectes[i]).attr("name");
                 unSelectedLists+=unSelecteNames + ",";
+               datas.attr = unSelectedLists;
+                // formData.append(unSelecteNames, unSelecteNames);
             }
         }
-        console.log(unSelectedLists);
+        result.data = datas;
+        console.log(JSON.stringify(datas));
         $.ajax({
             type:"GET",
             url:CTXROOT + "/export",
-            data:unSelectedLists,
+            data:JSON.stringify(result),
             success:function (result){
                 console.log(result);
             },
