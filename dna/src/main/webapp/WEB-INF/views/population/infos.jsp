@@ -81,93 +81,93 @@
             </ul>
         </div>
         <div id="tableCnt">
-            <div class="selecting">
+            <div class="selecting" >
                 <p>
                     表格内容：
                 </p>
                 <div id="selectedDetails">
                     <ul>
                         <li>
-                            <input type="checkbox" name="cultivar" class="cultivar"> 品种名
+                            <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
                         </li>
                         <%--<li>--%>
                             <%--&lt;%&ndash;无&ndash;%&gt;--%>
                             <%--<input type="checkbox" name="population" class="population"> 群体--%>
                         <%--</li>--%>
                         <li>
-                            <input type="checkbox" name="species" class="species"> 物种
+                            <input type="checkbox" name="species" class="species" checked="checked"> 物种
                         </li>
                         <li>
-                            <input type="checkbox" name="locality" class="locality"> 位置
+                            <input type="checkbox" name="locality" class="locality" checked="checked"> 位置
                         </li>
                         <li>
-                            <input type="checkbox" name="sampleName" class="sampleName"> 样品名
+                            <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 样品名
                         </li>
                         <li>
-                            <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds"> 百粒重
+                            <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重
                         </li>
                         <li>
-                            <input type="checkbox" name="protein" class="protein"> 蛋白质含量
+                            <input type="checkbox" name="protein" class="protein" checked="checked"> 蛋白质含量
                         </li>
                         <li>
-                            <input type="checkbox" name="oil" class="oil"> 含油量
+                            <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
                         </li>
                         <li>
-                            <input type="checkbox" name="maturityDate" class="maturityDate"> 熟期
+                            <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期
                         </li>
                         <li>
-                            <input type="checkbox" name="height" class="height"> 株高
+                            <input type="checkbox" name="height" class="height" checked="checked"> 株高
                         </li>
                         <li>
-                            <input type="checkbox" name="seedCoatColor" class="seedCoatColor"> 种皮色
+                            <input type="checkbox" name="seedCoatColor" class="seedCoatColor" checked="checked"> 种皮色
                         </li>
                         <li>
-                            <input type="checkbox" name="hilumColor" class="hilumColor"> 种脐色
+                            <input type="checkbox" name="hilumColor" class="hilumColor" checked="checked"> 种脐色
                         </li>
                         <li>
-                            <input type="checkbox" name="cotyledonColor" class="cotyledonColor"> 子叶色
+                            <input type="checkbox" name="cotyledonColor" class="cotyledonColor" checked="checked"> 子叶色
                         </li>
                         <li>
-                            <input type="checkbox" name="flowerColor" class="flowerColor"> 花色
+                            <input type="checkbox" name="flowerColor" class="flowerColor" checked="checked"> 花色
                         </li>
                         <li>
-                            <input type="checkbox" name="podColor" class="podColor"> 荚色
+                            <input type="checkbox" name="podColor" class="podColor" checked="checked"> 荚色
                         </li>
                         <li>
-                            <input type="checkbox" name="pubescenceColor" class="pubescenceColor"> 茸毛色
+                            <input type="checkbox" name="pubescenceColor" class="pubescenceColor" checked="checked"> 茸毛色
                         </li>
                         <li>
                             <%--无--%>
-                            <input type="checkbox" name="yield" class="yield"> 产量
+                            <input type="checkbox" name="yield" class="yield" checked="checked"> 产量
                         </li>
                         <li>
-                            <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength"> 顶端小叶长度
+                            <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
                         </li>
                         <li>
-                            <input type="checkbox" name="linoleic" class="linoleic">亚油酸
+                            <input type="checkbox" name="linoleic" class="linoleic" checked="checked">亚油酸
                         </li>
                         <li>
-                            <input type="checkbox" name="linolenic" class="linolenic"> 亚麻酸
+                            <input type="checkbox" name="linolenic" class="linolenic" checked="checked"> 亚麻酸
                         </li>
                         <li>
-                            <input type="checkbox" name="oleic" class="oleic"> 油酸
+                            <input type="checkbox" name="oleic" class="oleic" checked="checked"> 油酸
                         </li>
                         <li>
-                            <input type="checkbox" name="palmitic" class="palmitic"> 软脂酸
+                            <input type="checkbox" name="palmitic" class="palmitic" checked="checked"> 软脂酸
                         </li>
                         <li>
-                            <input type="checkbox" name="stearic" class="stearic"> 硬脂酸
+                            <input type="checkbox" name="stearic" class="stearic" checked="checked"> 硬脂酸
                         </li>
                     </ul>
                     <div>
-                        <input type="checkbox" id="SelectAllBox"> 全选
+                        <input type="checkbox" id="SelectAllBox" checked="checked"> 全选
                     </div>
                 </div>
             </div>
             <div class="changeStauts">
                 <div class="sets">
-                    <p id="tableSet">表格设置</p>
-                    <p id="exportData">导出数据</p>
+                    <span id="exportData">导出数据</span>
+                    <span id="tableSet">表格设置</span>
                 </div>
                 <div id="operate">
                     <p class="sure">确定</p>
@@ -181,7 +181,7 @@
             </div>
         </div>
         <div id="tableShow">
-            <table border="1" cellspacing="0" cellpadding="5" style="height:500px;overflow: scroll; min-height:100px;">
+            <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;">
                 <thead style="overflow-x: scroll;">
                     <tr style="background: #F5F8FF;">
                         <th class="param cultivarT">品种名
@@ -194,16 +194,6 @@
                                 </p>
                             </div>
                         </th>
-                        <%--<th class="param populationT">群体--%>
-                            <%--<img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">--%>
-                            <%--<div class="inputComponent">--%>
-                                <%--<input type="text" placeholder="请输入" class="populationI inputStyle">--%>
-                                <%--<p>--%>
-                                    <%--<a href="javascript:void(0);" class="btnCancel">取消</a>--%>
-                                    <%--<a href="javascript:void(0);" class="btnConfirmInfo">确定</a>--%>
-                                <%--</p>--%>
-                            <%--</div>--%>
-                        <%--</th>--%>
                         <th class="param speciesT">物种
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
@@ -500,6 +490,25 @@
         </div>
         <%--// 分页显示 begin--%>
         <div id="paging">
+
+            <div id="inputNums">
+                <span>跳转到</span>
+                <div>
+                    <input type="number" min="1" name="number" value="" id="inputNum" >
+                </div>
+                <span>页</span>
+                <span>展示数量</span>
+                <div id="selectedNum">
+                    <select name="selected" id="selectSize" style="width:40px;">
+                        <option value="10" selected = "true">10</option>
+                        <option value="10">20</option>
+                        <option value="10">30</option>
+                        <option value="10">40</option>
+                    </select>
+                </div>
+                <span>/页</span>
+                <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
+            </div>
             <div id="page">
                 <b class="first">&lt;</b>
                 <p class="two"></p>
@@ -510,25 +519,6 @@
                 <b class="seven">...</b>
                 <p class="eight"></p>
                 <b class="last">&gt;</b>
-            </div>
-            <div id="inputNums">
-                <span>跳转到</span>
-                <div>
-                    <input type="number" min="1" name="number" value="" id="inputNum" >
-                </div>
-                <span>页</span>
-                <span>展示数量</span>
-                <div id="selectedNum">
-                    <select name="selected" id="selectSize">
-                        <option value="10" selected = "true">10</option>
-                        <option value="10">20</option>
-                        <option value="10">30</option>
-                        <option value="10">40</option>
-                    </select>
-                </div>
-
-                <span>/页</span>
-                <p style="margin:0px;margin-left:20px;">总数：<span id="totals"></span> 条</p>
             </div>
         </div>
         <%--// 分页显示 end--%>
