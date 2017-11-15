@@ -113,8 +113,6 @@ public class SNPController {
     /**
      * 按基因条件搜索
      *
-     * @param request
-     * @param response
      * @return
      */
     @RequestMapping(value = "/condition",method = RequestMethod.GET)
@@ -159,6 +157,16 @@ public class SNPController {
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
         return snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+    }
+
+    @RequestMapping("/findSampleBySNPId")
+    @ResponseBody
+    public ResultVO genetypePercentBySNPId(HttpServletRequest request, HttpServletResponse response) {
+        String type = request.getParameter("type");
+        String ctype = request.getParameter("ctype");
+        String chr = request.getParameter("chromosome");
+        Map result = snpService.findSampleBySNPId();
+        return ResultUtil.success(result);
     }
 
     /**
