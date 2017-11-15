@@ -4,6 +4,8 @@ import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
 import org.apache.commons.collections.map.HashedMap;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -27,6 +29,7 @@ import java.util.Map;
 @RestController
 public class ExportDataController {
 
+    private final static Logger logger= LoggerFactory.getLogger(ExportDataController.class);
     @Autowired
     private DNARunService dnaRunService;
 
@@ -37,9 +40,11 @@ public class ExportDataController {
 
     @RequestMapping(value = "/export",method = RequestMethod.GET)
     @ResponseBody
-    public void exportData(@RequestParam String data,HttpServletResponse response) throws IOException {
+    public void exportData(HttpServletRequest request,HttpServletResponse response) throws IOException {
 
-        String titles=data.substring(0,data.length()-1);
+        String choices=request.getParameter("attr");
+        logger.warn("attr",choices);
+        String titles=choices.substring(0,choices.length()-1);
         String fileName="test";
         String csvStr="";
         DnaRunCache=guavaCacheManager.getCache("config");
