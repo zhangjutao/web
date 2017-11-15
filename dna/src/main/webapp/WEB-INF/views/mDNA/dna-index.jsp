@@ -27,6 +27,7 @@
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <style>
         .total-page-count {display: none!important;}
+        /* master分支中无群体信息 */
         #populationInfos{
             padding:8px 20px;
             background:#5D8CE6;
@@ -39,6 +40,7 @@
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
+            display: none;
         }
     </style>
 </head>
