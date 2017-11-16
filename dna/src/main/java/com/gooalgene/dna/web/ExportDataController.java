@@ -1,16 +1,20 @@
 package com.gooalgene.dna.web;
 
+
 import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
+import com.gooalgene.utils.Tools;
 import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,36 +39,27 @@ public class ExportDataController {
 
     @Autowired
     private GuavaCacheManager guavaCacheManager;
-    private Cache DnaRunCache;
 
+    private Cache cache;
 
-    @RequestMapping(value = "/export",method = RequestMethod.GET)
+    @RequestMapping(value = "/export", method = RequestMethod.GET, produces = "application/json")
     @ResponseBody
     public void exportData(HttpServletRequest request,HttpServletResponse response) throws IOException {
 
-        String choices=request.getParameter("attr");
+        String choices=request.getParameter("titles");
         logger.warn("attr",choices);
         String titles=choices.substring(0,choices.length()-1);
         String fileName="test";
         String csvStr="";
-        DnaRunCache=guavaCacheManager.getCache("config");
+       // List<DNARun> result=null;
+        cache=guavaCacheManager.getCache("config");
 
-            List<DNARun> result= (List<DNARun>) DnaRunCache.get(CommonConstant.RUN_DNA).get();
-
+        List<DNARun> result= (List<DNARun>) cache.get(CommonConstant.RUN_DNA).get();
+        logger.info(csvStr);
         csvStr=createCsvStr(result,titles.split(","));
 
         if (!csvStr.equals("")) {
-            byte[] buffer = csvStr.getBytes("gbk");
-            response.reset();
-            String filename = java.net.URLEncoder.encode(fileName, "UTF-8") + ".csv";
-            filename = filename.replace("+", "%20");
-            response.addHeader("Content-Disposition", "attachment; filename=" + filename + "; filename*=utf-8''" + filename);
-            response.addHeader("Content-Length", "" + buffer.length);
-            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            toClient.write(buffer);
-            toClient.flush();
-            toClient.close();
+            Tools.toDownload(fileName,csvStr,response);
         }
     }
 
