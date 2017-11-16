@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
-
+    <link rel="stylesheet" href="${ctxStatic}/css/addTags.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
@@ -25,6 +25,8 @@
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+    <script src="${ctxStatic}/js/addTags.js"></script>
+
     <style>
         .total-page-count {display: none!important;}
         #populationInfos{

@@ -97,20 +97,30 @@
             <div class="custom-groups">
                 <span class="custom-groups-btn">自定义群体</span>
                 <div class="cover"></div>
-                <div class="custom-groups-content">
+                <div class="custom-groups-content" style="overflow: hidden;">
                     <div class="sample">
                         <label><b>样本></b></label>
                         <div class="sample-text"></div>
                         <div class="colse-sample">
                             <button type="button" class="btn-fill sample-empty">清空</button><span>X</span></div>
                     </div>
+                    <%--// 新增选择品种 begin --%>
+
+                    <div id="addTags">
+                        <span class="tagColor popCnt1" style="margin-left:10px;">选择群体</span>
+                        <span class="kindCnt1" id="kindSelect">选择品种</span>
+                    </div>
+                    <%--// 新增选择品种 end --%>
+
                     <div class="sample-screening">
                         <div class="sample-screening-title">样本筛选(共<span class="js-total-samples">0</span>个sample)</div>
                         <div class="sample-screening-btn">
-                            <button type="button" class="btn">保存群体</button>
+                            <input type="button" class="btn resetBtn" value="重置"/>
+                            <button type="button" class="btn savePoP">保存群体</button>
+                            <input type="button" class="btn saveKind" value="保存群体"/>
                         </div>
                     </div>
-                    <div class="sample-category">
+                    <div class="sample-category popCnt1">
                         <div class="category-group" data-name="species">
                             <label><b class="category-title">物种:</b><span>Glycine soja</span><span>Glycine gracilis</span><span>Landrace</span><span>Improved cultivar</span><span>Mutant cultivar</span></label>
                             <%--<button class="multiselect"><i>+</i>多选</button>--%>
@@ -240,7 +250,120 @@
                             </div>
                         </div>
                     </div>
-                    <div class="retract"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
+                    <div class="retract popCnt1"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
+                    <div id="tagKind" class="kindCnt1">
+                        <div style="overflow-x: scroll;height: 438px;">
+                            <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
+                                <thead style="overflow-x: scroll;width:730px;">
+                                <tr>
+                                    <th class="paramTag" style="width:42px;">    </th>
+                                    <th class="paramTag">品种名</th>
+                                    <th class="paramTag popMoveOn" style="position:relative;">群体
+                                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                                        <div class="popNames">
+                                            <ul>
+                                                <li>Q1</li>
+                                                <li>Q2</li>
+                                                <li>Q3</li>
+                                                <li>Q4</li>
+                                                <li>Q5</li>
+                                                <li>Q6</li>
+                                                <li>Q7</li>
+                                                <li>Q8</li>
+                                                <li>Q9</li>
+                                                <li>Q10</li>
+                                            </ul>
+                                        </div>
+                                    </th>
+                                    <th class="paramTag">物种</th>
+                                    <th class="paramTag">位置</th>
+                                    <th class="paramTag">样品名</th>
+                                    <th class="paramTag">百粒重</th>
+                                    <th class="paramTag">蛋白质含量</th>
+                                    <th class="paramTag">含油量</th>
+                                    <th class="paramTag">熟期</th>
+                                    <th class="paramTag">株高</th>
+                                    <th class="paramTag">种皮色</th>
+                                    <th class="paramTag">种脐色</th>
+                                    <th class="paramTag">子叶色</th>
+                                    <th class="paramTag">花色</th>
+                                    <th class="paramTag">荚色</th>
+                                    <th class="paramTag">茸毛色</th>
+                                    <th class="paramTag">产量</th>
+                                    <th class="paramTag">顶端小叶长度</th>
+                                    <th class="paramTag">亚油酸</th>
+                                    <th class="paramTag">亚麻酸</th>
+                                    <th class="paramTag">油酸</th>
+                                    <th class="paramTag">软脂酸</th>
+                                    <th class="paramTag">硬脂酸</th>
+                                </tr>
+                                </thead>
+                                <tbody style="overflow-x: scroll;width:730px;" id="tagTBody">
+                                <tr>
+                                    <td class="paramTag">
+                                        <input type="checkbox">
+                                    </td>
+                                    <td class="paramTag">品种名</td>
+                                    <td class="paramTag">群体</td>
+                                    <td class="paramTag">物种</td>
+                                    <td class="paramTag">位置</td>
+                                    <td class="paramTag">样品名</td>
+                                    <td class="paramTag">百粒重</td>
+                                    <td class="paramTag">蛋白质含量</td>
+                                    <td class="paramTag">熟期</td>
+                                    <td class="paramTag">株高</td>
+                                    <td class="paramTag">种皮色</td>
+                                    <td class="paramTag">种脐色</td>
+                                    <td class="paramTag">子叶色</td>
+                                    <td class="paramTag">花色</td>
+                                    <td class="paramTag">荚色</td>
+                                    <td class="paramTag">茸毛色</td>
+                                    <td class="paramTag">产量</td>
+                                    <td class="paramTag">顶端小叶长度</td>
+                                    <td class="paramTag">亚油酸</td>
+                                    <td class="paramTag">亚麻酸</td>
+                                    <td class="paramTag">油酸</td>
+                                    <td class="paramTag">软脂酸</td>
+                                    <td class="paramTag">硬脂酸</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <%--// 分页显示 begin--%>
+                        <div id="paging" style="width:730px;margin-top:10px;margin-bottom:-5px;">
+                            <div id="inputNums" style="padding-right:9px;padding-top:0;">
+                                <span>跳转到</span>
+                                <div>
+                                    <input type="number" min="1" name="number" value="" id="inputNum" >
+                                </div>
+                                <span>页</span>
+                                <span>展示数量</span>
+                                <div id="selectedNum">
+                                    <select name="selected" id="selectSize" style="width:40px;">
+                                        <option value="10" selected = "true">10</option>
+                                        <option value="10">20</option>
+                                        <option value="10">30</option>
+                                        <option value="10">40</option>
+                                    </select>
+                                </div>
+                                <span>/页</span>
+                                <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
+                            </div>
+                            <div id="page">
+                                <b class="first">&lt;</b>
+                                <p class="two"></p>
+                                <b class="three">...</b>
+                                <p class="four"></p>
+                                <p class="five"></p>
+                                <p class="six"></p>
+                                <b class="seven">...</b>
+                                <p class="eight"></p>
+                                <b class="last">&gt;</b>
+                            </div>
+                        </div>
+                        <%--// 分页显示 end--%>
+                    </div>
                 </div>
             </div>
         </div>
