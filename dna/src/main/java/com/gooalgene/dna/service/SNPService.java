@@ -37,6 +37,7 @@ public class SNPService {
 
 
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
+
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -124,6 +125,7 @@ public class SNPService {
         }
         result.put("total", page.getCount());
         result.put("data", data);
+        result.put("dnaGenStructures",dnaGenStructures);
         return result;
     }
 

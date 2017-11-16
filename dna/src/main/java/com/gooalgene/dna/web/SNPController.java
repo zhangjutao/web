@@ -208,6 +208,7 @@ public class SNPController {
         return snpService.searchSNPinGene2(type, ctype, gene, upstream, downstream, group, page);
     }
 
+
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
 
 
