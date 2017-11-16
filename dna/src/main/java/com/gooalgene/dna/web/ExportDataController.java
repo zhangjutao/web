@@ -1,21 +1,27 @@
 package com.gooalgene.dna.web;
 
-
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
+import com.gooalgene.utils.Tools;
 import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,35 +30,50 @@ import java.util.Map;
  * Created by liuyan on 2017/11/13
  *
  */
+
 @RestController
 public class ExportDataController {
-    private static final Logger logger = LoggerFactory.getLogger(ExportDataController.class);
+
+    private final static Logger logger= LoggerFactory.getLogger(ExportDataController.class);
     @Autowired
     private DNARunService dnaRunService;
 
-    @RequestMapping(value = "/export", method = RequestMethod.GET, produces = "application/json")
-    public void exportData(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    @Autowired
+    private GuavaCacheManager guavaCacheManager;
 
-        String fileName="test";
+    private Cache cache;
+
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @ResponseBody
+    public void exportData(HttpServletRequest request,HttpServletResponse response)  {
+
+        String choices=request.getParameter("titles");
+        logger.warn("attr",choices);
+        String titles=choices.substring(0,choices.length()-1);
+        String fileName="test.csv";
         String csvStr="";
-        List<DNARun> result=null;
-        String titles = request.getParameter("titles");
-        logger.info(titles);
-        csvStr=createCsvStr(result,null);
+       // List<DNARun> result=null;
+        List<DNARun> result=dnaRunService.getAll();
 
+        csvStr=createCsvStr(result,titles.split(","));
         if (!csvStr.equals("")) {
-            byte[] buffer = csvStr.getBytes("gbk");
-            response.reset();
-            String filename = java.net.URLEncoder.encode(fileName, "UTF-8") + ".csv";
-            filename = filename.replace("+", "%20");
-            response.addHeader("Content-Disposition", "attachment; filename=" + filename + "; filename*=utf-8''" + filename);
-            response.addHeader("Content-Length", "" + buffer.length);
-            OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-            response.setContentType("application/octet-stream");
-            toClient.write(buffer);
-            toClient.flush();
-            toClient.close();
+            byte[] content;
+            try {
+                content = csvStr.getBytes("utf-8");
+                response.reset();
+                response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+                response.addHeader("Content-Length", "" + content.length);
+                OutputStream outputStream=response.getOutputStream();
+                response.setContentType("application/octet-stream");
+                outputStream.write(content);
+                outputStream.flush();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
+
     }
 
     //调整表头显示
