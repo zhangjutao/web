@@ -164,7 +164,7 @@ public class ExcelExportSXXSSF {
 	 * @throws Exception
 	 */
 	public String exportFile() throws Exception {
-		String filename = filePrefix+"_"+MyUtil.getCurrentTimeStr() + ".xlsx";
+		String filename = filePrefix+"_"+CommonUtil.getCurrentTimeStr() + ".xlsx";
 		FileOutputStream out = new FileOutputStream(filePath + filename);
 		wb.write(out);
 		out.flush();
