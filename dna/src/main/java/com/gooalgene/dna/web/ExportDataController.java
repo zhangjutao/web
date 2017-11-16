@@ -1,7 +1,5 @@
 package com.gooalgene.dna.web;
 
-
-import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.utils.Tools;
@@ -13,13 +11,17 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.BufferedOutputStream;
 import java.io.IOException;
+
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -41,25 +43,37 @@ public class ExportDataController {
 
     private Cache cache;
 
-    @RequestMapping(value = "/export", method = RequestMethod.GET, produces = "application/json")
+    @RequestMapping(value = "/export", method = RequestMethod.GET)
     @ResponseBody
-    public void exportData(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public void exportData(HttpServletRequest request,HttpServletResponse response)  {
 
         String choices=request.getParameter("titles");
         logger.warn("attr",choices);
         String titles=choices.substring(0,choices.length()-1);
-        String fileName="test";
+        String fileName="test.csv";
         String csvStr="";
        // List<DNARun> result=null;
-        cache=guavaCacheManager.getCache("config");
+        List<DNARun> result=dnaRunService.getAll();
 
-        List<DNARun> result= (List<DNARun>) cache.get(CommonConstant.RUN_DNA).get();
-        logger.info(csvStr);
         csvStr=createCsvStr(result,titles.split(","));
-
         if (!csvStr.equals("")) {
-            Tools.toDownload(fileName,csvStr,response);
+            byte[] content;
+            try {
+                content = csvStr.getBytes("utf-8");
+                response.reset();
+                response.setHeader("Content-Disposition", "attachment;filename=" + fileName);
+                response.addHeader("Content-Length", "" + content.length);
+                OutputStream outputStream=response.getOutputStream();
+                response.setContentType("application/octet-stream");
+                outputStream.write(content);
+                outputStream.flush();
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
         }
+
     }
 
     //调整表头显示
