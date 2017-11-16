@@ -29,6 +29,7 @@
 
     <style>
         .total-page-count {display: none!important;}
+        /* master分支中无群体信息 */
         #populationInfos{
             padding:8px 20px;
             background:#5D8CE6;
