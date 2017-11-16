@@ -303,6 +303,7 @@ public class DNAMongoService {
             if (skip < 0) {
                 skip = 0;
             }
+            //todo 去掉分页？
             query.skip(skip);
             query.limit(pageSize);
             result = mongoTemplate.find(query, SNP.class, collectionName);

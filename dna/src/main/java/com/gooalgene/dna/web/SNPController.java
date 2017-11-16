@@ -186,6 +186,7 @@ public class SNPController {
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
     public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
+        //todo
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String gene = request.getParameter("gene");
@@ -210,8 +211,9 @@ public class SNPController {
         }
         logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
+        return snpService.searchSNPinGene2(type, ctype, gene, upstream, downstream, group, page);
     }
+
 
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
 
