@@ -3,8 +3,13 @@ package com.gooalgene.utils;
 import com.gooalgene.entity.Study;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.io.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -166,6 +171,15 @@ public class Tools {
                 toClient.write(buffer);
                 toClient.flush();
                 toClient.close();
+
+                /*String path="D:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\springMVC\\WEB-INF\\upload\\图片10（定价后）.xlsx";
+                File file=new File(path);
+                HttpHeaders headers = new HttpHeaders();
+                //String fileName2=new String("你好.xlsx".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题
+                headers.setContentDispositionFormData("attachment", fileName);
+                headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+                return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+                        headers, HttpStatus.CREATED);*/
             }
         } catch (Exception ex) {
             ex.printStackTrace();

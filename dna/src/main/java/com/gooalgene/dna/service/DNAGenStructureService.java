@@ -29,4 +29,7 @@ public class DNAGenStructureService {
     }
 
 
+    public List<DNAGenStructure> getByStartEnd(String chr, Integer startPos, Integer endPos) {
+        return dnaGensStructureDao.getByStartEnd(chr,startPos,endPos);
+    }
 }
