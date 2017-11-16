@@ -26,14 +26,14 @@
             </c:if>
             <div class="forget-u">
                 <label>
-                    <span>用户姓名:</span>
-                    <input type="text" name="username" id="username" placeholder="请输入您注册时用户姓名" value="${username}">
+                    <span>用户名:</span>
+                    <input type="text" name="username" id="username" placeholder="请输入您注册时用户姓名" value="${username}" style="line-height:36px;">
                 </label>
             </div>
             <div class="forget-mail">
                 <label>
                     <span>邮箱:</span>
-                    <input type="email" name="email" id="mail" placeholder="请输入注册时用户邮箱" value="${email}">
+                    <input type="email" name="email" id="mail" placeholder="请输入注册时用户邮箱" value="${email}" style="line-height:36px;">
                     <span class="tips"></span>
                 </label>
             </div>

@@ -115,13 +115,17 @@ public class DNARunService {
      * 动态查询dnarun
      */
     public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize){
-        Cache cache = cacheManager.getCache("config");
-        cache.evict(CommonConstant.RUN_DNA);
+        //Cache cache = cacheManager.getCache("config");
+        //cache.evict(CommonConstant.RUN_DNA);
         PageHelper.startPage(pageNum,pageSize);
         List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
-        cache.putIfAbsent(CommonConstant.RUN_DNA,list);
+        //cache.putIfAbsent(CommonConstant.RUN_DNA,list);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
+    }
+
+    public  List<DNARun> getAll(){
+        return dnaRunDao.getListByCondition(new DnaRunDto());
     }
 
 
