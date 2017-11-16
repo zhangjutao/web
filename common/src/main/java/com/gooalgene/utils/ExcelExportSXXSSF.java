@@ -302,12 +302,12 @@ public class ExcelExportSXXSSF {
 		//定义导出数据的title
 		List<String> fieldNames=new ArrayList<String>();
 		fieldNames.add("用户名");
-		fieldNames.add("密码");
+		/*fieldNames.add("密码");*/
 		
 		//告诉导出类数据list中对象的属性，让ExcelExportSXXSSF通过反射获取对象的值
 		List<String> fieldCodes=new ArrayList<String>();
 		fieldCodes.add("username");
-		fieldCodes.add("password");
+		/*fieldCodes.add("password");*/
 		
 		//注意：fieldCodes和fieldNames个数必须相同且属性和title顺序一一对应，这样title和内容才一一对应
 		

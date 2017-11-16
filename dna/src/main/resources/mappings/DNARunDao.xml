@@ -329,7 +329,7 @@
             </if>
         </trim>
     </select>
-    
+
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run
         WHERE 1=1

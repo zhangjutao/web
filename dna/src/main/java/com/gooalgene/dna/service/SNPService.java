@@ -39,11 +39,16 @@ public class SNPService {
 //            countMajorAllele(snp, snp_Json);
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snp_Json.put("freq", freqData);
+            //todo 加入一个字段GenoType，调奶哥服务(只有SNP时有)
             data.add(snp_Json);
         }
         result.put("total", page.getCount());
         result.put("data", data);
         return result;
+    }
+
+    public Map findSampleBySNPId() {
+        return new HashMap();
     }
 
     public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
