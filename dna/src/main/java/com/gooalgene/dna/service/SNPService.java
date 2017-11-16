@@ -9,6 +9,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -47,8 +48,60 @@ public class SNPService {
         return result;
     }
 
-    public Map findSampleBySNPId() {
-        return new HashMap();
+    /**
+     * 将samples中的genotype格式（0/0、0/1、1/1字符串）对应转换为ref+ref、ref+alt、alt+alt字符串
+     * 计算单个snp中三种genotype的比率
+     *
+     * @param snp
+     * @return
+     */
+    public Map genotypeTransform(SNP snp, String type) {
+        Map<String, String> originSamples = snp.getSamples();
+        Map<String, String> transformedSamples = new HashMap<String, String>();
+        Map transformResult = new HashMap();
+        String ref = snp.getRef();
+        String alt = snp.getAlt();
+        int totalRefAndRef = 0;
+        int totalRefAndAlt = 0;
+        int totalAltAndAlt = 0;
+        BigDecimal  bigDecimalTotalSamples= BigDecimal.valueOf(snp.getSamples().size());
+        for (Map.Entry<String, String> entry : originSamples.entrySet()) {
+            if (entry.getValue().equals("0/0")) {
+                transformedSamples.put(entry.getKey(), ref + ref);
+                totalRefAndRef += 1;
+            } else if (entry.getValue().equals("0/1")) {
+                transformedSamples.put(entry.getKey(), ref + alt);
+                totalRefAndAlt += 1;
+            } else {
+                transformedSamples.put(entry.getKey(), alt + alt);
+                totalAltAndAlt += 1;
+            }
+        }
+        snp.setSamples(transformedSamples);
+        transformResult.put("snpData", snp);
+        if (type.equals("SNP")) {
+            BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
+            BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
+            BigDecimal bigDecimalAAA = BigDecimal.valueOf(totalAltAndAlt);
+            transformResult.put("RefAndRefPercent", bigDecimalRAR.divide(bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+            transformResult.put("totalRefAndAltPercent", bigDecimalRAA.divide(bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+            transformResult.put("totalAltAndAltPercent", bigDecimalAAA.divide(bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+        }
+        return transformResult;
+    }
+
+    /**
+     *
+     * @param type
+     * @param chr
+     * @param Id
+     * @return
+     */
+    public Map findSampleById(String type, String chr, String Id) {
+        Map oneDataResult = new HashMap();
+        SNP oneData = dnaMongoService.findDataById(type, chr, Id);
+        oneDataResult = genotypeTransform(oneData, type);
+        return oneDataResult;
     }
 
     public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
@@ -180,7 +233,7 @@ public class SNPService {
     }
 
     public Map searchSNPByGene(String type, String gene, Page<DNAGens> page) {
-        List<SNP> snps = dnaMongoService.searchByGene(type,gene,page);
+        List<SNP> snps = dnaMongoService.searchByGene(type, gene, page);
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
