@@ -101,14 +101,15 @@ public class SNPService {
         }
         snp.setSamples(transformedSamples);
         transformResult.put("snpData", snp);
-        if (type.equals("SNP")) {
-            BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
-            BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
-            BigDecimal bigDecimalAAA = BigDecimal.valueOf(totalAltAndAlt);
-            transformResult.put("RefAndRefPercent", bigDecimalRAR.divide(bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
-            transformResult.put("totalRefAndAltPercent", bigDecimalRAA.divide(bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
-            transformResult.put("totalAltAndAltPercent", bigDecimalAAA.divide(bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
-        }
+        BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
+        BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
+        BigDecimal bigDecimalAAA = BigDecimal.valueOf(totalAltAndAlt);
+        transformResult.put("RefAndRefPercent", bigDecimalRAR.divide(
+                bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+        transformResult.put("totalRefAndAltPercent", bigDecimalRAA.divide(
+                bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+        transformResult.put("totalAltAndAltPercent", bigDecimalAAA.divide(
+                bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
         return transformResult;
     }
 
