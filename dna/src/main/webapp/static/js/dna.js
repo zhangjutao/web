@@ -682,9 +682,11 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result){
         console.log(result);
-        // debugger;
+        // 参考值
+        // var referenceVal = result.bps;
+        var referenceVal = 47904181;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
-        var endPos =parseInt(result.conditions.split(",")[2])+2000>47904181?47904181:parseInt(result.conditions.split(",")[2]);
+        var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
         var geneLength = endPos - startPos;
         console.log(geneLength);
        d3.select("#constructorPanel").selectAll("svg").remove();
@@ -728,6 +730,16 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
+
+            // 画基因结构图
+
+            var topY = 70;   // 基因结构图距离上边距离
+            var rectHeight = 20;   // 基因结构图高度
+            var leftMargin = 60;
+            svg.append("g")
+
+
+
         }
 
     // }

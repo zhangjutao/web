@@ -3,6 +3,7 @@ package com.gooalgene.dna.service;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNAGensDao;
 import com.gooalgene.dna.dao.DNAGensStructureDao;
+import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
 import net.sf.json.JSONArray;
@@ -24,12 +25,12 @@ public class DNAGenStructureService {
     @Autowired
     private DNAGensStructureDao dnaGensStructureDao;
 
-    List<DNAGenStructure> getByGeneId(String geneId){
+    List<DNAGenStructureDto> getByGeneId(String geneId){
         return dnaGensStructureDao.getByGeneId(geneId);
     }
 
 
-    public List<DNAGenStructure> getByStartEnd(String chr, Integer startPos, Integer endPos) {
+    public List<DNAGenStructureDto> getByStartEnd(String chr, Integer startPos, Integer endPos) {
         return dnaGensStructureDao.getByStartEnd(chr,startPos,endPos);
     }
 }

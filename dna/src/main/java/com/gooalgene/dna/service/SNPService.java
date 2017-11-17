@@ -1,6 +1,7 @@
 package com.gooalgene.dna.service;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
@@ -39,7 +40,7 @@ public class SNPService {
 
 
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
-        List<DNAGenStructure> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
+        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -150,7 +151,7 @@ public class SNPService {
     }
 
     public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
-        List<DNAGenStructure> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
+        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
 
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
@@ -176,7 +177,7 @@ public class SNPService {
     }
 
     public Map searchSNPinGene2(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
-        List<DNAGenStructure> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
+        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
 
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
@@ -209,6 +210,7 @@ public class SNPService {
         result.put("total", page.getCount());
         result.put("data", data);
         result.put("dnaGenStructures",dnaGenStructures);
+        result.put("bps",dnaGenStructures.get(0).getBps());
         return result;
     }
 
