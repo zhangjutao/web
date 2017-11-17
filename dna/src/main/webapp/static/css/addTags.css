@@ -147,3 +147,37 @@ p.first{
     border-radius: 3px;
     cursor: pointer;
 }
+/*基因结构图*/
+#geneConstruction span{
+    display:inline-block;
+    width:18px;
+    height:18px;
+    line-height:18px;
+    float:left;
+    margin-right:5px;
+}
+#geneConstruction p{
+    float:right;
+    margin-right:10px;
+    width:66px;
+    height:22px;
+    line-height:22px;
+    overflow:hidden;
+}
+#geneConstruction .geneLegend{
+    overflow: hidden;
+    margin-top:20px;
+    margin-bottom:14px;
+}
+#geneConstruction .colorBlock{
+    /*width:18px;*/
+    /*height:18px;*/
+}
+.legendCnt{
+    /*position:relative;*/
+}
+#constructorPanel{
+    width:885px;
+    height:280px;
+    overflow-x:scroll;
+}
