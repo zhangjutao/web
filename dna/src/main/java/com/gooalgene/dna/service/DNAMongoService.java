@@ -219,11 +219,11 @@ public class DNAMongoService {
         return flag;
     }
 
-    public SNP findDataById(String type, String chr, String Id) {
+    public SNP findDataById(String type, String chr, String id) {
         String collectionName = type + "_" +chr;
         SNP oneData = new SNP();
         if (mongoTemplate.collectionExists(collectionName)) {
-            oneData = mongoTemplate.findOne(Query.query(Criteria.where("_id").is(Id)), SNP.class, collectionName);
+            oneData = mongoTemplate.findOne(Query.query(Criteria.where("_id").is(id)), SNP.class, collectionName);
             return oneData;
         } else {
             return oneData;

@@ -20,7 +20,7 @@ public class findSampleByIdTest extends TestCase{
     DNAMongoService dnaMongoService;
     @Test
     public void testFindSNPBySNPId() {
-        Map oneSNP = snpService.findSampleById("INDEL", "Chr01", "GlyI001024");
+        Map oneSNP = snpService.findSampleById("GlyI001090");
 //        assertEquals();
         System.out.println(oneSNP);
     }

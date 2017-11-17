@@ -6,6 +6,7 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.utils.CommonUtil;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -112,17 +113,39 @@ public class SNPService {
     }
 
     /**
-     *
-     * @param type
-     * @param chr
-     * @param Id
+     * 通过SNP或INDEL的id查找相应SNP或INDEL数据及相关sample数据
+     * @param id
      * @return
      */
-    public Map findSampleById(String type, String chr, String Id) {
+    public Map findSampleById(String id) {
         Map oneDataResult = new HashMap();
-        SNP oneData = dnaMongoService.findDataById(type, chr, Id);
-        oneDataResult = genotypeTransform(oneData, type);
-        return oneDataResult;
+        int markNumber = CommonUtil.getCharPositionBeforNum(id);
+        if (markNumber == -1) {
+            oneDataResult.put("id不符合规范", null);
+            return oneDataResult;
+        }
+        String type;
+        if (id.indexOf("I", markNumber) == markNumber) {
+            type = "INDEL";
+        } else if (id.indexOf("S", markNumber) == markNumber) {
+            type = "SNP";
+        } else {
+            oneDataResult.put("id不符合规范", null);
+            return oneDataResult;
+        }
+        String chr = "Chr" + (id.substring(markNumber + 2, markNumber + 4));
+        SNP oneData = dnaMongoService.findDataById(type, chr, id);
+        if (oneData == null) {
+            return null;
+        }
+        if (type.equals("SNP")) {
+            oneDataResult = genotypeTransform(oneData, type);
+            return oneDataResult;
+        } else if (type.equals("INDEL")) {
+            oneDataResult.put("INDELData", oneData);
+            return oneDataResult;
+        }
+        return null;
     }
 
     public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {

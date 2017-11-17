@@ -169,10 +169,11 @@ public class SNPController {
     @RequestMapping("/findSampleById")
     @ResponseBody
     public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");
-        String Id = request.getParameter("Id");
-        String chr = request.getParameter("chromosome");
-        Map result = snpService.findSampleById(type, chr, Id);
+        String id = request.getParameter("id");
+        if (id == null) {
+            return ResultUtil.error(200, "未拿到id的值");
+        }
+        Map result = snpService.findSampleById(id);
         return ResultUtil.success(result);
     }
 
