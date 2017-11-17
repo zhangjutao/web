@@ -89,6 +89,6 @@
         SELECT
         gs.*,c.bps
         FROM gens_structure gs,chrlg c
-        WHERE gs.chromosome=c.chr and gs.chromosome=#{chromosome} AND gs.start>=#{start} AND gs."end" <![CDATA[ <= ]]> #{end}
+        WHERE gs.chromosome=c.chr and gs.chromosome=#{chromosome} AND gs.start>=#{start} AND gs.end <![CDATA[ <= ]]> #{end}
     </select>
 </mapper>
