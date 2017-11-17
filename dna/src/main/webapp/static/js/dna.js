@@ -692,7 +692,7 @@ $(function () {
         console.log(geneLength);
        d3.select("#constructorPanel").selectAll("svg").remove();
        // 创建一个svg 元素
-        var svg = d3.select("#constructorPanel").append("svg").attr("width",geneLength + "px").attr("height","220px");
+        var svg = d3.select("#constructorPanel").append("svg").attr("width",geneLength/10 + "px").attr("height","220px");
         // 创建一个直线生成器
         var line = d3.line()
             .x(function (d){return d[0]})
@@ -707,14 +707,15 @@ $(function () {
         var centerLineData = [[20,90],[geneLength,90]]
         var intervalLineData = [];
         var intervalNums = geneLength/100;
+        console.log(intervalNums);
         for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
             var faultElement = [];
-                intervalElement1[0] = parseInt(i*100 + 20);
+                intervalElement1[0] = parseInt(i*50 + 20);
                 // y轴的值不能设置为0 *****
                 intervalElement1[1] =1;
-            intervalElement2[0] =  parseInt(i*100 + 20);
+            intervalElement2[0] =  parseInt(i*50 + 20);
             intervalElement2[1] = 219;
             faultElement[0] = -1;
             faultElement[1] = -1;
@@ -752,7 +753,7 @@ $(function () {
                 }else if(str == "CDS"){
                     return "#0099bb";
                 }else if(str == "five_prime_UTR"){
-                    return "#f76919"
+                    return "#f76919";
                 }
             }
             // 基因结构
@@ -763,12 +764,13 @@ $(function () {
             }
             // 画snp 位点
             for (var i=0;i<snpLocalPoints.length;i++){
-                if(snpLocalPoints[i+1].pos - snpLocalPoints[i].pos <10){
-                    g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                if(i < snpLocalPoints.length - 1){
+                    if(snpLocalPoints[i+1].pos - snpLocalPoints[i].pos <10){
+                        g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    }else {
+                        g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
 
-                }else {
-                    g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-
+                    }
                 }
             }
             // 画一条线
