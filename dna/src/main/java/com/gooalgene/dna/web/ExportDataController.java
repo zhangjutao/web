@@ -36,12 +36,11 @@ public class ExportDataController {
 
     @RequestMapping(value = "/export", method = RequestMethod.GET)
     @ResponseBody
-    public String exportData(HttpServletRequest request,HttpServletResponse response) throws IOException {
+    public String exportData(HttpServletRequest request) throws IOException {
 
         String choices=request.getParameter("titles");
         logger.info(choices);
-        //此处前端字符串未初始化  多一个undefined 所以从9开始截取
-        String titles=choices.substring(9, choices.length() - 1);
+        String titles=choices.substring(0, choices.length() - 1);
         String[] condition=titles.split(",");
         String fileName="";
         List<String> list=new ArrayList<>();
@@ -77,17 +76,9 @@ public class ExportDataController {
         tempFile.write(csvStr.getBytes("utf-8"));
         tempFile.flush();
         tempFile.close();
-        logger.info(request.getContextPath()+"/tempFile/"+fileName);
-
-        //使用excel进行导出
-       /* try {
-            ExcelExportSXXSSF excelExportSXXSSF=ExcelExportSXXSSF.start(filePath,request.getContextPath()+"/tempFile/"+fileName,"test",list,dnaList,-1);
-            excelExportSXXSSF.writeDatasByString(dnaList);
-            excelExportSXXSSF.exportFile();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }*/
-        return request.getContextPath()+"/tempFile/"+fileName;
+        String path=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"/tempFile/"+fileName;
+        logger.info(path);
+        return path;
     }
 
     //调整表头显示
@@ -168,7 +159,7 @@ public class ExportDataController {
                 String locality=dnaRun.getLocality();
                 dnaList.add(locality != null ? locality : "");
                 if(locality!=null&&locality.contains(",")){
-                    locality=locality.replaceAll(","," ");
+                    locality=locality.replaceAll(",",".");
                 }
                 sb.append(locality!=null?locality:" ").append(",");
             }
