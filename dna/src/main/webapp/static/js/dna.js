@@ -364,6 +364,7 @@ $(function () {
     function renderSNPTable(data) {
         var str = '';
         $.each(data, function(idx, item) {
+            console.log(item);
             str += '<tr>'
             str += '    <td class="t_snpid" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
             str += '    <td class="t_consequenceType"><p class="js-tipes-show">'+ formatConseType(item.consequencetype) + '</p></td>'
@@ -390,7 +391,7 @@ $(function () {
     function renderINDELTable(data) {
         var str = '';
         $.each(data, function(idx, item) {
-            str += '<tr>'
+            str += '<tr id="' +item.id + '">'
             str += '    <td class="t_indels" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
             str += '    <td class="t_iconsequenceType"><p class="js-tipes-show">'+ formatConseType(item.consequencetype) + '</p></td>'
             str += '    <td class="t_indelchromosome"><p>'+ item.chr +'</p></td>'
@@ -694,7 +695,18 @@ $(function () {
         console.log(geneLength);
        d3.select("#constructorPanel").selectAll("svg").remove();
        // 创建一个svg 元素
-        var svg = d3.select("#constructorPanel").append("svg").attr("width",geneLength/10 + "px").attr("height","220px");
+        var svgTotal = $("#constructorPanel").width();
+        if(geneLength >svgTotal*10){
+            var svg = d3.select("#constructorPanel").append("svg").attr("width",geneLength/10 + "px").attr("height","220px");
+            var acrossLineData = [[20,220],[geneLength/10,220]];
+            var topLineData = [[20,1],[geneLength/10,1]];
+            var centerLineData = [[20,90],[geneLength/10,90]]
+        }else {
+            var svg = d3.select("#constructorPanel").append("svg").attr("width",svgTotal + "px").attr("height","220px");
+            var acrossLineData = [[20,220],[svgTotal,220]];
+            var topLineData = [[20,1],[svgTotal,1]];
+            var centerLineData = [[20,90],[svgTotal,90]]
+        }
         // 创建一个直线生成器
         var line = d3.line()
             .x(function (d){return d[0]})
@@ -702,16 +714,22 @@ $(function () {
         // 起始竖线
         var verticalLineData = [[20,0],[20,220]];
         // 起始横线
-        var acrossLineData = [[20,220],[geneLength/10,220]];
+        // var acrossLineData = [[20,220],[geneLength/10,220]];
         // 顶部横线
-        var topLineData = [[20,1],[geneLength/10,1]];
+        // var topLineData = [[20,1],[geneLength/10,1]];
         // 中间分割（竖）线
-        var centerLineData = [[20,90],[geneLength/10,90]]
+        // var centerLineData = [[20,90],[geneLength/10,90]]
         // 画方向箭头
-        var dirArrows  =  [[40,60],[20,80],[40,100],[30,80]];
+        var dirArrows  =  [[60,60],[40,72],[60,84],[60,72]];
         var intervalLineData = [];
-        var intervalNums = geneLength/100;
-        console.log(intervalNums);
+        var svgLength = $("#constructorPanel svg").width();
+        console.log(svgLength);
+        if (svgLength >885){
+            var intervalNums = geneLength/100;
+        }else {
+            var intervalNums = svgLength/10;
+        }
+        // console.log(intervalNums);
         for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
@@ -737,12 +755,10 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
-            svg.append("path").attr("stroke","red").attr('stroke-width', '2').attr("fill","red").attr("d",line(dirArrows)).attr("transform","translate(0,0)");
+            svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrows)).attr("transform","translate(0,18)");
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             //   画方向箭头
-
             // 画基因结构图
-
             var topY = 70;   // 基因结构图距离上边距离
             var rectHeight = 20;   // 基因结构图高度
             var leftMargin = 60;
@@ -771,20 +787,24 @@ $(function () {
             // 画snp 位点
             for (var i=0;i<snpLocalPoints.length;i++){
                 if(i < snpLocalPoints.length - 1){
-                    if(snpLocalPoints[i+1].pos - snpLocalPoints[i].pos <10){
-                        g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    if((snpLocalPoints[i+1].pos - snpLocalPoints[i].pos)/10 >10){
+                        var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }else {
-                        g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-
+                        var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }
                 }
             }
             // 画一条线
             // g.append("line").attr("x1","20").attr("y1","80").attr("x2",geneLength).attr("y2","80").attr("stroke-width","2").attr("stroke","#666666");
 
-
+        $("g a rect").click(function (){
+            alert(33)
+        })
 
         }
+
     // 定义滚轮缩放
     // var count = 1;
     // $("#constructorPanel").on("mousewheel DOMMouseScroll","svg",function (e) {
