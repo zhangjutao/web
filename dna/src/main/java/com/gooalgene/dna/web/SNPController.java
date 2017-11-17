@@ -6,6 +6,7 @@ import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DnaRunDto;
+import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.*;
@@ -267,7 +268,10 @@ public class SNPController {
                     logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
                     Page<DNAGens> page = new Page<DNAGens>(request, response);
                     page.setPageSize(EXPORT_NUM);
-                    result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
+
+                    //外包的原来是给出最大10000条数据   要不要改
+                    result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
+                    //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
                     String group = request.getParameter("group");
@@ -309,11 +313,20 @@ public class SNPController {
             }
             map.put(titles[i], i);
         }
-        JSONArray data = (JSONArray) result.get("data");
-        int size = data.size();
+
+       /*
+       * 现在的sample和idel还是用的原来的接口  返回的是json类型的数据
+       * SNP使用的是新的接口  返回的是对应SNPdto类型的数据
+       * 把data 分别移动到判断条件内  根据不同类型 接收不同类型的参数
+       * */
+
         if ("SAMPLES".equals(model)) {
+            JSONArray data = (JSONArray) result.get("data");
+            int size = data.size();
             for (int i = 0; i < size; i++) {
+
                 JSONObject one = data.getJSONObject(i);
+                // SNPDto snpDto=data.get(i);
 //                if (map.containsKey("ID")) {
 //                    sb.append(one.getString("id")).append(",");
 //                }
@@ -419,32 +432,44 @@ public class SNPController {
                 sb.append("\n");
             }
         } else if ("SNP".equals(model)) {
+            List<SNPDto> data= (List<SNPDto>) result.get("data");
+            int size=data.size();
             for (int i = 0; i < size; i++) {
-                JSONObject one = data.getJSONObject(i);
+                 SNPDto snpDto= (SNPDto) data.get(i);
+                //JSONObject one = data.getJSONObject(i);
                 if (map.containsKey("SNPID")) {
-                    sb.append(one.getString("id")).append(",");
+                    sb.append(snpDto.getId()).append(",");
+                    //sb.append(one.getString("id")).append(",");
                 }
                 if (map.containsKey("consequenceType")) {
-                    sb.append(one.getString("consequencetype")).append(",");
+                    sb.append(snpDto.getConsequencetype()).append(",");
+                    //sb.append(one.getString("consequencetype")).append(",");
                 }
                 if (map.containsKey("chromosome")) {
-                    sb.append(one.getString("chr")).append(",");
+                     sb.append(snpDto.getChr()).append(",");
+                    //sb.append(one.getString("chr")).append(",");
                 }
                 if (map.containsKey("position")) {
-                    sb.append(one.getString("pos")).append(",");
+                    sb.append(snpDto.getPos()).append(",");
+                    //sb.append(one.getString("pos")).append(",");
                 }
                 if (map.containsKey("reference")) {
-                    sb.append(one.getString("ref")).append(",");
+                     sb.append(snpDto.getRef()).append(",");
+                   // sb.append(one.getString("ref")).append(",");
                 }
                 if (map.containsKey("majorAllele")) {
-                    sb.append(one.getString("majorallen")).append(",");
+                    sb.append(snpDto.getMajorallen()).append(",");
+                    //sb.append(one.getString("majorallen")).append(",");
                 }
                 if (map.containsKey("minorAllele")) {
-                    sb.append(one.getString("minorallen")).append(",");
+                    sb.append(snpDto.getMinorallen()).append(",");
+                    //sb.append(one.getString("minorallen")).append(",");
                 }
-                JSONArray freq = one.getJSONArray("freq");
+                 JSONArray freq= (JSONArray) snpDto.getFreq();
+               // JSONArray freq = one.getJSONArray("freq");
                 if (map.containsKey("frequencyOfMajorAllele")) {
-                    sb.append(one.getString("major")).append(",");
+                     sb.append(snpDto.getMajor()).append(",");
+                     //sb.append(one.getString("major")).append(",");
                     for (int j = 0; j < freq.size(); j++) {
                         JSONObject groupFreq = freq.getJSONObject(j);
                         String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
@@ -467,32 +492,45 @@ public class SNPController {
                 sb.append("\n");
             }
         } else if ("INDEL".equals(model)) {
+            List<SNPDto> data= (List<SNPDto>) result.get("data");
+           // JSONArray data = (JSONArray) result.get("data");
+            int size = data.size();
             for (int i = 0; i < size; i++) {
-                JSONObject one = data.getJSONObject(i);
+                  SNPDto snpDto=data.get(i);
+                //JSONObject one = data.getJSONObject(i);
                 if (map.containsKey("INDELID")) {
-                    sb.append(one.getString("id")).append(",");
+                      sb.append(snpDto.getId()).append(",");
+                  //  sb.append(one.getString("id")).append(",");
                 }
                 if (map.containsKey("consequenceType")) {
-                    sb.append(one.getString("consequencetype")).append(",");
+                      sb.append(snpDto.getConsequencetype()).append(",");
+                   // sb.append(one.getString("consequencetype")).append(",");
                 }
                 if (map.containsKey("chromosome")) {
-                    sb.append(one.getString("chr")).append(",");
+                      sb.append(snpDto.getChr()).append(",");
+                    //sb.append(one.getString("chr")).append(",");
                 }
                 if (map.containsKey("position")) {
-                    sb.append(one.getString("pos")).append(",");
+                      sb.append(snpDto.getPos()).append(",");
+                    //sb.append(one.getString("pos")).append(",");
                 }
                 if (map.containsKey("reference")) {
-                    sb.append(one.getString("ref")).append(",");
+                      sb.append(snpDto.getRef()).append(",");
+                    //sb.append(one.getString("ref")).append(",");
                 }
                 if (map.containsKey("majorAllele")) {
-                    sb.append(one.getString("majorallen")).append(",");
+                      sb.append(snpDto.getMajorallen()).append(",");
+                    //sb.append(one.getString("majorallen")).append(",");
                 }
                 if (map.containsKey("minorAllele")) {
-                    sb.append(one.getString("minorallen")).append(",");
+                      sb.append(snpDto.getMinorallen()).append(",");
+                    //sb.append(one.getString("minorallen")).append(",");
                 }
-                JSONArray freq = one.getJSONArray("freq");
+                JSONArray freq= (JSONArray) snpDto.getFreq();
+                //JSONArray freq = one.getJSONArray("freq");
                 if (map.containsKey("frequencyOfMajorAllele")) {
-                    sb.append(one.getString("major")).append(",");
+                      sb.append(snpDto.getMajor()).append(",");
+                    //sb.append(one.getString("major")).append(",");
                     for (int j = 0; j < freq.size(); j++) {
                         JSONObject groupFreq = freq.getJSONObject(j);
                         String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");

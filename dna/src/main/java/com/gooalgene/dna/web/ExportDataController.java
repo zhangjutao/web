@@ -1,8 +1,11 @@
 package com.gooalgene.dna.web;
 
+import com.gooalgene.dna.dao.DNARunDao;
+import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.utils.ExcelExportSXXSSF;
+import com.gooalgene.utils.JsonUtils;
 import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,9 @@ public class ExportDataController {
     private final static Logger logger= LoggerFactory.getLogger(ExportDataController.class);
     @Autowired
     private DNARunService dnaRunService;
+
+    @Autowired
+    private DNARunDao dnaRunDao;
 
     private static List<String> dnaList=new ArrayList<String>();
 
@@ -61,7 +67,7 @@ public class ExportDataController {
         fileName+= UUID.randomUUID()+".csv";
         String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile\\";
         String csvStr="";
-        List<DNARun> result=dnaRunService.getAll();
+        List<DNARun> result=dnaRunDao.getListByCondition(new DnaRunDto());
 
         //使用csv进行导出
         csvStr=createCsvStr(result,condition);
@@ -92,7 +98,7 @@ public class ExportDataController {
 
         String path=builder.toString()+"/tempFile/"+fileName;
         logger.info(path);
-        return path;
+        return JsonUtils.Bean2Json(path);
     }
 
     //调整表头显示
@@ -215,7 +221,6 @@ public class ExportDataController {
                 sb.append(height!=0?String.valueOf(height):"").append(",");
             }
 
-
             //种皮色
             if (map.containsKey("seedCoatColor")){
                 String seedCoatColor=dnaRun.getSeedCoatColor();
@@ -327,5 +332,20 @@ public class ExportDataController {
         }
         return sb.toString();
     }
+
+
+  @RequestMapping(value = "/exportSearchInGene", method =RequestMethod.GET)
+  @ResponseBody
+    public String exportSerchInRegion(HttpServletRequest request){
+      String titles=request.getParameter("titles");
+
+
+      return "";
+  }
+
+
+
+
+
 
 }
