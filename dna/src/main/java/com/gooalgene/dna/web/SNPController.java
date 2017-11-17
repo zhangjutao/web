@@ -6,6 +6,7 @@ import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DnaRunDto;
+import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.*;
@@ -30,6 +31,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
@@ -113,17 +115,17 @@ public class SNPController {
     /**
      * 按基因条件搜索
      *
-     * @param request
-     * @param response
      * @return
      */
     @RequestMapping(value = "/condition",method = RequestMethod.GET)
     @ResponseBody
     public ResultVO getByExample(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                 @RequestParam(value = "isPage",required = false)String isPage,
                                  DnaRunDto dnaRunDto) {
-        PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize);
-        return ResultUtil.success(dnaRunPageInfo);
+            PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize,isPage);
+            return ResultUtil.success(dnaRunPageInfo);
+
     }
 
     /**
@@ -137,6 +139,16 @@ public class SNPController {
     @ResponseBody
     public JSONArray QueryDefaultGroup(HttpServletRequest request, HttpServletResponse response) {
         return dnaGroupsService.searchAll();
+    }
+
+    /**
+     * 根据runNo查找dnaRun
+     * @return
+     */
+    @RequestMapping(value = "/dnaRuns",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO getByRunNos(@RequestParam("runNos") List<String> runNos) {
+        return ResultUtil.success(dnaRunService.getByRunNos(runNos));
     }
 
     /**
@@ -158,7 +170,25 @@ public class SNPController {
 //      String conditions = request.getParameter("conditions");
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
-        return snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        return result;
+    }
+
+    /**
+     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/findSampleById")
+    @ResponseBody
+    public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        if (id == null) {
+            return ResultUtil.error(200, "未拿到id的值");
+        }
+        Map result = snpService.findSampleById(id);
+        return ResultUtil.success(result);
     }
 
     /**
@@ -171,6 +201,7 @@ public class SNPController {
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
     public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
+        //todo
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String gene = request.getParameter("gene");
@@ -195,8 +226,9 @@ public class SNPController {
         }
         logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
+        return snpService.searchSNPinGene2(type, ctype, gene, upstream, downstream, group, page);
     }
+
 
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
 
@@ -253,7 +285,10 @@ public class SNPController {
                     logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
                     Page<DNAGens> page = new Page<DNAGens>(request, response);
                     page.setPageSize(EXPORT_NUM);
-                    result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
+
+                    //外包的原来是给出最大10000条数据   要不要改
+                    result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
+                    //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
                     String group = request.getParameter("group");
@@ -295,11 +330,20 @@ public class SNPController {
             }
             map.put(titles[i], i);
         }
-        JSONArray data = (JSONArray) result.get("data");
-        int size = data.size();
+
+       /*
+       * 现在的sample和idel还是用的原来的接口  返回的是json类型的数据
+       * SNP使用的是新的接口  返回的是对应SNPdto类型的数据
+       * 把data 分别移动到判断条件内  根据不同类型 接收不同类型的参数
+       * */
+
         if ("SAMPLES".equals(model)) {
+            JSONArray data = (JSONArray) result.get("data");
+            int size = data.size();
             for (int i = 0; i < size; i++) {
+
                 JSONObject one = data.getJSONObject(i);
+                // SNPDto snpDto=data.get(i);
 //                if (map.containsKey("ID")) {
 //                    sb.append(one.getString("id")).append(",");
 //                }
@@ -405,32 +449,44 @@ public class SNPController {
                 sb.append("\n");
             }
         } else if ("SNP".equals(model)) {
+            List<SNPDto> data= (List<SNPDto>) result.get("data");
+            int size=data.size();
             for (int i = 0; i < size; i++) {
-                JSONObject one = data.getJSONObject(i);
+                 SNPDto snpDto= (SNPDto) data.get(i);
+                //JSONObject one = data.getJSONObject(i);
                 if (map.containsKey("SNPID")) {
-                    sb.append(one.getString("id")).append(",");
+                    sb.append(snpDto.getId()).append(",");
+                    //sb.append(one.getString("id")).append(",");
                 }
                 if (map.containsKey("consequenceType")) {
-                    sb.append(one.getString("consequencetype")).append(",");
+                    sb.append(snpDto.getConsequencetype()).append(",");
+                    //sb.append(one.getString("consequencetype")).append(",");
                 }
                 if (map.containsKey("chromosome")) {
-                    sb.append(one.getString("chr")).append(",");
+                     sb.append(snpDto.getChr()).append(",");
+                    //sb.append(one.getString("chr")).append(",");
                 }
                 if (map.containsKey("position")) {
-                    sb.append(one.getString("pos")).append(",");
+                    sb.append(snpDto.getPos()).append(",");
+                    //sb.append(one.getString("pos")).append(",");
                 }
                 if (map.containsKey("reference")) {
-                    sb.append(one.getString("ref")).append(",");
+                     sb.append(snpDto.getRef()).append(",");
+                   // sb.append(one.getString("ref")).append(",");
                 }
                 if (map.containsKey("majorAllele")) {
-                    sb.append(one.getString("majorallen")).append(",");
+                    sb.append(snpDto.getMajorallen()).append(",");
+                    //sb.append(one.getString("majorallen")).append(",");
                 }
                 if (map.containsKey("minorAllele")) {
-                    sb.append(one.getString("minorallen")).append(",");
+                    sb.append(snpDto.getMinorallen()).append(",");
+                    //sb.append(one.getString("minorallen")).append(",");
                 }
-                JSONArray freq = one.getJSONArray("freq");
+                 JSONArray freq= (JSONArray) snpDto.getFreq();
+               // JSONArray freq = one.getJSONArray("freq");
                 if (map.containsKey("frequencyOfMajorAllele")) {
-                    sb.append(one.getString("major")).append(",");
+                     sb.append(snpDto.getMajor()).append(",");
+                     //sb.append(one.getString("major")).append(",");
                     for (int j = 0; j < freq.size(); j++) {
                         JSONObject groupFreq = freq.getJSONObject(j);
                         String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
@@ -453,32 +509,45 @@ public class SNPController {
                 sb.append("\n");
             }
         } else if ("INDEL".equals(model)) {
+            List<SNPDto> data= (List<SNPDto>) result.get("data");
+           // JSONArray data = (JSONArray) result.get("data");
+            int size = data.size();
             for (int i = 0; i < size; i++) {
-                JSONObject one = data.getJSONObject(i);
+                  SNPDto snpDto=data.get(i);
+                //JSONObject one = data.getJSONObject(i);
                 if (map.containsKey("INDELID")) {
-                    sb.append(one.getString("id")).append(",");
+                      sb.append(snpDto.getId()).append(",");
+                  //  sb.append(one.getString("id")).append(",");
                 }
                 if (map.containsKey("consequenceType")) {
-                    sb.append(one.getString("consequencetype")).append(",");
+                      sb.append(snpDto.getConsequencetype()).append(",");
+                   // sb.append(one.getString("consequencetype")).append(",");
                 }
                 if (map.containsKey("chromosome")) {
-                    sb.append(one.getString("chr")).append(",");
+                      sb.append(snpDto.getChr()).append(",");
+                    //sb.append(one.getString("chr")).append(",");
                 }
                 if (map.containsKey("position")) {
-                    sb.append(one.getString("pos")).append(",");
+                      sb.append(snpDto.getPos()).append(",");
+                    //sb.append(one.getString("pos")).append(",");
                 }
                 if (map.containsKey("reference")) {
-                    sb.append(one.getString("ref")).append(",");
+                      sb.append(snpDto.getRef()).append(",");
+                    //sb.append(one.getString("ref")).append(",");
                 }
                 if (map.containsKey("majorAllele")) {
-                    sb.append(one.getString("majorallen")).append(",");
+                      sb.append(snpDto.getMajorallen()).append(",");
+                    //sb.append(one.getString("majorallen")).append(",");
                 }
                 if (map.containsKey("minorAllele")) {
-                    sb.append(one.getString("minorallen")).append(",");
+                      sb.append(snpDto.getMinorallen()).append(",");
+                    //sb.append(one.getString("minorallen")).append(",");
                 }
-                JSONArray freq = one.getJSONArray("freq");
+                JSONArray freq= (JSONArray) snpDto.getFreq();
+                //JSONArray freq = one.getJSONArray("freq");
                 if (map.containsKey("frequencyOfMajorAllele")) {
-                    sb.append(one.getString("major")).append(",");
+                      sb.append(snpDto.getMajor()).append(",");
+                    //sb.append(one.getString("major")).append(",");
                     for (int j = 0; j < freq.size(); j++) {
                         JSONObject groupFreq = freq.getJSONObject(j);
                         String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");

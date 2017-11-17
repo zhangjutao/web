@@ -205,7 +205,8 @@ $(function (){
             "palmitic.value":$(".palmiticI").val(),
             // stearic:$(".stearicI").val(), //硬脂酸
             "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "stearic.value":$(".stearicI").val()
+            "stearic.value":$(".stearicI").val(),
+            isPage:1  // 是否分页
         };
         return datas;
     };
@@ -474,8 +475,9 @@ $(function (){
     })
     // 表格导出
     $("#exportData").click(function (){
+        debugger;
         var unSelectes = $("#selectedDetails ul input");
-        var unSelectedLists;
+        var unSelectedLists="";
         for(var i=0;i<unSelectes.length;i++){
             if($(unSelectes[i]).is(":checked")){
                 var unSelecteNames = $(unSelectes[i]).attr("name");
@@ -493,7 +495,9 @@ $(function (){
             dataType: "json",
             contentType: "application/json",
             success:function (result){
-                console.log(result);
+
+                console.log(result)
+               window.location.href = result;
             },
             error:function (error){
                 console.log(error);

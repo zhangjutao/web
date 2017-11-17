@@ -138,7 +138,7 @@
                         </li>
                         <li>
                             <%--无--%>
-                            <input type="checkbox" name="yield" class="yield" checked="checked"> 产量
+                            <input type="checkbox" name="yield" class="yield" checked="checked"> 茸毛色
                         </li>
                         <li>
                             <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
