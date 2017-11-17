@@ -60,7 +60,7 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
             if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleBySNPId();
+                Map map = snpService.findSampleById(snp.getId());
                 snpDto.setGeneType(map);
             }
             data.add(snpDto);
@@ -166,7 +166,7 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snp_Json.put("freq", freqData);
             if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleBySNPId();
+                Map map = snpService.findSampleById(snp.getId());
                 snp_Json.put("geneType",map);
             }
             data.add(snp_Json);
@@ -202,7 +202,7 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
             if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleBySNPId();
+                Map map = snpService.findSampleById(snp.getId());
                 snpDto.setGeneType(map);
             }
             data.add(snpDto);
