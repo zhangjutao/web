@@ -679,6 +679,8 @@ $(function () {
                     }
                 }
             })
+
+
     // 基因结构图
     function drawGeneConstructor(result){
         console.log(result);
@@ -700,11 +702,13 @@ $(function () {
         // 起始竖线
         var verticalLineData = [[20,0],[20,220]];
         // 起始横线
-        var acrossLineData = [[20,220],[geneLength,220]];
+        var acrossLineData = [[20,220],[geneLength/10,220]];
         // 顶部横线
-        var topLineData = [[20,1],[geneLength,1]];
+        var topLineData = [[20,1],[geneLength/10,1]];
         // 中间分割（竖）线
-        var centerLineData = [[20,90],[geneLength,90]]
+        var centerLineData = [[20,90],[geneLength/10,90]]
+        // 画方向箭头
+        var dirArrows  =  [[80,40],[40,60],[80,80],[70,60]];
         var intervalLineData = [];
         var intervalNums = geneLength/100;
         console.log(intervalNums);
@@ -712,10 +716,10 @@ $(function () {
             var intervalElement1 = [];
             var intervalElement2 = [];
             var faultElement = [];
-                intervalElement1[0] = parseInt(i*50 + 20);
+                intervalElement1[0] = parseInt(i*100 + 20);
                 // y轴的值不能设置为0 *****
                 intervalElement1[1] =1;
-            intervalElement2[0] =  parseInt(i*50 + 20);
+            intervalElement2[0] =  parseInt(i*100 + 20);
             intervalElement2[1] = 219;
             faultElement[0] = -1;
             faultElement[1] = -1;
@@ -733,7 +737,9 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
+            svg.append("path").attr("stroke","red").attr('stroke-width', '2').attr("fill","red").attr("d",line(dirArrows)).attr("transform","translate(0,0)");
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
+            //   画方向箭头
 
             // 画基因结构图
 
@@ -760,7 +766,7 @@ $(function () {
             for (var i=0;i<geneConstructs.length;i++){
                 var feature = geneConstructs[i].feature;
                 var colorVal = chromoColor(feature);
-                g.append("rect").attr("x",endPos-geneConstructs[i].start).attr("y",topY).attr("width",geneConstructs[i].end - geneConstructs[i].start).attr("height",rectHeight).attr("fill",colorVal);
+                g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
             }
             // 画snp 位点
             for (var i=0;i<snpLocalPoints.length;i++){
