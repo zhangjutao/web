@@ -948,7 +948,7 @@ public class CommonUtil {
                 return i-1;
             }
         }
-        return null;
+        return -1;
     }
 
 
