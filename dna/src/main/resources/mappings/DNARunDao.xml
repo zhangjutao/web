@@ -447,10 +447,9 @@
           WHERE `id` = #{id};
     </update>
 
-    <select id="getByRunNos" resultMap="">
+    <select id="getByRunNos" resultMap="BaseResultMap">
       SELECT
-      <include refid="Base_Column_List">
-      </include>
+      <include refid="Base_Column_List"/>
         FROM dna_run WHERE run_no IN
         <foreach collection="list" item="runNo" open="(" close=")" separator=",">
             #{runNo}
