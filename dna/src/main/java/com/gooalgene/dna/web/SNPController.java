@@ -119,6 +119,7 @@ public class SNPController {
     @ResponseBody
     public ResultVO getByExample(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                 @RequestParam(value = "isPage")
                                  DnaRunDto dnaRunDto) {
         PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize);
         return ResultUtil.success(dnaRunPageInfo);
