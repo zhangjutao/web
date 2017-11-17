@@ -76,7 +76,7 @@ public class ExportDataController {
         tempFile.write(csvStr.getBytes("utf-8"));
         tempFile.flush();
         tempFile.close();
-        String path=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+"/"+request.getContextPath()+"/tempFile/"+fileName;
+        String path=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/tempFile/"+fileName;
         logger.info(path);
         return path;
     }
