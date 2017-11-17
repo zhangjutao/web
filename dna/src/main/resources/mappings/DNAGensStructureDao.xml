@@ -82,13 +82,13 @@
         SELECT
         gs.*,c.bps
         FROM gens_structure gs,chrlg c
-        WHERE gs.chromosome=c.chr and gs.gene_id=#{geneId}
+        WHERE gs.chromosome=c.chr and gs.gene_id=#{geneId} ORDER BY gs.start DESC
     </select>
 
     <select id="getByStartEnd" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
         SELECT
         gs.*,c.bps
         FROM gens_structure gs,chrlg c
-        WHERE gs.chromosome=c.chr and gs.chromosome=#{chromosome} AND gs.start>=#{start} AND gs.end <![CDATA[ <= ]]> #{end}
+        WHERE gs.chromosome=c.chr and gs.chromosome=#{chromosome} AND gs.start>=#{start} AND gs.end <![CDATA[ <= ]]> #{end} ORDER BY gs.start DESC
     </select>
 </mapper>
