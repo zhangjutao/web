@@ -694,12 +694,15 @@ $(function () {
         var line = d3.line()
             .x(function (d){return d[0]})
             .y(function (d){return d[1]})
+        // 起始竖线
         var verticalLineData = [[20,0],[20,220]];
+        // 起始横线
         var acrossLineData = [[20,220],[geneLength,220]];
+        // 顶部横线
         var topLineData = [[20,1],[geneLength,1]];
+        // 中间分割（竖）线
         var intervalLineData = [];
         var intervalNums = geneLength/100;
-        console.log(intervalNums)
         for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
@@ -720,10 +723,18 @@ $(function () {
                 //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
                 return d[0] > 0 && d[1] > 0;
             })(intervalLineData);
+            // 利用直线生成器生成相应的直线
             svg.append("path").attr("stroke","#000000").attr("stroke-width","3").attr("d",line(verticalLineData));
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
+
+            // 画基因结构图
+            var topY = 70;
+            var rectHeight = 20;
+
+
+
         }
 
     // }
