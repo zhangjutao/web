@@ -126,6 +126,11 @@ public class DNARunService {
         return dnaRunDao.getListByCondition(new DnaRunDto());
     }
 
+    public  List<DNARun> getByRunNos(List<String> runNos){
+        return dnaRunDao.getByRunNos(runNos);
+    }
+
+
 
     /**
      * 根据查询参数json转换为DNARun实体

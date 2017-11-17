@@ -141,6 +141,16 @@ public class SNPController {
     }
 
     /**
+     * 根据runNo查找dnaRun
+     * @return
+     */
+    @RequestMapping(value = "/dnaRuns",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO getByRunNos(@RequestParam("runNos") List<String> runNos) {
+        return ResultUtil.success(dnaRunService.getByRunNos(runNos));
+    }
+
+    /**
      * 按群组条件搜索
      *
      * @param request
