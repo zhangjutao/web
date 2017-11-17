@@ -162,16 +162,14 @@ $(function () {
         params['ctype'] = CTypeSnp;
 
         loadMask ("#mask-test");
-        console.log(params);
-        console.log(url);
         $.ajax({
             url: url,
             data: params,
             type: "POST",
             dataType: "json",
             success: function(res) {
-                console.log(11);
                 console.log(res);
+                drawGeneConstructor(res);
                 maskClose("#mask-test");
                 SNPData = res.data;
                 if(res.data.length > 0) {
@@ -246,6 +244,8 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
+
+                console.log(res)
                 maskClose("#mask-test2");
                 INDELData = res.data;
                 if(res.data.length > 0) {
@@ -679,4 +679,52 @@ $(function () {
                     }
                 }
             })
+    // 基因结构图
+    function drawGeneConstructor(result){
+        console.log(result);
+        // debugger;
+        var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
+        var endPos =parseInt(result.conditions.split(",")[2])+2000>47904181?47904181:parseInt(result.conditions.split(",")[2]);
+        var geneLength = endPos - startPos;
+        console.log(geneLength);
+       d3.select("#constructorPanel").selectAll("svg").remove();
+       // 创建一个svg 元素
+        var svg = d3.select("#constructorPanel").append("svg").attr("width",geneLength + "px").attr("height","220px");
+        // 创建一个直线生成器
+        var line = d3.line()
+            .x(function (d){return d[0]})
+            .y(function (d){return d[1]})
+        var verticalLineData = [[20,0],[20,220]];
+        var acrossLineData = [[20,220],[geneLength,220]];
+        var topLineData = [[20,1],[geneLength,1]];
+        var intervalLineData = [];
+        var intervalNums = geneLength/100;
+        console.log(intervalNums)
+        for (var i=0;i<intervalNums;i++){
+            var intervalElement1 = [];
+            var intervalElement2 = [];
+            var faultElement = [];
+                intervalElement1[0] = parseInt(i*100 + 20);
+                // y轴的值不能设置为0 *****
+                intervalElement1[1] =1;
+            intervalElement2[0] =  parseInt(i*100 + 20);
+            intervalElement2[1] = 219;
+            faultElement[0] = -1;
+            faultElement[1] = -1;
+            intervalLineData.push(intervalElement1);
+            intervalLineData.push(intervalElement2);
+            intervalLineData.push(faultElement);
+            }
+        // 利用defined 把一条路径切割成一段一段的多条路径
+            var line2 = line.defined(function(d, i, index) {
+                //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
+                return d[0] > 0 && d[1] > 0;
+            })(intervalLineData);
+            svg.append("path").attr("stroke","#000000").attr("stroke-width","3").attr("d",line(verticalLineData));
+            svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
+            svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
+            svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
+        }
+
+    // }
 })
