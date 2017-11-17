@@ -76,7 +76,21 @@ public class ExportDataController {
         tempFile.write(csvStr.getBytes("utf-8"));
         tempFile.flush();
         tempFile.close();
-        String path=request.getScheme()+"://"+request.getServerName()+":"+request.getServerPort()+request.getContextPath()+"/tempFile/"+fileName;
+
+        String scheme = request.getScheme();                // http
+        String serverName = request.getServerName();        // gooalgene.com
+        int serverPort = request.getServerPort();           // 8080
+        String contextPath = request.getContextPath();      // /dna
+        //重构请求URL
+        StringBuilder builder = new StringBuilder();
+        builder.append(scheme).append("://").append(serverName);
+        //针对nginx反向代理、https请求重定向，不需要加端口
+        if (serverPort != 80 && serverPort != 443){
+            builder.append(":").append(serverPort);
+        }
+        builder.append(contextPath);
+
+        String path=builder.toString()+"/tempFile/"+fileName;
         logger.info(path);
         return path;
     }
