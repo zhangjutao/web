@@ -133,6 +133,7 @@ public class SNPService {
         result.put("total", page.getCount());
         result.put("data", data);
         result.put("dnaGenStructures",dnaGenStructures);
+        result.put("bps",dnaGenStructures.get(0).getBps());
         return result;
     }
 
