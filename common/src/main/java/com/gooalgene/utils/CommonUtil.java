@@ -937,7 +937,7 @@ public class CommonUtil {
 		}
 		*/
         //MyUtil.getStartTimeStr();
-        Integer i=getCharPositionBeforNum("GLYI0001");
+        Integer i=getCharPositionBeforNum("GLYIF0001");
         System.out.println(i);
     }
 
@@ -948,7 +948,7 @@ public class CommonUtil {
                 return i-1;
             }
         }
-        return null;
+        return -1;
     }
 
 
