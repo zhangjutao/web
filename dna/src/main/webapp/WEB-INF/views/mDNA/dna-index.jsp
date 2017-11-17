@@ -25,6 +25,7 @@
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+    <script src="${ctxStatic}/js/d3.js"></script>
     <script src="${ctxStatic}/js/addTags.js"></script>
 
     <style>
@@ -138,6 +139,29 @@
                     <li class="item-ac">SNPs</li>
                     <li class="">INDELs</li>
                 </ul>
+                <%--基因结构图 begin--%>
+                <div id="geneConstruction">
+                    <div class="geneLegend">
+                        <p>
+                            <span class="colorBlock" style="background: #ffb902;"></span>
+                            <span class="legendCnt">3'UTR</span>
+                        </p>
+                        <p style="width:52px;">
+                            <span class="colorBlock" style="background: #0099bb;"></span>
+                            <span class="legendCnt">CDS</span>
+                        </p>
+                        <p>
+                            <span class="colorBlock" style="background: #f76919;"></span>
+                            <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
+                        </p>
+                    </div>
+                    <div id="constructorPanel">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+                        </svg>
+                    </div>
+                </div>
+                <%--基因结构图 end--%>
                 <div class="tab">
                     <div class="tab-txt tab-txt-ac js-snp-tab">
                         <div class="export-data">
