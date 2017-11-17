@@ -7,6 +7,7 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.utils.CommonUtil;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -15,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -58,7 +60,7 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
             if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleBySNPId();
+                Map map = snpService.findSampleById(snp.getId());
                 snpDto.setGeneType(map);
             }
             data.add(snpDto);
@@ -69,8 +71,83 @@ public class SNPService {
         return result;
     }
 
-    public Map findSampleBySNPId() {
-        return new HashMap();
+    /**
+     * 将samples中的genotype格式（0/0、0/1、1/1字符串）对应转换为ref+ref、ref+alt、alt+alt字符串
+     * 计算单个snp中三种genotype的比率
+     *
+     * @param snp
+     * @return
+     */
+    public Map genotypeTransform(SNP snp, String type) {
+        Map<String, String> originSamples = snp.getSamples();
+        Map<String, String> transformedSamples = new HashMap<String, String>();
+        Map transformResult = new HashMap();
+        String ref = snp.getRef();
+        String alt = snp.getAlt();
+        int totalRefAndRef = 0;
+        int totalRefAndAlt = 0;
+        int totalAltAndAlt = 0;
+        BigDecimal  bigDecimalTotalSamples= BigDecimal.valueOf(snp.getSamples().size());
+        for (Map.Entry<String, String> entry : originSamples.entrySet()) {
+            if (entry.getValue().equals("0/0")) {
+                transformedSamples.put(entry.getKey(), ref + ref);
+                totalRefAndRef += 1;
+            } else if (entry.getValue().equals("0/1")) {
+                transformedSamples.put(entry.getKey(), ref + alt);
+                totalRefAndAlt += 1;
+            } else {
+                transformedSamples.put(entry.getKey(), alt + alt);
+                totalAltAndAlt += 1;
+            }
+        }
+        snp.setSamples(transformedSamples);
+        transformResult.put("snpData", snp);
+        BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
+        BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
+        BigDecimal bigDecimalAAA = BigDecimal.valueOf(totalAltAndAlt);
+        transformResult.put("RefAndRefPercent", bigDecimalRAR.divide(
+                bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+        transformResult.put("totalRefAndAltPercent", bigDecimalRAA.divide(
+                bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+        transformResult.put("totalAltAndAltPercent", bigDecimalAAA.divide(
+                bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
+        return transformResult;
+    }
+
+    /**
+     * 通过SNP或INDEL的id查找相应SNP或INDEL数据及相关sample数据
+     * @param id
+     * @return
+     */
+    public Map findSampleById(String id) {
+        Map oneDataResult = new HashMap();
+        int markNumber = CommonUtil.getCharPositionBeforNum(id);
+        if (markNumber == -1) {
+            oneDataResult.put("id不符合规范", null);
+            return oneDataResult;
+        }
+        String type;
+        if (id.indexOf("I", markNumber) == markNumber) {
+            type = "INDEL";
+        } else if (id.indexOf("S", markNumber) == markNumber) {
+            type = "SNP";
+        } else {
+            oneDataResult.put("id不符合规范", null);
+            return oneDataResult;
+        }
+        String chr = "Chr" + (id.substring(markNumber + 2, markNumber + 4));
+        SNP oneData = dnaMongoService.findDataById(type, chr, id);
+        if (oneData == null) {
+            return null;
+        }
+        if (type.equals("SNP")) {
+            oneDataResult = genotypeTransform(oneData, type);
+            return oneDataResult;
+        } else if (type.equals("INDEL")) {
+            oneDataResult.put("INDELData", oneData);
+            return oneDataResult;
+        }
+        return null;
     }
 
     public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
@@ -89,7 +166,7 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snp_Json.put("freq", freqData);
             if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleBySNPId();
+                Map map = snpService.findSampleById(snp.getId());
                 snp_Json.put("geneType",map);
             }
             data.add(snp_Json);
@@ -125,7 +202,7 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
             if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleBySNPId();
+                Map map = snpService.findSampleById(snp.getId());
                 snpDto.setGeneType(map);
             }
             data.add(snpDto);
@@ -246,7 +323,7 @@ public class SNPService {
     }
 
     public Map searchSNPByGene(String type, String gene, Page<DNAGens> page) {
-        List<SNP> snps = dnaMongoService.searchByGene(type,gene,page);
+        List<SNP> snps = dnaMongoService.searchByGene(type, gene, page);
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
