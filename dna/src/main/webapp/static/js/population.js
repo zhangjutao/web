@@ -205,7 +205,8 @@ $(function (){
             "palmitic.value":$(".palmiticI").val(),
             // stearic:$(".stearicI").val(), //硬脂酸
             "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "stearic.value":$(".stearicI").val()
+            "stearic.value":$(".stearicI").val(),
+            isPage:1  // 是否分页
         };
         return datas;
     };

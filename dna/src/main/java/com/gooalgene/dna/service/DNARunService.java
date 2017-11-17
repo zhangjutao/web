@@ -3,13 +3,12 @@ package com.gooalgene.dna.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
-import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -114,17 +113,13 @@ public class DNARunService {
     /**
      * 动态查询dnarun
      */
-    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize){
-        PageHelper.startPage(pageNum,pageSize);
+    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
+        if(StringUtils.isBlank(isPage)){
+            PageHelper.startPage(pageNum,pageSize);
+        }
         List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
-    }
-    /**
-     * 动态查询dnarun不分页
-     */
-    public List<DNARun> getByConditionNoPage(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize){
-        return dnaRunDao.getListByCondition(dnaRunDto);
     }
 
     public  List<DNARun> getAll(){

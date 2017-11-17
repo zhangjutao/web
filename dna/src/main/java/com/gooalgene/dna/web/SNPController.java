@@ -30,6 +30,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.mail.MessagingException;
@@ -121,14 +122,8 @@ public class SNPController {
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
                                  @RequestParam(value = "isPage",required = false)String isPage,
                                  DnaRunDto dnaRunDto) {
-        if(StringUtils.isBlank(isPage)){
-            List<DNARun> dnaRunPageInfo=dnaRunService.getByConditionNoPage(dnaRunDto,pageNum,pageSize);
+            PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize,isPage);
             return ResultUtil.success(dnaRunPageInfo);
-        }else {
-            PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize);
-            return ResultUtil.success(dnaRunPageInfo);
-        }
-
 
     }
 
