@@ -708,7 +708,7 @@ $(function () {
         // 中间分割（竖）线
         var centerLineData = [[20,90],[geneLength/10,90]]
         // 画方向箭头
-        var dirArrows  =  [[80,40],[40,60],[80,80],[70,60]];
+        var dirArrows  =  [[40,60],[20,80],[40,100],[30,80]];
         var intervalLineData = [];
         var intervalNums = geneLength/100;
         console.log(intervalNums);
