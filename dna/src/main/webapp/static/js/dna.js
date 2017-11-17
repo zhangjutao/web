@@ -704,6 +704,7 @@ $(function () {
         // 顶部横线
         var topLineData = [[20,1],[geneLength,1]];
         // 中间分割（竖）线
+        var centerLineData = [[20,90],[geneLength,90]]
         var intervalLineData = [];
         var intervalNums = geneLength/100;
         for (var i=0;i<intervalNums;i++){
@@ -730,6 +731,7 @@ $(function () {
             svg.append("path").attr("stroke","#000000").attr("stroke-width","3").attr("d",line(verticalLineData));
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
+            svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
 
             // 画基因结构图
@@ -769,6 +771,36 @@ $(function () {
 
                 }
             }
+            // 画一条线
+            // g.append("line").attr("x1","20").attr("y1","80").attr("x2",geneLength).attr("y2","80").attr("stroke-width","2").attr("stroke","#666666");
+
+
 
         }
+    // 定义滚轮缩放
+    // var count = 1;
+    // $("#constructorPanel").on("mousewheel DOMMouseScroll","svg",function (e) {
+    //
+    //     var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+    //         (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
+    //
+    //
+    //     if (delta > 0) {
+    //         // 向上滚
+    //         count++;
+    //         $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //         console.log("wheelup");
+    //
+    //     } else if (delta < 0) {
+    //         // 向下滚
+    //         count--;
+    //         if (count > 0) {
+    //             $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //             console.log("wheeldown");
+    //         }else if(count<=0){
+    //             count = 1
+    //         }
+    //
+    //     }
+    // });
 })
