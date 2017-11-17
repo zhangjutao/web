@@ -142,6 +142,16 @@ public class SNPController {
     }
 
     /**
+     * 根据runNo查找dnaRun
+     * @return
+     */
+    @RequestMapping(value = "/dnaRuns",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO getByRunNos(@RequestParam("runNos") List<String> runNos) {
+        return ResultUtil.success(dnaRunService.getByRunNos(runNos));
+    }
+
+    /**
      * 按群组条件搜索
      *
      * @param request
@@ -164,13 +174,20 @@ public class SNPController {
         return result;
     }
 
-    @RequestMapping("/findSampleBySNPId")
+    /**
+     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/findSampleById")
     @ResponseBody
-    public ResultVO genetypePercentBySNPId(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");
-        String ctype = request.getParameter("ctype");
-        String chr = request.getParameter("chromosome");
-        Map result = snpService.findSampleBySNPId();
+    public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        if (id == null) {
+            return ResultUtil.error(200, "未拿到id的值");
+        }
+        Map result = snpService.findSampleById(id);
         return ResultUtil.success(result);
     }
 
