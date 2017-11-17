@@ -474,6 +474,7 @@ $(function (){
     })
     // 表格导出
     $("#exportData").click(function (){
+        debugger;
         var unSelectes = $("#selectedDetails ul input");
         var unSelectedLists="";
         for(var i=0;i<unSelectes.length;i++){
@@ -493,6 +494,8 @@ $(function (){
             dataType: "json",
             contentType: "application/json",
             success:function (result){
+
+                console.log(result)
                window.location.href = result;
             },
             error:function (error){
