@@ -728,6 +728,13 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
+
+            // 画基因结构图
+            var topY = 70;
+            var rectHeight = 20;
+
+
+
         }
 
     // }
