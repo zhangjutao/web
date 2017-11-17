@@ -683,11 +683,12 @@ $(function () {
     function drawGeneConstructor(result){
         console.log(result);
         // 参考值
-        // var referenceVal = result.bps;
-        var referenceVal = 47904181;
+        var referenceVal = result.bps;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
         var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
         var geneLength = endPos - startPos;
+        console.log(startPos);
+        console.log(endPos);
         console.log(geneLength);
        d3.select("#constructorPanel").selectAll("svg").remove();
        // 创建一个svg 元素
@@ -736,11 +737,38 @@ $(function () {
             var topY = 70;   // 基因结构图距离上边距离
             var rectHeight = 20;   // 基因结构图高度
             var leftMargin = 60;
-            svg.append("g")
+            var snpWidth = 5;
+            var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            var geneConstructs = result.dnaGenStructures;
+            var snpLocalPoints = result.data;
+            var snpColor = "#6b69d6";
+            // 根据染色体不同绘制不同的颜色
+            function chromoColor (str){
+                if(str == "three_prime_UTR"){
+                    return "#ffb902";
+                }else if(str == "CDS"){
+                    return "#0099bb";
+                }else if(str == "five_prime_UTR"){
+                    return "#f76919"
+                }
+            }
+            // 基因结构
+            for (var i=0;i<geneConstructs.length;i++){
+                var feature = geneConstructs[i].feature;
+                var colorVal = chromoColor(feature);
+                g.append("rect").attr("x",endPos-geneConstructs[i].start).attr("y",topY).attr("width",geneConstructs[i].end - geneConstructs[i].start).attr("height",rectHeight).attr("fill",colorVal);
+            }
+            // 画snp 位点
+            for (var i=0;i<snpLocalPoints.length;i++){
+                if(snpLocalPoints[i+1].pos - snpLocalPoints[i].pos <10){
+                    g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
 
+                }else {
+                    g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
 
+                }
+            }
 
         }
-
-    // }
 })
