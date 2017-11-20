@@ -770,7 +770,7 @@ $(function () {
             var snpColor = "#6b69d6";
             // 根据染色体不同绘制不同的颜色
             function chromoColor (str){
-                if(str == "three_prime_UTR"){
+                    if(str == "three_prime_UTR"){
                     return "#ffb902";
                 }else if(str == "CDS"){
                     return "#0099bb";
