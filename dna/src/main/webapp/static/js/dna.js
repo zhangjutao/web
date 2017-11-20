@@ -246,6 +246,7 @@ $(function () {
             success: function(res) {
 
                 console.log(res)
+                drawGeneConstructor(res);
                 maskClose("#mask-test2");
                 INDELData = res.data;
                 if(res.data.length > 0) {
@@ -364,8 +365,7 @@ $(function () {
     function renderSNPTable(data) {
         var str = '';
         $.each(data, function(idx, item) {
-            console.log(item);
-            str += '<tr>'
+            str += '<tr id="' + item.id + '">'
             str += '    <td class="t_snpid" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
             str += '    <td class="t_consequenceType"><p class="js-tipes-show">'+ formatConseType(item.consequencetype) + '</p></td>'
             str += '    <td class="t_snpchromosome"><p>'+ item.chr +'</p></td>'
@@ -792,15 +792,29 @@ $(function () {
                         a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }else {
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    }
+                }else {
+                    if((snpLocalPoints[i].pos - snpLocalPoints[i-1].pos)/10 >10){
+                        var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }
                 }
             }
             // 画一条线
             // g.append("line").attr("x1","20").attr("y1","80").attr("x2",geneLength).attr("y2","80").attr("stroke-width","2").attr("stroke","#666666");
 
-        $("g a rect").click(function (){
-            alert(33)
+        $("g a rect").click(function (e){
+           var tabid = $(e.target).parent().attr("href").substring(1);
+           console.log(tabid);
+          var trlist = $("#tableBody tr");
+          for (var i=0;i<trlist.length;i++){
+              if ($(trlist[i]).hasClass("tabTrColor")){
+                  $(trlist[i]).removeClass("tabTrColor");
+              }
+          }
+
+            $("#" + tabid).addClass("tabTrColor");
         })
 
         }
