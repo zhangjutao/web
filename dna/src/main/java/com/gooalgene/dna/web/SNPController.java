@@ -188,7 +188,7 @@ public class SNPController {
         if (id == null) {
             return ResultUtil.error(200, "未拿到id的值");
         }
-        Map result = snpService.findSampleById(id);
+            Map result = snpService.findSampleById(id);
         return ResultUtil.success(result);
     }
 
