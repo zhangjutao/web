@@ -484,13 +484,15 @@ $(function (){
                 unSelectedLists+=unSelecteNames + ",";
             }
         }
+        var exportCondition=getParamas();
         // modify by Crabime
         // 修复tomcat8无法识别的JSON格式问题
         $.ajax({
             type:"GET",
             url:CTXROOT + "/export",
             data:{
-                  "titles":unSelectedLists
+                  "titles":unSelectedLists,
+                  "condition":JSON.stringify(exportCondition)
                 },
             dataType: "json",
             contentType: "application/json",

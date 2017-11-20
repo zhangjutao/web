@@ -11,10 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,12 +37,14 @@ public class ExportDataController {
 
     private static List<String> dnaList=new ArrayList<String>();
 
-    @RequestMapping(value = "/export", method = RequestMethod.GET)
+    @RequestMapping(value = "/export", method = RequestMethod.GET,produces ="application/json")
     @ResponseBody
     public String exportData(HttpServletRequest request) throws IOException {
 
         String choices=request.getParameter("titles");
-        logger.info(choices);
+        String temp=request.getParameter("condition");
+        DnaRunDto dnaRunDto=JsonUtils.Json2Bean(temp,DnaRunDto.class);
+        logger.info(dnaRunDto.getCultivar());
         String titles=choices.substring(0, choices.length() - 1);
         String[] condition=titles.split(",");
         String fileName="";
@@ -67,7 +66,7 @@ public class ExportDataController {
         fileName+= UUID.randomUUID()+".csv";
         String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile\\";
         String csvStr="";
-        List<DNARun> result=dnaRunDao.getListByCondition(new DnaRunDto());
+        List<DNARun> result=dnaRunDao.getListByCondition(dnaRunDto);
 
         //使用csv进行导出
         csvStr=createCsvStr(result,condition);
@@ -79,7 +78,7 @@ public class ExportDataController {
         }
 
         FileOutputStream tempFile=new FileOutputStream(tempfile);
-        tempFile.write(csvStr.getBytes("utf-8"));
+        tempFile.write(csvStr.getBytes("gbk"));
         tempFile.flush();
         tempFile.close();
 
@@ -179,7 +178,7 @@ public class ExportDataController {
                 String locality=dnaRun.getLocality();
                 dnaList.add(locality != null ? locality : "");
                 if(locality!=null&&locality.contains(",")){
-                    locality=locality.replaceAll(",",".");
+                    locality=locality.replaceAll(",","，");
                 }
                 sb.append(locality!=null?locality:" ").append(",");
             }
