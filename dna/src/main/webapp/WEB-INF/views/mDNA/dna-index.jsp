@@ -210,6 +210,7 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
+                                            <td class="param t_Genotype">Genotype</td>
                                             <%--<td class="param t_fmajorAllelein">--%>
                                                 <%--<select class="f-ma-in">--%>
                                                     <%--<option>Frequency of Major Allele in</option>--%>
