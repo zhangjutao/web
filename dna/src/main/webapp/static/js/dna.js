@@ -901,8 +901,8 @@ $(function () {
                consquence:consquence,
                position:position,
                major:major,
-               frequence:frequence,
-               samples:samples
+               frequence:frequence
+               // samples:samples
            }
            console.log(data);
             $.ajax({
@@ -910,7 +910,7 @@ $(function () {
                 url:ctxRoot +"/dna/snp/info",
                 data:JSON.stringify(data),
                 dataType:"json",
-                contentType:"application/json",
+                contentType:"application/json;utf-8",
                 success:function (result){
                     console.log(result);
                 },
