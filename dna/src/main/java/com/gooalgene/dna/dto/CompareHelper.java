@@ -19,4 +19,10 @@ public class CompareHelper {
     public void setValue(Float value) {
         this.value = value;
     }
+
+    public CompareHelper(String operation,float value){
+        this.operation=operation;
+        this.value=value;
+    }
+
 }
