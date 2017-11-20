@@ -193,7 +193,7 @@ $(function (){
             "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
             // linoleic:$(".linoleicI").val(), //亚油酸
             "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "linoleicvalue":$(".linoleicI").val(),
+            "linoleic.value":$(".linoleicI").val(),
             // linolenic:$(".linolenicI").val(), //亚麻酸
             "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
             "linolenic.value":$(".linolenicI").val(),

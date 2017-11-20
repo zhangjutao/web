@@ -1,29 +1,20 @@
 package com.gooalgene.dna.web;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.dna.dao.DNARunDao;
-import com.gooalgene.dna.dto.CompareHelper;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
-import com.gooalgene.utils.ExcelExportSXXSSF;
+import com.gooalgene.dna.util.Json2DnaRunDto;
 import com.gooalgene.utils.JsonUtils;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.web.bind.annotation.*;
-
-import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import java.io.*;
-
 import java.util.*;
-
 /**
  * Created by liuyan on 2017/11/13
  *
@@ -48,31 +39,8 @@ public class ExportDataController {
         String choices=request.getParameter("titles");
         String temp=request.getParameter("condition");
         JSONObject object=JSONObject.fromObject(temp);
-        ObjectMapper objectMapper=new ObjectMapper();
-        DnaRunDto dnaRunDto=new DnaRunDto();
-        dnaRunDto.setCultivar(object.getString("cultivar"));
-        dnaRunDto.setSpecies(object.getString("species"));
-        dnaRunDto.setLocality(object.getString("locality"));
-        dnaRunDto.setSampleName(object.getString("sampleName"));
-        dnaRunDto.setWeightPer100seeds(new CompareHelper(object.getString("weightPer100seeds.operation"), Float.parseFloat(object.getString("weightPer100seeds.value"))));
-        dnaRunDto.setProtein(new CompareHelper(object.getString("protein.opration"), Float.parseFloat(object.getString("protein.value"))));
-        dnaRunDto.setOil(new CompareHelper(object.getString("oil.opration"), Float.parseFloat(object.getString("oil.value"))));
-        dnaRunDto.setMaturityDate(object.getString("maturityDate"));
-        dnaRunDto.setHeight(new CompareHelper(object.getString("height.opration"), Float.parseFloat(object.getString("height.value"))));
-        dnaRunDto.setSeedCoatColor(object.getString("seedCoatColor"));
-        dnaRunDto.setHilumColor(object.getString("hilumColor"));
-        dnaRunDto.setCotyledonColor(object.getString("cotyledonColor"));
-        dnaRunDto.setFlowerColor(object.getString("flowerColor"));
-        dnaRunDto.setPodColor(object.getString("podColor"));
-        dnaRunDto.setPubescenceColor(object.getString("pubescenceColor"));
-        dnaRunDto.setYield(new CompareHelper(object.getString("yield"), Float.parseFloat(object.getString("yield.Value"))));
-        dnaRunDto.setUpperLeafletLength(new CompareHelper(object.getString("upperLeafletLength.operation"), Float.parseFloat(object.getString("upperLeafletLength.value"))));
-        dnaRunDto.setLinoleic(new CompareHelper(object.getString("linoleic.operation"), Float.parseFloat(object.getString("linoleic.value"))));
-        dnaRunDto.setLinolenic(new CompareHelper(object.getString("linolenic.operation"), Float.parseFloat(object.getString("linolenic.value"))));
-        dnaRunDto.setOleic(new CompareHelper(object.getString("oleic"), Float.parseFloat(object.getString("oleic.value"))));
-        dnaRunDto.setPalmitic(new CompareHelper(object.getString("palmitic"), Float.parseFloat(object.getString("palmitic.value"))));
-        dnaRunDto.setStearic(new CompareHelper(object.getString("stearic.operation"),Float.parseFloat(object.getString("stearic.value"))));
-
+        DnaRunDto dnaRunDto= Json2DnaRunDto.json2DnaRunDto(object);
+       // DnaRunDto dnaRunDto=new DnaRunDto();
         String titles=choices.substring(0, choices.length() - 1);
         String[] condition=titles.split(",");
         String fileName="";
@@ -368,11 +336,6 @@ public class ExportDataController {
 
 
       return "";
-  }
-
-
-
-
-
+   }
 
 }

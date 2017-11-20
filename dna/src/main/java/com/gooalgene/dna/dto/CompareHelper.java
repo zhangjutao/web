@@ -20,9 +20,5 @@ public class CompareHelper {
         this.value = value;
     }
 
-    public CompareHelper(String operation,float value){
-        this.operation=operation;
-        this.value=value;
-    }
 
 }
