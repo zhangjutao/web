@@ -114,7 +114,7 @@ public class DNARunService {
      * 动态查询dnarun
      */
     public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
-        if(StringUtils.isBlank(isPage)){
+        if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
         List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
