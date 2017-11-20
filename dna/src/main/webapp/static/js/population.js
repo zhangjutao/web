@@ -155,7 +155,9 @@ $(function (){
             // }
         }
     })
-       getData();
+        // 点击群体信息进入页面初始化开始获取table数据
+        var initData = getParamas()
+        getData(initData);
         $("#page .two").addClass("pageColor");
     // 获取当前参数 封装
     function getParamas (){

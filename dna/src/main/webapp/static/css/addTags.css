@@ -176,7 +176,7 @@ p.first{
 .legendCnt{
     /*position:relative;*/
 }
-#constructorPanel{
+#constructorPanel,#constructorPanel2{
     width:885px;
     height:280px;
     overflow-x:scroll;
@@ -184,4 +184,7 @@ p.first{
 .tabTrColor{
     background:#5d8ce6!important;
      color:#fff;
+}
+#constructorPanel2{
+    /*display:none;*/
 }
