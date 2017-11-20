@@ -850,9 +850,11 @@ public class SNPController {
      */
     @RequestMapping("/snp/info")
     @ResponseBody
-    public ResultVO getSnpInfo(HttpServletRequest request, HttpServletResponse response, SNP snp) {
-        List runNos = Arrays.asList(snp.getSamples());
-        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
-        return ResultUtil.success(dnaRuns);
+    public ModelAndView getSnpInfo(HttpServletRequest request, HttpServletResponse response,SNP snp) {
+        /*List runNos = Arrays.asList(snp.getSamples());
+        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);*/
+        ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");
+        modelAndView.addObject("snp",snp);
+        return modelAndView;
     }
 }
