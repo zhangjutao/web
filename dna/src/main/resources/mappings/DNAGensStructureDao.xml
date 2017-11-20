@@ -78,10 +78,28 @@
         </trim>
     </insert>
 
-    <select id="getByGeneId" resultMap="BaseResultMap">
-        SELECT
-        <include refid="Base_Column_List"/>
-        FROM gens_structure
-        WHERE gene_id=#{geneId}
+    <select id="getByGeneId" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
+        SELECT DISTINCT
+            stru.*, c.bps
+        FROM
+            gens_structure stru
+        LEFT JOIN gens_sequence seq ON stru.gene_id = seq.gene_id
+        LEFT JOIN chrlg c ON stru.chromosome = c.chr
+        WHERE
+            stru.gene_id = #{geneId}
+        ORDER BY
+            stru.start DESC
+    </select>
+
+    <select id="getByStartEnd" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
+        SELECT DISTINCT
+            stru.*, c.bps
+        FROM
+            gens_structure stru
+        LEFT JOIN gens_sequence seq ON stru.gene_id = seq.gene_id
+        LEFT JOIN chrlg c ON stru.chromosome = c.chr
+        WHERE
+            stru.chromosome=c.chr and stru.chromosome=#{chromosome} AND stru.start>=#{start} AND stru.end <![CDATA[ <= ]]> #{end}
+            ORDER BY stru.start DESC
     </select>
 </mapper>

@@ -127,7 +127,8 @@ $(function (){
         var datas = {
             group:"",
             pageSize:paramData.pageSize,
-            pageNum:paramData.pageNum
+            pageNum:paramData.pageNum,
+            isPage:1
         };
         return datas;
     }
@@ -241,7 +242,7 @@ $(function (){
     // 每个group的点击事件
     $(".popNames li").click(function (){
         var liVal = $(this).text();
-        var data = getParames();
+        var data = getParamas();
         data.group = liVal;
         getData(data);
     })
@@ -389,4 +390,6 @@ $(function (){
         }
     })
     // 分页 end
+
+
 })

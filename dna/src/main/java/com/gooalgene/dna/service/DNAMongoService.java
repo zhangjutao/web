@@ -219,6 +219,17 @@ public class DNAMongoService {
         return flag;
     }
 
+    public SNP findDataById(String type, String chr, String id) {
+        String collectionName = type + "_" +chr;
+        SNP oneData = new SNP();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            oneData = mongoTemplate.findOne(Query.query(Criteria.where("_id").is(id)), SNP.class, collectionName);
+            return oneData;
+        } else {
+            return oneData;
+        }
+    }
+
     public List<SNP> searchInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page) {
         String collectionName = type + "_" + chr;
         long total = 0;

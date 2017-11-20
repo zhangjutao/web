@@ -162,16 +162,14 @@ $(function () {
         params['ctype'] = CTypeSnp;
 
         loadMask ("#mask-test");
-        console.log(params);
-        console.log(url);
         $.ajax({
             url: url,
             data: params,
             type: "POST",
             dataType: "json",
             success: function(res) {
-                console.log(11);
                 console.log(res);
+                drawGeneConstructor(res);
                 maskClose("#mask-test");
                 SNPData = res.data;
                 if(res.data.length > 0) {
@@ -246,6 +244,8 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
+
+                console.log(res)
                 maskClose("#mask-test2");
                 INDELData = res.data;
                 if(res.data.length > 0) {
@@ -679,4 +679,136 @@ $(function () {
                     }
                 }
             })
+
+
+    // 基因结构图
+    function drawGeneConstructor(result){
+        console.log(result);
+        // 参考值
+        var referenceVal = result.bps;
+        var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
+        var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
+        var geneLength = endPos - startPos;
+        console.log(startPos);
+        console.log(endPos);
+        console.log(geneLength);
+       d3.select("#constructorPanel").selectAll("svg").remove();
+       // 创建一个svg 元素
+        var svg = d3.select("#constructorPanel").append("svg").attr("width",geneLength/10 + "px").attr("height","220px");
+        // 创建一个直线生成器
+        var line = d3.line()
+            .x(function (d){return d[0]})
+            .y(function (d){return d[1]})
+        // 起始竖线
+        var verticalLineData = [[20,0],[20,220]];
+        // 起始横线
+        var acrossLineData = [[20,220],[geneLength/10,220]];
+        // 顶部横线
+        var topLineData = [[20,1],[geneLength/10,1]];
+        // 中间分割（竖）线
+        var centerLineData = [[20,90],[geneLength/10,90]]
+        // 画方向箭头
+        var dirArrows  =  [[40,60],[20,80],[40,100],[30,80]];
+        var intervalLineData = [];
+        var intervalNums = geneLength/100;
+        console.log(intervalNums);
+        for (var i=0;i<intervalNums;i++){
+            var intervalElement1 = [];
+            var intervalElement2 = [];
+            var faultElement = [];
+                intervalElement1[0] = parseInt(i*100 + 20);
+                // y轴的值不能设置为0 *****
+                intervalElement1[1] =1;
+            intervalElement2[0] =  parseInt(i*100 + 20);
+            intervalElement2[1] = 219;
+            faultElement[0] = -1;
+            faultElement[1] = -1;
+            intervalLineData.push(intervalElement1);
+            intervalLineData.push(intervalElement2);
+            intervalLineData.push(faultElement);
+            }
+        // 利用defined 把一条路径切割成一段一段的多条路径
+            var line2 = line.defined(function(d, i, index) {
+                //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
+                return d[0] > 0 && d[1] > 0;
+            })(intervalLineData);
+            // 利用直线生成器生成相应的直线
+            svg.append("path").attr("stroke","#000000").attr("stroke-width","3").attr("d",line(verticalLineData));
+            svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
+            svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
+            svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
+            svg.append("path").attr("stroke","red").attr('stroke-width', '2').attr("fill","red").attr("d",line(dirArrows)).attr("transform","translate(0,0)");
+            svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
+            //   画方向箭头
+
+            // 画基因结构图
+
+            var topY = 70;   // 基因结构图距离上边距离
+            var rectHeight = 20;   // 基因结构图高度
+            var leftMargin = 60;
+            var snpWidth = 5;
+            var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            var geneConstructs = result.dnaGenStructures;
+            var snpLocalPoints = result.data;
+            var snpColor = "#6b69d6";
+            // 根据染色体不同绘制不同的颜色
+            function chromoColor (str){
+                if(str == "three_prime_UTR"){
+                    return "#ffb902";
+                }else if(str == "CDS"){
+                    return "#0099bb";
+                }else if(str == "five_prime_UTR"){
+                    return "#f76919";
+                }
+            }
+            // 基因结构
+            for (var i=0;i<geneConstructs.length;i++){
+                var feature = geneConstructs[i].feature;
+                var colorVal = chromoColor(feature);
+                g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+            }
+            // 画snp 位点
+            for (var i=0;i<snpLocalPoints.length;i++){
+                if(i < snpLocalPoints.length - 1){
+                    if(snpLocalPoints[i+1].pos - snpLocalPoints[i].pos <10){
+                        g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    }else {
+                        g1.append("rect").attr("x",endPos - snpLocalPoints[i].pos).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+
+                    }
+                }
+            }
+            // 画一条线
+            // g.append("line").attr("x1","20").attr("y1","80").attr("x2",geneLength).attr("y2","80").attr("stroke-width","2").attr("stroke","#666666");
+
+
+
+        }
+    // 定义滚轮缩放
+    // var count = 1;
+    // $("#constructorPanel").on("mousewheel DOMMouseScroll","svg",function (e) {
+    //
+    //     var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+    //         (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
+    //
+    //
+    //     if (delta > 0) {
+    //         // 向上滚
+    //         count++;
+    //         $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //         console.log("wheelup");
+    //
+    //     } else if (delta < 0) {
+    //         // 向下滚
+    //         count--;
+    //         if (count > 0) {
+    //             $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //             console.log("wheeldown");
+    //         }else if(count<=0){
+    //             count = 1
+    //         }
+    //
+    //     }
+    // });
 })
