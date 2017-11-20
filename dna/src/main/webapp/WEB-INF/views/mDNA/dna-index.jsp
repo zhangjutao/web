@@ -168,6 +168,7 @@
                 </div>
                 <%--基因结构图 end--%>
                 <div class="tab">
+                    <%--snp 表格--%>
                     <div class="tab-txt tab-txt-ac js-snp-tab">
                         <div class="export-data">
                             <p class="btn-export-set">
@@ -177,10 +178,10 @@
                         </div>
                         <div id="mask-test">
                             <div class="genes-tab tab-txt-snps" style="height: auto;">
-                                <table class="js-snp-table">
+                                <table class="js-snp-table" style="display:table;">
                                     <thead>
                                         <tr>
-                                            <td class="t_snpid">SNP ID</td>
+                                            <%--<td class="t_snpid">SNP ID</td>--%>
                                             <td class="param t_consequenceType">Consequence Type
                                                 <img src="${ctxStatic}/images/down.png">
                                                 <input type="hidden" class="js-consequence-type">
@@ -215,7 +216,8 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
-                                            <td>空间</td>
+
+                                            <td class="param"> GenoType</td>
                                             <%--<td class="param t_fmajorAllelein">--%>
                                                 <%--<select class="f-ma-in">--%>
                                                     <%--<option>Frequency of Major Allele in</option>--%>
@@ -252,6 +254,7 @@
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
                         </div>
                     </div>
+                    <%--indel 表格、--%>
                     <div class="tab-txt js-indel-tab">
                         <div class="export-data">
                             <p class="btn-export-set">
