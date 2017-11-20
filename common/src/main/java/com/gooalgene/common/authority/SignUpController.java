@@ -18,6 +18,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.provisioning.JdbcUserDetailsManager;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.context.HttpSessionSecurityContextRepository;
 import org.springframework.stereotype.Controller;
@@ -409,6 +410,7 @@ public class SignUpController {
             user.setReset(1);
             userService.updateUserPassword(user);
             SecurityContextHolder.getContext().setAuthentication(null);
+            //SecurityContextHolder.clearContext();
         }
         return "/login";
     }
