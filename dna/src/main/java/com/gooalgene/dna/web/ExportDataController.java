@@ -328,14 +328,4 @@ public class ExportDataController {
         return sb.toString();
     }
 
-
-  @RequestMapping(value = "/exportSearchInGene", method =RequestMethod.GET)
-  @ResponseBody
-    public String exportSerchInRegion(HttpServletRequest request){
-      String titles=request.getParameter("titles");
-
-
-      return "";
-   }
-
 }
