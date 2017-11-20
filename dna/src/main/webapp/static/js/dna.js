@@ -381,7 +381,7 @@ $(function () {
             var RefAndRefPercent = item.geneType.RefAndRefPercent.toFixed(4);
             var totalAltAndAltPercent = item.geneType.totalAltAndAltPercent.toFixed(4);
             var totalRefAndAltPercent = item.geneType.totalRefAndAltPercent.toFixed(4);
-            str += '<tr id="' + item.id + '" class="' + item.samples + '">'
+            str += '<tr id="' + item.id + '" data-samples=' + JSON.stringify(item.samples)+ '>'
             str += '    <td class="t_snpid" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
             str += '    <td class="t_consequenceType"><p class="js-tipes-show">'+ formatConseType(item.consequencetype) + '</p></td>'
             str += '    <td class="t_snpchromosome"><p>'+ item.chr +'</p></td>'
@@ -393,12 +393,17 @@ $(function () {
             str += '<td class="t_fmajorAllele"><p>'+ formatPercent(item[Major_Or_Minor_SNP]) +'</p></td>'
             var freq = item.freq.concat() ;
             str += '<td class="t_genoType"><div><p>'+ rr+" " +RefAndRefPercent*100 + "%" + '</p><p style="width:' +RefAndRefPercent*100+ 'px;"></p></div><div><p>' + aa + " " +totalAltAndAltPercent*100 + "%" + '</p><p style="width:' +totalAltAndAltPercent*100+ 'px;"></p></div><div><p>' + ra +" " + totalRefAndAltPercent*100 + "%" +'</p><p style="width:' +totalRefAndAltPercent*100+ 'px;"></p></div></td>'
+
+
             freq.reverse();
             $.each(freq, function(i, e) {
                 str += '<td class="t_fmajorAllelein'+ replaceUnvalideChar(e.name).split(",").join("_").replace(/\s/g,"") +'"><p>' + formatPercent(e[Major_Or_Minor_SNP]) + '</p></td>'
             });
 
-            str += '</tr>'
+            str += '</tr>';
+            console.log(item.id);
+           $("tr").data(item.id,item.samples);
+           console.log($("tr").data(item.id));
         });
         $(".js-snp-table>tbody").empty().append(str);
         TableHeaderSettingSnp();
@@ -875,7 +880,8 @@ $(function () {
     // })
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr",function (e){
-            debugger;
+
+            // debugger;
            var id = $(this).attr("id");
            var chr = $(this).find("td.t_snpchromosome").text();
            console.log(chr);
@@ -885,7 +891,7 @@ $(function () {
            var position = $(this).find("td.t_position").find("p").text();
            var major = $(this).find("td.t_majorAllele").find("div").text();
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
-           var samples = $(this).attr("class");
+           var samples = JSON.parse($(this).attr("data-samples"));
            console.log(samples);
            var data = {
                id:id,
@@ -898,9 +904,10 @@ $(function () {
                frequence:frequence,
                samples:samples
            }
+           console.log(data);
             $.ajax({
                 type:"GET",
-                url:ctxRoot +"/dna/snpinfo",
+                url:ctxRoot +"/dna/snp/info",
                 data:JSON.stringify(data),
                 dataType:"json",
                 contentType:"application/json",

@@ -27,8 +27,8 @@
 <body>
 <dna:dna-header />
     <div class="container" style="background: #fff;position:relative;">
-        <div id="topTitle">
-
+        <div class="snpTop">
+            GlyS020044582527
         </div>
 
     </div>
