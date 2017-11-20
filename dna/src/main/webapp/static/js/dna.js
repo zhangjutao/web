@@ -1,6 +1,6 @@
 $(function () {
     var CurrentTab = "SNP";
-
+   $("#constructorPanel2").hide();
     function loadMask (el) {
         $(el).css({"position": "relative"});
         var _mask = $('<div class="ga-mask"><div>数据加载中...</div></div>');
@@ -169,7 +169,7 @@ $(function () {
             dataType: "json",
             success: function(res) {
                 console.log(res);
-                drawGeneConstructor(res);
+                drawGeneConstructor(res,"constructorPanel","tableBody");
                 maskClose("#mask-test");
                 SNPData = res.data;
                 if(res.data.length > 0) {
@@ -228,6 +228,7 @@ $(function () {
     }
 
     var INDELData = [];
+    var indelDatas;
     var Major_Or_Minor_INDEL = "major";
     // 请求数据并分页 -- INDEL
     function requestForIndelData(curr, url, params) {
@@ -244,9 +245,9 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-
                 console.log(res)
-                drawGeneConstructor(res);
+                console.log(111)
+                drawGeneConstructor(res,"constructorPanel2","tableBody2");
                 maskClose("#mask-test2");
                 INDELData = res.data;
                 if(res.data.length > 0) {
@@ -300,7 +301,11 @@ $(function () {
                 },function () {
                     $(".pt").remove();
                 });
+            },
+            error:function (error){
+                console.log(error);
             }
+
         });
     }
 
@@ -375,7 +380,9 @@ $(function () {
             str += '<td class="t_minorAllele"><p>'+ formatRef(item.minorallen) +'</p></td>'
 
             str += '<td class="t_fmajorAllele"><p>'+ formatPercent(item[Major_Or_Minor_SNP]) +'</p></td>'
+            str += '<td class="t_genoType"><p>'+ formatRef(item.type) +'</p></td>'
             var freq = item.freq.concat() ;
+
             freq.reverse();
             $.each(freq, function(i, e) {
                 str += '<td class="t_fmajorAllelein'+ replaceUnvalideChar(e.name).split(",").join("_").replace(/\s/g,"") +'"><p>' + formatPercent(e[Major_Or_Minor_SNP]) + '</p></td>'
@@ -390,6 +397,7 @@ $(function () {
     // 生成INDELs表格
     function renderINDELTable(data) {
         var str = '';
+        console.log(data);
         $.each(data, function(idx, item) {
             str += '<tr id="' +item.id + '">'
             str += '    <td class="t_indels" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
@@ -612,6 +620,13 @@ $(function () {
         $(".tab .export-data").show();
         $(this).addClass("item-ac").siblings().removeClass("item-ac ");
         $(".tab > div").eq($(this).index()).show().siblings().hide();
+        if(CurrentTab == "SNP"){
+            $("#constructorPanel").show();
+            $("#constructorPanel2").hide();
+        }else if(CurrentTab == "INDEL"){
+            $("#constructorPanel").hide();
+            $("#constructorPanel2").show();
+        }
     });
 
     /* 导出 */
@@ -683,26 +698,23 @@ $(function () {
 
 
     // 基因结构图
-    function drawGeneConstructor(result){
-        console.log(result);
+    function drawGeneConstructor(result,id,tabId){
         // 参考值
+        // debugger;
         var referenceVal = result.bps;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
         var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
         var geneLength = endPos - startPos;
-        console.log(startPos);
-        console.log(endPos);
-        console.log(geneLength);
-       d3.select("#constructorPanel").selectAll("svg").remove();
+       d3.select("#" + id).selectAll("svg").remove();
        // 创建一个svg 元素
-        var svgTotal = $("#constructorPanel").width();
+        var svgTotal = $("#" + id).width();
         if(geneLength >svgTotal*10){
-            var svg = d3.select("#constructorPanel").append("svg").attr("width",geneLength/10 + "px").attr("height","220px");
+            var svg = d3.select("#" +id).append("svg").attr("width",geneLength/10 + "px").attr("height","220px");
             var acrossLineData = [[20,220],[geneLength/10,220]];
             var topLineData = [[20,1],[geneLength/10,1]];
             var centerLineData = [[20,90],[geneLength/10,90]]
         }else {
-            var svg = d3.select("#constructorPanel").append("svg").attr("width",svgTotal + "px").attr("height","220px");
+            var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","220px");
             var acrossLineData = [[20,220],[svgTotal,220]];
             var topLineData = [[20,1],[svgTotal,1]];
             var centerLineData = [[20,90],[svgTotal,90]]
@@ -722,14 +734,12 @@ $(function () {
         // 画方向箭头
         var dirArrows  =  [[60,60],[40,72],[60,84],[60,72]];
         var intervalLineData = [];
-        var svgLength = $("#constructorPanel svg").width();
-        console.log(svgLength);
+        var svgLength = $("#" + id).find("svg").width();
         if (svgLength >885){
             var intervalNums = geneLength/100;
         }else {
             var intervalNums = svgLength/10;
         }
-        // console.log(intervalNums);
         for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
@@ -806,8 +816,7 @@ $(function () {
 
         $("g a rect").click(function (e){
            var tabid = $(e.target).parent().attr("href").substring(1);
-           console.log(tabid);
-          var trlist = $("#tableBody tr");
+          var trlist = $("#" + tabId).find("tr");
           for (var i=0;i<trlist.length;i++){
               if ($(trlist[i]).hasClass("tabTrColor")){
                   $(trlist[i]).removeClass("tabTrColor");
@@ -845,4 +854,13 @@ $(function () {
     //
     //     }
     // });
+    //
+    // $(".geneIndels").click(function (){
+    //     $("#constructorPanel").hide();
+    //     $("#constructorPanel2").show();
+    // })
+    // $(".item-ac").click(function(){
+    //     $("#constructorPanel").show();
+    //     $("#constructorPanel2").hide();
+    // })
 })

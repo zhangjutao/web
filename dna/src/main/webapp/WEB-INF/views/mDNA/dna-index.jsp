@@ -137,7 +137,7 @@
             <div class="tab-item">
                 <ul class="item">
                     <li class="item-ac">SNPs</li>
-                    <li class="">INDELs</li>
+                    <li class="geneIndels">INDELs</li>
                 </ul>
                 <%--基因结构图 begin--%>
                 <div id="geneConstruction">
@@ -156,6 +156,11 @@
                         </p>
                     </div>
                     <div id="constructorPanel">
+                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+
+                        </svg>
+                    </div>
+                    <div id="constructorPanel2">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 
                         </svg>
@@ -182,7 +187,7 @@
                                                 <div class="input-component ">
                                                     <ul class="consequence-type ">
                                                         <li data-value="all">ALL</li>
-                                                        <li data-type="type" data-value="downstream">Downstream</li>
+                                                        <li data-type="type" data-value="downstream">Downstream11</li>
                                                         <li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>
                                                         <li data-type="effect" data-value="nonsynonymous SNV">Exonic_nonsynonymous SNV</li>
                                                         <li data-type="effect" data-value="stopgain">Exonic_stopgain</li>
@@ -210,7 +215,7 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
-                                            <td class="param t_Genotype">Genotype</td>
+                                            <td>空间</td>
                                             <%--<td class="param t_fmajorAllelein">--%>
                                                 <%--<select class="f-ma-in">--%>
                                                     <%--<option>Frequency of Major Allele in</option>--%>
@@ -296,9 +301,11 @@
                                                 <option value="minor">Frequency of Minor Allele</option>
                                             </select>
                                         </td>
+                                        <td> 的算法那是的风格</td>
+
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody  id="tableBody2">
                                     <%--<tr>--%>
                                         <%--<td class="t_indels">sd2222</td>--%>
                                         <%--<td class="t_consequencetype">数值</td>--%>
