@@ -441,7 +441,7 @@ public class CommonUtil {
     /**
      * 取得当前时间的 间隔多少秒之后的时间
      *
-     * @param hour int
+     * @param
      * @return String
      */
     public static String getDateAddSecond(String starttime, long second) {
@@ -549,7 +549,7 @@ public class CommonUtil {
     /**
      * 检查IP是否合法
      *
-     * @param value
+     * @param
      * @return
      */
 
@@ -937,8 +937,8 @@ public class CommonUtil {
 		}
 		*/
         //MyUtil.getStartTimeStr();
-        Integer i=getCharPositionBeforNum("GLYIF0001");
-        System.out.println(i);
+        String s=getStrIfNoPoint("wwwwwdd");
+        System.out.println(s);
     }
 
     public static Integer getCharPositionBeforNum(String str){
@@ -949,6 +949,22 @@ public class CommonUtil {
             }
         }
         return -1;
+    }
+
+    public static String getStrIfNoPoint(String str){
+        char[] chars= str.toCharArray();
+        for(int i=0;i<chars.length;i++){
+            /*if(chars[i]=='.'){
+                return str;
+            }else {*/
+                if(chars[i]=='m'&&chars[i+1]=='a'&&chars[i+2]!='.'){
+                    StringBuilder  sb = new StringBuilder (str);
+                    sb.insert(i+2, ".");
+                    return sb.toString();
+                }
+            //}
+        }
+        return str;
     }
 
 
