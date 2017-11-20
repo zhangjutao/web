@@ -9,6 +9,7 @@ import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.ResultUtil;
@@ -842,5 +843,16 @@ public class SNPController {
             ex.printStackTrace();
         }
         return "success";
+    }
+
+    /**
+     * 进入snp详情页
+     */
+    @RequestMapping("/snp/info")
+    @ResponseBody
+    public ResultVO getSnpInfo(HttpServletRequest request, HttpServletResponse response, SNP snp) {
+        List runNos = Arrays.asList(snp.getSamples());
+        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
+        return ResultUtil.success(dnaRuns);
     }
 }
