@@ -71,37 +71,274 @@
                 </tr>
             </table>
         </div>
+        <%--<hr style="border:1px solid #E4E4E4;">--%>
+        <p style="width:1200px;height:2px;border-top:1px solid #E4E4E4;margin-top:16px;"></p>
         <div id="pieShow">
         </div>
         <div id="snpinfoTable">
+            <div class="changeTab">
+                <p class="changeTagColor">Major Allele</p>
+                <p>Minor Allele</p>
+            </div>
+            <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;">
+                <thead style="overflow-x: scroll;">
+                <tr style="background: #F5F8FF;">
+                    <th class="param cultivarT">品种名
 
+                    </th>
+                    <th class="param populationT moveOnPop" >群体
+                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                        <div class="popNames" style="display:none;">
+                            <ul>
+                                <li>Q1</li>
+                                <li>Q2</li>
+                                <li>Q3</li>
+                                <li>Q4</li>
+                                <li>Q5</li>
+                                <li>Q6</li>
+                                <li>Q7</li>
+                                <li>Q8</li>
+                                <li>Q9</li>
+                                <li>Q10</li>
+                            </ul>
+                        </div>
+                    </th>
+                    <th class="param genoTypeT">GenoType
+
+                    </th>
+                    <th class="param speciesT">物种
+
+                    </th>
+                    <th class="param localityT">位置
+
+                    </th>
+                    <th class="param sampleNameT">样品名
+
+                    </th>
+                    <th class="param weightPer100seedsT">百粒重
+
+                    </th>
+                    <th class="param proteinT">蛋白质含量
+
+                    </th>
+                    <th class="param oilT">含油量
+
+                    </th>
+                    <th class="param maturityDateT">熟期
+
+                    </th>
+                    <th class="param heightT">株高
+
+                    </th>
+                    <th class="param seedCoatColorT">种皮色
+
+                    </th>
+                    <th class="param hilumColorT">种脐色
+
+                    </th>
+                    <th class="param cotyledonColorT">子叶色
+
+                    </th>
+                    <th class="param flowerColorT">花色
+
+                    </th>
+                    <th class="param podColorT">荚色
+
+                    </th>
+                    <th class="param pubescenceColorT">茸毛色
+
+                    </th>
+                    <th class="param yieldT">产量
+
+                    </th>
+                    <th class="param upperLeafletLengthT">顶端小叶长度
+
+                    </th>
+                    <th class="param linoleicT">亚油酸
+
+                    </th>
+                    <th class="param linolenicT">亚麻酸
+
+                    </th>
+                    <th class="param oleicT">油酸
+
+                    </th>
+                    <th class="param palmiticT">软脂酸
+
+                    </th>
+                    <th class="param stearicT">硬脂酸
+
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                    <td class="param">
+
+                    </td>
+                </tbody>
+            </table>
         </div>
 
     </div>
 
 </body>
 <script>
-    var AA = "${result.RefAndRefPercent}";
-    var TT = "${result.totalAltAndAltPercent}";
-    var AT = "${result.totalRefAndAltPercent}";
-    // 通过EL表达式获取对象属性值
-    var snpDataId = "${result.snpData.id}";
+    $(function (){
+        var changeParam;  // major 和 minor 页面切换
+        var populVal;   // 点击每个群体信息值
+        var ctxRoot = '${ctxroot}';
+        var AA = "${result.RefAndRefPercent}";
+        var TT = "${result.totalAltAndAltPercent}";
+        var AT = "${result.totalRefAndAltPercent}";
+        console.log(AA)
+        console.log(TT)
+        console.log(AT)
+        // 花饼图
+        function drawPie(ref,alt,refAlt){
+            $('#pieShow').highcharts({
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false
+                },
+                title: {
+                    text: 'GenoType'
+                },
+                plotOptions: {
+                    series: {
+                        dataLabels: {
+                            enabled: true,
+                            color: '#98BEFF',
+                            borderWidth: 0,
+                            style: {
+                                fontWeight:"50",
+                                fontSize: '14',
+                                fontFamily:"Microsoft Yahei",
+                                strokeWidth:"0px"
+                            }
+                        }},
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            style: {
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    type: 'pie',
+                    name: 'GenoType 占比',
+                    data: [
+                        ['AA',ref*100],
+                        ['TT', alt*100],
+                        ['AT', refAlt*100]
+                    ]
+                }]
+            })
+        }
+        drawPie(AA,TT,AT);
+        // 选择群体信息
+        $(".moveOnPop").mouseover(function (){
+             $(this).find("div.popNames").show();
+        }).mouseleave(function (){
+            $(this).find("div.popNames").hide();
+        })
+        //点击每个群体
+        $(".popNames li").click(function (){
+            populVal = $(this).text();
+            console.log(populVal);
+            $(this).parent().parent().hide();
+        })
+        // 获取表格数据
+        function getSnpData (){
+            $.ajax({
+                type:"GET",
+                url:ctxRoot + "/dna/chageByProportion",
+                success:function (result){
+                    console.log(result);
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        }
+        getSnpData();
+        // tag 切换
+        $(".changeTab p").click(function (){
+            if(!$(this).hasClass("changeTagColor")){
+                $(this).addClass("changeTagColor");
+                var others = $(this).siblings()[0];
+                if($(others).hasClass("changeTagColor")){
+                    $(others).removeClass("changeTagColor");
+                }
+            }else {
+                var others = $(this).siblings()[0];
+                if($(others).hasClass("changeTagColor")){
+                    $(others).removeClass("changeTagColor");
+                }
+            }
+        })
 
-    $('#pieShow').highcharts({
-        chart: {
-            plotBackgroundColor: null,
-            plotBorderWidth: null,
-            plotShadow: false
-        },
-        series: [{
-            type: 'pie',
-            name: 'genoType 占比',
-            data: [
-                ['AA', AA*100],
-                ['TT', TT*100],
-                ['AT', AT*100]
-            ]
-        }]
-    })
 </script>
 </html>

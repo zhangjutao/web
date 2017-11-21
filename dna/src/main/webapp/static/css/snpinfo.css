@@ -53,10 +53,75 @@
     font-family:"Microsoft YaHei UI Light";
     font-size:14px;
     color:#666;
+    background:#F5F8FF;
 }
 .trWidth2{
     width:368px!important;
     font-family:Arial   ;
     font-size:14px;
     color:#666;
+}
+.param{
+    height: 40px;
+    padding: 2px 15px;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+#snpinfoTable{
+    width: 1137px;
+    overflow-x: scroll;
+    min-height: 300px;
+}
+#snpinfoTable table{
+    border-collapse: collapse;
+    width: 1200px;
+    border: 1px solid #E4E4E4;
+}
+#snpinfoTable table tr,#snpinfoTable table{
+    border: 1px solid #E4E4E4;
+}
+.popNames{
+    position: absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 100;
+    padding: 0px 10px;
+    width: 58px;
+    background-color: #fff;
+    margin-left: -16px;
+    top: 45px;
+    display: none;
+    padding-bottom: 10px;
+}
+.moveOnPop{
+    position:relative;
+}
+.changeTab{
+    overflow: hidden;
+    margin-left:30px;
+    width:220px;
+    /*border-top:1px solid #E3E3E3;*/
+    margin-top:20px;
+}
+.changeTab p{
+    float:left;
+    width:100px;
+    text-align:center;
+    height:40px;
+    line-height:40px;
+    font-family:"Microsoft Yahei";
+    font-size:14px;
+    color:#666;
+    border:1px solid #89ACED;
+    cursor: pointer;
+}
+.changeTagColor{
+    background:#5C8CE6;
+    color:#fff!important;
+}
+#pieShow{
+    width:1140px;
+    margin-left:30px;
+    border-bottom:1px solid #E4E4E4;
 }
