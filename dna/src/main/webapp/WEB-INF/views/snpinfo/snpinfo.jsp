@@ -80,18 +80,14 @@
 
 </body>
 <script>
-    var AA = ${result.RefAndRefPercent
-        };
-    var TT = ${result.totalAltAndAltPercent
-        };
-    var AT = ${result.totalRefAndAltPercent
-        };
-    var result = ${result};
+    var AA = "${result.RefAndRefPercent}";
+    var TT = "${result.totalAltAndAltPercent}";
+    var AT = "${result.totalRefAndAltPercent}";
+
 
     console.log(AA)
     console.log(TT)
     console.log(AT)
-    console.log()
 
     $(function (){
 
