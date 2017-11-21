@@ -896,6 +896,6 @@ public class SNPController {
         response.put("dnaRuns",dnaRuns);
         //response.put("samples",map);
         response.put("samples",samples);
-        return ResultUtil.success();
+        return ResultUtil.success(response);
     }
 }
