@@ -850,7 +850,7 @@ public class SNPController {
     /**
      * 进入snp详情页
      */
-    @RequestMapping("/snp/info")
+    @RequestMapping(value = "/snp/info",method = RequestMethod.GET)
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
@@ -875,15 +875,18 @@ public class SNPController {
     /**
      * 区分mainor和majora
      */
-    @RequestMapping("/changeByProportion")
-    public ResultVO changeByProportion(@RequestParam("snpId")String snpId,String chageParam) {
+    @RequestMapping(value = "/changeByProportion",method = RequestMethod.GET)
+    public ResultVO changeByProportion(@RequestParam("snpId")String snpId,@RequestParam("changeParam") String changeParam) {
         Map result = snpService.findSampleById(snpId);
         Map map=(Map)((SNP)result.get("snpData")).getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
         for(Map.Entry entry:entrySet){
-            if(((String)entry.getValue()).contains(chageParam)){
-                runNos.add((String) entry.getKey());
+            String value=(String)entry.getValue();
+            if(StringUtils.isNotBlank(changeParam)){
+                if(value.contains(changeParam)){
+                    runNos.add((String) entry.getKey());
+                }
             }
         }
         List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
