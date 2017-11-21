@@ -254,9 +254,16 @@ public class SNPController {
                     String endPos = request.getParameter("end");
                     fileName += "_" + chr + "_Position:[" + startPos + "," + endPos + "]_" + ctype;
                     String group = request.getParameter("group");
+                    String total=request.getParameter("total");
 //                    fileName += "_" + group;
                     Page<DNARun> page = new Page<DNARun>(request, response);
-                    page.setPageSize(EXPORT_NUM);
+                    long count=Long.parseLong(total);
+                    logger.info(count+"");
+                    if(count==0) {
+                        page.setPageSize(EXPORT_NUM);
+                    }else{
+                        page.setPageSize((int)count);
+                    }
                     result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("GENE".equals(model)) {
@@ -268,6 +275,7 @@ public class SNPController {
                     String downstream = request.getParameter("downstream");
                     fileName += "_" + gene + "Stream:[" + upstream + "," + downstream + "]_" + ctype;
                     String group = request.getParameter("group");
+
 //                    fileName += "_" + group;
                     DNAGens dnaGens = dnaGensService.findByGene(gene);
                     if (dnaGens != null) {
@@ -285,8 +293,13 @@ public class SNPController {
                     }
                     logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
                     Page<DNAGens> page = new Page<DNAGens>(request, response);
-                    page.setPageSize(EXPORT_NUM);
-
+                    String total=request.getParameter("total");
+                    long count=Long.parseLong(total);
+                    if(count==0) {
+                        page.setPageSize(EXPORT_NUM);
+                    }else{
+                        page.setPageSize((int) count);
+                    }
                     //外包的原来是给出最大10000条数据   要不要改
                     result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
                     //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
@@ -295,7 +308,14 @@ public class SNPController {
                     String group = request.getParameter("group");
 //                    fileName += "_" + group;
                     Page<DNARun> page = new Page<DNARun>(request, response);
-                    page.setPageSize(EXPORT_NUM);
+                    String total=request.getParameter("total");
+                    long count=Long.parseLong(total);
+                    
+                    if(count==0) {
+                        page.setPageSize(EXPORT_NUM);
+                    }else{
+                        page.setPageSize((int) count);
+                    }
                     result = dnaRunService.queryDNARunByGroup(group, page);
                     content = serialList(model, result, columns.split(","));
                 } else {
