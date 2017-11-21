@@ -850,11 +850,13 @@ public class SNPController {
      */
     @RequestMapping("/snp/info")
     //@ResponseBody
-    public ModelAndView getSnpInfo(HttpServletRequest request, HttpServletResponse response,SNP snp) {
+    public String getSnpInfo(HttpServletRequest request, HttpServletResponse response,SNP snp,Map map) {
         /*List runNos = Arrays.asList(snp.getSamples());
         List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);*/
-        ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");
+        /*ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
-        return modelAndView;
+        return modelAndView;*/
+        map.put("snp",snp);
+        return "snpinfo/snpinfo";
     }
 }
