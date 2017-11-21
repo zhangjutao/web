@@ -86,10 +86,6 @@
                     <th class="param cultivarT">品种名
 
                     </th>
-                    <th class="param cultivarT">GeneType
-
-                    </th>
-
                     <th class="param genoTypeT">GenoType
 
                     </th>
@@ -159,66 +155,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <td class="param">
 
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
                 </tbody>
             </table>
         </div>
@@ -302,13 +239,68 @@
         })
         // 获取表格数据
         function getSnpData (data){
-            debugger;
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
                 data:data,
                 success:function (result){
+                    var GenoType;
+                    var dnaDatas = result.data.dnaRuns;
+                    var dnaSamples = result.data.samples;
+                    $("#snpinfoTable table tbody tr").remove();
+                    for (var i=0;i<dnaDatas.length;i++){
+                       GenoType = dnaSamples[dnaDatas[i].runNo];
+                        var cultivarTV = dnaDatas[i].cultivar==null?"":dnaDatas[i].cultivar;
+                        var genoTypeTV = GenoType==null?"":GenoType;
+                        var speciesTV = dnaDatas[i].species==null?"":dnaDatas[i].species;
+                        var localityTV = dnaDatas[i].locality==null?"":dnaDatas[i].locality;
+                        var sampleNameTV = dnaDatas[i].sampleName==null?"":dnaDatas[i].sampleName;
+                        var weightPer100seedsTV = dnaDatas[i].weightPer100seeds==null?"":dnaDatas[i].weightPer100seeds;
+                        var proteinTV = dnaDatas[i].protein==null?"":dnaDatas[i].protein;
+                        var oilTV = dnaDatas[i].oil==null?"":dnaDatas[i].oil;
+                        var maturityDateTV = dnaDatas[i].maturityDate==null?"":dnaDatas[i].maturityDate;
+                        var heightTV = dnaDatas[i].height==null?"":dnaDatas[i].height
+                        var seedCoatColorTV = dnaDatas[i].seedCoatColor==null?"":dnaDatas[i].seedCoatColor;
+                        var hilumColorTV  = dnaDatas[i].hilumColor==null?"":dnaDatas[i].hilumColor==null;
+                        var cotyledonColorTV = dnaDatas[i].cotyledonColor==null?"":dnaDatas[i].cotyledonColor;
+                        var flowerColorTV = dnaDatas[i].flowerColor==null?"":dnaDatas[i].flowerColor;
+                        var podColorTV = dnaDatas[i].podColor==null?"":dnaDatas[i].podColor;
+                        var pubescenceColorTV = dnaDatas[i].pubescenceColor ==null?"":dnaDatas[i].pubescenceColor;
+                        var yieldTV = dnaDatas[i].yield==null?"":dnaDatas[i].yield;
+                        var upperLeafletLengthTV = dnaDatas[i].upperLeafletLength==null?"":dnaDatas[i].upperLeafletLength;
+                        var linoleicTV = dnaDatas[i].linoleic==null?"":dnaDatas[i].linoleic;
+                        var linolenicTV = dnaDatas[i].linolenic==null?"":dnaDatas[i].linolenic;
+                        var oleicTV = dnaDatas[i].oleic==null?"":dnaDatas[i].oleic;
+                        var palmiticTV = dnaDatas[i].palmitic==null?"":dnaDatas[i].palmitic;
+                        var stearicTV = dnaDatas[i].stearic==null?"":dnaDatas[i].stearic;
 
+                        var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
+                            "</td><td class='param genoTypeT'>" + genoTypeTV +
+                            "</td><td class='param speciesT'>" + speciesTV+
+                            "</td><td class='param localityT'>" + localityTV +
+                            "</td><td class='param sampleNameT'>" + sampleNameTV +
+                            "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
+                            "</td><td class='param proteinT'>" + proteinTV +
+                            "</td><td class='param oilT'>" + oilTV +
+                            "</td><td class='param maturityDateT'>" + maturityDateTV +
+                            "</td><td class='param heightT'>" + heightTV +
+                            "</td><td class='param seedCoatColorT'>" + seedCoatColorTV +
+                            "</td><td class='param hilumColorT'>" + hilumColorTV +
+                            "</td><td class='param cotyledonColorT'>" + cotyledonColorTV +
+                            "</td><td class='param flowerColorT'>" +flowerColorTV +
+                            "</td><td class='param podColorT'>" + podColorTV +
+                            "</td><td class='param pubescenceColorT'>" + pubescenceColorTV +
+                            "</td><td class='param yieldT'>" + yieldTV +
+                            "</td><td class='param upperLeafletLengthT'>" + upperLeafletLengthTV +
+                            "</td><td class='param linoleicT'>" + linoleicTV +
+                            "</td><td class='param linolenicT'>" + linolenicTV +
+                            "</td><td class='param oleicT'>" + oleicTV +
+                            "</td><td class='param palmiticT'>" + palmiticTV +
+                            "</td><td class='param stearicT'>" + stearicTV +"</td></tr>"
+                        var $tbody = $("#snpinfoTable table tbody");
+                        $tbody.append(tr);
+                    }
+                    var tr =
                     console.log(result);
                 },
                 error:function (error){
