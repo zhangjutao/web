@@ -860,6 +860,10 @@ public class SNPController {
         modelAndView.addObject("snp",snp);
         Map result = snpService.findSampleById(snp.getId());
         modelAndView.addObject("result",result);
+        /*modelAndView.addObject("RefAndRefPercent",result.get("RefAndRefPercent"));
+        modelAndView.addObject("totalRefAndAltPercent",result.get("totalRefAndAltPercent"));
+        modelAndView.addObject("snpData",result.get("snpData"));
+        modelAndView.addObject("totalAltAndAltPercent",result.get("totalAltAndAltPercent"));*/
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
     }

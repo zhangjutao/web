@@ -79,16 +79,21 @@
     </insert>
 
     <select id="getByGeneId" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
-        SELECT DISTINCT
+        SELECT
             stru.*, c.bps
         FROM
-            gens_structure stru
-        LEFT JOIN gens_sequence seq ON stru.gene_id = seq.gene_id
-        LEFT JOIN chrlg c ON stru.chromosome = c.chr
+            gens_structure stru,
+            chrlg c
         WHERE
-            stru.gene_id = #{geneId}
-        ORDER BY
-            stru.start DESC
+            stru.chromosome = c.chr
+        AND transcript_id = (
+            SELECT DISTINCT
+                transcript_id
+            FROM
+                gens_sequence
+            WHERE
+                gene_id = #{geneId}
+        )ORDER BY stru.start DESC
     </select>
 
     <select id="getByStartEnd" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
