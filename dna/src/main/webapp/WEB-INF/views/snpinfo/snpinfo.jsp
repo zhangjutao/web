@@ -67,12 +67,73 @@
                 </tr>
             </table>
         </div>
+        <div id="pieShow">
+
+
+        </div>
 
     </div>
 
 </body>
 <script>
-        var result = '${result}';
+    var AA = ${result.RefAndRefPercent
+        };
+    var TT = ${result.totalAltAndAltPercent
+        };
+    var AT = ${result.totalRefAndAltPercent
+        };
+    var result = ${result};
+
+    console.log(AA)
+    console.log(TT)
+    console.log(AT)
+    console.log()
+
+    $(function (){
+
+
+//        $('#pieShow').highcharts({
+//            chart: {
+//                plotBackgroundColor: null,
+//                plotBorderWidth: null,
+//                plotShadow: false
+//            },
+//            series: [{
+//                type: 'pie',
+//                name: '占比',
+//                data: [
+//                    ['AA', AA],
+//                    ['TT', TT],
+//                    ['AT', AT]
+//                ]
+//            }]
+//        })
+        $('#pieShow').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            series: [{
+                type: 'pie',
+                name: '浏览器访问量占比',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['其他',   0.7]
+                ]
+            }]
+        });
         console.log(result);
+
+    })
 </script>
 </html>
