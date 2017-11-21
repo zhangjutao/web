@@ -5,6 +5,7 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.dao.DNAGensStructureDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
@@ -12,8 +13,11 @@ import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
+import com.gooalgene.dna.vo.DnaRunVO;
 import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
@@ -51,9 +55,6 @@ public class SNPController {
     Logger logger = LoggerFactory.getLogger(SNPController.class);
 
     @Autowired
-    private DNARunService dnaRunService;
-
-    @Autowired
     private IndexExplainService indexExplainService;
 
     @Autowired
@@ -67,6 +68,8 @@ public class SNPController {
 
     @Autowired
     private DNAGroupsService dnaGroupsService;
+    @Autowired
+    private DNARunService dnaRunService;
 
 
     @RequestMapping("/index")
@@ -851,21 +854,45 @@ public class SNPController {
      */
     @RequestMapping("/snp/info")
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
-        /*List runNos = Arrays.asList(snp.getSamples());
-        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);*/
-        /*ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");
-        modelAndView.addObject("snp",snp);
-        return modelAndView;*/
-        //String frequence=request.getParameter("frequence");
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
         Map result = snpService.findSampleById(snp.getId());
         modelAndView.addObject("result",result);
-        /*modelAndView.addObject("RefAndRefPercent",result.get("RefAndRefPercent"));
-        modelAndView.addObject("totalRefAndAltPercent",result.get("totalRefAndAltPercent"));
-        modelAndView.addObject("snpData",result.get("snpData"));
-        modelAndView.addObject("totalAltAndAltPercent",result.get("totalAltAndAltPercent"));*/
+        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+        Set<Map.Entry<String, String>> entrySet=map.entrySet();
+        List<String> runNos= Lists.newArrayList();
+        List<DnaRunVO> dnaRunVOS=Lists.newArrayList();
+        //if(StringUtils.equals(snp.getMajorallen(),"A")){
+            for(Map.Entry entry:entrySet){
+                if(((String)entry.getValue()).contains(snp.getMajorallen())){
+                    runNos.add((String) entry.getKey());
+                }
+            }
+        //}
+        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
+        modelAndView.addObject("dnaRuns",dnaRuns);
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
+    }
+
+    /**
+     * 区分mainor和majora
+     */
+    @RequestMapping("/changeByProportion")
+    public ResultVO changeByProportion(@RequestParam("snpId")String snpId,String chageParam) {
+        Map result = snpService.findSampleById(snpId);
+        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+        Set<Map.Entry<String, String>> entrySet=map.entrySet();
+        List<String> runNos= Lists.newArrayList();
+        for(Map.Entry entry:entrySet){
+            if(((String)entry.getValue()).contains(chageParam)){
+                runNos.add((String) entry.getKey());
+            }
+        }
+        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
+        Map response= Maps.newHashMap();
+        response.put("dnaRuns",dnaRuns);
+        response.put("samples",map);
+        return ResultUtil.success();
     }
 }
