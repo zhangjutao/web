@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <%--<script src="${ctxStatic}/js/highcharts-code.js"></script>--%>
+    <script src="${ctxStatic}/js/highcharts/highcharts.js"></script>
+    <%--<script src="${ctxStatic}/js/highcharts/highcharts-more.js"></script>--%>
+    <%--<script src="${ctxStatic}/js/highcharts/highcharts-zh_CN.js"></script>--%>
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
@@ -108,6 +112,7 @@
 //                ]
 //            }]
 //        })
+        console.log(highcharts);
         $('#pieShow').highcharts({
             chart: {
                 plotBackgroundColor: null,
