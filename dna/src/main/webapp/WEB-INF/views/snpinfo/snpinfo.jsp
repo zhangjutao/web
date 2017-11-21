@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <%--<script src="${ctxStatic}/js/highcharts-code.js"></script>--%>
+    <script src="${ctxStatic}/js/highcharts/highcharts.js"></script>
+    <%--<script src="${ctxStatic}/js/highcharts/highcharts-more.js"></script>--%>
+    <%--<script src="${ctxStatic}/js/highcharts/highcharts-zh_CN.js"></script>--%>
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
@@ -68,7 +72,8 @@
             </table>
         </div>
         <div id="pieShow">
-
+        </div>
+        <div id="snpinfoTable">
 
         </div>
 
@@ -82,51 +87,21 @@
     // 通过EL表达式获取对象属性值
     var snpDataId = "${result.snpData.id}";
 
-    $(function (){
-
-
-//        $('#pieShow').highcharts({
-//            chart: {
-//                plotBackgroundColor: null,
-//                plotBorderWidth: null,
-//                plotShadow: false
-//            },
-//            series: [{
-//                type: 'pie',
-//                name: '占比',
-//                data: [
-//                    ['AA', AA],
-//                    ['TT', TT],
-//                    ['AT', AT]
-//                ]
-//            }]
-//        })
-        $('#pieShow').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            series: [{
-                type: 'pie',
-                name: '浏览器访问量占比',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['其他',   0.7]
-                ]
-            }]
-        });
-        console.log(result);
-
+    $('#pieShow').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        series: [{
+            type: 'pie',
+            name: 'genoType 占比',
+            data: [
+                ['AA', AA*100],
+                ['TT', TT*100],
+                ['AT', AT*100]
+            ]
+        }]
     })
 </script>
 </html>
