@@ -849,16 +849,16 @@ public class SNPController {
      * 进入snp详情页
      */
     @RequestMapping("/snp/info")
-    //@ResponseBody
-    public String getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp,Map map) {
+    public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         /*List runNos = Arrays.asList(snp.getSamples());
         List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);*/
         /*ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
         return modelAndView;*/
         //String frequence=request.getParameter("frequence");
-        map.put("snp",snp);
-        map.put("frequence",frequence);
-        return "snpinfo/snpinfo";
+        ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
+        modelAndView.addObject("snp",snp);
+        modelAndView.addObject("frequence",frequence);
+        return modelAndView;
     }
 }
