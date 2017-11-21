@@ -881,18 +881,21 @@ public class SNPController {
         Map map=(Map)((SNP)result.get("snpData")).getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
+        Map samples=Maps.newHashMap();
         for(Map.Entry entry:entrySet){
             String value=(String)entry.getValue();
             if(StringUtils.isNotBlank(changeParam)){
                 if(value.contains(changeParam)){
                     runNos.add((String) entry.getKey());
+                    samples.put(entry.getKey(),entry.getValue());
                 }
             }
         }
         List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
         Map response= Maps.newHashMap();
         response.put("dnaRuns",dnaRuns);
-        response.put("samples",map);
+        //response.put("samples",map);
+        response.put("samples",samples);
         return ResultUtil.success(response);
     }
 }
