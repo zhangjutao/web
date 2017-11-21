@@ -893,6 +893,6 @@ public class SNPController {
         Map response= Maps.newHashMap();
         response.put("dnaRuns",dnaRuns);
         response.put("samples",map);
-        return ResultUtil.success();
+        return ResultUtil.success(response);
     }
 }
