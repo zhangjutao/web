@@ -858,6 +858,8 @@ public class SNPController {
         //String frequence=request.getParameter("frequence");
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
+        Map result = snpService.findSampleById(snp.getId());
+        modelAndView.addObject("result",request);
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
     }

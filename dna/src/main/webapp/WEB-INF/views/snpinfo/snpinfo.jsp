@@ -71,4 +71,8 @@
     </div>
 
 </body>
+<script>
+        var result = '${result}';
+        console.log(result);
+</script>
 </html>

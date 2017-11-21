@@ -931,7 +931,6 @@ $(function () {
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr",function (e){
 
-            debugger;
            var id = $(this).attr("id");
            var chr = $(this).find("td.t_snpchromosome").text();
            var reference = $(this).find("td.t_snpreference").text();
@@ -942,8 +941,9 @@ $(function () {
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
         // var geneType = JSON.parse($(this).find("td.t_genoType").attr("data-geneType"));
            var samples = JSON.parse($(this).attr("data-samples"));
-           window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
+          window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
             "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1);
+           // window.location.href=ctxRoot + "/findSampleById?id=" + id ;
            // console.log(samples);
            // var data = {
            //     id:id,
