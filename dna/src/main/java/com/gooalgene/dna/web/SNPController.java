@@ -849,8 +849,8 @@ public class SNPController {
      * 进入snp详情页
      */
     @RequestMapping("/snp/info")
-    @ResponseBody
-    public ModelAndView getSnpInfo(HttpServletRequest request, HttpServletResponse response,@RequestBody SNP snp) {
+    //@ResponseBody
+    public ModelAndView getSnpInfo(HttpServletRequest request, HttpServletResponse response, SNP snp) {
         /*List runNos = Arrays.asList(snp.getSamples());
         List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);*/
         ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");

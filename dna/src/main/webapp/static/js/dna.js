@@ -892,32 +892,34 @@ $(function () {
            var major = $(this).find("td.t_majorAllele").find("div").text();
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
            var samples = JSON.parse($(this).attr("data-samples"));
-           console.log(samples);
-           var data = {
-               id:id,
-               chr:chr,
-               reference:reference,
-               minor:minor,
-               consquence:consquence,
-               position:position,
-               major:major,
-               frequence:frequence
-               // samples:samples
-           }
-           console.log(data);
-            $.ajax({
-                type:"GET",
-                url:ctxRoot +"/dna/snp/info",
-                data:JSON.stringify(data),
-                dataType:"json",
-                contentType:"application/json;utf-8",
-                success:function (result){
-                    console.log(result);
-                },
-                error:function (error){
-                    console.log(error);
-                }
-
-            })
+           window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "chr=" + chr+"reference=" + reference + "minor="+minor+"consquence="+consquence+
+            "position="+position +"major="+major+"frequence="+frequence ;
+           // console.log(samples);
+           // var data = {
+           //     id:id,
+           //     chr:chr,
+           //     reference:reference,
+           //     minor:parseFloat(minor),
+           //     consquence:consquence,
+           //     position:position,
+           //     major:parseFloat(major),
+           //     frequence:frequence
+           //     // samples:samples
+           // }
+           // console.log(data);
+           //  $.ajax({
+           //      type:"GET",
+           //      url:ctxRoot +"/dna/snp/info",
+           //      data:{minor:parseFloat(minor)},
+           //      /*dataType:"json",*/
+           //      /*contentType:"application/json;utf-8",*/
+           //      success:function (result){
+           //          console.log(result);
+           //      },
+           //      error:function (error){
+           //          console.log(error);
+           //      }
+           //
+           //  })
     })
 })

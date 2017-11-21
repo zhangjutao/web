@@ -2,5 +2,36 @@
     color:#5c8ce6;
     font-family:"Microsoft Yahei";
     font-size:24px;
-    margin-left:30px;
+    padding-left:30px;
+    border-bottom:1px solid #DEDEDE;
+}
+#snpSearch{
+    padding-left:30px;
+    overflow: hidden;
+}
+#snpSearch p{
+    float:left;
+    height:40px;
+    line-height:40px;
+
+}
+#snpSearch .tipTil{
+    font-family:"Microsoft Yahei";
+    font-size:14px;
+    color:#333;
+    margin-right:18px;
+}
+#snpSearch input{
+    width:315px;
+    height:30px;
+}
+#snpSearch .searBtn{
+    background:#5C8CE6;
+    color:#fff;
+    font-family:"Microsoft Yahei";
+    font-size:16px;
+    width:123px;
+    text-align:center;
+    margin-left:10px;
+    cursor: pointer;
 }

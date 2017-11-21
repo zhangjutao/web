@@ -30,6 +30,18 @@
         <div class="snpTop">
             GlyS020044582527
         </div>
+        <div id="snpSearch">
+            <p class="tipTil">SNP/INDEL ID:</p>
+            <p class="searchBox">
+                <input type="text" placeholder="请输入你要进行搜索的内容进行搜索"/>
+            </p>
+            <p class="searBtn">
+                搜索
+            </p>
+        </div>
+        <div id="trInfos">
+
+        </div>
 
     </div>
 
