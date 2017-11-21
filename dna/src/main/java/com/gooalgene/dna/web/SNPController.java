@@ -859,7 +859,7 @@ public class SNPController {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
         Map result = snpService.findSampleById(snp.getId());
-        modelAndView.addObject("result",request);
+        modelAndView.addObject("result",result);
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
     }
