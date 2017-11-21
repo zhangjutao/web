@@ -79,11 +79,8 @@
     var AA = "${result.RefAndRefPercent}";
     var TT = "${result.totalAltAndAltPercent}";
     var AT = "${result.totalRefAndAltPercent}";
-
-
-    console.log(AA)
-    console.log(TT)
-    console.log(AT)
+    // 通过EL表达式获取对象属性值
+    var snpDataId = "${result.snpData.id}";
 
     $(function (){
 
