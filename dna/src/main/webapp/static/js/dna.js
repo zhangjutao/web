@@ -886,14 +886,16 @@ $(function () {
            var chr = $(this).find("td.t_snpchromosome").text();
            console.log(chr);
            var reference = $(this).find("td.t_snpreference").text();
-           var minor = $(this).find("td.t_minorAllele").find("div").text();
+           var minorAllele = $(this).find("td.t_minorAllele").find("div").text();
            var consquence = $(this).find("td.t_consequenceType").find("p").text();
            var position = $(this).find("td.t_position").find("p").text();
-           var major = $(this).find("td.t_majorAllele").find("div").text();
+           var majorAllele = $(this).find("td.t_majorAllele").find("div").text();
+
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
+        console.log("胡尧:"+minorAllele+" :  "+majorAllele+": "+frequence);
            var samples = JSON.parse($(this).attr("data-samples"));
-           window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "chr=" + chr+"reference=" + reference + "minor="+minor+"consquence="+consquence+
-            "position="+position +"major="+major+"frequence="+frequence ;
+           window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
+            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1);
            // console.log(samples);
            // var data = {
            //     id:id,

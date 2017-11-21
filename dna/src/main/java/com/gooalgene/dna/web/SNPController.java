@@ -850,14 +850,15 @@ public class SNPController {
      */
     @RequestMapping("/snp/info")
     //@ResponseBody
-
-    public String getSnpInfo(HttpServletRequest request, HttpServletResponse response,SNP snp,Map map) {
+    public String getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp,Map map) {
         /*List runNos = Arrays.asList(snp.getSamples());
         List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);*/
         /*ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
         return modelAndView;*/
+        //String frequence=request.getParameter("frequence");
         map.put("snp",snp);
+        map.put("frequence",frequence);
         return "snpinfo/snpinfo";
     }
 }
