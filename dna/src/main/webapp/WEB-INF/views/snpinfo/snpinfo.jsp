@@ -18,6 +18,10 @@
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <%--<script src="${ctxStatic}/js/highcharts-code.js"></script>--%>
+    <script src="${ctxStatic}/js/highcharts/highcharts.js"></script>
+    <%--<script src="${ctxStatic}/js/highcharts/highcharts-more.js"></script>--%>
+    <%--<script src="${ctxStatic}/js/highcharts/highcharts-zh_CN.js"></script>--%>
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
@@ -67,12 +71,70 @@
                 </tr>
             </table>
         </div>
+        <div id="pieShow">
+
+
+        </div>
 
     </div>
 
 </body>
 <script>
-        var result = '${result}';
+    var AA = "${result.RefAndRefPercent}";
+    var TT = "${result.totalAltAndAltPercent}";
+    var AT = "${result.totalRefAndAltPercent}";
+
+
+    console.log(AA)
+    console.log(TT)
+    console.log(AT)
+
+    $(function (){
+
+
+//        $('#pieShow').highcharts({
+//            chart: {
+//                plotBackgroundColor: null,
+//                plotBorderWidth: null,
+//                plotShadow: false
+//            },
+//            series: [{
+//                type: 'pie',
+//                name: '占比',
+//                data: [
+//                    ['AA', AA],
+//                    ['TT', TT],
+//                    ['AT', AT]
+//                ]
+//            }]
+//        })
+        console.log(highcharts);
+        $('#pieShow').highcharts({
+            chart: {
+                plotBackgroundColor: null,
+                plotBorderWidth: null,
+                plotShadow: false
+            },
+            series: [{
+                type: 'pie',
+                name: '浏览器访问量占比',
+                data: [
+                    ['Firefox',   45.0],
+                    ['IE',       26.8],
+                    {
+                        name: 'Chrome',
+                        y: 12.8,
+                        sliced: true,
+                        selected: true
+                    },
+                    ['Safari',    8.5],
+                    ['Opera',     6.2],
+                    ['其他',   0.7]
+                ]
+            }]
+        });
         console.log(result);
+
+    })
 </script>
 </html>
