@@ -147,8 +147,9 @@ public class SNPController {
      * @return
      */
     @RequestMapping(value = "/dnaRuns",method = RequestMethod.GET)
-    @ResponseBody
+    //@ResponseBody
     public ResultVO getByRunNos(@RequestParam("runNos") List<String> runNos) {
+
         return ResultUtil.success(dnaRunService.getByRunNos(runNos));
     }
 
@@ -287,7 +288,7 @@ public class SNPController {
                     Page<DNAGens> page = new Page<DNAGens>(request, response);
                     page.setPageSize(EXPORT_NUM);
 
-                    //外包的原来是给出最大10000条数据   要不要改
+                    //todo 外包的原来是给出最大10000条数据   要不要改
                     result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
                     //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
                     content = serialList(type, result, columns.split(","));
