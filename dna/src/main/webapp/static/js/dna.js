@@ -44,16 +44,59 @@ $(function () {
         $(".page-tables").show();
         $(".page-circle").hide();
         var obj = getPanelParams();
+        console.log(obj);
         if(typeof obj == "object") {
             CTypeSnp = "all";
             CTypeIndel = "all";
+            if(obj.url == "/dna/dna/searchSNPinGene"){
+                if(!$("#GlyIds").is(":hidden")){
+                    $("#GlyIds").hide();
+                }
             requestForSnpData(1, obj.url, obj.params);
             requestForIndelData(1, obj.url, obj.params);
             renderSearchText();
             renderTableHead();
+            }else {
+                if($("#GlyIds").is(":hidden")){
+                    $("#GlyIds").show();
+                }
+                $("#GlyIds").show();
+                requestForSnpData(1, obj.url, obj.params);
+                requestForIndelData(1, obj.url, obj.params);
+                renderSearchText();
+                renderTableHead();
+
+            }
         }
     });
+    // in region 每个基因ID的点击事件
+    $("#GlyIds ul").on("click","li",function (){
+        var obj = getPanelParams();
+        console.log(obj);
+        if(typeof obj == "object") {
+            CTypeSnp = "all";
+            CTypeIndel = "all";
+            if(obj.url == "/dna/dna/searchSNPinGene"){
+                if(!$("#GlyIds").is(":hidden")){
+                    $("#GlyIds").hide();
+                }
+                requestForSnpData(1, obj.url, obj.params);
+                requestForIndelData(1, obj.url, obj.params);
+                renderSearchText();
+                renderTableHead();
+            }else {
+                if($("#GlyIds").is(":hidden")){
+                    $("#GlyIds").show();
+                }
+                $("#GlyIds").show();
+                requestForSnpData(1, obj.url, obj.params);
+                requestForIndelData(1, obj.url, obj.params);
+                renderSearchText();
+                renderTableHead();
 
+            }
+        }
+    })
     // 生成搜索描述文字
     function renderSearchText() {
         var panelType = GetPanelParams.getPanelType();
@@ -170,6 +213,16 @@ $(function () {
             success: function(res) {
                 console.log(res);
                 drawGeneConstructor(res,"constructorPanel","tableBody");
+                if(url =="/dna/dna/searchSNPinRegion"){
+                        var GlyList = res.data;
+                        var $ul = $("#GlyIds ul");
+                        $ul.find("li").remove();
+                    for (var i=0;i<GlyList.length;i++){
+                        var $li = $("<li>" + GlyList[i].gene + "</li>");
+                        $ul.append($li);
+                    };
+                    $ul.find("li:first-child").addClass("GlyColor");
+                };
                 maskClose("#mask-test");
                 SNPData = res.data;
                 if(res.data.length > 0) {
@@ -370,8 +423,6 @@ $(function () {
     // 生成SNPs表格
     function renderSNPTable(data) {
         var str = '';
-        console.log(data);
-
         $.each(data, function(idx, item) {
             var ref = item.geneType.snpData.ref;
             var alt = item.geneType.snpData.alt;
@@ -401,9 +452,7 @@ $(function () {
             });
 
             str += '</tr>';
-            console.log(item.id);
-           $("tr").data(item.id,item.samples);
-           console.log($("tr").data(item.id));
+           $("tr").data(item.id,item.geneType);
         });
         $(".js-snp-table>tbody").empty().append(str);
         TableHeaderSettingSnp();
@@ -882,18 +931,16 @@ $(function () {
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr",function (e){
 
-            // debugger;
+            debugger;
            var id = $(this).attr("id");
            var chr = $(this).find("td.t_snpchromosome").text();
-           console.log(chr);
            var reference = $(this).find("td.t_snpreference").text();
            var minorAllele = $(this).find("td.t_minorAllele").find("div").text();
            var consquence = $(this).find("td.t_consequenceType").find("p").text();
            var position = $(this).find("td.t_position").find("p").text();
            var majorAllele = $(this).find("td.t_majorAllele").find("div").text();
-
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
-        console.log("胡尧:"+minorAllele+" :  "+majorAllele+": "+frequence);
+        // var geneType = JSON.parse($(this).find("td.t_genoType").attr("data-geneType"));
            var samples = JSON.parse($(this).attr("data-samples"));
            window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
             "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1);

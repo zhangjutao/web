@@ -230,3 +230,31 @@ p.first{
 #tableBody tr:nth-child(even) td.t_genoType>div p:first-child{
     background:#F5F8FF;
 }
+/*基因选择列表*/
+#GlyIds{
+    padding-left:26px;
+    padding-top:20px;
+    background:#fff;
+    display:none;
+}
+#GlyIds ul{
+    overflow:hidden;
+}
+#GlyIds ul li{
+    float:left;
+    margin-right:11px;
+    width:156px;
+    height:40px;
+    text-align:center;
+    border:1px solid #DDDDDD;
+    line-height:40px;
+    margin-bottom:15px;
+    cursor: pointer;
+    font-family:"Microsoft Yahei";
+    font-size:14px;
+    color:#5c8ce6;
+}
+.GlyColor{
+    background:#5C8CE6;
+    color:#fff!important;
+}

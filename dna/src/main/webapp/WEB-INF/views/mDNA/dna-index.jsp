@@ -134,6 +134,35 @@
                     <p class="page-num-tab-indel" style="display: none;">共<span class="total-page-count-indel">0</span>条结果</p>
                 </div>
             </div>
+            <%--基因ID 选择区 begin--%>
+            <div id="GlyIds">
+                    <ul>
+                        <%--<li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li><li>--%>
+                        <%--Glyma.02G00500--%>
+                        <%--</li>--%>
+                    </ul>
+            </div>
+            <%--基因ID 选择区 end--%>
             <div class="tab-item">
                 <ul class="item">
                     <li class="item-ac">SNPs</li>
