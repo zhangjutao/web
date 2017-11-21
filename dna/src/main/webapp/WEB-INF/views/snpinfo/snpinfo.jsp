@@ -89,26 +89,8 @@
     console.log(TT)
     console.log(AT)
 
-    $(function (){
 
 
-//        $('#pieShow').highcharts({
-//            chart: {
-//                plotBackgroundColor: null,
-//                plotBorderWidth: null,
-//                plotShadow: false
-//            },
-//            series: [{
-//                type: 'pie',
-//                name: '占比',
-//                data: [
-//                    ['AA', AA],
-//                    ['TT', TT],
-//                    ['AT', AT]
-//                ]
-//            }]
-//        })
-        console.log(highcharts);
         $('#pieShow').highcharts({
             chart: {
                 plotBackgroundColor: null,
@@ -117,24 +99,13 @@
             },
             series: [{
                 type: 'pie',
-                name: '浏览器访问量占比',
+                name: 'genoType 占比',
                 data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['其他',   0.7]
+                    ['AA', AA*100],
+                    ['TT', TT*100],
+                    ['AT', AT*100]
                 ]
             }]
-        });
-        console.log(result);
-
-    })
+        })
 </script>
 </html>
