@@ -86,23 +86,10 @@
                     <th class="param cultivarT">品种名
 
                     </th>
-                    <th class="param populationT moveOnPop" >群体
-                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
-                        <div class="popNames" style="display:none;">
-                            <ul>
-                                <li>Q1</li>
-                                <li>Q2</li>
-                                <li>Q3</li>
-                                <li>Q4</li>
-                                <li>Q5</li>
-                                <li>Q6</li>
-                                <li>Q7</li>
-                                <li>Q8</li>
-                                <li>Q9</li>
-                                <li>Q10</li>
-                            </ul>
-                        </div>
+                    <th class="param cultivarT">GeneType
+
                     </th>
+
                     <th class="param genoTypeT">GenoType
 
                     </th>
@@ -315,11 +302,13 @@
         })
         // 获取表格数据
         function getSnpData (data){
+            debugger;
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
                 data:data,
                 success:function (result){
+
                     console.log(result);
                 },
                 error:function (error){
