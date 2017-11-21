@@ -20,7 +20,7 @@
 			heartbeat-connect-timeout="10000"
 			max-connection-life-time="3000"
 			socket-keep-alive="true"
-			socket-timeout="6000"
+			socket-timeout="10000"
 			threads-allowed-to-block-for-connection-multiplier="5"
 			write-concern="SAFE"/>
 </mongo:mongo-client>

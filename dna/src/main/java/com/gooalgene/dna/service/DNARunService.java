@@ -127,7 +127,8 @@ public class DNARunService {
     }
 
     public  List<DNARun> getByRunNos(List<String> runNos){
-        return dnaRunDao.getByRunNos(runNos);
+        List<DNARun> dnaRuns=dnaRunDao.getByRunNos(runNos);
+        return dnaRuns;
     }
 
 
