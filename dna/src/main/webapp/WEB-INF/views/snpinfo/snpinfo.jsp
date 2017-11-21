@@ -40,7 +40,32 @@
             </p>
         </div>
         <div id="trInfos">
-
+            <table cellspacing="0" cellpadding="0" >
+                <tr>
+                    <td class="trWidth">SNP ID:</td>
+                    <td class="trWidth2"></td>
+                    <td class="trWidth">Consequence type:</td>
+                    <td class="trWidth2"></td>
+                </tr>
+                <tr>
+                    <td class="trWidth">Chr:</td>
+                    <td class="trWidth2"></td>
+                    <td class="trWidth">Position:</td>
+                    <td class="trWidth2"></td>
+                </tr>
+                <tr>
+                    <td class="trWidth">Reference allele:</td>
+                    <td class="trWidth2"></td>
+                    <td class="trWidth">Major allele:</td>
+                    <td class="trWidth2"></td>
+                </tr>
+                <tr>
+                    <td class="trWidth">Minor allele:</td>
+                    <td class="trWidth2"></td>
+                    <td class="trWidth">Frequence of major allele:</td>
+                    <td class="trWidth2"></td>
+                </tr>
+            </table>
         </div>
 
     </div>

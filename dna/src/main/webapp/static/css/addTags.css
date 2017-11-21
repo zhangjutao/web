@@ -188,6 +188,9 @@ p.first{
 #constructorPanel2{
     /*display:none;*/
 }
+/*#tableBody tr:nth-child(even) td.t_genoType>div p:first-child{*/
+    /*background:#F5F8FF!important;*/
+/*}*/
 #tableBody td.t_genoType p{
     float:left;
     width:100%;

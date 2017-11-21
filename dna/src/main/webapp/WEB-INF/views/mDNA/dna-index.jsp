@@ -216,8 +216,6 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
-
-                                            <td class="param"> GenoType</td>
                                             <%--<td class="param t_fmajorAllelein">--%>
                                                 <%--<select class="f-ma-in">--%>
                                                     <%--<option>Frequency of Major Allele in</option>--%>
@@ -304,8 +302,6 @@
                                                 <option value="minor">Frequency of Minor Allele</option>
                                             </select>
                                         </td>
-                                        <td> 的算法那是的风格</td>
-
                                     </tr>
                                 </thead>
                                 <tbody  id="tableBody2">

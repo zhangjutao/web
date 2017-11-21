@@ -839,8 +839,8 @@ $(function () {
           }
 
             $("#" + tabid).addClass("tabTrColor");
+            // $("#" +tabid).find("td.t_genoType>div").find("p:first-child").css("background","#5d8ce6!important")
         })
-
         }
 
     // 定义滚轮缩放
@@ -880,8 +880,7 @@ $(function () {
     // })
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr",function (e){
-
-            // debugger;
+        // debugger;
            var id = $(this).attr("id");
            var chr = $(this).find("td.t_snpchromosome").text();
            console.log(chr);
@@ -890,6 +889,7 @@ $(function () {
            var consquence = $(this).find("td.t_consequenceType").find("p").text();
            var position = $(this).find("td.t_position").find("p").text();
            var major = $(this).find("td.t_majorAllele").find("div").text();
+           console.log(major);
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
            var samples = JSON.parse($(this).attr("data-samples"));
            window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "chr=" + chr+"reference=" + reference + "minor="+minor+"consquence="+consquence+
