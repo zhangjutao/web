@@ -77,8 +77,8 @@
         </div>
         <div id="snpinfoTable">
             <div class="changeTab">
-                <p class="changeTagColor">Major Allele</p>
-                <p>Minor Allele</p>
+                <p class="changeTagColor major">Major Allele</p>
+                <p class="minor">Minor Allele</p>
             </div>
             <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;">
                 <thead style="overflow-x: scroll;">
@@ -247,6 +247,9 @@
         var AA = "${result.RefAndRefPercent}";
         var TT = "${result.totalAltAndAltPercent}";
         var AT = "${result.totalRefAndAltPercent}";
+        var id="${snp.id}";
+        var major = "${snp.majorallen}";
+        var mijor = "${snp.minorallen}";
         console.log(AA)
         console.log(TT)
         console.log(AT)
@@ -311,10 +314,11 @@
             $(this).parent().parent().hide();
         })
         // 获取表格数据
-        function getSnpData (){
+        function getSnpData (data){
             $.ajax({
                 type:"GET",
-                url:ctxRoot + "/dna/chageByProportion",
+                url:ctxRoot + "/dna/changeByProportion",
+                data:data,
                 success:function (result){
                     console.log(result);
                 },
@@ -323,7 +327,14 @@
                 }
             })
         }
-        getSnpData();
+        $(".minor").click(function (){
+            var data = {
+                snpId:id,
+                changeParam:mijor
+            };
+            getSnpData(data);
+        });
+    })
         // tag 切换
         $(".changeTab p").click(function (){
             if(!$(this).hasClass("changeTagColor")){
