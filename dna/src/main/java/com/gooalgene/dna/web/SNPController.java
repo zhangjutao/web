@@ -14,6 +14,8 @@ import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
@@ -857,7 +859,6 @@ public class SNPController {
         Map map=(Map)((SNP)result.get("snpData")).getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
-        List<DnaRunVO> dnaRunVOS=Lists.newArrayList();
         //if(StringUtils.equals(snp.getMajorallen(),"A")){
             for(Map.Entry entry:entrySet){
                 if(((String)entry.getValue()).contains(snp.getMajorallen())){
