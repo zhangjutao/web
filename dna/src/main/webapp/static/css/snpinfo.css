@@ -125,3 +125,6 @@
     margin-left:30px;
     border-bottom:1px solid #E4E4E4;
 }
+.searchBox input{
+    padding-left:10px;
+}
