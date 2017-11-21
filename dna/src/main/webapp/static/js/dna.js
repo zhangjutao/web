@@ -839,6 +839,7 @@ $(function () {
           }
 
             $("#" + tabid).addClass("tabTrColor");
+            $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6");
         })
 
         }
