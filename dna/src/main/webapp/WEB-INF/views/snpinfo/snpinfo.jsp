@@ -72,7 +72,8 @@
             </table>
         </div>
         <div id="pieShow">
-
+        </div>
+        <div id="snpinfoTable">
 
         </div>
 
@@ -83,29 +84,24 @@
     var AA = "${result.RefAndRefPercent}";
     var TT = "${result.totalAltAndAltPercent}";
     var AT = "${result.totalRefAndAltPercent}";
-
-
     console.log(AA)
     console.log(TT)
     console.log(AT)
-
-
-
-        $('#pieShow').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            series: [{
-                type: 'pie',
-                name: 'genoType 占比',
-                data: [
-                    ['AA', AA*100],
-                    ['TT', TT*100],
-                    ['AT', AT*100]
-                ]
-            }]
-        })
+    $('#pieShow').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        series: [{
+            type: 'pie',
+            name: 'genoType 占比',
+            data: [
+                ['AA', AA*100],
+                ['TT', TT*100],
+                ['AT', AT*100]
+            ]
+        }]
+    })
 </script>
 </html>
