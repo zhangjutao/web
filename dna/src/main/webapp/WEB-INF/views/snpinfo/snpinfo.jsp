@@ -72,7 +72,8 @@
             </table>
         </div>
         <div id="pieShow">
-
+        </div>
+        <div id="snpinfoTable">
 
         </div>
 
@@ -83,58 +84,24 @@
     var AA = "${result.RefAndRefPercent}";
     var TT = "${result.totalAltAndAltPercent}";
     var AT = "${result.totalRefAndAltPercent}";
+    // 通过EL表达式获取对象属性值
+    var snpDataId = "${result.snpData.id}";
 
-
-    console.log(AA)
-    console.log(TT)
-    console.log(AT)
-
-    $(function (){
-
-
-//        $('#pieShow').highcharts({
-//            chart: {
-//                plotBackgroundColor: null,
-//                plotBorderWidth: null,
-//                plotShadow: false
-//            },
-//            series: [{
-//                type: 'pie',
-//                name: '占比',
-//                data: [
-//                    ['AA', AA],
-//                    ['TT', TT],
-//                    ['AT', AT]
-//                ]
-//            }]
-//        })
-        console.log(highcharts);
-        $('#pieShow').highcharts({
-            chart: {
-                plotBackgroundColor: null,
-                plotBorderWidth: null,
-                plotShadow: false
-            },
-            series: [{
-                type: 'pie',
-                name: '浏览器访问量占比',
-                data: [
-                    ['Firefox',   45.0],
-                    ['IE',       26.8],
-                    {
-                        name: 'Chrome',
-                        y: 12.8,
-                        sliced: true,
-                        selected: true
-                    },
-                    ['Safari',    8.5],
-                    ['Opera',     6.2],
-                    ['其他',   0.7]
-                ]
-            }]
-        });
-        console.log(result);
-
+    $('#pieShow').highcharts({
+        chart: {
+            plotBackgroundColor: null,
+            plotBorderWidth: null,
+            plotShadow: false
+        },
+        series: [{
+            type: 'pie',
+            name: 'genoType 占比',
+            data: [
+                ['AA', AA*100],
+                ['TT', TT*100],
+                ['AT', AT*100]
+            ]
+        }]
     })
 </script>
 </html>
