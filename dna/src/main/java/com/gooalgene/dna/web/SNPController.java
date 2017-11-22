@@ -235,7 +235,7 @@ public class SNPController {
         }
         logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPinGene2(type, ctype, gene, upstream, downstream, group, page);
+        return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
     }
 
 
