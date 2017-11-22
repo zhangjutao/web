@@ -11,6 +11,7 @@ import com.gooalgene.utils.CommonUtil;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -146,7 +147,9 @@ public class SNPService {
         result.put("total", page.getCount());
         result.put("data", data);
         result.put("dnaGenStructures",dnaGenStructures);
-        result.put("bps",dnaGenStructures.get(0).getBps());
+        if(CollectionUtils.isNotEmpty(dnaGenStructures)){
+            result.put("bps",dnaGenStructures.get(0).getBps());
+        }
         return result;
     }
 
