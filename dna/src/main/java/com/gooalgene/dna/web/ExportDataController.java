@@ -130,7 +130,7 @@ public class ExportDataController {
         map.put("seedCoatColor", "Seed Coat Color");
         map.put("upperLeafletLength", "upper Leaflet Length");
         map.put("maturityDate", "Maturity Date");
-        map.put("yield", "Yield");
+        map.put("yield", "Yield(Mg/ha)");
         return map;
     }
 
