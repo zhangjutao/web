@@ -775,7 +775,11 @@ $(function () {
     function drawGeneConstructor(result,id,tabId){
         // 参考值
         // debugger;
-        var direction = result.dnaGenStructures[0].strand;
+        if(result.dnaGenStructures.length==0){
+            var direction = -1;
+        }else {
+            var direction = result.dnaGenStructures[0].strand;
+        }
         var referenceVal = result.bps;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
         var startPos1 = startPos+2000;
@@ -886,15 +890,16 @@ $(function () {
                 if(i < snpLocalPoints.length - 1){
                     if((snpLocalPoints[i+1].pos - snpLocalPoints[i].pos)/10 >10){
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        // a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos1 - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }else {
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos1 - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }
                 }else {
                     if((snpLocalPoints[i].pos - snpLocalPoints[i-1].pos)/10 >10){
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos1 - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }
                 }
             }
@@ -914,31 +919,31 @@ $(function () {
         }
 
     // 定义滚轮缩放
-    // var count = 1;
-    // $("#constructorPanel").on("mousewheel DOMMouseScroll","svg",function (e) {
-    //
-    //     var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
-    //         (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
-    //
-    //
-    //     if (delta > 0) {
-    //         // 向上滚
-    //         count++;
-    //         $(this).css("transform", "scale(" + count * 0.2 + ")");
-    //         console.log("wheelup");
-    //
-    //     } else if (delta < 0) {
-    //         // 向下滚
-    //         count--;
-    //         if (count > 0) {
-    //             $(this).css("transform", "scale(" + count * 0.2 + ")");
-    //             console.log("wheeldown");
-    //         }else if(count<=0){
-    //             count = 1
-    //         }
-    //
-    //     }
-    // });
+    var count = 1;
+    $("#constructorPanel").on("mousewheel DOMMouseScroll","svg",function (e) {
+
+        var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+            (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
+
+
+        if (delta > 0) {
+            // 向上滚
+            count++;
+            $(this).css("transform", "scale(" + count * 0.2 + ")");
+            console.log("wheelup");
+
+        } else if (delta < 0) {
+            // 向下滚
+            count--;
+            if (count > 0) {
+                $(this).css("transform", "scale(" + count * 0.2 + ")");
+                console.log("wheeldown");
+            }else if(count<=0){
+                count = 1
+            }
+
+        }
+    });
     //
     // $(".geneIndels").click(function (){
     //     $("#constructorPanel").hide();
