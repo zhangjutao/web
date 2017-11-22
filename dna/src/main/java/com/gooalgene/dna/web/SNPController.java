@@ -151,7 +151,7 @@ public class SNPController {
      * @param response
      * @return
      */
-    @RequestMapping("/searchSNPinRegion")
+    //@RequestMapping("/searchSNPinRegion")
     @ResponseBody
     public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
@@ -164,6 +164,22 @@ public class SNPController {
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
         Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        return result;
+    }
+
+    @RequestMapping("/searchSNPinRegion")
+    @ResponseBody
+    public Map searchSNPinRegionNoPage(HttpServletRequest request, HttpServletResponse response) {
+        String type = request.getParameter("type");//区分snp和indel数据
+        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String chr = request.getParameter("chromosome");
+        String startPos = request.getParameter("start");
+        String endPos = request.getParameter("end");
+        String group = request.getParameter("group");
+//      String conditions = request.getParameter("conditions");
+        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
+        //Page<DNARun> page = new Page<DNARun>(request, response);
+        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, null);
         return result;
     }
 

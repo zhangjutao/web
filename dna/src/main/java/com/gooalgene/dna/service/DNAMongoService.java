@@ -247,14 +247,16 @@ public class DNAMongoService {
             logger.info("Query:" + query.toString());
             total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
             logger.info(collectionName + " searchInRegin:" + query.toString() + ",total:" + total);
-            Integer pageNo = page.getPageNo();
-            Integer pageSize = page.getPageSize();
-            int skip = (pageNo - 1) * pageSize;
-            if (skip < 0) {
-                skip = 0;
+            if(page!=null){
+                Integer pageNo = page.getPageNo();
+                Integer pageSize = page.getPageSize();
+                int skip = (pageNo - 1) * pageSize;
+                if (skip < 0) {
+                    skip = 0;
+                }
+                query.skip(skip);
+                query.limit(pageSize);
             }
-            query.skip(skip);
-            query.limit(pageSize);
             logger.info("Query By Page:" + query.toString());
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
