@@ -211,6 +211,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
+                total = res.total;
                 console.log(res);
                 drawGeneConstructor(res,"constructorPanel","tableBody");
                 if(url =="/dna/dna/searchSNPinRegion"){
@@ -300,6 +301,7 @@ $(function () {
             dataType: "json",
             success: function(res) {
                 console.log(res)
+                total = res.total;
                 console.log(111)
                 drawGeneConstructor(res,"constructorPanel2","tableBody2");
                 maskClose("#mask-test2");
@@ -692,14 +694,19 @@ $(function () {
             $("#constructorPanel2").show();
         }
     });
+    // 定义全局查询总数
+    var total;
 
     /* 导出 */
     $(".js-export").click(function() {
+
         var panelType = GetPanelParams.getPanelType();
         console.log(panelType);
         if(panelType == "gene") {
             var _form = $("#exportGeneForm");
             var params = GetPanelParams.getGeneParams();
+            params.total = total;
+            console.log(params);
             _form.find(".gene").val(params.gene);
             _form.find(".upstream").val(params.upstream);
             _form.find(".downstream").val(params.downstream);
@@ -723,6 +730,7 @@ $(function () {
         } else {
             var _form = $("#exportRegionForm");
             var params = GetPanelParams.getRegionParams();
+            param.total = total;
             _form.find(".chromosome").val(params.chromosome);
             _form.find(".start").val(params.start);
             _form.find(".end").val(params.end);
