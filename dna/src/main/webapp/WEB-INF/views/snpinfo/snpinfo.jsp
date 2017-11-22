@@ -86,10 +86,6 @@
                     <th class="param cultivarT">品种名
 
                     </th>
-                    <th class="param cultivarT">GeneType
-
-                    </th>
-
                     <th class="param genoTypeT">GenoType
 
                     </th>
@@ -159,68 +155,43 @@
                 </tr>
                 </thead>
                 <tbody>
-                    <td class="param">
 
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
-                    <td class="param">
-
-                    </td>
                 </tbody>
             </table>
+            <%--// 分页显示 begin--%>
+            <div id="paging">
+
+                <div id="inputNums">
+                    <span>跳转到</span>
+                    <div>
+                        <input type="number" min="1" name="number" value="" id="inputNum" >
+                    </div>
+                    <span>页</span>
+                    <span>展示数量</span>
+                    <div id="selectedNum">
+                        <select name="selected" id="selectSize" style="width:40px;">
+                            <option value="10" selected = "true">10</option>
+                            <option value="10">20</option>
+                            <option value="10">30</option>
+                            <option value="10">40</option>
+                        </select>
+                    </div>
+                    <span>/页</span>
+                    <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
+                </div>
+                <div id="page">
+                    <b class="first">&lt;</b>
+                    <p class="two"></p>
+                    <b class="three">...</b>
+                    <p class="four"></p>
+                    <p class="five"></p>
+                    <p class="six"></p>
+                    <b class="seven">...</b>
+                    <p class="eight"></p>
+                    <b class="last">&gt;</b>
+                </div>
+            </div>
+            <%--// 分页显示 end--%>
         </div>
 
     </div>
@@ -302,13 +273,68 @@
         })
         // 获取表格数据
         function getSnpData (data){
-            debugger;
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
                 data:data,
                 success:function (result){
+                    var GenoType;
+                    var dnaDatas = result.data.dnaRuns;
+                    var dnaSamples = result.data.samples;
+                    $("#snpinfoTable table tbody tr").remove();
+                    for (var i=0;i<dnaDatas.length;i++){
+                       GenoType = dnaSamples[dnaDatas[i].runNo];
+                        var cultivarTV = dnaDatas[i].cultivar==null?"":dnaDatas[i].cultivar;
+                        var genoTypeTV = GenoType==null?"":GenoType;
+                        var speciesTV = dnaDatas[i].species==null?"":dnaDatas[i].species;
+                        var localityTV = dnaDatas[i].locality==null?"":dnaDatas[i].locality;
+                        var sampleNameTV = dnaDatas[i].sampleName==null?"":dnaDatas[i].sampleName;
+                        var weightPer100seedsTV = dnaDatas[i].weightPer100seeds==null?"":dnaDatas[i].weightPer100seeds;
+                        var proteinTV = dnaDatas[i].protein==null?"":dnaDatas[i].protein;
+                        var oilTV = dnaDatas[i].oil==null?"":dnaDatas[i].oil;
+                        var maturityDateTV = dnaDatas[i].maturityDate==null?"":dnaDatas[i].maturityDate;
+                        var heightTV = dnaDatas[i].height==null?"":dnaDatas[i].height
+                        var seedCoatColorTV = dnaDatas[i].seedCoatColor==null?"":dnaDatas[i].seedCoatColor;
+                        var hilumColorTV  = dnaDatas[i].hilumColor==null?"":dnaDatas[i].hilumColor==null;
+                        var cotyledonColorTV = dnaDatas[i].cotyledonColor==null?"":dnaDatas[i].cotyledonColor;
+                        var flowerColorTV = dnaDatas[i].flowerColor==null?"":dnaDatas[i].flowerColor;
+                        var podColorTV = dnaDatas[i].podColor==null?"":dnaDatas[i].podColor;
+                        var pubescenceColorTV = dnaDatas[i].pubescenceColor ==null?"":dnaDatas[i].pubescenceColor;
+                        var yieldTV = dnaDatas[i].yield==null?"":dnaDatas[i].yield;
+                        var upperLeafletLengthTV = dnaDatas[i].upperLeafletLength==null?"":dnaDatas[i].upperLeafletLength;
+                        var linoleicTV = dnaDatas[i].linoleic==null?"":dnaDatas[i].linoleic;
+                        var linolenicTV = dnaDatas[i].linolenic==null?"":dnaDatas[i].linolenic;
+                        var oleicTV = dnaDatas[i].oleic==null?"":dnaDatas[i].oleic;
+                        var palmiticTV = dnaDatas[i].palmitic==null?"":dnaDatas[i].palmitic;
+                        var stearicTV = dnaDatas[i].stearic==null?"":dnaDatas[i].stearic;
 
+                        var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
+                            "</td><td class='param genoTypeT'>" + genoTypeTV +
+                            "</td><td class='param speciesT'>" + speciesTV+
+                            "</td><td class='param localityT'>" + localityTV +
+                            "</td><td class='param sampleNameT'>" + sampleNameTV +
+                            "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
+                            "</td><td class='param proteinT'>" + proteinTV +
+                            "</td><td class='param oilT'>" + oilTV +
+                            "</td><td class='param maturityDateT'>" + maturityDateTV +
+                            "</td><td class='param heightT'>" + heightTV +
+                            "</td><td class='param seedCoatColorT'>" + seedCoatColorTV +
+                            "</td><td class='param hilumColorT'>" + hilumColorTV +
+                            "</td><td class='param cotyledonColorT'>" + cotyledonColorTV +
+                            "</td><td class='param flowerColorT'>" +flowerColorTV +
+                            "</td><td class='param podColorT'>" + podColorTV +
+                            "</td><td class='param pubescenceColorT'>" + pubescenceColorTV +
+                            "</td><td class='param yieldT'>" + yieldTV +
+                            "</td><td class='param upperLeafletLengthT'>" + upperLeafletLengthTV +
+                            "</td><td class='param linoleicT'>" + linoleicTV +
+                            "</td><td class='param linolenicT'>" + linolenicTV +
+                            "</td><td class='param oleicT'>" + oleicTV +
+                            "</td><td class='param palmiticT'>" + palmiticTV +
+                            "</td><td class='param stearicT'>" + stearicTV +"</td></tr>"
+                        var $tbody = $("#snpinfoTable table tbody");
+                        $tbody.append(tr);
+                    }
+                    var tr =
                     console.log(result);
                 },
                 error:function (error){
@@ -321,8 +347,266 @@
                 snpId:id,
                 changeParam:mijor
             };
-            getSnpData(data);
+            getData(data);
         });
+        $(".major").click(function (){
+            var data = {
+                snpID:id,
+                changeParam:major
+            };
+            getData(data);
+        })
+        window.onload = function (){
+            var initData = {
+                snpId:id,
+                changeParam:major
+            };
+            getData(initData);
+        }
+        // 分页
+        var nums;
+        var totalDatas;
+        var intNums;
+        var count;
+        var page = {
+            pageNum:1,
+            pageSize:10
+        }
+        //每页展示的数量
+        var paramData = {
+            pageNum:page.pageNum,
+            pageSize:page.pageSize
+        };
+        //ajax 请求
+        function getData(data){
+            $.ajax({
+                type:"GET",
+                url:ctxRoot + "/dna/changeByProportion",
+                data:data,
+                success:function (result) {
+                    console.log(result);
+
+                    count = result.data.total;
+                    if(count <40){
+                        $("#page").css({"padding-left":"186px"});
+                    }else {
+                        $("#page").css({"padding-left":"10px"});
+                    };
+                    if(count == 0){
+                        $("#paging").hide();
+                        $("#errorImg").show();
+                        $("#containerAdmin").css("height","754px");
+                    }else{
+                        totalDatas = result.data.list;
+                        console.log(totalDatas);
+                        $("#tableShow table tbody tr").remove();
+
+                        nums = Math.ceil(count / page.pageSize);
+                        //舍弃小数之后的取整
+                        intNums = parseInt(count / page.pageSize);
+                        for (var i=0;i<totalDatas.length;i++){
+                            var cultivarTV = totalDatas[i].cultivar==null?"":totalDatas[i].cultivar;
+                            var speciesTV = totalDatas[i].species==null?"":totalDatas[i].species;
+                            var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;
+                            var sampleNameTV = totalDatas[i].sampleName==null?"":totalDatas[i].sampleName;
+                            var weightPer100seedsTV = totalDatas[i].weightPer100seeds==null?"":totalDatas[i].weightPer100seeds;
+                            var proteinTV = totalDatas[i].protein==null?"":totalDatas[i].protein;
+                            var oilTV = totalDatas[i].oil==null?"":totalDatas[i].oil;
+                            var maturityDateTV = totalDatas[i].maturityDate==null?"":totalDatas[i].maturityDate;
+                            var heightTV = totalDatas[i].height==null?"":totalDatas[i].height
+                            var seedCoatColorTV = totalDatas[i].seedCoatColor==null?"":totalDatas[i].seedCoatColor;
+                            var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor==null;
+                            var cotyledonColorTV = totalDatas[i].cotyledonColor==null?"":totalDatas[i].cotyledonColor;
+                            var flowerColorTV = totalDatas[i].flowerColor==null?"":totalDatas[i].flowerColor;
+                            var podColorTV = totalDatas[i].podColor==null?"":totalDatas[i].podColor;
+                            var pubescenceColorTV = totalDatas[i].pubescenceColor ==null?"":totalDatas[i].pubescenceColor;
+                            var yieldTV = totalDatas[i].yield==null?"":totalDatas[i].yield;
+                            var upperLeafletLengthTV = totalDatas[i].upperLeafletLength==null?"":totalDatas[i].upperLeafletLength;
+                            var linoleicTV = totalDatas[i].linoleic==null?"":totalDatas[i].linoleic;
+                            var linolenicTV = totalDatas[i].linolenic==null?"":totalDatas[i].linolenic;
+                            var oleicTV = totalDatas[i].oleic==null?"":totalDatas[i].oleic;
+                            var palmiticTV = totalDatas[i].palmitic==null?"":totalDatas[i].palmitic;
+                            var stearicTV = totalDatas[i].stearic==null?"":totalDatas[i].stearic;
+
+                            var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
+                                "</td><td class='param speciesT'>" + speciesTV+
+                                "</td><td class='param localityT'>" + localityTV +
+                                "</td><td class='param sampleNameT'>" + sampleNameTV +
+                                "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
+                                "</td><td class='param proteinT'>" + proteinTV +
+                                "</td><td class='param oilT'>" + oilTV +
+                                "</td><td class='param maturityDateT'>" + maturityDateTV +
+                                "</td><td class='param heightT'>" + heightTV +
+                                "</td><td class='param seedCoatColorT'>" + seedCoatColorTV +
+                                "</td><td class='param hilumColorT'>" + hilumColorTV +
+                                "</td><td class='param cotyledonColorT'>" + cotyledonColorTV +
+                                "</td><td class='param flowerColorT'>" +flowerColorTV +
+                                "</td><td class='param podColorT'>" + podColorTV +
+                                "</td><td class='param pubescenceColorT'>" + pubescenceColorTV +
+                                "</td><td class='param yieldT'>" + yieldTV +
+                                "</td><td class='param upperLeafletLengthT'>" + upperLeafletLengthTV +
+                                "</td><td class='param linoleicT'>" + linoleicTV +
+                                "</td><td class='param linolenicT'>" + linolenicTV +
+                                "</td><td class='param oleicT'>" + oleicTV +
+                                "</td><td class='param palmiticT'>" + palmiticTV +
+                                "</td><td class='param stearicT'>" + stearicTV +"</td></tr>"
+                            var $tbody = $("#tableShow table tbody");
+                            $tbody.append(tr);
+                        }
+                        pageStyle(nums,intNums);
+                        $("#totals").text(count);
+                    }
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        }
+        // 样式调整方法
+        function pageStyle(nums,intNums){
+            if (nums > 4) {
+                // $(".first").hide().next().text(1).next().hide();
+                $(".first").next().text(1);
+                $(".four").text(2).next().text(3).next().text(4);
+                $(".eight").text(nums);
+                $(".seven").show();
+                $(".last").show();
+            };
+            if (intNums == 0) {
+                styleChange();
+                $(".two").text(1);
+                $(".four").hide();
+                $(".five").hide();
+                $(".six").hide();
+            }
+            switch (nums) {
+                case 1:
+                    styleChange();
+                    $(".two").text(1);
+                    $(".four").hide();
+                    $(".five").hide();
+                    $(".six").hide();
+                    break;
+                case 2:
+                    styleChange();
+                    $(".two").text(1);
+                    $(".four").text(2);
+                    $(".five").hide();
+                    $(".six").hide();
+                    break;
+                case 3:
+                    styleChange();
+                    $(".two").text(1);
+                    $(".four").text(2);
+                    $(".five").text(3);
+                    $(".six").hide();
+                    break;
+                case 4:
+                    styleChange();
+                    $(".two").text(1);
+                    $(".four").text(2);
+                    $(".five").text(3);
+                    $(".six").text(4);
+                    break;
+            }
+        }
+        // 显示隐藏样式封装
+        function styleChange() {
+            $(".three").hide();
+            $(".first").hide();
+            $(".seven").hide();
+            $(".eight").hide();
+            $(".last").hide();
+        };
+
+        //每个页码的点击事件
+        $("#page>p").click(function (e) {
+            //样式
+            if (nums > 4) {
+                $(".first").show();
+                $(".three").show();
+                $(".eight").text(nums);
+            };
+            var $p = $(e.target);
+
+            page.pageNum = parseInt($p.text());
+            paramData.pageNum = page.pageNum;
+            var selectedDatas = getParamas();
+            selectedDatas.pageNum = paramData.pageNum;
+            selectedDatas.pageSize = paramData.pageSize;
+            console.log(selectedDatas);
+            getData(selectedDatas);
+            var plists = $p.siblings();
+            for (var i = 0; i < plists.length; i++) {
+                if ($(plists[i]).hasClass("pageColor")) {
+                    $(plists[i]).removeClass("pageColor");
+                }
+            }
+            $p.addClass("pageColor");
+
+        });
+        // pageSize 选择事件
+        $("#selectedNum").change(function (e){
+            var currentSelected = $("#selectedNum option:selected").text();
+            page.pageSize = currentSelected;
+            paramData.pageSize = page.pageSize;
+            var selectedDatas = getParamas();
+            selectedDatas.pageNum = paramData.pageNum;
+            selectedDatas.pageSize = paramData.pageSize;
+            getData(selectedDatas);
+        })
+        // "<" 点击事件
+        $(".first").click(function () {
+            var content6 = Number($(".six").text());
+            var content4 = Number($(".four").text());
+            var content5 = Number($(".five").text());
+            if (content6 < nums) {
+                $(".last").show();
+                $(".seven").show();
+            }
+            if (content4 <= 2) {
+                $(".first").hide().next().next().hide();
+            } else {
+                $(".six").text(content6 - 1);
+                $(".four").text(content4 - 1);
+                $(".five").text(content5 - 1);
+            }
+        })
+        // enter 键盘事件
+        $("#inputNum").keydown(function(event){
+            event=document.all?window.event:event;
+            if((event.keyCode || event.which)==13){
+                var selectedNum = $(this).val();
+                page.pageNum = pageNum = selectedNum;
+                paramData.pageNum = page.pageNum;
+                var selectedDatas = getParamas();
+                selectedDatas.pageNum = paramData.pageNum;
+                selectedDatas.pageSize = paramData.pageSize;
+                getData(selectedDatas);
+            }
+        });
+        // ">" 点击事件
+        $(".last").click(function () {
+            var content6 = Number($(".six").text());
+            var content4 = Number($(".four").text());
+            var content5 = Number($(".five").text());
+            var content2 = Number($(".two").text());
+            if (content2 == 1) {
+                $(".first").show();
+                $(".three").show();
+            }
+
+            if (content6 >= nums - 1) {
+                $(".seven").hide();
+                $(this).hide();
+            } else {
+                $(".six").text(content6 + 1);
+                $(".four").text(content4 + 1);
+                $(".five").text(content5 + 1);
+            }
+        })
+
+        // 分页end
     })
         // tag 切换
         $(".changeTab p").click(function (){
