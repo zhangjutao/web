@@ -44,7 +44,6 @@ $(function () {
         $(".page-tables").show();
         $(".page-circle").hide();
         var obj = getPanelParams();
-        console.log(obj);
         if(typeof obj == "object") {
             CTypeSnp = "all";
             CTypeIndel = "all";
@@ -85,7 +84,6 @@ $(function () {
             $(this).addClass("GlyColor");
         }
         var obj = getPanelParams();
-        console.log(obj);
         // if(typeof obj == "object") {
         //     CTypeSnp = "all";
         //     CTypeIndel = "all";
@@ -224,7 +222,6 @@ $(function () {
             dataType: "json",
             success: function(res) {
                 total = res.total;
-                console.log(res);
                 drawGeneConstructor(res,"constructorPanel","tableBody");
                 if(url =="/dna/dna/searchSNPinRegion"){
                         var GlyList = res.data;
@@ -312,9 +309,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                console.log(res)
                 total = res.total;
-                console.log(111)
                 drawGeneConstructor(res,"constructorPanel2","tableBody2");
                 maskClose("#mask-test2");
                 INDELData = res.data;
@@ -475,7 +470,6 @@ $(function () {
     // 生成INDELs表格
     function renderINDELTable(data) {
         var str = '';
-        console.log(data);
         $.each(data, function(idx, item) {
             str += '<tr id="' +item.id + '">'
             str += '    <td class="t_indels" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
@@ -514,7 +508,6 @@ $(function () {
     var tab=$(".js-table-header-setting-indel").find("label");
     for(var i=0;i<tab.length;i++){
         tab[i].onclick=function(){
-            console.log($(this).text());
         }
         //(function(){
         //    console.log($(this).text());
@@ -713,12 +706,10 @@ $(function () {
     $(".js-export").click(function() {
 
         var panelType = GetPanelParams.getPanelType();
-        console.log(panelType);
         if(panelType == "gene") {
             var _form = $("#exportGeneForm");
             var params = GetPanelParams.getGeneParams();
             params.total = total;
-            console.log(params);
             _form.find(".gene").val(params.gene);
             _form.find(".upstream").val(params.upstream);
             _form.find(".downstream").val(params.downstream);
@@ -749,7 +740,6 @@ $(function () {
             _form.find(".end").val(params.end);
             _form.find(".type").val(CurrentTab);
             _form.find(".total").val(params.total);
-            console.log(params);
             if(CurrentTab=="SNP") {
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
@@ -773,7 +763,6 @@ $(function () {
                 type:"GET",
                 url:ctxRoot+ "/manager/user",
                 success:function(result){
-                    console.log(result);
                     var roles = result.data.authorities;
                     for (var i=0;i<roles.length;i++){
                         if(roles[i].name == "ROLE_ADMIN"){
@@ -786,15 +775,13 @@ $(function () {
     function drawGeneConstructor(result,id,tabId){
         // 参考值
         // debugger;
+        var direction = result.dnaGenStructures[0].strand;
         var referenceVal = result.bps;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
         var startPos1 = startPos+2000;
         var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
         var endPos1 = endPos-2000;
-        console.log(startPos)
-        console.log(endPos)
         var geneLength = endPos - startPos;
-        console.log(geneLength);
        d3.select("#" + id).selectAll("svg").remove();
        // 创建一个svg 元素
         var svgTotal = $("#" + id).width();
@@ -860,8 +847,11 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
-            // svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
-            svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(0,18)").attr("transform","translate(30,0)");
+            if(direction == "-"){
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)");
+            }else if(direction == "+"){
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
+            }
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             //   画方向箭头
             // 画基因结构图
@@ -888,9 +878,8 @@ $(function () {
             for (var i=0;i<geneConstructs.length;i++){
                 var feature = geneConstructs[i].feature;
                 var colorVal = chromoColor(feature);
-                console.log((endPos-geneConstructs[i].start)/10 +(geneConstructs[i].end - geneConstructs[i].start)/10);
                 // g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-                g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                g.append("rect").attr("x",(geneConstructs[i].start-startPos1)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
             }
             // 画snp 位点
             for (var i=0;i<snpLocalPoints.length;i++){
