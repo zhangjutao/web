@@ -144,17 +144,6 @@ public class SNPController {
     }
 
     /**
-     * 根据runNo查找dnaRun
-     * @return
-     */
-    @RequestMapping(value = "/dnaRuns",method = RequestMethod.GET)
-    //@ResponseBody
-    public ResultVO getByRunNos(@RequestParam("runNos") List<String> runNos) {
-
-        return ResultUtil.success(dnaRunService.getByRunNos(runNos));
-    }
-
-    /**
      * 按群组条件搜索
      *
      * @param request
@@ -866,7 +855,7 @@ public class SNPController {
                 }
             }
         //}
-        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
+        PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
         modelAndView.addObject("dnaRuns",dnaRuns);
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
@@ -876,7 +865,9 @@ public class SNPController {
      * 区分mainor和majora
      */
     @RequestMapping(value = "/changeByProportion",method = RequestMethod.GET)
-    public ResultVO changeByProportion(@RequestParam("snpId")String snpId,@RequestParam("changeParam") String changeParam) {
+    public ResultVO changeByProportion(@RequestParam("snpId")String snpId,@RequestParam("changeParam") String changeParam,
+                                       @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
+                                       @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
         Map result = snpService.findSampleById(snpId);
         Map map=(Map)((SNP)result.get("snpData")).getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
@@ -891,7 +882,7 @@ public class SNPController {
                 }
             }
         }
-        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
+        PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);
         Map response= Maps.newHashMap();
         response.put("dnaRuns",dnaRuns);
         //response.put("samples",map);

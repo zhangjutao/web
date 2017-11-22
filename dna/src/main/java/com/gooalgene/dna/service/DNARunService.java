@@ -126,9 +126,13 @@ public class DNARunService {
         return dnaRunDao.getListByCondition(new DnaRunDto());
     }
 
-    public  List<DNARun> getByRunNos(List<String> runNos){
+    public  PageInfo<DNARun> getByRunNos(List<String> runNos,Integer pageNum,Integer pageSize){
+        if(pageNum!=null&&pageSize!=null){
+            PageHelper.startPage(pageNum,pageSize);
+        }
         List<DNARun> dnaRuns=dnaRunDao.getByRunNos(runNos);
-        return dnaRuns;
+        PageInfo<DNARun> pageInfo=new PageInfo<>(dnaRuns);
+        return pageInfo;
     }
 
 
