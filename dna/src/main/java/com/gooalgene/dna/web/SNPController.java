@@ -291,7 +291,7 @@ public class SNPController {
                          total=EXPORT_NUM;
                      }
                      page.setPageSize(total);
-                    result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
+                    result=snpService.searchSNPinGene(type,ctype,gene,upstream,downstream,group,page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
                     String group = request.getParameter("group");

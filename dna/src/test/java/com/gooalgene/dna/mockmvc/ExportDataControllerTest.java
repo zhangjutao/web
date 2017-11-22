@@ -24,6 +24,7 @@ import java.util.List;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 /**
  * Created by liuyan on 2017/11/13.
@@ -53,11 +54,25 @@ public class ExportDataControllerTest extends TestCase{
 
     @Test
     public void testExportData() throws Exception{
-        mockMvc.perform(get("/export)")
+        mockMvc.perform(get("/export")
         .param("choices","group,run,species,sampleName,cultivar,fattyacid"))
         .andExpect(status().isOk())
         .andDo(print())
         .andReturn();
+    }
+
+    @Test
+    public void testSearchSNPInRegion() throws Exception{
+        mockMvc.perform(get("/searchSNPinRegion")
+        .param("type","snp")
+        .param("ctype","all")
+        .param("chromosome","ch01")
+        .param("start","0")
+        .param("end","1000"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn();
+
     }
 
 }
