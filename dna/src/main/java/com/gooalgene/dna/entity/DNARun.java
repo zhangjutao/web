@@ -22,37 +22,37 @@ public class DNARun extends DataEntity<DNARun> {
 
     private String locality;//位置
 
-    private float protein;//蛋白质含量 %
+    private Float protein;//蛋白质含量 %
 
     private String protein_min;
     private String protein_max;
 
-    private float oil;//含油量 %
+    private Float oil;//含油量 %
 
     private String oil_min;
     private String oil_max;
 
-    private float linoleic;//亚油酸 %
+    private Float linoleic;//亚油酸 %
     private String linoleic_min;
     private String linoleic_max;
 
-    private float linolenic;//亚麻酸 %
+    private Float linolenic;//亚麻酸 %
     private String linolenic_min;
     private String linolenic_max;
 
-    private float oleic;//油酸 %
+    private Float oleic;//油酸 %
     private String oleic_min;
     private String oleic_max;
 
-    private float palmitic;//软脂酸 %
+    private Float palmitic;//软脂酸 %
     private String palmitic_min;
     private String palmitic_max;
 
-    private float stearic;//硬脂酸 %
+    private Float stearic;//硬脂酸 %
     private String stearic_min;
     private String stearic_max;
 
-    private float height;//株高 cm
+    private Float height;//株高 cm
     private String height_min;
     private String height_max;
 
@@ -68,19 +68,20 @@ public class DNARun extends DataEntity<DNARun> {
 
     private String cotyledonColor;//子叶色
 
-    private float weightPer100seeds;//百粒重 g
+    private Float weightPer100seeds;//百粒重 g
     private String weightPer100seeds_min;
     private String weightPer100seeds_max;
 
-    private float upperLeafletLength;//顶端小叶长度 mm
+    private Float upperLeafletLength;//顶端小叶长度 mm
     private String upperLeafletLength_min;
     private String upperLeafletLength_max;
 
-    private String floweringDate;//开花日期（月，日）
+    private String maturityDate;//成熟期组
 
-    private String maturityDate;//成熟日期（月，日）
+    private Float yield;//产量（Mg/ha）
 
-    private float yield;//产量（Mg/ha）
+    private String group; //组别
+
     private String yield_min;
     private String yield_max;
 
@@ -134,67 +135,67 @@ public class DNARun extends DataEntity<DNARun> {
         this.locality = locality;
     }
 
-    public float getProtein() {
+    public Float getProtein() {
         return protein;
     }
 
-    public void setProtein(float protein) {
+    public void setProtein(Float protein) {
         this.protein = protein;
     }
 
-    public float getOil() {
+    public Float getOil() {
         return oil;
     }
 
-    public void setOil(float oil) {
+    public void setOil(Float oil) {
         this.oil = oil;
     }
 
-    public float getLinoleic() {
+    public Float getLinoleic() {
         return linoleic;
     }
 
-    public void setLinoleic(float linoleic) {
+    public void setLinoleic(Float linoleic) {
         this.linoleic = linoleic;
     }
 
-    public float getLinolenic() {
+    public Float getLinolenic() {
         return linolenic;
     }
 
-    public void setLinolenic(float linolenic) {
+    public void setLinolenic(Float linolenic) {
         this.linolenic = linolenic;
     }
 
-    public float getOleic() {
+    public Float getOleic() {
         return oleic;
     }
 
-    public void setOleic(float oleic) {
+    public void setOleic(Float oleic) {
         this.oleic = oleic;
     }
 
-    public float getPalmitic() {
+    public Float getPalmitic() {
         return palmitic;
     }
 
-    public void setPalmitic(float palmitic) {
+    public void setPalmitic(Float palmitic) {
         this.palmitic = palmitic;
     }
 
-    public float getStearic() {
+    public Float getStearic() {
         return stearic;
     }
 
-    public void setStearic(float stearic) {
+    public void setStearic(Float stearic) {
         this.stearic = stearic;
     }
 
-    public float getHeight() {
+    public Float getHeight() {
         return height;
     }
 
-    public void setHeight(float height) {
+    public void setHeight(Float height) {
         this.height = height;
     }
 
@@ -246,28 +247,20 @@ public class DNARun extends DataEntity<DNARun> {
         this.cotyledonColor = cotyledonColor;
     }
 
-    public float getWeightPer100seeds() {
+    public Float getWeightPer100seeds() {
         return weightPer100seeds;
     }
 
-    public void setWeightPer100seeds(float weightPer100seeds) {
+    public void setWeightPer100seeds(Float weightPer100seeds) {
         this.weightPer100seeds = weightPer100seeds;
     }
 
-    public float getUpperLeafletLength() {
+    public Float getUpperLeafletLength() {
         return upperLeafletLength;
     }
 
-    public void setUpperLeafletLength(float upperLeafletLength) {
+    public void setUpperLeafletLength(Float upperLeafletLength) {
         this.upperLeafletLength = upperLeafletLength;
-    }
-
-    public String getFloweringDate() {
-        return floweringDate;
-    }
-
-    public void setFloweringDate(String floweringDate) {
-        this.floweringDate = floweringDate;
     }
 
     public String getMaturityDate() {
@@ -278,11 +271,11 @@ public class DNARun extends DataEntity<DNARun> {
         this.maturityDate = maturityDate;
     }
 
-    public float getYield() {
+    public Float getYield() {
         return yield;
     }
 
-    public void setYield(float yield) {
+    public void setYield(Float yield) {
         this.yield = yield;
     }
 
@@ -470,6 +463,14 @@ public class DNARun extends DataEntity<DNARun> {
         this.keywords = keywords;
     }
 
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
+    }
+
     public JSONObject toJSON() {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("id", getId());
@@ -495,9 +496,9 @@ public class DNARun extends DataEntity<DNARun> {
         jsonObject.put("cotyledonColor", cotyledonColor == null ? "" : cotyledonColor);
         jsonObject.put("weightPer100seeds", weightPer100seeds == 0 ? "" : weightPer100seeds);
         jsonObject.put("upperLeafletLength", upperLeafletLength == 0 ? "" : upperLeafletLength);
-        jsonObject.put("floweringDate", floweringDate == null ? "" : floweringDate);
         jsonObject.put("maturityDate", maturityDate == null ? "" : maturityDate);
         jsonObject.put("yield", yield == 0 ? "" : yield);
+        jsonObject.put("group", group);
         return jsonObject;
     }
 
@@ -546,11 +547,11 @@ public class DNARun extends DataEntity<DNARun> {
                 ", upperLeafletLength=" + upperLeafletLength +
                 ", upperLeafletLength_min='" + upperLeafletLength_min + '\'' +
                 ", upperLeafletLength_max='" + upperLeafletLength_max + '\'' +
-                ", floweringDate='" + floweringDate + '\'' +
                 ", maturityDate='" + maturityDate + '\'' +
                 ", yield=" + yield +
                 ", yield_min='" + yield_min + '\'' +
                 ", yield_max='" + yield_max + '\'' +
+                ", group='" + group + '\'' +
                 '}';
     }
 }

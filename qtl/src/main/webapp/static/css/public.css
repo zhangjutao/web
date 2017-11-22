@@ -7,8 +7,8 @@ i{font-style: normal;color:#949494;}
 img{border: none;vertical-align: middle}
 input[type=checkbox]{ vertical-align: middle;}
 .container{width:1200px;margin: 0 auto;}
-table{    border-collapse: collapse;}
 /*header*/
+table{    border-collapse: collapse;}
 header{background: #fff;height: 80px;box-shadow: 0px 1px 3px rgba(0,0,0,0.2);margin-bottom: 2px}
 .logo{ float: left;  padding-left:5px;}
 .logo .qtl-logo-pic{  float: left;}
@@ -16,8 +16,19 @@ header{background: #fff;height: 80px;box-shadow: 0px 1px 3px rgba(0,0,0,0.2);mar
 .logo img{width: 166px; height: 44px;margin-top: 16px; margin-left: 20px;}
 .logo img.back-index{width: 24px; margin-top: -9px; height: 23px;margin-left: 10px;    padding-right: 8px;}
 .login-out{line-height: 80px;float: right;padding-right: 30px;}
-.login-out a{font-size: 18px;margin-left: 5px;    width: 60px; height: 30px; display: inline-block; line-height: 30px; text-align: center;}
-.login-out a.register{background-color:#5c8ce6;color:#fff;border-radius:2px }
+.login-out a{
+    margin-left: 10px;
+    font-size: 16px;
+    height: 16px;
+    display: inline-block;
+    line-height: 14px;
+    text-align: center;
+    color: #5c8ce6;
+}
+/*.login-out a.register{background-color:#5c8ce6;padding:10px;color:#fff;border-radius:2px }*/
+.active{
+    background-color:#5c8ce6;padding:10px;color:#fff!important;border-radius:2px;
+}
 button.btn:hover{background-color: #586cca!important;}
 button.btn-fill:hover{background-color:#5c8ce6;color:#fff}
 /*banner*/

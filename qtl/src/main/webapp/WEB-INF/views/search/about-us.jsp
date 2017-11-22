@@ -15,7 +15,7 @@
     </style>
 </head>
 <body>
-    <%@ include file="/WEB-INF/views/include/header-bar.jsp" %>
+    <qtl:qtl-header />
     <section class="container">
         <div class="description box-shadow">
             <p>qtl #${name}<span>版本号${version}</span></p>

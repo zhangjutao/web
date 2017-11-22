@@ -1,13 +1,20 @@
 package com.gooalgene.dna.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
+import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.*;
+import com.gooalgene.common.service.SMTPService;
+import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -17,20 +24,22 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.cache.Cache;
+import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.io.UnsupportedEncodingException;
+import java.util.*;
 
 @RestController
 @RequestMapping("/dna")
@@ -56,10 +65,16 @@ public class SNPController {
     @Autowired
     private DNAGroupsService dnaGroupsService;
 
+
     @RequestMapping("/index")
     public ModelAndView index(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
+        return model;
+    }
+    @RequestMapping("/populationInfos")
+    public ModelAndView populationInfos(HttpServletRequest request) {
+        ModelAndView model = new ModelAndView("population/infos");
         return model;
     }
 
@@ -93,6 +108,22 @@ public class SNPController {
         logger.info("QueryByGroup:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
         return dnaRunService.queryDNARunByGroup(group, page);
+    }
+
+    /**
+     * 按基因条件搜索
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping(value = "/condition",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO getByExample(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
+                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                 DnaRunDto dnaRunDto) {
+        PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize);
+        return ResultUtil.success(dnaRunPageInfo);
     }
 
     /**
@@ -168,6 +199,7 @@ public class SNPController {
     }
 
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
+
 
     @RequestMapping("/dataExport")
     @ResponseBody
@@ -525,10 +557,10 @@ public class SNPController {
     }
 
 
-    //    @RequestMapping(value = "/insert")
+//    @RequestMapping(value = "/insert", method = RequestMethod.GET)
     @ResponseBody
     public String insert(HttpServletRequest request, HttpServletResponse response) {
-        String efile = "E:\\古奥科技资料\\DNA\\9.15soyDNA_sampleinfo.xls";
+        String efile = "F:\\古奥科技\\20171107soyDNA_sampleinfo_withgroupV1.1.xls";
         HSSFWorkbook workbook = null;
         try {
             workbook = new HSSFWorkbook(new FileInputStream(efile));
@@ -560,36 +592,39 @@ public class SNPController {
                         }
                         switch (i) {
                             case 0:
+                                dnaRun.setGroup(content);
+                                break;
+                            case 1:
                                 if (content != null) {
                                     dnaRun.setRunNo(content);
                                 }
                                 break;
-                            case 1:
+                            case 2:
                                 if (content != null) {
                                     dnaRun.setSpecies(content);
                                 }
                                 break;
-                            case 2:
+                            case 3:
                                 if (content != null) {
                                     dnaRun.setSampleName(content);
                                 }
                                 break;
-                            case 3:
+                            case 4:
                                 if (content != null) {
                                     dnaRun.setCultivar(content);
                                 }
                                 break;
-                            case 4:
+                            case 5:
                                 if (content != null) {
                                     dnaRun.setPlantName(content);
                                 }
                                 break;
-                            case 5:
+                            case 6:
                                 if (content != null) {
                                     dnaRun.setLocality(content);
                                 }
                                 break;
-                            case 6:
+                            case 7:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setProtein(Float.parseFloat(content));
@@ -598,7 +633,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 7:
+                            case 8:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setOil(Float.parseFloat(content));
@@ -607,7 +642,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 8:
+                            case 9:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setLinoleic(Float.parseFloat(content));
@@ -616,7 +651,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 9:
+                            case 10:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setLinolenic(Float.parseFloat(content));
@@ -625,7 +660,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 10:
+                            case 11:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setOleic(Float.parseFloat(content));
@@ -634,7 +669,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 11:
+                            case 12:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setPalmitic(Float.parseFloat(content));
@@ -643,7 +678,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 12:
+                            case 13:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setStearic(Float.parseFloat(content));
@@ -652,7 +687,7 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 13:
+                            case 14:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setHeight(Float.parseFloat(content));
@@ -661,37 +696,37 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 14:
+                            case 15:
                                 if (content != null) {
                                     dnaRun.setFlowerColor(content);
                                 }
                                 break;
-                            case 15:
+                            case 16:
                                 if (content != null) {
                                     dnaRun.setHilumColor(content);
                                 }
                                 break;
-                            case 16:
+                            case 17:
                                 if (content != null) {
                                     dnaRun.setPodColor(content);
                                 }
                                 break;
-                            case 17:
+                            case 18:
                                 if (content != null) {
                                     dnaRun.setPubescenceColor(content);
                                 }
                                 break;
-                            case 18:
+                            case 19:
                                 if (content != null) {
                                     dnaRun.setSeedCoatColor(content);
                                 }
                                 break;
-                            case 19:
+                            case 20:
                                 if (content != null) {
                                     dnaRun.setCotyledonColor(content);
                                 }
                                 break;
-                            case 20:
+                            case 21:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setWeightPer100seeds(Float.parseFloat(content));
@@ -700,18 +735,13 @@ public class SNPController {
                                     }
                                 }
                                 break;
-                            case 21:
+                            case 22:
                                 if (StringUtils.isNoneBlank(content)) {
                                     try {
                                         dnaRun.setUpperLeafletLength(Float.parseFloat(content));
                                     } catch (NumberFormatException e) {
                                         logger.error(dnaRun.getRunNo() + " UpperLeafletLength content", e);
                                     }
-                                }
-                                break;
-                            case 22:
-                                if (content != null) {
-                                    dnaRun.setFloweringDate(content);
                                 }
                                 break;
                             case 23:

@@ -145,8 +145,7 @@
 
 <body>
 
-<%@ include file="/WEB-INF/views/include/mrna-header.jsp"%>
-
+<mrna:mrna-header />
 <section class="container navigation-toggle">
     <div class="tab-search">
         <div class="search">
@@ -357,7 +356,6 @@
 
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
 <script>
-
     function loadMask (el) {
         $(el).css({"position": "relative"});
         var _mask = $('<div class="ga-mask"><div>数据加载中...</div></div>');
@@ -838,9 +836,8 @@
 //                thSearch();
             }
         });
+
     })
-
-
 </script>
 </body>
 </html>

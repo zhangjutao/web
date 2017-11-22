@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
 
     <!--jquery-1.11.0-->
@@ -32,7 +33,7 @@
 
 <body>
 
-<%@ include file="/WEB-INF/views/include/mrna-header.jsp"%>
+<mrna:mrna-header />
 <!--header-->
 <section class="container">
     <div class="banner">
@@ -88,9 +89,6 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
 <script>
-
-
-
     $(function () {
         /*选项示例*/
         $(".js-search-select").change(function(){
@@ -136,7 +134,6 @@
                 }
             }
         });
-
     });
 
 </script>

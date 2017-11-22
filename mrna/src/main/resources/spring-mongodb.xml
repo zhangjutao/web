@@ -7,8 +7,6 @@
 
     <context:property-placeholder ignore-unresolvable="true" location="classpath:qtldb.properties"/>
 
-    <!-- spring连接mongodb数据库的配置 -->
-
 <!--这里使用mongo:mongo-client-->
 <mongo:mongo-client id="mongo" host="${mongodb.host}" port="${mongodb.port}" credentials="${mongodb.user}:${mongodb.pass}@${mongodb.db}">
 	<mongo:client-options 
@@ -44,15 +42,12 @@
         <property name="typeMapper" ref="defaultMongoTypeMapper" />
     </bean>
 
-
-
-    <!-- 只要使用这个调用相应的方法操作 -->
     <bean id="mongoTemplate" class="org.springframework.data.mongodb.core.MongoTemplate">
         <constructor-arg name="mongoDbFactory" ref="mongoDbFactory"/>
         <constructor-arg name="mongoConverter" ref="mappingMongoConverter" />
     </bean>
 
-    <mongo:repositories base-package="com.gooalgene.guaomrna" />
+    <mongo:repositories base-package="com.gooalgene" />
     
     <bean class="org.springframework.data.mongodb.core.mapping.event.LoggingEventListener"/>
 

@@ -755,7 +755,8 @@
     }
 
     $("body").on("click", ".js-gene-info", function(e) {
-        var version = 'gmx_ensembl_release23';
+//        var version = 'gmx_ensembl_release23';
+        var version = 'Gmax_275_v2.0';
         var geneName = $(this).text();
         $(".js-gene-head-name").html(geneName);
         $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName="+ geneName + "&version=" + version);

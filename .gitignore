@@ -2,10 +2,7 @@
 *.iml
 .idea/
 guaoqtl.iml
-
-# release package
-build/
-release.zip
+out/
 
 logs/
 *.log
@@ -16,3 +13,4 @@ classes/
 .settings
 .classpath
 .project
+out/

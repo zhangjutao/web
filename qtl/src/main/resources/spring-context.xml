@@ -2,14 +2,14 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd">
-
+       xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
     <description>Spring Configuration</description>
 
     <!-- 加载配置属性文件 -->
     <context:property-placeholder ignore-unresolvable="true" location="classpath:qtldb.properties"/>
 
-    <import resource="spring-mongodb.xml"></import>
+    <import resource="spring-mongodb.xml" />
 
     <!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
     <context:component-scan base-package="com.gooalgene"><!-- base-package 如果多个，用“,”分隔 -->
@@ -27,7 +27,7 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
         <property name="mapperLocations" value="classpath:/mappings/*.xml"/>
-        <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
+        <property name="configLocation" value="classpath:/mybatis-config.xml" />
     </bean>
     <!-- 定义事务 -->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
@@ -67,14 +67,24 @@
         <property name="testOnBorrow" value="false"/>
         <property name="testOnReturn" value="false"/>
 
-        <!-- 打开PSCache，并且指定每个连接上PSCache的大小（Oracle使用）
-        <property name="poolPreparedStatements" value="true" />
-        <property name="maxPoolPreparedStatementPerConnectionSize" value="20" /> -->
-
         <!-- 配置监控统计拦截的filters -->
         <property name="filters" value="stat"/>
     </bean>
 
+    <!-- Guava缓存管理器 -->
+    <bean id="cacheManager" class="org.springframework.cache.guava.GuavaCacheManager">
+        <property name="cacheNames">
+            <list>
+                <value>config</value>
+            </list>
+        </property>
+        <property name="allowNullValues" value="false" />
+    </bean>
+    <bean id="smtpBean" class="com.gooalgene.common.service.SMTPService" init-method="init" depends-on="cacheManager"/>
 
+    <!--异步支持-->
+    <task:annotation-driven executor="annotationExecutor" />
+    <!-- 支持 @Async 注解 -->
+    <task:executor id="annotationExecutor" pool-size="20" queue-capacity="25" />
 
 </beans>

@@ -12,7 +12,9 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
+
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
@@ -25,18 +27,25 @@
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <style>
         .total-page-count {display: none!important;}
+        /* master分支中无群体信息 */
+        #populationInfos{
+            padding:8px 20px;
+            background:#5D8CE6;
+            color:#fff;
+            width:68px;
+            float:right;
+            cursor:pointer;
+            font-size:16px;
+            margin-bottom:16px;
+            -webkit-border-radius: 5px;
+            -moz-border-radius: 5px;
+            border-radius: 5px;
+            display: none;
+        }
     </style>
 </head>
 <body>
-<header>
-    <div class="container">
-        <div class="logo">
-            <a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
-            <a href="${ctxroot}/dna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">SNP INDEL Database</a>
-        </div>
-        <div class="login-out"></div>
-    </div>
-</header>
+<dna:dna-header />
 <!--header-->
 <div class="container snp-content js-nav-ac">
     <%@ include file="/WEB-INF/views/include/sidebar.jsp" %>
@@ -288,7 +297,7 @@
         </div>
     </div>
 
-    <div class="contant page-circle">
+    <div class="contant page-circle" id="systreeContainer">
         <div class="box-shadow">
             <div class="item-header">
                 <div class="icon-left"><img src="${ctxStatic}/images/tag-name.png"> 树形图</div>
@@ -299,8 +308,9 @@
                     <%--<!--<li>标签2</li>-->--%>
                 <%--</ul>--%>
                 <div class="tab">
-                    <div class="tab-txt tab-txt-ac">
+                    <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
                         <img src="${ctxStatic}/images/dnatree.png">
+                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;">群体信息</a></p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>
@@ -350,7 +360,11 @@
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
+<script>
+    var ctxRoot = '${ctxroot}';
+</script>
 <script src="${ctxStatic}/js/dna.js"></script>
+
 
 </body>
 </html>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.common.dao.TokenDao">
+    <resultMap id="tokenInfo" type="com.gooalgene.common.authority.Token">
+        <result column="userid" property="userid" />
+        <result column="token_status" property="token_status" />
+        <result column="token" property="token" />
+        <result column="due_time" property="due_time" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+        <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" javaType="java.util.Date"/>
+    </resultMap>
+
+    <select id="getTokenByUserId" resultMap="tokenInfo">
+        SELECT * FROM token WHERE userid=#{user_id}
+    </select>
+    <insert id="insertToken">
+        INSERT INTO token(userid,token,token_status,update_time,due_time)VALUE (#{userid},#{token},#{token_status},#{updateTime},#{due_time})
+    </insert>
+
+    <update id="updateToken">
+        UPDATE token SET token=#{token},due_time=#{due_time},token_status=#{token_status},update_time=#{updateTime} WHERE userid=#{userid}
+    </update>
+ 
+    <update id="disableToken">
+        update token set  token_status=0  where userid=#{userid} ;
+    </update>
+    
+</mapper>

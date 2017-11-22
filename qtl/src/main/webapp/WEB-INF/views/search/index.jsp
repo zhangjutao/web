@@ -1,13 +1,16 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ include file="/WEB-INF/views/include/taglib.jsp" %>
+
+<%@ taglib prefix="C" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <%@ include file="/WEB-INF/views/include/header-res.jsp" %>
 </head>
 <body>
-<%@ include file="/WEB-INF/views/include/header-bar.jsp" %>
+<qtl:qtl-header />
     <section class="container">
         <div class="banner">
             <div class="plant-pic">
@@ -140,9 +143,10 @@
             }
         }
     });
-//    $("#limb").mouseover(function(){
-//        $(".limb-mouseover").show();
-//    })
+
+
+
+
 </script>
 </body>
 </html>

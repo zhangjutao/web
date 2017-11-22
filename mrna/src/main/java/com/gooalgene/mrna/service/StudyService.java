@@ -3,19 +3,19 @@ package com.gooalgene.mrna.service;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.dao.StudyDao;
 import com.gooalgene.entity.Study;
-import com.gooalgene.mrna.entity.Comparison;
-import com.gooalgene.mrna.entity.Diff;
-import com.gooalgene.mrna.entity.Run;
-import com.gooalgene.mrna.entity.SampleExpression;
+import com.gooalgene.mrna.entity.*;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationOptions;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -736,5 +736,131 @@ public class StudyService {
     @Transactional(readOnly = false)
     public boolean delete(int id) {
         return studyDao.deleteById(id);
+    }
+
+    public JSONArray queryStudyByGene(String gene) {
+
+        List<String> run = studyDao.findSampleruns();//查询所有的run
+        //SRR129864456c 换成 SRR12986456c
+        run.add("SRR12986456c");
+        Query query = new Query();
+        query.addCriteria(Criteria.where("gene").is(gene));
+        query.addCriteria(Criteria.where("samplerun.name").in(run));
+        query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "samplerun.value")));//降序
+//      query.limit(10);//取10条
+
+        System.out.println("Query count:" + query.toString());
+
+        List<ExpressionVo> runs = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
+
+        System.out.println("Size:" + runs.size());
+
+        Map<String, Double> run_value = new HashMap<String, Double>();
+
+        StringBuffer samplerun = new StringBuffer();
+
+        for (ExpressionVo expression : runs) {
+            SampleRun sampleRuns = expression.getSamplerun();
+            String key = sampleRuns.getName();
+            Double value = sampleRuns.getValue();
+            run_value.put(key, value);
+            samplerun.append(key).append(",");
+        }
+        samplerun.append("SRR129864456c");
+
+        JSONArray data = new JSONArray();
+        List<Map> list = studyDao.findByRuns(samplerun.toString().split(","));
+        System.out.println("mysql size:" + list.size());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        for (Map m : list) {
+            m.put("geneId", gene);
+            String sampleRun = (String) m.get("sampleRun");
+            if (sampleRun.equals("SRR129864456c")) {
+                sampleRun = "SRR12986456c";
+            }
+            m.put("expressionValue", run_value.get(sampleRun));
+            if (m.get("tissueForClassification") != null) {
+                m.put("tissue", m.get("tissueForClassification"));
+            }
+            if (m.get("preservation") == null) {
+                m.put("preservation", "");
+            }
+            if (m.get("treat") == null) {
+                m.put("treat", "");
+            }
+            if (m.get("stage") == null) {
+                m.put("stage", "");
+            }
+            if (m.get("geneType") == null) {
+                m.put("geneType", "");
+            }
+            if (m.get("phenoType") == null) {
+                m.put("phenoType", "");
+            }
+            if (m.get("environment") == null) {
+                m.put("environment", "");
+            }
+            if (m.get("geoLoc") == null) {
+                m.put("geoLoc", "");
+            }
+            if (m.get("ecoType") == null) {
+                m.put("ecoType", "");
+            }
+            if (m.get("collectionDate") == null) {
+                m.put("collectionDate", "");
+            }
+            if (m.get("coordinates") == null) {
+                m.put("coordinates", "");
+            }
+            if (m.get("ccultivar") == null) {
+                m.put("ccultivar", "");
+            }
+            if (m.get("scientificName") == null) {
+                m.put("scientificName", "");
+            }
+            if (m.get("pedigree") == null) {
+                m.put("pedigree", "");
+            }
+            if (m.get("reference") == null) {
+                m.put("reference", "");
+            }
+            if (m.get("institution") == null) {
+                m.put("institution", "");
+            }
+            if (m.get("submissionTime") == null) {
+                m.put("submissionTime", "");
+            }
+            if (m.get("instrument") == null) {
+                m.put("instrument", "");
+            }
+            if (m.get("libraryStrategy") == null) {
+                m.put("libraryStrategy", "");
+            }
+            if (m.get("librarySource") == null) {
+                m.put("librarySource", "");
+            }
+            if (m.get("libraryLayout") == null) {
+                m.put("libraryLayout", "");
+            }
+            if (m.get("insertSize") == null) {
+                m.put("insertSize", "");
+            }
+            if (m.get("readLength") == null) {
+                m.put("readLength", "");
+            }
+            if (m.get("spots") == null) {
+                m.put("spots", "");
+            }
+            if (m.get("experiment") == null) {
+                m.put("experiment", "");
+            }
+            if (m.get("links") == null) {
+                m.put("links", "");
+            }
+            Date time = (Date) m.get("createTime");
+            m.put("createTime", simpleDateFormat.format(time));
+            data.add(m);
+        }
+        return data;
     }
 }

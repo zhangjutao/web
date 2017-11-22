@@ -95,18 +95,12 @@
         <div class="select-item-hd">
             <span>Select Populations</span>
             <div class="custom-groups">
-                <spa class="custom-groups-btn">自定义群体</spa>
+                <span class="custom-groups-btn">自定义群体</span>
                 <div class="cover"></div>
                 <div class="custom-groups-content">
                     <div class="sample">
                         <label><b>样本></b></label>
-                        <div class="sample-text">
-                            <%--<span>Glycine soja1<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja2<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja3<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja4<i class="js-colse-text">X</i></span>--%>
-                            <%--<span>Glycine soja5<i class="js-colse-text">X</i></span>--%>
-                        </div>
+                        <div class="sample-text"></div>
                         <div class="colse-sample">
                             <button type="button" class="btn-fill sample-empty">清空</button><span>X</span></div>
                     </div>
@@ -251,26 +245,13 @@
             </div>
         </div>
         <div class="select-item-bd">
-            <%--<dl id="select-populations-checkbox">--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">1</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">2</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">3</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">4</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">5</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">6</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">7</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">8</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">9</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">10</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">11</span></label></dd>--%>
-                <%--<dd><label for=""><span id="" data-value="" class="label-checkbox"></span><span class="label-txt">12</span></label></dd>--%>
-            <%--</dl>--%>
             <div class="js-default-add"></div>
             <div class="js-cursom-add2"></div>
             <div class="js-cursom-add"></div>
         </div>
     </div>
     <div class="confirmed-btn">
+        <!-- 该事件封到dna-index.jsp页面dna.js中 -->
         <button type="button" class="btn js-panel-btn">确定</button>
     </div>
 </div>
@@ -1180,8 +1161,10 @@
                         }
 
                     })
+                },
+                error: function(err){
+                    window.location.href = '${ctxroot}/login'
                 }
-
             });
         });
 

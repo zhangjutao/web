@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.dna.dao.DNARunDao">
+
+    <select id="get" resultType="com.gooalgene.dna.entity.DNARun">
+        SELECT * from dna_run where id=#{id}
+    </select>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM dna_run WHERE id=#{id}
+    </delete>
+
+    <insert id="insertBatch">
+        INSERT INTO `dna_run`(`run_no`,`species`,`sample_name`,`cultivar`,`plant_name`,`locality`,
+        `protein`,`oil`,`linoleic`,`linolenic`,`oleic`,`palmitic`,`stearic`,`height`,
+        `flower_color`,`hilum_color`,`pod_color`,`pubescence_color`,`seed_coat_color`,`cotyledon_color`,
+        `weight_per_100seeds`,`upper_leaflet_length`,
+        `flowering_date`,`maturity_date`,
+        `yield`)
+        VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.runNo,jdbcType=VARCHAR},#{item.species,jdbcType=VARCHAR},#{item.sampleName,jdbcType=VARCHAR},#{item.cultivar,jdbcType=VARCHAR},#{item.plantName,jdbcType=VARCHAR},#{item.locality,jdbcType=VARCHAR},
+            #{item.protein,jdbcType=FLOAT},#{item.oil,jdbcType=FLOAT},#{item.linoleic,jdbcType=FLOAT},#{item.linolenic,jdbcType=FLOAT},#{item.oleic,jdbcType=FLOAT},#{item.palmitic,jdbcType=FLOAT},#{item.stearic,jdbcType=FLOAT},#{item.height,jdbcType=FLOAT},
+            #{item.flowerColor,jdbcType=VARCHAR},#{item.hilumColor,jdbcType=VARCHAR},#{item.podColor,jdbcType=VARCHAR},#{item.pubescenceColor,jdbcType=VARCHAR},#{item.seedCoatColor,jdbcType=VARCHAR},#{item.cotyledonColor,jdbcType=VARCHAR},
+            #{item.weightPer100seeds,jdbcType=FLOAT},#{item.upperLeafletLength,jdbcType=FLOAT},
+            #{item.floweringDate,jdbcType=VARCHAR},#{item.maturityDate,jdbcType=VARCHAR},
+            #{item.yield,jdbcType=FLOAT})
+        </foreach>
+    </insert>
+
+    <insert id="insert" parameterType="com.gooalgene.dna.entity.DNARun">
+        INSERT INTO `dna_run`(`run_no`,`species`,`sample_name`,`cultivar`,`plant_name`,`locality`,
+        `protein`,`oil`,`linoleic`,`linolenic`,`oleic`,`palmitic`,`stearic`,`height`,
+        `flower_color`,`hilum_color`,`pod_color`,`pubescence_color`,`seed_coat_color`,`cotyledon_color`,
+        `weight_per_100seeds`,`upper_leaflet_length`,
+        `flowering_date`,`maturity_date`,
+        `yield`)
+        VALUES (#{runNo,jdbcType=VARCHAR},#{species,jdbcType=VARCHAR},#{sampleName,jdbcType=VARCHAR},#{cultivar,jdbcType=VARCHAR},#{plantName,jdbcType=VARCHAR},#{locality,jdbcType=VARCHAR},
+        #{protein,jdbcType=FLOAT},#{oil,jdbcType=FLOAT},#{linoleic,jdbcType=FLOAT},#{linolenic,jdbcType=FLOAT},#{oleic,jdbcType=FLOAT},#{palmitic,jdbcType=FLOAT},#{stearic,jdbcType=FLOAT},#{height,jdbcType=FLOAT},
+        #{flowerColor,jdbcType=VARCHAR},#{hilumColor,jdbcType=VARCHAR},#{podColor,jdbcType=VARCHAR},#{pubescenceColor,jdbcType=VARCHAR},#{seedCoatColor,jdbcType=VARCHAR},#{cotyledonColor,jdbcType=VARCHAR},
+        #{weightPer100seeds,jdbcType=FLOAT},#{upperLeafletLength,jdbcType=FLOAT},
+        #{floweringDate,jdbcType=VARCHAR},#{maturityDate,jdbcType=VARCHAR},
+        #{yield,jdbcType=FLOAT})
+    </insert>
+
+    <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
+        SELECT * from dna_run
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND (
+            run_no LIKE CONCAT('%',#{keywords},'%') OR species LIKE CONCAT('%',#{keywords},'%') OR sample_name LIKE CONCAT('%',#{keywords},'%') OR cultivar LIKE CONCAT('%',#{keywords},'%') OR
+            plant_name LIKE CONCAT('%',#{keywords},'%') OR locality LIKE CONCAT('%',#{keywords},'%') OR protein LIKE CONCAT('%',#{keywords},'%') OR oil LIKE CONCAT('%',#{keywords},'%') OR
+            linoleic LIKE CONCAT('%',#{keywords},'%') OR linolenic LIKE CONCAT('%',#{keywords},'%') OR oleic LIKE CONCAT('%',#{keywords},'%') OR palmitic LIKE CONCAT('%',#{keywords},'%') OR
+            stearic LIKE CONCAT('%',#{keywords},'%') OR height LIKE CONCAT('%',#{keywords},'%') OR flower_color LIKE CONCAT('%',#{keywords},'%') OR hilum_color LIKE CONCAT('%',#{keywords},'%') OR
+            pod_color LIKE CONCAT('%',#{keywords},'%') OR pubescence_color LIKE CONCAT('%',#{keywords},'%') OR seed_coat_color LIKE CONCAT('%',#{keywords},'%') OR cotyledon_color LIKE CONCAT('%',#{keywords},'%') OR
+            weight_per_100seeds LIKE CONCAT('%',#{keywords},'%') OR upper_leaflet_length LIKE CONCAT('%',#{keywords},'%') OR flowering_date LIKE CONCAT('%',#{keywords},'%') OR
+            maturity_date LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%')
+            )
+        </if>
+        <if test="species!=null">
+            AND species = #{species}
+        </if>
+        <if test="locality!=null">
+            <choose>
+                <when test="locality=='Other'">
+                    AND locality NOT REGEXP 'China|United States|Japan|Korea|Brazil'
+                </when>
+                <otherwise>
+                    AND locality LIKE CONCAT('%',#{locality},'%')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="floweringDate!=null">
+            AND flowering_date LIKE CONCAT('',#{floweringDate},'%')
+        </if>
+        <if test="maturityDate!=null">
+            AND maturity_date LIKE CONCAT('',#{maturityDate},'%')
+        </if>
+        <if test="hilumColor!=null">
+            AND hilum_color = #{hilumColor}
+        </if>
+        <if test="flowerColor!=null">
+            AND flower_color = #{flowerColor}
+        </if>
+        <if test="podColor!=null">
+            AND pod_color = #{podColor}
+        </if>
+        <if test="pubescenceColor!=null">
+            AND pubescence_color =#{pubescenceColor}
+        </if>
+        <if test="seedCoatColor!=null">
+            AND seed_coat_color =#{seedCoatColor}
+        </if>
+        <if test="cotyledonColor!=null">
+            AND cotyledon_color = #{cotyledonColor}
+        </if>
+        <if test="protein_min!=null and protein_max!=null">
+            AND (protein BETWEEN #{protein_min} AND #{protein_max})
+        </if>
+        <if test="oil_min!=null and oil_max!=null">
+            AND (oil BETWEEN #{oil_min} AND #{oil_max})
+        </if>
+        <if test="linoleic_min!=null and linoleic_max!=null">
+            AND (linoleic BETWEEN #{linoleic_min} AND #{linoleic_max})
+        </if>
+        <if test="linolenic_min!=null and linolenic_max!=null">
+            AND (linolenic BETWEEN #{linolenic_min} AND #{linolenic_max})
+        </if>
+        <if test="oleic_min!=null and oleic_max!=null">
+            AND (oleic BETWEEN #{oleic_min} AND #{oleic_max})
+        </if>
+        <if test="palmitic_min!=null and palmitic_max!=null">
+            AND (palmitic BETWEEN #{palmitic_min} AND #{palmitic_max})
+        </if>
+        <if test="stearic_min!=null and stearic_max!=null">
+            AND (stearic BETWEEN #{stearic_min} AND #{stearic_max})
+        </if>
+        <if test="height_min!=null and height_max!=null">
+            AND (height BETWEEN #{height_min} AND #{height_max})
+        </if>
+        <if test="weightPer100seeds_min!=null and weightPer100seeds_max!=null">
+            AND (weight_per_100seeds BETWEEN #{weightPer100seeds_min} AND #{weightPer100seeds_max})
+        </if>
+        <if test="upperLeafletLength_min!=null and upperLeafletLength_max!=null">
+            AND (upper_leaflet_length BETWEEN #{upperLeafletLength_min} AND #{upperLeafletLength_max})
+        </if>
+        <if test="yield_min!=null and yield_max!=null">
+            AND (yield BETWEEN #{yield_min} AND #{yield_max})
+        </if>
+    </select>
+
+    <update id="update" parameterType="com.gooalgene.dna.entity.DNARun">
+        UPDATE `dna_run`
+            SET
+              `run_no` = #{runNo,jdbcType=VARCHAR},
+              `species` = #{species,jdbcType=VARCHAR},
+              `sample_name` = #{sampleName,jdbcType=VARCHAR},
+              `cultivar` = #{cultivar,jdbcType=VARCHAR},
+              `plant_name` = #{plantName,jdbcType=VARCHAR},
+              `locality` = #{locality,jdbcType=VARCHAR},
+              `protein` = #{protein,jdbcType=FLOAT},
+              `oil` = #{oil,jdbcType=FLOAT},
+              `linoleic` = #{linoleic,jdbcType=FLOAT},
+              `linolenic` = #{linolenic,jdbcType=FLOAT},
+              `oleic` = #{oleic,jdbcType=FLOAT},
+              `palmitic` = #{palmitic,jdbcType=FLOAT},
+              `stearic` = #{stearic,jdbcType=FLOAT},
+              `height` = #{height,jdbcType=FLOAT},
+              `flower_color` = #{flowerColor,jdbcType=VARCHAR},
+              `hilum_color` = #{hilumColor,jdbcType=VARCHAR},
+              `pod_color` = #{podColor,jdbcType=VARCHAR},
+              `pubescence_color` = #{pubescenceColor,jdbcType=VARCHAR},
+              `seed_coat_color` = #{seedCoatColor,jdbcType=VARCHAR},
+              `cotyledon_color` = #{cotyledonColor,jdbcType=VARCHAR},
+              `weight_per_100seeds` = #{weightPer100seeds},
+              `upper_leaflet_length` = #{upperLeafletLength},
+              `flowering_date` = #{floweringDate,jdbcType=VARCHAR},
+              `maturity_date` = #{maturityDate,jdbcType=VARCHAR},
+              `yield` = #{yield,jdbcType=FLOAT}
+          WHERE `id` = #{id};
+    </update>
+
+</mapper>

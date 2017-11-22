@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
@@ -37,6 +38,8 @@
         <div class="login-out"></div>
     </div>
 </header>
+
+<mrna:mrna-header />
 <!--header-->
 <div class="container snp-content js-nav-ac">
     <%@ include file="/WEB-INF/views/include/sidebar.jsp" %>

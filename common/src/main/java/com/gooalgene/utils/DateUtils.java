@@ -24,5 +24,4 @@ public class DateUtils {
 		String nowTime = format.format(new Date());
 		return nowTime;
 	}
-    
 }
