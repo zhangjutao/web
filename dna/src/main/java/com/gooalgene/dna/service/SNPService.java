@@ -151,7 +151,6 @@ public class SNPService {
 
     public Map searchSNPinGene2(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
         List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
-
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
