@@ -40,7 +40,6 @@ public class ExportDataController {
         String temp=request.getParameter("condition");
         JSONObject object=JSONObject.fromObject(temp);
         DnaRunDto dnaRunDto= Json2DnaRunDto.json2DnaRunDto(object);
-       // DnaRunDto dnaRunDto=new DnaRunDto();
         String titles=choices.substring(0, choices.length() - 1);
         String[] condition=titles.split(",");
         String fileName="";
@@ -90,7 +89,6 @@ public class ExportDataController {
             builder.append(":").append(serverPort);
         }
         builder.append(contextPath);
-
         String path=builder.toString()+"/tempFile/"+fileName;
         logger.info(path);
         return JsonUtils.Bean2Json(path);

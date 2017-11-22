@@ -14,6 +14,8 @@ import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
@@ -51,9 +53,6 @@ public class SNPController {
     Logger logger = LoggerFactory.getLogger(SNPController.class);
 
     @Autowired
-    private DNARunService dnaRunService;
-
-    @Autowired
     private IndexExplainService indexExplainService;
 
     @Autowired
@@ -67,6 +66,8 @@ public class SNPController {
 
     @Autowired
     private DNAGroupsService dnaGroupsService;
+    @Autowired
+    private DNARunService dnaRunService;
 
 
     @RequestMapping("/index")
@@ -147,8 +148,9 @@ public class SNPController {
      * @return
      */
     @RequestMapping(value = "/dnaRuns",method = RequestMethod.GET)
-    @ResponseBody
+    //@ResponseBody
     public ResultVO getByRunNos(@RequestParam("runNos") List<String> runNos) {
+
         return ResultUtil.success(dnaRunService.getByRunNos(runNos));
     }
 
@@ -245,7 +247,7 @@ public class SNPController {
         if (StringUtils.isNoneBlank(columns)) {
             if (StringUtils.isNoneBlank(model)) {
                 Map result = new HashMap();
-                if ("REGION".equals(model)) {
+                 if ("REGION".equals(model)) {
                     String type = request.getParameter("type");
                     fileName += "_" + type;
                     String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
@@ -254,16 +256,15 @@ public class SNPController {
                     String endPos = request.getParameter("end");
                     fileName += "_" + chr + "_Position:[" + startPos + "," + endPos + "]_" + ctype;
                     String group = request.getParameter("group");
-                    String total=request.getParameter("total");
-//                    fileName += "_" + group;
+                     String temp=request.getParameter("total");       //获取数据的总数
                     Page<DNARun> page = new Page<DNARun>(request, response);
-                    long count=Long.parseLong(total);
-                    logger.info(count+"");
-                    if(count==0) {
-                        page.setPageSize(EXPORT_NUM);
-                    }else{
-                        page.setPageSize((int)count);
-                    }
+                     int total=0;
+                     if(temp!=null&&!temp.equals("")) {
+                         total = Integer.parseInt(temp);
+                     }else{
+                         total=EXPORT_NUM;
+                     }
+                        page.setPageSize(total);
                     result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("GENE".equals(model)) {
@@ -275,7 +276,7 @@ public class SNPController {
                     String downstream = request.getParameter("downstream");
                     fileName += "_" + gene + "Stream:[" + upstream + "," + downstream + "]_" + ctype;
                     String group = request.getParameter("group");
-
+                     String temp=request.getParameter("total");       //获取数据的总数
 //                    fileName += "_" + group;
                     DNAGens dnaGens = dnaGensService.findByGene(gene);
                     if (dnaGens != null) {
@@ -293,14 +294,14 @@ public class SNPController {
                     }
                     logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
                     Page<DNAGens> page = new Page<DNAGens>(request, response);
-                    String total=request.getParameter("total");
-                    long count=Long.parseLong(total);
-                    if(count==0) {
-                        page.setPageSize(EXPORT_NUM);
-                    }else{
-                        page.setPageSize((int) count);
-                    }
-                    //外包的原来是给出最大10000条数据   要不要改
+                     int total=0;
+                     if(temp!=null&&!temp.equals("")) {
+                         total = Integer.parseInt(temp);
+                     }else{
+                         total=EXPORT_NUM;
+                     }
+                     page.setPageSize(total);
+                    //todo 外包的原来是给出最大10000条数据   要不要改
                     result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
                     //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
                     content = serialList(type, result, columns.split(","));
@@ -308,18 +309,17 @@ public class SNPController {
                     String group = request.getParameter("group");
 //                    fileName += "_" + group;
                     Page<DNARun> page = new Page<DNARun>(request, response);
-                    String total=request.getParameter("total");
-                    long count=Long.parseLong(total);
-                    
-                    if(count==0) {
-                        page.setPageSize(EXPORT_NUM);
-                    }else{
-                        page.setPageSize((int) count);
-                    }
+                     String temp=request.getParameter("total");       //获取数据的总数
+                     int total=0;
+                     if(temp!=null&&!temp.equals("")) {
+                         total = Integer.parseInt(temp);
+                     }else{
+                         total=EXPORT_NUM;
+                     }
+                     page.setPageSize(total);
+
                     result = dnaRunService.queryDNARunByGroup(group, page);
                     content = serialList(model, result, columns.split(","));
-                } else {
-
                 }
             } else {
                 content = "请选择导出数据类型";
@@ -868,17 +868,52 @@ public class SNPController {
     /**
      * 进入snp详情页
      */
-    @RequestMapping("/snp/info")
+    @RequestMapping(value = "/snp/info",method = RequestMethod.GET)
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
-        /*List runNos = Arrays.asList(snp.getSamples());
-        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);*/
-        /*ModelAndView modelAndView=new ModelAndView("/snpinfo/snpinfo");
-        modelAndView.addObject("snp",snp);
-        return modelAndView;*/
-        //String frequence=request.getParameter("frequence");
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         modelAndView.addObject("snp",snp);
+        Map result = snpService.findSampleById(snp.getId());
+        modelAndView.addObject("result",result);
+        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+        Set<Map.Entry<String, String>> entrySet=map.entrySet();
+        List<String> runNos= Lists.newArrayList();
+        //if(StringUtils.equals(snp.getMajorallen(),"A")){
+            for(Map.Entry entry:entrySet){
+                if(((String)entry.getValue()).contains(snp.getMajorallen())){
+                    runNos.add((String) entry.getKey());
+                }
+            }
+        //}
+        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
+        modelAndView.addObject("dnaRuns",dnaRuns);
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
+    }
+
+    /**
+     * 区分mainor和majora
+     */
+    @RequestMapping(value = "/changeByProportion",method = RequestMethod.GET)
+    public ResultVO changeByProportion(@RequestParam("snpId")String snpId,@RequestParam("changeParam") String changeParam) {
+        Map result = snpService.findSampleById(snpId);
+        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+        Set<Map.Entry<String, String>> entrySet=map.entrySet();
+        List<String> runNos= Lists.newArrayList();
+        Map samples=Maps.newHashMap();
+        for(Map.Entry entry:entrySet){
+            String value=(String)entry.getValue();
+            if(StringUtils.isNotBlank(changeParam)){
+                if(value.contains(changeParam)){
+                    runNos.add((String) entry.getKey());
+                    samples.put(entry.getKey(),entry.getValue());
+}
+            }
+        }
+        List<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos);
+        Map response= Maps.newHashMap();
+        response.put("dnaRuns",dnaRuns);
+        //response.put("samples",map);
+        response.put("samples",samples);
+        return ResultUtil.success(response);
     }
 }

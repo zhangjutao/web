@@ -185,18 +185,8 @@ public class SNPService {
         result.put("conditions", gene + "," + upsteam + "," + downsteam);
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
-        //JSONArray data = new JSONArray();
         List<SNPDto> data= Lists.newArrayList();
         for (SNP snp : snps) {
-            /*JSONObject snp_Json = snp.toJSON();
-//          countMajorAllele(snp, snp_Json);
-            JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
-            snp_Json.put("freq", freqData);
-            if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleBySNPId();
-                snp_Json.put("geneType",map);
-            }
-            data.add(snp_Json);*/
             SNPDto snpDto=new SNPDto();
             BeanUtils.copyProperties(snp,snpDto);
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
