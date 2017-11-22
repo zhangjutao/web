@@ -290,9 +290,7 @@ public class SNPController {
                          total=EXPORT_NUM;
                      }
                      page.setPageSize(total);
-                    //todo 外包的原来是给出最大10000条数据   要不要改
                     result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
-                    //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
                     String group = request.getParameter("group");

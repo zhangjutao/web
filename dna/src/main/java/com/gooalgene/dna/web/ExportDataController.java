@@ -38,10 +38,18 @@ public class ExportDataController {
 
         String choices=request.getParameter("titles");
         String temp=request.getParameter("condition");
-        JSONObject object=JSONObject.fromObject(temp);
+        JSONObject object=null;
+        if(temp!=null&&!temp.equals("")){
+             object=JSONObject.fromObject(temp);
+        }
         DnaRunDto dnaRunDto= Json2DnaRunDto.json2DnaRunDto(object);
-        String titles=choices.substring(0, choices.length() - 1);
-        String[] condition=titles.split(",");
+        String titles="";
+        String[] condition=null;
+
+        if(choices!=null&&!choices.equals("")){
+             titles=choices.substring(0, choices.length() - 1);
+             condition=titles.split(",");
+        }
         String fileName="";
         List<String> list=new ArrayList<>();
         if(condition.length>5){
