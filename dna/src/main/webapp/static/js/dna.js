@@ -775,11 +775,11 @@ $(function () {
     function drawGeneConstructor(result,id,tabId){
         // 参考值
         // debugger;
-        if(result.dnaGenStructures.length==0){
-            var direction = -1;
-        }else {
-            var direction = result.dnaGenStructures[0].strand;
-        }
+        // if(result.dnaGenStructures.length==0){
+        //     var direction = -1;
+        // }else {
+        //     var direction = result.dnaGenStructures[0].strand;
+        // }
         var referenceVal = result.bps;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
         var startPos1 = startPos+2000;
@@ -851,11 +851,11 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
-            if(direction == "-"){
-                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)");
-            }else if(direction == "+"){
-                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
-            }
+            // if(direction == "-"){
+            //     svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)");
+            // }else if(direction == "+"){
+            //     svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
+            // }
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             //   画方向箭头
             // 画基因结构图
@@ -864,7 +864,7 @@ $(function () {
             var leftMargin = 60;
             var snpWidth = 5;
             var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
-            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");  //?问题点
+            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)");  //?问题点
             var geneConstructs = result.dnaGenStructures;
             var snpLocalPoints = result.data;
             var snpColor = "#6b69d6";
@@ -879,27 +879,30 @@ $(function () {
                 }
             }
             // 基因结构
-            for (var i=0;i<geneConstructs.length;i++){
-                var feature = geneConstructs[i].feature;
-                var colorVal = chromoColor(feature);
-                // g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-                g.append("rect").attr("x",(geneConstructs[i].start-startPos1)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-            }
+            // if( geneConstructs.length != 0){
+                for (var i=0;i<geneConstructs.length;i++){
+                    var feature = geneConstructs[i].feature;
+                    var colorVal = chromoColor(feature);
+                    // g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                    g.append("rect").attr("x",(geneConstructs[i].start-startPos1)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                }
+            // }
+
             // 画snp 位点
             for (var i=0;i<snpLocalPoints.length;i++){
                 if(i < snpLocalPoints.length - 1){
                     if((snpLocalPoints[i+1].pos - snpLocalPoints[i].pos)/10 >10){
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
                         // a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-                        a.append("rect").attr("x",(endPos1 - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }else {
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos1 - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }
                 }else {
                     if((snpLocalPoints[i].pos - snpLocalPoints[i-1].pos)/10 >10){
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos1 - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                     }
                 }
             }
@@ -939,7 +942,7 @@ $(function () {
                 $(this).css("transform", "scale(" + count * 0.2 + ")");
                 console.log("wheeldown");
             }else if(count<=0){
-                count = 1
+                count = 1;
             }
 
         }
