@@ -218,7 +218,7 @@ public class SNPController {
         }
         logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPinGene2(type, ctype, gene, upstream, downstream, group, page);
+        return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
     }
 
 
@@ -279,7 +279,7 @@ public class SNPController {
                     page.setPageSize(EXPORT_NUM);
 
                     //todo 外包的原来是给出最大10000条数据   要不要改
-                    result=snpService.searchSNPinGene2(type,ctype,gene,upstream,downstream,group,page);
+                    result=snpService.searchSNPinGene(type,ctype,gene,upstream,downstream,group,page);
                     //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
