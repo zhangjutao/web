@@ -151,7 +151,7 @@ public class SNPController {
      * @param response
      * @return
      */
-    //@RequestMapping("/searchSNPinRegion")
+    @RequestMapping("/searchSNPinRegion")
     @ResponseBody
     public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
@@ -167,7 +167,7 @@ public class SNPController {
         return result;
     }
 
-    @RequestMapping("/searchSNPinRegion")
+    //@RequestMapping("/searchSNPinRegion")
     @ResponseBody
     public Map searchSNPinRegionNoPage(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
