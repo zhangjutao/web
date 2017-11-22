@@ -38,11 +38,18 @@ public class ExportDataController {
 
         String choices=request.getParameter("titles");
         String temp=request.getParameter("condition");
-        JSONObject object=JSONObject.fromObject(temp);
+        JSONObject object=null;
+        if(temp!=null&&!temp.equals("")){
+             object=JSONObject.fromObject(temp);
+        }
         DnaRunDto dnaRunDto= Json2DnaRunDto.json2DnaRunDto(object);
-       // DnaRunDto dnaRunDto=new DnaRunDto();
-        String titles=choices.substring(0, choices.length() - 1);
-        String[] condition=titles.split(",");
+        String titles="";
+        String[] condition=null;
+
+        if(choices!=null&&!choices.equals("")){
+             titles=choices.substring(0, choices.length() - 1);
+             condition=titles.split(",");
+        }
         String fileName="";
         List<String> list=new ArrayList<>();
         if(condition.length>5){
@@ -90,7 +97,6 @@ public class ExportDataController {
             builder.append(":").append(serverPort);
         }
         builder.append(contextPath);
-
         String path=builder.toString()+"/tempFile/"+fileName;
         logger.info(path);
         return JsonUtils.Bean2Json(path);
@@ -124,7 +130,7 @@ public class ExportDataController {
         map.put("seedCoatColor", "Seed Coat Color");
         map.put("upperLeafletLength", "upper Leaflet Length");
         map.put("maturityDate", "Maturity Date");
-        map.put("yield", "Yield");
+        map.put("yield", "Yield(Mg/ha)");
         return map;
     }
 

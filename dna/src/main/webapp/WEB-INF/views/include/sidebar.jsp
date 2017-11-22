@@ -488,6 +488,7 @@
         <input class="model" name="model" type="hidden" value="SAMPLES"/>
         <input class="choices" name="choices" type="hidden" value=""/>
         <input class="group" name="group" type="hidden" value=""/>
+        <input class="total" name="total" type="hidden" value=""/>
     </form>
 </div>
 

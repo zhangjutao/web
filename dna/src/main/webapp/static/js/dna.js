@@ -723,6 +723,7 @@ $(function () {
             _form.find(".upstream").val(params.upstream);
             _form.find(".downstream").val(params.downstream);
             _form.find(".type").val(CurrentTab);
+            _form.find(".total").val(params.total);
             if(CurrentTab == "SNP") {
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
@@ -742,11 +743,13 @@ $(function () {
         } else {
             var _form = $("#exportRegionForm");
             var params = GetPanelParams.getRegionParams();
-            param.total = total;
+            params.total = total;
             _form.find(".chromosome").val(params.chromosome);
             _form.find(".start").val(params.start);
             _form.find(".end").val(params.end);
             _form.find(".type").val(CurrentTab);
+            _form.find(".total").val(params.total);
+            console.log(params);
             if(CurrentTab=="SNP") {
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
@@ -763,7 +766,7 @@ $(function () {
             _form.find(".choices").val(choiceArr.join(","));
             _form.find(".group").val(params.group);
             _form.submit();
-        }/**/
+        }
     });
     //判断当前用户是否是管理员
             $.ajax({
