@@ -44,6 +44,7 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.text.DecimalFormat;
 import java.util.*;
 
 @RestController
@@ -218,7 +219,7 @@ public class SNPController {
         }
         logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
+        return snpService.searchSNPinGene2(type, ctype, gene, upstream, downstream, group, page);
     }
 
 
@@ -236,7 +237,7 @@ public class SNPController {
         if (StringUtils.isNoneBlank(columns)) {
             if (StringUtils.isNoneBlank(model)) {
                 Map result = new HashMap();
-                if ("REGION".equals(model)) {
+                 if ("REGION".equals(model)) {
                     String type = request.getParameter("type");
                     fileName += "_" + type;
                     String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
@@ -245,9 +246,15 @@ public class SNPController {
                     String endPos = request.getParameter("end");
                     fileName += "_" + chr + "_Position:[" + startPos + "," + endPos + "]_" + ctype;
                     String group = request.getParameter("group");
-//                    fileName += "_" + group;
+                     String temp=request.getParameter("total");       //获取数据的总数
                     Page<DNARun> page = new Page<DNARun>(request, response);
-                    page.setPageSize(EXPORT_NUM);
+                     int total=0;
+                     if(temp!=null&&!temp.equals("")) {
+                         total = Integer.parseInt(temp);
+                     }else{
+                         total=EXPORT_NUM;
+                     }
+                        page.setPageSize(total);
                     result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("GENE".equals(model)) {
@@ -259,6 +266,7 @@ public class SNPController {
                     String downstream = request.getParameter("downstream");
                     fileName += "_" + gene + "Stream:[" + upstream + "," + downstream + "]_" + ctype;
                     String group = request.getParameter("group");
+                     String temp=request.getParameter("total");       //获取数据的总数
 //                    fileName += "_" + group;
                     DNAGens dnaGens = dnaGensService.findByGene(gene);
                     if (dnaGens != null) {
@@ -276,21 +284,30 @@ public class SNPController {
                     }
                     logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
                     Page<DNAGens> page = new Page<DNAGens>(request, response);
-                    page.setPageSize(EXPORT_NUM);
-
-                    //todo 外包的原来是给出最大10000条数据   要不要改
+                     int total=0;
+                     if(temp!=null&&!temp.equals("")) {
+                         total = Integer.parseInt(temp);
+                     }else{
+                         total=EXPORT_NUM;
+                     }
+                     page.setPageSize(total);
                     result=snpService.searchSNPinGene(type,ctype,gene,upstream,downstream,group,page);
-                    //result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
                     String group = request.getParameter("group");
 //                    fileName += "_" + group;
                     Page<DNARun> page = new Page<DNARun>(request, response);
-                    page.setPageSize(EXPORT_NUM);
+                     String temp=request.getParameter("total");       //获取数据的总数
+                     int total=0;
+                     if(temp!=null&&!temp.equals("")) {
+                         total = Integer.parseInt(temp);
+                     }else{
+                         total=EXPORT_NUM;
+                     }
+                     page.setPageSize(total);
+
                     result = dnaRunService.queryDNARunByGroup(group, page);
                     content = serialList(model, result, columns.split(","));
-                } else {
-
                 }
             } else {
                 content = "请选择导出数据类型";
@@ -310,19 +327,74 @@ public class SNPController {
      * @return
      */
     private String serialList(String model, Map result, String[] titles) {
+        DecimalFormat df=new DecimalFormat();
+        df.applyPattern("#0.00%");
         StringBuilder sb = new StringBuilder();
         Map<String, Integer> map = new HashMap<String, Integer>();
         int len = titles.length;
-        for (int i = 0; i < len; i++) {
-            sb.append(titles[i]);
-            if (i != (len - 1)) {
-                sb.append(",");
-            } else {
-                sb.append("\n");
-            }
-            map.put(titles[i], i);
-        }
+        if("SNP".equals(model)) {
+            for (int i = 0; i < len; i++) {
+                if(titles[i].equals("weightPer100seeds")){
+                    sb.append(titles[i]+"(g)");
+                }
+                else if(titles[i].equals("oil")||titles[i].equals("protein")||titles[i].equals("linolenic")||titles[i].equals("linoleic")||titles[i].equals("oleic")||titles[i].equals("palmitic")||titles[i].equals("stearic")){
+                    sb.append(titles[i]+"(%)");
+                }
+                else if(titles[i].equals("floweringDate")||titles[i].equals("maturityDate")){
+                    sb.append(titles[i]+"(month day)");
+                }
+                else if(titles[i].equals("height")){
+                    sb.append(titles[i]+"(cm)");
+                }
+                else if(titles[i].equals("yield")){
+                    sb.append(titles[i]+"(t/ha)");
+                }
+                else if(titles[i].equals("upperLeafletLength")){
+                    sb.append(titles[i]+"(mm)");
+                }else {
+                    sb.append(titles[i]);
+                }
 
+                if (i != (len - 1)) {
+                    sb.append(",");
+                } else {
+                    sb.append(",");
+                    sb.append("GenoType");
+                    sb.append("\n");
+                }
+                map.put(titles[i], i);
+            }
+            map.put("GenoType",len);
+        }else {
+            for (int i = 0; i < len; i++) {
+                if(titles[i].equals("weightPer100seeds")){
+                    sb.append(titles[i]+"(g)");
+                }
+                else if(titles[i].equals("oil")||titles[i].equals("protein")||titles[i].equals("linolenic")||titles[i].equals("linoleic")||titles[i].equals("oleic")||titles[i].equals("palmitic")||titles[i].equals("stearic")){
+                    sb.append(titles[i]+"(%)");
+                }
+                else if(titles[i].equals("floweringDate")||titles[i].equals("maturityDate")){
+                    sb.append(titles[i]+"(month day)");
+                }
+                else if(titles[i].equals("height")){
+                    sb.append(titles[i]+"(cm)");
+                }
+                else if(titles[i].equals("yield")){
+                    sb.append(titles[i]+"(t/ha)");
+                }
+                else if(titles[i].equals("upperLeafletLength")){
+                    sb.append(titles[i]+"(mm)");
+                }else {
+                    sb.append(titles[i]);
+                }
+                if (i != (len - 1)) {
+                    sb.append(",");
+                } else {
+                    sb.append("\n");
+                }
+                map.put(titles[i], i);
+            }
+        }
        /*
        * 现在的sample和idel还是用的原来的接口  返回的是json类型的数据
        * SNP使用的是新的接口  返回的是对应SNPdto类型的数据
@@ -445,46 +517,38 @@ public class SNPController {
             int size=data.size();
             for (int i = 0; i < size; i++) {
                  SNPDto snpDto= (SNPDto) data.get(i);
-                //JSONObject one = data.getJSONObject(i);
                 if (map.containsKey("SNPID")) {
                     sb.append(snpDto.getId()).append(",");
-                    //sb.append(one.getString("id")).append(",");
                 }
                 if (map.containsKey("consequenceType")) {
                     sb.append(snpDto.getConsequencetype()).append(",");
-                    //sb.append(one.getString("consequencetype")).append(",");
                 }
                 if (map.containsKey("chromosome")) {
                      sb.append(snpDto.getChr()).append(",");
-                    //sb.append(one.getString("chr")).append(",");
                 }
                 if (map.containsKey("position")) {
                     sb.append(snpDto.getPos()).append(",");
-                    //sb.append(one.getString("pos")).append(",");
                 }
                 if (map.containsKey("reference")) {
                      sb.append(snpDto.getRef()).append(",");
-                   // sb.append(one.getString("ref")).append(",");
                 }
                 if (map.containsKey("majorAllele")) {
                     sb.append(snpDto.getMajorallen()).append(",");
-                    //sb.append(one.getString("majorallen")).append(",");
                 }
                 if (map.containsKey("minorAllele")) {
                     sb.append(snpDto.getMinorallen()).append(",");
-                    //sb.append(one.getString("minorallen")).append(",");
                 }
                  JSONArray freq= (JSONArray) snpDto.getFreq();
-               // JSONArray freq = one.getJSONArray("freq");
                 if (map.containsKey("frequencyOfMajorAllele")) {
-                     sb.append(snpDto.getMajor()).append(",");
-                     //sb.append(one.getString("major")).append(",");
+                     sb.append(df.format(snpDto.getMajor())).append(",");
+
                     for (int j = 0; j < freq.size(); j++) {
                         JSONObject groupFreq = freq.getJSONObject(j);
                         String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
                         String major = groupFreq.getString("major");
+                        float majorValue=Float.parseFloat(major);
                         if (map.containsKey(name)) {
-                            sb.append(major).append(",");
+                            sb.append(majorValue+"%").append(",");
                         }
                     }
                 }
@@ -493,53 +557,64 @@ public class SNPController {
                         JSONObject groupFreq = freq.getJSONObject(j);
                         String name = "fminorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
                         String minor = groupFreq.getString("minor");
+                        float minorValue=Float.parseFloat(minor);
                         if (map.containsKey(name)) {
-                            sb.append(minor).append(",");
+                            sb.append(minorValue+"%").append(",");
                         }
                     }
+                }
+                if(map.containsKey("GenoType")){
+                    Map hashMap=new HashMap();
+                    hashMap=snpDto.getGeneType();
+                    String RR=String.valueOf(df.format((double)hashMap.get("RefAndRefPercent")));
+                    String tRA=String.valueOf(df.format((double)hashMap.get("totalRefAndAltPercent")));
+                    String tAA=String.valueOf(df.format((double)hashMap.get("totalAltAndAltPercent")));
+                    String ref= snpDto.getRef();
+                    String alt=snpDto.getAlt();
+                    String ra=ref+alt;
+                    sb.append(ref+ref+":"+RR+"，"+alt+alt+":"+tAA+"，"+ra+":"+tRA);
                 }
                 sb.append("\n");
             }
         } else if ("INDEL".equals(model)) {
             List<SNPDto> data= (List<SNPDto>) result.get("data");
-           // JSONArray data = (JSONArray) result.get("data");
+
             int size = data.size();
             for (int i = 0; i < size; i++) {
                   SNPDto snpDto=data.get(i);
-                //JSONObject one = data.getJSONObject(i);
+
                 if (map.containsKey("INDELID")) {
                       sb.append(snpDto.getId()).append(",");
-                  //  sb.append(one.getString("id")).append(",");
+
                 }
                 if (map.containsKey("consequenceType")) {
                       sb.append(snpDto.getConsequencetype()).append(",");
-                   // sb.append(one.getString("consequencetype")).append(",");
+
                 }
                 if (map.containsKey("chromosome")) {
                       sb.append(snpDto.getChr()).append(",");
-                    //sb.append(one.getString("chr")).append(",");
+
                 }
                 if (map.containsKey("position")) {
                       sb.append(snpDto.getPos()).append(",");
-                    //sb.append(one.getString("pos")).append(",");
+
                 }
                 if (map.containsKey("reference")) {
                       sb.append(snpDto.getRef()).append(",");
-                    //sb.append(one.getString("ref")).append(",");
+
                 }
                 if (map.containsKey("majorAllele")) {
                       sb.append(snpDto.getMajorallen()).append(",");
-                    //sb.append(one.getString("majorallen")).append(",");
+
                 }
                 if (map.containsKey("minorAllele")) {
                       sb.append(snpDto.getMinorallen()).append(",");
-                    //sb.append(one.getString("minorallen")).append(",");
+
                 }
                 JSONArray freq= (JSONArray) snpDto.getFreq();
-                //JSONArray freq = one.getJSONArray("freq");
+
                 if (map.containsKey("frequencyOfMajorAllele")) {
-                      sb.append(snpDto.getMajor()).append(",");
-                    //sb.append(one.getString("major")).append(",");
+                      sb.append(df.format(snpDto.getMajor())).append(",");
                     for (int j = 0; j < freq.size(); j++) {
                         JSONObject groupFreq = freq.getJSONObject(j);
                         String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
@@ -879,7 +954,7 @@ public class SNPController {
                 if(value.contains(changeParam)){
                     runNos.add((String) entry.getKey());
                     samples.put(entry.getKey(),entry.getValue());
-                }
+}
             }
         }
         PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);

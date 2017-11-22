@@ -72,7 +72,7 @@
 #snpinfoTable{
     width: 1137px;
     overflow-x: scroll;
-    min-height: 300px;
+    min-height: 195px;
 }
 #snpinfoTable table{
     border-collapse: collapse;
@@ -103,6 +103,7 @@
     width:220px;
     /*border-top:1px solid #E3E3E3;*/
     margin-top:20px;
+    margin-bottom:30px;
 }
 .changeTab p{
     float:left;
@@ -200,3 +201,14 @@ p.first{
     float:left;
 }
 /*分页 end*/
+.searBtn{
+    position:relative;
+}
+.searBtn span{
+    display:inline-block;
+    position:relative;
+    width:32px;
+    height:32px;
+    line-height:32px;
+    /*background-url:*/
+}

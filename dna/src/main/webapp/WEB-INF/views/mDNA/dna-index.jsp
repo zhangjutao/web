@@ -274,6 +274,7 @@
                                     <input id="search2" name="keywords" type="hidden">
                                     <input id="search3" name="condition" type="hidden">
                                     <input id="search4" name="choices" type="hidden">
+                                    <input class="total" name="total" type="hidden"/>
                                 </form>
                             </div>
                         </div>
@@ -406,6 +407,7 @@
         <input class="type" name="type" type="hidden" value=""/>
         <input class="choices" name="choices" type="hidden" value=""/>
         <input class="group" name="group" type="hidden" value=""/>
+        <input class="total" name="total" type="hidden" value=""/>
     </form>
 
     <form id="exportGeneForm" action="${ctxroot}/dna/dataExport" method="get">
@@ -417,7 +419,8 @@
         <input class="type" name="type" type="hidden" value=""/>
         <input class="choices" name="choices" type="hidden" value=""/>
         <input class="group" name="group" type="hidden" value=""/>
-    </form>
+        <input class="total" name="total" type="hidden" value=""/>
+     </form>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->

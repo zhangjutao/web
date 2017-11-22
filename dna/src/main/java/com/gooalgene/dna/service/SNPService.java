@@ -331,4 +331,5 @@ public class SNPService {
         result.put("data", data);
         return result;
     }
+
 }

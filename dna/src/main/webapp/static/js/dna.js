@@ -61,7 +61,7 @@ $(function () {
                     $("#GlyIds").show();
                 }
                 $("#GlyIds").show();
-                requestForSnpData(1, obj.url, obj.params);
+                requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
                 renderTableHead();
@@ -69,33 +69,45 @@ $(function () {
             }
         }
     });
+    // 初始化第一个样式
+        function initFirstStyle (){
+            $("#GlyIds ul li:first-child").addClass("GlyColor");
+        }
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (){
+        if(!$(this).hasClass("GlyColor")){
+            var Glylis = $("#GlyIds li");
+            for (var i=0;i<Glylis.length;i++){
+                if($(Glylis[i]).hasClass("GlyColor")){
+                    $(Glylis[i]).removeClass("GlyColor");
+                }
+            }
+            $(this).addClass("GlyColor");
+        }
         var obj = getPanelParams();
         console.log(obj);
-        if(typeof obj == "object") {
-            CTypeSnp = "all";
-            CTypeIndel = "all";
-            if(obj.url == "/dna/dna/searchSNPinGene"){
-                if(!$("#GlyIds").is(":hidden")){
-                    $("#GlyIds").hide();
-                }
+        // if(typeof obj == "object") {
+        //     CTypeSnp = "all";
+        //     CTypeIndel = "all";
+        //     if(obj.url == "/dna/dna/searchSNPinGene"){
+        //         if(!$("#GlyIds").is(":hidden")){
+        //             $("#GlyIds").hide();
+        //         }
                 requestForSnpData(1, obj.url, obj.params);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
                 renderTableHead();
-            }else {
-                if($("#GlyIds").is(":hidden")){
-                    $("#GlyIds").show();
-                }
-                $("#GlyIds").show();
-                requestForSnpData(1, obj.url, obj.params);
-                requestForIndelData(1, obj.url, obj.params);
-                renderSearchText();
-                renderTableHead();
-
-            }
-        }
+            // }else {
+            //     if($("#GlyIds").is(":hidden")){
+            //         $("#GlyIds").show();
+            //     }
+            //     $("#GlyIds").show();
+            //     requestForSnpData(1, obj.url, obj.params);
+            //     requestForIndelData(1, obj.url, obj.params);
+            //     renderSearchText();
+            //     renderTableHead();
+            // }
+        // }
     })
     // 生成搜索描述文字
     function renderSearchText() {
@@ -198,7 +210,7 @@ $(function () {
     var SNPData = [];
     var Major_Or_Minor_SNP = "major";
     // 请求数据并分页 -- SNP
-    function requestForSnpData(curr, url, params) {
+    function requestForSnpData(curr, url, params,fn) {
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
         params['type'] = 'SNP';
@@ -222,7 +234,7 @@ $(function () {
                         var $li = $("<li>" + GlyList[i].gene + "</li>");
                         $ul.append($li);
                     };
-                    $ul.find("li:first-child").addClass("GlyColor");
+                    fn && fn();
                 };
                 maskClose("#mask-test");
                 SNPData = res.data;
@@ -711,6 +723,7 @@ $(function () {
             _form.find(".upstream").val(params.upstream);
             _form.find(".downstream").val(params.downstream);
             _form.find(".type").val(CurrentTab);
+            _form.find(".total").val(params.total);
             if(CurrentTab == "SNP") {
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
@@ -730,11 +743,13 @@ $(function () {
         } else {
             var _form = $("#exportRegionForm");
             var params = GetPanelParams.getRegionParams();
-            param.total = total;
+            params.total = total;
             _form.find(".chromosome").val(params.chromosome);
             _form.find(".start").val(params.start);
             _form.find(".end").val(params.end);
             _form.find(".type").val(CurrentTab);
+            _form.find(".total").val(params.total);
+            console.log(params);
             if(CurrentTab=="SNP") {
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
@@ -751,7 +766,7 @@ $(function () {
             _form.find(".choices").val(choiceArr.join(","));
             _form.find(".group").val(params.group);
             _form.submit();
-        }/**/
+        }
     });
     //判断当前用户是否是管理员
             $.ajax({
@@ -767,29 +782,35 @@ $(function () {
                     }
                 }
             })
-
-
     // 基因结构图
     function drawGeneConstructor(result,id,tabId){
         // 参考值
         // debugger;
         var referenceVal = result.bps;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
+        var startPos1 = startPos+2000;
         var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
+        var endPos1 = endPos-2000;
+        console.log(startPos)
+        console.log(endPos)
         var geneLength = endPos - startPos;
+        console.log(geneLength);
        d3.select("#" + id).selectAll("svg").remove();
        // 创建一个svg 元素
         var svgTotal = $("#" + id).width();
+        var totalLength;
         if(geneLength >svgTotal*10){
             var svg = d3.select("#" +id).append("svg").attr("width",geneLength/10 + "px").attr("height","220px");
             var acrossLineData = [[20,220],[geneLength/10,220]];
             var topLineData = [[20,1],[geneLength/10,1]];
             var centerLineData = [[20,90],[geneLength/10,90]]
+            totalLength = geneLength/10;
         }else {
             var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","220px");
             var acrossLineData = [[20,220],[svgTotal,220]];
             var topLineData = [[20,1],[svgTotal,1]];
             var centerLineData = [[20,90],[svgTotal,90]]
+            totalLength = svgTotal;
         }
         // 创建一个直线生成器
         var line = d3.line()
@@ -803,8 +824,10 @@ $(function () {
         // var topLineData = [[20,1],[geneLength/10,1]];
         // 中间分割（竖）线
         // var centerLineData = [[20,90],[geneLength/10,90]]
-        // 画方向箭头
-        var dirArrows  =  [[60,60],[40,72],[60,84],[60,72]];
+        // 画方向箭头 向左
+        var dirArrowsLeft  =  [[60,60],[40,72],[60,84],[50,72]];
+        // 画方向箭头 向右
+        var dirArrowsRight = [[totalLength-30,60],[totalLength-10,72],[totalLength-29,84],[totalLength-20,72]];
         var intervalLineData = [];
         var svgLength = $("#" + id).find("svg").width();
         if (svgLength >885){
@@ -837,7 +860,8 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
-            svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrows)).attr("transform","translate(0,18)");
+            // svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
+            svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(0,18)").attr("transform","translate(30,0)");
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             //   画方向箭头
             // 画基因结构图
@@ -846,13 +870,13 @@ $(function () {
             var leftMargin = 60;
             var snpWidth = 5;
             var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
-            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");  //?问题点
             var geneConstructs = result.dnaGenStructures;
             var snpLocalPoints = result.data;
             var snpColor = "#6b69d6";
             // 根据染色体不同绘制不同的颜色
             function chromoColor (str){
-                    if(str == "three_prime_UTR"){
+                if(str == "three_prime_UTR"){
                     return "#ffb902";
                 }else if(str == "CDS"){
                     return "#0099bb";
@@ -864,7 +888,9 @@ $(function () {
             for (var i=0;i<geneConstructs.length;i++){
                 var feature = geneConstructs[i].feature;
                 var colorVal = chromoColor(feature);
-                g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                console.log((endPos-geneConstructs[i].start)/10 +(geneConstructs[i].end - geneConstructs[i].start)/10);
+                // g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
             }
             // 画snp 位点
             for (var i=0;i<snpLocalPoints.length;i++){
@@ -883,9 +909,6 @@ $(function () {
                     }
                 }
             }
-            // 画一条线
-            // g.append("line").attr("x1","20").attr("y1","80").attr("x2",geneLength).attr("y2","80").attr("stroke-width","2").attr("stroke","#666666");
-
         $("g a rect").click(function (e){
            var tabid = $(e.target).parent().attr("href").substring(1);
           var trlist = $("#" + tabId).find("tr");
@@ -938,7 +961,6 @@ $(function () {
     // })
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr",function (e){
-
            var id = $(this).attr("id");
            var chr = $(this).find("td.t_snpchromosome").text();
            var reference = $(this).find("td.t_snpreference").text();
@@ -951,33 +973,5 @@ $(function () {
            var samples = JSON.parse($(this).attr("data-samples"));
           window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
             "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1);
-           // window.location.href=ctxRoot + "/findSampleById?id=" + id ;
-           // console.log(samples);
-           // var data = {
-           //     id:id,
-           //     chr:chr,
-           //     reference:reference,
-           //     minor:parseFloat(minor),
-           //     consquence:consquence,
-           //     position:position,
-           //     major:parseFloat(major),
-           //     frequence:frequence
-           //     // samples:samples
-           // }
-           // console.log(data);
-           //  $.ajax({
-           //      type:"GET",
-           //      url:ctxRoot +"/dna/snp/info",
-           //      data:{minor:parseFloat(minor)},
-           //      /*dataType:"json",*/
-           //      /*contentType:"application/json;utf-8",*/
-           //      success:function (result){
-           //          console.log(result);
-           //      },
-           //      error:function (error){
-           //          console.log(error);
-           //      }
-           //
-           //  })
     })
 })
