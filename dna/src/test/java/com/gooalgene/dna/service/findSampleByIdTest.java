@@ -28,7 +28,7 @@ public class findSampleByIdTest extends TestCase{
 
     @Test
     public void testGenotypeTransform() {
-        SNP snp = dnaMongoService.findDataById("SNP", "Chr01", "GlyS001090");
+        SNP snp = dnaMongoService.findDataById("SNP", "Chr01", "GlyS001012353596");
         Map transformSNP = snpService.genotypeTransform(snp, "SNP");
         System.out.println(transformSNP);
     }

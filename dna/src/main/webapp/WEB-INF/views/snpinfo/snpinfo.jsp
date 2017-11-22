@@ -37,9 +37,12 @@
         <div id="snpSearch">
             <p class="tipTil">SNP/INDEL ID:</p>
             <p class="searchBox">
-                <input type="text" placeholder="请输入你要进行搜索的内容进行搜索"/>
+                <input type="text" placeholder="请输入你要进行搜索的内容进行搜索" />
             </p>
             <p class="searBtn">
+                <span>
+                    <img src="${ctxStatic}/images/search.png" alt="">
+                </span>
                 搜索
             </p>
         </div>
@@ -158,41 +161,42 @@
 
                 </tbody>
             </table>
-            <%--// 分页显示 begin--%>
-            <div id="paging">
 
-                <div id="inputNums">
-                    <span>跳转到</span>
-                    <div>
-                        <input type="number" min="1" name="number" value="" id="inputNum" >
-                    </div>
-                    <span>页</span>
-                    <span>展示数量</span>
-                    <div id="selectedNum">
-                        <select name="selected" id="selectSize" style="width:40px;">
-                            <option value="10" selected = "true">10</option>
-                            <option value="10">20</option>
-                            <option value="10">30</option>
-                            <option value="10">40</option>
-                        </select>
-                    </div>
-                    <span>/页</span>
-                    <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
-                </div>
-                <div id="page">
-                    <b class="first">&lt;</b>
-                    <p class="two"></p>
-                    <b class="three">...</b>
-                    <p class="four"></p>
-                    <p class="five"></p>
-                    <p class="six"></p>
-                    <b class="seven">...</b>
-                    <p class="eight"></p>
-                    <b class="last">&gt;</b>
-                </div>
-            </div>
-            <%--// 分页显示 end--%>
         </div>
+        <%--// 分页显示 begin--%>
+        <div id="paging">
+
+            <div id="inputNums">
+                <span>跳转到</span>
+                <div>
+                    <input type="number" min="1" name="number" value="" id="inputNum" >
+                </div>
+                <span>页</span>
+                <span>展示数量</span>
+                <div id="selectedNum">
+                    <select name="selected" id="selectSize" style="width:40px;">
+                        <option value="10" selected = "true">10</option>
+                        <option value="10">20</option>
+                        <option value="10">30</option>
+                        <option value="10">40</option>
+                    </select>
+                </div>
+                <span>/页</span>
+                <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
+            </div>
+            <div id="page">
+                <b class="first">&lt;</b>
+                <p class="two"></p>
+                <b class="three">...</b>
+                <p class="four"></p>
+                <p class="five"></p>
+                <p class="six"></p>
+                <b class="seven">...</b>
+                <p class="eight"></p>
+                <b class="last">&gt;</b>
+            </div>
+        </div>
+        <%--// 分页显示 end--%>
 
     </div>
 
@@ -223,6 +227,9 @@
                 },
                 title: {
                     text: 'GenoType'
+                },
+                credits: {
+                    enabled: false
                 },
                 plotOptions: {
                     series: {
@@ -345,6 +352,7 @@
             })
         }
         $(".minor").click(function (){
+            mijor = $(".snpMio").text();
             changeParam = mijor;
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
@@ -352,6 +360,7 @@
             getData(data);
         });
         $(".major").click(function (){
+            major = $(".snpMaj").text();
             changeParam = major;
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
@@ -630,11 +639,12 @@
 
         // 详情页 搜索按钮点击事件
         $(".searBtn").click(function (){
-            console.log(id);
+            var searchId = $(".searchBox").find("input").val();
+
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/findSampleById",
-                data:{id:id},
+                data:{id:searchId},
                 dataType:"json",
                 success:function (result){
                     console.log(result);
@@ -650,12 +660,18 @@
                         $(".snpPos").text(result.data.snpData.pos);
                         $(".snpRef").text(result.data.snpData.ref);
                         $(".snpMaj").text(result.data.snpData.majorallen);
-                        $(".snpMio").text((result.data.snpData.major*100).toFixed(2) + "%");
+                        $(".snpMio").text(result.data.snpData.minorallen);
+                        $(".snpQue").text((result.data.snpData.major*100).toFixed(2) + "%");
                         changeParam = major;
                         var data = snpGetParams(changeParam);
                         data.pageNum = paramData.pageNum;
                         data.pageSize = paramData.pageSize;
                         getData(data);
+                        //重新画图
+                        AA = result.data.RefAndRefPercent;
+                        TT = result.data.totalAltAndAltPercent;
+                        AT = result.data.totalRefAndAltPercent;
+                        drawPie(AA,TT,AT);
                     }
                 },
                 error:function (error){
@@ -665,7 +681,7 @@
         })
 
     })
-        // tag 切换
+        // tag 样式切换
         $(".changeTab p").click(function (){
             if(!$(this).hasClass("changeTagColor")){
                 $(this).addClass("changeTagColor");
