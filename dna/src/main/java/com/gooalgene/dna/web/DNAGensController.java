@@ -106,7 +106,7 @@ public class DNAGensController {
 
     @RequestMapping(value = "/geneIds",method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO geneIds(@RequestParam("start") String start, @RequestParam("end") String end) {
-        return ResultUtil.success(dnaGensService.getByRegion(start,end));
+    public ResultVO geneIds(@RequestParam("chr") String chr,@RequestParam("start") String start, @RequestParam("end") String end) {
+        return ResultUtil.success(dnaGensService.getByRegion(chr,start,end));
     }
 }

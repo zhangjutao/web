@@ -103,8 +103,8 @@ public class DNAGensService {
     }
 
 
-    public Set<String> getByRegion(String start, String end){
-        List<String> list= dnaGensDao.getByRegion(start,end);
+    public Set<String> getByRegion(String chr,String start, String end){
+        List<String> list= dnaGensDao.getByRegion(chr,start,end);
         return new HashSet(list);
     }
 
