@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -103,7 +104,7 @@ public class DNAGensController {
         return flag;
     }
 
-    @RequestMapping("/geneIds")
+    @RequestMapping(value = "/geneIds",method = RequestMethod.GET)
     @ResponseBody
     public ResultVO geneIds(@RequestParam("start") String start, @RequestParam("end") String end) {
         return ResultUtil.success(dnaGensService.getByRegion(start,end));
