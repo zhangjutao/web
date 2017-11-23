@@ -20,4 +20,6 @@ public interface DNARunDao extends CrudDao<DNARun> {
     List<DNARun> getListByCondition(DnaRunDto dnaRunDto);
 
     List<DNARun> getByRunNos(List<String> runNos);
+
+    List<DNARun> getByCultivar(List<String> list);
 }
