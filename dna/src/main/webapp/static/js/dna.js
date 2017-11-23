@@ -239,7 +239,6 @@ $(function () {
                     renderSNPTable(SNPData, Major_Or_Minor_SNP);
                     // renderSNPTable(SNPData);
                 } else {
-                    //alert("无数据");
                     $(".js-snp-table>tbody").empty().append("<span>无数据</span>");
                 }
 
@@ -1001,7 +1000,6 @@ $(function () {
     });
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr",function (e){
-        alert(3338989)
            var id = $(this).attr("id");
            var chr = $(this).find("td.t_snpchromosome").text();
            var reference = $(this).find("td.t_snpreference").text();
