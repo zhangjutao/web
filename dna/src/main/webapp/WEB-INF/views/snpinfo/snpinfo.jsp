@@ -203,22 +203,26 @@
 </body>
 <script>
     $(function (){
-
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
+        console.log('${ctxroot}');
         var AA = "${result.RefAndRefPercent}";
         var TT = "${result.totalAltAndAltPercent}";
         var AT = "${result.totalRefAndAltPercent}";
         var id="${snp.id}";
-        var major = "${snp.majorallen}";
-        var mijor = "${snp.minorallen}";
+        var major = "${result.snpData.ref}";
+        var mijor = "${result.snpData.alt}";
+        var name1 = major+major;
+        var name2 = major+mijor;
+        var name3 = mijor+mijor;
+
         // 初始化
         var changeParam = major;  // major 和 minor 页面切换
         console.log(AA)
         console.log(TT)
         console.log(AT)
         // 花饼图
-        function drawPie(ref,alt,refAlt){
+        function drawPie(ref,alt,refAlt,name1,name2,name3){
             $('#pieShow').highcharts({
                 chart: {
                     plotBackgroundColor: null,
@@ -260,14 +264,14 @@
                     type: 'pie',
                     name: 'GenoType 占比',
                     data: [
-                        ['AA',ref*100],
-                        ['TT', alt*100],
-                        ['AT', refAlt*100]
+                        [name1,ref*100],
+                        [name3, alt*100],
+                        [name2, refAlt*100]
                     ]
                 }]
             })
         }
-        drawPie(AA,TT,AT);
+        drawPie(AA,TT,AT,name1,name2,name3);
         // 选择群体信息
         $(".moveOnPop").mouseover(function (){
              $(this).find("div.popNames").show();
@@ -671,7 +675,10 @@
                         AA = result.data.RefAndRefPercent;
                         TT = result.data.totalAltAndAltPercent;
                         AT = result.data.totalRefAndAltPercent;
-                        drawPie(AA,TT,AT);
+                        var n1 =result.data.snpData.ref + result.data.snpData.ref;
+                        var n2 =result.data.snpData.ref + result.data.snpData.alt;
+                        var n3 =result.data.snpData.alt +result.data.snpData.alt;
+                        drawPie(AA,TT,AT,n1,n2,n3);
                     }
                 },
                 error:function (error){
