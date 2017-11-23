@@ -76,7 +76,7 @@
         DELETE FROM dna_gens WHERE LENGTH(geneName)>0 OR LENGTH(geneFunction)>0;
     </delete>
     
-    <select id="getByRegion">
+    <select id="getByRegion" resultType="string">
         SELECT gene_id FROM dna_gens WHERE gene_start>=#{start} AND gene_end <![CDATA[ <= ]]> #{end}
     </select>
 </mapper>

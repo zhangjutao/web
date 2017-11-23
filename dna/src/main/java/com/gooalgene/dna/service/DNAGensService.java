@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Created by 陈冬 on 2017/8/22.
@@ -103,4 +101,11 @@ public class DNAGensService {
         result.put("data", data);
         return result;
     }
+
+
+    public Set<String> getByRegion(String start, String end){
+        List<String> list= dnaGensDao.getByRegion(start,end);
+        return new HashSet(list);
+    }
+
 }
