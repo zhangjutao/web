@@ -56,11 +56,21 @@ $(function (){
     $(".resetBtn").click(function (){
         var data = getParamas();
             data.pageNum = 1;
+            // 默认回到第一页，
+        var pageSizeP = $("#page").find("p")
+
+        for(var i=0;i<pageSizeP.length;i++){
+            if($(pageSizeP[i]).hasClass("pageColor")){
+                $(pageSizeP[i]).removeClass("pageColor")
+            }
+        };
+        $(pageSizeP[0]).addClass("pageColor");
         getData(data,resetSaveStatus);
 
     })
     // 选择品种中的保存群体
     $(".saveKind").click(function (){
+        alert(444)
         // 先判断保存群体/品种的数量
         var numbs =$(".js-cursom-add2").find(".js-ad-dd").length;
         console.log(numbs);
@@ -75,8 +85,7 @@ $(function (){
             var selContents = selContent.substring(0,selContent.length-1);
             console.log(selContents);
             var div = "<div class='js-ad-dd'><label class='species-add' title=" + selContents.split(",")[0] + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
-            console.log(div);
-            $(".js-cursom-add2").append(div);
+            $(".js-cursom-add").append(div);
         }
     })
     // 表格中每个复选框的点击事件

@@ -563,6 +563,7 @@
         $(".colse-sample span").click(function(){
             $(".custom-groups-content").hide();
             $(".cover").hide();
+//            $(".sample-text").empty();
         });
 
         /* 自定义群体-"更多"展现 */
@@ -952,12 +953,21 @@
         var currPopu = "";
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
+            var currVal = $(this).text().split(",")[0].substring(0,3);
+            var currKindList = $(this).text().split(",");
+            var kindNames = [];
+            for (var i=0;i<currKindList.length;i++){
+                var name = currKindList[i].substring(3,currKindList[i].length-1);
+                kindNames.push(name);
+            }
+            console.log("current:: " + currVal);
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
                 label.addClass("cur");
             }else{
                 label.removeClass("cur");
             }
+            console.log("hshsh")
             console.log($(this).text());
             $(".tab-detail").show();
             $("#mid").show();
@@ -965,10 +975,33 @@
 
             var id = $(this).parent("label").attr("data-index");
             currPopu = selectPopulation(id)[0];
-            console.log("current:", currPopu);
-            getPopuTable(1);
+            if(currVal == "品种名"){
+                var data = {
+                    names:kindNames
+                };
+                getKindInfos();
+            }else{
+                getPopuTable(1);
+            }
 
         });
+        // 选则品种 之后 详情页
+        function getKindInfos(data){
+            $.ajax({
+                type:'GET',
+                url:CTXROOT + "/dnarun//getByCultivar",
+                data:JSON.stringify(data),
+                contentType:"application/json",
+                dataType:"json",
+                success:function (result){
+                    console.log(result);
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        };
+
         $(".js-cursom-add2").on("click",".label-txt",function(){
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){

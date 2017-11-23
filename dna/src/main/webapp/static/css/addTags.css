@@ -25,6 +25,7 @@
     width:749px;
     overflow-y:scroll;
     /*overflow-x:scroll;*/
+  display:none;
 }
 #tagKind table{
     border: 1px solid #E4E4E4;
@@ -137,8 +138,9 @@ p.first{
     width:86px;
 }
 .saveKind,.resetBtn{
-    display:none;
+
     display:inline-block;
+    display:none;
     background-color: #5c8ce6;
     color: #fff;
     border: none;
@@ -148,6 +150,9 @@ p.first{
     cursor: pointer;
 }
 /*基因结构图*/
+/*#geneConstruction{*/
+    /*overflow: scroll;*/
+/*}*/
 #geneConstruction span{
     display:inline-block;
     width:18px;

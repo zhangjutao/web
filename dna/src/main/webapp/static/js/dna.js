@@ -441,7 +441,7 @@ $(function () {
             var RefAndRefPercent = item.geneType.RefAndRefPercent.toFixed(4);
             var totalAltAndAltPercent = item.geneType.totalAltAndAltPercent.toFixed(4);
             var totalRefAndAltPercent = item.geneType.totalRefAndAltPercent.toFixed(4);
-            str += '<tr id="' + item.id + '" data-samples=' + JSON.stringify(item.samples)+ '>'
+            str += '<tr id="' + item.id + '" >'
             str += '    <td class="t_snpid" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
             str += '    <td class="t_consequenceType"><p class="js-tipes-show">'+ formatConseType(item.consequencetype) + '</p></td>'
             str += '    <td class="t_snpchromosome"><p>'+ item.chr +'</p></td>'
@@ -775,11 +775,15 @@ $(function () {
     function drawGeneConstructor(result,id,tabId){
         // 参考值
         // debugger;
-        // if(result.dnaGenStructures.length==0){
-        //     var direction = -1;
-        // }else {
-        //     var direction = result.dnaGenStructures[0].strand;
-        // }
+        if(result.dnaGenStructures.length==0){
+            var direction = -1;
+        }else {
+            var direction = result.dnaGenStructures[0].strand;
+        }
+        // if (result.data.length == 0 && result.dnaGenStructures.length == 0){
+        //
+        //     return;
+        // };
         var referenceVal = result.bps;
         var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
         var startPos1 = startPos+2000;
@@ -851,11 +855,11 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
-            // if(direction == "-"){
-            //     svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)");
-            // }else if(direction == "+"){
-            //     svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
-            // }
+            if(direction == "-"){
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)");
+            }else if(direction == "+"){
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
+            }
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             //   画方向箭头
             // 画基因结构图
@@ -888,49 +892,97 @@ $(function () {
                 }
             // }
 
+        //     var newArr = [];
+        // for (var i=0;i<snpLocalPoints.length;i++){
+        //         if(newArr.length == 0){
+        //             var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+        //             a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+        //             newArr.push(snpLocalPoints[0].pos)
+        //         }else{
+        //             for (var j=0;j<newArr.length;j++){
+        //                 //
+        //                 if(Math.abs(snpLocalPoints[i] -newArr[j]) >10){
+        //                     newArr.push(snpLocalPoints[i].pos);
+        //                     var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+        //                     a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+        //                     newArr.push(snpLocalPoints[0].pos)
+        //                 }else {
+        //                     i--;
+        //                     break;
+        //                 }
+        //             }
+        //         }
+        //
+        // }
             // 画snp 位点
-            for (var i=0;i<snpLocalPoints.length;i++){
-                if(i < snpLocalPoints.length - 1){
-                    if((snpLocalPoints[i+1].pos - snpLocalPoints[i].pos)/10 >10){
-                        var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        // a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-                    }else {
-                        var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                var newArr = [];
+                for (var i=0;i<snpLocalPoints.length;i++){
+                    for (var j=i+1;j<snpLocalPoints.length;j++){
+                        if(Math.abs(snpLocalPoints[i].pos - snpLocalPoints[j].pos)<10 ){
+                            var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                            a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                            newArr.push(snpLocalPoints[i]);
+                        }
                     }
-                }else {
-                    if((snpLocalPoints[i].pos - snpLocalPoints[i-1].pos)/10 >10){
+                };
+                for (var i=0;i<snpLocalPoints.length;i++){
+                    if(newArr.length == 0){
                         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                        a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 20).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    }else {
+                        for (var j=0;j<newArr.length;j++){
+                            if(snpLocalPoints[i].pos != newArr[j].pos ){
+                                var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                                a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 20).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                            }
+                        }
+                    }
+                }
+            //     console.log(newArr);
+                // if(i < snpLocalPoints.length - 1){
+
+                    // if((snpLocalPoints[i+1].pos - snpLocalPoints[i].pos)/10 >10){
+                    //     var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                    //     // a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    //     a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    // }else {
+                    //     var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                    //     a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                    // }
+                // }else {
+                //     if((snpLocalPoints[i].pos - snpLocalPoints[i-1].pos)/10 >10){
+                //         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
+                //         a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                //     }
+                // }
+        // 每个snp位点的点击事件
+        $("g a rect").click(function (e){
+            var tabid = $(e.target).parent().attr("href").substring(1);
+            var trlist = $("#" + tabId).find("tr");
+            for (var i=0;i<trlist.length;i++){
+                if ($(trlist[i]).hasClass("tabTrColor")){
+                    $(trlist[i]).removeClass("tabTrColor");
+                    if( i%2 == 0){
+                        $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#fff");
+                    }else{
+                        $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
                     }
                 }
             }
-        $("g a rect").click(function (e){
-           var tabid = $(e.target).parent().attr("href").substring(1);
-          var trlist = $("#" + tabId).find("tr");
-          for (var i=0;i<trlist.length;i++){
-              if ($(trlist[i]).hasClass("tabTrColor")){
-                  $(trlist[i]).removeClass("tabTrColor");
-              }
-          }
-
             $("#" + tabid).addClass("tabTrColor");
             $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6");
         })
+    }
 
-        }
 
     // 定义滚轮缩放
     var count = 1;
-    $("#constructorPanel").on("mousewheel DOMMouseScroll","svg",function (e) {
-
+    $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
         var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
             (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
-
-
         if (delta > 0) {
             // 向上滚
+            console.log(count);
             count++;
             $(this).css("transform", "scale(" + count * 0.2 + ")");
             console.log("wheelup");
@@ -938,24 +990,15 @@ $(function () {
         } else if (delta < 0) {
             // 向下滚
             count--;
-            if (count > 0) {
+            console.log(count);
+            if (count > 5 ) {
                 $(this).css("transform", "scale(" + count * 0.2 + ")");
                 console.log("wheeldown");
-            }else if(count<=0){
-                count = 1;
+            }else {
+                count = 6;
             }
-
         }
     });
-    //
-    // $(".geneIndels").click(function (){
-    //     $("#constructorPanel").hide();
-    //     $("#constructorPanel2").show();
-    // })
-    // $(".item-ac").click(function(){
-    //     $("#constructorPanel").show();
-    //     $("#constructorPanel2").hide();
-    // })
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr",function (e){
            var id = $(this).attr("id");
