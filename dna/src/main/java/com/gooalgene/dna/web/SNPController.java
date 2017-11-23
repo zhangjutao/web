@@ -933,8 +933,8 @@ public class SNPController {
     @RequestMapping(value = "/snp/info",method = RequestMethod.GET)
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
-        modelAndView.addObject("snp",snp);
         Map result = snpService.findSampleById(snp.getId());
+        //modelAndView.addObject("snp",result);
         modelAndView.addObject("result",result);
         Map map=(Map)((SNP)result.get("snpData")).getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();

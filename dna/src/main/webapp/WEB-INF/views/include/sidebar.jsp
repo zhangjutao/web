@@ -977,7 +977,7 @@
             currPopu = selectPopulation(id)[0];
             if(currVal == "品种名"){
                 var data = {
-                    names:JSON.stringify(kindNames)
+                    names:kindNames.join(",")
                 };
                 console.log("names:" +kindNames)
                 console.log(data);
@@ -991,7 +991,7 @@
         function getKindInfos(data){
             $.ajax({
                 type:'GET',
-                url:CTXROOT + "/dnarun//getByCultivar",
+                url:CTXROOT + "/dnarun/getByCultivar",
                 data:data,
                 contentType:"application/json",
                 dataType:"json",
