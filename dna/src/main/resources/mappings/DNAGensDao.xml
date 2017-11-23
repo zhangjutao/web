@@ -76,7 +76,7 @@
         DELETE FROM dna_gens WHERE LENGTH(geneName)>0 OR LENGTH(geneFunction)>0;
     </delete>
     
-    <select id="getByRegion">
-        SELECT gene_id FROM dna_gens WHERE gene_start>=#{start} AND gene_end <![CDATA[ <= ]]> #{end}
+    <select id="getByRegion" resultType="string">
+        SELECT DISTINCT d.gene_id FROM dna_gens d,gens_structure g WHERE d.gene_id=g.gene_id  and g.chromosome=#{chr} AND d.gene_start>=#{start} AND d.gene_end <![CDATA[ <= ]]> #{end}
     </select>
 </mapper>

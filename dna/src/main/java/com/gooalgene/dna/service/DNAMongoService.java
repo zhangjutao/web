@@ -259,6 +259,7 @@ public class DNAMongoService {
                 page.setCount(total);
             }
             logger.info("Query By Page:" + query.toString());
+            // todo 优化mongodb查询速度
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");

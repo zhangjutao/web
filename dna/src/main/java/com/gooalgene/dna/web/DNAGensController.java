@@ -1,8 +1,10 @@
 package com.gooalgene.dna.web;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.service.DNAGensService;
+import com.gooalgene.utils.ResultUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -11,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
@@ -98,5 +102,11 @@ public class DNAGensController {
             e.printStackTrace();
         }
         return flag;
+    }
+
+    @RequestMapping(value = "/geneIds",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO geneIds(@RequestParam("chr") String chr,@RequestParam("start") String start, @RequestParam("end") String end) {
+        return ResultUtil.success(dnaGensService.getByRegion(chr,start,end));
     }
 }

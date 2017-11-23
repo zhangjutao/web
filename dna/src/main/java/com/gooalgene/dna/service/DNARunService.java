@@ -266,4 +266,9 @@ public class DNARunService {
     public boolean delete(int id) {
         return dnaRunDao.deleteById(id);
     }
+
+    public PageInfo<DNARun> getByCultivar(List<String> cultivars,Integer pageNum,Integer pageSize){
+        PageHelper.startPage(pageNum,pageSize);
+        return new PageInfo<>(dnaRunDao.getByCultivar(cultivars));
+    }
 }
