@@ -256,6 +256,7 @@ public class DNAMongoService {
                 }
                 query.skip(skip);
                 query.limit(pageSize);
+                page.setCount(total);
             }
             logger.info("Query By Page:" + query.toString());
             // todo 优化mongodb查询速度
@@ -263,7 +264,6 @@ public class DNAMongoService {
         } else {
             logger.info(collectionName + " is not exist.");
         }
-        page.setCount(total);
         return result;
     }
 
