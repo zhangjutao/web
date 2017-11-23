@@ -39,10 +39,12 @@ public class ExportDataController {
         String choices=request.getParameter("titles");
         String temp=request.getParameter("condition");
         JSONObject object=null;
+        DnaRunDto dnaRunDto = null;
         if(temp!=null&&!temp.equals("")){
-             object=JSONObject.fromObject(temp);
+            object=JSONObject.fromObject(temp);
+            dnaRunDto = Json2DnaRunDto.json2DnaRunDto(object);
         }
-        DnaRunDto dnaRunDto= Json2DnaRunDto.json2DnaRunDto(object);
+
         String titles="";
         String[] condition=null;
 
@@ -105,8 +107,6 @@ public class ExportDataController {
     //调整表头显示
     private static Map<String, String> changeCloumn2Web() {
         Map<String, String> map = new HashMap<String, String>();
-       // map.put("group", "Group");
-       // map.put("run", "Run");
         map.put("species", "Species");
         map.put("sampleName", "Sample Name");
         map.put("cultivar", "Cultivar");
