@@ -233,6 +233,9 @@ public class DNARunService {
             dnaRun.setStearic_min(content.getString("min"));
             dnaRun.setStearic_max(content.getString("max"));
         }
+        if (jsonObject.containsKey("cultivar")) {
+            dnaRun.setCultivar(jsonObject.getString("cultivar"));
+        }
         return dnaRun;
     }
 
