@@ -581,7 +581,7 @@ public class SNPController {
         } else if ("INDEL".equals(model)) {
             List<SNPDto> data= (List<SNPDto>) result.get("data");
             int size = data.size();
-            for (int i = 0; i < size; i++) {
+        for (int i = 0; i < size; i++) {
                   SNPDto snpDto=data.get(i);
                 if (map.containsKey("INDELID")) {
                       sb.append(snpDto.getId()).append(",");

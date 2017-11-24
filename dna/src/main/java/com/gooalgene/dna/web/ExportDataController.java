@@ -140,6 +140,7 @@ public class ExportDataController {
         map.put("upperLeafletLength", "upper Leaflet Length");
         map.put("maturityDate", "Maturity Date");
         map.put("yield", "Yield(Mg/ha)");
+        map.put("group","Group");
         return map;
     }
 
@@ -314,21 +315,21 @@ public class ExportDataController {
             }
 
 
-            //前端数据不包含部分
-
             //组别
             if(map.containsKey("group")){
                 String group=dnaRun.getGroup();
                 dnaList.add(group);
                 sb.append(group!=null?group:"").append(",");
             }
+
+
+            //前端数据不包含部分
             //编号
             if(map.containsKey("run")){
                 String run=dnaRun.getRunNo();
                 dnaList.add(run);
                 sb.append(run!=null?run:"").append(",");
             }
-
 
             //品种名称
             if(map.containsKey("plantName")){
