@@ -59,7 +59,7 @@ $(function () {
                 if($("#GlyIds").is(":hidden")){
                     $("#GlyIds").show();
                 }
-                $("#GlyIds").show();
+                $("#GlyIds").show()
                 var reginChr = $(".js-chorosome option:selected").text();
                 var reginStartPos = $(".js-start-position").val();
                 var reginEndPos = $(".js-end-position").val();
@@ -82,7 +82,7 @@ $(function () {
         $.ajax({
             type:'GET',
             url:ctxRoot + "/dnagens/geneIds",
-            data:data,
+            data:JSON.stringify(data),
             contentType:"application/json",
             dataType:"json",
             success:function (res){
