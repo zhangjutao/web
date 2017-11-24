@@ -41,10 +41,13 @@ $(function () {
 
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
-        $(".page-tables").show();
-        $(".page-circle").hide();
+        // $(".page-tables").show();
+        // $(".page-circle").hide();
         var obj = getPanelParams();
+        console.log(obj);
         if(typeof obj == "object") {
+            $(".page-tables").show();
+            $(".page-circle").hide();
             CTypeSnp = "all";
             CTypeIndel = "all";
             if(obj.url == "/dna/dna/searchSNPinGene"){
@@ -75,6 +78,9 @@ $(function () {
                 renderTableHead();
 
             }
+        // 如果输入条件返回不符合要求，则隐藏部分元素
+        }else {
+            // alert("输入条件返回不符合要求，则隐藏部分元素 ");
         }
     });
     // 根据范围查询geneID 集合
@@ -167,6 +173,7 @@ $(function () {
             url = CTXROOT + "/dna/searchSNPinGene";
         } else { // region
             params = GetPanelParams.getRegionParams();
+            console.log(params);
             url = CTXROOT + "/dna/searchSNPinRegion";
         }
         if(typeof params == "object"){
@@ -176,6 +183,8 @@ $(function () {
             }
         }
         return false;
+
+
     }
 
     // 配置默认每页显示条数
@@ -250,71 +259,94 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                total = res.total;
-                drawGeneConstructor(res,"constructorPanel","tableBody");
-                if(url =="/dna/dna/searchSNPinRegion"){
+                // res.data = null;
+                // 如果返回值为空，则隐藏
+                if(res.data == null){
+                    // alert("返回值为空时,则隐藏对应的元素");
+                    $("#constructorPanel").hide();
+                    $("#errorShow").show();
+                    $("#mask-test .ga-mask").hide();
+                    $("#tableErrorShow").show();
+                }else {
+                    if( $("#constructorPanel").is(":hidden")){
+                        $("#constructorPanel").show();
+                    }
+                        if(!$("#errorShow").is(":hidden")){
+                        $("#errorShow").hide();
+                    }
+                    if( !$("#tableErrorShow").is(":hidden")){
+                        $("#tableErrorShow").hide();
+                    }
+                    if( !$("#mask-test .ga-mask").is(":hidden")){
+                        $("#mask-test .ga-mask").show();
+                    }
+                    total = res.total;
+                    drawGeneConstructor(res,"constructorPanel","tableBody");
+                    if(url =="/dna/dna/searchSNPinRegion"){
                         var GlyList = res.data;
                         var $ul = $("#GlyIds ul");
                         $ul.find("li").remove();
-                    for (var i=0;i<GlyList.length;i++){
-                        var $li = $("<li>" + GlyList[i].gene + "</li>");
-                        $ul.append($li);
+                        for (var i=0;i<GlyList.length;i++){
+                            var $li = $("<li>" + GlyList[i].gene + "</li>");
+                            $ul.append($li);
+                        };
+                        fn && fn();
                     };
-                    fn && fn();
-                };
-                maskClose("#mask-test");
-                SNPData = res.data;
-                if(res.data.length > 0) {
-                    renderSNPTable(SNPData, Major_Or_Minor_SNP);
-                    // renderSNPTable(SNPData);
-                } else {
-                    $(".js-snp-table>tbody").empty().append("<span>无数据</span>");
-                }
-
-                laypage({
-                    cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(res.total / pageSizeSNP), //通过后台拿到的总页数
-                    curr: curr || 1, //当前页
-                    skin: '#5c8de5',
-                    skip: true,
-                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(res.total / pageSizeSNP), //将尾页显示为总页数。若不显示，设置false即可
-                    prev: '<',
-                    next: '>',
-                    groups: 3, //连续显示分页数
-                    jump: function (obj, first) { //触发分页后的回调
-                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                            var tmp = getPanelParams();
-                            requestForSnpData(obj.curr, tmp.url, tmp.params);
-                        }
+                    maskClose("#mask-test");
+                    SNPData = res.data;
+                    if(res.data.length > 0) {
+                        renderSNPTable(SNPData, Major_Or_Minor_SNP);
+                        // renderSNPTable(SNPData);
+                    } else {
+                        $(".js-snp-table>tbody").empty().append("<span>无数据</span>");
                     }
-                });
-                $(".total-page-count-snp").html(res.total);
 
-                /*鼠标悬浮在SNP ID上显示SNP信息*/
-                $(".js-snp-table tbody .t_snpid").hover(function () {
-                    var self = this;
-                    var snpid = $(this).attr("data-id");
-                    var va = $(this).attr("data-var");
-                    var gene = $(this).attr("data-gene");
-                    var effect = $(this).attr("data-effect");
-                    var content = "";
+                    laypage({
+                        cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(res.total / pageSizeSNP), //通过后台拿到的总页数
+                        curr: curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(res.total / pageSizeSNP), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                var tmp = getPanelParams();
+                                requestForSnpData(obj.curr, tmp.url, tmp.params);
+                            }
+                        }
+                    });
+                    $(".total-page-count-snp").html(res.total);
+
+                    /*鼠标悬浮在SNP ID上显示SNP信息*/
+                    $(".js-snp-table tbody .t_snpid").hover(function () {
+                        var self = this;
+                        var snpid = $(this).attr("data-id");
+                        var va = $(this).attr("data-var");
+                        var gene = $(this).attr("data-gene");
+                        var effect = $(this).attr("data-effect");
+                        var content = "";
                         content += "<div class='snpid-td'>"
                         content += "<p><span>SNP ID:</span>" + snpid + "</p>",
-                        content += "<p><span>Var:</span>" + va + "</p>",
-                        content += "<p><span>Gene:</span>" + gene + "</p>",
-                        content += "<p><span>Effect/Location:</span>" + effect + "</p>",
-                        content += "</div>"
-                    $.pt({
-                        target: self,
-                        position: 'b',
-                        autoClose: false,
-                        content: content
+                            content += "<p><span>Var:</span>" + va + "</p>",
+                            content += "<p><span>Gene:</span>" + gene + "</p>",
+                            content += "<p><span>Effect/Location:</span>" + effect + "</p>",
+                            content += "</div>"
+                        $.pt({
+                            target: self,
+                            position: 'b',
+                            autoClose: false,
+                            content: content
+                        });
+                        //$(".pt").css("left", $(".pt").position().left);
+                    },function () {
+                        $(".pt").remove();
                     });
-                    //$(".pt").css("left", $(".pt").position().left);
-                },function () {
-                    $(".pt").remove();
-                });
+                }
+
             }
         });
     }
@@ -337,61 +369,66 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                total = res.total;
-                drawGeneConstructor(res,"constructorPanel2","tableBody2");
-                maskClose("#mask-test2");
-                INDELData = res.data;
-                if(res.data.length > 0) {
-                    renderINDELTable(INDELData, Major_Or_Minor_INDEL);
-                } else {
-                    //alert("无数据");
-                    $(".js-indel-table>tbody").empty().append("<span>无数据</span>");
-                }
-
-                laypage({
-                    cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(res.total / pageSizeINDEL), //通过后台拿到的总页数
-                    curr: curr || 1, //当前页
-                    skin: '#5c8de5',
-                    skip: true,
-                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(res.total / pageSizeINDEL), //将尾页显示为总页数。若不显示，设置false即可
-                    prev: '<',
-                    next: '>',
-                    groups: 3, //连续显示分页数
-                    jump: function (obj, first) { //触发分页后的回调
-                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                            var tmp = getPanelParams();
-                            requestForIndelData(obj.curr, tmp.url, tmp.params);
-                        }
+                if (res.data == null){
+                    // alert("返回值为空，隐藏对应的SNP 元素")
+                }else{
+                    total = res.total;
+                    drawGeneConstructor(res,"constructorPanel2","tableBody2");
+                    maskClose("#mask-test2");
+                    INDELData = res.data;
+                    if(res.data.length > 0) {
+                        renderINDELTable(INDELData, Major_Or_Minor_INDEL);
+                    } else {
+                        //alert("无数据");
+                        $(".js-indel-table>tbody").empty().append("<span>无数据</span>");
                     }
-                });
-                $(".total-page-count-indel").html(res.total);
 
-                /*鼠标悬浮在INDEL ID上显示INDEL信息*/
-                $(".js-indel-table tbody .t_indels").hover(function () {
-                    var self = this;
-                    var indelid = $(this).attr("data-id");
-                    var va = $(this).attr("data-var");
-                    var gene = $(this).attr("data-gene");
-                    var effect = $(this).attr("data-effect");
-                    var content = "";
+                    laypage({
+                        cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(res.total / pageSizeINDEL), //通过后台拿到的总页数
+                        curr: curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(res.total / pageSizeINDEL), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                var tmp = getPanelParams();
+                                requestForIndelData(obj.curr, tmp.url, tmp.params);
+                            }
+                        }
+                    });
+                    $(".total-page-count-indel").html(res.total);
+
+                    /*鼠标悬浮在INDEL ID上显示INDEL信息*/
+                    $(".js-indel-table tbody .t_indels").hover(function () {
+                        var self = this;
+                        var indelid = $(this).attr("data-id");
+                        var va = $(this).attr("data-var");
+                        var gene = $(this).attr("data-gene");
+                        var effect = $(this).attr("data-effect");
+                        var content = "";
                         content += "<div class='snpid-td'>"
                         content += "<p><span>INDEL ID:</span>" + indelid + "</p>",
-                        content += "<p><span>Var:</span>" + va + "</p>",
-                        content += "<p><span>Gene:</span>" + gene + "</p>",
-                        content += "<p><span>Effect/Location:</span>" + effect + "</p>",
-                        content += "</div>"
-                    $.pt({
-                        target: self,
-                        position: 'b',
-                        autoClose: false,
-                        content: content
+                            content += "<p><span>Var:</span>" + va + "</p>",
+                            content += "<p><span>Gene:</span>" + gene + "</p>",
+                            content += "<p><span>Effect/Location:</span>" + effect + "</p>",
+                            content += "</div>"
+                        $.pt({
+                            target: self,
+                            position: 'b',
+                            autoClose: false,
+                            content: content
+                        });
+                        //$(".pt").css("left", $(".pt").position().left);
+                    },function () {
+                        $(".pt").remove();
                     });
-                    //$(".pt").css("left", $(".pt").position().left);
-                },function () {
-                    $(".pt").remove();
-                });
+                }
+
             },
             error:function (error){
                 console.log(error);
