@@ -85,11 +85,15 @@ $(function () {
     });
     // 根据范围查询geneID 集合
     function requestForGeneId(data){
+        console.log(JSON.stringify(data));
         $.ajax({
-            type:'GET',
+            type:'POST',
             url:ctxRoot + "/dnagens/geneIds",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
             data:JSON.stringify(data),
-            contentType:"application/json",
             dataType:"json",
             success:function (res){
                 console.log(res);

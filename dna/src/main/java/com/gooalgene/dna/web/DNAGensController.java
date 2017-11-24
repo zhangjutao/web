@@ -12,10 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -104,9 +101,12 @@ public class DNAGensController {
         return flag;
     }
 
-    @RequestMapping(value = "/geneIds",method = RequestMethod.GET)
+    @RequestMapping(value = "/geneIds",method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ResultVO geneIds(@RequestParam("chr") String chr,@RequestParam("start") String start, @RequestParam("end") String end) {
+    public ResultVO geneIds(@RequestBody Map<String, String> json) {
+        String chr = json.get("chr");
+        String start = json.get("start");
+        String end = json.get("end");
         return ResultUtil.success(dnaGensService.getByRegion(chr,start,end));
     }
 }
