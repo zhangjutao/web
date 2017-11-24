@@ -381,8 +381,12 @@
 <div id="mid"></div>
 <div class="tab-detail">
     <div class="tab-detail-thead">
-        <p><span>1</span>号群体属性信息
-            <a href="javascript:void(0)">X</a></p>
+        <p style="position:relative;">
+            <span style="display:inline-block;text-align:center;max-width:600px;overflow:hidden;text-overflow: ellipsis; white-space: nowrap;">1</span>
+            <i style="position:relative;top:-15px;color:#fff;">号群体/品种属性信息</i>
+
+            <a href="javascript:void(0)">X</a>
+        </p>
     </div>
     <div class="table-item popu-checkbox" style="display:none; box-shadow: none;">
         <div class="checkbox-item">
@@ -618,7 +622,6 @@
         function initPopulations() {
             if(getCookie("populations")) {
                 populations = JSON.parse(getCookie("populations"));
-                console.log(populations);
                 var str = "";
                 $.each(populations, function(idx, popu) {
                     str +="<div class='js-ad-dd'>"
@@ -806,8 +809,6 @@
 
         /* 保存群体 */
         $(".sample-screening-btn button").click(function(){
-            console.log("保存群体")
-            console.log(popuSamples);
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
             if(populations.length + defaultLen < 10){
                 var arr = [];
@@ -830,7 +831,6 @@
 
         // 向自定义群体添加
         function appendPopulation(obj) {
-            console.log("添加当前物种的id::" + obj.id);
             var str = "";
             str +="<div class='js-ad-dd'>"
             str +="    <label class='species-add' title='" + obj.name + "' data-index='"+ obj.id +"'>"
@@ -841,9 +841,6 @@
             $(".js-cursom-add").append(str);
             populations.push(obj);
             setCookie('populations', JSON.stringify(populations));
-            console.log("hahhaha")
-            var aaa = JSON.parse(getCookie('populations'));
-            console.log(aaa);
         }
 
         // 向自定义群体删除
@@ -876,8 +873,6 @@
                 $(this).parent().addClass("cur");
             }
             getSelectedPopulations();
-
-            console.log(selectedPopulations);
 //            if(selectedPopulations.length > 0) {
 //                $(".js-default-add").find("label").removeClass("cur");
 //            } else {
@@ -998,8 +993,6 @@
                 var name = currKindList[i].substring(3,currKindList[i].length-1);
                 kindNames.push(name);
             }
-            console.log("kindNames");
-            console.log(kindNames);
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
                 label.addClass("cur");
@@ -1011,9 +1004,7 @@
             $(".tab-detail-thead p span").text($(this).text());
 
             var id = $(this).parent("label").attr("data-index");
-            console.log("iiidddd:"+id)
 //            currPopu = selectPopulation(id)[0];
-            console.log("当前点击的ID");
             if(currVal == "品种名"){
 //                $("#popu-paginate").hide();
 //                $("#paging1").show();
@@ -1038,7 +1029,9 @@
                 url:CTXROOT + "/dnarun/getByCultivar",
 //                data:data,
                 data:{
-                    names:kindNames.join(",")
+                    names:kindNames.join(","),
+                    pageNum:curr || 1,
+                    pageSize:pageSizePopu
                 },
                 contentType:"application/json",
                 dataType:"json",
@@ -1056,10 +1049,7 @@
                         next: '>',
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
-                            console.log("getKind");
-                                console.log(obj);
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-
                                 getKindInfos(obj.curr);
 //                                getKindInfos(obj.curr, currPopu);
                             }
@@ -1080,14 +1070,12 @@
             }else{
                 label.removeClass("cur");
             }
-            console.log($(this).text());
             $(".tab-detail").show();
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             var id = $(this).parent("label").attr("data-index");
             currPopu = selectDefaulPopulation(id)[0];
-            console.log("current:", currPopu);
             getPopuTable(1);
 
         });
@@ -1132,10 +1120,8 @@
                         next: '>',
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
-                            console.log("oubj是什么")
-                            console.log(obj);
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                getPopuTable(obj.curr, currPopu);
+                                getPopuTable(obj.curr,currPopu);
                             }
                         }
                     });
@@ -1350,7 +1336,6 @@
             } else {
                 $(this).addClass("checkbox-ac");
                 GeneObj.gene = $(this).text().split("_")[0];
-                console.log(GeneObj.gene)
             }
         });
 
@@ -1363,7 +1348,6 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function(res) {
-                    console.log(res)
                     if(res.data.length > 0) {
                         var len = res.data.length;
                         var str = '';
@@ -1444,13 +1428,11 @@
             var o=[];
             var kindStor = JSON.parse(storage.getItem("kind"));
 
-            console.log(kindStor);
             for (var i=0;i<kindStor.name.length;i++){
                 if(kindStor.name[i].id == id){
                     o.push(kindStor.name[i]);
                 }
             };
-            console.log(o);
             return o;
         }
         // 根据ID获取选中的population
@@ -1481,7 +1463,6 @@
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
                     var selectedItem = selectPopulation(id);
-                    // console.log("selected", selectedItem);
                     selectedPopulations.push(selectedItem[0]);
                 }
             });
@@ -1489,7 +1470,6 @@
                 if($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
                     var selectedItem = selectDefaulPopulation(id);
-                    // console.log("selected", selectedItem);
                     selectedPopulations.push(selectedItem[0]);
                 }
             });
@@ -1530,7 +1510,6 @@
                 } else {
                     alert("请输入数字");
                 }
-
             },
             getGeneParams: function() {
                 GeneObj.upstream = $(".js-up-stream").val();
@@ -1576,217 +1555,5 @@
                 return GeneObj;
             }
         }
-        // 获取数据--》请求参数
-//        function getParamas1 (){
-//            var datas = {
-//                pageSize:paramData.pageSize,
-//                pageNum:paramData.pageNum,
-//                isPage:1
-//            };
-//            return datas;
-//        }
-//        // 分页
-//        var nums;
-//        var totalDatas;
-//        var intNums;
-//        var count;
-//        var page = {
-//            pageNum:1,
-//            pageSize:10
-//        }
-//        //每页展示的数量
-//        var paramData = {
-//            pageNum:page.pageNum,
-//            pageSize:page.pageSize
-//        };
-//        //ajax 请求
-//        function getData1(data){
-//            $.ajax({
-//                type:'GET',
-//                url:CTXROOT + "/dnarun/getByCultivar",
-//                data:data,
-//                contentType:"application/json",
-//                dataType:"json",
-//                success:function (result) {
-//                    console.log(result);
-//                    count = result.data.total;
-//                    if(count <40){
-//                        $("#page").css({"padding-left":"186px"});
-//                    }else {
-//                        $("#page").css({"padding-left":"10px"});
-//                    };
-//                    if(count == 0){
-//                        $("#paging").hide();
-//                        $("#errorImg").show();
-//                        $("#containerAdmin").css("height","754px");
-//                    }else{
-//                        totalDatas = result.data.list;
-//                        $("tab-detail-tbody table tbody tr").remove();
-//                        nums = Math.ceil(count / page.pageSize);
-//                        //舍弃小数之后的取整
-//                        intNums = parseInt(count / page.pageSize);
-//                        renderPopuTable(totalDatas);
-////                        $("")
-//                        pageStyle(nums,intNums);
-//                        $("#totals1").text(count);
-//                    }
-//                },
-//                error:function (error){
-//                    console.log(error);
-//                }
-//            })
-//        }
-//        // 每个group的点击事件
-////        $(".popNames li").click(function (){
-////            var liVal = $(this).text();
-////            var data = getParamas1();
-////            data.group = liVal;
-////            getData1(data);
-////        })
-//        // 样式调整方法
-//        function pageStyle(nums,intNums){
-//            if (nums > 4) {
-//                // $(".first").hide().next().text(1).next().hide();
-//                $(".first").next().text(1);
-//                $(".four").text(2).next().text(3).next().text(4);
-//                $(".eight").text(nums);
-//                $(".seven").show();
-//                $(".last").show();
-//            };
-//            if (intNums == 0) {
-//                styleChange();
-//                $(".two").text(1);
-//                $(".four").hide();
-//                $(".five").hide();
-//                $(".six").hide();
-//            }
-//            switch (nums) {
-//                case 1:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").hide();
-//                    $(".five").hide();
-//                    $(".six").hide();
-//                    break;
-//                case 2:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").text(2);
-//                    $(".five").hide();
-//                    $(".six").hide();
-//                    break;
-//                case 3:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").text(2);
-//                    $(".five").text(3);
-//                    $(".six").hide();
-//                    break;
-//                case 4:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").text(2);
-//                    $(".five").text(3);
-//                    $(".six").text(4);
-//                    break;
-//            }
-//        }
-//        // 显示隐藏样式封装
-//        function styleChange() {
-//            $(".three").hide();
-//            $(".first").hide();
-//            $(".seven").hide();
-//            $(".eight").hide();
-//            $(".last").hide();
-//        };
-//
-//        //每个页码的点击事件
-//        $("#page1>p").click(function (e) {
-//            //样式
-//            if (nums > 4) {
-//                $(".first").show();
-//                $(".three").show();
-//                $(".eight").text(nums);
-//            };
-//            var $p = $(e.target);
-//
-//            page.pageNum = parseInt($p.text());
-//            paramData.pageNum = page.pageNum;
-//            var selectedDatas = getParamas1();
-//            selectedDatas.pageNum = paramData.pageNum;
-//            selectedDatas.pageSize = paramData.pageSize;
-//            console.log(selectedDatas);
-//            getData1(selectedDatas);
-//            var plists = $p.siblings();
-//            for (var i = 0; i < plists.length; i++) {
-//                if ($(plists[i]).hasClass("pageColor")) {
-//                    $(plists[i]).removeClass("pageColor");
-//                }
-//            }
-//            $p.addClass("pageColor");
-//
-//        });
-//        // pageSize 选择事件
-//        $("#selectedNum1").change(function (e){
-//            var currentSelected = $("#selectedNum1 option:selected").text();
-//            page.pageSize = currentSelected;
-//            paramData.pageSize = page.pageSize;
-//            var selectedDatas = getParamas1();
-//            selectedDatas.pageNum = paramData.pageNum;
-//            selectedDatas.pageSize = paramData.pageSize;
-//            getData1(selectedDatas);
-//        })
-//        // "<" 点击事件
-//        $(".first").click(function () {
-//            var content6 = Number($(".six").text());
-//            var content4 = Number($(".four").text());
-//            var content5 = Number($(".five").text());
-//            if (content6 < nums) {
-//                $(".last").show();
-//                $(".seven").show();
-//            }
-//            if (content4 <= 2) {
-//                $(".first").hide().next().next().hide();
-//            } else {
-//                $(".six").text(content6 - 1);
-//                $(".four").text(content4 - 1);
-//                $(".five").text(content5 - 1);
-//            }
-//        })
-//        // enter 键盘事件
-//        $("#inputNum1").keydown(function(event){
-//            event=document.all?window.event:event;
-//            if((event.keyCode || event.which)==13){
-//                var selectedNum = $(this).val();
-//                page.pageNum = pageNum = selectedNum;
-//                paramData.pageNum = page.pageNum;
-//                var selectedDatas = getParamas1();
-//                selectedDatas.pageNum = paramData.pageNum;
-//                selectedDatas.pageSize = paramData.pageSize;
-//                getData1(selectedDatas);
-//            }
-//        });
-//        // ">" 点击事件
-//        $(".last").click(function () {
-//            var content6 = Number($(".six").text());
-//            var content4 = Number($(".four").text());
-//            var content5 = Number($(".five").text());
-//            var content2 = Number($(".two").text());
-//            if (content2 == 1) {
-//                $(".first").show();
-//                $(".three").show();
-//            }
-//
-//            if (content6 >= nums - 1) {
-//                $(".seven").hide();
-//                $(this).hide();
-//            } else {
-//                $(".six").text(content6 + 1);
-//                $(".four").text(content4 + 1);
-//                $(".five").text(content5 + 1);
-//            }
-//        })
-        // 分页 end
-
     })
 </script>

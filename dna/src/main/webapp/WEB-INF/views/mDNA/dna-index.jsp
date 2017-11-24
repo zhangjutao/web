@@ -194,6 +194,11 @@
 
                         </svg>
                     </div>
+                    <!--无数据时返回的页面-->
+                    <div id="errorShow">
+                        <%--<img src="${ctxStatic}" alt="errorLoge">--%>
+                        <p>暂无数据</p>
+                    </div>
                 </div>
                 <%--基因结构图 end--%>
                 <div class="tab">
@@ -205,7 +210,7 @@
                                 <button type="button" class="btn snp-set-up">表格设置</button>
                             </p>
                         </div>
-                        <div id="mask-test">
+                        <div id="mask-test" style="max-height:510px;">
                             <div class="genes-tab tab-txt-snps" style="height: auto;">
                                 <table class="js-snp-table" style="display:table;">
                                     <thead>
@@ -276,6 +281,11 @@
                                     <input id="search4" name="choices" type="hidden">
                                     <input class="total" name="total" type="hidden"/>
                                 </form>
+                            </div>
+                            <div id="tableErrorShow">
+                                    <p class="photos">
+                                        暂无数据
+                                    </p>
                             </div>
                         </div>
                         <div class="checkbox-item-tab" id="snp-paginate">

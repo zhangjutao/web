@@ -206,6 +206,26 @@ p.first{
     height:280px;
     overflow-x:scroll;
 }
+#errorShow,#tableErrorShow{
+    display:none;
+    width:885px;
+    height:280px;
+    text-align:center;
+}
+#tableErrorShow{
+    position: relative;
+    top: -296px;
+}
+#tableErrorShow p{
+    margin:0 auto;
+    text-align:center;
+    width:200px;
+}
+#errorShow p{
+    margin:0 auto;
+    text-align:center;
+    width:200px;
+}
 .tabTrColor{
     background:#5d8ce6!important;
      color:#fff;
