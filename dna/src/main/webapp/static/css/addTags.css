@@ -62,7 +62,7 @@
     font-size:5px;
 }
 /*// 分页*/
-#paging{
+#paging,#paging1{
     width:1204px;
     height:50px;
     /* border:1px solid #ccc; */
@@ -71,20 +71,27 @@
     margin-bottom:100px;
     overflow:hidden;
 }
-#page{
+#paging1{
+    width:955px;
+    display:none;
+    margin-bottom: 0px;
+}
+#page,#page1{
     overflow: hidden;
     float:right;
     /*padding-left: 250px;*/
     text-align:right;
     margin-right:10px;
-
+}
+#page1{
+    margin-right:10px;
 }
 p.first{
     margin-left:20px;
     /* font-size:20px; */
 }
 
-#page>p,#page>b{
+#page>p,#page>b,#page1>p,#page1>b{
     float:left;
     width:30px;
     height:30px;
@@ -95,13 +102,20 @@ p.first{
     /*margin:0 10px 0 0;*/
 
 }
+#page1>p,#page1>b{
+    width:28px;
+    height:28px;
+}
+#inputNums1>span{
+    float:left;
+}
 
-#page #inputNums{
+#page #inputNums,#page1 #inputNums1{
     float:left;
     overflow:hidden;
     padding-top:4px;
 }
-#inputNums>span,#inputNums>div,#inputNums>p{
+#inputNums>span,#inputNums>div,#inputNums>p，#inputNums1>span,#inputNums1>div,#inputNums1>p{
     float:left;
     margin-right:10px;
 }
@@ -118,18 +132,24 @@ p.first{
 .pageMleftB{
     padding-left:233px;
 }
-#inputNum{
+#inputNum,#inputNum1{
     width:62px;height:20px;
     text-align:center;
 }
-#inputNums{
+#inputNums,#inputNums1{
     heigth:32px;
     padding-top:6px;
     float:right;
     padding-right: 67px;
 }
-#selectedNum{
+#selectedNum,#selectedNum1{
     float:left;
+}
+#selectedNum1{
+    margin-right:10px;
+}
+#inputNum1{
+    width:40px;
 }
 /*分页 end*/
 
@@ -185,6 +205,26 @@ p.first{
     width:885px;
     height:280px;
     overflow-x:scroll;
+}
+#errorShow,#tableErrorShow{
+    display:none;
+    width:885px;
+    height:280px;
+    text-align:center;
+}
+#tableErrorShow{
+    position: relative;
+    top: -296px;
+}
+#tableErrorShow p{
+    margin:0 auto;
+    text-align:center;
+    width:200px;
+}
+#errorShow p{
+    margin:0 auto;
+    text-align:center;
+    width:200px;
 }
 .tabTrColor{
     background:#5d8ce6!important;
