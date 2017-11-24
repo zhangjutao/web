@@ -96,15 +96,23 @@
         )ORDER BY stru.start DESC
     </select>
 
+    <!--SELECT DISTINCT stru.*,c.bps FROM gens_structure stru LEFT JOIN dna_gens d ON d.gene_id=stru.gene_id
+    LEFT JOIN chrlg c ON stru.chromosome=c.chr
+    WHERE stru.chromosome=#{chromosome}
+    AND ((d.`gene_start` <![CDATA[ <= ]]> #{start} and d.`gene_end`>=#{start}) or
+    (d.`gene_start` <![CDATA[ <= ]]> #{end} AND d.`gene_end`>=#{end}) or
+    (d.gene_start>=#{start} and d.gene_end <![CDATA[ <= ]]> #{end}))
+    ORDER BY stru.start DESC-->
+    <!--stru.chromosome=#{chromosome} AND stru.start>=#{start} AND stru.end <![CDATA[ <= ]]> #{end}-->
     <select id="getByStartEnd" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
-        SELECT DISTINCT
+          SELECT
             stru.*, c.bps
         FROM
-            gens_structure stru
-        /*LEFT JOIN gens_sequence seq ON stru.gene_id = seq.gene_id*/
-         ,chrlg c
+            gens_structure stru,chrlg c
         WHERE
-            stru.chromosome=c.chr and stru.chromosome=#{chromosome} AND stru.start>=#{start} AND stru.end <![CDATA[ <= ]]> #{end}
+            stru.chromosome=c.chr and stru.chromosome=#{chromosome} AND ((stru.`start` <![CDATA[ <= ]]> #{start} and stru.`end`>=#{start}) or
+    (stru.`start` <![CDATA[ <= ]]> #{end} AND stru.`end`>=#{end}) or
+    (stru.start>=#{start} and stru.end <![CDATA[ <= ]]> #{end}))
             ORDER BY stru.start DESC
     </select>
 </mapper>
