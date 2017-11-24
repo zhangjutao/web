@@ -43,6 +43,46 @@
                     <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
+            <!-- 将当前class文件打包，exclude resouces下面文件 -->
+            <plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.3.2</version>
+                <executions>
+                    <execution>
+                        <id>makeJar</id>
+                        <phase>compile</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                        <configuration>
+                            <finalName>${project.artifactId}-1.0</finalName>
+                            <excludes>
+                                <exclude>*.xml</exclude>
+                            </excludes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- 将打包后的jar包安装到本地，这里我规定1.0版本jar包install到本地，所以mrna中也应该用1.0而不是SNAPSHOT -->
+            <plugin>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>2.5.2</version>
+                <executions>
+                    <execution>
+                        <phase>install</phase>
+                        <goals>
+                            <goal>install-file</goal>
+                        </goals>
+                        <configuration>
+                            <packaging>jar</packaging>
+                            <artifactId>${project.artifactId}</artifactId>
+                            <groupId>${project.groupId}</groupId>
+                            <version>1.0</version>
+                            <file>${project.build.directory}/${project.artifactId}-1.0.jar</file>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>
