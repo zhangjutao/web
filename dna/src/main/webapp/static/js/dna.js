@@ -38,13 +38,52 @@ $(function () {
         });
     }
     initPaginate();
-
+    // 点击品种名，获取品种信息；
+    function kindValParam (){
+        var divs = $(".js-cursom-add").find("div.js-ad-dd");
+        var paramK = {};
+        for (var i=0;i<divs.length;i++){
+            if($(divs[i]).find("label").hasClass("cur")){
+                var realK = $(divs[i]).find("div.label-txt").text().substring(0,3);
+                console.log(realK);
+                if(realK == "品种名"){
+                    paramK.name = $(divs[i]).find("div.label-txt").text().substring(0,$(divs[i]).find("div.label-txt").text().length-1);
+                    paramK.id =  Number($(divs[i]).find(".species-add").attr("data-index"));
+                    var conds =paramK.name.split(",");
+                    console.log(conds);
+                    // 存放 condition 品种信息
+                    var condName = [];
+                    for (var i=0;i<conds.length;i++){
+                        condName.push(conds[i].substring(3,conds[i].length-1));
+                    };
+                    paramK.condition = {
+                        cultivar:condName.join(",")
+                    };
+                }
+            }
+        };
+        return paramK;
+    }
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
-        // $(".page-tables").show();
-        // $(".page-circle").hide();
         var obj = getPanelParams();
-        console.log(obj);
+       var getKindSNames =  kindValParam();
+        var totalGroups = JSON.parse(obj.params.group)
+        totalGroups.push(getKindSNames);
+        console.log(totalGroups)
+       // 去掉null 值
+        debugger;
+
+        for (var i=0;i<totalGroups.length;i++){
+           if (!totalGroups[i]){
+               totalGroups.splice(i,1);
+           }
+       };
+        console.log(totalGroups)
+        console.log(JSON.stringify(totalGroups))
+       obj.params.group = JSON.stringify(totalGroups);
+       console.log(0900909)
+       console.log(obj);
         if(typeof obj == "object") {
             $(".page-tables").show();
             $(".page-circle").hide();
@@ -59,10 +98,7 @@ $(function () {
             renderSearchText();
             renderTableHead();
             }else {
-                if($("#GlyIds").is(":hidden")){
-                    $("#GlyIds").show();
-                }
-                $("#GlyIds").show()
+
                 var reginChr = $(".js-chorosome option:selected").text();
                 var reginStartPos = $(".js-start-position").val();
                 var reginEndPos = $(".js-end-position").val();
@@ -85,7 +121,6 @@ $(function () {
     });
     // 根据范围查询geneID 集合
     function requestForGeneId(data){
-        console.log(JSON.stringify(data));
         $.ajax({
             type:'POST',
             url:ctxRoot + "/dnagens/geneIds",
@@ -97,6 +132,23 @@ $(function () {
             dataType:"json",
             success:function (res){
                 console.log(res);
+
+                if (res.data.length == 0){
+                    $("#GlyIds").hide();
+                }else {
+                    if($("#GlyIds").is(":hidden")){
+                        $("#GlyIds").show();
+                    }
+                    $("#GlyIds").show();
+                    var GlyList = res.data;
+                    var $ul = $("#GlyIds ul");
+                    $ul.find("li").remove();
+                    for (var i=0;i<GlyList.length;i++){
+                        var $li = $("<li>" + GlyList[i] + "</li>");
+                        $ul.append($li);
+                    };
+                    // fn && fn();
+                }
             },
             error:function (error){
                 console.log(error);
@@ -170,12 +222,14 @@ $(function () {
         var params, url;
         if(panelType == "gene") {
             params = GetPanelParams.getGeneParams();
+
             url = CTXROOT + "/dna/searchSNPinGene";
         } else { // region
             params = GetPanelParams.getRegionParams();
-            console.log(params);
             url = CTXROOT + "/dna/searchSNPinRegion";
         }
+        console.log("gene::")
+        console.log(params);
         if(typeof params == "object"){
             return {
                 "params" :  params,
@@ -283,13 +337,13 @@ $(function () {
                     total = res.total;
                     drawGeneConstructor(res,"constructorPanel","tableBody");
                     if(url =="/dna/dna/searchSNPinRegion"){
-                        var GlyList = res.data;
-                        var $ul = $("#GlyIds ul");
-                        $ul.find("li").remove();
-                        for (var i=0;i<GlyList.length;i++){
-                            var $li = $("<li>" + GlyList[i].gene + "</li>");
-                            $ul.append($li);
-                        };
+                        // var GlyList = res.data;
+                        // var $ul = $("#GlyIds ul");
+                        // $ul.find("li").remove();
+                        // for (var i=0;i<GlyList.length;i++){
+                        //     var $li = $("<li>" + GlyList[i].gene + "</li>");
+                        //     $ul.append($li);
+                        // };
                         fn && fn();
                     };
                     maskClose("#mask-test");
@@ -956,36 +1010,13 @@ $(function () {
                     g.append("rect").attr("x",(geneConstructs[i].start-startPos1)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
                 }
             // }
-
-        //     var newArr = [];
-        // for (var i=0;i<snpLocalPoints.length;i++){
-        //         if(newArr.length == 0){
-        //             var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-        //             a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-        //             newArr.push(snpLocalPoints[0].pos)
-        //         }else{
-        //             for (var j=0;j<newArr.length;j++){
-        //                 //
-        //                 if(Math.abs(snpLocalPoints[i] -newArr[j]) >10){
-        //                     newArr.push(snpLocalPoints[i].pos);
-        //                     var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-        //                     a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-        //                     newArr.push(snpLocalPoints[0].pos)
-        //                 }else {
-        //                     i--;
-        //                     break;
-        //                 }
-        //             }
-        //         }
-        //
-        // }
             // 画snp 位点
                 var newArr = [];
                 for (var i=0;i<snpLocalPoints.length;i++){
                     for (var j=i+1;j<snpLocalPoints.length;j++){
-                        if(Math.abs(snpLocalPoints[i].pos - snpLocalPoints[j].pos)<10 ){
+                        if(Math.abs(snpLocalPoints[i].pos - snpLocalPoints[j].pos)<25 ){
                             var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                            a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
+                            a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 40).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
                             newArr.push(snpLocalPoints[i]);
                         }
                     }
@@ -1003,7 +1034,22 @@ $(function () {
                         }
                     }
                 }
-
+        // 点击每个snp位点重新获取数据
+        function getSnpPoint(){
+            $.ajax({
+                type:'GET',
+                url:ctxRoot + "/",
+                data:data,
+                contentType:"application/json",
+                dataType:"json",
+                success:function (result){
+                    console.log(result);
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        }
         // 每个snp位点的点击事件
         $("g a rect").click(function (e){
             var tabid = $(e.target).parent().attr("href").substring(1);
@@ -1020,6 +1066,8 @@ $(function () {
             }
             $("#" + tabid).addClass("tabTrColor");
             $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6");
+            // 调用每个位点获取数据；
+            // getSnpPoint()
         })
     }
     // 定义滚轮缩放

@@ -299,33 +299,6 @@
                                 </tr>
                                 </thead>
                                 <tbody style="overflow-x: scroll;width:730px;" id="tagTBody">
-                                <tr>
-                                    <td class="paramTag">
-                                        <input type="checkbox">
-                                    </td>
-                                    <td class="paramTag">品种名</td>
-                                    <td class="paramTag">群体</td>
-                                    <td class="paramTag">物种</td>
-                                    <td class="paramTag">位置</td>
-                                    <td class="paramTag">样品名</td>
-                                    <td class="paramTag">百粒重</td>
-                                    <td class="paramTag">蛋白质含量</td>
-                                    <td class="paramTag">熟期</td>
-                                    <td class="paramTag">株高</td>
-                                    <td class="paramTag">种皮色</td>
-                                    <td class="paramTag">种脐色</td>
-                                    <td class="paramTag">子叶色</td>
-                                    <td class="paramTag">花色</td>
-                                    <td class="paramTag">荚色</td>
-                                    <td class="paramTag">茸毛色</td>
-                                    <td class="paramTag">产量</td>
-                                    <td class="paramTag">顶端小叶长度</td>
-                                    <td class="paramTag">亚油酸</td>
-                                    <td class="paramTag">亚麻酸</td>
-                                    <td class="paramTag">油酸</td>
-                                    <td class="paramTag">软脂酸</td>
-                                    <td class="paramTag">硬脂酸</td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
@@ -486,39 +459,6 @@
     <div class="checkbox-item-tab" id="popu-paginate">
         <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
     </div>
-    <%--// 分页显示 begin--%>
-    <%--<div id="paging1">--%>
-        <%--<div id="inputNums1" style="position:relative;">--%>
-            <%--<span style="margin-right:10px;margin-left:25px;">跳转到</span>--%>
-            <%--<div style="margin-right:10px;position:relative;top:-3px;">--%>
-                <%--<input type="number" min="1" name="number" value="" id="inputNum1" >--%>
-            <%--</div>--%>
-            <%--<span style="margin-right:25px;">页</span>--%>
-            <%--<span style="margin-right:10px;">展示数量</span>--%>
-            <%--<div id="selectedNum1">--%>
-                <%--<select name="selected" id="selectSize1" style="width:40px;">--%>
-                    <%--<option value="10" selected = "true">10</option>--%>
-                    <%--<option value="10">20</option>--%>
-                    <%--<option value="10">30</option>--%>
-                    <%--<option value="10">40</option>--%>
-                <%--</select>--%>
-            <%--</div>--%>
-            <%--<span style="margin-right:25px;">/页</span>--%>
-            <%--<p style="margin:0px;">总数：<span id="totals1"></span> 条</p>--%>
-        <%--</div>--%>
-        <%--<div id="page1">--%>
-            <%--<b class="first">&lt;</b>--%>
-            <%--<p class="two"></p>--%>
-            <%--<b class="three">...</b>--%>
-            <%--<p class="four"></p>--%>
-            <%--<p class="five"></p>--%>
-            <%--<p class="six"></p>--%>
-            <%--<b class="seven">...</b>--%>
-            <%--<p class="eight"></p>--%>
-            <%--<b class="last">&gt;</b>--%>
-        <%--</div>--%>
-    <%--</div>--%>
-    <%--// 分页显示 end--%>
 
     <form id="exportForm" action="${ctxroot}/dna/dataExport" method="get">
         <input class="model" name="model" type="hidden" value="SAMPLES"/>
@@ -530,7 +470,19 @@
 
 <script>
     $(function(){
-
+        if(window.localStorage){
+            var storage = window.localStorage;
+        }else{
+            alert('This browser does NOT support localStorage');
+        }
+        var initKindVal = JSON.parse(storage.getItem("kind"));
+        if(initKindVal){
+           var initKindVals = initKindVal.name;
+            for (var i=0;i<initKindVals.length;i++){
+                var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + initKindVals[i].id + ">" + "<span></span><div class='label-txt'>" + initKindVals[i].name + "</div></label><i class='js-del-dd'>X</i></div>"
+                $(".js-cursom-add").append(div);
+            }
+        }
         function setCookie(name, value) {
             var Days = 30;
             var exp = new Date();
@@ -1418,11 +1370,7 @@
             "upstream": "",
             "downstream": ""
         };
-        if(window.localStorage){
-            var storage = window.localStorage;
-        }else{
-            alert('This browser does NOT support localStorage');
-        }
+
 //        根据id获取选中的品种名
         function selectKindVal (id){
             var o=[];
@@ -1463,6 +1411,8 @@
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
                     var selectedItem = selectPopulation(id);
+                    console.log("选中的geneid信息：")
+                    console.log(selectedItem);
                     selectedPopulations.push(selectedItem[0]);
                 }
             });

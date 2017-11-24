@@ -92,7 +92,6 @@ $(function (){
             var ki = {name:selContents,id:new Date().getTime()};
             kindStorage.name.push(ki);
             storage.setItem("kind",JSON.stringify(kindStorage));
-            var kindStor = JSON.parse(storage.getItem("kind"));
             var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + new Date().getTime() + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
             $(".js-cursom-add").append(div);
         }
@@ -101,6 +100,9 @@ $(function (){
     $("#tagTBody").on("click","input",function (e){
         var currentStatus = $(this).prop("checked");
         var selectedName =  $(this).parent().next().text();
+        if (!selectedName){
+            selectedName = $(this).parent().siblings().filter(".sampleNameT").text();
+        }
         if(currentStatus){
            var putName = "<span>品种名" + selectedName + "<i class='deleteSelected'>X</i></span>";
            $(".sample-text").append(putName);
