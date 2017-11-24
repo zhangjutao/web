@@ -210,7 +210,7 @@
                                 <button type="button" class="btn snp-set-up">表格设置</button>
                             </p>
                         </div>
-                        <div id="mask-test" style="max-height:510px;">
+                        <div id="mask-test">
                             <div class="genes-tab tab-txt-snps" style="height: auto;">
                                 <table class="js-snp-table" style="display:table;">
                                     <thead>
