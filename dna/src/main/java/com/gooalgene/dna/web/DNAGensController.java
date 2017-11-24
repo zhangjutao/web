@@ -101,14 +101,12 @@ public class DNAGensController {
         return flag;
     }
 
-    @RequestMapping(value = "/geneIds",method = RequestMethod.GET)
+    @RequestMapping(value = "/geneIds",method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public ResultVO geneIds(HttpServletRequest request, @RequestBody String param) {
-        JSONObject jsonObject1 = JSONObject.fromObject(param);
-        Map map = (Map) JSONObject.toBean(jsonObject1, Map.class);
-        String chr=(String)map.get("chr");
-        String end=(String)map.get("end");
-        String start=(String)map.get("start");
+    public ResultVO geneIds(@RequestBody Map<String, String> json) {
+        String chr = json.get("chr");
+        String start = json.get("start");
+        String end = json.get("end");
         return ResultUtil.success(dnaGensService.getByRegion(chr,start,end));
     }
 }
