@@ -1,5 +1,7 @@
 package com.gooalgene.dna.mockmvc;
 
+import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.service.DNAMongoService;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +22,7 @@ import org.springframework.test.web.servlet.MvcResult;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import javax.servlet.ServletOutputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,6 +38,9 @@ public class WjyTest {
     @Autowired
     private WebApplicationContext applicationContext;
     MockMvc mockMvc;
+
+    @Autowired
+    private DNAMongoService dnaMongoService;
 
     @Before
     public void setUp(){
@@ -52,17 +58,27 @@ public class WjyTest {
 
     @Test
     public void testExportData() throws Exception{
-        mockMvc.perform(get("/dna/searchSNPinRegion").contentType(MediaType.APPLICATION_JSON)
+        MvcResult mvcResult = mockMvc.perform(get("/dna/searchSNPinRegion").contentType(MediaType.APPLICATION_JSON)
                 .param("type", "SNP")
                 .param("ctype", "all")
-                .param("chr", "Chr01")
+                .param("chromosome", "Chr01")
                 .param("start", "0")
                 .param("end", "30000")
                 .param("pageNo", "1")
                 .param("pageSize", "10")
-                .param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]"))
+                .param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
+        )
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
+        String contentAsString = mvcResult.getResponse().getContentAsString();
+        ServletOutputStream outputStream = mvcResult.getResponse().getOutputStream();
+        System.out.println(contentAsString);
+    }
+
+    @Test
+    public void testMongo() throws Exception{
+        List<SNP> snps = dnaMongoService.searchIdAndPos("SNP", "all", "Chr01", "0", "30000");
+        System.out.println(snps);
     }
 }
