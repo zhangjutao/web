@@ -381,8 +381,12 @@
 <div id="mid"></div>
 <div class="tab-detail">
     <div class="tab-detail-thead">
-        <p><span>1</span>号群体属性信息
-            <a href="javascript:void(0)">X</a></p>
+        <p style="position:relative;">
+            <span style="display:inline-block;text-align:center;max-width:600px;overflow:hidden;text-overflow: ellipsis; white-space: nowrap;">1</span>
+            <i style="position:relative;top:-15px;color:#fff;">号群体/品种属性信息</i>
+
+            <a href="javascript:void(0)">X</a>
+        </p>
     </div>
     <div class="table-item popu-checkbox" style="display:none; box-shadow: none;">
         <div class="checkbox-item">
