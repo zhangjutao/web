@@ -206,6 +206,7 @@
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
         console.log('${ctxroot}');
+        console.log("${snp.id}")
         var AA = "${result.RefAndRefPercent}";
         var TT = "${result.totalAltAndAltPercent}";
         var AT = "${result.totalRefAndAltPercent}";
