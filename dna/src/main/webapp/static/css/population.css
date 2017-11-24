@@ -343,6 +343,7 @@ p.first{
 #selectedNum{
     float:left;
 }
+/*分页end */
 #errorImg{
     display:none;
     /*margin:0 auto;*/

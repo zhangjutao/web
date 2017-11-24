@@ -68,12 +68,18 @@ $(function (){
         getData(data,resetSaveStatus);
 
     })
+   // localstorage 存储选择的品种
+    if(window.localStorage){
+       var storage = window.localStorage;
+       var kindStorage = {};
+       kindStorage.name = [];
+    }else{
+        alert('This browser does NOT support localStorage');
+    }
     // 选择品种中的保存群体
     $(".saveKind").click(function (){
-        alert(444)
         // 先判断保存群体/品种的数量
         var numbs =$(".js-cursom-add2").find(".js-ad-dd").length;
-        console.log(numbs);
         if(numbs>10){
             alert("最多可添加10个群体")
         }else {
@@ -83,8 +89,14 @@ $(function (){
                 selContent += $(selKinds[i]).text() + ",";
             }
             var selContents = selContent.substring(0,selContent.length-1);
-            console.log(selContents);
-            var div = "<div class='js-ad-dd'><label class='species-add' title=" + selContents.split(",")[0] + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
+
+            // kindStorage.name.push(selContent);
+            var ki = {name:selContents,id:new Date().getTime()};
+            kindStorage.name.push(ki);
+            storage.setItem("kind",JSON.stringify(kindStorage));
+            var kindStor = JSON.parse(storage.getItem("kind"));
+            console.log(kindStor);
+            var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + new Date().getTime() + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
             $(".js-cursom-add").append(div);
         }
     })

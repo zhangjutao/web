@@ -332,7 +332,7 @@
 
                         <%--// 分页显示 begin--%>
                         <div id="paging" style="width:730px;margin-top:10px;margin-bottom:-5px;">
-                            <div id="inputNums" style="padding-right:9px;padding-top:0;">
+                            <div id="inputNums" style="padding-right:9px;padding-top:0;width:393px;">
                                 <span>跳转到</span>
                                 <div>
                                     <input type="number" min="1" name="number" value="" id="inputNum" >
@@ -482,7 +482,39 @@
     <div class="checkbox-item-tab" id="popu-paginate">
         <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
     </div>
-
+    <%--// 分页显示 begin--%>
+    <%--<div id="paging1">--%>
+        <%--<div id="inputNums1" style="position:relative;">--%>
+            <%--<span style="margin-right:10px;margin-left:25px;">跳转到</span>--%>
+            <%--<div style="margin-right:10px;position:relative;top:-3px;">--%>
+                <%--<input type="number" min="1" name="number" value="" id="inputNum1" >--%>
+            <%--</div>--%>
+            <%--<span style="margin-right:25px;">页</span>--%>
+            <%--<span style="margin-right:10px;">展示数量</span>--%>
+            <%--<div id="selectedNum1">--%>
+                <%--<select name="selected" id="selectSize1" style="width:40px;">--%>
+                    <%--<option value="10" selected = "true">10</option>--%>
+                    <%--<option value="10">20</option>--%>
+                    <%--<option value="10">30</option>--%>
+                    <%--<option value="10">40</option>--%>
+                <%--</select>--%>
+            <%--</div>--%>
+            <%--<span style="margin-right:25px;">/页</span>--%>
+            <%--<p style="margin:0px;">总数：<span id="totals1"></span> 条</p>--%>
+        <%--</div>--%>
+        <%--<div id="page1">--%>
+            <%--<b class="first">&lt;</b>--%>
+            <%--<p class="two"></p>--%>
+            <%--<b class="three">...</b>--%>
+            <%--<p class="four"></p>--%>
+            <%--<p class="five"></p>--%>
+            <%--<p class="six"></p>--%>
+            <%--<b class="seven">...</b>--%>
+            <%--<p class="eight"></p>--%>
+            <%--<b class="last">&gt;</b>--%>
+        <%--</div>--%>
+    <%--</div>--%>
+    <%--// 分页显示 end--%>
 
     <form id="exportForm" action="${ctxroot}/dna/dataExport" method="get">
         <input class="model" name="model" type="hidden" value="SAMPLES"/>
@@ -774,10 +806,12 @@
 
         /* 保存群体 */
         $(".sample-screening-btn button").click(function(){
+            console.log("保存群体")
             console.log(popuSamples);
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
             if(populations.length + defaultLen < 10){
                 var arr = [];
+                // popuSamples 存储保存的样本数据
                 for(var i in popuSamples) {
                     var obj = {};
                     obj[i] = popuSamples[i];
@@ -796,6 +830,7 @@
 
         // 向自定义群体添加
         function appendPopulation(obj) {
+            console.log("添加当前物种的id::" + obj.id);
             var str = "";
             str +="<div class='js-ad-dd'>"
             str +="    <label class='species-add' title='" + obj.name + "' data-index='"+ obj.id +"'>"
@@ -806,6 +841,9 @@
             $(".js-cursom-add").append(str);
             populations.push(obj);
             setCookie('populations', JSON.stringify(populations));
+            console.log("hahhaha")
+            var aaa = JSON.parse(getCookie('populations'));
+            console.log(aaa);
         }
 
         // 向自定义群体删除
@@ -949,54 +987,85 @@
             $(this).parent().remove();
             getSelectedPopulations();
         });
-
+        var kindNames = [];
         var currPopu = "";
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
             var currVal = $(this).text().split(",")[0].substring(0,3);
             var currKindList = $(this).text().split(",");
-            var kindNames = [];
+            kindNames = [];
             for (var i=0;i<currKindList.length;i++){
                 var name = currKindList[i].substring(3,currKindList[i].length-1);
                 kindNames.push(name);
             }
-            console.log("current:: " + currVal);
+            console.log("kindNames");
+            console.log(kindNames);
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
                 label.addClass("cur");
             }else{
                 label.removeClass("cur");
             }
-            console.log("hshsh")
-            console.log($(this).text());
             $(".tab-detail").show();
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             var id = $(this).parent("label").attr("data-index");
-            currPopu = selectPopulation(id)[0];
+            console.log("iiidddd:"+id)
+//            currPopu = selectPopulation(id)[0];
+            console.log("当前点击的ID");
             if(currVal == "品种名"){
+//                $("#popu-paginate").hide();
+//                $("#paging1").show();
+                currPopu = selectKindVal(id)[0];
                 var data = {
                     names:kindNames.join(",")
                 };
-                console.log("names:" +kindNames)
-                console.log(data);
-                getKindInfos(data);
+                getKindInfos(1);
+
             }else{
+//                $("#popu-paginate").show();
+//                $("#paging1").hide();
+                currPopu = selectPopulation(id)[0];
                 getPopuTable(1);
             }
 
         });
         // 选则品种 之后 详情页
-        function getKindInfos(data){
+        function getKindInfos(curr){
             $.ajax({
                 type:'GET',
                 url:CTXROOT + "/dnarun/getByCultivar",
-                data:data,
+//                data:data,
+                data:{
+                    names:kindNames.join(",")
+                },
                 contentType:"application/json",
                 dataType:"json",
                 success:function (result){
-                    console.log(result);
+                    renderPopuTable(result.data.list);
+                    laypage({
+                        cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(result.data.total / pageSizePopu), //通过后台拿到的总页数
+                        curr: curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(result.data.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            console.log("getKind");
+                                console.log(obj);
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+
+                                getKindInfos(obj.curr);
+//                                getKindInfos(obj.curr, currPopu);
+                            }
+                        }
+                    });
+                    $("#popu-paginate .total-page-count > span").html(result.data.total);
                 },
                 error:function (error){
                     console.log(error);
@@ -1049,6 +1118,7 @@
                 type: "POST",
                 dataType: "json",
                 success: function(res) {
+
                     renderPopuTable(res.data);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1062,6 +1132,8 @@
                         next: '>',
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
+                            console.log("oubj是什么")
+                            console.log(obj);
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 getPopuTable(obj.curr, currPopu);
                             }
@@ -1362,10 +1434,29 @@
             "upstream": "",
             "downstream": ""
         };
+        if(window.localStorage){
+            var storage = window.localStorage;
+        }else{
+            alert('This browser does NOT support localStorage');
+        }
+//        根据id获取选中的品种名
+        function selectKindVal (id){
+            var o=[];
+            var kindStor = JSON.parse(storage.getItem("kind"));
 
+            console.log(kindStor);
+            for (var i=0;i<kindStor.name.length;i++){
+                if(kindStor.name[i].id == id){
+                    o.push(kindStor.name[i]);
+                }
+            };
+            console.log(o);
+            return o;
+        }
         // 根据ID获取选中的population
         function selectPopulation(id) {
             var o = [];
+
             $.each(populations, function(idx, ele) {
                 if(ele.id == id) {
                     o.push(ele);
@@ -1485,5 +1576,217 @@
                 return GeneObj;
             }
         }
+        // 获取数据--》请求参数
+//        function getParamas1 (){
+//            var datas = {
+//                pageSize:paramData.pageSize,
+//                pageNum:paramData.pageNum,
+//                isPage:1
+//            };
+//            return datas;
+//        }
+//        // 分页
+//        var nums;
+//        var totalDatas;
+//        var intNums;
+//        var count;
+//        var page = {
+//            pageNum:1,
+//            pageSize:10
+//        }
+//        //每页展示的数量
+//        var paramData = {
+//            pageNum:page.pageNum,
+//            pageSize:page.pageSize
+//        };
+//        //ajax 请求
+//        function getData1(data){
+//            $.ajax({
+//                type:'GET',
+//                url:CTXROOT + "/dnarun/getByCultivar",
+//                data:data,
+//                contentType:"application/json",
+//                dataType:"json",
+//                success:function (result) {
+//                    console.log(result);
+//                    count = result.data.total;
+//                    if(count <40){
+//                        $("#page").css({"padding-left":"186px"});
+//                    }else {
+//                        $("#page").css({"padding-left":"10px"});
+//                    };
+//                    if(count == 0){
+//                        $("#paging").hide();
+//                        $("#errorImg").show();
+//                        $("#containerAdmin").css("height","754px");
+//                    }else{
+//                        totalDatas = result.data.list;
+//                        $("tab-detail-tbody table tbody tr").remove();
+//                        nums = Math.ceil(count / page.pageSize);
+//                        //舍弃小数之后的取整
+//                        intNums = parseInt(count / page.pageSize);
+//                        renderPopuTable(totalDatas);
+////                        $("")
+//                        pageStyle(nums,intNums);
+//                        $("#totals1").text(count);
+//                    }
+//                },
+//                error:function (error){
+//                    console.log(error);
+//                }
+//            })
+//        }
+//        // 每个group的点击事件
+////        $(".popNames li").click(function (){
+////            var liVal = $(this).text();
+////            var data = getParamas1();
+////            data.group = liVal;
+////            getData1(data);
+////        })
+//        // 样式调整方法
+//        function pageStyle(nums,intNums){
+//            if (nums > 4) {
+//                // $(".first").hide().next().text(1).next().hide();
+//                $(".first").next().text(1);
+//                $(".four").text(2).next().text(3).next().text(4);
+//                $(".eight").text(nums);
+//                $(".seven").show();
+//                $(".last").show();
+//            };
+//            if (intNums == 0) {
+//                styleChange();
+//                $(".two").text(1);
+//                $(".four").hide();
+//                $(".five").hide();
+//                $(".six").hide();
+//            }
+//            switch (nums) {
+//                case 1:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").hide();
+//                    $(".five").hide();
+//                    $(".six").hide();
+//                    break;
+//                case 2:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").text(2);
+//                    $(".five").hide();
+//                    $(".six").hide();
+//                    break;
+//                case 3:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").text(2);
+//                    $(".five").text(3);
+//                    $(".six").hide();
+//                    break;
+//                case 4:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").text(2);
+//                    $(".five").text(3);
+//                    $(".six").text(4);
+//                    break;
+//            }
+//        }
+//        // 显示隐藏样式封装
+//        function styleChange() {
+//            $(".three").hide();
+//            $(".first").hide();
+//            $(".seven").hide();
+//            $(".eight").hide();
+//            $(".last").hide();
+//        };
+//
+//        //每个页码的点击事件
+//        $("#page1>p").click(function (e) {
+//            //样式
+//            if (nums > 4) {
+//                $(".first").show();
+//                $(".three").show();
+//                $(".eight").text(nums);
+//            };
+//            var $p = $(e.target);
+//
+//            page.pageNum = parseInt($p.text());
+//            paramData.pageNum = page.pageNum;
+//            var selectedDatas = getParamas1();
+//            selectedDatas.pageNum = paramData.pageNum;
+//            selectedDatas.pageSize = paramData.pageSize;
+//            console.log(selectedDatas);
+//            getData1(selectedDatas);
+//            var plists = $p.siblings();
+//            for (var i = 0; i < plists.length; i++) {
+//                if ($(plists[i]).hasClass("pageColor")) {
+//                    $(plists[i]).removeClass("pageColor");
+//                }
+//            }
+//            $p.addClass("pageColor");
+//
+//        });
+//        // pageSize 选择事件
+//        $("#selectedNum1").change(function (e){
+//            var currentSelected = $("#selectedNum1 option:selected").text();
+//            page.pageSize = currentSelected;
+//            paramData.pageSize = page.pageSize;
+//            var selectedDatas = getParamas1();
+//            selectedDatas.pageNum = paramData.pageNum;
+//            selectedDatas.pageSize = paramData.pageSize;
+//            getData1(selectedDatas);
+//        })
+//        // "<" 点击事件
+//        $(".first").click(function () {
+//            var content6 = Number($(".six").text());
+//            var content4 = Number($(".four").text());
+//            var content5 = Number($(".five").text());
+//            if (content6 < nums) {
+//                $(".last").show();
+//                $(".seven").show();
+//            }
+//            if (content4 <= 2) {
+//                $(".first").hide().next().next().hide();
+//            } else {
+//                $(".six").text(content6 - 1);
+//                $(".four").text(content4 - 1);
+//                $(".five").text(content5 - 1);
+//            }
+//        })
+//        // enter 键盘事件
+//        $("#inputNum1").keydown(function(event){
+//            event=document.all?window.event:event;
+//            if((event.keyCode || event.which)==13){
+//                var selectedNum = $(this).val();
+//                page.pageNum = pageNum = selectedNum;
+//                paramData.pageNum = page.pageNum;
+//                var selectedDatas = getParamas1();
+//                selectedDatas.pageNum = paramData.pageNum;
+//                selectedDatas.pageSize = paramData.pageSize;
+//                getData1(selectedDatas);
+//            }
+//        });
+//        // ">" 点击事件
+//        $(".last").click(function () {
+//            var content6 = Number($(".six").text());
+//            var content4 = Number($(".four").text());
+//            var content5 = Number($(".five").text());
+//            var content2 = Number($(".two").text());
+//            if (content2 == 1) {
+//                $(".first").show();
+//                $(".three").show();
+//            }
+//
+//            if (content6 >= nums - 1) {
+//                $(".seven").hide();
+//                $(this).hide();
+//            } else {
+//                $(".six").text(content6 + 1);
+//                $(".four").text(content4 + 1);
+//                $(".five").text(content5 + 1);
+//            }
+//        })
+        // 分页 end
+
     })
 </script>
