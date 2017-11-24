@@ -6,8 +6,10 @@ import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -268,8 +270,11 @@ public class DNARunService {
     }
 
     public PageInfo<DNARun> getByCultivar(List<String> cultivars,Integer pageNum,Integer pageSize){
+        List<DNARun> list= Lists.newArrayList();
         PageHelper.startPage(pageNum,pageSize);
-        List<DNARun> list=dnaRunDao.getByCultivar(cultivars);
+        if(CollectionUtils.isNotEmpty(cultivars)){
+            list=dnaRunDao.getByCultivar(cultivars);
+        }
         return new PageInfo<>(list);
     }
 }
