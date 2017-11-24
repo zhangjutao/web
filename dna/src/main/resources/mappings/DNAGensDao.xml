@@ -75,11 +75,16 @@
     <delete id="deleteSpecificDNAGensInfo">
         DELETE FROM dna_gens WHERE LENGTH(geneName)>0 OR LENGTH(geneFunction)>0;
     </delete>
-    
-    <select id="getByRegion" resultType="string">
-        SELECT DISTINCT d.gene_id FROM dna_gens d,gens_structure g
+
+    <!--SELECT DISTINCT d.gene_id FROM dna_gens d,gens_structure g
         WHERE d.gene_id=g.gene_id  and g.chromosome=#{chr}
          AND (d.gene_start>=#{start} AND d.gene_end <![CDATA[ <= ]]> #{end}) OR
-         (d.gene_start <![CDATA[ <= ]]> #{start} or d.gene_end>=#{end})
+         (d.gene_start <![CDATA[ <= ]]> #{start} or d.gene_end>=#{end})-->
+    <select id="getByRegion" resultType="string">
+        SELECT DISTINCT d.gene_id FROM dna_gens d LEFT JOIN gens_structure g ON d.gene_id=g.gene_id
+        WHERE g.chromosome=#{chr}
+        AND ((d.`gene_start` <![CDATA[ <= ]]> #{start} and d.`gene_end`>=#{start}) or
+         (d.`gene_start` <![CDATA[ <= ]]> #{end} AND d.`gene_end`>=#{end}) or
+          (d.gene_start>=#{start} and d.gene_end <![CDATA[ <= ]]> #{end}))
     </select>
 </mapper>

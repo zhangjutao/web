@@ -59,7 +59,16 @@ $(function () {
                 if($("#GlyIds").is(":hidden")){
                     $("#GlyIds").show();
                 }
-                $("#GlyIds").show();
+                $("#GlyIds").show()
+                var reginChr = $(".js-chorosome option:selected").text();
+                var reginStartPos = $(".js-start-position").val();
+                var reginEndPos = $(".js-end-position").val();
+                var data = {
+                    chr:reginChr,
+                    start:reginStartPos,
+                    end:reginEndPos
+                };
+                requestForGeneId(data);
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -68,6 +77,22 @@ $(function () {
             }
         }
     });
+    // 根据范围查询geneID 集合
+    function requestForGeneId(data){
+        $.ajax({
+            type:'GET',
+            url:ctxRoot + "/dnagens/geneIds",
+            data:JSON.stringify(data),
+            contentType:"application/json",
+            dataType:"json",
+            success:function (res){
+                console.log(res);
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    }
     // 初始化第一个样式
         function initFirstStyle (){
             $("#GlyIds ul li:first-child").addClass("GlyColor");
@@ -937,23 +962,7 @@ $(function () {
                         }
                     }
                 }
-            //     console.log(newArr);
-                // if(i < snpLocalPoints.length - 1){
 
-                    // if((snpLocalPoints[i+1].pos - snpLocalPoints[i].pos)/10 >10){
-                    //     var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                    //     // a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-                    //     a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-                    // }else {
-                    //     var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                    //     a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 50).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-                    // }
-                // }else {
-                //     if((snpLocalPoints[i].pos - snpLocalPoints[i-1].pos)/10 >10){
-                //         var a = g1.append("a").attr("href","#" +snpLocalPoints[i].id);
-                //         a.append("rect").attr("x",(endPos - snpLocalPoints[i].pos)/10).attr("y",topY + 30).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor);
-                //     }
-                // }
         // 每个snp位点的点击事件
         $("g a rect").click(function (e){
             var tabid = $(e.target).parent().attr("href").substring(1);
@@ -972,8 +981,6 @@ $(function () {
             $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6");
         })
     }
-
-
     // 定义滚轮缩放
     var count = 1;
     $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
@@ -981,18 +988,14 @@ $(function () {
             (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
         if (delta > 0) {
             // 向上滚
-            console.log(count);
             count++;
             $(this).css("transform", "scale(" + count * 0.2 + ")");
-            console.log("wheelup");
 
         } else if (delta < 0) {
             // 向下滚
             count--;
-            console.log(count);
             if (count > 5 ) {
                 $(this).css("transform", "scale(" + count * 0.2 + ")");
-                console.log("wheeldown");
             }else {
                 count = 6;
             }

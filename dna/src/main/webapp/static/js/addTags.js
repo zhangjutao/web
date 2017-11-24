@@ -34,7 +34,6 @@ $(function (){
         data.group = currentGroup;
         getData(data);
         $(".popNames").hide();
-        console.log(currentGroup);
     })
 
     // 重置保存状态代码封装
@@ -43,7 +42,6 @@ $(function (){
         var selInputs = $(".sample-text").find("span");
         for (var i=0;i<selInputs.length;i++){
             var selInputsName = $(selInputs[i]).text().substring(3,$(selInputs[i]).text().length-1);
-            // console.log(selInputsName);
             for (var j=0;j<tdInputs.length;j++){
                 var tdParent = $(tdInputs[j]).parent().next().text();
                 if(tdParent==selInputsName){
@@ -68,12 +66,18 @@ $(function (){
         getData(data,resetSaveStatus);
 
     })
+   // localstorage 存储选择的品种
+    if(window.localStorage){
+       var storage = window.localStorage;
+       var kindStorage = {};
+       kindStorage.name = [];
+    }else{
+        alert('This browser does NOT support localStorage');
+    }
     // 选择品种中的保存群体
     $(".saveKind").click(function (){
-        alert(444)
         // 先判断保存群体/品种的数量
         var numbs =$(".js-cursom-add2").find(".js-ad-dd").length;
-        console.log(numbs);
         if(numbs>10){
             alert("最多可添加10个群体")
         }else {
@@ -83,8 +87,13 @@ $(function (){
                 selContent += $(selKinds[i]).text() + ",";
             }
             var selContents = selContent.substring(0,selContent.length-1);
-            console.log(selContents);
-            var div = "<div class='js-ad-dd'><label class='species-add' title=" + selContents.split(",")[0] + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
+
+            // kindStorage.name.push(selContent);
+            var ki = {name:selContents,id:new Date().getTime()};
+            kindStorage.name.push(ki);
+            storage.setItem("kind",JSON.stringify(kindStorage));
+            var kindStor = JSON.parse(storage.getItem("kind"));
+            var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + new Date().getTime() + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
             $(".js-cursom-add").append(div);
         }
     })
@@ -92,14 +101,11 @@ $(function (){
     $("#tagTBody").on("click","input",function (e){
         var currentStatus = $(this).prop("checked");
         var selectedName =  $(this).parent().next().text();
-        console.log(selectedName)
         if(currentStatus){
            var putName = "<span>品种名" + selectedName + "<i class='deleteSelected'>X</i></span>";
            $(".sample-text").append(putName);
-           console.log(selectedName);
         }else {
             var checkNames = $(".sample-text").find("span");
-            console.log(checkNames)
             for (var i=0;i<checkNames.length;i++){
                var checkName = $(checkNames[i]).text().substring(3,$(checkNames[i]).text().length-1);
                 if(selectedName == checkName){
@@ -112,11 +118,9 @@ $(function (){
     // 选中的品种点击X
     $(".sample-text").on("click",".deleteSelected",function (){
         var deleteName = $(this).parent().text().substring(3,$(this).parent().text().length-1);
-        console.log(deleteName);
         $(this).parent().remove();
         var selectedInputs = $("#tagTBody").find("input:checked");
         for(var i=0;i<selectedInputs.length;i++){
-            console.log($(selectedInputs[i]).parent().next().text());
             if($(selectedInputs[i]).parent().next().text() == deleteName){
                 $(selectedInputs[i]).removeAttr("checked");
             }
@@ -145,7 +149,6 @@ $(function (){
     // 选中品种按钮点击获取数据
     $("#kindSelect").click(function (){
         var data = getParamas();
-        console.log(data);
        getData(data);
     });
 
@@ -170,7 +173,6 @@ $(function (){
             url:CTXROOT + "/dna/condition",
             data:data,
             success:function (result) {
-                console.log(result);
                 count = result.data.total;
                 if(count <40){
                     $("#page").css({"padding-left":"186px"});
@@ -327,7 +329,6 @@ $(function (){
         var selectedDatas = getParamas();
         selectedDatas.pageNum = paramData.pageNum;
         selectedDatas.pageSize = paramData.pageSize;
-        console.log(selectedDatas);
         getData(selectedDatas,resetSaveStatus);
         var plists = $p.siblings();
         for (var i = 0; i < plists.length; i++) {
