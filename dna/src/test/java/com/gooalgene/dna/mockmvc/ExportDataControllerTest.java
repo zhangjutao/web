@@ -63,7 +63,7 @@ public class ExportDataControllerTest extends TestCase{
 
     @Test
     public void testSearchSNPInRegion() throws Exception{
-        mockMvc.perform(get("/searchSNPinRegion")
+        mockMvc.perform(get("/dna/searchSNPinRegion")
         .param("type","snp")
         .param("ctype","all")
         .param("chromosome","ch01")

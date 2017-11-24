@@ -217,7 +217,6 @@ public class SNPController {
         String upstream = request.getParameter("upstream");
         String downstream = request.getParameter("downstream");
         String group = request.getParameter("group");
-//      String conditions = request.getParameter("conditions");
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
         if (dnaGens != null) {
@@ -252,7 +251,7 @@ public class SNPController {
         String fileName = model;
         if (StringUtils.isNoneBlank(columns)) {
             if (StringUtils.isNoneBlank(model)) {
-                Map result = new HashMap();
+                Map result;
                  if ("REGION".equals(model)) {
                     String type = request.getParameter("type");
                     fileName += "_" + type;
@@ -262,7 +261,7 @@ public class SNPController {
                     String endPos = request.getParameter("end");
                     fileName += "_" + chr + "_Position:[" + startPos + "," + endPos + "]_" + ctype;
                     String group = request.getParameter("group");
-                     String temp=request.getParameter("total");       //获取数据的总数
+                    String temp=request.getParameter("total");       //获取数据的总数
                     Page<DNARun> page = new Page<DNARun>(request, response);
                      int total=0;
                      if(temp!=null&&!temp.equals("")) {
@@ -270,22 +269,22 @@ public class SNPController {
                      }else{
                          total=EXPORT_NUM;
                      }
-                        page.setPageSize(total);
-                    result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
-                    content = serialList(type, result, columns.split(","));
+                     page.setPageSize(total);
+                     result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+                     content = serialList(type,result,columns.split(","));
+
                 } else if ("GENE".equals(model)) {
-                    String type = request.getParameter("type");
-                    fileName += "_" + type;
-                    String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-                    String gene = request.getParameter("gene");
-                    String upstream = request.getParameter("upstream");
-                    String downstream = request.getParameter("downstream");
-                    fileName += "_" + gene + "Stream:[" + upstream + "," + downstream + "]_" + ctype;
-                    String group = request.getParameter("group");
+                     String type = request.getParameter("type");
+                     fileName += "_" + type;
+                     String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+                     String gene = request.getParameter("gene");
+                     String upstream = request.getParameter("upstream");
+                     String downstream = request.getParameter("downstream");
+                     fileName += "_" + gene + "Stream:[" + upstream + "," + downstream + "]_" + ctype;
+                     String group = request.getParameter("group");
                      String temp=request.getParameter("total");       //获取数据的总数
-//                    fileName += "_" + group;
-                    DNAGens dnaGens = dnaGensService.findByGene(gene);
-                    if (dnaGens != null) {
+                     DNAGens dnaGens = dnaGensService.findByGene(gene);
+                    if (dnaGens!= null) {
                         long start = dnaGens.getGeneStart();
                         long end = dnaGens.getGeneEnd();
                         logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
@@ -310,9 +309,8 @@ public class SNPController {
                     result=snpService.searchSNPinGene(type,ctype,gene,upstream,downstream,group,page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
-                    String group = request.getParameter("group");
-//                    fileName += "_" + group;
-                    Page<DNARun> page = new Page<DNARun>(request, response);
+                     String group = request.getParameter("group");
+                     Page<DNARun> page = new Page<DNARun>(request, response);
                      String temp=request.getParameter("total");       //获取数据的总数
                      int total=0;
                      if(temp!=null&&!temp.equals("")) {
@@ -421,15 +419,7 @@ public class SNPController {
             JSONArray data = (JSONArray) result.get("data");
             int size = data.size();
             for (int i = 0; i < size; i++) {
-
                 JSONObject one = data.getJSONObject(i);
-                // SNPDto snpDto=data.get(i);
-//                if (map.containsKey("ID")) {
-//                    sb.append(one.getString("id")).append(",");
-//                }
-//                if (map.containsKey("runNo")) {
-//                    sb.append(one.getString("runNo")).append(",");
-//                }
                 if (map.containsKey("species")) {
                     String species = one.getString("species");
                     sb.append((species != null ? species : "")).append(",");
@@ -450,10 +440,6 @@ public class SNPController {
                     Object weightPer100seeds = one.get("weightPer100seeds");
                     sb.append((weightPer100seeds != null ? weightPer100seeds : "")).append(",");
                 }
-//                if (map.containsKey("plantName")) {
-//                    String plantName = one.getString("plantName");
-//                    sb.append((plantName != null ? plantName : "")).append(",");
-//                }
                 if (map.containsKey("oil")) {
                     Object oil = one.get("oil");
                     sb.append((oil != null ? oil : "")).append(",");
@@ -556,7 +542,7 @@ public class SNPController {
                 }
                  JSONArray freq= (JSONArray) snpDto.getFreq();
                 if (map.containsKey("frequencyOfMajorAllele")) {
-                     sb.append(df.format(snpDto.getMajor())).append(",");
+                     sb.append(df.format(snpDto.getMajor())).append(",");        //对比例的数值进行格式化  保留两位小数  添加百分号
 
                     for (int j = 0; j < freq.size(); j++) {
                         JSONObject groupFreq = freq.getJSONObject(j);
@@ -576,7 +562,7 @@ public class SNPController {
                         float minorValue=Float.parseFloat(minor);
                         if (map.containsKey(name)) {
                             sb.append(minorValue+"%").append(",");
-                        }
+                    }
                     }
                 }
                 if(map.containsKey("GenoType")){
@@ -585,7 +571,7 @@ public class SNPController {
                     String RR=String.valueOf(df.format((double)hashMap.get("RefAndRefPercent")));
                     String tRA=String.valueOf(df.format((double)hashMap.get("totalRefAndAltPercent")));
                     String tAA=String.valueOf(df.format((double)hashMap.get("totalAltAndAltPercent")));
-                    String ref= snpDto.getRef();
+                    String ref=snpDto.getRef();
                     String alt=snpDto.getAlt();
                     String ra=ref+alt;
                     sb.append(ref+ref+":"+RR+"，"+alt+alt+":"+tAA+"，"+ra+":"+tRA);
@@ -594,38 +580,29 @@ public class SNPController {
             }
         } else if ("INDEL".equals(model)) {
             List<SNPDto> data= (List<SNPDto>) result.get("data");
-
             int size = data.size();
             for (int i = 0; i < size; i++) {
                   SNPDto snpDto=data.get(i);
-
                 if (map.containsKey("INDELID")) {
                       sb.append(snpDto.getId()).append(",");
-
                 }
                 if (map.containsKey("consequenceType")) {
                       sb.append(snpDto.getConsequencetype()).append(",");
-
                 }
                 if (map.containsKey("chromosome")) {
                       sb.append(snpDto.getChr()).append(",");
-
                 }
                 if (map.containsKey("position")) {
                       sb.append(snpDto.getPos()).append(",");
-
                 }
                 if (map.containsKey("reference")) {
                       sb.append(snpDto.getRef()).append(",");
-
                 }
                 if (map.containsKey("majorAllele")) {
                       sb.append(snpDto.getMajorallen()).append(",");
-
                 }
                 if (map.containsKey("minorAllele")) {
                       sb.append(snpDto.getMinorallen()).append(",");
-
                 }
                 JSONArray freq= (JSONArray) snpDto.getFreq();
 
@@ -652,14 +629,12 @@ public class SNPController {
                 }
                 sb.append("\n");
             }
-        } else {
-
-        }
+        }else{};
         return sb.toString();
     }
 
-
-    //    @RequestMapping(value = "/insertSNP")
+    //此方法为原来 导入数据的方法  目前未使用
+    @RequestMapping(value = "/insertSNP")
     @ResponseBody
     public String insertSNP(HttpServletRequest request, HttpServletResponse response) {
         String fileName = "E:\\古奥科技资料\\DNA\\snp.test.tab";
@@ -667,8 +642,8 @@ public class SNPController {
         return "success";
     }
 
-
-    //    @RequestMapping(value = "/insertDNAGenes")
+    //此方法为原来 导入数据的方法  目前未使用
+    @RequestMapping(value = "/insertDNAGenes")
     @ResponseBody
     public String insertDNAGene(HttpServletRequest request, HttpServletResponse response) {
         String efile = "E:\\古奥科技资料\\DNA\\gma2.0_ID_name_function_locus_noscaffold";
@@ -708,8 +683,8 @@ public class SNPController {
         return "success";
     }
 
-
-//    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    //此方法为原来 导入数据的方法  目前未使用
+    @RequestMapping(value = "/insert", method = RequestMethod.GET)
     @ResponseBody
     public String insert(HttpServletRequest request, HttpServletResponse response) {
         String efile = "F:\\古奥科技\\20171107soyDNA_sampleinfo_withgroupV1.1.xls";
@@ -914,7 +889,6 @@ public class SNPController {
                     }
                     list.add(dnaRun);
                     System.out.println("\n");
-//                    break;
                 } else {
                     System.out.println("empty line.");
                 }

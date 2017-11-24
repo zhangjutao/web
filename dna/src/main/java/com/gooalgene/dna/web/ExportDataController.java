@@ -7,7 +7,6 @@ import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.dna.util.Json2DnaRunDto;
 import com.gooalgene.utils.JsonUtils;
 import net.sf.json.JSONObject;
-import org.apache.commons.collections.map.HashedMap;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import java.io.*;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Created by liuyan on 2017/11/13
  *
@@ -32,28 +33,37 @@ public class ExportDataController {
 
     private static List<String> dnaList=new ArrayList<String>();
 
+    //用于群体信息数据导出
+
     @RequestMapping(value = "/export", method = RequestMethod.GET,produces ="application/json")
     @ResponseBody
     public String exportData(HttpServletRequest request) throws IOException {
-
+        //接收的参数 title 表头信息  condition 表头的筛选条件
         String choices=request.getParameter("titles");
         String temp=request.getParameter("condition");
         JSONObject object=null;
+        //dnaRunDto用来存储表头筛选的条件
         DnaRunDto dnaRunDto = null;
         if(temp!=null&&!temp.equals("")){
             object=JSONObject.fromObject(temp);
             dnaRunDto = Json2DnaRunDto.json2DnaRunDto(object);
+        }else {
+            dnaRunDto=new DnaRunDto();
         }
 
         String titles="";
+        //此处condition 用来表示表头信息
         String[] condition=null;
 
         if(choices!=null&&!choices.equals("")){
              titles=choices.substring(0, choices.length() - 1);
              condition=titles.split(",");
+        }else{
+             condition=",".split(",");
         }
         String fileName="";
-        List<String> list=new ArrayList<>();
+
+        //生成文件名
         if(condition.length>5){
             for (int i=0;i<5;i++){
                 fileName+=condition[i]+"-";
@@ -64,24 +74,24 @@ public class ExportDataController {
             }
         }
 
-        for (int i=0;i<condition.length;i++){
-            list.add(condition[i]);
-            logger.info(condition[i]);
-        }
         fileName+= UUID.randomUUID()+".csv";
+
         String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile\\";
         String csvStr="";
         List<DNARun> result=dnaRunDao.getListByCondition(dnaRunDto);
 
         //使用csv进行导出
-        csvStr=createCsvStr(result,condition);
+        if(choices==null||choices.equals("")){
+            csvStr="请正确选择表格内容";
+        }else {
+            csvStr=createCsvStr(result,condition);
+        }
         File tempfile=new File(filePath+fileName);
         if (!tempfile.getParentFile().exists()){
                  if (!tempfile.getParentFile().mkdirs()){
                      return "文件目录创建失败";
                  }
         }
-
         FileOutputStream tempFile=new FileOutputStream(tempfile);
         tempFile.write(csvStr.getBytes("gbk"));
         tempFile.flush();
@@ -110,7 +120,6 @@ public class ExportDataController {
         map.put("species", "Species");
         map.put("sampleName", "Sample Name");
         map.put("cultivar", "Cultivar");
-       // map.put("plantName", "Plant Name");
         map.put("locality", "Locality");
         map.put("protein", "Protein");
         map.put("oil", "Oil");
@@ -143,7 +152,7 @@ public class ExportDataController {
 
     public static String  createCsvStr(List<DNARun> result,String[] titles){
         StringBuilder sb=new StringBuilder();
-        Map<String,Integer> map=new HashedMap();
+        Map<String,Integer> map=new ConcurrentHashMap<>();
         Map<String,String> titleMap=changeCloumn2Web();
         int len=titles.length;
         for(int i=0;i<len;i++){
