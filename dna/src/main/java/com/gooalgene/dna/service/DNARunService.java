@@ -269,6 +269,7 @@ public class DNARunService {
 
     public PageInfo<DNARun> getByCultivar(List<String> cultivars,Integer pageNum,Integer pageSize){
         PageHelper.startPage(pageNum,pageSize);
-        return new PageInfo<>(dnaRunDao.getByCultivar(cultivars));
+        List<DNARun> list=dnaRunDao.getByCultivar(cultivars);
+        return new PageInfo<>(list);
     }
 }
