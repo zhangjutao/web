@@ -52,20 +52,17 @@ public class WjyTest {
 
     @Test
     public void testExportData() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get("/searchSNPinRegion").contentType(MediaType.APPLICATION_JSON)
+        mockMvc.perform(get("/dna/searchSNPinRegion").contentType(MediaType.APPLICATION_JSON)
                 .param("type", "SNP")
                 .param("ctype", "all")
                 .param("chr", "Chr01")
-                .param("startPos", "0")
-                .param("endPos", "30000")
-                .param("endPos", "30000")
+                .param("start", "0")
+                .param("end", "30000")
                 .param("pageNo", "1")
                 .param("pageSize", "10")
-                .param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
-        )
+                .param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
-        System.out.println(mvcResult.getResponse().getContentAsString());
     }
 }
