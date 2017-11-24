@@ -54,7 +54,7 @@ $(function () {
                     // 存放 condition 品种信息
                     var condName = [];
                     for (var i=0;i<conds.length;i++){
-                        condName.push(conds[i].substring(3,conds[i].length-1));
+                        condName.push(conds[i].substring(3,conds[i].length));
                     };
                     paramK.condition = {
                         cultivar:condName.join(",")
@@ -69,21 +69,17 @@ $(function () {
         var obj = getPanelParams();
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
-        totalGroups.push(getKindSNames);
-        console.log(totalGroups)
-       // 去掉null 值
-        debugger;
+        if(JSON.stringify(getKindSNames) != "{}"){
+            totalGroups.push(getKindSNames);
+        }
 
+       // 去掉null 值
         for (var i=0;i<totalGroups.length;i++){
            if (!totalGroups[i]){
                totalGroups.splice(i,1);
            }
        };
-        console.log(totalGroups)
-        console.log(JSON.stringify(totalGroups))
        obj.params.group = JSON.stringify(totalGroups);
-       console.log(0900909)
-       console.log(obj);
         if(typeof obj == "object") {
             $(".page-tables").show();
             $(".page-circle").hide();
@@ -98,7 +94,6 @@ $(function () {
             renderSearchText();
             renderTableHead();
             }else {
-
                 var reginChr = $(".js-chorosome option:selected").text();
                 var reginStartPos = $(".js-start-position").val();
                 var reginEndPos = $(".js-end-position").val();
@@ -222,7 +217,6 @@ $(function () {
         var params, url;
         if(panelType == "gene") {
             params = GetPanelParams.getGeneParams();
-
             url = CTXROOT + "/dna/searchSNPinGene";
         } else { // region
             params = GetPanelParams.getRegionParams();
@@ -313,7 +307,8 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                // res.data = null;
+               console.log("forRegin snp")
+               console.log(res)
                 // 如果返回值为空，则隐藏
                 if(res.data == null){
                     // alert("返回值为空时,则隐藏对应的元素");
@@ -1065,7 +1060,7 @@ $(function () {
                 }
             }
             $("#" + tabid).addClass("tabTrColor");
-            $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6");
+            $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6!important");
             // 调用每个位点获取数据；
             // getSnpPoint()
         })
