@@ -227,7 +227,7 @@ public class SNPController {
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         //Page<DNARun> page = new Page<DNARun>(request, response);
         Map result=Maps.newHashMap();
-        List<SNP> snps=dnaMongoService.searchIdAndPosInRegin(type, ctype, chr, startPos, endPos, null);
+        List<SNP> snps=dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
         result.put("snps",snps);
         List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
         result.put("dnaGenStructures",dnaGenStructures);

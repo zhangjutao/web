@@ -64,7 +64,7 @@ public class WjyTest {
                 .param("ctype", "all")
                 .param("chromosome", "Chr01")
                 .param("start", "0")
-                .param("end", "30000")
+                .param("end", "100000")
                 //.param("pageNo", "1")
                 //.param("pageSize", "10")
                 //.param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
@@ -79,7 +79,7 @@ public class WjyTest {
 
     @Test
     public void testMongo() throws Exception{
-        List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("SNP", "all", "Chr01", "0", "30000",null);
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("INDEL", "all", "Chr01", "0", "100000",null);
         System.out.println(snps);
     }
 }
