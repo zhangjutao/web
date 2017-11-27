@@ -418,7 +418,6 @@ $(function (){
         }
     })
     // 分页 end
-    console.log(initKindVal)
     if(initKindVal){
         var initKindVals = initKindVal.name;
         for (var i=0;i<initKindVals.length;i++){

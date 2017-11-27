@@ -77,8 +77,11 @@ $(function () {
                totalGroups.splice(i,1);
            }
        };
+        console.log(obj);
+        // console.error(selectedPopulations)
        obj.params.group = JSON.stringify(totalGroups);
         if(typeof obj == "object") {
+            console.warn(obj);
             $(".page-tables").show();
             $(".page-circle").hide();
             CTypeSnp = "all";
@@ -101,6 +104,7 @@ $(function () {
                     end:reginEndPos
                 };
                 requestForGeneId(data);
+                getAllSnpInfos(1,obj.params);
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -112,6 +116,25 @@ $(function () {
             // alert("输入条件返回不符合要求，则隐藏部分元素 ");
         }
     });
+    // 根据范围查询所有的snp位点信息
+    function getAllSnpInfos(curr, params){
+        params['pageNo'] = curr || 1;
+        params['pageSize'] = pageSizeSNP;
+        params['type'] = 'SNP';
+        params['ctype'] = CTypeSnp;
+        $.ajax({
+            url:ctxRoot + "/dna/searchIdAndPosInRegion",
+            data: params,
+            type: "POST",
+            dataType: "json",
+            success: function(res) {
+                console.warn(res);
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    }
     // 根据范围查询geneID 集合
     function requestForGeneId(data){
         $.ajax({
@@ -897,9 +920,9 @@ $(function () {
         var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
         var endPos1 = endPos-2000;
         var geneLength = endPos - startPos;
-        console.log(startPos)
-        console.log(endPos)
-        console.log(geneLength)
+        // console.log(startPos)
+        // console.log(endPos)
+        // console.log(geneLength)
        d3.select("#" + id).selectAll("svg").remove();
        // 创建一个svg 元素
         var svgTotal = $("#" + id).width();
@@ -939,13 +962,16 @@ $(function () {
         if (svgLength >885){
             var intervalNums = geneLength/100;
             // console.warn(intervalNums)
+
             // 每份的长度
-            ttdistance = geneLength/intervalNums;
+            // ttdistance = geneLength/intervalNums;
+            ttdistance =100;
         }else {
             var intervalNums = svgLength/10;
             // console.warn(intervalNums)
             // 每份的长度
-            ttdistance = geneLength/intervalNums;
+            // ttdistance = geneLength/intervalNums;
+            ttdistance = geneLength/10;
         }
         // console.error(ttdistance)
         for (var i=0;i<intervalNums;i++){
@@ -1016,7 +1042,6 @@ $(function () {
                 }
             // }
             // 画snp 位点
-
                     var newArr = [];
                     for(var i=0;i<snpLocalPoints.length;i++){
                         var obj = {x:0,y:0,id:""};
@@ -1085,25 +1110,25 @@ $(function () {
         })
     }
     // 定义滚轮缩放
-    var count = 1;
-    $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
-        var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
-            (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
-        if (delta > 0) {
-            // 向上滚
-            count++;
-            $(this).css("transform", "scale(" + count * 0.2 + ")");
-
-        } else if (delta < 0) {
-            // 向下滚
-            count--;
-            if (count > 5 ) {
-                $(this).css("transform", "scale(" + count * 0.2 + ")");
-            }else {
-                count = 6;
-            }
-        }
-    });
+    // var count = 1;
+    // $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
+    //     var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
+    //         (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
+    //     if (delta > 0) {
+    //         // 向上滚
+    //         count++;
+    //         $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //
+    //     } else if (delta < 0) {
+    //         // 向下滚
+    //         count--;
+    //         if (count > 5 ) {
+    //             $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //         }else {
+    //             count = 6;
+    //         }
+    //     }
+    // });
     // 设置缩放点
     // to dao
     // $("#geneConstruction").mousemove(function (e){

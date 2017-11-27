@@ -164,7 +164,7 @@ $(function (){
     function getParamas (){
         var datas={
             cultivar:$(".cultivarI").val(),  // 品种名
-            population:popuSelectedVal, // 群体
+            group:popuSelectedVal, // 群体
             species:$(".speciesI").val(),// 物种
             locality:$(".localityI").val(), // 位置
             sampleName:$(".sampleNameI").val(), // 样品名
