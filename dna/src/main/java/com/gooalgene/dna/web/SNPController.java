@@ -126,6 +126,7 @@ public class SNPController {
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
                                  @RequestParam(value = "isPage",required = false)String isPage,
                                  DnaRunDto dnaRunDto) {
+            logger.info(dnaRunDto.getGroup());
             PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize,isPage);
             return ResultUtil.success(dnaRunPageInfo);
 

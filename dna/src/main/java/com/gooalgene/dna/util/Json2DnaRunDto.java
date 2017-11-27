@@ -15,7 +15,7 @@ public class Json2DnaRunDto {
         dnaRunDto.setSpecies(object.getString("species"));
         dnaRunDto.setLocality(object.getString("locality"));
         dnaRunDto.setSampleName(object.getString("sampleName"));
-        dnaRunDto.setGroup(object.getString("group"));
+        dnaRunDto.setGroup(object.getString("population"));
         CompareHelper c1=new CompareHelper();
         c1.setOperation(object.getString("weightPer100seeds.operation"));
         c1.setValue(Float.parseFloat(object.getString("weightPer100seeds.value").equals("")?"0":object.getString("weightPer100seeds.value")));
