@@ -97,6 +97,8 @@ $(function () {
                 renderTableHead();
             }else {
                 // 根据范围查询
+                // pageSize获取
+                var SnpPageSize = $(".laypage_skip").val();
                 var reginChr = $(".js-chorosome option:selected").text();
                 var reginStartPos = $(".js-start-position").val();
                 var reginEndPos = $(".js-end-position").val();
@@ -106,7 +108,7 @@ $(function () {
                     end:reginEndPos
                 };
                 requestForGeneId(data);
-                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr);
+                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize);
                 getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2");
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
@@ -909,7 +911,7 @@ $(function () {
                 }
             })
     // 基因结构图
-    function drawGeneConstructor(result,id,tabId,reginChr,type){
+    function drawGeneConstructor(result,id,tabId,reginChr,type,SnpPageSize){
         // 参考值
         console.warn(result.data.snps);
         var ttdistance;
@@ -1092,6 +1094,7 @@ $(function () {
                     singleData.id = $(allSnpNum[i]).parent().attr("href").substring(1);
                     singleData.type = type;
                     singleData.chr = reginChr;
+                    singleData.pageSize = SnpPageSize;
                     break;
                 }
             }
@@ -1111,7 +1114,7 @@ $(function () {
             })
         }
         // 每个snp位点的点击事件
-        $("#snpAll a rect").click(function (e){
+            $("#snpAll a rect").click(function (e){
             var tabid = $(e.target).parent().attr("href").substring(1);
             var trlist = $("#" + tabId).find("tr");
             for (var i=0;i<trlist.length;i++){
