@@ -356,11 +356,11 @@
                                     <input class="total" name="total" type="hidden"/>
                                 </form>
                             </div>
-                            <div id="tableErrorShow">
-                                    <p class="photos">
-                                        暂无数据
-                                    </p>
-                            </div>
+                            <%--<div id="tableErrorShow">--%>
+                                    <%--<p class="photos">--%>
+                                        <%--暂无数据--%>
+                                    <%--</p>--%>
+                            <%--</div>--%>
                         </div>
                         <div class="checkbox-item-tab" id="snp-paginate">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>

@@ -90,10 +90,10 @@ $(function () {
                 if(!$("#GlyIds").is(":hidden")){
                     $("#GlyIds").hide();
                 }
-            requestForSnpData(1, obj.url, obj.params);
-            requestForIndelData(1, obj.url, obj.params);
-            renderSearchText();
-            renderTableHead();
+                requestForSnpData(1, obj.url, obj.params);
+                requestForIndelData(1, obj.url, obj.params);
+                renderSearchText();
+                renderTableHead();
             }else {
                 var reginChr = $(".js-chorosome option:selected").text();
                 var reginStartPos = $(".js-start-position").val();
@@ -904,7 +904,6 @@ $(function () {
     function drawGeneConstructor(result,id,tabId){
         // 参考值
         var ttdistance;
-        // debugger;
         if(result.dnaGenStructures.length==0){
             var direction = -1;
         }else {
