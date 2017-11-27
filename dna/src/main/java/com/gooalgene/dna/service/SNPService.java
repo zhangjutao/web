@@ -119,7 +119,6 @@ public class SNPService {
     }
 
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -145,10 +144,6 @@ public class SNPService {
         }
         result.put("geneIds",geneIds);
         result.put("data", data);
-        result.put("dnaGenStructures",dnaGenStructures);
-        if(CollectionUtils.isNotEmpty(dnaGenStructures)){
-            result.put("bps",dnaGenStructures.get(0).getBps());
-        }
         return result;
     }
 
