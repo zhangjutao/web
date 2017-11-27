@@ -11,6 +11,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
@@ -244,10 +246,16 @@ public class DNAMongoService {
 
             Query query = new Query();
             query.addCriteria(criteria);
+            long all = mongoTemplate.count(query, SNP.class, collectionName);
+            logger.info("all number : " + all);
+            Pageable pageable = new PageRequest(index, pageSize);
+            query.with(pageable);
+            query.fields().exclude("samples");
             logger.info("Query:" + query.toString());
-            query.skip(index);
-            query.limit(pageSize);
+//            query.skip(index);
+//            query.limit(pageSize);
             Long start=System.currentTimeMillis();
+            // TODO: 11/27/17 不要将文档中所有信息都映射为SNP对象,该处经常超时
             result = mongoTemplate.find(query, SNP.class, collectionName);
             Long end=System.currentTimeMillis()-start;
         } else {

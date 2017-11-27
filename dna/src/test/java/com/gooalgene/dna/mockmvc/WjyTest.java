@@ -3,6 +3,7 @@ package com.gooalgene.dna.mockmvc;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.service.DNAMongoService;
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy(@ContextConfiguration(locations ={"classpath:spring-context.xml", "classpath:spring-mvc.xml","classpath:spring-security.xml"} ))
-public class WjyTest {
+public class WjyTest extends TestCase {
 
     @Autowired
     private WebApplicationContext applicationContext;
@@ -80,7 +81,7 @@ public class WjyTest {
     @Test
     public void testMongo() throws Exception{
         //List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("INDEL", "all", "Chr01", "0", "100000",null);
-        List<SNP> snps = dnaMongoService.findDataByIndex("SNP","Chr01","GlyS001055310",1430,10,"0","55555");
-        System.out.println(snps);
+        List<SNP> snps = dnaMongoService.findDataByIndex("SNP","Chr01","GlyS001055310",140,10,"0","55555");
+        assertEquals(10, snps.size());
     }
 }
