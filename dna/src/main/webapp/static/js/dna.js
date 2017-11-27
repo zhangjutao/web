@@ -109,7 +109,7 @@ $(function () {
                 };
                 requestForGeneId(data);
                 getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize);
-                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2");
+                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize);
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -913,7 +913,6 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,SnpPageSize){
         // 参考值
-        console.warn(result.data.snps);
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1052,6 +1051,8 @@ $(function () {
                 }
             // }
             // 画snp 位点
+                console.log(234345);
+                console.log(snpLocalPoints);
                     var newArr = [];
                     for(var i=0;i<snpLocalPoints.length;i++){
                         var obj = {x:0,y:0,id:""};
@@ -1086,6 +1087,7 @@ $(function () {
         // 点击每个snp位点重新获取数据
         function getSnpPoint(tabid){
             var allSnpNum = $("#snpAll rect");
+            alert(allSnpNum.length);
             console.error(allSnpNum);
             var singleData = {};
             for(var i=0;i<allSnpNum.length;i++){

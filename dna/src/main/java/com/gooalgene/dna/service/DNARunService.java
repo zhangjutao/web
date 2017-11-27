@@ -41,6 +41,7 @@ public class DNARunService {
      * @return
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
+        group="[]";
         Map<String, List<String>> result = new HashMap();
         if (StringUtils.isNotBlank(group)) {
             JSONArray data = JSONArray.fromObject(group);
