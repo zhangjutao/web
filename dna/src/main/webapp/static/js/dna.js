@@ -86,6 +86,7 @@ $(function () {
             $(".page-circle").hide();
             CTypeSnp = "all";
             CTypeIndel = "all";
+            // 根据基因查询
             if(obj.url == "/dna/dna/searchSNPinGene"){
                 if(!$("#GlyIds").is(":hidden")){
                     $("#GlyIds").hide();
@@ -95,6 +96,7 @@ $(function () {
                 renderSearchText();
                 renderTableHead();
             }else {
+                // 根据范围查询
                 var reginChr = $(".js-chorosome option:selected").text();
                 var reginStartPos = $(".js-start-position").val();
                 var reginEndPos = $(".js-end-position").val();
@@ -129,6 +131,7 @@ $(function () {
             dataType: "json",
             success: function(res) {
                 console.warn(res);
+                drawGeneConstructor(res,"constructorPanel","tableBody");
             },
             error:function (error){
                 console.log(error);
@@ -904,19 +907,19 @@ $(function () {
     function drawGeneConstructor(result,id,tabId){
         // 参考值
         var ttdistance;
-        if(result.dnaGenStructures.length==0){
+        if(result.data.dnaGenStructures.length==0){
             var direction = -1;
         }else {
-            var direction = result.dnaGenStructures[0].strand;
+            var direction = result.data.dnaGenStructures[0].strand;
         }
         // if (result.data.length == 0 && result.dnaGenStructures.length == 0){
         //
         //     return;
         // };
-        var referenceVal = result.bps;
-        var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
+        var referenceVal = result.data.bps;
+        var startPos = parseInt(result.data.conditions.split(",")[1])-2000<0?1:parseInt(result.data.conditions.split(",")[1])-2000;
         var startPos1 = startPos+2000;
-        var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
+        var endPos =parseInt(result.data.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.data.conditions.split(",")[2]);
         var endPos1 = endPos-2000;
         var geneLength = endPos - startPos;
         // console.log(startPos)
@@ -1018,8 +1021,8 @@ $(function () {
             var snpWidth = 5;
             var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
             var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)");  //?问题点
-            var geneConstructs = result.dnaGenStructures;
-            var snpLocalPoints = result.data;
+            var geneConstructs = result.data.dnaGenStructures;
+            var snpLocalPoints = result.data.snps;
             var snpColor = "#6b69d6";
             // 根据染色体不同绘制不同的颜色
             function chromoColor (str){
