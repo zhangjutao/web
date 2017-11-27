@@ -234,6 +234,20 @@ public class DNAMongoService {
         }
     }
 
+    public List<SNP> findDataByIndex(String type, String chr, String id,Integer index,Integer pageSize) {
+        String collectionName = type + "_" +chr;
+        List<SNP> snps=Lists.newArrayList();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            //Integer pageNum=index/pageSize+1;
+            Query query = new Query();
+            query.skip(index);
+            query.limit(pageSize);
+            snps = mongoTemplate.find(query, SNP.class, collectionName);
+        }
+        return snps;
+
+    }
+
     public List<SNP> searchIdAndPosInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page){
         String collectionName = type + "_" + chr;
         long total = 0;
@@ -320,13 +334,10 @@ public class DNAMongoService {
         long total = 0;
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
-            DBObject queryObject = new BasicDBObject();
             Criteria criteria = new Criteria();
-            List<BasicDBObject> basicDBObjects= Lists.newArrayList();
             if (StringUtils.isBlank(upsteam)) {
                 if (StringUtils.isNotBlank(downsteam)) {
                     criteria.and("pos").lte(Long.parseLong(downsteam));
-                    basicDBObjects.add(new BasicDBObject("$gte", Long.parseLong(downsteam)));
                 }
             } else {
                 if (StringUtils.isBlank(downsteam)) {
@@ -346,6 +357,7 @@ public class DNAMongoService {
             }
             Query query = new Query();
             query.addCriteria(criteria);
+            query.fields().include("pos");
             logger.info("Query:" + query.toString());
             total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
             logger.info(collectionName + " searchInGene:" + query.toString() + ",total:" + total);
