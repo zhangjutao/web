@@ -18,15 +18,11 @@
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
-    <%--<script src="${ctxStatic}/js/highcharts-code.js"></script>--%>
     <script src="${ctxStatic}/js/highcharts/highcharts.js"></script>
-    <%--<script src="${ctxStatic}/js/highcharts/highcharts-more.js"></script>--%>
-    <%--<script src="${ctxStatic}/js/highcharts/highcharts-zh_CN.js"></script>--%>
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
-    <script src="${ctxStatic}/js/snpinfo.js"></script>
 </head>
 <body>
 <dna:dna-header />
@@ -206,6 +202,7 @@
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
         console.log('${ctxroot}');
+        console.log("${snp.id}")
         var AA = "${result.RefAndRefPercent}";
         var TT = "${result.totalAltAndAltPercent}";
         var AT = "${result.totalRefAndAltPercent}";
@@ -215,12 +212,8 @@
         var name1 = major+major;
         var name2 = major+mijor;
         var name3 = mijor+mijor;
-
         // 初始化
         var changeParam = major;  // major 和 minor 页面切换
-        console.log(AA)
-        console.log(TT)
-        console.log(AT)
         // 花饼图
         function drawPie(ref,alt,refAlt,name1,name2,name3){
             $('#pieShow').highcharts({

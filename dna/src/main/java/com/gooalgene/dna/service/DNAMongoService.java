@@ -3,6 +3,8 @@ package com.gooalgene.dna.service;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -228,6 +230,38 @@ public class DNAMongoService {
         } else {
             return oneData;
         }
+    }
+
+    public List<SNP> searchIdAndPos(String type, String ctype, String chr, String startPos, String endPos){
+        String collectionName = type + "_" + chr;
+        long total = 0;
+        List<SNP> result = new ArrayList<SNP>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
+            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+                String keywords = ctype.replace("_", ".*");
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            logger.info("Query:" + query.toString());
+            int skip = (2 - 1) * 10;
+            if (skip < 0) {
+                skip = 0;
+            }
+            query.skip(skip);
+            query.limit(10);
+
+            //total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
+            DBObject fields = new BasicDBObject();
+            fields.put("pos",true);
+            result = mongoTemplate.find(query, SNP.class, collectionName);
+        } else {
+            logger.info(collectionName + " is not exist.");
+        }
+        return result;
     }
 
     public List<SNP> searchInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page) {

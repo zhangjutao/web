@@ -83,8 +83,8 @@
     <select id="getByRegion" resultType="string">
         SELECT DISTINCT d.gene_id FROM dna_gens d LEFT JOIN gens_structure g ON d.gene_id=g.gene_id
         WHERE g.chromosome=#{chr}
-        AND ((d.`gene_start` <![CDATA[ <= ]]> #{start} and d.`gene_end`>=#{start}) or
-         (d.`gene_start` <![CDATA[ <= ]]> #{end} AND d.`gene_end`>=#{end}) or
-          (d.gene_start>=#{start} and d.gene_end <![CDATA[ <= ]]> #{end}))
+        AND ((d.`gene_start` <![CDATA[ <= ]]> #{start} and d.`gene_end`>#{start}) or
+         (d.`gene_start` <![CDATA[ <= ]]> #{end} AND d.`gene_end`>#{end}) or
+          (d.gene_start>#{start} and d.gene_end <![CDATA[ < ]]> #{end}))
     </select>
 </mapper>

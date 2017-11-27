@@ -276,6 +276,7 @@ $(function (){
                     intNums = parseInt(count / page.pageSize);
                     for (var i=0;i<totalDatas.length;i++){
                         var cultivarTV = totalDatas[i].cultivar==null?"":totalDatas[i].cultivar;
+                        var popTV = totalDatas[i].group==null?"":totalDatas[i].group;   // 群体
                         var speciesTV = totalDatas[i].species==null?"":totalDatas[i].species;
                         var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;
                         var sampleNameTV = totalDatas[i].sampleName==null?"":totalDatas[i].sampleName;
@@ -300,6 +301,7 @@ $(function (){
 
                         var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
                             "</td><td class='param speciesT'>" + speciesTV+
+                            "</td><td class='param popT'>" + popTV+
                             "</td><td class='param localityT'>" + localityTV +
                             "</td><td class='param sampleNameT'>" + sampleNameTV +
                             "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
@@ -510,5 +512,14 @@ $(function (){
             }
         })
 
+    })
+    // 新增group 表
+    $(".popMoveOnNewAdd").mouseover(function (){
+        $(".popNamesNewAdd").show();
+    }).mouseleave(function (){
+        $(".popNamesNewAdd").hide()
+    })
+    $(".popNamesNewAdd li").click(function (){
+        $(".popNamesNewAdd").hide();
     })
 })
