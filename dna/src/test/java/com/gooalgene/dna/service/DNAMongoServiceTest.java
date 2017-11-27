@@ -29,4 +29,26 @@ public class DNAMongoServiceTest extends TestCase {
         long end = System.currentTimeMillis();
         System.out.println(snps.size() + "时间为：" + (end - start));
     }
+
+    @Test
+    public void testSearchIDAndPos(){
+        String type = "INDEL";
+        String ctype = "all";
+        String chr = "Chr01";
+        String startPos = "0";
+        String endPos = "500000";
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegin(type, ctype, chr, startPos, endPos, null);
+        System.out.println(snps.size());
+    }
+
+    @Test
+    public void testSearchIdAndPosInclude(){
+        String type = "INDEL";
+        String ctype = "all";
+        String chr = "Chr01";
+        String startPos = "0";
+        String endPos = "500000";
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
+        System.out.println(snps.size());
+    }
 }
