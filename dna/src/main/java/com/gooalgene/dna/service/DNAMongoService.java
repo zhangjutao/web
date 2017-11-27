@@ -236,6 +236,7 @@ public class DNAMongoService {
         }
     }
 
+    // TODO: 11/27/17 为什么这个地方传入的是分页对象,结果也应该是分页的形式,而这里返回的确实一个list集合???
     public List<SNP> findDataByIndex(String type, String chr, String id,Integer index,Integer pageSize,String startPos,String endPos) {
         String collectionName = type + "_" +chr;
 
@@ -246,37 +247,19 @@ public class DNAMongoService {
 
             Query query = new Query();
             query.addCriteria(criteria);
+            // 先查询中共个数,对分页有基本了解
             long all = mongoTemplate.count(query, SNP.class, collectionName);
             logger.info("all number : " + all);
             Pageable pageable = new PageRequest(index, pageSize);
             query.with(pageable);
+            // 去除掉无用的samples字段,极为影响实体bean反射性能
             query.fields().exclude("samples");
             logger.info("Query:" + query.toString());
-//            query.skip(index);
-//            query.limit(pageSize);
-            Long start=System.currentTimeMillis();
-            // TODO: 11/27/17 不要将文档中所有信息都映射为SNP对象,该处经常超时
             result = mongoTemplate.find(query, SNP.class, collectionName);
-            Long end=System.currentTimeMillis()-start;
         } else {
             logger.info(collectionName + " is not exist.");
         }
         return result;
-
-        /*List<SNP> snps=Lists.newArrayList();
-        if (mongoTemplate.collectionExists(collectionName)) {
-            //Integer pageNum=index/pageSize+1;
-            Query query = new Query();
-            Criteria criteria = new Criteria();
-            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
-            //query.fields().exclude("type");
-            query.addCriteria(criteria);
-            query.skip(index);
-            query.limit(pageSize);
-            snps = mongoTemplate.find(query, SNP.class, collectionName);
-        }
-        return snps;*/
-
     }
 
     public List<SNP> searchIdAndPosInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page){
