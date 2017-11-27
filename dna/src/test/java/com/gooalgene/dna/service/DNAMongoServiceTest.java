@@ -36,8 +36,19 @@ public class DNAMongoServiceTest extends TestCase {
         String ctype = "all";
         String chr = "Chr01";
         String startPos = "0";
-        String endPos = "1000";
-        List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, null);
-        assertEquals(19, snps.size());
+        String endPos = "500000";
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegin(type, ctype, chr, startPos, endPos, null);
+        System.out.println(snps.size());
+    }
+
+    @Test
+    public void testSearchIdAndPosInclude(){
+        String type = "INDEL";
+        String ctype = "all";
+        String chr = "Chr01";
+        String startPos = "0";
+        String endPos = "500000";
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
+        System.out.println(snps.size());
     }
 }
