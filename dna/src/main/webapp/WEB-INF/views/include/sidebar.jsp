@@ -880,15 +880,14 @@
                         '<td class="param t_iminorAllele">Minor Allele</td>'+
                         '<td class="param t_ifmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
                         '<option value="minor">Frequency of Minor Allele</option></select></td>';
-                        debugger;
+//                        debugger;
             if(selectedPopulations.length > 0) {
                 var resultPopulations = selectedPopulations;
             } else {
                 var resultPopulations = defaultPopulations;
             }
-//            console.error(resultPopulations);
             $.each(resultPopulations, function(idx, item) {
-
+                    debugger;
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
                         '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
 
@@ -1430,7 +1429,7 @@
                     }
 //                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
-//                    console.warn(selectedPopulations);
+                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {
