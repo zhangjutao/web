@@ -273,6 +273,46 @@ public class DNAMongoService {
         return result;
     }
 
+    /**
+     * 使用mongodb projection方式进行快速查询
+     */
+    public List<SNP> searchIdAndPosInRegion(String type, String ctype, String chr, String startPos, String endPos, Page page){
+        String collectionName = type + "_" + chr;
+        long total = 0;
+        List<SNP> result = new ArrayList<>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
+            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+                String keywords = ctype.replace("_", ".*");
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            query.fields().include("pos");
+            logger.info("Query:" + query.toString());
+            total = mongoTemplate.count(query, Integer.class, collectionName);//总记录数
+            logger.info(collectionName + " searchInRegin:" + query.toString() + ",total:" + total);
+            if(page!=null){
+                Integer pageNo = page.getPageNo();
+                Integer pageSize = page.getPageSize();
+                int skip = (pageNo - 1) * pageSize;
+                if (skip < 0) {
+                    skip = 0;
+                }
+                query.skip(skip);
+                query.limit(pageSize);
+                page.setCount(total);
+            }
+            logger.info("Query By Page:" + query.toString());
+            result = mongoTemplate.find(query, SNP.class, collectionName);
+        } else {
+            logger.info(collectionName + " is not exist.");
+        }
+        return result;
+    }
+
     public List<SNP> searchIdAndPosInGene(String type, String ctype, String gene, String upsteam, String downsteam, Page page) {
         int index = gene.indexOf(".") + 1;//Glyma.17G187600
         String chr = "Chr" + gene.substring(index, index + 2);
@@ -324,46 +364,6 @@ public class DNAMongoService {
             logger.info(collectionName + " is not exist.");
         }
         page.setCount(total);
-        return result;
-    }
-
-    /**
-     * 使用mongodb projection方式进行快速查询
-     */
-    public List<SNP> searchIdAndPosInRegion(String type, String ctype, String chr, String startPos, String endPos, Page page){
-        String collectionName = type + "_" + chr;
-        long total = 0;
-        List<SNP> result = new ArrayList<>();
-        if (mongoTemplate.collectionExists(collectionName)) {
-            Criteria criteria = new Criteria();
-            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
-            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
-                String keywords = ctype.replace("_", ".*");
-                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
-                criteria.and("consequencetype").regex(pattern);
-            }
-            Query query = new Query();
-            query.addCriteria(criteria);
-            query.fields().include("pos").exclude("_id");
-            logger.info("Query:" + query.toString());
-            total = mongoTemplate.count(query, Integer.class, collectionName);//总记录数
-            logger.info(collectionName + " searchInRegin:" + query.toString() + ",total:" + total);
-            if(page!=null){
-                Integer pageNo = page.getPageNo();
-                Integer pageSize = page.getPageSize();
-                int skip = (pageNo - 1) * pageSize;
-                if (skip < 0) {
-                    skip = 0;
-                }
-                query.skip(skip);
-                query.limit(pageSize);
-                page.setCount(total);
-            }
-            logger.info("Query By Page:" + query.toString());
-            result = mongoTemplate.find(query, SNP.class, collectionName);
-        } else {
-            logger.info(collectionName + " is not exist.");
-        }
         return result;
     }
 
