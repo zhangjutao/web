@@ -29,4 +29,15 @@ public class DNAMongoServiceTest extends TestCase {
         long end = System.currentTimeMillis();
         System.out.println(snps.size() + "时间为：" + (end - start));
     }
+
+    @Test
+    public void testSearchIDAndPos(){
+        String type = "INDEL";
+        String ctype = "all";
+        String chr = "Chr01";
+        String startPos = "0";
+        String endPos = "1000";
+        List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, null);
+        assertEquals(19, snps.size());
+    }
 }
