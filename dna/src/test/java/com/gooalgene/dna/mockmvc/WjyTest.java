@@ -1,5 +1,6 @@
 package com.gooalgene.dna.mockmvc;
 
+import com.gooalgene.common.Page;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.service.DNAMongoService;
 import org.junit.Before;
@@ -58,15 +59,15 @@ public class WjyTest {
 
     @Test
     public void testExportData() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get("/dna/searchSNPinRegion").contentType(MediaType.APPLICATION_JSON)
+        MvcResult mvcResult = mockMvc.perform(get("/dna/searchIdAndPosInRegion").contentType(MediaType.APPLICATION_JSON)
                 .param("type", "SNP")
                 .param("ctype", "all")
                 .param("chromosome", "Chr01")
                 .param("start", "0")
                 .param("end", "30000")
-                .param("pageNo", "1")
-                .param("pageSize", "10")
-                .param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
+                //.param("pageNo", "1")
+                //.param("pageSize", "10")
+                //.param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
         )
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -78,7 +79,7 @@ public class WjyTest {
 
     @Test
     public void testMongo() throws Exception{
-        List<SNP> snps = dnaMongoService.searchIdAndPos("SNP", "all", "Chr01", "0", "30000");
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("SNP", "all", "Chr01", "0", "30000",null);
         System.out.println(snps);
     }
 }

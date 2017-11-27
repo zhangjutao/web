@@ -167,9 +167,15 @@ public class SNPController {
         return result;
     }
 
-    //@RequestMapping("/searchSNPinRegion")
+    /**
+     * 在范围中查询所有位点
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/searchIdAndPosInRegion")
     @ResponseBody
-    public Map searchSNPinRegionNoPage(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO queryIdAndPosBySNP(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String chr = request.getParameter("chromosome");
@@ -179,8 +185,8 @@ public class SNPController {
 //      String conditions = request.getParameter("conditions");
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         //Page<DNARun> page = new Page<DNARun>(request, response);
-        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, null);
-        return result;
+        List<SNP> result=dnaMongoService.searchIdAndPosInRegin(type, ctype, chr, startPos, endPos, null);
+        return ResultUtil.success(result);
     }
 
     /**
