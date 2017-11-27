@@ -5,6 +5,7 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
@@ -69,6 +70,8 @@ public class SNPController {
     private DNAGroupsService dnaGroupsService;
     @Autowired
     private DNARunService dnaRunService;
+    @Autowired
+    private DNAGenStructureService dnaGenStructureService;
 
 
     @RequestMapping("/index")
@@ -151,62 +154,6 @@ public class SNPController {
      * @param response
      * @return
      */
-    @RequestMapping("/searchSNPinRegion")
-    @ResponseBody
-    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-        String chr = request.getParameter("chromosome");
-        String startPos = request.getParameter("start");
-        String endPos = request.getParameter("end");
-        String group = request.getParameter("group");
-//      String conditions = request.getParameter("conditions");
-        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
-        Page<DNARun> page = new Page<DNARun>(request, response);
-        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
-        return result;
-    }
-
-    //@RequestMapping("/searchSNPinRegion")
-    @ResponseBody
-    public Map searchSNPinRegionNoPage(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-        String chr = request.getParameter("chromosome");
-        String startPos = request.getParameter("start");
-        String endPos = request.getParameter("end");
-        String group = request.getParameter("group");
-//      String conditions = request.getParameter("conditions");
-        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
-        //Page<DNARun> page = new Page<DNARun>(request, response);
-        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, null);
-        return result;
-    }
-
-    /**
-     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping("/findSampleById")
-    @ResponseBody
-    public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
-        String id = request.getParameter("id");
-        if (id == null) {
-            return ResultUtil.error(200, "未拿到id的值");
-        }
-            Map result = snpService.findSampleById(id);
-        return ResultUtil.success(result);
-    }
-
-    /**
-     * 按群组条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
-     */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
     public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
@@ -236,6 +183,75 @@ public class SNPController {
         logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
         return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
+    }
+
+    /**
+     * 按群组条件搜索
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/searchSNPinRegion")
+    @ResponseBody
+    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
+        String type = request.getParameter("type");//区分snp和indel数据
+        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String chr = request.getParameter("chromosome");
+        String startPos = request.getParameter("start");
+        String endPos = request.getParameter("end");
+        String group = request.getParameter("group");
+//      String conditions = request.getParameter("conditions");
+        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
+        Page<DNARun> page = new Page<DNARun>(request, response);
+        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        return result;
+    }
+
+    /**
+     * 在范围中查询所有位点
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/searchIdAndPosInRegion")
+    @ResponseBody
+    public ResultVO queryIdAndPosBySNP(HttpServletRequest request, HttpServletResponse response) {
+        String type = request.getParameter("type");//区分snp和indel数据
+        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String chr = request.getParameter("chromosome");
+        String startPos = request.getParameter("start");
+        String endPos = request.getParameter("end");
+        String group = request.getParameter("group");
+//      String conditions = request.getParameter("conditions");
+        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
+        //Page<DNARun> page = new Page<DNARun>(request, response);
+        Map result=Maps.newHashMap();
+        List<SNP> snps=dnaMongoService.searchIdAndPosInRegin(type, ctype, chr, startPos, endPos, null);
+        result.put("snps",snps);
+        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
+        result.put("dnaGenStructures",dnaGenStructures);
+        if(CollectionUtils.isNotEmpty(dnaGenStructures)){
+            result.put("bps",dnaGenStructures.get(0).getBps());
+        }
+        return ResultUtil.success(result);
+    }
+
+    /**
+     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/findSampleById")
+    @ResponseBody
+    public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        if (id == null) {
+            return ResultUtil.error(200, "未拿到id的值");
+        }
+            Map result = snpService.findSampleById(id);
+        return ResultUtil.success(result);
     }
 
 

@@ -14,6 +14,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
+import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
@@ -232,31 +233,38 @@ public class DNAMongoService {
         }
     }
 
-    public List<SNP> searchIdAndPos(String type, String ctype, String chr, String startPos, String endPos){
+    public List<SNP> searchIdAndPosInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page){
         String collectionName = type + "_" + chr;
         long total = 0;
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
-            Criteria criteria = new Criteria();
-            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
+            DBObject queryObject = new BasicDBObject();
+            BasicDBObject[] array = {
+                new BasicDBObject("pos", new BasicDBObject("$gte", Long.parseLong(startPos))),
+                new BasicDBObject("pos", new BasicDBObject("$lte", Long.parseLong(endPos)))
+            };
+            queryObject.put("$and", array);
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
                 String keywords = ctype.replace("_", ".*");
                 Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
-                criteria.and("consequencetype").regex(pattern);
+                queryObject.put("consequencetype",pattern);
             }
-            Query query = new Query();
-            query.addCriteria(criteria);
-            logger.info("Query:" + query.toString());
-            int skip = (2 - 1) * 10;
-            if (skip < 0) {
-                skip = 0;
-            }
-            query.skip(skip);
-            query.limit(10);
 
-            //total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
-            DBObject fields = new BasicDBObject();
-            fields.put("pos",true);
+            DBObject fieldsObject = new BasicDBObject();
+            fieldsObject.put("pos", true);
+            Query query = new BasicQuery(queryObject,fieldsObject);
+            logger.info("Query:" + query.toString());
+            if(page!=null){
+                Integer pageNo = page.getPageNo();
+                Integer pageSize = page.getPageSize();
+                int skip = (pageNo - 1) * pageSize;
+                if (skip < 0) {
+                    skip = 0;
+                }
+                query.skip(skip);
+                query.limit(pageSize);
+            }
+            total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");
@@ -334,15 +342,16 @@ public class DNAMongoService {
             logger.info("Query:" + query.toString());
             total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
             logger.info(collectionName + " searchInGene:" + query.toString() + ",total:" + total);
-            Integer pageNo = page.getPageNo();
-            Integer pageSize = page.getPageSize();
-            int skip = (pageNo - 1) * pageSize;
-            if (skip < 0) {
-                skip = 0;
+            if(page!=null){
+                Integer pageNo = page.getPageNo();
+                Integer pageSize = page.getPageSize();
+                int skip = (pageNo - 1) * pageSize;
+                if (skip < 0) {
+                    skip = 0;
+                }
+                query.skip(skip);
+                query.limit(pageSize);
             }
-            //todo 去掉分页？
-            query.skip(skip);
-            query.limit(pageSize);
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");

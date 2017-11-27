@@ -1,4 +1,6 @@
 $(function (){
+    // 定义全局 population 信息
+    var popuSelectedVal=""
     var groupVal1="111利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
     var groupVal2="222利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
     var groupVal3="333利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
@@ -12,7 +14,6 @@ $(function (){
 
     $("#groups li").click(function (e){
         var val = $(this).find("p").text();
-        console.log(val);
         $("#popTips").show();
         $(".tipTopCnt").text(val);
         switch (val){
@@ -101,7 +102,6 @@ $(function (){
 
     $("#SelectAllBox").click(function (){
         var status = $(this).prop("checked");
-        console.log(status);
         checkStatus(status);
     })
     // 清空所有选中的
@@ -145,25 +145,26 @@ $(function (){
              $("#tableShow thead").find(newClassVal).hide();
              $("#tableShow tbody").find(newClassVal).hide();
             }
-            // else {
-            //     var classVal = $input.attr("name");
-            //     var newClassVal = "." + classVal + "T";
-            //     if($("#tableShow thead").find(newClassVal).is(":hidden")){
-            //         $("#tableShow thead").find(newClassVal).show();
-            //         $("#tableShow tbody").find(newClassVal).show();
-            //     }
-            // }
+            else {
+                var classVal = $input.attr("name");
+                var newClassVal = "." + classVal + "T";
+                if($("#tableShow thead").find(newClassVal).is(":hidden")){
+                    $("#tableShow thead").find(newClassVal).show();
+                    $("#tableShow tbody").find(newClassVal).show();
+                }
+            }
         }
     })
         // 点击群体信息进入页面初始化开始获取table数据
         var initData = getParamas()
         getData(initData);
         $("#page .two").addClass("pageColor");
+
     // 获取当前参数 封装
     function getParamas (){
         var datas={
             cultivar:$(".cultivarI").val(),  // 品种名
-            // population:$(".populationI").val(), // 群体
+            group:popuSelectedVal, // 群体
             species:$(".speciesI").val(),// 物种
             locality:$(".localityI").val(), // 位置
             sampleName:$(".sampleNameI").val(), // 样品名
@@ -216,7 +217,6 @@ $(function (){
     // 获取表格数据
     $(".btnConfirmInfo").click(function (){
         var data = getParamas();
-        console.log(data);
         getData(data);
     })
 
@@ -254,8 +254,6 @@ $(function (){
             url:CTXROOT + "/dna/condition",
             data:data,
             success:function (result) {
-                console.log(result);
-
                 count = result.data.total;
                 if(count <40){
                     $("#page").css({"padding-left":"186px"});
@@ -268,15 +266,13 @@ $(function (){
                     $("#containerAdmin").css("height","754px");
                 }else{
                     totalDatas = result.data.list;
-                    console.log(totalDatas);
                     $("#tableShow table tbody tr").remove();
-
                     nums = Math.ceil(count / page.pageSize);
                     //舍弃小数之后的取整
                     intNums = parseInt(count / page.pageSize);
                     for (var i=0;i<totalDatas.length;i++){
                         var cultivarTV = totalDatas[i].cultivar==null?"":totalDatas[i].cultivar;
-                        var popTV = totalDatas[i].group==null?"":totalDatas[i].group;   // 群体
+                        var populationTV = totalDatas[i].group==null?"":totalDatas[i].group;   // 群体
                         var speciesTV = totalDatas[i].species==null?"":totalDatas[i].species;
                         var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;
                         var sampleNameTV = totalDatas[i].sampleName==null?"":totalDatas[i].sampleName;
@@ -301,7 +297,7 @@ $(function (){
 
                         var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
                             "</td><td class='param speciesT'>" + speciesTV+
-                            "</td><td class='param popT'>" + popTV+
+                            "</td><td class='param populationT'>" + populationTV+
                             "</td><td class='param localityT'>" + localityTV +
                             "</td><td class='param sampleNameT'>" + sampleNameTV +
                             "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
@@ -406,7 +402,6 @@ $(function (){
         var selectedDatas = getParamas();
         selectedDatas.pageNum = paramData.pageNum;
         selectedDatas.pageSize = paramData.pageSize;
-        console.log(selectedDatas);
         getData(selectedDatas);
         var plists = $p.siblings();
         for (var i = 0; i < plists.length; i++) {
@@ -481,7 +476,6 @@ $(function (){
     // 分页end
     // 表格导出
     $("#exportData").click(function (){
-        debugger;
         var unSelectes = $("#selectedDetails ul input");
         var unSelectedLists="";
         for(var i=0;i<unSelectes.length;i++){
@@ -503,15 +497,12 @@ $(function (){
             dataType: "json",
             contentType: "application/json",
             success:function (result){
-
-                console.log(result)
                window.location.href = result;
             },
             error:function (error){
                 console.log(error);
             }
         })
-
     })
     // 新增group 表
     $(".popMoveOnNewAdd").mouseover(function (){
@@ -519,7 +510,11 @@ $(function (){
     }).mouseleave(function (){
         $(".popNamesNewAdd").hide()
     })
+    // 点击群体时触发请求，跟后端协调字段名成是否正确
     $(".popNamesNewAdd li").click(function (){
         $(".popNamesNewAdd").hide();
+        popuSelectedVal = $(this).text();
+        var data = getParamas();
+        getData(data);
     })
 })

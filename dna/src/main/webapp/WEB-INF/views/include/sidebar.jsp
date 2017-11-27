@@ -448,11 +448,6 @@
                 </tr>
             </thead>
             <tbody>
-                <%--<tr>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td><td>13</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td>--%>
-                <%--</tr>--%>
             </tbody>
         </table>
     </div>
@@ -474,14 +469,6 @@
             var storage = window.localStorage;
         }else{
             alert('This browser does NOT support localStorage');
-        }
-        var initKindVal = JSON.parse(storage.getItem("kind"));
-        if(initKindVal){
-           var initKindVals = initKindVal.name;
-            for (var i=0;i<initKindVals.length;i++){
-                var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + initKindVals[i].id + ">" + "<span></span><div class='label-txt'>" + initKindVals[i].name + "</div></label><i class='js-del-dd'>X</i></div>"
-                $(".js-cursom-add").append(div);
-            }
         }
         function setCookie(name, value) {
             var Days = 30;
@@ -893,12 +880,15 @@
                         '<td class="param t_iminorAllele">Minor Allele</td>'+
                         '<td class="param t_ifmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
                         '<option value="minor">Frequency of Minor Allele</option></select></td>';
+                        debugger;
             if(selectedPopulations.length > 0) {
                 var resultPopulations = selectedPopulations;
             } else {
                 var resultPopulations = defaultPopulations;
             }
+//            console.error(resultPopulations);
             $.each(resultPopulations, function(idx, item) {
+
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
                         '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
 
@@ -921,14 +911,35 @@
             TableHeaderSettingIndel();
         }
 
+        // 封装手动删除品种名/localStorage 中的值
+        function deleteLocalKind (kindId,self){
+            // 判断删除的是不是品种
+                var currPval = $(self).prev().find("div").text().substring(0,3);
+                console.log(currPval);
+                if (currPval == "品种名"){
+                    var kindStorage = JSON.parse(storage.getItem("kind"));
+                    var sdKinds = kindStorage.name;
+                      for (var i=0;i<sdKinds.length;i++){
+                        if(sdKinds[i].id == kindId){
+                            sdKinds.splice(i,1);
+                        }
+                    }
+                   storage.removeItem("kind");
+                    storage.setItem("kind",JSON.stringify(kindStorage));
+                }
+        };
         /* 删除手动添加的自定义群体 */
         $("body").on("click",".js-del-dd",function(){
+            var self = this;
             $(this).parent().remove();
             var id = $(this).attr("data-index");
 
 //            initPopulations();
             deletePopulation(id);
             getSelectedPopulations();
+            // 手动删除品种名时，需要删除localStorage中的值
+            var kindId = $(this).prev().attr("data-index");
+            deleteLocalKind(kindId,self);
         });
         $(".js-cursom-add2").on("click",".js-del-dd",function(){
             $(this).parent().remove();
@@ -1381,6 +1392,7 @@
                     o.push(kindStor.name[i]);
                 }
             };
+//            console.error(o);
             return o;
         }
         // 根据ID获取选中的population
@@ -1410,10 +1422,15 @@
                 if($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
-                    var selectedItem = selectPopulation(id);
-                    console.log("选中的geneid信息：")
-                    console.log(selectedItem);
+//                    modify by wjshan begin
+                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
+                        var selectedItem = selectKindVal(id);
+                    }else {
+                        var selectedItem = selectPopulation(id);
+                    }
+//                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
+//                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {
