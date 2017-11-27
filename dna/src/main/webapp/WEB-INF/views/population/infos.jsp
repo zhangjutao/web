@@ -92,7 +92,7 @@
                         </li>
                         <li>
                             <%--无--%>
-                            <input type="checkbox" name="population" class="population"> 群体
+                            <input type="checkbox" name="population" class="population" checked="checked"> 群体
                         </li>
                         <li>
                             <input type="checkbox" name="species" class="species" checked="checked"> 物种
@@ -174,7 +174,7 @@
                     <div class="opOthers">
                         <p class="selectedAll">清空</p>
                         <p class="packUp">收起
-                            <img src="${ctxStatic}/images/packUp.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
+                            <img src="${ctxStatic}/images/down.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
                         </p>
                     </div>
                 </div>
@@ -204,7 +204,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param popMoveOnNewAdd" style="position:relative;">群体
+                        <th class="param populationT popMoveOnNewAdd" style="position:relative;">群体
                             <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
                             <div class="popNamesNewAdd">
                                 <ul style="margin-top:10px;">

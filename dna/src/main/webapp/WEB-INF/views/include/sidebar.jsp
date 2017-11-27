@@ -448,11 +448,6 @@
                 </tr>
             </thead>
             <tbody>
-                <%--<tr>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td><td>13</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td>--%>
-                <%--</tr>--%>
             </tbody>
         </table>
     </div>
@@ -474,14 +469,6 @@
             var storage = window.localStorage;
         }else{
             alert('This browser does NOT support localStorage');
-        }
-        var initKindVal = JSON.parse(storage.getItem("kind"));
-        if(initKindVal){
-           var initKindVals = initKindVal.name;
-            for (var i=0;i<initKindVals.length;i++){
-                var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + initKindVals[i].id + ">" + "<span></span><div class='label-txt'>" + initKindVals[i].name + "</div></label><i class='js-del-dd'>X</i></div>"
-                $(".js-cursom-add").append(div);
-            }
         }
         function setCookie(name, value) {
             var Days = 30;
@@ -921,14 +908,35 @@
             TableHeaderSettingIndel();
         }
 
+        // 封装手动删除品种名/localStorage 中的值
+        function deleteLocalKind (kindId,self){
+            // 判断删除的是不是品种
+                var currPval = $(self).prev().find("div").text().substring(0,3);
+                console.log(currPval);
+                if (currPval == "品种名"){
+                    var kindStorage = JSON.parse(storage.getItem("kind"));
+                    var sdKinds = kindStorage.name;
+                      for (var i=0;i<sdKinds.length;i++){
+                        if(sdKinds[i].id == kindId){
+                            sdKinds.splice(i,1);
+                        }
+                    }
+                   storage.removeItem("kind");
+                    storage.setItem("kind",JSON.stringify(kindStorage));
+                }
+        };
         /* 删除手动添加的自定义群体 */
         $("body").on("click",".js-del-dd",function(){
+            var self = this;
             $(this).parent().remove();
             var id = $(this).attr("data-index");
 
 //            initPopulations();
             deletePopulation(id);
             getSelectedPopulations();
+            // 手动删除品种名时，需要删除localStorage中的值
+            var kindId = $(this).prev().attr("data-index");
+            deleteLocalKind(kindId,self);
         });
         $(".js-cursom-add2").on("click",".js-del-dd",function(){
             $(this).parent().remove();
