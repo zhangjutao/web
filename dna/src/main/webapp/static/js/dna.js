@@ -916,12 +916,10 @@ $(function () {
         //
         //     return;
         // };
-        //测试 用的conditions
-        // result.conditions ="Glyma.20G250200,47890889,47901292";
         var referenceVal = result.data.bps;
-        var startPos = parseInt(result.conditions.split(",")[1])-2000<0?1:parseInt(result.conditions.split(",")[1])-2000;
+        var startPos = parseInt(result.data.conditions.split(",")[1])-2000<0?1:parseInt(result.data.conditions.split(",")[1])-2000;
         var startPos1 = startPos+2000;
-        var endPos =parseInt(result.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.conditions.split(",")[2]);
+        var endPos =parseInt(result.data.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.data.conditions.split(",")[2]);
         var endPos1 = endPos-2000;
         var geneLength = endPos - startPos;
         // console.log(startPos)
@@ -1023,8 +1021,8 @@ $(function () {
             var snpWidth = 5;
             var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
             var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)");  //?问题点
-            var geneConstructs = result.dnaGenStructures;
-            var snpLocalPoints = result.data;
+            var geneConstructs = result.data.dnaGenStructures;
+            var snpLocalPoints = result.data.snps;
             var snpColor = "#6b69d6";
             // 根据染色体不同绘制不同的颜色
             function chromoColor (str){
