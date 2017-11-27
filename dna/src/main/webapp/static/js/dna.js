@@ -106,7 +106,8 @@ $(function () {
                     end:reginEndPos
                 };
                 requestForGeneId(data);
-                getAllSnpInfos(1,obj.params);
+                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody");
+                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2");
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -119,10 +120,10 @@ $(function () {
         }
     });
     // 根据范围查询所有的snp位点信息
-    function getAllSnpInfos(curr, params){
+    function getAllSnpInfos(curr, params,type,parentCont,tblBody){
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
-        params['type'] = 'SNP';
+        params['type'] = type;
         params['ctype'] = CTypeSnp;
         $.ajax({
             url:ctxRoot + "/dna/searchIdAndPosInRegion",
@@ -131,13 +132,14 @@ $(function () {
             dataType: "json",
             success: function(res) {
                 console.warn(res);
-                drawGeneConstructor(res,"constructorPanel","tableBody");
+                drawGeneConstructor(res,parentCont,tblBody);
             },
             error:function (error){
                 console.log(error);
             }
         })
     }
+
     // 根据范围查询geneID 集合
     function requestForGeneId(data){
         $.ajax({
@@ -331,24 +333,24 @@ $(function () {
                 if(res.data == null){
                     // alert("返回值为空时,则隐藏对应的元素");
                     $("#constructorPanel").hide();
-                    $("#errorShow").show();
+                    // $("#errorShow").show();
                     $("#mask-test .ga-mask").hide();
-                    $("#tableErrorShow").show();
+                    // $("#tableErrorShow").show();
                 }else {
                     if( $("#constructorPanel").is(":hidden")){
                         $("#constructorPanel").show();
                     }
-                        if(!$("#errorShow").is(":hidden")){
-                        $("#errorShow").hide();
-                    }
-                    if( !$("#tableErrorShow").is(":hidden")){
-                        $("#tableErrorShow").hide();
-                    }
+                    //     if(!$("#errorShow").is(":hidden")){
+                    //     $("#errorShow").hide();
+                    // }
+                    // if( !$("#tableErrorShow").is(":hidden")){
+                    //     $("#tableErrorShow").hide();
+                    // }
                     if( !$("#mask-test .ga-mask").is(":hidden")){
                         $("#mask-test .ga-mask").show();
                     }
                     total = res.total;
-                    drawGeneConstructor(res,"constructorPanel","tableBody");
+                    // drawGeneConstructor(res,"constructorPanel","tableBody");
                     if(url =="/dna/dna/searchSNPinRegion"){
                         // var GlyList = res.data;
                         // var $ul = $("#GlyIds ul");
@@ -427,7 +429,6 @@ $(function () {
         params['pageSize'] = pageSizeINDEL;
         params['type'] = 'INDEL';
         params['ctype'] = CTypeIndel;
-
         loadMask ("#mask-test2");
 
         $.ajax({
@@ -440,7 +441,7 @@ $(function () {
                     // alert("返回值为空，隐藏对应的SNP 元素")
                 }else{
                     total = res.total;
-                    drawGeneConstructor(res,"constructorPanel2","tableBody2");
+                    // drawGeneConstructor(res,"constructorPanel2","tableBody2");
                     maskClose("#mask-test2");
                     INDELData = res.data;
                     if(res.data.length > 0) {
@@ -824,11 +825,15 @@ $(function () {
         $(this).addClass("item-ac").siblings().removeClass("item-ac ");
         $(".tab > div").eq($(this).index()).show().siblings().hide();
         if(CurrentTab == "SNP"){
-            $("#constructorPanel").show();
-            $("#constructorPanel2").hide();
+            // if($("#constructorPanel").is(":hidden")){
+                $("#constructorPanel").show();
+                $("#constructorPanel2").hide();
+            // }
         }else if(CurrentTab == "INDEL"){
-            $("#constructorPanel").hide();
-            $("#constructorPanel2").show();
+            // if($("#constructorPanel").is(":hidden")){
+                $("#constructorPanel").hide();
+                $("#constructorPanel2").show();
+            // }
         }
     });
     // 定义全局查询总数
@@ -1020,7 +1025,7 @@ $(function () {
             var leftMargin = 60;
             var snpWidth = 5;
             var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
-            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)");  //?问题点
+            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id","snpAll");  //?问题点
             var geneConstructs = result.data.dnaGenStructures;
             var snpLocalPoints = result.data.snps;
             var snpColor = "#6b69d6";
@@ -1077,6 +1082,10 @@ $(function () {
                     loop(newArr);
         // 点击每个snp位点重新获取数据
         function getSnpPoint(){
+            var allSnpNum = $("#snpAll rect");
+            for(var i=0;i<allSnpNum.length;i++){
+
+            }
             $.ajax({
                 type:'GET',
                 url:ctxRoot + "/",
@@ -1092,7 +1101,8 @@ $(function () {
             })
         }
         // 每个snp位点的点击事件
-        $("g a rect").click(function (e){
+        $("#snpAll a rect").click(function (e){
+            alert(55)
             var tabid = $(e.target).parent().attr("href").substring(1);
             var trlist = $("#" + tabId).find("tr");
             for (var i=0;i<trlist.length;i++){
