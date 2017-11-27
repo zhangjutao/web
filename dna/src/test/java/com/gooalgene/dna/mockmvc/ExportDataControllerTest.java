@@ -9,6 +9,7 @@ import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.TestingAuthenticationProvider;
 import org.springframework.security.authentication.TestingAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.context.SecurityContextImpl;
 import org.springframework.test.context.ContextConfiguration;
@@ -41,14 +42,11 @@ public class ExportDataControllerTest extends TestCase{
     @Before
     public void setUp(){
         mockMvc = MockMvcBuilders.webAppContextSetup(applicationContext).build();
-        TestingAuthenticationToken token = new TestingAuthenticationToken("crabime", "123456");
-        ProviderManager providerManager = (ProviderManager)applicationContext.getBean("authenticationManager");
-        List<AuthenticationProvider> list = new ArrayList<>();
-        TestingAuthenticationProvider testingAuthenticationProvider = new TestingAuthenticationProvider();
-        list.add(testingAuthenticationProvider);
-        providerManager.setProviders(list);
+        TestingAuthenticationToken token = new TestingAuthenticationToken("crabime", "123456", "ROLE_ADMIN");
+        TestingAuthenticationProvider authenticationProvider = new TestingAuthenticationProvider();
+        Authentication authenticate = authenticationProvider.authenticate(token);
         SecurityContextImpl securityContext = new SecurityContextImpl();
-        securityContext.setAuthentication(token);
+        securityContext.setAuthentication(authenticate);
         SecurityContextHolder.setContext(securityContext);
     }
 
@@ -63,12 +61,12 @@ public class ExportDataControllerTest extends TestCase{
 
     @Test
     public void testSearchSNPInRegion() throws Exception{
-        mockMvc.perform(get("/searchSNPinRegion")
+        mockMvc.perform(get("/dna/searchSNPinRegion")
         .param("type","snp")
         .param("ctype","all")
         .param("chromosome","ch01")
         .param("start","0")
-        .param("end","1000"))
+        .param("end","100000"))
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andReturn();
