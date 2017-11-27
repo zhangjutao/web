@@ -383,7 +383,7 @@ public class DNAMongoService {
             query.fields().include("pos");
             logger.info("Query:" + query.toString());
             total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
-            logger.info(collectionName + " searchInGene:" + query.toString() + ",total:" + total);
+            logger.info(collectionName + " searchIdAndPosInGene:" + query.toString() + ",total:" + total);
             if(page!=null){
                 Integer pageNo = page.getPageNo();
                 Integer pageSize = page.getPageSize();
@@ -398,7 +398,6 @@ public class DNAMongoService {
         } else {
             logger.info(collectionName + " is not exist.");
         }
-        page.setCount(total);
         return result;
     }
 

@@ -59,12 +59,12 @@ public class WjyTest {
 
     @Test
     public void testExportData() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get("/dna/searchIdAndPosInRegion").contentType(MediaType.APPLICATION_JSON)
+        MvcResult mvcResult = mockMvc.perform(get("/dna/searchIdAndPosInGene").contentType(MediaType.APPLICATION_JSON)
                 .param("type", "SNP")
                 .param("ctype", "all")
-                .param("chromosome", "Chr01")
-                .param("start", "0")
-                .param("end", "100000")
+                .param("gene", "Glyma.20G087900")
+                //.param("start", "0")
+                //.param("end", "100000")
                 //.param("pageNo", "1")
                 //.param("pageSize", "10")
                 //.param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
