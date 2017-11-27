@@ -106,7 +106,7 @@ $(function () {
                     end:reginEndPos
                 };
                 requestForGeneId(data);
-                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody");
+                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr);
                 getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2");
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
@@ -120,7 +120,7 @@ $(function () {
         }
     });
     // 根据范围查询所有的snp位点信息
-    function getAllSnpInfos(curr, params,type,parentCont,tblBody){
+    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr){
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
         params['type'] = type;
@@ -132,7 +132,7 @@ $(function () {
             dataType: "json",
             success: function(res) {
                 console.warn(res);
-                drawGeneConstructor(res,parentCont,tblBody);
+                drawGeneConstructor(res,parentCont,tblBody,reginChr,type);
             },
             error:function (error){
                 console.log(error);
@@ -909,8 +909,9 @@ $(function () {
                 }
             })
     // 基因结构图
-    function drawGeneConstructor(result,id,tabId){
+    function drawGeneConstructor(result,id,tabId,reginChr,type){
         // 参考值
+        console.warn(result.data.snps);
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1081,15 +1082,24 @@ $(function () {
                     }
                     loop(newArr);
         // 点击每个snp位点重新获取数据
-        function getSnpPoint(){
+        function getSnpPoint(tabid){
             var allSnpNum = $("#snpAll rect");
+            console.error(allSnpNum);
+            var singleData = {};
             for(var i=0;i<allSnpNum.length;i++){
-
+                if($(allSnpNum[i]).parent().attr("href").substring(1) == tabid ){
+                    singleData.index = i;
+                    singleData.id = $(allSnpNum[i]).parent().attr("href").substring(1);
+                    singleData.type = type;
+                    singleData.chr = reginChr;
+                    break;
+                }
             }
+            console.error(singleData);
             $.ajax({
                 type:'GET',
-                url:ctxRoot + "/",
-                data:data,
+                url:ctxRoot + "/dna/drawSNPTable",
+                data:singleData,
                 contentType:"application/json",
                 dataType:"json",
                 success:function (result){
@@ -1102,7 +1112,6 @@ $(function () {
         }
         // 每个snp位点的点击事件
         $("#snpAll a rect").click(function (e){
-            alert(55)
             var tabid = $(e.target).parent().attr("href").substring(1);
             var trlist = $("#" + tabId).find("tr");
             for (var i=0;i<trlist.length;i++){
@@ -1118,7 +1127,7 @@ $(function () {
             $("#" + tabid).addClass("tabTrColor");
             $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6!important");
             // 调用每个位点获取数据；
-            // getSnpPoint()
+            getSnpPoint(tabid)
         })
     }
     // 定义滚轮缩放
