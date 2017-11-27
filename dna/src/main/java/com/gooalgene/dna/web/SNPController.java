@@ -1001,7 +1001,7 @@ public class SNPController {
     @RequestMapping(value = "/drawSNPTable",method = RequestMethod.GET)
     public ResultVO drawSNPTable(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
                                  @RequestParam("chr")String chr,@RequestParam("type") String type,
-                                 @RequestParam(value = "pageSize") Integer pageSize) {
+                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
         List<SNP> snps=dnaMongoService.findDataByIndex(type,chr,snpId,index,pageSize);
         return ResultUtil.success(snps);
     }
