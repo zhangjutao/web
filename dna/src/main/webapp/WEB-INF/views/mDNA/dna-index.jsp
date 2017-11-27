@@ -195,10 +195,10 @@
                         </svg>
                     </div>
                     <!--无数据时返回的页面-->
-                    <div id="errorShow">
-                        <%--<img src="${ctxStatic}" alt="errorLoge">--%>
-                        <p>暂无数据</p>
-                    </div>
+                    <%--<div id="errorShow">--%>
+                        <%--&lt;%&ndash;<img src="${ctxStatic}" alt="errorLoge">&ndash;%&gt;--%>
+                        <%--<p>暂无数据</p>--%>
+                    <%--</div>--%>
                 </div>
                 <%--基因结构图 end--%>
 
