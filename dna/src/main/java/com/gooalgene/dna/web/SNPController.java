@@ -234,6 +234,7 @@ public class SNPController {
         if(CollectionUtils.isNotEmpty(dnaGenStructures)){
             result.put("bps",dnaGenStructures.get(0).getBps());
         }
+        result.put("conditions", chr + "," + startPos + "," + endPos);
         return ResultUtil.success(result);
     }
 
