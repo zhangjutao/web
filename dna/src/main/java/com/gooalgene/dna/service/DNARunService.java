@@ -6,8 +6,10 @@ import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -39,6 +41,7 @@ public class DNARunService {
      * @return
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
+        group="[]";
         Map<String, List<String>> result = new HashMap();
         if (StringUtils.isNotBlank(group)) {
             JSONArray data = JSONArray.fromObject(group);
@@ -232,6 +235,9 @@ public class DNARunService {
             dnaRun.setStearic_min(content.getString("min"));
             dnaRun.setStearic_max(content.getString("max"));
         }
+        if (jsonObject.containsKey("cultivar")) {
+            dnaRun.setCultivar(jsonObject.getString("cultivar"));
+        }
         return dnaRun;
     }
 
@@ -266,5 +272,14 @@ public class DNARunService {
 
     public boolean delete(int id) {
         return dnaRunDao.deleteById(id);
+    }
+
+    public PageInfo<DNARun> getByCultivar(List<String> cultivars,Integer pageNum,Integer pageSize){
+        List<DNARun> list= Lists.newArrayList();
+        PageHelper.startPage(pageNum,pageSize);
+        if(CollectionUtils.isNotEmpty(cultivars)){
+            list=dnaRunDao.getByCultivar(cultivars);
+        }
+        return new PageInfo<>(list);
     }
 }

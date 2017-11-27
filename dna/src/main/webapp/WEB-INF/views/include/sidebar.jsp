@@ -299,40 +299,13 @@
                                 </tr>
                                 </thead>
                                 <tbody style="overflow-x: scroll;width:730px;" id="tagTBody">
-                                <tr>
-                                    <td class="paramTag">
-                                        <input type="checkbox">
-                                    </td>
-                                    <td class="paramTag">品种名</td>
-                                    <td class="paramTag">群体</td>
-                                    <td class="paramTag">物种</td>
-                                    <td class="paramTag">位置</td>
-                                    <td class="paramTag">样品名</td>
-                                    <td class="paramTag">百粒重</td>
-                                    <td class="paramTag">蛋白质含量</td>
-                                    <td class="paramTag">熟期</td>
-                                    <td class="paramTag">株高</td>
-                                    <td class="paramTag">种皮色</td>
-                                    <td class="paramTag">种脐色</td>
-                                    <td class="paramTag">子叶色</td>
-                                    <td class="paramTag">花色</td>
-                                    <td class="paramTag">荚色</td>
-                                    <td class="paramTag">茸毛色</td>
-                                    <td class="paramTag">产量</td>
-                                    <td class="paramTag">顶端小叶长度</td>
-                                    <td class="paramTag">亚油酸</td>
-                                    <td class="paramTag">亚麻酸</td>
-                                    <td class="paramTag">油酸</td>
-                                    <td class="paramTag">软脂酸</td>
-                                    <td class="paramTag">硬脂酸</td>
-                                </tr>
                                 </tbody>
                             </table>
                         </div>
 
                         <%--// 分页显示 begin--%>
                         <div id="paging" style="width:730px;margin-top:10px;margin-bottom:-5px;">
-                            <div id="inputNums" style="padding-right:9px;padding-top:0;">
+                            <div id="inputNums" style="padding-right:9px;padding-top:0;width:393px;">
                                 <span>跳转到</span>
                                 <div>
                                     <input type="number" min="1" name="number" value="" id="inputNum" >
@@ -381,8 +354,12 @@
 <div id="mid"></div>
 <div class="tab-detail">
     <div class="tab-detail-thead">
-        <p><span>1</span>号群体属性信息
-            <a href="javascript:void(0)">X</a></p>
+        <p style="position:relative;">
+            <span style="display:inline-block;text-align:center;max-width:600px;overflow:hidden;text-overflow: ellipsis; white-space: nowrap;">1</span>
+            <i style="position:relative;top:-15px;color:#fff;">号群体/品种属性信息</i>
+
+            <a href="javascript:void(0)">X</a>
+        </p>
     </div>
     <div class="table-item popu-checkbox" style="display:none; box-shadow: none;">
         <div class="checkbox-item">
@@ -471,18 +448,12 @@
                 </tr>
             </thead>
             <tbody>
-                <%--<tr>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td><td>13</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td>--%>
-                <%--</tr>--%>
             </tbody>
         </table>
     </div>
     <div class="checkbox-item-tab" id="popu-paginate">
         <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
     </div>
-
 
     <form id="exportForm" action="${ctxroot}/dna/dataExport" method="get">
         <input class="model" name="model" type="hidden" value="SAMPLES"/>
@@ -494,7 +465,11 @@
 
 <script>
     $(function(){
-
+        if(window.localStorage){
+            var storage = window.localStorage;
+        }else{
+            alert('This browser does NOT support localStorage');
+        }
         function setCookie(name, value) {
             var Days = 30;
             var exp = new Date();
@@ -563,6 +538,7 @@
         $(".colse-sample span").click(function(){
             $(".custom-groups-content").hide();
             $(".cover").hide();
+//            $(".sample-text").empty();
         });
 
         /* 自定义群体-"更多"展现 */
@@ -585,7 +561,6 @@
         function initPopulations() {
             if(getCookie("populations")) {
                 populations = JSON.parse(getCookie("populations"));
-                console.log(populations);
                 var str = "";
                 $.each(populations, function(idx, popu) {
                     str +="<div class='js-ad-dd'>"
@@ -773,10 +748,10 @@
 
         /* 保存群体 */
         $(".sample-screening-btn button").click(function(){
-            console.log(popuSamples);
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
             if(populations.length + defaultLen < 10){
                 var arr = [];
+                // popuSamples 存储保存的样本数据
                 for(var i in popuSamples) {
                     var obj = {};
                     obj[i] = popuSamples[i];
@@ -837,8 +812,6 @@
                 $(this).parent().addClass("cur");
             }
             getSelectedPopulations();
-
-            console.log(selectedPopulations);
 //            if(selectedPopulations.length > 0) {
 //                $(".js-default-add").find("label").removeClass("cur");
 //            } else {
@@ -907,12 +880,14 @@
                         '<td class="param t_iminorAllele">Minor Allele</td>'+
                         '<td class="param t_ifmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
                         '<option value="minor">Frequency of Minor Allele</option></select></td>';
+//                        debugger;
             if(selectedPopulations.length > 0) {
                 var resultPopulations = selectedPopulations;
             } else {
                 var resultPopulations = defaultPopulations;
             }
             $.each(resultPopulations, function(idx, item) {
+                    debugger;
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
                         '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
 
@@ -935,40 +910,121 @@
             TableHeaderSettingIndel();
         }
 
+        // 封装手动删除品种名/localStorage 中的值
+        function deleteLocalKind (kindId,self){
+            // 判断删除的是不是品种
+                var currPval = $(self).prev().find("div").text().substring(0,3);
+                console.log(currPval);
+                if (currPval == "品种名"){
+                    var kindStorage = JSON.parse(storage.getItem("kind"));
+                    var sdKinds = kindStorage.name;
+                      for (var i=0;i<sdKinds.length;i++){
+                        if(sdKinds[i].id == kindId){
+                            sdKinds.splice(i,1);
+                        }
+                    }
+                   storage.removeItem("kind");
+                    storage.setItem("kind",JSON.stringify(kindStorage));
+                }
+        };
         /* 删除手动添加的自定义群体 */
         $("body").on("click",".js-del-dd",function(){
+            var self = this;
             $(this).parent().remove();
             var id = $(this).attr("data-index");
 
 //            initPopulations();
             deletePopulation(id);
             getSelectedPopulations();
+            // 手动删除品种名时，需要删除localStorage中的值
+            var kindId = $(this).prev().attr("data-index");
+            deleteLocalKind(kindId,self);
         });
         $(".js-cursom-add2").on("click",".js-del-dd",function(){
             $(this).parent().remove();
             getSelectedPopulations();
         });
-
+        var kindNames = [];
         var currPopu = "";
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
+            var currVal = $(this).text().split(",")[0].substring(0,3);
+            var currKindList = $(this).text().split(",");
+            kindNames = [];
+            for (var i=0;i<currKindList.length;i++){
+                var name = currKindList[i].substring(3,currKindList[i].length-1);
+                kindNames.push(name);
+            }
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
                 label.addClass("cur");
             }else{
                 label.removeClass("cur");
             }
-            console.log($(this).text());
             $(".tab-detail").show();
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             var id = $(this).parent("label").attr("data-index");
-            currPopu = selectPopulation(id)[0];
-            console.log("current:", currPopu);
-            getPopuTable(1);
+//            currPopu = selectPopulation(id)[0];
+            if(currVal == "品种名"){
+//                $("#popu-paginate").hide();
+//                $("#paging1").show();
+                currPopu = selectKindVal(id)[0];
+                var data = {
+                    names:kindNames.join(",")
+                };
+                getKindInfos(1);
+
+            }else{
+//                $("#popu-paginate").show();
+//                $("#paging1").hide();
+                currPopu = selectPopulation(id)[0];
+                getPopuTable(1);
+            }
 
         });
+        // 选则品种 之后 详情页
+        function getKindInfos(curr){
+            $.ajax({
+                type:'GET',
+                url:CTXROOT + "/dnarun/getByCultivar",
+//                data:data,
+                data:{
+                    names:kindNames.join(","),
+                    pageNum:curr || 1,
+                    pageSize:pageSizePopu
+                },
+                contentType:"application/json",
+                dataType:"json",
+                success:function (result){
+                    renderPopuTable(result.data.list);
+                    laypage({
+                        cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(result.data.total / pageSizePopu), //通过后台拿到的总页数
+                        curr: curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(result.data.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                getKindInfos(obj.curr);
+//                                getKindInfos(obj.curr, currPopu);
+                            }
+                        }
+                    });
+                    $("#popu-paginate .total-page-count > span").html(result.data.total);
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        };
+
         $(".js-cursom-add2").on("click",".label-txt",function(){
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
@@ -976,14 +1032,12 @@
             }else{
                 label.removeClass("cur");
             }
-            console.log($(this).text());
             $(".tab-detail").show();
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             var id = $(this).parent("label").attr("data-index");
             currPopu = selectDefaulPopulation(id)[0];
-            console.log("current:", currPopu);
             getPopuTable(1);
 
         });
@@ -1014,6 +1068,7 @@
                 type: "POST",
                 dataType: "json",
                 success: function(res) {
+
                     renderPopuTable(res.data);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1028,7 +1083,7 @@
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                getPopuTable(obj.curr, currPopu);
+                                getPopuTable(obj.curr,currPopu);
                             }
                         }
                     });
@@ -1243,7 +1298,6 @@
             } else {
                 $(this).addClass("checkbox-ac");
                 GeneObj.gene = $(this).text().split("_")[0];
-                console.log(GeneObj.gene)
             }
         });
 
@@ -1256,7 +1310,6 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function(res) {
-                    console.log(res)
                     if(res.data.length > 0) {
                         var len = res.data.length;
                         var str = '';
@@ -1328,9 +1381,23 @@
             "downstream": ""
         };
 
+//        根据id获取选中的品种名
+        function selectKindVal (id){
+            var o=[];
+            var kindStor = JSON.parse(storage.getItem("kind"));
+
+            for (var i=0;i<kindStor.name.length;i++){
+                if(kindStor.name[i].id == id){
+                    o.push(kindStor.name[i]);
+                }
+            };
+//            console.error(o);
+            return o;
+        }
         // 根据ID获取选中的population
         function selectPopulation(id) {
             var o = [];
+
             $.each(populations, function(idx, ele) {
                 if(ele.id == id) {
                     o.push(ele);
@@ -1354,16 +1421,21 @@
                 if($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
-                    var selectedItem = selectPopulation(id);
-                    // console.log("selected", selectedItem);
+//                    modify by wjshan begin
+                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
+                        var selectedItem = selectKindVal(id);
+                    }else {
+                        var selectedItem = selectPopulation(id);
+                    }
+//                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
+                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {
                 if($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
                     var selectedItem = selectDefaulPopulation(id);
-                    // console.log("selected", selectedItem);
                     selectedPopulations.push(selectedItem[0]);
                 }
             });
@@ -1404,7 +1476,6 @@
                 } else {
                     alert("请输入数字");
                 }
-
             },
             getGeneParams: function() {
                 GeneObj.upstream = $(".js-up-stream").val();

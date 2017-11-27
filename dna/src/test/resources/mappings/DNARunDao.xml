@@ -330,14 +330,6 @@
         </trim>
     </select>
 
-    <select id="getListByFields" parameterType="list" resultType="com.gooalgene.dna.entity.DNARun">
-        SELECT
-        <foreach collection="list" item="field" index="i" open="(" close=")" separator=",">
-            #{field}
-        </foreach>
-        FROM dna_run
-    </select>
-
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run
         WHERE 1=1
@@ -454,5 +446,22 @@
               `category` = #{group,jdbcType=VARCHAR}
           WHERE `id` = #{id};
     </update>
+
+    <select id="getByRunNos" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+        FROM dna_run WHERE run_no IN
+        <foreach collection="list" item="runNo" open="(" close=")" separator=",">
+            #{runNo}
+        </foreach>
+    </select>
+    <select id="getByCultivar" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM dna_run WHERE replace(cultivar,' ','') IN
+        <foreach collection="list" item="cultivar" open="(" close=")" separator=",">
+            replace(#{cultivar},' ','')
+        </foreach>
+    </select>
 
 </mapper>

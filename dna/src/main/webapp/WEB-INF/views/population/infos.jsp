@@ -90,10 +90,10 @@
                         <li>
                             <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
                         </li>
-                        <%--<li>--%>
-                            <%--&lt;%&ndash;无&ndash;%&gt;--%>
-                            <%--<input type="checkbox" name="population" class="population"> 群体--%>
-                        <%--</li>--%>
+                        <li>
+                            <%--无--%>
+                            <input type="checkbox" name="population" class="population" checked="checked"> 群体
+                        </li>
                         <li>
                             <input type="checkbox" name="species" class="species" checked="checked"> 物种
                         </li>
@@ -174,7 +174,7 @@
                     <div class="opOthers">
                         <p class="selectedAll">清空</p>
                         <p class="packUp">收起
-                            <img src="${ctxStatic}/images/packUp.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
+                            <img src="${ctxStatic}/images/down.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
                         </p>
                     </div>
                 </div>
@@ -202,6 +202,23 @@
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                                 </p>
+                            </div>
+                        </th>
+                        <th class="param populationT popMoveOnNewAdd" style="position:relative;">群体
+                            <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                            <div class="popNamesNewAdd">
+                                <ul style="margin-top:10px;">
+                                    <li>Q1</li>
+                                    <li>Q2</li>
+                                    <li>Q3</li>
+                                    <li>Q4</li>
+                                    <li>Q5</li>
+                                    <li>Q6</li>
+                                    <li>Q7</li>
+                                    <li>Q8</li>
+                                    <li>Q9</li>
+                                    <li>Q10</li>
+                                </ul>
                             </div>
                         </th>
                         <th class="param localityT">位置
