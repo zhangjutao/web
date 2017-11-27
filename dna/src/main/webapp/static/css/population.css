@@ -212,7 +212,7 @@
 #tableShow{
     width:1137px;
     overflow-x: scroll;
-    min-height: 300px;
+    min-height: 155px;
 }
 #tableShow>table{
     border-collapse: collapse;

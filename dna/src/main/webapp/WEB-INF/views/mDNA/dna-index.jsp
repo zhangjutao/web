@@ -26,7 +26,7 @@
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/d3.js"></script>
-    <script src="${ctxStatic}/js/addTags.js"></script>
+
 
     <style>
         .total-page-count {display: none!important;}
@@ -438,6 +438,7 @@
     var ctxRoot = '${ctxroot}';
 </script>
 <script src="${ctxStatic}/js/dna.js"></script>
+<script src="${ctxStatic}/js/addTags.js"></script>
 
 
 </body>
