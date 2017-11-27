@@ -551,7 +551,7 @@ public class SNPController {
                         String major = groupFreq.getString("major");
                         float majorValue=Float.parseFloat(major);
                         if (map.containsKey(name)) {
-                            sb.append(majorValue+"%").append(",");
+                            sb.append(df.format(majorValue)).append(",");
                         }
                     }
                 }
@@ -562,7 +562,7 @@ public class SNPController {
                         String minor = groupFreq.getString("minor");
                         float minorValue=Float.parseFloat(minor);
                         if (map.containsKey(name)) {
-                            sb.append(minorValue+"%").append(",");
+                            sb.append(df.format(minorValue)).append(",");
                     }
                     }
                 }

@@ -140,7 +140,7 @@ public class ExportDataController {
         map.put("upperLeafletLength", "upper Leaflet Length");
         map.put("maturityDate", "Maturity Date");
         map.put("yield", "Yield(Mg/ha)");
-        map.put("group","Group");
+        map.put("population","Group");
         return map;
     }
 
@@ -178,7 +178,7 @@ public class ExportDataController {
                 sb.append(cultivar!=null?cultivar:" ").append(",");
             }
             //组别
-            if(map.containsKey("group")){
+            if(map.containsKey("population")){
                 String group=dnaRun.getGroup();
                 dnaList.add(group);
                 sb.append(group!=null?group:"").append(",");
