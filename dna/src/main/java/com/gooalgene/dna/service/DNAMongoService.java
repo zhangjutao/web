@@ -234,17 +234,40 @@ public class DNAMongoService {
         }
     }
 
-    public List<SNP> findDataByIndex(String type, String chr, String id,Integer index,Integer pageSize) {
+    public List<SNP> findDataByIndex(String type, String chr, String id,Integer index,Integer pageSize,String startPos,String endPos) {
         String collectionName = type + "_" +chr;
-        List<SNP> snps=Lists.newArrayList();
+
+        List<SNP> result = new ArrayList<SNP>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
+
+            Query query = new Query();
+            query.addCriteria(criteria);
+            logger.info("Query:" + query.toString());
+            query.skip(index);
+            query.limit(pageSize);
+            Long start=System.currentTimeMillis();
+            result = mongoTemplate.find(query, SNP.class, collectionName);
+            Long end=System.currentTimeMillis()-start;
+        } else {
+            logger.info(collectionName + " is not exist.");
+        }
+        return result;
+
+        /*List<SNP> snps=Lists.newArrayList();
         if (mongoTemplate.collectionExists(collectionName)) {
             //Integer pageNum=index/pageSize+1;
             Query query = new Query();
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
+            //query.fields().exclude("type");
+            query.addCriteria(criteria);
             query.skip(index);
             query.limit(pageSize);
             snps = mongoTemplate.find(query, SNP.class, collectionName);
         }
-        return snps;
+        return snps;*/
 
     }
 
