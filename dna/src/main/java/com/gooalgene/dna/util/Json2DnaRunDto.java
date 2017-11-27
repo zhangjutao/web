@@ -15,6 +15,7 @@ public class Json2DnaRunDto {
         dnaRunDto.setSpecies(object.getString("species"));
         dnaRunDto.setLocality(object.getString("locality"));
         dnaRunDto.setSampleName(object.getString("sampleName"));
+        dnaRunDto.setGroup(object.getString("group"));
         CompareHelper c1=new CompareHelper();
         c1.setOperation(object.getString("weightPer100seeds.operation"));
         c1.setValue(Float.parseFloat(object.getString("weightPer100seeds.value").equals("")?"0":object.getString("weightPer100seeds.value")));
@@ -80,6 +81,8 @@ public class Json2DnaRunDto {
         c11.setOperation(object.getString("stearic.operation"));
         c11.setValue(Float.parseFloat(object.getString("stearic.value").equals("")?"0":object.getString("stearic.value")));
         dnaRunDto.setStearic(c11);
+
+
         return dnaRunDto;
     }
 }
