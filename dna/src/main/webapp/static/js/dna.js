@@ -137,8 +137,8 @@ $(function () {
                 };
                 // 根据范围查询基因
                 requestForGeneId(data);
-                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid");
-                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid");
+                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid",data);
+                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid",data);
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -151,7 +151,7 @@ $(function () {
         }
     });
     // 根据范围查询所有的snp位点信息
-    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,SnpPageSize,gid){
+    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,SnpPageSize,gid,data){
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
         params['type'] = type;
@@ -162,7 +162,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,SnpPageSize,gid);
+                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,SnpPageSize,gid,data);
             },
             error:function (error){
                 console.log(error);
@@ -361,7 +361,6 @@ $(function () {
             success: function(res) {
                 // 如果返回值为空，则隐藏
                 if(res.data == null){
-                    // alert("返回值为空时,则隐藏对应的元素");
                     $("#constructorPanel").hide();
                     // $("#errorShow").show();
                     $("#mask-test .ga-mask").hide();
@@ -927,7 +926,7 @@ $(function () {
         }
     });
     // 基因结构图
-    function drawGeneConstructor(result,id,tabId,reginChr,type,SnpPageSize,gsnpid){
+    function drawGeneConstructor(result,id,tabId,reginChr,type,SnpPageSize,gsnpid,data){
         // 参考值
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
@@ -1101,7 +1100,7 @@ $(function () {
                     }
                     loop(newArr);
         // 点击每个snp位点重新获取数据
-        function getSnpPoint(tabid){
+        function getSnpPoint(tabid,data){
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
             for(var i=0;i<allSnpNum.length;i++){
@@ -1113,6 +1112,11 @@ $(function () {
                     singleData.pageSize = SnpPageSize;
                     break;
                 }
+            };
+            data && addReginParam(data)
+            function addReginParam (data){
+                singleData.start = data.start;
+                singleData.start = data.end;
             }
             $.ajax({
                 type:'GET',
