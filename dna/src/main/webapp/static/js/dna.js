@@ -185,7 +185,7 @@ $(function () {
     function getAllSnpInfosGene(curr, params,type,parentCont,tblBody,reginChr,gid,url){
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
-        params['type'] = 'SNP';
+        params['type'] =type;
         params['ctype'] = CTypeSnp;
         $.ajax({
             url:ctxRoot + url,
@@ -269,6 +269,8 @@ $(function () {
             }
             $(this).addClass("GlyColor");
         }
+        var clickVal = $(this).text();
+        globelGeneId = clickVal;
         var obj = getPanelParams();
         // if(typeof obj == "object") {
         //     CTypeSnp = "all";
@@ -277,6 +279,15 @@ $(function () {
         //         if(!$("#GlyIds").is(":hidden")){
         //             $("#GlyIds").hide();
         //         }
+                var paramas1 = {
+                    gene:clickVal,
+                    group:obj.params.group,
+                    // ctype:snpPintDatas.ctype
+                }
+        snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
+                globelType="Gene";
+                reginIntoGene(1,paramas1,"SNP","constructorPanel","tableBody","snpid","/dna/searchIdAndPosInGene");
+                reginIntoGene(1,paramas1,"INDEL","constructorPanel2","tableBody2","indelid","/dna/searchIdAndPosInGene");
                 requestForSnpData(1, obj.url, obj.params);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -293,6 +304,25 @@ $(function () {
             // }
         // }
     })
+    // 从regin 页面点击基因开始查询
+    function reginIntoGene(curr,params,type,parentCnt,tblBody,gid,url){
+        params['pageNo'] = curr || 1;
+        params['pageSize'] = pageSizeSNP;
+        params['type'] = type;
+        params['ctype'] = CTypeSnp;
+        $.ajax({
+            url:ctxRoot + url,
+            data: params,
+            type: "POST",
+            dataType: "json",
+            success: function(res) {
+                drawGeneConstructor(res,parentCnt,tblBody,"",type,gid);
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    }
     // 生成搜索描述文字
     function renderSearchText() {
         var panelType = GetPanelParams.getPanelType();
@@ -1188,7 +1218,6 @@ $(function () {
                     // break;
                 // }
             // };
-            alert( singleData.index);
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatas.url,
@@ -1222,7 +1251,6 @@ $(function () {
             //         break;
             //     }
             // };
-            alert( singleData.index);
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatasGene.url,
