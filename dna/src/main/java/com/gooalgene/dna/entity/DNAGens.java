@@ -13,10 +13,10 @@ public class DNAGens extends DataEntity<DNAGens> {
     private String geneName;
     private String geneFunction;
 
-    private Long geneStart;//开始位置
-    private Long geneEnd;//结束位置
+    private Long geneStart; //开始位置
+    private Long geneEnd; //结束位置
 
-    private String keywords;//当all查询时才存在
+    private String keywords; //当all查询时才存在
 
     public String getGeneFunction() {
         return geneFunction;

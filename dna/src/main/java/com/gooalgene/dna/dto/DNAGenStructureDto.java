@@ -1,7 +1,5 @@
 package com.gooalgene.dna.dto;
 
-import com.gooalgene.common.DataEntity;
-
 /**
  * Created by Administrator on 2017-10-16.
  */
