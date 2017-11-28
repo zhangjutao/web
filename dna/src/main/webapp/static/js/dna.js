@@ -881,7 +881,6 @@ $(function () {
     var total;
     /* 导出 */
     $(".js-export").click(function() {
-        debugger;
         var fma = $(".t_fmajorAllele").find("option:selected").text();
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "gene") {
@@ -907,7 +906,7 @@ $(function () {
                 }
             });
             for (var i=0;i<choiceArr.length;i++){
-                if(choiceArr[i] == "frequencyofmajorallele"){
+                if(choiceArr[i] == "frequencyOfMajorAllele"){
                     var newFma = fma.split(" ");
                     var newFmas = "";
                     for (var j=0;j<newFma.length;j++){
@@ -941,6 +940,16 @@ $(function () {
                     choiceArr.push($(item).attr("data-col-name"));
                 }
             });
+            for (var i=0;i<choiceArr.length;i++){
+                if(choiceArr[i] == "frequencyOfMajorAllele"){
+                    var newFma = fma.split(" ");
+                    var newFmas = "";
+                    for (var j=0;j<newFma.length;j++){
+                        newFmas+=newFma[j];
+                    };
+                    choiceArr[i] = newFmas;
+                }
+            }
             _form.find(".choices").val(choiceArr.join(","));
             _form.find(".group").val(params.group);
             _form.submit();
