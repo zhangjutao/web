@@ -67,7 +67,7 @@ public class ExportDataControllerTest extends TestCase{
         .param("type","snp")
         .param("ctype","all")
         .param("chromosome","ch01")
-        .param("start","0")
+        .param("start", "0")
         .param("end","1000"))
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -75,4 +75,17 @@ public class ExportDataControllerTest extends TestCase{
 
     }
 
+    @Test
+    public void testExportData2()throws Exception{
+        mockMvc.perform(get("/dna/exportData")
+                .param("model","REGION")
+                .param("choices","snpid,group,species,sampleName,cultivar,fattyacid")
+                .param("type","snp")
+                .param("ctype","all"))
+                .andExpect(status().isOk())
+                .andDo(print())
+                .andReturn()
+                .getResponse();
+
+    }
 }
