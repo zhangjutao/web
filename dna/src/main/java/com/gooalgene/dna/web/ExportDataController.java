@@ -1,20 +1,31 @@
 package com.gooalgene.dna.web;
 
+import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
+import com.gooalgene.dna.dto.SNPDto;
+import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNARunService;
+import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.dna.util.Json2DnaRunDto;
 import com.gooalgene.utils.JsonUtils;
+import com.gooalgene.utils.Tools;
+import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.collections.map.HashedMap;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.text.DecimalFormat;
 import java.util.*;
+import java.util.concurrent.ConcurrentHashMap;
+
 /**
  * Created by liuyan on 2017/11/13
  *
@@ -29,31 +40,44 @@ public class ExportDataController {
 
     @Autowired
     private DNARunDao dnaRunDao;
+    @Autowired
+    private SNPService snpService;
+    @Autowired
+    private DNAGensService dnaGensService;
 
     private static List<String> dnaList=new ArrayList<String>();
+
+    //用于群体信息数据导出
 
     @RequestMapping(value = "/export", method = RequestMethod.GET,produces ="application/json")
     @ResponseBody
     public String exportData(HttpServletRequest request) throws IOException {
-
+        //接收的参数 title 表头信息  condition 表头的筛选条件
         String choices=request.getParameter("titles");
         String temp=request.getParameter("condition");
         JSONObject object=null;
+        //dnaRunDto用来存储表头筛选的条件
         DnaRunDto dnaRunDto = null;
         if(temp!=null&&!temp.equals("")){
             object=JSONObject.fromObject(temp);
             dnaRunDto = Json2DnaRunDto.json2DnaRunDto(object);
+        }else {
+            dnaRunDto=new DnaRunDto();
         }
 
         String titles="";
+        //此处condition 用来表示表头信息
         String[] condition=null;
 
         if(choices!=null&&!choices.equals("")){
              titles=choices.substring(0, choices.length() - 1);
              condition=titles.split(",");
+        }else{
+             condition=",".split(",");
         }
         String fileName="";
-        List<String> list=new ArrayList<>();
+
+        //生成文件名
         if(condition.length>5){
             for (int i=0;i<5;i++){
                 fileName+=condition[i]+"-";
@@ -64,24 +88,24 @@ public class ExportDataController {
             }
         }
 
-        for (int i=0;i<condition.length;i++){
-            list.add(condition[i]);
-            logger.info(condition[i]);
-        }
         fileName+= UUID.randomUUID()+".csv";
+
         String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile\\";
         String csvStr="";
         List<DNARun> result=dnaRunDao.getListByCondition(dnaRunDto);
 
         //使用csv进行导出
-        csvStr=createCsvStr(result,condition);
+        if(choices==null||choices.equals("")){
+            csvStr="请正确选择表格内容";
+        }else {
+            csvStr=createCsvStr(result,condition);
+        }
         File tempfile=new File(filePath+fileName);
         if (!tempfile.getParentFile().exists()){
                  if (!tempfile.getParentFile().mkdirs()){
                      return "文件目录创建失败";
                  }
         }
-
         FileOutputStream tempFile=new FileOutputStream(tempfile);
         tempFile.write(csvStr.getBytes("gbk"));
         tempFile.flush();
@@ -103,14 +127,12 @@ public class ExportDataController {
         logger.info(path);
         return JsonUtils.Bean2Json(path);
     }
-
     //调整表头显示
     private static Map<String, String> changeCloumn2Web() {
         Map<String, String> map = new HashMap<String, String>();
         map.put("species", "Species");
         map.put("sampleName", "Sample Name");
         map.put("cultivar", "Cultivar");
-       // map.put("plantName", "Plant Name");
         map.put("locality", "Locality");
         map.put("protein", "Protein");
         map.put("oil", "Oil");
@@ -131,19 +153,17 @@ public class ExportDataController {
         map.put("upperLeafletLength", "upper Leaflet Length");
         map.put("maturityDate", "Maturity Date");
         map.put("yield", "Yield(Mg/ha)");
+        map.put("population","Group");
         return map;
     }
-
-
     //将列表中的数据  生成csv的格式
     /**
      *@param  result 要导出的内容
      *@param  titles  表头
      */
-
     public static String  createCsvStr(List<DNARun> result,String[] titles){
         StringBuilder sb=new StringBuilder();
-        Map<String,Integer> map=new HashedMap();
+        Map<String,Integer> map=new ConcurrentHashMap<>();
         Map<String,String> titleMap=changeCloumn2Web();
         int len=titles.length;
         for(int i=0;i<len;i++){
@@ -167,7 +187,12 @@ public class ExportDataController {
                 dnaList.add(cultivar!=null?cultivar:"");
                 sb.append(cultivar!=null?cultivar:" ").append(",");
             }
-
+            //组别
+            if(map.containsKey("population")){
+                String group=dnaRun.getGroup();
+                dnaList.add(group);
+                sb.append(group!=null?group:"").append(",");
+            }
             //物种
             if(map.containsKey("species")){
                 String species=dnaRun.getSpecies();
@@ -305,21 +330,16 @@ public class ExportDataController {
             }
 
 
-            //前端数据不包含部分
 
-            //组别
-            if(map.containsKey("group")){
-                String group=dnaRun.getGroup();
-                dnaList.add(group);
-                sb.append(group!=null?group:"").append(",");
-            }
+
+
+            //前端数据不包含部分
             //编号
             if(map.containsKey("run")){
                 String run=dnaRun.getRunNo();
                 dnaList.add(run);
                 sb.append(run!=null?run:"").append(",");
             }
-
 
             //品种名称
             if(map.containsKey("plantName")){
@@ -333,5 +353,412 @@ public class ExportDataController {
         }
         return sb.toString();
     }
+
+
+    //用于SNP result页面的信息  searchInRegion 所在页面
+
+    private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
+
+
+    @RequestMapping("/dna/dataExport")
+    @ResponseBody
+    public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
+        String model = request.getParameter("model");//区分导出数据类型：regin、gene、samples
+        String columns = request.getParameter("choices");//表头列
+        logger.info("model:" + model + ",colums:" + columns);
+        String content = "";
+        String fileName = model;
+        if (StringUtils.isNoneBlank(columns)) {
+            if (StringUtils.isNoneBlank(model)) {
+                Map result;
+                if ("REGION".equals(model)) {
+                    String type = request.getParameter("type");
+                    fileName += "_" + type;
+                    String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+                    String chr = request.getParameter("chromosome");
+                    String startPos = request.getParameter("start");
+                    String endPos = request.getParameter("end");
+                    fileName += "_" + chr + "_Position:[" + startPos + "," + endPos + "]_" + ctype;
+                    String group = request.getParameter("group");
+                    String temp=request.getParameter("total");       //获取数据的总数
+                    Page<DNARun> page = new Page<DNARun>(request, response);
+                    int total=0;
+                    if(temp!=null&&!temp.equals("")) {
+                        total = Integer.parseInt(temp);
+                    }else{
+                        total=EXPORT_NUM;
+                    }
+                    page.setPageSize(total);
+                    result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+                    content = serialList(type,result,columns.split(","));
+
+                } else if ("GENE".equals(model)) {
+                    String type = request.getParameter("type");
+                    fileName += "_" + type;
+                    String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+                    String gene = request.getParameter("gene");
+                    String upstream = request.getParameter("upstream");
+                    String downstream = request.getParameter("downstream");
+                    fileName += "_" + gene + "Stream:[" + upstream + "," + downstream + "]_" + ctype;
+                    String group = request.getParameter("group");
+                    String temp=request.getParameter("total");       //获取数据的总数
+                    DNAGens dnaGens = dnaGensService.findByGene(gene);
+                    if (dnaGens!= null) {
+                        long start = dnaGens.getGeneStart();
+                        long end = dnaGens.getGeneEnd();
+                        logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
+                        if (StringUtils.isNoneBlank(upstream)) {
+                            start = start - Long.valueOf(upstream);
+                        }
+                        if (StringUtils.isNoneBlank(downstream)) {
+                            end = end + Long.valueOf(downstream);
+                        }
+                        upstream = String.valueOf(start);
+                        downstream = String.valueOf(end);
+                    }
+                    logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
+                    Page<DNAGens> page = new Page<DNAGens>(request, response);
+                    int total=0;
+                    if(temp!=null&&!temp.equals("")) {
+                        total = Integer.parseInt(temp);
+                    }else{
+                        total=EXPORT_NUM;
+                    }
+                    page.setPageSize(total);
+                    result=snpService.searchSNPinGene(type,ctype,gene,upstream,downstream,group,page);
+                    content = serialList(type, result, columns.split(","));
+                } else if ("SAMPLES".equals(model)) {
+                    String group = request.getParameter("group");
+                    Page<DNARun> page = new Page<DNARun>(request, response);
+                    String temp=request.getParameter("total");       //获取数据的总数
+                    int total=0;
+                    if(temp!=null&&!temp.equals("")) {
+                        total = Integer.parseInt(temp);
+                    }else{
+                        total=EXPORT_NUM;
+                    }
+                    page.setPageSize(total);
+                    result = dnaRunService.queryDNARunByGroup(group, page);
+                    content = serialList(model, result, columns.split(","));
+                }
+            } else {
+                content = "请选择导出数据类型";
+            }
+        } else {
+            content = "请选择正确的显示表头数据";
+        }
+        Tools.toDownload(fileName, content, response);
+    }
+
+    /*
+     * 生成导出内容
+     *
+     * @param model  数据类型
+     * @param result 导出内容
+     * @param titles 导出表头
+     * @return
+     */
+    private String serialList(String model, Map result, String[] titles) {
+        DecimalFormat df=new DecimalFormat();
+        df.applyPattern("#0.00%");
+        StringBuilder sb = new StringBuilder();
+        Map<String, Integer> map = new HashMap<String, Integer>();
+        List<String> titleList=new ArrayList<String>();
+        int len = titles.length;
+        if("SNP".equals(model)) {
+            for (int i = 0; i < len; i++) {
+                if(titles[i].equals("weightPer100seeds")){
+                    sb.append(titles[i]+"(g)");
+                }
+                else if(titles[i].equals("oil")||titles[i].equals("protein")||titles[i].equals("linolenic")||titles[i].equals("linoleic")||titles[i].equals("oleic")||titles[i].equals("palmitic")||titles[i].equals("stearic")){
+                    sb.append(titles[i]+"(%)");
+                }
+                else if(titles[i].equals("floweringDate")||titles[i].equals("maturityDate")){
+                    sb.append(titles[i]+"(month day)");
+                }
+                else if(titles[i].equals("height")){
+                    sb.append(titles[i]+"(cm)");
+                }
+                else if(titles[i].equals("yield")){
+                    sb.append(titles[i]+"(t/ha)");
+                }
+                else if(titles[i].equals("upperLeafletLength")){
+                    sb.append(titles[i]+"(mm)");
+                }else if(titles[i].equals("FrequencyofMajorAllele")){
+                    titles[i]="frequencyOfMajorAllele";
+                    sb.append("frequencyOfMajorAllele");
+                }else if(titles[i].equals("FrequencyofMinorAllele")){
+                    titles[i]="frequencyOfMinorAllele";
+                    sb.append("frequencyOfMinorAllele");
+                }
+                else {
+                    sb.append(titles[i]);
+                }
+
+                if (i != (len - 1)) {
+                    sb.append(",");
+                } else {
+                    sb.append(",");
+                    sb.append("GenoType");
+                    sb.append("\n");
+                }
+                titleList.add(titles[i]);
+                map.put(titles[i], i);
+            }
+            titleList.add("GenoType");
+            map.put("GenoType",len);
+        }else {
+            for (int i = 0; i < len; i++) {
+                if(titles[i].equals("weightPer100seeds")){
+                    sb.append(titles[i]+"(g)");
+                }
+                else if(titles[i].equals("oil")||titles[i].equals("protein")||titles[i].equals("linolenic")||titles[i].equals("linoleic")||titles[i].equals("oleic")||titles[i].equals("palmitic")||titles[i].equals("stearic")){
+                    sb.append(titles[i]+"(%)");
+                }
+                else if(titles[i].equals("floweringDate")||titles[i].equals("maturityDate")){
+                    sb.append(titles[i]+"(month day)");
+                }
+                else if(titles[i].equals("height")){
+                    sb.append(titles[i]+"(cm)");
+                }
+                else if(titles[i].equals("yield")){
+                    sb.append(titles[i]+"(t/ha)");
+                }
+                else if(titles[i].equals("upperLeafletLength")){
+                    sb.append(titles[i]+"(mm)");
+                }else if(titles[i].equals("FrequencyofMajorAllele")){
+                    titles[i]="frequencyOfMajorAllele";
+                    sb.append("frequencyOfMajorAllele");
+                }else if(titles[i].equals("FrequencyofMinorAllele")){
+                    titles[i]="frequencyOfMinorAllele";
+                    sb.append("frequencyOfMinorAllele");
+                }else {
+                    sb.append(titles[i]);
+                }
+                if (i != (len - 1)) {
+                    sb.append(",");
+                } else {
+                    sb.append("\n");
+                }
+                titleList.add(titles[i]);
+                map.put(titles[i], i);
+            }
+        }
+
+     /*  * 现在的sample和idel还是用的原来的接口  返回的是json类型的数据
+       * SNP使用的是新的接口  返回的是对应SNPdto类型的数据
+       * 把data 分别移动到判断条件内  根据不同类型 接收不同类型的参数
+       * */
+
+        if ("SAMPLES".equals(model)) {
+            JSONArray data = (JSONArray) result.get("data");
+            int size = data.size();
+            for (int i = 0; i < size; i++) {
+                JSONObject one = data.getJSONObject(i);
+                if (map.containsKey("species")) {
+                    String species = one.getString("species");
+                    sb.append((species != null ? species : "")).append(",");
+                }
+                if (map.containsKey("locality")) {
+                    String locality = one.getString("locality");
+                    sb.append((locality != null ? Tools.getRightContent(locality) : "")).append(",");
+                }
+                if (map.containsKey("sampleName")) {
+                    String sampleName = one.getString("sampleName");
+                    sb.append((sampleName != null ? sampleName : "")).append(",");
+                }
+                if (map.containsKey("cultivar")) {
+                    String cultivar = one.getString("cultivar");
+                    sb.append((cultivar != null ? cultivar : "")).append(",");
+                }
+                if (map.containsKey("weightPer100seeds")) {
+                    Object weightPer100seeds = one.get("weightPer100seeds");
+                    sb.append((weightPer100seeds != null ? weightPer100seeds : "")).append(",");
+                }
+                if (map.containsKey("oil")) {
+                    Object oil = one.get("oil");
+                    sb.append((oil != null ? oil : "")).append(",");
+                }
+                if (map.containsKey("protein")) {
+                    Object protein = one.get("protein");
+                    sb.append((protein != null ? protein : "")).append(",");
+                }
+                if (map.containsKey("floweringDate")) {
+                    Object floweringDate = one.get("floweringDate");
+                    sb.append((floweringDate != null ? floweringDate : "")).append(",");
+                }
+                if (map.containsKey("maturityDate")) {
+                    Object maturityDate = one.get("maturityDate");
+                    sb.append((maturityDate != null ? maturityDate : "")).append(",");
+                }
+                if (map.containsKey("height")) {
+                    Object height = one.get("height");
+                    sb.append((height != null ? height : "")).append(",");
+                }
+                if (map.containsKey("seedCoatColor")) {
+                    Object seedCoatColor = one.get("seedCoatColor");
+                    sb.append((seedCoatColor != null ? seedCoatColor : "")).append(",");
+                }
+                if (map.containsKey("hilumColor")) {
+                    Object hilumColor = one.get("hilumColor");
+                    sb.append((hilumColor != null ? hilumColor : "")).append(",");
+                }
+                if (map.containsKey("cotyledonColor")) {
+                    Object cotyledonColor = one.get("cotyledonColor");
+                    sb.append((cotyledonColor != null ? cotyledonColor : "")).append(",");
+                }
+                if (map.containsKey("flowerColor")) {
+                    Object flowerColor = one.get("flowerColor");
+                    sb.append((flowerColor != null ? flowerColor : "")).append(",");
+                }
+                if (map.containsKey("podColor")) {
+                    Object podColor = one.get("podColor");
+                    sb.append((podColor != null ? podColor : "")).append(",");
+                }
+                if (map.containsKey("pubescenceColor")) {
+                    Object pubescenceColor = one.get("pubescenceColor");
+                    sb.append((pubescenceColor != null ? pubescenceColor : "")).append(",");
+                }
+                if (map.containsKey("yield")) {
+                    Object maturityDate = one.get("yield");
+                    sb.append((maturityDate != null ? maturityDate : "")).append(",");
+                }
+                if (map.containsKey("upperLeafletLength")) {
+                    Object upperLeafletLength = one.get("upperLeafletLength");
+                    sb.append((upperLeafletLength != null ? upperLeafletLength : "")).append(",");
+                }
+                if (map.containsKey("linoleic")) {
+                    Object linoleic = one.get("linoleic");
+                    sb.append((linoleic != null ? linoleic : "")).append(",");
+                }
+                if (map.containsKey("linolenic")) {
+                    Object linolenic = one.get("linolenic");
+                    sb.append((linolenic != null ? linolenic : "")).append(",");
+                }
+                if (map.containsKey("oleic")) {
+                    Object oleic = one.get("oleic");
+                    sb.append((oleic != null ? oleic : "")).append(",");
+                }
+                if (map.containsKey("palmitic")) {
+                    Object palmitic = one.get("palmitic");
+                    sb.append((palmitic != null ? palmitic : "")).append(",");
+                }
+                if (map.containsKey("stearic")) {
+                    Object stearic = one.get("stearic");
+                    sb.append((stearic != null ? stearic : "")).append(",");
+                }
+                sb.append("\n");
+            }
+        } else if ("SNP".equals(model)) {
+            List<SNPDto> data= (List<SNPDto>) result.get("data");
+            int size=data.size();
+            for (int i = 0; i < size; i++) {
+                SNPDto snpDto= data.get(i);
+                JSONArray freq= (JSONArray) snpDto.getFreq();
+                for(String titleItem:titleList){
+                    if(titleItem.equals("SNPID")){
+                        sb.append(snpDto.getId()).append(",");
+                    }else if(titleItem.equals("consequenceType")){
+                        sb.append(snpDto.getConsequencetype()).append(",");
+                    }else if(titleItem.equals("chromosome")){
+                        sb.append(snpDto.getChr()).append(",");
+                    }else if(titleItem.equals("position")){
+                        sb.append(snpDto.getPos()).append(",");
+                    }else if(titleItem.equals("reference")){
+                        sb.append(snpDto.getRef()).append(",");
+                    }else if(titleItem.equals("majorAllele")){
+                        sb.append(snpDto.getMajorallen()).append(",");
+                    }else if(titleItem.equals("minorAllele")){
+                        sb.append(snpDto.getMinorallen()).append(",");
+                    }else if(titleItem.equals("frequencyOfMajorAllele")){
+                        sb.append(df.format(snpDto.getMajor())).append(",");
+                    }else if(titleItem.equals("frequencyOfMinorAllele")){
+                        sb.append(df.format(snpDto.getMinor())).append(",");
+                    }else if(titleItem.equals("GenoType")){
+                        Map hashMap;
+                        hashMap=snpDto.getGeneType();
+                        String RR=String.valueOf(df.format((double)hashMap.get("RefAndRefPercent")));
+                        String tRA=String.valueOf(df.format((double)hashMap.get("totalRefAndAltPercent")));
+                        String tAA=String.valueOf(df.format((double)hashMap.get("totalAltAndAltPercent")));
+                        String ref=snpDto.getRef();
+                        String alt=snpDto.getAlt();
+                        String ra=ref+alt;
+                        sb.append(ref+ref+":"+RR+"，"+alt+alt+":"+tAA+"，"+ra+":"+tRA);
+                    }else{
+                        for(int j=0;j<freq.size();j++){
+                            JSONObject groupFreq=freq.getJSONObject(j);
+                            String name="fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
+                            String major=groupFreq.getString("major");
+                            float majorValue=Float.parseFloat(major);
+                            if(titleItem.equals(name)){
+                                sb.append(df.format(majorValue)).append(",");
+                            }
+                        }
+                        for(int j=0;j<freq.size();j++){
+                            JSONObject groupFreq=freq.getJSONObject(j);
+                            String name = "fminorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
+                            String minor = groupFreq.getString("minor");
+                            float minorValue=Float.parseFloat(minor);
+                            if(titleItem.equals(name)){
+                                sb.append(df.format(minorValue)).append(",");
+                            }
+                        }
+                    }
+                }
+                sb.append("\n");
+            }
+        } else if ("INDEL".equals(model)) {
+            List<SNPDto> data= (List<SNPDto>) result.get("data");
+            int size = data.size();
+            for (int i = 0; i < size; i++) {
+                SNPDto snpDto= data.get(i);
+                JSONArray freq= (JSONArray) snpDto.getFreq();
+                for(String titleItem:titleList){
+                    if(titleItem.equals("INDELID")){
+                        sb.append(snpDto.getId()).append(",");
+                    }else if(titleItem.equals("consequenceType")){
+                        sb.append(snpDto.getConsequencetype()).append(",");
+                    }else if(titleItem.equals("chromosome")){
+                        sb.append(snpDto.getChr()).append(",");
+                    }else if(titleItem.equals("position")){
+                        sb.append(snpDto.getPos()).append(",");
+                    }else if(titleItem.equals("reference")){
+                        sb.append(snpDto.getRef()).append(",");
+                    }else if(titleItem.equals("majorAllele")){
+                        sb.append(snpDto.getMajorallen()).append(",");
+                    }else if(titleItem.equals("minorAllele")){
+                        sb.append(snpDto.getMinorallen()).append(",");
+                    }else if(titleItem.equals("frequencyOfMajorAllele")){
+                        sb.append(df.format(snpDto.getMajor())).append(",");
+                    }else if(titleItem.equals("frequencyOfMinorAllele")){
+                        sb.append(df.format(snpDto.getMinor())).append(",");
+                    }else{
+                        for(int j=0;j<freq.size();j++){
+                            JSONObject groupFreq=freq.getJSONObject(j);
+                            String name="fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
+                            String major=groupFreq.getString("major");
+                            float majorValue=Float.parseFloat(major);
+                            if(titleItem.equals(name)){
+                                sb.append(df.format(majorValue)).append(",");
+                            }
+                        }
+                        for(int j=0;j<freq.size();j++){
+                            JSONObject groupFreq=freq.getJSONObject(j);
+                            String name = "fminorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
+                            String minor = groupFreq.getString("minor");
+                            float minorValue=Float.parseFloat(minor);
+                            if(titleItem.equals(name)){
+                                sb.append(df.format(minorValue)).append(",");
+                            }
+                        }
+                    }
+                }
+                sb.append("\n");
+            }
+        }
+        return sb.toString();
+    }
+
+
 
 }
