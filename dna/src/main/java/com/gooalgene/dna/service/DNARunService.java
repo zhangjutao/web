@@ -41,7 +41,9 @@ public class DNARunService {
      * @return
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
-        group="[]";
+        if (group.equals("[{}]")) {
+            group = "[]";
+        }
         Map<String, List<String>> result = new HashMap();
         if (StringUtils.isNotBlank(group)) {
             JSONArray data = JSONArray.fromObject(group);
@@ -49,11 +51,25 @@ public class DNARunService {
             for (int i = 0; i < len; i++) {
                 JSONObject one = data.getJSONObject(i);
                 String groupName = one.getString("name");
-                String condition = one.getString("condition");
-                DNARun dnaRun = getQuery(condition);
-                List<String> list = querySamples(dnaRun);
-                System.out.println(groupName + "," + list.size());
-                result.put(groupName, list);
+                if (one.containsKey("condition")) {
+                    String condition = one.getString("condition");
+                    if (condition.indexOf("cultivar") != -1) {
+                        List<String> runNoList = new ArrayList<String>();
+                        List<DNARun> dnaRunList = getQueryList(condition);
+                        for (DNARun dnaRun : dnaRunList) {
+                            List<String> list = querySamples(dnaRun);
+                            for (String runNo : list) {
+                                runNoList.add(runNo);
+                            }
+                        }
+                        result.put(groupName, runNoList);
+                    } else {
+                        DNARun dnaRun = getQuery(condition);
+                        List<String> list = querySamples(dnaRun);
+                        System.out.println(groupName + "," + list.size());
+                        result.put(groupName, list);
+                    }
+                }
             }
         }
         return result;
@@ -68,8 +84,8 @@ public class DNARunService {
     public List<String> querySamples(DNARun dnaRun) {
         List<String> result = new ArrayList<String>();
         List<DNARun> list = dnaRunDao.findList(dnaRun);
-        for (DNARun dnaRun1 : list) {
-            result.add(dnaRun1.getRunNo());
+        for (DNARun oneDnaRun : list) {
+            result.add(oneDnaRun.getRunNo());
         }
         return result;
     }
@@ -139,7 +155,23 @@ public class DNARunService {
         return pageInfo;
     }
 
-
+    public List<DNARun> getQueryList(String conditions) {
+        JSONObject jsonObject = JSONObject.fromObject(conditions);
+        List<DNARun> dnaRunList = new ArrayList<DNARun>();
+        List<String> cultivarList = Arrays.asList(jsonObject.getString("cultivar").split(","));
+        for (String cultivar:cultivarList) {
+            DNARun dnaRun = new DNARun();
+            if (cultivar.startsWith("?")) {
+                String cultivarToSampleName = cultivar.substring(1);
+                dnaRun.setSampleName(cultivarToSampleName);
+                dnaRunList.add(dnaRun);
+            }else {
+                dnaRun.setCultivar(cultivar);
+                dnaRunList.add(dnaRun);
+            }
+        }
+        return dnaRunList;
+    }
 
     /**
      * 根据查询参数json转换为DNARun实体
