@@ -1045,8 +1045,10 @@ public class SNPController {
     public ResultVO drawSNPTableInRegion(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
                                  @RequestParam("chr")String chr,@RequestParam("type") String type,
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                         @RequestParam("start") String start,
+                                         @RequestParam("end") String end,
                                  @RequestParam("ctype") String ctype) {
-        List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,"33330","133330",ctype);
+        List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,start,end,ctype);
         return ResultUtil.success(snps);
     }
 }
