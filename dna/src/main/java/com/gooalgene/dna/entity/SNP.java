@@ -227,7 +227,6 @@ public class SNP {
                 ", genecontent='" + genecontent + '\'' +
                 ", effect='" + effect + '\'' +
                 ", consequencetype='" + consequencetype + '\'' +
-                ", samples=" + samples.size() +
                 ", majorallen='" + majorallen + '\'' +
                 ", minorallen='" + minorallen + '\'' +
                 ", major=" + major +

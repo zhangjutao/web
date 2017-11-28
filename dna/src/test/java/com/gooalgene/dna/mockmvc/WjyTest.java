@@ -3,6 +3,7 @@ package com.gooalgene.dna.mockmvc;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.service.DNAMongoService;
+import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,7 +35,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy(@ContextConfiguration(locations ={"classpath:spring-context.xml", "classpath:spring-mvc.xml","classpath:spring-security.xml"} ))
-public class WjyTest {
+public class WjyTest extends TestCase {
 
     @Autowired
     private WebApplicationContext applicationContext;
@@ -59,12 +60,12 @@ public class WjyTest {
 
     @Test
     public void testExportData() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get("/dna/searchIdAndPosInRegion").contentType(MediaType.APPLICATION_JSON)
+        MvcResult mvcResult = mockMvc.perform(get("/dna/searchIdAndPosInGene").contentType(MediaType.APPLICATION_JSON)
                 .param("type", "SNP")
                 .param("ctype", "all")
-                .param("chromosome", "Chr01")
-                .param("start", "0")
-                .param("end", "100000")
+                .param("gene", "Glyma.20G087900")
+                //.param("start", "0")
+                //.param("end", "100000")
                 //.param("pageNo", "1")
                 //.param("pageSize", "10")
                 //.param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
@@ -79,7 +80,8 @@ public class WjyTest {
 
     @Test
     public void testMongo() throws Exception{
-        List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("INDEL", "all", "Chr01", "0", "100000",null);
-        System.out.println(snps);
+        //List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("INDEL", "all", "Chr01", "0", "100000",null);
+        List<SNP> snps = dnaMongoService.findDataByIndex("SNP","Chr01","GlyS001055310",140,10,"0","55555");
+        assertEquals(10, snps.size());
     }
 }

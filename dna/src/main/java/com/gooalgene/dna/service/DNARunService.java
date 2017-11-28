@@ -113,6 +113,7 @@ public class DNARunService {
         JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(group)) {
             JSONObject one = JSONObject.fromObject(group);
+            // 群组名字并未出现在查询中,为什么会使用到?
             String groupName = one.getString("name");
             String condition = one.getString("condition");
             DNARun dnaRun = getQuery(condition);

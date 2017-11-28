@@ -109,7 +109,7 @@ public class SNPController {
      * @param response
      * @return
      */
-    @RequestMapping("/queryByGroup")
+    @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");
@@ -235,6 +235,49 @@ public class SNPController {
             result.put("bps",dnaGenStructures.get(0).getBps());
         }
         result.put("conditions", chr + "," + startPos + "," + endPos);
+        return ResultUtil.success(result);
+    }
+
+    /**
+     * 通过geneId搜索位点
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/searchIdAndPosInGene")
+    @ResponseBody
+    public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) {
+        String type = request.getParameter("type");//区分snp和indel数据
+        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String gene = request.getParameter("gene");
+        String upstream = request.getParameter("upstream");
+        String downstream = request.getParameter("downstream");
+        String group = request.getParameter("group");
+//      String conditions = request.getParameter("conditions");
+        DNAGens dnaGens = dnaGensService.findByGene(gene);
+        logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
+        if (dnaGens != null) {
+            long start = dnaGens.getGeneStart();
+            long end = dnaGens.getGeneEnd();
+            if (StringUtils.isNoneBlank(upstream)) {
+                start = start - Long.valueOf(upstream);
+            }
+            if (StringUtils.isNoneBlank(downstream)) {
+                end = end + Long.valueOf(downstream);
+            }
+            upstream = String.valueOf(start);
+            downstream = String.valueOf(end);
+        }
+        Map result=Maps.newHashMap();
+        List<SNP> snps=dnaMongoService.searchIdAndPosInGene(type,ctype,gene,upstream,downstream,null);
+        result.put("snps",snps);
+        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
+        result.put("dnaGenStructures",dnaGenStructures);
+        if(CollectionUtils.isNotEmpty(dnaGenStructures)){
+            result.put("bps",dnaGenStructures.get(0).getBps());
+        }
+        result.put("conditions", gene + "," + upstream + "," + downstream);
         return ResultUtil.success(result);
     }
 
@@ -1002,7 +1045,7 @@ public class SNPController {
     public ResultVO drawSNPTable(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
                                  @RequestParam("chr")String chr,@RequestParam("type") String type,
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
-        List<SNP> snps=dnaMongoService.findDataByIndex(type,chr,snpId,index,pageSize);
+        List<SNP> snps=dnaMongoService.findDataByIndex(type,chr,snpId,index,pageSize,"0","333");
         return ResultUtil.success(snps);
     }
 }

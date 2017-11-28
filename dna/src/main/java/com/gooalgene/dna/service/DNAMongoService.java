@@ -11,6 +11,8 @@ import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
@@ -234,18 +236,30 @@ public class DNAMongoService {
         }
     }
 
-    public List<SNP> findDataByIndex(String type, String chr, String id,Integer index,Integer pageSize) {
+    // TODO: 11/27/17 为什么这个地方传入的是分页对象,结果也应该是分页的形式,而这里返回的确实一个list集合???
+    public List<SNP> findDataByIndex(String type, String chr, String id,Integer index,Integer pageSize,String startPos,String endPos) {
         String collectionName = type + "_" +chr;
-        List<SNP> snps=Lists.newArrayList();
-        if (mongoTemplate.collectionExists(collectionName)) {
-            //Integer pageNum=index/pageSize+1;
-            Query query = new Query();
-            query.skip(index);
-            query.limit(pageSize);
-            snps = mongoTemplate.find(query, SNP.class, collectionName);
-        }
-        return snps;
 
+        List<SNP> result = new ArrayList<SNP>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
+
+            Query query = new Query();
+            query.addCriteria(criteria);
+            // 先查询中共个数,对分页有基本了解
+            long all = mongoTemplate.count(query, SNP.class, collectionName);
+            logger.info("all number : " + all);
+            Pageable pageable = new PageRequest(index, pageSize);
+            query.with(pageable);
+            // 去除掉无用的samples字段,极为影响实体bean反射性能
+            query.fields().exclude("samples");
+            logger.info("Query:" + query.toString());
+            result = mongoTemplate.find(query, SNP.class, collectionName);
+        } else {
+            logger.info(collectionName + " is not exist.");
+        }
+        return result;
     }
 
     public List<SNP> searchIdAndPosInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page){
@@ -360,7 +374,7 @@ public class DNAMongoService {
             query.fields().include("pos");
             logger.info("Query:" + query.toString());
             total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
-            logger.info(collectionName + " searchInGene:" + query.toString() + ",total:" + total);
+            logger.info(collectionName + " searchIdAndPosInGene:" + query.toString() + ",total:" + total);
             if(page!=null){
                 Integer pageNo = page.getPageNo();
                 Integer pageSize = page.getPageSize();
@@ -375,7 +389,6 @@ public class DNAMongoService {
         } else {
             logger.info(collectionName + " is not exist.");
         }
-        page.setCount(total);
         return result;
     }
 
