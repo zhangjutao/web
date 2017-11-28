@@ -130,8 +130,8 @@ $(function () {
                 if(!$("#GlyIds").is(":hidden")){
                     $("#GlyIds").hide();
                 }
-                // getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid","/dna/dna/searchSNPinGene");
-                // getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid","/dna/dna/searchSNPinGene");
+                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody","snpid","/dna/dna/searchSNPinGene");
+                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2","indelid","/dna/dna/searchSNPinGene");
                 requestForSnpData(1, obj.url, obj.params);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -139,7 +139,6 @@ $(function () {
             }else {
                 // 根据范围查询
                 // pageSize获取
-                var SnpPageSize = $(".laypage_skip").val();
                 var reginChr = $(".js-chorosome option:selected").text();
                 var reginStartPos = $(".js-start-position").val();
                 var reginEndPos = $(".js-end-position").val();
@@ -155,8 +154,8 @@ $(function () {
                 // 根据范围查询基因
                 snpGroup.group = obj.params.group;
                 requestForGeneId(data);
-                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid","/dna/searchIdAndPosInRegion");
-                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid","/dna/searchIdAndPosInRegion");
+                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,"snpid","/dna/searchIdAndPosInRegion");
+                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,"indelid","/dna/searchIdAndPosInRegion");
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -173,7 +172,7 @@ $(function () {
     //
     // }
     // 根据范围查询所有的snp位点信息
-    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,SnpPageSize,gid,url){
+    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,gid,url){
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
         params['type'] = type;
@@ -184,7 +183,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,SnpPageSize,gid);
+                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid);
             },
             error:function (error){
                 console.log(error);
@@ -615,6 +614,7 @@ $(function () {
 
     // 生成SNPs表格
     function renderSNPTable(data) {
+
         var str = '';
         $.each(data, function(idx, item) {
             var ref = item.geneType.snpData.ref;
@@ -967,7 +967,7 @@ $(function () {
         }
     });
     // 基因结构图
-    function drawGeneConstructor(result,id,tabId,reginChr,type,SnpPageSize,gsnpid){
+    function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid){
         // 参考值
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
@@ -1149,7 +1149,7 @@ $(function () {
                     singleData.id = $(allSnpNum[i]).parent().attr("href").substring(1);
                     singleData.type = type;
                     singleData.chr = reginChr;
-                    singleData.pageSize = SnpPageSize;
+                    singleData.pageSize = pageSizeSNP;
                     singleData.start = snpPintDatas.start;
                     singleData.end = snpPintDatas.end;
                     singleData.ctype = snpPintDatas.ctype;
@@ -1165,7 +1165,7 @@ $(function () {
                 dataType:"json",
                 success:function (result){
                     console.log(result);
-                    // renderSNPTable(result.data);
+                    renderSNPTable(result.data);
                 },
                 error:function (error){
                     console.log(error);
