@@ -76,7 +76,7 @@ public class WjyTest extends TestCase {
                 //.param("end", "100000")
                 //.param("pageNo", "1")
                 //.param("pageSize", "10")
-                //.param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
+                .param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
         )
                 .andExpect(status().isOk())
                 .andDo(print())

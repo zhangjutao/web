@@ -13,6 +13,7 @@ import com.google.common.collect.Sets;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.collections.map.HashedMap;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.lang3.ObjectUtils;
 import org.springframework.beans.BeanUtils;
@@ -125,6 +126,7 @@ public class SNPService {
         return null;
     }
 
+
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
         List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos));
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
@@ -145,10 +147,6 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
             Map map = snpService.findSampleById(snp.getId());
-            SNP snpData = (SNP) map.get("snpData");
-            if(snpData!=null){
-                snpData.setSamples(null);
-            }
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
@@ -176,10 +174,6 @@ public class SNPService {
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
             Map map = snpService.findSampleById(snp.getId());
-            SNP snpData = (SNP) map.get("snpData");
-            if(snpData!=null){
-                snpData.setSamples(null);
-            }
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
