@@ -236,6 +236,51 @@ public class DNAMongoService {
         }
     }
 
+    public List<SNP> findDataByIndexInGene(String type, String gene, String id,Integer index,Integer pageSize,String upstream,String downstream, String ctype) {
+        int i = gene.indexOf(".") + 1;//Glyma.17G187600
+        String chr = "Chr" + gene.substring(i, i + 2);
+        String collectionName = type + "_" + chr;
+        List<SNP> result = new ArrayList<SNP>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            if (StringUtils.isBlank(upstream)) {
+                if (StringUtils.isNotBlank(downstream)) {
+                    criteria.and("pos").lte(Long.parseLong(downstream));
+                }
+            } else {
+                if (StringUtils.isBlank(downstream)) {
+                    criteria.and("pos").gte(Long.parseLong(upstream));
+                } else {
+                    criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
+                }
+            }
+            if (StringUtils.isNotBlank(gene)) {//不用匹配基因了--只是确认染色体和坐标
+//                criteria.and("gene").regex(Tools.getRegex(gene));//匹配基因
+//                criteria.and("gene").is(gene);//匹配基因
+            }
+            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+                String keywords = ctype.replace("_", ".*");
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            // 先查询中共个数,对分页有基本了解
+            long all = mongoTemplate.count(query, SNP.class, collectionName);
+            logger.info("all number : " + all);
+            Integer pageNum=index/pageSize+1;
+            Pageable pageable = new PageRequest(pageNum, pageSize);
+            query.with(pageable);
+            // 去除掉无用的samples字段,极为影响实体bean反射性能
+            query.fields().exclude("samples");
+            logger.info("Query:" + query.toString());
+            result = mongoTemplate.find(query, SNP.class, collectionName);
+        } else {
+            logger.info(collectionName + " is not exist.");
+        }
+        return result;
+    }
+
     // TODO: 11/27/17 为什么这个地方传入的是分页对象,结果也应该是分页的形式,而这里返回的确实一个list集合???
     public List<SNP> findDataByIndexInRegion(String type, String chr, String id,Integer index,Integer pageSize,String startPos,String endPos, String ctype) {
         String collectionName = type + "_" +chr;
