@@ -887,7 +887,6 @@
                 var resultPopulations = defaultPopulations;
             }
             $.each(resultPopulations, function(idx, item) {
-                    debugger;
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
                         '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
 
@@ -946,13 +945,14 @@
         });
         var kindNames = [];
         var currPopu = "";
+
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
             var currVal = $(this).text().split(",")[0].substring(0,3);
             var currKindList = $(this).text().split(",");
             kindNames = [];
             for (var i=0;i<currKindList.length;i++){
-                var name = currKindList[i].substring(3,currKindList[i].length-1);
+                var name = currKindList[i].substring(3,currKindList[i].length);
                 kindNames.push(name);
             }
             var label=$(this).parent().find("label");
@@ -1422,14 +1422,14 @@
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
 //                    modify by wjshan begin
-                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
-                        var selectedItem = selectKindVal(id);
-                    }else {
-                        var selectedItem = selectPopulation(id);
-                    }
+//                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
+//                        var selectedItem = selectKindVal(id);
+//                    }else {
+//                        var selectedItem = selectPopulation(id);
+//                    }
 //                    modify by wjshan end
-                    selectedPopulations.push(selectedItem[0]);
-                    console.warn(selectedPopulations);
+//                    selectedPopulations.push(selectedItem[0]);
+//                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {

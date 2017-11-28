@@ -3,7 +3,6 @@ package com.gooalgene.dna.service;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
-import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
@@ -13,8 +12,7 @@ import com.google.common.collect.Sets;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,7 +53,7 @@ public class SNPService {
         int totalRefAndRef = 0;
         int totalRefAndAlt = 0;
         int totalAltAndAlt = 0;
-        BigDecimal  bigDecimalTotalSamples= BigDecimal.valueOf(snp.getSamples().size());
+        BigDecimal bigDecimalTotalSamples = BigDecimal.valueOf(snp.getSamples().size());
         for (Map.Entry<String, String> entry : originSamples.entrySet()) {
             if (entry.getValue().equals("0/0")) {
                 transformedSamples.put(entry.getKey(), ref + ref);
@@ -69,6 +67,10 @@ public class SNPService {
             }
         }
         snp.setSamples(transformedSamples);
+        if(type=="INDEL"){
+            transformResult.put("INDELData", snp);
+            return transformResult;
+        }
         transformResult.put("snpData", snp);
         BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
         BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
@@ -84,6 +86,7 @@ public class SNPService {
 
     /**
      * 通过SNP或INDEL的id查找相应SNP或INDEL数据及相关sample数据
+     *
      * @param id
      * @return
      */
@@ -110,76 +113,87 @@ public class SNPService {
         }
         if (type.equals("SNP")) {
             oneDataResult = genotypeTransform(oneData, type);
+            //oneDataResult.put("SNPData", oneData);
             return oneDataResult;
         } else if (type.equals("INDEL")) {
-            oneDataResult.put("INDELData", oneData);
+            oneDataResult = genotypeTransform(oneData, type);
+            //oneDataResult.put("INDELData", oneData);
             return oneDataResult;
         }
         return null;
     }
 
+
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos));
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
         result.put("conditions", chr + "," + startPos + "," + endPos);
-        if(page!=null){
+        if (page != null) {
             result.put("pageNo", page.getPageNo());
             result.put("pageSize", page.getPageSize());
             result.put("total", page.getCount());
         }
-        List<SNPDto> data= Lists.newArrayList();
-        Set<String> geneIds=Sets.newHashSet();
+        List<SNPDto> data = Lists.newArrayList();
+        Set<String> geneIds = Sets.newHashSet();
         for (SNP snp : snps) {
             geneIds.add(snp.getGene());
-            SNPDto snpDto=new SNPDto();
-            BeanUtils.copyProperties(snp,snpDto);
-            JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
-            snpDto.setFreq(freqData);
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             snpDto.setGeneType(map);
+            JSONArray freqData=new JSONArray();
+            if(StringUtils.equals(type,"SNP")){
+                freqData = getFrequeData(((SNP)map.get("snpData")).getSamples(), group_runNos);
+            }else {
+                freqData = getFrequeData(((SNP)map.get("INDELData")).getSamples(), group_runNos);
+            }
+            snpDto.setFreq(freqData);
             data.add(snpDto);
         }
-        result.put("geneIds",geneIds);
+        result.put("geneIds", geneIds);
         result.put("data", data);
-        result.put("dnaGenStructures",dnaGenStructures);
-        if(CollectionUtils.isNotEmpty(dnaGenStructures)){
-            result.put("bps",dnaGenStructures.get(0).getBps());
+        result.put("dnaGenStructures", dnaGenStructures);
+        if (CollectionUtils.isNotEmpty(dnaGenStructures)) {
+            result.put("bps", dnaGenStructures.get(0).getBps());
         }
         return result;
     }
 
     public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
         result.put("conditions", gene + "," + upsteam + "," + downsteam);
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
-        List<SNPDto> data= Lists.newArrayList();
+        List<SNPDto> data = Lists.newArrayList();
         for (SNP snp : snps) {
-            SNPDto snpDto=new SNPDto();
-            BeanUtils.copyProperties(snp,snpDto);
-            JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            JSONArray freqData = new JSONArray();
+            Map map = snpService.findSampleById(snp.getId());
+            if(StringUtils.equals(type,"SNP")){
+                freqData = getFrequeData(((SNP)map.get("snpData")).getSamples(), group_runNos);
+            }else {
+                freqData = getFrequeData(((SNP)map.get("INDELData")).getSamples(), group_runNos);
+            }
             snpDto.setFreq(freqData);
-            //if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleById(snp.getId());
-                snpDto.setGeneType(map);
-            //}
+            snpDto.setGeneType(map);
             data.add(snpDto);
         }
         result.put("total", page.getCount());
         result.put("data", data);
-        result.put("dnaGenStructures",dnaGenStructures);
-        result.put("bps",dnaGenStructures.get(0).getBps());
+        result.put("dnaGenStructures", dnaGenStructures);
+        result.put("bps", dnaGenStructures.get(0).getBps());
         return result;
     }
 
     //外包写的
     public Map searchSNPinGene2(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -192,9 +206,9 @@ public class SNPService {
 //          countMajorAllele(snp, snp_Json);
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snp_Json.put("freq", freqData);
-            if(StringUtils.equals(type,"SNP")){
+            if (StringUtils.equals(type, "SNP")) {
                 Map map = snpService.findSampleById(snp.getId());
-                snp_Json.put("geneType",map);
+                snp_Json.put("geneType", map);
             }
             data.add(snp_Json);
         }
@@ -256,7 +270,7 @@ public class SNPService {
      * @param groups
      * @return
      */
-    private JSONArray getFrequeData(Map<String, String> sample, Map<String, List<String>> groups) {
+    public JSONArray getFrequeData(Map<String, String> sample, Map<String, List<String>> groups) {
         JSONArray jsonArray = new JSONArray();
         for (String group : groups.keySet()) {
             JSONObject jsonObject = new JSONObject();
