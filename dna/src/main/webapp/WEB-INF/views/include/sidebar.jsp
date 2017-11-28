@@ -1421,14 +1421,14 @@
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
 //                    modify by wjshan begin
-                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
-                        var selectedItem = selectKindVal(id);
-                    }else {
-                        var selectedItem = selectPopulation(id);
-                    }
+//                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
+//                        var selectedItem = selectKindVal(id);
+//                    }else {
+//                        var selectedItem = selectPopulation(id);
+//                    }
 //                    modify by wjshan end
-                    selectedPopulations.push(selectedItem[0]);
-                    console.warn(selectedPopulations);
+//                    selectedPopulations.push(selectedItem[0]);
+//                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {

@@ -40,25 +40,51 @@ $(function () {
     initPaginate();
     // 点击品种名，获取品种信息；
     function kindValParam (){
-        debugger;
         var divs = $(".js-cursom-add").find("div.js-ad-dd");
         var paramK = {};
+            paramK.infos = [];
         for (var i=0;i<divs.length;i++){
             if($(divs[i]).find("label").hasClass("cur")){
                 var realK = $(divs[i]).find("div.label-txt").text().substring(0,3);
+                // 用于存放每次点击品种/样品信息的对象
+                var paramk1 = {};
                 if(realK == "品种名"){
-                    paramK.name = $(divs[i]).find("div.label-txt").text().substring(0);
-                    paramK.id =  Number($(divs[i]).find(".species-add").attr("data-index"));
-                    // if(paramK.name.indexOf()){}
-                    var conds =paramK.name.split(",");
-                    // 存放 condition 品种信息
-                    var condName = [];
-                    for (var i=0;i<conds.length;i++){
-                        condName.push(conds[i].substring(3,conds[i].length));
-                    };
-                    paramK.condition = {
-                        cultivar:condName.join(",")
-                    };
+                    paramk1.name = $(divs[i]).find("div.label-txt").text().substring(0);
+                    paramk1.id =  Number($(divs[i]).find(".species-add").attr("data-index"));
+                    if((paramk1.name).indexOf(",") ==-1){
+                        paramk1.condition = {
+                            cultivar:paramk1.name.substring(3)
+                        }
+                    }else {
+                        var conds =paramk1.name.split(",");// 存放 condition 品种信息
+                        var condName = [];
+                        for (var i=0;i<conds.length;i++){
+                            condName.push(conds[i].substring(3,conds[i].length));
+
+                        };
+                        paramk1.condition = {
+                            cultivar:condName.join(",")
+                        };
+                    }
+                    paramK.infos.push(paramk1)
+                }else if(realK == "样品名"){
+                    paramk1.name = $(divs[i]).find("div.label-txt").text().substring(0);
+                    paramk1.id =  Number($(divs[i]).find(".species-add").attr("data-index"));
+                    if((paramk1.name).indexOf(",") ==-1){
+                        paramk1.condition = {
+                            cultivar:"?" + paramk1.name.substring(3)
+                        }
+                    }else {
+                        var conds =paramk1.name.split(",");// 存放 condition 品种信息
+                        var condName = [];
+                        for (var i=0;i<conds.length;i++){
+                            condName.push(conds[i].substring(3,conds[i].length));
+                        };
+                        paramk1.condition = {
+                            cultivar:condName.join(",")
+                        };
+                    }
+                    paramK.infos.push(paramk1)
                 }
             }
         };
@@ -67,10 +93,12 @@ $(function () {
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
         var obj = getPanelParams();
+        console.log(obj);
        var getKindSNames =  kindValParam();
+       console.log(getKindSNames)
         var totalGroups = JSON.parse(obj.params.group)
         if(JSON.stringify(getKindSNames) != "{}"){
-            totalGroups.push(getKindSNames);
+            totalGroups.push(getKindSNames.infos);
         }
 
        // 去掉null 值

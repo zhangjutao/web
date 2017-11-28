@@ -45,4 +45,10 @@ public class findSampleByIdTest extends TestCase{
             System.err.println(list1);
         }
     }
+
+    @Test
+    public void testQueryDNARunByCondition() {
+        Map<String, List<String>> result = dnaRunService.queryDNARunByCondition("[{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551,品种名ZJ-Y108,品种名ZJ-Y2300-1,品种名PI 366121,品种名PI 593983\",\"id\":1511837787324},{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551,品种名ZJ-Y108,品种名ZJ-Y2300-1,品种名PI 366121,品种名PI 59398\",\"id\":1511837787324,\"condition\":{\"cultivar\":\"PI 562565,PI 339871A,PI 393551,ZJ-Y108,ZJ-Y2300-1,PI 366121,PI 59398,?F1\"}}]");
+        System.err.println(result);
+    }
 }
