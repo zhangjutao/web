@@ -145,7 +145,7 @@ $(function () {
                     start:reginStartPos,
                     end:reginEndPos,
                     url:"/dna/drawSNPTableInRegion",
-                    ctype:
+                    ctype:"All"
                 }
                 // 根据范围查询基因
                 requestForGeneId(data);
