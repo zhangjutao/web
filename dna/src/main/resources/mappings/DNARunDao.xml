@@ -414,6 +414,12 @@
         <if test="group!=null">
             AND category = #{group}
         </if>
+        <if test="cultivar!=null">
+            AND cultivar=#{cultivar}
+        </if>
+        <if test="sampleName!=null">
+            AND sample_name=#{sampleName}
+        </if>
     </select>
 
     <update id="update" parameterType="com.gooalgene.dna.entity.DNARun">

@@ -898,19 +898,6 @@ $(function () {
             _form.submit();
         }
     });
-    //判断当前用户是否是管理员
-            $.ajax({
-                type:"GET",
-                url:ctxRoot+ "/manager/user",
-                success:function(result){
-                    var roles = result.data.authorities;
-                    for (var i=0;i<roles.length;i++){
-                        if(roles[i].name == "ROLE_ADMIN"){
-                            $("#adminUser").show();
-                        }
-                    }
-                }
-            })
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,SnpPageSize,gsnpid){
         // 参考值

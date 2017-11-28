@@ -16,7 +16,7 @@ public class DNAGenStructureService {
     @Autowired
     private DNAGensStructureDao dnaGensStructureDao;
 
-    List<DNAGenStructureDto> getByGeneId(String geneId){
+    public List<DNAGenStructureDto> getByGeneId(String geneId){
         return dnaGensStructureDao.getByGeneId(geneId);
     }
 
