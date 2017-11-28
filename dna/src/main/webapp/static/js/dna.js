@@ -107,6 +107,7 @@ $(function () {
         url:"",
         ctype:"all"
     }
+    var globelType;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
         var obj = getPanelParams();
@@ -139,6 +140,7 @@ $(function () {
                 snpPintDatasGene.downstream = $(".js-down-stream").val();
                 snpPintDatasGene.url = "/dna//drawSNPTableInGene";
                 snpPintDatasGene.group = obj.params.group;
+                globelType = "Gene";
                 getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/dna/searchSNPinGene");
                 getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/dna/searchSNPinGene");
                 requestForSnpData(1, obj.url, obj.params);
@@ -162,6 +164,7 @@ $(function () {
 
                 // 根据范围查询基因
                 snpGroup.group = obj.params.group;
+                globelType = "Regin";
                 requestForGeneId(data);
                 getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,"snpid","/dna/searchIdAndPosInRegion");
                 getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,"indelid","/dna/searchIdAndPosInRegion");
@@ -1171,7 +1174,6 @@ $(function () {
             var singleData = {};
             for(var i=0;i<allSnpNum.length;i++){
                 if($(allSnpNum[i]).parent().attr("href").substring(1) == tabid ){
-                    alert(i);
                     singleData.index = i;
                     singleData.id = $(allSnpNum[i]).parent().attr("href").substring(1);
                     singleData.id =tabid;
@@ -1189,6 +1191,39 @@ $(function () {
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatas.url,
+                data:singleData,
+                contentType:"application/json",
+                dataType:"json",
+                success:function (result){
+                    console.log(result);
+                    renderSNPTable(result.data);
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        }
+        // snp 位点基因查询
+        function getSnpPointGene(tabid){
+            var allSnpNum =  $("#" + gsnpid + " a rect");
+            var singleData = {};
+            for(var i=0;i<allSnpNum.length;i++){
+                if($(allSnpNum[i]).parent().attr("href").substring(1) == tabid ){
+                    singleData.index = i;
+                    singleData.id = $(allSnpNum[i]).parent().attr("href").substring(1);
+                    singleData.type = type;
+                    singleData.pageSize = pageSizeSNP;
+                    singleData.ctype = snpPintDatasGene.ctype;
+                    singleData.upstream = snpPintDatasGene.upstream;
+                    singleData.downstream = snpPintDatasGene.downstream;
+                    singleData.group = snpGroup.group;
+                    break;
+                }
+            };
+            alert( singleData.index);
+            $.ajax({
+                type:'GET',
+                url:ctxRoot + snpPintDatasGene.url,
                 data:singleData,
                 contentType:"application/json",
                 dataType:"json",
@@ -1219,7 +1254,12 @@ $(function () {
             $("#" + tabid).addClass("tabTrColor");
             $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6!important");
             // 调用每个位点获取数据；
-                getSnpPoint(tabid);
+                if(globelType == "Regin"){
+                    getSnpPoint(tabid);
+                }else if (globelType == "Gene"){
+                    getSnpPointGene(tabid);
+                }
+
 
         })
     }
