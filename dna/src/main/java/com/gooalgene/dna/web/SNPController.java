@@ -1041,11 +1041,12 @@ public class SNPController {
         return ResultUtil.success(response);
     }
 
-    @RequestMapping(value = "/drawSNPTable",method = RequestMethod.GET)
-    public ResultVO drawSNPTable(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
+    @RequestMapping(value = "/drawSNPTableInRegion",method = RequestMethod.GET)
+    public ResultVO drawSNPTableInRegion(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
                                  @RequestParam("chr")String chr,@RequestParam("type") String type,
-                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
-        List<SNP> snps=dnaMongoService.findDataByIndex(type,chr,snpId,index,pageSize,"33330","133330");
+                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                 @RequestParam("ctype") String ctype) {
+        List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,"33330","133330",ctype);
         return ResultUtil.success(snps);
     }
 }

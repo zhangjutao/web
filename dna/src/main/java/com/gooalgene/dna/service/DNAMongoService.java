@@ -237,14 +237,18 @@ public class DNAMongoService {
     }
 
     // TODO: 11/27/17 为什么这个地方传入的是分页对象,结果也应该是分页的形式,而这里返回的确实一个list集合???
-    public List<SNP> findDataByIndex(String type, String chr, String id,Integer index,Integer pageSize,String startPos,String endPos) {
+    public List<SNP> findDataByIndexInRegion(String type, String chr, String id,Integer index,Integer pageSize,String startPos,String endPos, String ctype) {
         String collectionName = type + "_" +chr;
 
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
             criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
-
+            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+                String keywords = ctype.replace("_", ".*");
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
             Query query = new Query();
             query.addCriteria(criteria);
             // 先查询中共个数,对分页有基本了解
