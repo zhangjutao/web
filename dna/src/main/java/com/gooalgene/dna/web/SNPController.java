@@ -1048,7 +1048,7 @@ public class SNPController {
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
                                          @RequestParam("start") String start,@RequestParam("end") String end,
                                  @RequestParam("ctype") String ctype,
-                                         @RequestParam("group") String group) {
+                                         @RequestParam(value = "group",required = false,defaultValue = "[]") String group) {
         List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,start,end,ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
@@ -1075,7 +1075,7 @@ public class SNPController {
                                          @RequestParam(value = "upstream",required = false) String upstream,
                                        @RequestParam(value = "downstream",required = false) String downstream,
                                          @RequestParam("ctype") String ctype,
-                                       @RequestParam("group") String group) {
+                                       @RequestParam(value = "group",required = false,defaultValue = "[]") String group) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
