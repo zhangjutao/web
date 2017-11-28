@@ -887,7 +887,6 @@
                 var resultPopulations = defaultPopulations;
             }
             $.each(resultPopulations, function(idx, item) {
-                    debugger;
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
                         '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
 
@@ -1422,14 +1421,14 @@
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
 //                    modify by wjshan begin
-                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
-                        var selectedItem = selectKindVal(id);
-                    }else {
-                        var selectedItem = selectPopulation(id);
-                    }
+//                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
+//                        var selectedItem = selectKindVal(id);
+//                    }else {
+//                        var selectedItem = selectPopulation(id);
+//                    }
 //                    modify by wjshan end
-                    selectedPopulations.push(selectedItem[0]);
-                    console.warn(selectedPopulations);
+//                    selectedPopulations.push(selectedItem[0]);
+//                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {

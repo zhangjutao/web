@@ -118,19 +118,33 @@ $(function (){
         var selectedName =  $(this).parent().next().text();
         if (!selectedName){
             selectedName = $(this).parent().siblings().filter(".sampleNameT").text();
-        }
-        if(currentStatus){
-           var putName = "<span>品种名" + selectedName + "<i class='deleteSelected'>X</i></span>";
-           $(".sample-text").append(putName);
+            if(currentStatus){
+                var putName = "<span>样品名" + selectedName + "<i class='deleteSelected'>X</i></span>";
+                $(".sample-text").append(putName);
+            }else {
+                var checkNames = $(".sample-text").find("span");
+                for (var i=0;i<checkNames.length;i++){
+                    var checkName = $(checkNames[i]).text().substring(3);
+                    if(selectedName == checkName){
+                        $(checkNames[i]).remove();
+                    }
+                }
+            }
         }else {
-            var checkNames = $(".sample-text").find("span");
-            for (var i=0;i<checkNames.length;i++){
-               var checkName = $(checkNames[i]).text().substring(3,$(checkNames[i]).text().length-1);
-                if(selectedName == checkName){
-                    $(checkNames[i]).remove();
+            if(currentStatus){
+                var putName = "<span>品种名" + selectedName + "<i class='deleteSelected'>X</i></span>";
+                $(".sample-text").append(putName);
+            }else {
+                var checkNames = $(".sample-text").find("span");
+                for (var i=0;i<checkNames.length;i++){
+                    var checkName = $(checkNames[i]).text().substring(3,$(checkNames[i]).text().length-1);
+                    if(selectedName == checkName){
+                        $(checkNames[i]).remove();
+                    }
                 }
             }
         }
+
     })
 
     // 选中的品种点击X
