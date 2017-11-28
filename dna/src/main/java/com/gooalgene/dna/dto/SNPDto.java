@@ -1,9 +1,6 @@
 package com.gooalgene.dna.dto;
 
 import net.sf.json.JSONObject;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-import javax.persistence.Id;
 import java.util.Map;
 
 /**
@@ -46,6 +43,15 @@ public class SNPDto {
 
     private Object freq;
     private Map geneType;
+    private Integer index;
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
 
     public Map getGeneType() {
         return geneType;

@@ -218,7 +218,7 @@ public class SNPController {
      */
     @RequestMapping("/searchIdAndPosInRegion")
     @ResponseBody
-    public ResultVO queryIdAndPosBySNP(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO searchIdAndPosInRegion(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String chr = request.getParameter("chromosome");
@@ -230,7 +230,15 @@ public class SNPController {
         //Page<DNARun> page = new Page<DNARun>(request, response);
         Map result=Maps.newHashMap();
         List<SNP> snps=dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
-        result.put("snps",snps);
+        List<SNPDto> snpDtos=Lists.newArrayList();
+        for (int i=0;i<snps.size();i++){
+            SNP snp=snps.get(i);
+            SNPDto snpDto=new SNPDto();
+            BeanUtils.copyProperties(snp,snpDto);
+            snpDto.setIndex(i);
+            snpDtos.add(snpDto);
+        }
+        result.put("snps",snpDtos);
         List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
         result.put("dnaGenStructures",dnaGenStructures);
         if(CollectionUtils.isNotEmpty(dnaGenStructures)){
@@ -272,7 +280,15 @@ public class SNPController {
         }
         Map result=Maps.newHashMap();
         List<SNP> snps=dnaMongoService.searchIdAndPosInGene(type,ctype,gene,upstream,downstream,null);
-        result.put("snps",snps);
+        List<SNPDto> snpDtos=Lists.newArrayList();
+        for (int i=0;i<snps.size();i++){
+            SNP snp=snps.get(i);
+            SNPDto snpDto=new SNPDto();
+            BeanUtils.copyProperties(snp,snpDto);
+            snpDto.setIndex(i);
+            snpDtos.add(snpDto);
+        }
+        result.put("snps",snpDtos);
         List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
         result.put("dnaGenStructures",dnaGenStructures);
         if(CollectionUtils.isNotEmpty(dnaGenStructures)){
