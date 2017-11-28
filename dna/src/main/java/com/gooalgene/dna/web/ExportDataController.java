@@ -484,7 +484,14 @@ public class ExportDataController {
                 }
                 else if(titles[i].equals("upperLeafletLength")){
                     sb.append(titles[i]+"(mm)");
-                }else {
+                }else if(titles[i].equals("FrequencyofMajorAllele")){
+                    titles[i]="frequencyOfMajorAllele";
+                    sb.append("frequencyOfMajorAllele");
+                }else if(titles[i].equals("FrequencyofMinorAllele")){
+                    titles[i]="frequencyOfMinorAllele";
+                    sb.append("frequencyOfMinorAllele");
+                }
+                else {
                     sb.append(titles[i]);
                 }
 
@@ -519,6 +526,12 @@ public class ExportDataController {
                 }
                 else if(titles[i].equals("upperLeafletLength")){
                     sb.append(titles[i]+"(mm)");
+                }else if(titles[i].equals("FrequencyofMajorAllele")){
+                    titles[i]="frequencyOfMajorAllele";
+                    sb.append("frequencyOfMajorAllele");
+                }else if(titles[i].equals("FrequencyofMinorAllele")){
+                    titles[i]="frequencyOfMinorAllele";
+                    sb.append("frequencyOfMinorAllele");
                 }else {
                     sb.append(titles[i]);
                 }
