@@ -575,9 +575,14 @@ public class SNPController {
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
+
         modelAndView.addObject("snp",snp);
         modelAndView.addObject("result",result);
-        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+        SNP snpTemp=(SNP)result.get("snpData");
+        if(snpTemp==null){
+            snpTemp=(SNP)result.get("INDELData");
+        }
+        Map map=(Map)snpTemp.getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
         //if(StringUtils.equals(snp.getMajorallen(),"A")){
@@ -601,7 +606,12 @@ public class SNPController {
                                        @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                        @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
         Map result = snpService.findSampleById(snpId);
-        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+
+        SNP snpTemp=(SNP)result.get("snpData");
+        if(snpTemp==null){
+            snpTemp=(SNP)result.get("INDELData");
+        }
+        Map map=(Map)snpTemp.getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
         Map samples=Maps.newHashMap();
@@ -628,7 +638,7 @@ public class SNPController {
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
                                          @RequestParam("start") String start,@RequestParam("end") String end,
                                  @RequestParam("ctype") String ctype,
-                                         @RequestParam("group") String group) {
+                                         @RequestParam(value = "group",required = false,defaultValue = "[]") String group) {
         List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,start,end,ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
@@ -636,12 +646,19 @@ public class SNPController {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
-            JSONArray freqData = snpService.getFrequeData(snp.getSamples(), group_runNos);
+            SNP snptemp=null;
+            if(StringUtils.equals(type,"SNP")){
+                snptemp=(SNP) map.get("snpData");
+            }else {
+                snptemp=(SNP) map.get("INDELData");
+            }
+            JSONArray freqData = snpService.getFrequeData(snptemp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
             SNP snpData = (SNP) map.get("snpData");
-            if(snpData!=null){
-                snpData.setSamples(null);
+            if(snpData==null){
+                snpData = (SNP) map.get("INDELData");
             }
+            snpData.setSamples(null);
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
@@ -655,7 +672,7 @@ public class SNPController {
                                          @RequestParam(value = "upstream",required = false) String upstream,
                                        @RequestParam(value = "downstream",required = false) String downstream,
                                          @RequestParam("ctype") String ctype,
-                                       @RequestParam("group") String group) {
+                                       @RequestParam(value = "group",required = false,defaultValue = "[]") String group) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();

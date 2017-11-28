@@ -207,8 +207,18 @@
         var TT = "${result.totalAltAndAltPercent}";
         var AT = "${result.totalRefAndAltPercent}";
         var id="${snp.id}";
-        var major = "${result.snpData.ref}";
-        var mijor = "${result.snpData.alt}";
+        if (!"${result.snpData.ref}"){
+            var major = "${result.INDELData.ref}";
+        }else {
+            var major = "${result.snpData.ref}";
+        }
+          if (!"${result.snpData.alt}"){
+            var mijor = "${result.INDELData.ref}";
+        }else {
+            var mijor = "${result.snpData.alt}";
+        }
+
+        <%--var mijor = "${result.snpData.alt}";--%>
         var name1 = major+major;
         var name2 = major+mijor;
         var name3 = mijor+mijor;

@@ -3,7 +3,6 @@ package com.gooalgene.dna.service;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
-import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
@@ -13,9 +12,7 @@ import com.google.common.collect.Sets;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.collections.map.HashedMap;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -70,6 +67,10 @@ public class SNPService {
             }
         }
         snp.setSamples(transformedSamples);
+        if(type=="INDEL"){
+            transformResult.put("INDELData", snp);
+            return transformResult;
+        }
         transformResult.put("snpData", snp);
         BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
         BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
@@ -112,9 +113,11 @@ public class SNPService {
         }
         if (type.equals("SNP")) {
             oneDataResult = genotypeTransform(oneData, type);
+            //oneDataResult.put("SNPData", oneData);
             return oneDataResult;
         } else if (type.equals("INDEL")) {
-            oneDataResult.put("INDELData", oneData);
+            oneDataResult = genotypeTransform(oneData, type);
+            //oneDataResult.put("INDELData", oneData);
             return oneDataResult;
         }
         return null;
@@ -138,14 +141,15 @@ public class SNPService {
             geneIds.add(snp.getGene());
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
-            snpDto.setFreq(freqData);
             Map map = snpService.findSampleById(snp.getId());
-            SNP snpData = (SNP) map.get("snpData");
-            if(snpData!=null){
-                snpData.setSamples(null);
-            }
             snpDto.setGeneType(map);
+            JSONArray freqData=new JSONArray();
+            if(StringUtils.equals(type,"SNP")){
+                freqData = getFrequeData(((SNP)map.get("snpData")).getSamples(), group_runNos);
+            }else {
+                freqData = getFrequeData(((SNP)map.get("INDELData")).getSamples(), group_runNos);
+            }
+            snpDto.setFreq(freqData);
             data.add(snpDto);
         }
         result.put("geneIds", geneIds);
@@ -169,13 +173,14 @@ public class SNPService {
         for (SNP snp : snps) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
-            snpDto.setFreq(freqData);
+            JSONArray freqData = new JSONArray();
             Map map = snpService.findSampleById(snp.getId());
-            SNP snpData = (SNP) map.get("snpData");
-            if(snpData!=null){
-                snpData.setSamples(null);
+            if(StringUtils.equals(type,"SNP")){
+                freqData = getFrequeData(((SNP)map.get("snpData")).getSamples(), group_runNos);
+            }else {
+                freqData = getFrequeData(((SNP)map.get("INDELData")).getSamples(), group_runNos);
             }
+            snpDto.setFreq(freqData);
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
