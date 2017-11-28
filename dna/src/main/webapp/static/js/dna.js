@@ -94,11 +94,14 @@ $(function () {
     $(".js-panel-btn").click(function() {
         var obj = getPanelParams();
         console.log(obj);
+        debugger;
        var getKindSNames =  kindValParam();
        console.log(getKindSNames)
         var totalGroups = JSON.parse(obj.params.group)
         if(JSON.stringify(getKindSNames) != "{}"){
-            totalGroups.push(getKindSNames.infos);
+           for (var i=0;i<getKindSNames.infos.length;i++){
+               totalGroups.push(getKindSNames.infos[i]);
+           }
         }
 
        // 去掉null 值
