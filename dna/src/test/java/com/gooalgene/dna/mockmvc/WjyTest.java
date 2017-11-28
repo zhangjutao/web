@@ -70,6 +70,8 @@ public class WjyTest extends TestCase {
                 .param("type", "SNP")
                 .param("ctype", "all")
                 .param("gene", "Glyma.20G087900")
+                        .param("index", "140")
+                .param("id","")
                 //.param("start", "0")
                 //.param("end", "100000")
                 //.param("pageNo", "1")
