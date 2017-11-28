@@ -95,8 +95,9 @@ $(function () {
         start:"",
         end:"",
         url:"",
-        ctype:""
+        ctype:"all"
     }
+    console.table(snpPintDatas);
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
         var obj = getPanelParams();
@@ -141,12 +142,10 @@ $(function () {
                     start:reginStartPos,
                     end:reginEndPos
                 };
-                snpPintDatas = {
-                    start:reginStartPos,
-                    end:reginEndPos,
-                    url:"/dna/drawSNPTableInRegion",
-                    ctype:"All"
-                }
+                snpPintDatas.start = reginStartPos;
+                snpPintDatas.end = reginEndPos;
+                snpPintDatas.url = "/dna/drawSNPTableInRegion";
+
                 // 根据范围查询基因
                 requestForGeneId(data);
                 getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid");
@@ -168,14 +167,12 @@ $(function () {
         params['pageSize'] = pageSizeSNP;
         params['type'] = type;
         params['ctype'] = CTypeSnp;
-        console.warn(snpPintDatas)
         $.ajax({
             url:ctxRoot + "/dna/searchIdAndPosInRegion",
             data: params,
             type: "POST",
             dataType: "json",
             success: function(res) {
-                console.error(snpPintDatas)
                 drawGeneConstructor(res,parentCont,tblBody,reginChr,type,SnpPageSize,gid);
             },
             error:function (error){
@@ -882,10 +879,8 @@ $(function () {
     });
     // 定义全局查询总数
     var total;
-
     /* 导出 */
     $(".js-export").click(function() {
-
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "gene") {
             var _form = $("#exportGeneForm");
@@ -948,7 +943,6 @@ $(function () {
         }else {
             var direction = result.data.dnaGenStructures[0].strand;
         }
-        console.error(snpPintDatas)
         // if (result.data.length == 0 && result.dnaGenStructures.length == 0){
         //
         //     return;
@@ -1126,6 +1120,7 @@ $(function () {
                     singleData.pageSize = SnpPageSize;
                     singleData.start = snpPintDatas.start;
                     singleData.end = snpPintDatas.end;
+                    singleData.ctype = snpPintDatas.ctype;
                     break;
                 }
             };
