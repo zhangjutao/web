@@ -280,7 +280,15 @@ public class SNPController {
         }
         Map result=Maps.newHashMap();
         List<SNP> snps=dnaMongoService.searchIdAndPosInGene(type,ctype,gene,upstream,downstream,null);
-        result.put("snps",snps);
+        List<SNPDto> snpDtos=Lists.newArrayList();
+        for (int i=0;i<snps.size();i++){
+            SNP snp=snps.get(i);
+            SNPDto snpDto=new SNPDto();
+            BeanUtils.copyProperties(snp,snpDto);
+            snpDto.setIndex(i);
+            snpDtos.add(snpDto);
+        }
+        result.put("snps",snpDtos);
         List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
         result.put("dnaGenStructures",dnaGenStructures);
         if(CollectionUtils.isNotEmpty(dnaGenStructures)){
