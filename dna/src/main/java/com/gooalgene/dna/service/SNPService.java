@@ -70,6 +70,10 @@ public class SNPService {
             }
         }
         snp.setSamples(transformedSamples);
+        if(type=="INDEL"){
+            transformResult.put("INDELData", snp);
+            return transformResult;
+        }
         transformResult.put("snpData", snp);
         BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
         BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
@@ -112,9 +116,11 @@ public class SNPService {
         }
         if (type.equals("SNP")) {
             oneDataResult = genotypeTransform(oneData, type);
+            //oneDataResult.put("SNPData", oneData);
             return oneDataResult;
         } else if (type.equals("INDEL")) {
-            oneDataResult.put("INDELData", oneData);
+            oneDataResult = genotypeTransform(oneData, type);
+            //oneDataResult.put("INDELData", oneData);
             return oneDataResult;
         }
         return null;
