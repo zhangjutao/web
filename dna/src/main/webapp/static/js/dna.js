@@ -125,10 +125,13 @@ $(function () {
             CTypeSnp = "all";
             CTypeIndel = "all";
             // 根据基因查询
+            debugger;
             if(obj.url == "/dna/dna/searchSNPinGene"){
                 if(!$("#GlyIds").is(":hidden")){
                     $("#GlyIds").hide();
                 }
+                // getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid","/dna/dna/searchSNPinGene");
+                // getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid","/dna/dna/searchSNPinGene");
                 requestForSnpData(1, obj.url, obj.params);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -152,8 +155,8 @@ $(function () {
                 // 根据范围查询基因
                 snpGroup.group = obj.params.group;
                 requestForGeneId(data);
-                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid");
-                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid");
+                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid","/dna/searchIdAndPosInRegion");
+                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid","/dna/searchIdAndPosInRegion");
                 requestForSnpData(1, obj.url, obj.params,initFirstStyle);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -165,14 +168,18 @@ $(function () {
             // alert("输入条件返回不符合要求，则隐藏部分元素 ");
         }
     });
+    // 根据基因查询所有的snp位点信息
+    // function getAllSnpInfosinGene(){
+    //
+    // }
     // 根据范围查询所有的snp位点信息
-    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,SnpPageSize,gid){
+    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,SnpPageSize,gid,url){
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
         params['type'] = type;
         params['ctype'] = CTypeSnp;
         $.ajax({
-            url:ctxRoot + "/dna/searchIdAndPosInRegion",
+            url:ctxRoot + url,
             data: params,
             type: "POST",
             dataType: "json",
