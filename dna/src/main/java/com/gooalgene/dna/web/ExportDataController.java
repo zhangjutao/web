@@ -449,7 +449,7 @@ public class ExportDataController {
                         String cultivars=request.getParameter("cultivars");
                         String[] culltivarsArray=cultivars.split(",");
                         Map tempResult=new HashMap();
-                        List<String> cultivarList=new ArrayList<String>();
+                        List<String> cultivarList;
                         cultivarList=Arrays.asList(culltivarsArray);
                         List<DNARun> dnaRunList=dnaRunDao.getByCultivar(cultivarList);
                         JSONArray data=new JSONArray();

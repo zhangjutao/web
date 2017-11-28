@@ -93,7 +93,6 @@ public class DNAGensService {
             dnaGens.setKeywords(gene);
             dnaGens.setPage(page);
             List<DNAGens> list = dnaGensDao.findDNAGensList(dnaGens);
-            System.out.println("Size:" + list.size());
             page.setList(list);
             for (DNAGens dnaGens1 : list) {
                 data.add(dnaGens1.toJSON());

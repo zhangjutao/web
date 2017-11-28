@@ -66,7 +66,6 @@ public class DNARunService {
                     } else {
                         DNARun dnaRun = getQuery(condition);
                         List<String> list = querySamples(dnaRun);
-                        System.out.println(groupName + "," + list.size());
                         result.put(groupName, list);
                     }
                 }
