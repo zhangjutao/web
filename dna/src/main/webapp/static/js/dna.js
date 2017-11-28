@@ -1146,7 +1146,7 @@ $(function () {
                     singleData.start = snpPintDatas.start;
                     singleData.end = snpPintDatas.end;
                     singleData.ctype = snpPintDatas.ctype;
-                    singleData.group = JSON.stringify(snpGroup.group);
+                    singleData.group = snpGroup.group;
                     break;
                 }
             };
