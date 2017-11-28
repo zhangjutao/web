@@ -97,6 +97,9 @@ $(function () {
         url:"",
         ctype:"all"
     }
+    var snpGroup = {
+        group:[]
+    };
     console.table(snpPintDatas);
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
@@ -147,6 +150,7 @@ $(function () {
                 snpPintDatas.url = "/dna/drawSNPTableInRegion";
 
                 // 根据范围查询基因
+                snpGroup.group = obj.params.group;
                 requestForGeneId(data);
                 getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,SnpPageSize,"snpid");
                 getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,SnpPageSize,"indelid");
@@ -1142,6 +1146,7 @@ $(function () {
                     singleData.start = snpPintDatas.start;
                     singleData.end = snpPintDatas.end;
                     singleData.ctype = snpPintDatas.ctype;
+                    singleData.group = JSON.stringify(snpGroup.group);
                     break;
                 }
             };
