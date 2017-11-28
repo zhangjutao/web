@@ -952,7 +952,7 @@
             var currKindList = $(this).text().split(",");
             kindNames = [];
             for (var i=0;i<currKindList.length;i++){
-                var name = currKindList[i].substring(3,currKindList[i].length-1);
+                var name = currKindList[i].substring(3,currKindList[i].length);
                 kindNames.push(name);
             }
             var label=$(this).parent().find("label");
