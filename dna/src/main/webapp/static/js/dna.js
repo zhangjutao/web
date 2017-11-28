@@ -1132,6 +1132,7 @@ $(function () {
                 dataType:"json",
                 success:function (result){
                     console.log(result);
+                    // renderSNPTable(result.data);
                 },
                 error:function (error){
                     console.log(error);
