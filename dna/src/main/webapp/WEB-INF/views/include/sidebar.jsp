@@ -945,6 +945,7 @@
         });
         var kindNames = [];
         var currPopu = "";
+
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
             var currVal = $(this).text().split(",")[0].substring(0,3);
