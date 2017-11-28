@@ -103,6 +103,7 @@
             gens_structure stru
         LEFT JOIN gens_sequence seq ON stru.gene_id = seq.gene_id
         LEFT JOIN chrlg c ON stru.chromosome = c.chr
+            gens_structure stru ,chrlg c
         WHERE
             stru.chromosome=c.chr and stru.chromosome=#{chromosome} AND stru.start>=#{start} AND stru.end <![CDATA[ <= ]]> #{end}
             ORDER BY stru.start DESC

@@ -109,7 +109,7 @@ public class SNPController {
      * @param response
      * @return
      */
-    @RequestMapping("/queryByGroup")
+    @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");

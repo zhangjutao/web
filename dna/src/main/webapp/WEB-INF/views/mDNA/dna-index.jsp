@@ -419,17 +419,6 @@
                                     </tr>
                                 </thead>
                                 <tbody  id="tableBody2">
-                                    <%--<tr>--%>
-                                        <%--<td class="t_indels">sd2222</td>--%>
-                                        <%--<td class="t_consequencetype">数值</td>--%>
-                                        <%--<td class="t_indelshromosome">数值</td>--%>
-                                        <%--<td class="t_startposition">数值</td>--%>
-                                        <%--<td class="t_endposition">数值</td>--%>
-                                        <%--<td class="t_ref">数值</td>--%>
-                                        <%--<td class="t_alt">数值</td>--%>
-                                        <%--<td class="t_numref">数值</td>--%>
-                                        <%--<td class="t_numalt">数值</td>--%>
-                                    <%--</tr>--%>
                                 </tbody>
                             </table>
                         </div>
