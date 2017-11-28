@@ -575,9 +575,14 @@ public class SNPController {
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
+
         modelAndView.addObject("snp",snp);
         modelAndView.addObject("result",result);
-        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+        SNP snpTemp=(SNP)result.get("snpData");
+        if(snpTemp==null){
+            snpTemp=(SNP)result.get("INDELData");
+        }
+        Map map=(Map)snpTemp.getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
         //if(StringUtils.equals(snp.getMajorallen(),"A")){
@@ -601,7 +606,12 @@ public class SNPController {
                                        @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                        @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
         Map result = snpService.findSampleById(snpId);
-        Map map=(Map)((SNP)result.get("snpData")).getSamples();
+
+        SNP snpTemp=(SNP)result.get("snpData");
+        if(snpTemp==null){
+            snpTemp=(SNP)result.get("INDELData");
+        }
+        Map map=(Map)snpTemp.getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
         Map samples=Maps.newHashMap();
