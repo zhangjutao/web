@@ -1120,7 +1120,7 @@ $(function () {
             }
             $.ajax({
                 type:'GET',
-                url:ctxRoot + "/dna/drawSNPTable",
+                url:ctxRoot + "/dna/drawSNPTableInRegion",
                 data:singleData,
                 contentType:"application/json",
                 dataType:"json",
