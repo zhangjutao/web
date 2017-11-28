@@ -142,7 +142,9 @@ public class SNPService {
             snpDto.setFreq(freqData);
             Map map = snpService.findSampleById(snp.getId());
             SNP snpData = (SNP) map.get("snpData");
-            snpData.setSamples(null);
+            if(snpData!=null){
+                snpData.setSamples(null);
+            }
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
@@ -171,7 +173,9 @@ public class SNPService {
             snpDto.setFreq(freqData);
             Map map = snpService.findSampleById(snp.getId());
             SNP snpData = (SNP) map.get("snpData");
-            snpData.setSamples(null);
+            if(snpData!=null){
+                snpData.setSamples(null);
+            }
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
@@ -261,7 +265,7 @@ public class SNPService {
      * @param groups
      * @return
      */
-    private JSONArray getFrequeData(Map<String, String> sample, Map<String, List<String>> groups) {
+    public JSONArray getFrequeData(Map<String, String> sample, Map<String, List<String>> groups) {
         JSONArray jsonArray = new JSONArray();
         for (String group : groups.keySet()) {
             JSONObject jsonObject = new JSONObject();

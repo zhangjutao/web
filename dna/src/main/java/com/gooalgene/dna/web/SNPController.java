@@ -28,6 +28,7 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -626,9 +627,25 @@ public class SNPController {
                                  @RequestParam("chr")String chr,@RequestParam("type") String type,
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
                                          @RequestParam("start") String start,@RequestParam("end") String end,
-                                 @RequestParam("ctype") String ctype) {
+                                 @RequestParam("ctype") String ctype,
+                                         @RequestParam("group") String group) {
         List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,start,end,ctype);
-        return ResultUtil.success(snps);
+        Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
+        List<SNPDto> data = Lists.newArrayList();
+        for (SNP snp:snps){
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            Map map = snpService.findSampleById(snp.getId());
+            JSONArray freqData = snpService.getFrequeData(snp.getSamples(), group_runNos);
+            snpDto.setFreq(freqData);
+            SNP snpData = (SNP) map.get("snpData");
+            if(snpData!=null){
+                snpData.setSamples(null);
+            }
+            snpDto.setGeneType(map);
+            data.add(snpDto);
+        }
+        return ResultUtil.success(data);
     }
 
     @RequestMapping(value = "/drawSNPTableInGene",method = RequestMethod.GET)
@@ -637,7 +654,8 @@ public class SNPController {
                                          @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
                                          @RequestParam(value = "upstream",required = false) String upstream,
                                        @RequestParam(value = "downstream",required = false) String downstream,
-                                         @RequestParam("ctype") String ctype) {
+                                         @RequestParam("ctype") String ctype,
+                                       @RequestParam("group") String group) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
@@ -652,6 +670,21 @@ public class SNPController {
             downstream = String.valueOf(end);
         }
         List<SNP> snps=dnaMongoService.findDataByIndexInGene(type,gene,snpId,index,pageSize,upstream,downstream,ctype);
-        return ResultUtil.success(snps);
+        Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
+        List<SNPDto> data = Lists.newArrayList();
+        for (SNP snp:snps){
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            JSONArray freqData = snpService.getFrequeData(snp.getSamples(), group_runNos);
+            snpDto.setFreq(freqData);
+            Map map = snpService.findSampleById(snp.getId());
+            SNP snpData = (SNP) map.get("snpData");
+            if(snpData!=null){
+                snpData.setSamples(null);
+            }
+            snpDto.setGeneType(map);
+            data.add(snpDto);
+        }
+        return ResultUtil.success(data);
     }
 }
