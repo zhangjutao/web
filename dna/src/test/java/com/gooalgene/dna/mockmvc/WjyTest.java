@@ -1,7 +1,13 @@
 package com.gooalgene.dna.mockmvc;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
+import com.gooalgene.common.Page;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNAMongoService;
+import junit.framework.TestCase;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -33,7 +39,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @ContextHierarchy(@ContextConfiguration(locations ={"classpath:spring-context.xml", "classpath:spring-mvc.xml","classpath:spring-security.xml"} ))
-public class WjyTest {
+public class WjyTest extends TestCase {
 
     @Autowired
     private WebApplicationContext applicationContext;
@@ -41,6 +47,8 @@ public class WjyTest {
 
     @Autowired
     private DNAMongoService dnaMongoService;
+    @Autowired
+    private DNAGensService dnaGensService;
 
     @Before
     public void setUp(){
@@ -58,15 +66,15 @@ public class WjyTest {
 
     @Test
     public void testExportData() throws Exception{
-        MvcResult mvcResult = mockMvc.perform(get("/dna/searchSNPinRegion").contentType(MediaType.APPLICATION_JSON)
+        MvcResult mvcResult = mockMvc.perform(get("/dna/drawSNPTableInGene").contentType(MediaType.APPLICATION_JSON)
                 .param("type", "SNP")
                 .param("ctype", "all")
-                .param("chromosome", "Chr01")
-                .param("start", "0")
-                .param("end", "30000")
-                .param("pageNo", "1")
-                .param("pageSize", "10")
-                .param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
+                .param("gene", "Glyma.20G087900")
+                //.param("start", "0")
+                //.param("end", "100000")
+                //.param("pageNo", "1")
+                //.param("pageSize", "10")
+                //.param("group", "[{\"name\":\"品种名PI 562565\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 562565\"}},{\"name\":\"品种名PI 339871A\",\"id\":1511515552108,\"condition\":{\"cultivar\":\"PI 339871A\"}}]")
         )
                 .andExpect(status().isOk())
                 .andDo(print())
@@ -78,7 +86,19 @@ public class WjyTest {
 
     @Test
     public void testMongo() throws Exception{
-        List<SNP> snps = dnaMongoService.searchIdAndPos("SNP", "all", "Chr01", "0", "30000");
-        System.out.println(snps);
+        //List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("INDEL", "all", "Chr01", "0", "100000",null);
+        //List<SNP> snps = dnaMongoService.findDataByIndexInRegion("SNP","Chr01","GlyS001055310",1430,10,"0","55555","all");
+        List<SNP> snps=dnaMongoService.findDataByIndexInGene("SNP","Glyma.20G250000","",1430,10,
+                "47863582","47888358","all");
+        assertEquals(10, snps.size());
     }
+    @Test
+    public void testNum() throws Exception{
+        /*String str= StringUtils.substring("GlyS001055310",4);
+        Integer num=Integer.parseInt(str);
+        System.out.println(num);*/
+        List<String> list=dnaGensService.getByRegion("Chr01","30000","130000");
+        System.out.println(list);
+    }
+
 }

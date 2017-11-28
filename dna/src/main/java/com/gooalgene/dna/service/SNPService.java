@@ -139,10 +139,8 @@ public class SNPService {
             BeanUtils.copyProperties(snp,snpDto);
             JSONArray freqData = getFrequeData(snp.getSamples(), group_runNos);
             snpDto.setFreq(freqData);
-            //if(StringUtils.equals(type,"SNP")){
-                Map map = snpService.findSampleById(snp.getId());
-                snpDto.setGeneType(map);
-            //}
+            Map map = snpService.findSampleById(snp.getId());
+            snpDto.setGeneType(map);
             data.add(snpDto);
         }
         result.put("geneIds",geneIds);

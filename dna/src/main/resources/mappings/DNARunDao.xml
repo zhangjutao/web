@@ -325,7 +325,7 @@
                 </if>
             </if>
             <if test="group!=null and group!=''">
-                AND category like CONCAT('%',#{group},'%')
+                AND category =#{group}
             </if>
         </trim>
     </select>
@@ -413,6 +413,12 @@
         </if>
         <if test="group!=null">
             AND category = #{group}
+        </if>
+        <if test="cultivar!=null">
+            AND cultivar=#{cultivar}
+        </if>
+        <if test="sampleName!=null">
+            AND sample_name=#{sampleName}
         </if>
     </select>
 
