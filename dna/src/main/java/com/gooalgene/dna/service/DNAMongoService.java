@@ -471,7 +471,7 @@ public class DNAMongoService {
                 page.setCount(total);
             }
             logger.info("Query By Page:" + query.toString());
-            // todo 优化mongodb查询速度
+            query.fields().exclude("samples");
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");
@@ -522,6 +522,7 @@ public class DNAMongoService {
                 query.skip(skip);
                 query.limit(pageSize);
             }
+            query.fields().exclude("samples");
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");
