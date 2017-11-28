@@ -250,7 +250,8 @@ public class DNAMongoService {
             // 先查询中共个数,对分页有基本了解
             long all = mongoTemplate.count(query, SNP.class, collectionName);
             logger.info("all number : " + all);
-            Pageable pageable = new PageRequest(index, pageSize);
+            Integer pageNum=index/pageSize+1;
+            Pageable pageable = new PageRequest(pageNum, pageSize);
             query.with(pageable);
             // 去除掉无用的samples字段,极为影响实体bean反射性能
             query.fields().exclude("samples");

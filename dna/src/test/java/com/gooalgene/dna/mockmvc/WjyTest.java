@@ -1,9 +1,13 @@
 package com.gooalgene.dna.mockmvc;
 
+import com.fasterxml.jackson.databind.annotation.JsonAppend;
 import com.gooalgene.common.Page;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNAMongoService;
 import junit.framework.TestCase;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,6 +47,8 @@ public class WjyTest extends TestCase {
 
     @Autowired
     private DNAMongoService dnaMongoService;
+    @Autowired
+    private DNAGensService dnaGensService;
 
     @Before
     public void setUp(){
@@ -81,7 +87,16 @@ public class WjyTest extends TestCase {
     @Test
     public void testMongo() throws Exception{
         //List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("INDEL", "all", "Chr01", "0", "100000",null);
-        List<SNP> snps = dnaMongoService.findDataByIndex("SNP","Chr01","GlyS001055310",140,10,"0","55555");
+        List<SNP> snps = dnaMongoService.findDataByIndex("SNP","Chr01","GlyS001055310",1430,10,"0","55555");
         assertEquals(10, snps.size());
     }
+    @Test
+    public void testNum() throws Exception{
+        /*String str= StringUtils.substring("GlyS001055310",4);
+        Integer num=Integer.parseInt(str);
+        System.out.println(num);*/
+        List<String> list=dnaGensService.getByRegion("Chr01","30000","130000");
+        System.out.println(list);
+    }
+
 }
