@@ -42,7 +42,7 @@ public class findSampleByIdTest extends TestCase{
         List<DNARun> list= dnaRunService.getQueryList("{\"cultivar\":\"PI 339871A,PI 393551,ZJ-Y2300-1,?F1\"}");
         for (DNARun dnaRun : list) {
             List<String> list1 = dnaRunService.querySamples(dnaRun);
-            System.out.println(list1);
+            System.err.println(list1);
         }
     }
 }
