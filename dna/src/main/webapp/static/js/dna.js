@@ -94,7 +94,8 @@ $(function () {
     var snpPintDatas={
         start:"",
         end:"",
-        url:""
+        url:"",
+        ctype:""
     }
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
@@ -143,7 +144,8 @@ $(function () {
                 snpPintDatas = {
                     start:reginStartPos,
                     end:reginEndPos,
-                    url:"/dna/drawSNPTableInRegion"
+                    url:"/dna/drawSNPTableInRegion",
+                    ctype:
                 }
                 // 根据范围查询基因
                 requestForGeneId(data);
@@ -724,6 +726,7 @@ $(function () {
     // consequence type 交互
     var CTypeSnp = 'all';
     $(".js-snp-table").on("click", ".consequence-type li", function() {
+        snpPintDatas.ctype = $(this).text();
         $(".js-snp-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
         var type = $(".js-snp-table .consequence-type").find(".active").attr("data-type");
