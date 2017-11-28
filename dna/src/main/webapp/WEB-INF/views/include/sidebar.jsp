@@ -945,13 +945,14 @@
         });
         var kindNames = [];
         var currPopu = "";
+
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
             var currVal = $(this).text().split(",")[0].substring(0,3);
             var currKindList = $(this).text().split(",");
             kindNames = [];
             for (var i=0;i<currKindList.length;i++){
-                var name = currKindList[i].substring(3,currKindList[i].length-1);
+                var name = currKindList[i].substring(3,currKindList[i].length);
                 kindNames.push(name);
             }
             var label=$(this).parent().find("label");

@@ -632,10 +632,11 @@ public class SNPController {
     }
 
     @RequestMapping(value = "/drawSNPTableInGene",method = RequestMethod.GET)
-    public ResultVO drawSNPTableInGene(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
+    public ResultVO drawSNPTableInGene(@RequestParam(value = "id",required = false)String snpId,@RequestParam("index") Integer index,
                                          @RequestParam("gene")String gene,@RequestParam("type") String type,
                                          @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
-                                         @RequestParam("upstream") String upstream,@RequestParam("downstream") String downstream,
+                                         @RequestParam(value = "upstream",required = false) String upstream,
+                                       @RequestParam(value = "downstream",required = false) String downstream,
                                          @RequestParam("ctype") String ctype) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
