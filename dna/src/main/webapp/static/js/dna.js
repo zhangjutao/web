@@ -108,6 +108,7 @@ $(function () {
         ctype:"all"
     }
     var globelType;
+    var globelGeneId;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
         var obj = getPanelParams();
@@ -141,6 +142,7 @@ $(function () {
                 snpPintDatasGene.url = "/dna//drawSNPTableInGene";
                 snpPintDatasGene.group = obj.params.group;
                 globelType = "Gene";
+                globelGeneId = obj.params.gene;
                 getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/searchIdAndPosInGene");
                 getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/searchIdAndPosInGene");
                 requestForSnpData(1, obj.url, obj.params);
@@ -1216,6 +1218,7 @@ $(function () {
                     singleData.upstream = snpPintDatasGene.upstream;
                     singleData.downstream = snpPintDatasGene.downstream;
                     singleData.group = snpGroup.group;
+                    singleData.gene = globelGeneId;
             //         break;
             //     }
             // };
@@ -1238,7 +1241,6 @@ $(function () {
             var snpIndex;
         // 每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
-                debugger;
                 snpIndex = $(e.target).attr("data-index");
             var tabid = $(e.target).parent().attr("href").substring(1);
             var trlist = $("#" + tabId).find("tr");
