@@ -1045,10 +1045,32 @@ public class SNPController {
     public ResultVO drawSNPTableInRegion(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
                                  @RequestParam("chr")String chr,@RequestParam("type") String type,
                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
-                                         @RequestParam("start") String start,
-                                         @RequestParam("end") String end,
+                                         @RequestParam("start") String start,@RequestParam("end") String end,
                                  @RequestParam("ctype") String ctype) {
         List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,start,end,ctype);
+        return ResultUtil.success(snps);
+    }
+
+    @RequestMapping(value = "/drawSNPTableInGene",method = RequestMethod.GET)
+    public ResultVO drawSNPTableInGene(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
+                                         @RequestParam("gene")String gene,@RequestParam("type") String type,
+                                         @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                         @RequestParam("upstream") String upstream,@RequestParam("downstream") String downstream,
+                                         @RequestParam("ctype") String ctype) {
+        DNAGens dnaGens = dnaGensService.findByGene(gene);
+        if (dnaGens != null) {
+            long start = dnaGens.getGeneStart();
+            long end = dnaGens.getGeneEnd();
+            if (StringUtils.isNoneBlank(upstream)) {
+                start = start - Long.valueOf(upstream);
+            }
+            if (StringUtils.isNoneBlank(downstream)) {
+                end = end + Long.valueOf(downstream);
+            }
+            upstream = String.valueOf(start);
+            downstream = String.valueOf(end);
+        }
+        List<SNP> snps=dnaMongoService.findDataByIndexInGene(type,gene,snpId,index,pageSize,upstream,downstream,ctype);
         return ResultUtil.success(snps);
     }
 }
