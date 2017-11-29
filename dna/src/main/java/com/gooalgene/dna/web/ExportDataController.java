@@ -446,7 +446,7 @@ public class ExportDataController {
                     if(flag.equals("group")){
                         result = dnaRunService.queryDNARunByGroup(group, page);
                     } else{
-                        String cultivars=request.getParameter("cultivars");
+                        String cultivars=request.getParameter("cultivar");
                         String[] culltivarsArray=cultivars.split(",");
                         Map tempResult=new HashMap();
                         List<String> cultivarList;
