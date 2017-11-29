@@ -164,6 +164,7 @@ $(function () {
                 snpPintDatas.url = "/dna/drawSNPTableInRegion";
 
                 // 根据范围查询基因
+
                 snpGroup.group = obj.params.group;
                 globelType = "Regin";
                 requestForGeneId(data);
@@ -173,7 +174,6 @@ $(function () {
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
                 renderTableHead();
-
             }
         // 如果输入条件返回不符合要求，则隐藏部分元素
         }else {
@@ -1025,7 +1025,8 @@ $(function () {
                 }
             }
             _form.find(".choices").val(choiceArr.join(","));
-            _form.find(".group").val(params.group);
+            // _form.find(".group").val(params.group);
+            _form.find(".group").val(snpGroup.group);
             _form.submit();
         }
     });
@@ -1321,7 +1322,7 @@ $(function () {
     //         count++;
     //         $(this).find("g").css("transform", "scale(" + count * 0.2 + ")");
     //         $(this).find("#centerLine").css("transform", "scale(" + count * 0.2 + ")");
-    //         $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
+    //         // $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
     //         // $(this).find("svg").attr("height",count*220*0.2)
     //         // $(this).css("transform", "scale(" + count * 0.2 + ")");
     //         console.log("upwheel")
@@ -1333,7 +1334,7 @@ $(function () {
     //         if (count > 0 ) {
     //             $(this).find("g").css("transform", "scale(" + count * 0.2 + ")");
     //             $(this).find("#centerLine").css("transform", "scale(" + count * 0.2 + ")");
-    //             $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
+    //             // $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
     //             // $(this).css("transform", "scale(" + count * 0.2 + ")");
     //         }else {
     //             count = 1;
