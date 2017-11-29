@@ -428,8 +428,7 @@ public class ExportDataController {
                     result=snpService.searchSNPinGene(type,ctype,gene,upstream,downstream,group,page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
-
-                    //前端需要增加两个字段  flag 和 cultivars
+                    //增加两个字段  flag 和 cultivars
                     String group = request.getParameter("group");
                     Page<DNARun> page = new Page<DNARun>(request, response);
                     String temp=request.getParameter("total");       //获取数据的总数
@@ -442,7 +441,6 @@ public class ExportDataController {
                         total=EXPORT_NUM;
                     }
                     page.setPageSize(total);
-
                     if(flag.equals("group")){
                         result = dnaRunService.queryDNARunByGroup(group, page);
                     } else{
@@ -459,7 +457,6 @@ public class ExportDataController {
                         tempResult.put("data",data);
                         result=tempResult;
                     }
-
                     content = serialList(model, result, columns.split(","));
                 }
             } else {
