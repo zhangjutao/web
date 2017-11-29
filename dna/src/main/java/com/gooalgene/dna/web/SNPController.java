@@ -719,7 +719,7 @@ public class SNPController {
         for (SNP snp:snps){
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            JSONArray freqData = snpService.getFrequeData(snp.getSamples(), group_runNos);
+            JSONArray freqData = snpService.getFrequencyInSnp(snp, group_runNos);
             snpDto.setFreq(freqData);
             Map map = snpService.findSampleById(snp.getId());
             SNP snpData = (SNP) map.get("snpData");
