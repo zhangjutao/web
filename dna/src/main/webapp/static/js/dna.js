@@ -185,7 +185,7 @@ $(function () {
     function getAllSnpInfosGene(curr, params,type,parentCont,tblBody,reginChr,gid,url){
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
-        params['type'] = 'SNP';
+        params['type'] =type;
         params['ctype'] = CTypeSnp;
         $.ajax({
             url:ctxRoot + url,
@@ -269,6 +269,8 @@ $(function () {
             }
             $(this).addClass("GlyColor");
         }
+        var clickVal = $(this).text();
+        globelGeneId = clickVal;
         var obj = getPanelParams();
         // if(typeof obj == "object") {
         //     CTypeSnp = "all";
@@ -277,6 +279,15 @@ $(function () {
         //         if(!$("#GlyIds").is(":hidden")){
         //             $("#GlyIds").hide();
         //         }
+                var paramas1 = {
+                    gene:clickVal,
+                    group:obj.params.group,
+                    // ctype:snpPintDatas.ctype
+                }
+        snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
+                globelType="Gene";
+                reginIntoGene(1,paramas1,"SNP","constructorPanel","tableBody","snpid","/dna/searchIdAndPosInGene");
+                reginIntoGene(1,paramas1,"INDEL","constructorPanel2","tableBody2","indelid","/dna/searchIdAndPosInGene");
                 requestForSnpData(1, obj.url, obj.params);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -293,6 +304,25 @@ $(function () {
             // }
         // }
     })
+    // 从regin 页面点击基因开始查询
+    function reginIntoGene(curr,params,type,parentCnt,tblBody,gid,url){
+        params['pageNo'] = curr || 1;
+        params['pageSize'] = pageSizeSNP;
+        params['type'] = type;
+        params['ctype'] = CTypeSnp;
+        $.ajax({
+            url:ctxRoot + url,
+            data: params,
+            type: "POST",
+            dataType: "json",
+            success: function(res) {
+                drawGeneConstructor(res,parentCnt,tblBody,"",type,gid);
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    }
     // 生成搜索描述文字
     function renderSearchText() {
         var panelType = GetPanelParams.getPanelType();
@@ -1096,12 +1126,12 @@ $(function () {
             // 利用直线生成器生成相应的直线
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
-            svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
+            svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData)).attr("id","centerLine");
             // 方向箭头
             if(direction == "-"){
-                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)");
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
             }else if(direction == "+"){
-                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)").attr("id","arrows");
             }
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             svg.append("path").attr("stroke","#ff0000").attr("stroke-width","3").attr("d",line(verticalLineData));
@@ -1188,7 +1218,6 @@ $(function () {
                     // break;
                 // }
             // };
-            alert( singleData.index);
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatas.url,
@@ -1222,7 +1251,6 @@ $(function () {
             //         break;
             //     }
             // };
-            alert( singleData.index);
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatasGene.url,
@@ -1268,24 +1296,35 @@ $(function () {
     }
     // 定义滚轮缩放
     // var count = 1;
-    // $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
+    // // $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
+    // $("#geneConstruction").bind("mousewheel DOMMouseScroll",function (e) {
     //     var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
     //         (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
     //     if (delta > 0) {
     //         // 向上滚
     //         count++;
-    //         $(this).css("transform", "scale(" + count * 0.2 + ")");
-    //
+    //         $(this).find("g").css("transform", "scale(" + count * 0.2 + ")");
+    //         $(this).find("#centerLine").css("transform", "scale(" + count * 0.2 + ")");
+    //         $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
+    //         // $(this).find("svg").attr("height",count*220*0.2)
+    //         // $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //         console.log("upwheel")
     //     } else if (delta < 0) {
     //         // 向下滚
     //         count--;
-    //         if (count > 5 ) {
-    //             $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //         console.log("downwheel")
+    //
+    //         if (count > 0 ) {
+    //             $(this).find("g").css("transform", "scale(" + count * 0.2 + ")");
+    //             $(this).find("#centerLine").css("transform", "scale(" + count * 0.2 + ")");
+    //             $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
+    //             // $(this).css("transform", "scale(" + count * 0.2 + ")");
     //         }else {
-    //             count = 6;
+    //             count = 1;
     //         }
     //     }
     // });
+
     // 设置缩放点
     // to dao
     // $("#geneConstruction").mousemove(function (e){
