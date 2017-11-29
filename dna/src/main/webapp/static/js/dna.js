@@ -133,13 +133,13 @@ $(function () {
             CTypeSnp = "all";
             CTypeIndel = "all";
             // 根据基因查询
-            if(obj.url == "/dna/dna/searchSNPinGene"){
+            if(obj.url.indexOf('searchSNPinGene') !== -1){
                 if(!$("#GlyIds").is(":hidden")){
                     $("#GlyIds").hide();
                 }
                 snpPintDatasGene.upstream = $(".js-up-stream").val();
                 snpPintDatasGene.downstream = $(".js-down-stream").val();
-                snpPintDatasGene.url = "/dna//drawSNPTableInGene";
+                snpPintDatasGene.url = "/dna/drawSNPTableInGene";
                 snpPintDatasGene.group = obj.params.group;
                 globelType = "Gene";
                 globelGeneId = obj.params.gene;
