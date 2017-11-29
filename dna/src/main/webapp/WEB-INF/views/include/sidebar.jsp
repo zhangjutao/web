@@ -97,20 +97,30 @@
             <div class="custom-groups">
                 <span class="custom-groups-btn">自定义群体</span>
                 <div class="cover"></div>
-                <div class="custom-groups-content">
+                <div class="custom-groups-content" style="overflow: hidden;">
                     <div class="sample">
                         <label><b>样本></b></label>
                         <div class="sample-text"></div>
                         <div class="colse-sample">
                             <button type="button" class="btn-fill sample-empty">清空</button><span>X</span></div>
                     </div>
+                    <%--// 新增选择品种 begin --%>
+
+                    <div id="addTags">
+                        <span class="tagColor popCnt1" style="margin-left:10px;">选择群体</span>
+                        <span class="kindCnt1" id="kindSelect">选择品种</span>
+                    </div>
+                    <%--// 新增选择品种 end --%>
+
                     <div class="sample-screening">
                         <div class="sample-screening-title">样本筛选(共<span class="js-total-samples">0</span>个sample)</div>
                         <div class="sample-screening-btn">
-                            <button type="button" class="btn">保存群体</button>
+                            <input type="button" class="btn resetBtn" value="重置"/>
+                            <button type="button" class="btn savePoP">保存群体</button>
+                            <input type="button" class="btn saveKind" value="保存群体"/>
                         </div>
                     </div>
-                    <div class="sample-category">
+                    <div class="sample-category popCnt1">
                         <div class="category-group" data-name="species">
                             <label><b class="category-title">物种:</b><span>Glycine soja</span><span>Glycine gracilis</span><span>Landrace</span><span>Improved cultivar</span><span>Mutant cultivar</span></label>
                             <%--<button class="multiselect"><i>+</i>多选</button>--%>
@@ -240,7 +250,93 @@
                             </div>
                         </div>
                     </div>
-                    <div class="retract"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
+                    <div class="retract popCnt1"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
+                    <div id="tagKind" class="kindCnt1">
+                        <div style="overflow-x: scroll;height: 438px;">
+                            <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
+                                <thead style="overflow-x: scroll;width:730px;">
+                                <tr>
+                                    <th class="paramTag" style="width:42px;">    </th>
+                                    <th class="paramTag">品种名</th>
+                                    <th class="paramTag popMoveOn" style="position:relative;">群体
+                                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                                        <div class="popNames">
+                                            <ul>
+                                                <li>Q1</li>
+                                                <li>Q2</li>
+                                                <li>Q3</li>
+                                                <li>Q4</li>
+                                                <li>Q5</li>
+                                                <li>Q6</li>
+                                                <li>Q7</li>
+                                                <li>Q8</li>
+                                                <li>Q9</li>
+                                                <li>Q10</li>
+                                            </ul>
+                                        </div>
+                                    </th>
+                                    <th class="paramTag">物种</th>
+                                    <th class="paramTag">位置</th>
+                                    <th class="paramTag">样品名</th>
+                                    <th class="paramTag">百粒重</th>
+                                    <th class="paramTag">蛋白质含量</th>
+                                    <th class="paramTag">含油量</th>
+                                    <th class="paramTag">熟期</th>
+                                    <th class="paramTag">株高</th>
+                                    <th class="paramTag">种皮色</th>
+                                    <th class="paramTag">种脐色</th>
+                                    <th class="paramTag">子叶色</th>
+                                    <th class="paramTag">花色</th>
+                                    <th class="paramTag">荚色</th>
+                                    <th class="paramTag">茸毛色</th>
+                                    <th class="paramTag">产量</th>
+                                    <th class="paramTag">顶端小叶长度</th>
+                                    <th class="paramTag">亚油酸</th>
+                                    <th class="paramTag">亚麻酸</th>
+                                    <th class="paramTag">油酸</th>
+                                    <th class="paramTag">软脂酸</th>
+                                    <th class="paramTag">硬脂酸</th>
+                                </tr>
+                                </thead>
+                                <tbody style="overflow-x: scroll;width:730px;" id="tagTBody">
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <%--// 分页显示 begin--%>
+                        <div id="paging" style="width:730px;margin-top:10px;margin-bottom:-5px;">
+                            <div id="inputNums" style="padding-right:9px;padding-top:0;width:393px;">
+                                <span>跳转到</span>
+                                <div>
+                                    <input type="number" min="1" name="number" value="" id="inputNum" >
+                                </div>
+                                <span>页</span>
+                                <span>展示数量</span>
+                                <div id="selectedNum">
+                                    <select name="selected" id="selectSize" style="width:40px;">
+                                        <option value="10" selected = "true">10</option>
+                                        <option value="10">20</option>
+                                        <option value="10">30</option>
+                                        <option value="10">40</option>
+                                    </select>
+                                </div>
+                                <span>/页</span>
+                                <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
+                            </div>
+                            <div id="page">
+                                <b class="first">&lt;</b>
+                                <p class="two"></p>
+                                <b class="three">...</b>
+                                <p class="four"></p>
+                                <p class="five"></p>
+                                <p class="six"></p>
+                                <b class="seven">...</b>
+                                <p class="eight"></p>
+                                <b class="last">&gt;</b>
+                            </div>
+                        </div>
+                        <%--// 分页显示 end--%>
+                    </div>
                 </div>
             </div>
         </div>
@@ -258,8 +354,12 @@
 <div id="mid"></div>
 <div class="tab-detail">
     <div class="tab-detail-thead">
-        <p><span>1</span>号群体属性信息
-            <a href="javascript:void(0)">X</a></p>
+        <p style="position:relative;">
+            <span style="display:inline-block;text-align:center;max-width:600px;overflow:hidden;text-overflow: ellipsis; white-space: nowrap;">1</span>
+            <i style="position:relative;top:-15px;color:#fff;">号群体/品种属性信息</i>
+
+            <a href="javascript:void(0)">X</a>
+        </p>
     </div>
     <div class="table-item popu-checkbox" style="display:none; box-shadow: none;">
         <div class="checkbox-item">
@@ -348,11 +448,6 @@
                 </tr>
             </thead>
             <tbody>
-                <%--<tr>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td><td>13</td>--%>
-                    <%--<td>13</td><td>数值</td><td>13</td><td>数值</td><td>13</td><td>数值</td><td>数值</td>--%>
-                <%--</tr>--%>
             </tbody>
         </table>
     </div>
@@ -360,17 +455,23 @@
         <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
     </div>
 
-
     <form id="exportForm" action="${ctxroot}/dna/dataExport" method="get">
         <input class="model" name="model" type="hidden" value="SAMPLES"/>
         <input class="choices" name="choices" type="hidden" value=""/>
         <input class="group" name="group" type="hidden" value=""/>
+        <input class="total" name="total" type="hidden" value=""/>
+        <input class="flag" name="flag" type="hidden" value=""/>
+        <input class="kindFlag" name="cultivar" type="hidden" value=""/>
     </form>
 </div>
 
 <script>
     $(function(){
-
+        if(window.localStorage){
+            var storage = window.localStorage;
+        }else{
+            alert('This browser does NOT support localStorage');
+        }
         function setCookie(name, value) {
             var Days = 30;
             var exp = new Date();
@@ -439,6 +540,7 @@
         $(".colse-sample span").click(function(){
             $(".custom-groups-content").hide();
             $(".cover").hide();
+//            $(".sample-text").empty();
         });
 
         /* 自定义群体-"更多"展现 */
@@ -461,7 +563,6 @@
         function initPopulations() {
             if(getCookie("populations")) {
                 populations = JSON.parse(getCookie("populations"));
-                console.log(populations);
                 var str = "";
                 $.each(populations, function(idx, popu) {
                     str +="<div class='js-ad-dd'>"
@@ -649,10 +750,10 @@
 
         /* 保存群体 */
         $(".sample-screening-btn button").click(function(){
-            console.log(popuSamples);
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
             if(populations.length + defaultLen < 10){
                 var arr = [];
+                // popuSamples 存储保存的样本数据
                 for(var i in popuSamples) {
                     var obj = {};
                     obj[i] = popuSamples[i];
@@ -713,8 +814,6 @@
                 $(this).parent().addClass("cur");
             }
             getSelectedPopulations();
-
-            console.log(selectedPopulations);
 //            if(selectedPopulations.length > 0) {
 //                $(".js-default-add").find("label").removeClass("cur");
 //            } else {
@@ -769,7 +868,8 @@
                         '<td class="param t_majorAllele">Major Allele</td>'+
                         '<td class="param t_minorAllele">Minor Allele</td>'+
                         '<td class="param t_fmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
-                        '<option value="minor">Frequency of Minor Allele</option></select></td>';
+                        '<option value="minor">Frequency of Minor Allele</option></select></td>'+
+                        '<td class="param t_genoType">GenoType</td>';
             var headStr2 = '<td class="t_indels">INDEL ID</td>' +
                         '<td class="param t_iconsequenceType">Consequence Type'+
                         '<img src="${ctxStatic}/images/down.png">'+
@@ -787,6 +887,7 @@
             } else {
                 var resultPopulations = defaultPopulations;
             }
+            console.warn(resultPopulations);
             $.each(resultPopulations, function(idx, item) {
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
                         '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
@@ -810,55 +911,139 @@
             TableHeaderSettingIndel();
         }
 
+        // 封装手动删除品种名/localStorage 中的值
+        function deleteLocalKind (kindId,self){
+            // 判断删除的是不是品种
+                var currPval = $(self).prev().find("div").text().substring(0,3);
+                console.log(currPval);
+                if (currPval == "品种名"){
+                    var kindStorage = JSON.parse(storage.getItem("kind"));
+                    var sdKinds = kindStorage.name;
+                      for (var i=0;i<sdKinds.length;i++){
+                        if(sdKinds[i].id == kindId){
+                            sdKinds.splice(i,1);
+                        }
+                    }
+                   storage.removeItem("kind");
+                    storage.setItem("kind",JSON.stringify(kindStorage));
+                }
+        };
         /* 删除手动添加的自定义群体 */
         $("body").on("click",".js-del-dd",function(){
+            var self = this;
             $(this).parent().remove();
             var id = $(this).attr("data-index");
 
 //            initPopulations();
             deletePopulation(id);
             getSelectedPopulations();
+            // 手动删除品种名时，需要删除localStorage中的值
+            var kindId = $(this).prev().attr("data-index");
+            deleteLocalKind(kindId,self);
         });
         $(".js-cursom-add2").on("click",".js-del-dd",function(){
             $(this).parent().remove();
             getSelectedPopulations();
         });
-
+        var kindNames = [];
         var currPopu = "";
+
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
+            var currVal = $(this).text().split(",")[0].substring(0,3);
+            var currKindList = $(this).text().split(",");
+            kindNames = [];
+            for (var i=0;i<currKindList.length;i++){
+                var name = currKindList[i].substring(3,currKindList[i].length);
+                kindNames.push(name);
+            }
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
                 label.addClass("cur");
             }else{
                 label.removeClass("cur");
             }
-            console.log($(this).text());
             $(".tab-detail").show();
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             var id = $(this).parent("label").attr("data-index");
-            currPopu = selectPopulation(id)[0];
-            console.log("current:", currPopu);
-            getPopuTable(1);
+//            currPopu = selectPopulation(id)[0];
+            if(currVal == "品种名"){
+//                $("#popu-paginate").hide();
+//                $("#paging1").show();
+                currPopu = selectKindVal(id)[0];
+                var data = {
+                    names:kindNames.join(",")
+                };
+                currFlag = "cultivar";
+                getKindInfos(1);
+
+            }else{
+                currFlag = "group"
+//                $("#popu-paginate").show();
+//                $("#paging1").hide();
+                currPopu = selectPopulation(id)[0];
+                getPopuTable(1);
+            }
 
         });
+        var currFlag;
+        // 选则品种 之后 详情页
+        function getKindInfos(curr){
+            $.ajax({
+                type:'GET',
+                url:CTXROOT + "/dnarun/getByCultivar",
+//                data:data,
+                data:{
+                    names:kindNames.join(","),
+                    pageNum:curr || 1,
+                    pageSize:pageSizePopu
+                },
+                contentType:"application/json",
+                dataType:"json",
+                success:function (result){
+                    renderPopuTable(result.data.list);
+                    laypage({
+                        cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(result.data.total / pageSizePopu), //通过后台拿到的总页数
+                        curr: curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(result.data.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                getKindInfos(obj.curr);
+//                                getKindInfos(obj.curr, currPopu);
+                            }
+                        }
+                    });
+                    $("#popu-paginate .total-page-count > span").html(result.data.total);
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        };
+
         $(".js-cursom-add2").on("click",".label-txt",function(){
+            currFlag = "group";
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
                 label.addClass("cur");
             }else{
                 label.removeClass("cur");
             }
-            console.log($(this).text());
             $(".tab-detail").show();
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             var id = $(this).parent("label").attr("data-index");
             currPopu = selectDefaulPopulation(id)[0];
-            console.log("current:", currPopu);
             getPopuTable(1);
 
         });
@@ -889,6 +1074,7 @@
                 type: "POST",
                 dataType: "json",
                 success: function(res) {
+
                     renderPopuTable(res.data);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -903,7 +1089,7 @@
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                getPopuTable(obj.curr, currPopu);
+                                getPopuTable(obj.curr,currPopu);
                             }
                         }
                     });
@@ -1118,7 +1304,6 @@
             } else {
                 $(this).addClass("checkbox-ac");
                 GeneObj.gene = $(this).text().split("_")[0];
-                console.log(GeneObj.gene)
             }
         });
 
@@ -1131,7 +1316,6 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function(res) {
-                    console.log(res)
                     if(res.data.length > 0) {
                         var len = res.data.length;
                         var str = '';
@@ -1179,6 +1363,11 @@
             });
             $("#exportForm").find(".group").val(JSON.stringify(currPopu));
             $("#exportForm").find(".choices").val(choiceArr.join(","));
+            $("#exportForm").find(".flag").val(currFlag);
+            $("#exportForm").find(".kindFlag").val(kindNames.join(","));
+
+//            $("#exportForm").find(".kindFlag").val($(""));
+
             $("#exportForm").submit();
 
         });
@@ -1203,9 +1392,23 @@
             "downstream": ""
         };
 
+//        根据id获取选中的品种名
+        function selectKindVal (id){
+            var o=[];
+            var kindStor = JSON.parse(storage.getItem("kind"));
+
+            for (var i=0;i<kindStor.name.length;i++){
+                if(kindStor.name[i].id == id){
+                    o.push(kindStor.name[i]);
+                }
+            };
+//            console.error(o);
+            return o;
+        }
         // 根据ID获取选中的population
         function selectPopulation(id) {
             var o = [];
+
             $.each(populations, function(idx, ele) {
                 if(ele.id == id) {
                     o.push(ele);
@@ -1229,16 +1432,21 @@
                 if($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
-                    var selectedItem = selectPopulation(id);
-                    // console.log("selected", selectedItem);
+//                    modify by wjshan begin
+                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
+                        var selectedItem = selectKindVal(id);
+                    }else {
+                        var selectedItem = selectPopulation(id);
+                    }
+//                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
+                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {
                 if($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
                     var selectedItem = selectDefaulPopulation(id);
-                    // console.log("selected", selectedItem);
                     selectedPopulations.push(selectedItem[0]);
                 }
             });
@@ -1279,7 +1487,6 @@
                 } else {
                     alert("请输入数字");
                 }
-
             },
             getGeneParams: function() {
                 GeneObj.upstream = $(".js-up-stream").val();
@@ -1287,8 +1494,8 @@
                 if(selectedPopulations.length > 0) {
                     GeneObj["group"] = JSON.stringify(selectedPopulations);
                 } else {
-//                    GeneObj["group"] = JSON.stringify(defaultPopulations);
-                    GeneObj["group"] = JSON.stringify([]);
+                    GeneObj["group"] = JSON.stringify(defaultPopulations);
+//                    GeneObj["group"] = JSON.stringify([]);
                 }
                 if(GeneObj.gene == "") {
                     return alert("请选择一个基因");

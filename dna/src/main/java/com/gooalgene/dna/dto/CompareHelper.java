@@ -19,4 +19,6 @@ public class CompareHelper {
     public void setValue(Float value) {
         this.value = value;
     }
+
+
 }

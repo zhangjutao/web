@@ -28,20 +28,20 @@
             <div class="modify-u">
                 <label>
                     <span>原密码:</span>
-                    <input type="password" name="oldpwd" id="username" placeholder="请输入旧密码" value="${oldpwd}">
+                    <input type="password" name="oldpwd" id="username" placeholder="请输入旧密码" value="${oldpwd}" style="line-height:36px;">
                 </label>
             </div>
             <div class="modify-pwd">
                 <label>
                     <span>新密码:</span>
-                    <input type="password" name="password" id="new-pwd" placeholder="请输入新密码" value="${password}">
+                    <input type="password" name="password" id="new-pwd" placeholder="请输入新密码" value="${password}" style="line-height:36px;">
                     <span class="tips"></span>
                 </label>
             </div>
             <div class="confirm-modify-pwd">
                 <label>
                     <span>确认新密码:</span>
-                    <input type="password" name="pwdverify" id="confirm-new-pwd" placeholder="请确认与新密码保持一致" value="${pwdverify}">
+                    <input type="password" name="pwdverify" id="confirm-new-pwd" placeholder="请确认与新密码保持一致" value="${pwdverify}" style="line-height:36px;">
                     <span class="tips"></span>
                 </label>
             </div>

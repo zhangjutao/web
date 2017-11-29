@@ -1,0 +1,214 @@
+.snpTop{
+    color:#5c8ce6;
+    font-family:"Microsoft Yahei";
+    font-size:24px;
+    padding-left:30px;
+    border-bottom:1px solid #DEDEDE;
+}
+#snpSearch{
+    padding-left:30px;
+    overflow: hidden;
+}
+#snpSearch p{
+    float:left;
+    height:40px;
+    line-height:40px;
+
+}
+#snpSearch .tipTil{
+    font-family:"Microsoft Yahei";
+    font-size:14px;
+    color:#333;
+    margin-right:18px;
+}
+#snpSearch input{
+    width:315px;
+    height:30px;
+}
+#snpSearch .searBtn{
+    background:#5C8CE6;
+    color:#fff;
+    font-family:"Microsoft Yahei";
+    font-size:16px;
+    width:123px;
+    text-align:center;
+    margin-left:10px;
+    cursor: pointer;
+}
+#trInfos{
+    padding-left:30px;
+    margin-top:16px;
+}
+#trInfos table {
+    border:1px solid #DDDDDD;
+    border-collapse: collapse;
+}
+#trInfos table td{
+    height:60px;
+    text-align:center;
+    border: 1px solid #DDDDDD;
+}
+.trWidth{
+    width:202px!important;
+    font-family:"Microsoft YaHei UI Light";
+    font-size:14px;
+    color:#666;
+    background:#F5F8FF;
+}
+.trWidth2{
+    width:368px!important;
+    font-family:Arial   ;
+    font-size:14px;
+    color:#666;
+}
+.param{
+    height: 40px;
+    padding: 2px 15px;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+#snpinfoTable{
+    width: 1137px;
+    overflow-x: scroll;
+    min-height: 195px;
+}
+#snpinfoTable table{
+    border-collapse: collapse;
+    width: 1200px;
+    border: 1px solid #E4E4E4;
+}
+#snpinfoTable table tr,#snpinfoTable table{
+    border: 1px solid #E4E4E4;
+}
+.popNames{
+    position: absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 100;
+    padding: 0px 10px;
+    width: 58px;
+    background-color: #fff;
+    margin-left: -16px;
+    top: 45px;
+    display: none;
+    padding-bottom: 10px;
+}
+.moveOnPop{
+    position:relative;
+}
+.changeTab{
+    overflow: hidden;
+    margin-left:30px;
+    width:220px;
+    /*border-top:1px solid #E3E3E3;*/
+    margin-top:20px;
+    margin-bottom:30px;
+}
+.changeTab p{
+    float:left;
+    width:100px;
+    text-align:center;
+    height:40px;
+    line-height:40px;
+    font-family:"Microsoft Yahei";
+    font-size:14px;
+    color:#666;
+    border:1px solid #89ACED;
+    cursor: pointer;
+}
+.changeTagColor{
+    background:#5C8CE6;
+    color:#fff!important;
+}
+#pieShow{
+    width:1140px;
+    margin-left:30px;
+    border-bottom:1px solid #E4E4E4;
+}
+.searchBox input{
+    padding-left:10px;
+    border:1px solid #DDDDDD;
+}
+/*// 分页*/
+#paging{
+    width:1204px;
+    height:50px;
+    /* border:1px solid #ccc; */
+    margin:0 auto;
+    margin-top:30px;
+    margin-bottom:100px;
+    overflow:hidden;
+}
+#page{
+    overflow: hidden;
+    float:right;
+    /*padding-left: 250px;*/
+    text-align:right;
+    margin-right:10px;
+
+}
+p.first{
+    margin-left:20px;
+    /* font-size:20px; */
+}
+
+#page>p,#page>b{
+    float:left;
+    width:30px;
+    height:30px;
+    border:1px solid #ddd;
+    line-height:30px;
+    text-align:center;
+    cursor:pointer;
+    /*margin:0 10px 0 0;*/
+
+}
+
+#page #inputNums{
+    float:left;
+    overflow:hidden;
+    padding-top:4px;
+}
+#inputNums>span,#inputNums>div,#inputNums>p{
+    float:left;
+    margin-right:10px;
+}
+.pageColor{
+    background:#5C8DE5;
+    color:#fff;
+}
+#tblbody>tr:nth-child(2n){
+    background:#F5F8FF;
+}
+/*.pageMleftS{*/
+/*padding-left:500px;*/
+/*}*/
+.pageMleftB{
+    padding-left:233px;
+}
+#inputNum{
+    width:62px;height:20px;
+    text-align:center;
+}
+#inputNums{
+    heigth:32px;
+    padding-top:6px;
+    float:right;
+    padding-right: 67px;
+}
+#selectedNum{
+    float:left;
+}
+/*分页 end*/
+.searBtn{
+    position:relative;
+}
+.searBtn span{
+    display:inline-block;
+    position:relative;
+    width:32px;
+    height:32px;
+    line-height:32px;
+    /*background-url:*/
+}

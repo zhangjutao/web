@@ -3,13 +3,14 @@ package com.gooalgene.dna.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
-import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -40,6 +41,9 @@ public class DNARunService {
      * @return
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
+        if (group.equals("[{}]")) {
+            group = "[]";
+        }
         Map<String, List<String>> result = new HashMap();
         if (StringUtils.isNotBlank(group)) {
             JSONArray data = JSONArray.fromObject(group);
@@ -47,11 +51,24 @@ public class DNARunService {
             for (int i = 0; i < len; i++) {
                 JSONObject one = data.getJSONObject(i);
                 String groupName = one.getString("name");
-                String condition = one.getString("condition");
-                DNARun dnaRun = getQuery(condition);
-                List<String> list = querySamples(dnaRun);
-                System.out.println(groupName + "," + list.size());
-                result.put(groupName, list);
+                if (one.containsKey("condition")) {
+                    String condition = one.getString("condition");
+                    if (condition.indexOf("cultivar") != -1) {
+                        List<String> runNoList = new ArrayList<String>();
+                        List<DNARun> dnaRunList = getQueryList(condition);
+                        for (DNARun dnaRun : dnaRunList) {
+                            List<String> list = querySamples(dnaRun);
+                            for (String runNo : list) {
+                                runNoList.add(runNo);
+                            }
+                        }
+                        result.put(groupName, runNoList);
+                    } else {
+                        DNARun dnaRun = getQuery(condition);
+                        List<String> list = querySamples(dnaRun);
+                        result.put(groupName, list);
+                    }
+                }
             }
         }
         return result;
@@ -66,8 +83,8 @@ public class DNARunService {
     public List<String> querySamples(DNARun dnaRun) {
         List<String> result = new ArrayList<String>();
         List<DNARun> list = dnaRunDao.findList(dnaRun);
-        for (DNARun dnaRun1 : list) {
-            result.add(dnaRun1.getRunNo());
+        for (DNARun oneDnaRun : list) {
+            result.add(oneDnaRun.getRunNo());
         }
         return result;
     }
@@ -95,9 +112,10 @@ public class DNARunService {
         JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(group)) {
             JSONObject one = JSONObject.fromObject(group);
+            // 群组名字并未出现在查询中,为什么会使用到?
             String groupName = one.getString("name");
-            String condition = one.getString("condition");
-            DNARun dnaRun = getQuery(condition);
+            String condition= one.getString("condition");
+            DNARun dnaRun=getQuery(condition);
             dnaRun.setPage(page);
             List<DNARun> list = dnaRunDao.findList(dnaRun);
             System.out.println("Size:" + list.size());
@@ -114,16 +132,45 @@ public class DNARunService {
     /**
      * 动态查询dnarun
      */
-    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize){
-        Cache cache = cacheManager.getCache("config");
-        cache.evict(CommonConstant.RUN_DNA);
-        PageHelper.startPage(pageNum,pageSize);
+    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
+        if(!StringUtils.isBlank(isPage)){
+            PageHelper.startPage(pageNum,pageSize);
+        }
         List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
-        cache.putIfAbsent(CommonConstant.RUN_DNA,list);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
     }
 
+    public  List<DNARun> getAll(){
+        return dnaRunDao.getListByCondition(new DnaRunDto());
+    }
+
+    public  PageInfo<DNARun> getByRunNos(List<String> runNos,Integer pageNum,Integer pageSize){
+        if(pageNum!=null&&pageSize!=null){
+            PageHelper.startPage(pageNum,pageSize);
+        }
+        List<DNARun> dnaRuns=dnaRunDao.getByRunNos(runNos);
+        PageInfo<DNARun> pageInfo=new PageInfo<>(dnaRuns);
+        return pageInfo;
+    }
+
+    public List<DNARun> getQueryList(String conditions) {
+        JSONObject jsonObject = JSONObject.fromObject(conditions);
+        List<DNARun> dnaRunList = new ArrayList<DNARun>();
+        List<String> cultivarList = Arrays.asList(jsonObject.getString("cultivar").split(","));
+        for (String cultivar:cultivarList) {
+            DNARun dnaRun = new DNARun();
+            if (cultivar.startsWith("?")) {
+                String cultivarToSampleName = cultivar.substring(1);
+                dnaRun.setSampleName(cultivarToSampleName);
+                dnaRunList.add(dnaRun);
+            }else {
+                dnaRun.setCultivar(cultivar);
+                dnaRunList.add(dnaRun);
+            }
+        }
+        return dnaRunList;
+    }
 
     /**
      * 根据查询参数json转换为DNARun实体
@@ -219,6 +266,9 @@ public class DNARunService {
             dnaRun.setStearic_min(content.getString("min"));
             dnaRun.setStearic_max(content.getString("max"));
         }
+        if (jsonObject.containsKey("cultivar")) {
+            dnaRun.setCultivar(jsonObject.getString("cultivar"));
+        }
         return dnaRun;
     }
 
@@ -253,5 +303,14 @@ public class DNARunService {
 
     public boolean delete(int id) {
         return dnaRunDao.deleteById(id);
+    }
+
+    public PageInfo<DNARun> getByCultivar(List<String> cultivars,Integer pageNum,Integer pageSize){
+        List<DNARun> list= Lists.newArrayList();
+        PageHelper.startPage(pageNum,pageSize);
+        if(CollectionUtils.isNotEmpty(cultivars)){
+            list=dnaRunDao.getByCultivar(cultivars);
+        }
+        return new PageInfo<>(list);
     }
 }

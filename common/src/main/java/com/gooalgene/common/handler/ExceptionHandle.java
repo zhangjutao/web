@@ -18,7 +18,7 @@ public class ExceptionHandle {
 
     @ExceptionHandler(value = Exception.class)
     @ResponseBody
-    //@ResponseStatus(HttpStatus.NOT_FOUND)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public ResultVO handler(Exception e){
         if(e instanceof DnaException){
             DnaException dnaException = (DnaException)e;

@@ -325,11 +325,11 @@
                 </if>
             </if>
             <if test="group!=null and group!=''">
-                AND category like CONCAT('%',#{group},'%')
+                AND category =#{group}
             </if>
         </trim>
     </select>
-    
+
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run
         WHERE 1=1
@@ -414,6 +414,12 @@
         <if test="group!=null">
             AND category = #{group}
         </if>
+        <if test="cultivar!=null">
+            AND cultivar=#{cultivar}
+        </if>
+        <if test="sampleName!=null">
+            AND sample_name=#{sampleName}
+        </if>
     </select>
 
     <update id="update" parameterType="com.gooalgene.dna.entity.DNARun">
@@ -446,5 +452,22 @@
               `category` = #{group,jdbcType=VARCHAR}
           WHERE `id` = #{id};
     </update>
+
+    <select id="getByRunNos" resultMap="BaseResultMap">
+      SELECT
+      <include refid="Base_Column_List"/>
+        FROM dna_run WHERE run_no IN
+        <foreach collection="list" item="runNo" open="(" close=")" separator=",">
+            #{runNo}
+        </foreach>
+    </select>
+    <select id="getByCultivar" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM dna_run WHERE replace(cultivar,' ','') IN
+        <foreach collection="list" item="cultivar" open="(" close=")" separator=",">
+            replace(#{cultivar},' ','')
+        </foreach>
+    </select>
 
 </mapper>

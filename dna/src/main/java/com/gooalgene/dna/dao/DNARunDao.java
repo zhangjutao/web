@@ -18,4 +18,8 @@ public interface DNARunDao extends CrudDao<DNARun> {
     boolean deleteById(int id);
 
     List<DNARun> getListByCondition(DnaRunDto dnaRunDto);
+
+    List<DNARun> getByRunNos(List<String> runNos);
+
+    List<DNARun> getByCultivar(List<String> list);
 }
