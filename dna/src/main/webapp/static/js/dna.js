@@ -125,7 +125,6 @@ $(function () {
                totalGroups.splice(i,1);
            }
        };
-        // console.error(selectedPopulations)
        obj.params.group = JSON.stringify(totalGroups);
         if(typeof obj == "object") {
             $(".page-tables").show();
@@ -261,7 +260,6 @@ $(function () {
         }
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (){
-        alert(666)
         globelType = "Gene";
         if(!$(this).hasClass("GlyColor")){
             var Glylis = $("#GlyIds li");
@@ -460,7 +458,6 @@ $(function () {
                         $("#mask-test .ga-mask").show();
                     }
                     total = res.total;
-                    // drawGeneConstructor(res,"constructorPanel","tableBody");
                     if(url =="/dna/dna/searchSNPinRegion"){
                         // var GlyList = res.data;
                         // var $ul = $("#GlyIds ul");
@@ -701,7 +698,7 @@ $(function () {
 
             str += '<td class="t_fmajorAllele"><p>'+ formatPercent(item[Major_Or_Minor_SNP]) +'</p></td>'
             var freq = item.freq.concat() ;
-            str += '<td class="t_genoType"><div><p>'+ rr+" " +(RefAndRefPercent*100).toFixed(2) + "%" + '</p><p style="width:' +RefAndRefPercent*100+ 'px;"></p></div><div><p>' + aa + " " +totalAltAndAltPercent*100 + "%" + '</p><p style="width:' +totalAltAndAltPercent*100+ 'px;"></p></div><div><p>' + ra +" " + totalRefAndAltPercent*100 + "%" +'</p><p style="width:' +totalRefAndAltPercent*100+ 'px;"></p></div></td>'
+            str += '<td class="t_genoType"><div><p>'+ rr+" " +(RefAndRefPercent*100).toFixed(2) + "%" + '</p><p style="width:' +RefAndRefPercent*100+ 'px;"></p></div><div><p>' + aa + " " +(totalAltAndAltPercent*100).toFixed(2) + "%" + '</p><p style="width:' +totalAltAndAltPercent*100+ 'px;"></p></div><div><p>' + ra +" " + (totalRefAndAltPercent*100).toFixed(2) + "%" +'</p><p style="width:' +totalRefAndAltPercent*100+ 'px;"></p></div></td>'
 
 
             freq.reverse();
@@ -1301,7 +1298,6 @@ $(function () {
             $("#" + gsnpid + " a rect").click(function (e){
                 snpIndex = $(e.target).attr("data-index");
             var tabid = $(e.target).parent().attr("href").substring(1);
-            alert(tabid);
             // 调用每个位点获取数据；
                 if(globelType == "Regin"){
                     getSnpPoint(tabid);
