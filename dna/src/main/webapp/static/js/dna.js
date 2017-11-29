@@ -989,7 +989,8 @@ $(function () {
                 }
             }
             _form.find(".choices").val(choiceArr.join(","));
-            _form.find(".group").val(params.group);
+            // _form.find(".group").val(params.group);
+            _form.find(".group").val(snpPintDatasGene.group);
             _form.submit();
         } else {
             var _form = $("#exportRegionForm");
