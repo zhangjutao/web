@@ -174,10 +174,14 @@ public class SNPController {
             long end = dnaGens.getGeneEnd();
             logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream);
+                start = start - Long.valueOf(upstream)-2000<0?0:start - Long.valueOf(upstream)-2000;
+            }else {
+                start=start-2000<0?0:start-2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream);
+                end = end + Long.valueOf(downstream)+2000;
+            }else {
+                end = end +2000;
             }
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
@@ -270,10 +274,14 @@ public class SNPController {
             long start = dnaGens.getGeneStart();
             long end = dnaGens.getGeneEnd();
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream);
+                start = start - Long.valueOf(upstream)-2000<0?0:start - Long.valueOf(upstream)-2000;
+            }else {
+                start=start-2000<0?0:start-2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream);
+                end = end + Long.valueOf(downstream)+2000;
+            }else {
+                end=end+2000;
             }
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
