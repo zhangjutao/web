@@ -192,7 +192,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid);
+                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
             },
             error:function (error){
                 console.log(error);
@@ -211,7 +211,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid);
+                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
             },
             error:function (error){
                 console.log(error);
@@ -1029,7 +1029,7 @@ $(function () {
         }
     });
     // 基因结构图
-    function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid){
+    function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
@@ -1244,6 +1244,7 @@ $(function () {
         // snp 位点基因查询
         function getSnpPointGene(tabid){
             var allSnpNum =  $("#" + gsnpid + " a rect");
+            debugger;
             var singleData = {};
                 singleData.index = snpIndex;
                 singleData.id = tabid;
@@ -1252,8 +1253,9 @@ $(function () {
                 singleData.ctype = snpPintDatasGene.ctype;
                 singleData.upstream = snpPintDatasGene.upstream;
                 singleData.downstream = snpPintDatasGene.downstream;
-                singleData.group = snpGroup.group;
+                singleData.group = params.group;
                 singleData.gene = globelGeneId;
+                console.log(params);
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatasGene.url,
