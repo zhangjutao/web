@@ -145,21 +145,13 @@ $(function (){
                 }
             }
         };
-        debugger;
-
         // 清楚非品种之外的群体￥
-        // var wrapList =$(".sample-text").find("span");
-        //    $.each(wrapList,function (i,item){
-        //         if(item.substring(0,3)!="品种名"){
-        //             wrapList.splice(i,1);
-        //         }
-        //  }) // var wrapList =$(".sample-text").find("span");
-        //    $.each(wrapList,function (i,item){
-        //         if(item.substring(0,3)!="品种名"){
-        //             wrapList.splice(i,1);
-        //         }
-        //  })
-
+        var wrapList =$(".sample-text").find("span");
+          for (var i=0;i<wrapList.length;i++){
+              if($(wrapList[i]).text().substring(0,3) !="品种名"){
+                  $(wrapList[i]).remove();
+              }
+          }
     })
 
     // 选中的品种点击X
