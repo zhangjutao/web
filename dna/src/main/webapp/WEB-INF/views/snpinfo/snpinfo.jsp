@@ -105,10 +105,10 @@
                     <td class="trWidth">Frequence of major allele:</td>
                     <%--<td class="trWidth2 snpQue">${frequence}%</td>--%>
                     <c:if test="${result.snpData!=null}">
-                        <td class="trWidth2 snpQue">${result.snpData.major*100}</td>
+                        <td class="trWidth2 snpQue">${result.snpData.major*100}%</td>
                     </c:if>
                     <c:if test="${result.INDELData!=null}">
-                        <td class="trWidth2 snpQue">${result.INDELData.major*100}</td>
+                        <td class="trWidth2 snpQue">${result.INDELData.major*100}%</td>
                     </c:if>
                 </tr>
             </table>
