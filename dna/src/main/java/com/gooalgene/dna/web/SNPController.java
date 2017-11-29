@@ -600,9 +600,8 @@ public class SNPController {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
         SNP snpFormatMajorFreq = (SNP)result.get("snpData");
-        SNP snpData = (SNP) result.get("snpData");
-        // TODO: 2017/11/29  将major转换为保留两位小数的百分数形式
-        Double.parseDouble(new DecimalFormat("###0.0000").format((snpData).getMajor()));
+        double major = Double.parseDouble(new DecimalFormat("###0.0000").format(snpFormatMajorFreq.getMajor()));
+        snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
         modelAndView.addObject("snp",snp);
         modelAndView.addObject("result",result);
         SNP snpTemp=(SNP)result.get("snpData");
