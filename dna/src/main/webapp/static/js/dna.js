@@ -246,6 +246,7 @@ $(function () {
                         var $li = $("<li>" + GlyList[i] + "</li>");
                         $ul.append($li);
                     };
+                   $("#GlyIds li:first").trigger("click")
                     // fn && fn();
                 }
             },
@@ -260,7 +261,7 @@ $(function () {
         }
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (){
-
+        alert(666)
         globelType = "Gene";
         if(!$(this).hasClass("GlyColor")){
             var Glylis = $("#GlyIds li");
@@ -1205,7 +1206,7 @@ $(function () {
                     }
                     loop(newArr);
 
-        // 点击每个snp位点重新获取数据
+        // 点击每个snp位点重新获取数据  -->根据范围
         function getSnpPoint(tabid){
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
@@ -1230,20 +1231,13 @@ $(function () {
                 contentType:"application/json",
                 dataType:"json",
                 success:function (result){
-                    renderSNPTable(result.data);
-                    var trlist = $("#" + tabId).find("tr");
-                    for (var i=0;i<trlist.length;i++){
-                        if ($(trlist[i]).hasClass("tabTrColor")){
-                            $(trlist[i]).removeClass("tabTrColor");
-                            if( i%2 == 0){
-                                $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#fff");
-                            }else{
-                                $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
-                            }
-                        }
+                    if(type == "SNP"){
+                        renderSNPTable(result.data);
+                        clickToId (tabid)
+                    }else if(type="INDEL"){
+                        renderINDELTable(result.data)
+                        clickToId (tabid)
                     }
-                    $("#" + tabid).addClass("tabTrColor");
-                    $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6!important");
                 },
                 error:function (error){
                     console.log(error);
@@ -1263,7 +1257,6 @@ $(function () {
                 singleData.downstream = snpPintDatasGene.downstream;
                 singleData.group = snpGroup.group;
                 singleData.gene = globelGeneId;
-                console.log(snpPintDatasGene);
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatasGene.url,
@@ -1273,47 +1266,42 @@ $(function () {
                 success:function (result){
                     if(type == "SNP"){
                         renderSNPTable(result.data);
-                        var trlist = $("#" + tabId).find("tr");
-                        for (var i=0;i<trlist.length;i++){
-                            if ($(trlist[i]).hasClass("tabTrColor")){
-                                $(trlist[i]).removeClass("tabTrColor");
-                                if( i%2 == 0){
-                                    $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#fff");
-                                }else{
-                                    $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
-                                }
-                            }
-                        }
-                        $("#" + tabid).addClass("tabTrColor");
-                        $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6!important");
+                        clickToId (tabid)
                     }else if(type="INDEL"){
                         renderINDELTable(result.data)
+                        clickToId (tabid)
                     }
-
                 },
                 error:function (error){
                     console.log(error);
                 }
             })
         }
+        // 点击条状到锚点的封装
+        function clickToId (tabid){
+            var trlist = $("#" + tabId).find("tr");
+            for (var i=0;i<trlist.length;i++){
+                if ($(trlist[i]).hasClass("tabTrColor")){
+                    $(trlist[i]).removeClass("tabTrColor");
+                    if( i%2 == 0){
+                        $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#fff");
+                    }else{
+                        $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
+                    }
+                }
+            }
+            $("#" + tabid).addClass("tabTrColor");
+            var pps = $("#" + tabid).find("td.t_genoType div");
+            for (var i=0;i<pps.length;i++){
+              $(pps[i]).find("p:first").css("background","#5D8CE6");
+            }
+        }
             var snpIndex;
         // 每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
                 snpIndex = $(e.target).attr("data-index");
             var tabid = $(e.target).parent().attr("href").substring(1);
-            // var trlist = $("#" + tabId).find("tr");
-            // for (var i=0;i<trlist.length;i++){
-            //     if ($(trlist[i]).hasClass("tabTrColor")){
-            //         $(trlist[i]).removeClass("tabTrColor");
-            //         if( i%2 == 0){
-            //             $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#fff");
-            //         }else{
-            //             $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
-            //         }
-            //     }
-            // }
-            // $("#" + tabid).addClass("tabTrColor");
-            // $("#" + tabid).find("td:last-child>div>p:first-child").css("background","#5d8ce6!important");
+            alert(tabid);
             // 调用每个位点获取数据；
                 if(globelType == "Regin"){
                     getSnpPoint(tabid);
