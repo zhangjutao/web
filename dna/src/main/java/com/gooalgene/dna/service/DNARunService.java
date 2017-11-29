@@ -66,7 +66,6 @@ public class DNARunService {
                     } else {
                         DNARun dnaRun = getQuery(condition);
                         List<String> list = querySamples(dnaRun);
-                        System.out.println(groupName + "," + list.size());
                         result.put(groupName, list);
                     }
                 }
@@ -115,16 +114,8 @@ public class DNARunService {
             JSONObject one = JSONObject.fromObject(group);
             // 群组名字并未出现在查询中,为什么会使用到?
             String groupName = one.getString("name");
-            String condition=null;
-            DNARun dnaRun=null;
-            if(one.containsKey("condition")){
-                 condition= one.getString("condition");
-            }
-            if(condition==null&&condition.equals("")){
-                dnaRun=new DNARun();
-            }else {
-                dnaRun = getQuery(condition);
-            }
+            String condition= one.getString("condition");
+            DNARun dnaRun=getQuery(condition);
             dnaRun.setPage(page);
             List<DNARun> list = dnaRunDao.findList(dnaRun);
             System.out.println("Size:" + list.size());
