@@ -1494,8 +1494,8 @@
                 if(selectedPopulations.length > 0) {
                     GeneObj["group"] = JSON.stringify(selectedPopulations);
                 } else {
-//                    GeneObj["group"] = JSON.stringify(defaultPopulations);
-                    GeneObj["group"] = JSON.stringify([]);
+                    GeneObj["group"] = JSON.stringify(defaultPopulations);
+//                    GeneObj["group"] = JSON.stringify([]);
                 }
                 if(GeneObj.gene == "") {
                     return alert("请选择一个基因");
