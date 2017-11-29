@@ -244,8 +244,6 @@
     $(function (){
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
-        console.log('${ctxroot}');
-        console.log("${snp.id}")
         if("${result.RefAndRefPercent}"!=""){
             var AA = "${result.RefAndRefPercent}";
         }

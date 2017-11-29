@@ -448,9 +448,7 @@ $(function () {
                     $("#mask-test .ga-mask").hide();
                     // $("#tableErrorShow").show();
                 }else {
-                    if( $("#constructorPanel").is(":hidden")){
-                        $("#constructorPanel").show();
-                    }
+
                     //     if(!$("#errorShow").is(":hidden")){
                     //     $("#errorShow").hide();
                     // }
@@ -551,6 +549,12 @@ $(function () {
                 if (res.data == null){
                     // alert("返回值为空，隐藏对应的SNP 元素")
                 }else{
+                    var currStatus = $(".item-ac").text();
+                    if(currStatus == "INDELS"){
+                        if(!$("#constructorPanel").is(":hidden")){
+                            $("#constructorPanel").hide();
+                        }
+                    }
                     total = res.total;
                     // drawGeneConstructor(res,"constructorPanel2","tableBody2");
                     maskClose("#mask-test2");
@@ -675,7 +679,6 @@ $(function () {
 
     // 生成SNPs表格
     function renderSNPTable(data) {
-        // debugger;
         var str = '';
         $.each(data, function(idx, item) {
             var ref = item.geneType.snpData.ref;
@@ -1227,9 +1230,7 @@ $(function () {
                 contentType:"application/json",
                 dataType:"json",
                 success:function (result){
-                    console.log(result);
                     renderSNPTable(result.data);
-                    debugger;
                     var trlist = $("#" + tabId).find("tr");
                     for (var i=0;i<trlist.length;i++){
                         if ($(trlist[i]).hasClass("tabTrColor")){
@@ -1251,7 +1252,6 @@ $(function () {
         }
         // snp 位点基因查询
         function getSnpPointGene(tabid){
-            debugger;
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
                 singleData.index = snpIndex;
@@ -1271,13 +1271,8 @@ $(function () {
                 contentType:"application/json",
                 dataType:"json",
                 success:function (result){
-                    // debugger;
-                    // console.log(type);
-                    debugger;
-                    // console.log(result);
                     if(type == "SNP"){
                         renderSNPTable(result.data);
-                        debugger;
                         var trlist = $("#" + tabId).find("tr");
                         for (var i=0;i<trlist.length;i++){
                             if ($(trlist[i]).hasClass("tabTrColor")){
@@ -1306,7 +1301,6 @@ $(function () {
             $("#" + gsnpid + " a rect").click(function (e){
                 snpIndex = $(e.target).attr("data-index");
             var tabid = $(e.target).parent().attr("href").substring(1);
-            alert(tabid);
             // var trlist = $("#" + tabId).find("tr");
             // for (var i=0;i<trlist.length;i++){
             //     if ($(trlist[i]).hasClass("tabTrColor")){

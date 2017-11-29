@@ -882,7 +882,6 @@
                         '<td class="param t_iminorAllele">Minor Allele</td>'+
                         '<td class="param t_ifmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
                         '<option value="minor">Frequency of Minor Allele</option></select></td>';
-//                        debugger;
             if(selectedPopulations.length > 0) {
                 var resultPopulations = selectedPopulations;
             } else {
