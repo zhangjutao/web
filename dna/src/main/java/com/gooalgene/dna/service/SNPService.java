@@ -7,6 +7,7 @@ import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.utils.CommonUtil;
+import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.sf.json.JSONArray;
@@ -143,11 +144,11 @@ public class SNPService {
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             snpDto.setGeneType(map);
-            JSONArray freqData=new JSONArray();
+            JSONArray freqData;
             if(StringUtils.equals(type,"SNP")){
-                freqData = getFrequeData(((SNP)map.get("snpData")).getSamples(), group_runNos);
+                freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);
             }else {
-                freqData = getFrequeData(((SNP)map.get("INDELData")).getSamples(), group_runNos);
+                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), group_runNos);
             }
             snpDto.setFreq(freqData);
             data.add(snpDto);
@@ -176,9 +177,9 @@ public class SNPService {
             JSONArray freqData = new JSONArray();
             Map map = snpService.findSampleById(snp.getId());
             if(StringUtils.equals(type,"SNP")){
-                freqData = getFrequeData(((SNP)map.get("snpData")).getSamples(), group_runNos);
+                freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);
             }else {
-                freqData = getFrequeData(((SNP)map.get("INDELData")).getSamples(), group_runNos);
+                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), group_runNos);
             }
             snpDto.setFreq(freqData);
             snpDto.setGeneType(map);
@@ -295,6 +296,68 @@ public class SNPService {
                         num_0_1++;
                         num_total++;
                     } else if (s.equals("1/1")) {
+                        num_1_1++;
+                        num_total++;
+                    } else {
+
+                    }
+                } else {
+                    System.out.println(k + " is " + s);
+                }
+            }
+//            System.out.println("G:" + group + "=====[1/1]:" + num_1_1 + "\t[0/0]:" + num_0_0 + "\t[0/1]:" + num_0_1 + "\tTotal" + num_total);
+            double major = 0, minor = 0;//频率高的为Major,低的为Minor
+            if (num_total != 0) {
+                Double a = (num_0_0 + 0.5 * num_0_1) / num_total;
+                Double b = (num_1_1 + 0.5 * num_0_1) / num_total;
+                if (a.compareTo(b) >= 0) {
+                    major = a;
+                    minor = b;
+                } else {
+                    major = b;
+                    minor = a;
+                }
+            }
+//            System.out.println(major + "\t" + minor);
+            jsonObject.put("major", major);
+            jsonObject.put("minor", minor);
+            jsonArray.add(jsonObject);
+        }
+        return jsonArray;
+    }
+
+    public JSONArray getFrequencyInSnp(SNP snp, Map<String, List<String>> groups) {
+        Map<String, String> sample = snp.getSamples(); //先拿到SNP中的所有sample
+        String alt = snp.getAlt(); //次要变异位点表示1
+        String ref = snp.getRef(); //主要变异位点表示0
+        final String doubleAlt = alt + alt;
+        final String doubleRef = ref + ref;
+        final String combination = alt + ref;
+        final String reverseCombination = ref + alt;
+        JSONArray jsonArray = new JSONArray();
+        for (String group : groups.keySet()) {
+            JSONObject jsonObject = new JSONObject();
+            List<String> samples = groups.get(group);
+            int length = samples.size();
+            jsonObject.put("name", group);
+            jsonObject.put("size", length);
+            int num_0_0 = 0;
+            int num_0_1 = 0;
+            int num_1_1 = 0;
+            int num_total = 0;
+//            System.out.println("==========================");
+            for (int j = 0; j < length; j++) {
+                String k = samples.get(j);
+                String s = sample.get(k);
+//                System.out.println(k + ":" + s);
+                if (s != null) {
+                    if (s.equals(doubleRef)) {
+                        num_0_0++;
+                        num_total++;
+                    } else if (s.equals(combination) || s.equals(reverseCombination)) {
+                        num_0_1++;
+                        num_total++;
+                    } else if (s.equals(doubleAlt)) {
                         num_1_1++;
                         num_total++;
                     } else {

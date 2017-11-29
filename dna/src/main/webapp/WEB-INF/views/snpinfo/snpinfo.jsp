@@ -46,27 +46,70 @@
             <table cellspacing="0" cellpadding="0" >
                 <tr>
                     <td class="trWidth">SNP ID:</td>
-                    <td class="trWidth2 snpId">${snp.id}</td>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpId">${result.snpData.id}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpId">${result.INDELData.id}</td>
+                    </c:if>
+
                     <td class="trWidth">Consequence type:</td>
-                    <td class="trWidth2 snpCon">${snp.consequencetype}</td>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpCon">${result.snpData.consequencetype}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpCon">${result.INDELData.consequencetype}</td>
+                    </c:if>
                 </tr>
                 <tr>
                     <td class="trWidth">Chr:</td>
-                    <td class="trWidth2 snpChr">${snp.chr}</td>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpChr">${result.snpData.chr}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpChr">${result.INDELData.chr}</td>
+                    </c:if>
                     <td class="trWidth">Position:</td>
-                    <td class="trWidth2 snpPos">${snp.pos}</td>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpPos">${result.snpData.pos}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpPos">${result.INDELData.pos}</td>
+                    </c:if>
                 </tr>
                 <tr>
                     <td class="trWidth">Reference allele:</td>
-                    <td class="trWidth2 snpRef">${snp.ref}</td>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpRef">${result.snpData.ref}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpRef">${result.INDELData.ref}</td>
+                    </c:if>
+
                     <td class="trWidth">Major allele:</td>
-                    <td class="trWidth2 snpMaj">${snp.majorallen}</td>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpMaj">${result.snpData.majorallen}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpMaj">${result.INDELData.majorallen}</td>
+                    </c:if>
                 </tr>
                 <tr>
                     <td class="trWidth">Minor allele:</td>
-                    <td class="trWidth2 snpMio">${snp.minorallen}</td>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpMio">${result.snpData.minorallen}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpMio">${result.INDELData.minorallen}</td>
+                    </c:if>
                     <td class="trWidth">Frequence of major allele:</td>
-                    <td class="trWidth2 snpQue">${frequence}%</td>
+                    <%--<td class="trWidth2 snpQue">${frequence}%</td>--%>
+                    <c:if test="${result.snpData!=null}">
+                        <td class="trWidth2 snpQue">${result.snpData.major*100}</td>
+                    </c:if>
+                    <c:if test="${result.INDELData!=null}">
+                        <td class="trWidth2 snpQue">${result.INDELData.major*100}</td>
+                    </c:if>
                 </tr>
             </table>
         </div>
@@ -203,17 +246,24 @@
         var ctxRoot = '${ctxroot}';
         console.log('${ctxroot}');
         console.log("${snp.id}")
-        var AA = "${result.RefAndRefPercent}";
-        var TT = "${result.totalAltAndAltPercent}";
-        var AT = "${result.totalRefAndAltPercent}";
+        if("${result.RefAndRefPercent}"!=""){
+            var AA = "${result.RefAndRefPercent}";
+        }
+        if("${result.totalAltAndAltPercent}"!=""){
+            var TT = "${result.totalAltAndAltPercent}";
+        }
+        if("${result.totalRefAndAltPercent}"!=""){
+            var AT = "${result.totalRefAndAltPercent}";
+        }
+
         var id="${snp.id}";
-        if (!"${result.snpData.ref}"){
+        if ("${result.snpData}"==""){
             var major = "${result.INDELData.ref}";
         }else {
             var major = "${result.snpData.ref}";
         }
-          if (!"${result.snpData.alt}"){
-            var mijor = "${result.INDELData.ref}";
+        if ("${result.snpData}"==""){
+            var mijor = "${result.INDELData.alt}";
         }else {
             var mijor = "${result.snpData.alt}";
         }
@@ -274,7 +324,9 @@
                 }]
             })
         }
-        drawPie(AA,TT,AT,name1,name2,name3);
+        if ("${result.snpData}"!=""){
+            drawPie(AA,TT,AT,name1,name2,name3);
+        }
         // 选择群体信息
         $(".moveOnPop").mouseover(function (){
              $(this).find("div.popNames").show();
