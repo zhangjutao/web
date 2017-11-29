@@ -599,7 +599,10 @@ public class SNPController {
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
-
+        SNP snpFormatMajorFreq = (SNP)result.get("snpData");
+        SNP snpData = (SNP) result.get("snpData");
+        // TODO: 2017/11/29  将major转换为保留两位小数的百分数形式
+        Double.parseDouble(new DecimalFormat("###0.0000").format((snpData).getMajor()));
         modelAndView.addObject("snp",snp);
         modelAndView.addObject("result",result);
         SNP snpTemp=(SNP)result.get("snpData");
