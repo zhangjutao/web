@@ -428,9 +428,13 @@ public class ExportDataController {
                     result=snpService.searchSNPinGene(type,ctype,gene,upstream,downstream,group,page);
                     content = serialList(type, result, columns.split(","));
                 } else if ("SAMPLES".equals(model)) {
+
+                    //前端需要增加两个字段  flag 和 cultivars
                     String group = request.getParameter("group");
                     Page<DNARun> page = new Page<DNARun>(request, response);
                     String temp=request.getParameter("total");       //获取数据的总数
+                    //判断自定义群体使用的是按Group查询还是按品种名查询   group 表示按群体查询   cultivar表示按品种名查询
+                    String flag=request.getParameter("flag");
                     int total=0;
                     if(temp!=null&&!temp.equals("")) {
                         total = Integer.parseInt(temp);
@@ -438,7 +442,24 @@ public class ExportDataController {
                         total=EXPORT_NUM;
                     }
                     page.setPageSize(total);
-                    result = dnaRunService.queryDNARunByGroup(group, page);
+
+                    if(flag.equals("group")){
+                        result = dnaRunService.queryDNARunByGroup(group, page);
+                    } else{
+                        String cultivars=request.getParameter("cultivar");
+                        String[] culltivarsArray=cultivars.split(",");
+                        Map tempResult=new HashMap();
+                        List<String> cultivarList;
+                        cultivarList=Arrays.asList(culltivarsArray);
+                        List<DNARun> dnaRunList=dnaRunDao.getByCultivar(cultivarList);
+                        JSONArray data=new JSONArray();
+                        for(DNARun dnaRun:dnaRunList){
+                            data.add(dnaRun.toJSON());
+                        }
+                        tempResult.put("data",data);
+                        result=tempResult;
+                    }
+
                     content = serialList(model, result, columns.split(","));
                 }
             } else {
@@ -561,7 +582,7 @@ public class ExportDataController {
                 }
                 if (map.containsKey("locality")) {
                     String locality = one.getString("locality");
-                    sb.append((locality != null ? Tools.getRightContent(locality) : "")).append(",");
+                    sb.append((locality != null ?locality.replace(",","，") : "")).append(",");
                 }
                 if (map.containsKey("sampleName")) {
                     String sampleName = one.getString("sampleName");
