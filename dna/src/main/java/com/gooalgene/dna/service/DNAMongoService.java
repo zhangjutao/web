@@ -268,12 +268,12 @@ public class DNAMongoService {
             // 先查询中共个数,对分页有基本了解
             long all = mongoTemplate.count(query, SNP.class, collectionName);
             logger.info("all number : " + all);
-            Integer pageNum=index/pageSize+1;
+            Integer pageNum=index/pageSize;
             Pageable pageable = new PageRequest(pageNum, pageSize);
             query.with(pageable);
             // 去除掉无用的samples字段,极为影响实体bean反射性能
             query.fields().exclude("samples");
-            logger.info("Query:" + query.toString());
+            logger.info("Query:{},pageNum:{}, offect:{},pageSize:{}", query.toString(),pageable.getPageNumber(),pageable.getOffset(),pageable.getPageSize());
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");
