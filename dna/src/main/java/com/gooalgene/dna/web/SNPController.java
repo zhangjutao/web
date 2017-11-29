@@ -611,15 +611,14 @@ public class SNPController {
         Map map=(Map)snpTemp.getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
-        //if(StringUtils.equals(snp.getMajorallen(),"A")){
-            for(Map.Entry entry:entrySet){
-                if(((String)entry.getValue()).contains(snp.getMajorallen())){
-                    runNos.add((String) entry.getKey());
-                }
+        for(Map.Entry entry:entrySet){
+            if(((String)entry.getValue()).contains(snp.getMajorallen())){
+                runNos.add((String) entry.getKey());
             }
-        //}
-        PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
-        modelAndView.addObject("dnaRuns",dnaRuns);
+        }
+        //todo 此dnaruns可能重复
+        //PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
+        //modelAndView.addObject("dnaRuns",dnaRuns);
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
     }
