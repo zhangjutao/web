@@ -460,6 +460,8 @@
         <input class="choices" name="choices" type="hidden" value=""/>
         <input class="group" name="group" type="hidden" value=""/>
         <input class="total" name="total" type="hidden" value=""/>
+        <input class="flag" name="flag" type="hidden" value=""/>
+        <input class="kindFlag" name="cultivar" type="hidden" value=""/>
     </form>
 </div>
 
@@ -974,9 +976,11 @@
                 var data = {
                     names:kindNames.join(",")
                 };
+                currFlag = "cultivar";
                 getKindInfos(1);
 
             }else{
+                currFlag = "group"
 //                $("#popu-paginate").show();
 //                $("#paging1").hide();
                 currPopu = selectPopulation(id)[0];
@@ -984,6 +988,7 @@
             }
 
         });
+        var currFlag;
         // 选则品种 之后 详情页
         function getKindInfos(curr){
             $.ajax({
@@ -1357,6 +1362,11 @@
             });
             $("#exportForm").find(".group").val(JSON.stringify(currPopu));
             $("#exportForm").find(".choices").val(choiceArr.join(","));
+            $("#exportForm").find(".flag").val(currFlag);
+            $("#exportForm").find(".kindFlag").val(kindNames.join(","));
+
+//            $("#exportForm").find(".kindFlag").val($(""));
+
             $("#exportForm").submit();
 
         });

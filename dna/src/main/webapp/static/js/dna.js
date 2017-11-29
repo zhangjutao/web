@@ -1126,12 +1126,12 @@ $(function () {
             // 利用直线生成器生成相应的直线
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
-            svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData));
+            svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData)).attr("id","centerLine");
             // 方向箭头
             if(direction == "-"){
-                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)");
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
             }else if(direction == "+"){
-                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)");
+                svg.append("path").attr("stroke","#000").attr('stroke-width', '2').attr("fill","#000").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)").attr("id","arrows");
             }
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             svg.append("path").attr("stroke","#ff0000").attr("stroke-width","3").attr("d",line(verticalLineData));
@@ -1296,24 +1296,35 @@ $(function () {
     }
     // 定义滚轮缩放
     // var count = 1;
-    // $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
+    // // $("#geneConstruction").on("mousewheel DOMMouseScroll","svg",function (e) {
+    // $("#geneConstruction").bind("mousewheel DOMMouseScroll",function (e) {
     //     var delta = (e.originalEvent.wheelDelta && (e.originalEvent.wheelDelta > 0 ? 1 : -1)) ||  // chrome & ie
     //         (e.originalEvent.detail && (e.originalEvent.detail > 0 ? -1 : 1));              // firefox
     //     if (delta > 0) {
     //         // 向上滚
     //         count++;
-    //         $(this).css("transform", "scale(" + count * 0.2 + ")");
-    //
+    //         $(this).find("g").css("transform", "scale(" + count * 0.2 + ")");
+    //         $(this).find("#centerLine").css("transform", "scale(" + count * 0.2 + ")");
+    //         $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
+    //         // $(this).find("svg").attr("height",count*220*0.2)
+    //         // $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //         console.log("upwheel")
     //     } else if (delta < 0) {
     //         // 向下滚
     //         count--;
-    //         if (count > 5 ) {
-    //             $(this).css("transform", "scale(" + count * 0.2 + ")");
+    //         console.log("downwheel")
+    //
+    //         if (count > 0 ) {
+    //             $(this).find("g").css("transform", "scale(" + count * 0.2 + ")");
+    //             $(this).find("#centerLine").css("transform", "scale(" + count * 0.2 + ")");
+    //             $(this).find("#arrows").css("transform", "scale(" + count * 0.2 + ")");
+    //             // $(this).css("transform", "scale(" + count * 0.2 + ")");
     //         }else {
-    //             count = 6;
+    //             count = 1;
     //         }
     //     }
     // });
+
     // 设置缩放点
     // to dao
     // $("#geneConstruction").mousemove(function (e){
