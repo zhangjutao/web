@@ -1031,6 +1031,7 @@
         };
 
         $(".js-cursom-add2").on("click",".label-txt",function(){
+            currFlag = "group";
             var label=$(this).parent().find("label");
             if(label.hasClass("cur")){
                 label.addClass("cur");

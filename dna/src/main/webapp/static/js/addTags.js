@@ -114,6 +114,7 @@ $(function (){
     })
     // 表格中每个复选框的点击事件
     $("#tagTBody").on("click","input",function (e){
+        // $(".sample-text").empty();
         var currentStatus = $(this).prop("checked");
         var selectedName =  $(this).parent().next().text();
         if (!selectedName){
@@ -143,7 +144,21 @@ $(function (){
                     }
                 }
             }
-        }
+        };
+        debugger;
+
+        // 清楚非品种之外的群体￥
+        // var wrapList =$(".sample-text").find("span");
+        //    $.each(wrapList,function (i,item){
+        //         if(item.substring(0,3)!="品种名"){
+        //             wrapList.splice(i,1);
+        //         }
+        //  }) // var wrapList =$(".sample-text").find("span");
+        //    $.each(wrapList,function (i,item){
+        //         if(item.substring(0,3)!="品种名"){
+        //             wrapList.splice(i,1);
+        //         }
+        //  })
 
     })
 
