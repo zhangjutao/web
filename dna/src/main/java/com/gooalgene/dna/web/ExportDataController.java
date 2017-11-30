@@ -90,7 +90,7 @@ public class ExportDataController {
 
         fileName+= UUID.randomUUID()+".csv";
 
-        String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile\\";
+        String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile/";
         String csvStr="";
         List<DNARun> result=dnaRunDao.getListByCondition(dnaRunDto);
 
@@ -703,6 +703,9 @@ public class ExportDataController {
                         String ra=ref+alt;
                         sb.append(ref+ref+":"+RR+"，"+alt+alt+":"+tAA+"，"+ra+":"+tRA);
                     }else{
+                        if(freq.size()==0||freq==null){
+                            sb.append(",");
+                        }
                         for(int j=0;j<freq.size();j++){
                             JSONObject groupFreq=freq.getJSONObject(j);
                             String name="fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
