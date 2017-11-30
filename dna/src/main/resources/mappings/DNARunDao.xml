@@ -363,8 +363,11 @@
         <include refid="Base_Column_List" />
         from dna_run
         <trim prefix="where" prefixOverrides="and|or">
-            <if test="runNo!=null and runNo!=''">
-                AND run_no like CONCAT('%',#{runNo},'%' )
+            <if test="runNos!=null">
+                AND run_no IN
+                <foreach collection="runNos" item="runNo" open="(" close=")" separator=",">
+                    #{runNo}
+                </foreach>
             </if>
             <if test="species!=null and species!=''">
                 AND species like CONCAT('%',#{species},'%' )

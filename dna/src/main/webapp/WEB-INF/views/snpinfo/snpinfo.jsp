@@ -28,7 +28,12 @@
 <dna:dna-header />
     <div class="container" style="background: #fff;position:relative;">
         <div class="snpTop">
-            GlyS020044582527
+            <c:if test="${result.snpData!=null}">
+             ${result.snpData.id}
+            </c:if>
+            <c:if test="${result.INDELData!=null}">
+               ${result.INDELData.id}
+            </c:if>
         </div>
         <div id="snpSearch">
             <p class="tipTil">SNP/INDEL ID:</p>
@@ -41,6 +46,9 @@
                 </span>
                 搜索
             </p>
+        </div>
+        <div id="errorBoxShow">
+            没有找到您要查询的内容，请尝试其他搜索词
         </div>
         <div id="trInfos">
             <table cellspacing="0" cellpadding="0" >
@@ -126,73 +134,304 @@
                 <thead style="overflow-x: scroll;">
                 <tr style="background: #F5F8FF;">
                     <th class="param cultivarT">品种名
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="cultivarI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param genoTypeT">GenoType
 
                     </th>
                     <th class="param speciesT">物种
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="speciesI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param localityT">位置
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="localityI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param sampleNameT">样品名
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="sampleNameI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param weightPer100seedsT">百粒重
-
+                    <th class="param weightPer100seedsT">百粒重(g)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="weightPer100seedsI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param proteinT">蛋白质含量
-
+                    <th class="param proteinT">蛋白质含量(%)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="proteinI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param oilT">含油量
-
+                    <th class="param oilT">含油量(%)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="oilI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param maturityDateT">熟期
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param heightT">株高
-
+                    <th class="param heightT">株高(cm)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="heightI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param seedCoatColorT">种皮色
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="seedCoatColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param hilumColorT">种脐色
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="hilumColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param cotyledonColorT">子叶色
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="cotyledonColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param flowerColorT">花色
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="flowerColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param podColorT">荚色
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="podColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param pubescenceColorT">茸毛色
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="pubescenceColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param yieldT">产量
-
+                    <th class="param yieldT">产量(Mg/ha)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="yieldI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param upperLeafletLengthT">顶端小叶长度
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="upperLeafletLengthI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param linoleicT">亚油酸
-
+                    <th class="param linoleicT">亚油酸(%)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="linoleicI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param linolenicT">亚麻酸
-
+                    <th class="param linolenicT">亚麻酸(%)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="linolenicI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param oleicT">油酸
-
+                    <th class="param oleicT">油酸(%)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="oleicI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param palmiticT">软脂酸
-
+                    <th class="param palmiticT">软脂酸(%)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="palmiticI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
-                    <th class="param stearicT">硬脂酸
-
+                    <th class="param stearicT">硬脂酸(%)
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <select class="selectOperate">
+                                <option value="" selected="selected"></option>
+                                <option value="<"> < </option>
+                                <option value="="> = </option>
+                                <option value=">"> > </option>
+                            </select>
+                            <br>
+                            <input type="text" placeholder="请输入" class="stearicI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                 </tr>
                 </thead>
@@ -338,76 +577,6 @@
             $(this).parent().parent().hide();
         })
         // 获取表格数据
-        function getSnpData (data){
-            $.ajax({
-                type:"GET",
-                url:ctxRoot + "/dna/changeByProportion",
-                data:data,
-                success:function (result){
-                    var GenoType;
-                    var dnaDatas = result.data.dnaRuns;
-                    var dnaSamples = result.data.samples;
-                    $("#snpinfoTable table tbody tr").remove();
-                    for (var i=0;i<dnaDatas.length;i++){
-                       GenoType = dnaSamples[dnaDatas[i].runNo];
-                        var cultivarTV = dnaDatas[i].cultivar==null?"":dnaDatas[i].cultivar;
-                        var genoTypeTV = GenoType==null?"":GenoType;
-                        var speciesTV = dnaDatas[i].species==null?"":dnaDatas[i].species;
-                        var localityTV = dnaDatas[i].locality==null?"":dnaDatas[i].locality;
-                        var sampleNameTV = dnaDatas[i].sampleName==null?"":dnaDatas[i].sampleName;
-                        var weightPer100seedsTV = dnaDatas[i].weightPer100seeds==null?"":dnaDatas[i].weightPer100seeds;
-                        var proteinTV = dnaDatas[i].protein==null?"":dnaDatas[i].protein;
-                        var oilTV = dnaDatas[i].oil==null?"":dnaDatas[i].oil;
-                        var maturityDateTV = dnaDatas[i].maturityDate==null?"":dnaDatas[i].maturityDate;
-                        var heightTV = dnaDatas[i].height==null?"":dnaDatas[i].height
-                        var seedCoatColorTV = dnaDatas[i].seedCoatColor==null?"":dnaDatas[i].seedCoatColor;
-                        var hilumColorTV  = dnaDatas[i].hilumColor==null?"":dnaDatas[i].hilumColor==null;
-                        var cotyledonColorTV = dnaDatas[i].cotyledonColor==null?"":dnaDatas[i].cotyledonColor;
-                        var flowerColorTV = dnaDatas[i].flowerColor==null?"":dnaDatas[i].flowerColor;
-                        var podColorTV = dnaDatas[i].podColor==null?"":dnaDatas[i].podColor;
-                        var pubescenceColorTV = dnaDatas[i].pubescenceColor ==null?"":dnaDatas[i].pubescenceColor;
-                        var yieldTV = dnaDatas[i].yield==null?"":dnaDatas[i].yield;
-                        var upperLeafletLengthTV = dnaDatas[i].upperLeafletLength==null?"":dnaDatas[i].upperLeafletLength;
-                        var linoleicTV = dnaDatas[i].linoleic==null?"":dnaDatas[i].linoleic;
-                        var linolenicTV = dnaDatas[i].linolenic==null?"":dnaDatas[i].linolenic;
-                        var oleicTV = dnaDatas[i].oleic==null?"":dnaDatas[i].oleic;
-                        var palmiticTV = dnaDatas[i].palmitic==null?"":dnaDatas[i].palmitic;
-                        var stearicTV = dnaDatas[i].stearic==null?"":dnaDatas[i].stearic;
-
-                        var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
-                            "</td><td class='param genoTypeT'>" + genoTypeTV +
-                            "</td><td class='param speciesT'>" + speciesTV+
-                            "</td><td class='param localityT'>" + localityTV +
-                            "</td><td class='param sampleNameT'>" + sampleNameTV +
-                            "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
-                            "</td><td class='param proteinT'>" + proteinTV +
-                            "</td><td class='param oilT'>" + oilTV +
-                            "</td><td class='param maturityDateT'>" + maturityDateTV +
-                            "</td><td class='param heightT'>" + heightTV +
-                            "</td><td class='param seedCoatColorT'>" + seedCoatColorTV +
-                            "</td><td class='param hilumColorT'>" + hilumColorTV +
-                            "</td><td class='param cotyledonColorT'>" + cotyledonColorTV +
-                            "</td><td class='param flowerColorT'>" +flowerColorTV +
-                            "</td><td class='param podColorT'>" + podColorTV +
-                            "</td><td class='param pubescenceColorT'>" + pubescenceColorTV +
-                            "</td><td class='param yieldT'>" + yieldTV +
-                            "</td><td class='param upperLeafletLengthT'>" + upperLeafletLengthTV +
-                            "</td><td class='param linoleicT'>" + linoleicTV +
-                            "</td><td class='param linolenicT'>" + linolenicTV +
-                            "</td><td class='param oleicT'>" + oleicTV +
-                            "</td><td class='param palmiticT'>" + palmiticTV +
-                            "</td><td class='param stearicT'>" + stearicTV +"</td></tr>"
-                        var $tbody = $("#snpinfoTable table tbody");
-                        $tbody.append(tr);
-                    }
-                    var tr =
-                    console.log(result);
-                },
-                error:function (error){
-                    console.log(error);
-                }
-            })
-        }
         $(".minor").click(function (){
             mijor = $(".snpMio").text();
             changeParam = mijor;
@@ -444,14 +613,7 @@
             pageNum:page.pageNum,
             pageSize:page.pageSize
         };
-        // 获取参数
-        function snpGetParams(type){
-            var data = {
-                snpId:id,
-                changeParam:type
-            };
-            return data;
-        }
+
         //ajax 请求
         function getData(data){
             $.ajax({
@@ -697,7 +859,6 @@
         // 详情页 搜索按钮点击事件
         $(".searBtn").click(function (){
             var searchId = $(".searchBox").find("input").val();
-
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/findSampleById",
@@ -707,7 +868,15 @@
                     console.log(result);
                     if(result.code !=0){
                         $("#paging").hide();
+                        $(".searchBox input").addClass("inputError")
+                        $("#errorBoxShow").show();
                     }else {
+                        if($(".searchBox input").hasClass("inputError")){
+                            $(".searchBox input").removeClass("inputError");
+                        };
+                        if( !$("#errorBoxShow").is(":hidden")){
+                            $("#errorBoxShow").hide();
+                        }
                         id = result.data.snpData.id;
                         major =result.data.snpData.majorallen;
                         minor =result.data.snpData.minorallen;
@@ -756,6 +925,80 @@
                 }
             }
         })
+    //表格筛选框显示隐藏
+    $("#snpinfoTable thead th").mouseover(function (){
+        $(this).find(".inputComponent").show();
+    }).mouseleave(function (){
+        $(this).find(".inputComponent").hide();
+    })
+    // 筛选取消按钮 样式
+    $("#snpinfoTable .inputComponent .btnCancel").click(function (){
+        $(this).parent().parent().find("input").val("");
+        $(this).parent().parent().hide();
+    })
+    // 表格筛选功能  --》 获取数据
 
+    // 获取参数
+    function snpGetParams(type){
+        var datas = {
+            snpId: $(".snpId").text(),
+            changeParam:type,
+            cultivar:$(".cultivarI").val(),  // 品种名
+//            group:popuSelectedVal, // 群体
+            species:$(".speciesI").val(),// 物种
+            locality:$(".localityI").val(), // 位置
+            sampleName:$(".sampleNameI").val(), // 样品名
+            // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
+            "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "weightPer100seeds.value":$(".weightPer100seedsI").val(),
+            // protein:$(".proteinI").val(), //蛋白质含量
+            "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "protein.value":$(".proteinI").val(),
+            // 含油量
+            "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "oil.value":$(".oilI").val(),
+            maturityDate:$(".maturityDateI").val(), // 熟期
+            // height:$(".heightI").val(),//株高
+            "height.operation":$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":$(".heightI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "height.value":$(".heightI").val(),
+            seedCoatColor:$(".seedCoatColorI").val(),//种皮色
+            hilumColor:$(".hilumColorI").val(),//种脐色
+            cotyledonColor:$(".cotyledonColorI").val(), //子叶色
+            flowerColor:$(".flowerColorI").val(),//花色
+            podColor:$(".podColorI").val(),//荚色
+            pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
+            // yield:$(".yieldI").val(),// 产量
+            "yield.operation":$(".yieldI").parent().find("option:selected").text().trim() == ">"?"gt":$(".yieldI").parent().find("option:selected").text().trim()=="="?"eq":$(".yieldI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "yield.value":$(".yieldI").val(),
+            // upperLeafletLength:$(".upperLeaf
+            // letLengthI").val(), //顶端小叶长度
+            "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
+            // linoleic:$(".linoleicI").val(), //亚油酸
+            "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "linoleic.value":$(".linoleicI").val(),
+            // linolenic:$(".linolenicI").val(), //亚麻酸
+            "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "linolenic.value":$(".linolenicI").val(),
+            // oleic:$(".oleicI").val(), //油酸
+            "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "oleic.value":$(".oleicI").val(),
+            // palmitic:$(".palmiticI").val(),  //软脂酸
+            "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "palmitic.value":$(".palmiticI").val(),
+            // stearic:$(".stearicI").val(), //硬脂酸
+            "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+            "stearic.value":$(".stearicI").val(),
+            isPage:1  // 是否分页
+        };
+        return datas;
+    }
+    // 获取表格数据
+    $("#snpinfoTable .btnConfirmInfo").click(function (){
+        var selectedDatas = snpGetParams(changeParam);
+        selectedDatas.pageNum = paramData.pageNum;
+        selectedDatas.pageSize = paramData.pageSize;
+        getData(selectedDatas);
+    })
 </script>
 </html>

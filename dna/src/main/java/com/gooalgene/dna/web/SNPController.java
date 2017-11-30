@@ -647,10 +647,10 @@ public class SNPController {
                 if(value.contains(changeParam)){
                     runNos.add((String) entry.getKey());
                     samples.put(entry.getKey(),entry.getValue());
-}
+        }
             }
         }
-        PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);
+        PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);
         Map response= Maps.newHashMap();
         response.put("dnaRuns",dnaRuns);
         //response.put("samples",map);
