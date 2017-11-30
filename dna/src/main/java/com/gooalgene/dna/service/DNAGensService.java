@@ -103,6 +103,10 @@ public class DNAGensService {
         return result;
     }
 
+    public List<String> getByRegionNoCompare(String chr,String start, String end){
+        List<String> list= dnaGensDao.getByRegion(chr,start,end);
+        return  list;
+    }
 
     public List<String> getByRegion(String chr,String start, String end){
         List<String> list= dnaGensDao.getByRegion(chr,start,end);

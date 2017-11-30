@@ -6,6 +6,7 @@ import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.dna.service.SNPService;
@@ -431,7 +432,7 @@ public class ExportDataController {
 
                     //前端需要增加两个字段  flag 和 cultivars
                     String group = request.getParameter("group");
-                    Page<DNARun> page = new Page<DNARun>(request, response);
+                    Page<DNARunSearchResult> page = new Page<>(request, response);
                     String temp=request.getParameter("total");       //获取数据的总数
                     //判断自定义群体使用的是按Group查询还是按品种名查询   group 表示按群体查询   cultivar表示按品种名查询
                     String flag=request.getParameter("flag");

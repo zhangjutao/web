@@ -86,6 +86,16 @@ public class DnaRunDto{
     private String yield_min;
     private String yield_max;
 
+    private String keywords;
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
     public List<String> getRunNos() {
         return runNos;
     }

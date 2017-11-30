@@ -12,6 +12,7 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -105,7 +106,7 @@ public class DNARunService {
      * @param page
      * @return
      */
-    public Map queryDNARunByGroup(String group, Page<DNARun> page) {
+    public Map queryDNARunByGroup(String group, Page<DNARunSearchResult> page) {
         Map result = new HashMap();
         result.put("group", group);
         result.put("pageNo", page.getPageNo());
@@ -117,12 +118,14 @@ public class DNARunService {
             String groupName = one.getString("name");
             String condition= one.getString("condition");
             DNARun dnaRun=getQuery(condition);
-            dnaRun.setPage(page);
-            List<DNARun> list = dnaRunDao.findList(dnaRun);
+            DnaRunDto dnaRunDto=new DnaRunDto();
+            BeanUtils.copyProperties(dnaRun,dnaRunDto);
+            PageHelper.startPage(page.getPageNo(),page.getPageSize());
+            List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
             System.out.println("Size:" + list.size());
             page.setList(list);
-            for (DNARun dnaRun1 : list) {
-                data.add(dnaRun1.toJSON());
+            for (DNARunSearchResult dnaRunSearchResult : list) {
+                data.add(dnaRunSearchResult.toJSON());
             }
         }
         result.put("total", page.getCount());

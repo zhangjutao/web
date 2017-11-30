@@ -1,6 +1,7 @@
 package com.gooalgene.dna.service;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.dna.dao.DNAGensDao;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
@@ -19,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -36,6 +38,8 @@ public class SNPService {
     private SNPService snpService;
     @Autowired
     private DNAGenStructureService dnaGenStructureService;
+    @Autowired
+    private DNAGensDao dnaGensDao;
 
 
     /**
@@ -116,7 +120,8 @@ public class SNPService {
 
 
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
-        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos));
+        List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos),list);
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
