@@ -599,7 +599,12 @@ public class SNPController {
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
-        SNP snpFormatMajorFreq = (SNP)result.get("snpData");
+        SNP snpFormatMajorFreq = new SNP();
+        if (result.containsKey("snpData")) {
+            snpFormatMajorFreq = (SNP) result.get("snpData");
+        }else {
+            snpFormatMajorFreq = (SNP) result.get("INDELData");
+        }
         double major = Double.parseDouble(new DecimalFormat("###0.0000").format(snpFormatMajorFreq.getMajor()));
         snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
         modelAndView.addObject("snp",snp);
