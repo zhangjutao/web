@@ -17,7 +17,7 @@
         <result column="oleic" property="oleic" jdbcType="REAL" />
         <result column="palmitic" property="palmitic" jdbcType="REAL" />
         <result column="stearic" property="stearic" jdbcType="REAL" />
-        <result column="height" property="height" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
+        <result column="height" property="height" jdbcType="DOUBLE"/>
         <result column="flower_color" property="flowerColor" jdbcType="VARCHAR" />
         <result column="hilum_color" property="hilumColor" jdbcType="VARCHAR" />
         <result column="pod_color" property="podColor" jdbcType="VARCHAR" />
@@ -589,6 +589,98 @@
     </select>
 
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
+        SELECT * from dna_run
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND (
+            run_no LIKE CONCAT('%',#{keywords},'%') OR species LIKE CONCAT('%',#{keywords},'%') OR sample_name LIKE CONCAT('%',#{keywords},'%') OR cultivar LIKE CONCAT('%',#{keywords},'%') OR
+            plant_name LIKE CONCAT('%',#{keywords},'%') OR locality LIKE CONCAT('%',#{keywords},'%') OR protein LIKE CONCAT('%',#{keywords},'%') OR oil LIKE CONCAT('%',#{keywords},'%') OR
+            linoleic LIKE CONCAT('%',#{keywords},'%') OR linolenic LIKE CONCAT('%',#{keywords},'%') OR oleic LIKE CONCAT('%',#{keywords},'%') OR palmitic LIKE CONCAT('%',#{keywords},'%') OR
+            stearic LIKE CONCAT('%',#{keywords},'%') OR height LIKE CONCAT('%',#{keywords},'%') OR flower_color LIKE CONCAT('%',#{keywords},'%') OR hilum_color LIKE CONCAT('%',#{keywords},'%') OR
+            pod_color LIKE CONCAT('%',#{keywords},'%') OR pubescence_color LIKE CONCAT('%',#{keywords},'%') OR seed_coat_color LIKE CONCAT('%',#{keywords},'%') OR cotyledon_color LIKE CONCAT('%',#{keywords},'%') OR
+            weight_per_100seeds LIKE CONCAT('%',#{keywords},'%') OR upper_leaflet_length LIKE CONCAT('%',#{keywords},'%') OR
+            maturity_date LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%') OR category LIKE concat('%',#{group},'%')
+            )
+        </if>
+        <if test="species!=null">
+            AND species = #{species}
+        </if>
+        <if test="locality!=null">
+            <choose>
+                <when test="locality=='Other'">
+                    AND locality NOT REGEXP 'China|United States|Japan|Korea|Brazil'
+                </when>
+                <otherwise>
+                    AND locality LIKE CONCAT('%',#{locality},'%')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="maturityDate!=null">
+            AND maturity_date LIKE CONCAT('',#{maturityDate},'%')
+        </if>
+        <if test="hilumColor!=null">
+            AND hilum_color = #{hilumColor}
+        </if>
+        <if test="flowerColor!=null">
+            AND flower_color = #{flowerColor}
+        </if>
+        <if test="podColor!=null">
+            AND pod_color = #{podColor}
+        </if>
+        <if test="pubescenceColor!=null">
+            AND pubescence_color =#{pubescenceColor}
+        </if>
+        <if test="seedCoatColor!=null">
+            AND seed_coat_color =#{seedCoatColor}
+        </if>
+        <if test="cotyledonColor!=null">
+            AND cotyledon_color = #{cotyledonColor}
+        </if>
+        <if test="protein_min!=null and protein_max!=null">
+            AND (protein BETWEEN #{protein_min} AND #{protein_max})
+        </if>
+        <if test="oil_min!=null and oil_max!=null">
+            AND (oil BETWEEN #{oil_min} AND #{oil_max})
+        </if>
+        <if test="linoleic_min!=null and linoleic_max!=null">
+            AND (linoleic BETWEEN #{linoleic_min} AND #{linoleic_max})
+        </if>
+        <if test="linolenic_min!=null and linolenic_max!=null">
+            AND (linolenic BETWEEN #{linolenic_min} AND #{linolenic_max})
+        </if>
+        <if test="oleic_min!=null and oleic_max!=null">
+            AND (oleic BETWEEN #{oleic_min} AND #{oleic_max})
+        </if>
+        <if test="palmitic_min!=null and palmitic_max!=null">
+            AND (palmitic BETWEEN #{palmitic_min} AND #{palmitic_max})
+        </if>
+        <if test="stearic_min!=null and stearic_max!=null">
+            AND (stearic BETWEEN #{stearic_min} AND #{stearic_max})
+        </if>
+        <if test="height_min!=null and height_max!=null">
+            AND (height BETWEEN #{height_min} AND #{height_max})
+        </if>
+        <if test="weightPer100seeds_min!=null and weightPer100seeds_max!=null">
+            AND (weight_per_100seeds BETWEEN #{weightPer100seeds_min} AND #{weightPer100seeds_max})
+        </if>
+        <if test="upperLeafletLength_min!=null and upperLeafletLength_max!=null">
+            AND (upper_leaflet_length BETWEEN #{upperLeafletLength_min} AND #{upperLeafletLength_max})
+        </if>
+        <if test="yield_min!=null and yield_max!=null">
+            AND (yield BETWEEN #{yield_min} AND #{yield_max})
+        </if>
+        <if test="group!=null">
+            AND category = #{group}
+        </if>
+        <if test="cultivar!=null">
+            AND cultivar=#{cultivar}
+        </if>
+        <if test="sampleName!=null">
+            AND sample_name=#{sampleName}
+        </if>
+    </select>
+
+    <select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
         SELECT * from dna_run
         WHERE 1=1
         <if test="keywords!=null">

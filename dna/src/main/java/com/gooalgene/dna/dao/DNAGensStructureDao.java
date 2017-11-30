@@ -16,5 +16,5 @@ public interface DNAGensStructureDao {
 
     List<DNAGenStructureDto> getByGeneId(String geneId);
 
-    List<DNAGenStructureDto> getByStartEnd(@Param("chromosome")String chr, @Param("start")Integer start, @Param("end")Integer end);
+    List<DNAGenStructureDto> getByStartEnd(@Param("chromosome")String chr, @Param("start")Integer start, @Param("end")Integer end,@Param("geneIds")List<String>geneIds);
 }
