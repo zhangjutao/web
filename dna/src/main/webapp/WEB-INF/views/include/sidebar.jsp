@@ -1050,7 +1050,6 @@
         }
 
         function replaceUnvalideChar(str) {
-            console.log(str.replace(/[\%,\/]/g,"_"));
             return str.replace(/[\%,\/]/g,"_");
         }
 
@@ -1210,7 +1209,6 @@
             } else {
                 var resultPopulations = defaultPopulations;
             }
-            console.warn(resultPopulations);
             $.each(resultPopulations, function(idx, item) {
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
                         '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
@@ -1238,7 +1236,6 @@
         function deleteLocalKind (kindId,self){
             // 判断删除的是不是品种
                 var currPval = $(self).prev().find("div").text().substring(0,3);
-                console.log(currPval);
                 if (currPval == "品种名"){
                     var kindStorage = JSON.parse(storage.getItem("kind"));
                     var sdKinds = kindStorage.name;
@@ -1370,25 +1367,6 @@
             getPopuTable(1);
 
         });
-//        $(".js-default-add").on("click",".label-txt",function(){
-//            var label=$(this).parent().find("label");
-//            if(label.hasClass("cur")){
-//                label.addClass("cur");
-//            }else{
-//                label.removeClass("cur");
-//            }
-//            console.log($(this).text());
-//            $(".tab-detail").show();
-//            $("#mid").show();
-//            $(".tab-detail-thead p span").text($(this).text());
-//
-//            var idx = $(this).parent("label").attr("data-index");
-//            currPopu = defaultPopulations.slice(idx * 1, idx * 1 + 1)[0];
-//            console.log("current:", currPopu);
-//            getPopuTable(1);
-//
-//        });
-
         var pageSizePopu = 10;
         function getPopuTable(curr) {
             $.ajax({
@@ -1734,7 +1712,6 @@
                     o.push(kindStor.name[i]);
                 }
             };
-//            console.error(o);
             return o;
         }
         // 根据ID获取选中的population
@@ -1772,7 +1749,6 @@
                     }
 //                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
-                    console.warn(selectedPopulations);
                 }
             });
             $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {
@@ -1829,9 +1805,7 @@
                     GeneObj["group"] = JSON.stringify(defaultPopulations);
 //                    GeneObj["group"] = JSON.stringify([]);
                 }
-                if(GeneObj.gene == "") {
-                    return alert("请选择一个基因");
-                }
+//
                 if(GeneObj.upstream == "") {
                     delete GeneObj["upstream"];
                 } else {
@@ -1864,13 +1838,7 @@
                 return GeneObj;
             }
         }
-        // 选择类型时，如果选择的时基因，则根据范围搜索出来的基因列表隐藏
-        $(".selcet select").change(function (){
-            var selectType = $(this).find('option:selected').val();
-            if(selectType.indexOf("Gene") !=-1){
-                $("#GlyIds").hide();
-            }
-        })
+
 
     })
 </script>
