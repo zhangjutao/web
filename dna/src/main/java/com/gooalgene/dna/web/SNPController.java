@@ -599,7 +599,12 @@ public class SNPController {
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
-        SNP snpFormatMajorFreq = (SNP)result.get("snpData");
+        SNP snpFormatMajorFreq = new SNP();
+        if (result.containsKey("snpData")) {
+            snpFormatMajorFreq = (SNP) result.get("snpData");
+        }else {
+            snpFormatMajorFreq = (SNP) result.get("INDELData");
+        }
         double major = Double.parseDouble(new DecimalFormat("###0.0000").format(snpFormatMajorFreq.getMajor()));
         snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
         modelAndView.addObject("snp",snp);
@@ -611,15 +616,14 @@ public class SNPController {
         Map map=(Map)snpTemp.getSamples();
         Set<Map.Entry<String, String>> entrySet=map.entrySet();
         List<String> runNos= Lists.newArrayList();
-        //if(StringUtils.equals(snp.getMajorallen(),"A")){
-            for(Map.Entry entry:entrySet){
-                if(((String)entry.getValue()).contains(snp.getMajorallen())){
-                    runNos.add((String) entry.getKey());
-                }
+        for(Map.Entry entry:entrySet){
+            if(((String)entry.getValue()).contains(snp.getMajorallen())){
+                runNos.add((String) entry.getKey());
             }
-        //}
-        PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
-        modelAndView.addObject("dnaRuns",dnaRuns);
+        }
+        //todo 此dnaruns可能重复
+        //PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
+        //modelAndView.addObject("dnaRuns",dnaRuns);
         modelAndView.addObject("frequence",frequence);
         return modelAndView;
     }
