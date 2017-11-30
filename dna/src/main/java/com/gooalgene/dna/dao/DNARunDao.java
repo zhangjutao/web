@@ -4,6 +4,7 @@ import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.result.DNARunSearchResult;
 
 import java.util.List;
 
@@ -18,6 +19,8 @@ public interface DNARunDao extends CrudDao<DNARun> {
     boolean deleteById(int id);
 
     List<DNARun> getListByCondition(DnaRunDto dnaRunDto);
+
+    List<DNARunSearchResult> getListByConditionWithTypeHandler(DnaRunDto dnaRunDto);
 
     List<DNARun> getByRunNos(List<String> runNos);
 
