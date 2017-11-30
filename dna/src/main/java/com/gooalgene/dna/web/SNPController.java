@@ -11,6 +11,7 @@ import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.ResultUtil;
@@ -30,22 +31,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.guava.GuavaCacheManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -131,7 +124,7 @@ public class SNPController {
                                  @RequestParam(value = "isPage",required = false)String isPage,
                                  DnaRunDto dnaRunDto) {
             logger.info(dnaRunDto.getGroup());
-            PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize,isPage);
+            PageInfo<DNARunSearchResult> dnaRunPageInfo=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
             return ResultUtil.success(dnaRunPageInfo);
 
     }
@@ -317,9 +310,12 @@ public class SNPController {
     public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         if (id == null) {
-            return ResultUtil.error(200, "未拿到id的值");
+            return ResultUtil.error(-1, "未拿到id的值");
         }
-            Map result = snpService.findSampleById(id);
+        Map result = snpService.findSampleById(id);
+        if (result.size() == 0) {
+            return ResultUtil.error(-1, "无对应id");
+        }
         return ResultUtil.success(result);
     }
 

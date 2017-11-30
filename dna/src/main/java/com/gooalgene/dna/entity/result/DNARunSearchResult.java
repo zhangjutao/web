@@ -22,33 +22,33 @@ public class DNARunSearchResult extends DataEntity<DNARunSearchResult> {
 
     private String locality;//位置
 
-    private Float protein;//蛋白质含量 %
+    private String protein;//蛋白质含量 %
 
     private String protein_min;
     private String protein_max;
 
-    private Float oil;//含油量 %
+    private String oil;//含油量 %
 
     private String oil_min;
     private String oil_max;
 
-    private Float linoleic;//亚油酸 %
+    private String linoleic;//亚油酸 %
     private String linoleic_min;
     private String linoleic_max;
 
-    private Float linolenic;//亚麻酸 %
+    private String linolenic;//亚麻酸 %
     private String linolenic_min;
     private String linolenic_max;
 
-    private Float oleic;//油酸 %
+    private String oleic;//油酸 %
     private String oleic_min;
     private String oleic_max;
 
-    private Float palmitic;//软脂酸 %
+    private String palmitic;//软脂酸 %
     private String palmitic_min;
     private String palmitic_max;
 
-    private Float stearic;//硬脂酸 %
+    private String stearic;//硬脂酸 %
     private String stearic_min;
     private String stearic_max;
 
@@ -68,17 +68,17 @@ public class DNARunSearchResult extends DataEntity<DNARunSearchResult> {
 
     private String cotyledonColor;//子叶色
 
-    private Float weightPer100seeds;//百粒重 g
+    private String weightPer100seeds;//百粒重 g
     private String weightPer100seeds_min;
     private String weightPer100seeds_max;
 
-    private Float upperLeafletLength;//顶端小叶长度 mm
+    private String upperLeafletLength;//顶端小叶长度 mm
     private String upperLeafletLength_min;
     private String upperLeafletLength_max;
 
     private String maturityDate;//成熟期组
 
-    private Float yield;//产量（Mg/ha）
+    private String yield;//产量（Mg/ha）
 
     private String group; //组别
 
@@ -135,59 +135,59 @@ public class DNARunSearchResult extends DataEntity<DNARunSearchResult> {
         this.locality = locality;
     }
 
-    public Float getProtein() {
+    public String getProtein() {
         return protein;
     }
 
-    public void setProtein(Float protein) {
+    public void setProtein(String protein) {
         this.protein = protein;
     }
 
-    public Float getOil() {
+    public String getOil() {
         return oil;
     }
 
-    public void setOil(Float oil) {
+    public void setOil(String oil) {
         this.oil = oil;
     }
 
-    public Float getLinoleic() {
+    public String getLinoleic() {
         return linoleic;
     }
 
-    public void setLinoleic(Float linoleic) {
+    public void setLinoleic(String linoleic) {
         this.linoleic = linoleic;
     }
 
-    public Float getLinolenic() {
+    public String getLinolenic() {
         return linolenic;
     }
 
-    public void setLinolenic(Float linolenic) {
+    public void setLinolenic(String linolenic) {
         this.linolenic = linolenic;
     }
 
-    public Float getOleic() {
+    public String getOleic() {
         return oleic;
     }
 
-    public void setOleic(Float oleic) {
+    public void setOleic(String oleic) {
         this.oleic = oleic;
     }
 
-    public Float getPalmitic() {
+    public String getPalmitic() {
         return palmitic;
     }
 
-    public void setPalmitic(Float palmitic) {
+    public void setPalmitic(String palmitic) {
         this.palmitic = palmitic;
     }
 
-    public Float getStearic() {
+    public String getStearic() {
         return stearic;
     }
 
-    public void setStearic(Float stearic) {
+    public void setStearic(String stearic) {
         this.stearic = stearic;
     }
 
@@ -247,19 +247,19 @@ public class DNARunSearchResult extends DataEntity<DNARunSearchResult> {
         this.cotyledonColor = cotyledonColor;
     }
 
-    public Float getWeightPer100seeds() {
+    public String getWeightPer100seeds() {
         return weightPer100seeds;
     }
 
-    public void setWeightPer100seeds(Float weightPer100seeds) {
+    public void setWeightPer100seeds(String weightPer100seeds) {
         this.weightPer100seeds = weightPer100seeds;
     }
 
-    public Float getUpperLeafletLength() {
+    public String getUpperLeafletLength() {
         return upperLeafletLength;
     }
 
-    public void setUpperLeafletLength(Float upperLeafletLength) {
+    public void setUpperLeafletLength(String upperLeafletLength) {
         this.upperLeafletLength = upperLeafletLength;
     }
 
@@ -271,11 +271,11 @@ public class DNARunSearchResult extends DataEntity<DNARunSearchResult> {
         this.maturityDate = maturityDate;
     }
 
-    public Float getYield() {
+    public String getYield() {
         return yield;
     }
 
-    public void setYield(Float yield) {
+    public void setYield(String yield) {
         this.yield = yield;
     }
 
@@ -480,13 +480,13 @@ public class DNARunSearchResult extends DataEntity<DNARunSearchResult> {
         jsonObject.put("cultivar", cultivar == null ? "" : cultivar);
         jsonObject.put("plantName", plantName == null ? "" : plantName);
         jsonObject.put("locality", locality == null ? "" : locality);
-        jsonObject.put("protein", protein == 0 ? "" : protein);
-        jsonObject.put("oil", oil == 0 ? "" : oil);
-        jsonObject.put("linoleic", linoleic == 0 ? "" : linoleic);
-        jsonObject.put("linolenic", linolenic == 0 ? "" : linolenic);
-        jsonObject.put("oleic", oleic == 0 ? "" : oleic);
-        jsonObject.put("palmitic", palmitic == 0 ? "" : palmitic);
-        jsonObject.put("stearic", stearic == 0 ? "" : stearic);
+        jsonObject.put("protein", protein == "0" ? "" : protein);
+        jsonObject.put("oil", oil == "0" ? "" : oil);
+        jsonObject.put("linoleic", linoleic == "0" ? "" : linoleic);
+        jsonObject.put("linolenic", linolenic == "0" ? "" : linolenic);
+        jsonObject.put("oleic", oleic == "0" ? "" : oleic);
+        jsonObject.put("palmitic", palmitic == "0" ? "" : palmitic);
+        jsonObject.put("stearic", stearic == "0" ? "" : stearic);
         jsonObject.put("height", height);
         jsonObject.put("flowerColor", flowerColor == null ? "" : flowerColor);
         jsonObject.put("hilumColor", hilumColor == null ? "" : hilumColor);
@@ -494,10 +494,10 @@ public class DNARunSearchResult extends DataEntity<DNARunSearchResult> {
         jsonObject.put("pubescenceColor", pubescenceColor == null ? "" : pubescenceColor);
         jsonObject.put("seedCoatColor", seedCoatColor == null ? "" : seedCoatColor);
         jsonObject.put("cotyledonColor", cotyledonColor == null ? "" : cotyledonColor);
-        jsonObject.put("weightPer100seeds", weightPer100seeds == 0 ? "" : weightPer100seeds);
-        jsonObject.put("upperLeafletLength", upperLeafletLength == 0 ? "" : upperLeafletLength);
+        jsonObject.put("weightPer100seeds", weightPer100seeds == "0" ? "" : weightPer100seeds);
+        jsonObject.put("upperLeafletLength", upperLeafletLength == "0" ? "" : upperLeafletLength);
         jsonObject.put("maturityDate", maturityDate == null ? "" : maturityDate);
-        jsonObject.put("yield", yield == 0 ? "" : yield);
+        jsonObject.put("yield", yield == "0" ? "" : yield);
         jsonObject.put("group", group);
         return jsonObject;
     }
