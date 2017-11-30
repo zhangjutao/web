@@ -95,7 +95,7 @@
         <div class="select-item-hd">
             <span>Select Populations</span>
             <div class="custom-groups">
-                <span class="custom-groups-btn">自定义群体</span>
+                <span class="custom-groups-btn">选择群体/品种</span>
                 <div class="cover"></div>
                 <div class="custom-groups-content" style="overflow: hidden;">
                     <div class="sample">
