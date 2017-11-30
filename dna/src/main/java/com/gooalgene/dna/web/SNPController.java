@@ -108,7 +108,7 @@ public class SNPController {
     public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
-        Page<DNARun> page = new Page<DNARun>(request, response);
+        Page<DNARunSearchResult> page = new Page<>(request, response);
         return dnaRunService.queryDNARunByGroup(group, page);
     }
 
@@ -236,7 +236,8 @@ public class SNPController {
             snpDtos.add(snpDto);
         }
         result.put("snps",snpDtos);
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
+        List<String> geneIds=dnaGensService.getByRegionNoCompare(chr,startPos,endPos);
+        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos),geneIds);
         result.put("dnaGenStructures",dnaGenStructures);
         if(CollectionUtils.isNotEmpty(dnaGenStructures)){
             result.put("bps",dnaGenStructures.get(0).getBps());
