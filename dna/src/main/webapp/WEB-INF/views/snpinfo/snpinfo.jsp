@@ -513,6 +513,7 @@
         var changeParam = major;  // major 和 minor 页面切换
         // 花饼图
         function drawPie(ref,alt,refAlt,name1,name2,name3){
+            console.table(ref*100,alt*100,refAlt*100);
             $('#pieShow').highcharts({
                 chart: {
                     plotBackgroundColor: null,
@@ -525,14 +526,20 @@
                 credits: {
                     enabled: false
                 },
+                tooltip: {
+                    headerFormat:'',
+                    pointFormat: '<b>GenoType 占比</b>: {point.percentage:.1f} %</b> '
+                },
+
                 plotOptions: {
                     series: {
                         dataLabels: {
                             enabled: true,
-                            color: '#98BEFF',
+//                            color: '#98BEFF',
+                            fontWeight:"5",
                             borderWidth: 0,
                             style: {
-                                fontWeight:"50",
+                                fontWeight:"10",
                                 fontSize: '14',
                                 fontFamily:"Microsoft Yahei",
                                 strokeWidth:"0px"
