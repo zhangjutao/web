@@ -32,12 +32,12 @@
     </resultMap>
     <resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
         <id column="id" property="id" jdbcType="INTEGER" />
-        <result column="run_no" property="runNo" jdbcType="VARCHAR" />
-        <result column="species" property="species" jdbcType="VARCHAR" />
-        <result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
-        <result column="cultivar" property="cultivar" jdbcType="VARCHAR" />
-        <result column="plant_name" property="plantName" jdbcType="VARCHAR" />
-        <result column="locality" property="locality" jdbcType="VARCHAR" />
+        <result column="run_no" property="runNo" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="species" property="species" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="sample_name" property="sampleName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="cultivar" property="cultivar" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="plant_name" property="plantName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="locality" property="locality" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="protein" property="protein" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler" />
         <result column="oil" property="oil" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"  />
         <result column="linoleic" property="linoleic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler" />
@@ -46,17 +46,17 @@
         <result column="palmitic" property="palmitic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler" />
         <result column="stearic" property="stearic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
         <result column="height" property="height" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
-        <result column="flower_color" property="flowerColor" jdbcType="VARCHAR" />
-        <result column="hilum_color" property="hilumColor" jdbcType="VARCHAR" />
-        <result column="pod_color" property="podColor" jdbcType="VARCHAR" />
-        <result column="pubescence_color" property="pubescenceColor" jdbcType="VARCHAR" />
-        <result column="seed_coat_color" property="seedCoatColor" jdbcType="VARCHAR" />
-        <result column="cotyledon_color" property="cotyledonColor" jdbcType="VARCHAR" />
+        <result column="flower_color" property="flowerColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="hilum_color" property="hilumColor" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="pod_color" property="podColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="pubescence_color" property="pubescenceColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="seed_coat_color" property="seedCoatColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="cotyledon_color" property="cotyledonColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="weight_per_100seeds" property="weightPer100seeds" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
         <result column="upper_leaflet_length" property="upperLeafletLength" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
-        <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR" />
+        <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="yield" property="yield" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
-        <result column="category" property="group" jdbcType="VARCHAR" />
+        <result column="category" property="group" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
     </resultMap>
     <sql id="Base_Column_List" >
         id, run_no, species, sample_name, cultivar, plant_name, locality, protein, oil, linoleic,
