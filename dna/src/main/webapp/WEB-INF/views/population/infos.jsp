@@ -241,7 +241,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param weightPer100seedsT">百粒重
+                        <th class="param weightPer100seedsT">百粒重(g)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -258,7 +258,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param proteinT">蛋白质含量
+                        <th class="param proteinT">蛋白质含量(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -275,7 +275,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param oilT">含油量
+                        <th class="param oilT">含油量(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -302,7 +302,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param heightT">株高
+                        <th class="param heightT">株高(cm)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -379,7 +379,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param yieldT">产量
+                        <th class="param yieldT">产量(Mg/ha)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -413,7 +413,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param linoleicT">亚油酸
+                        <th class="param linoleicT">亚油酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -430,7 +430,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param linolenicT">亚麻酸
+                        <th class="param linolenicT">亚麻酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -447,7 +447,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param oleicT">油酸
+                        <th class="param oleicT">油酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -464,7 +464,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param palmiticT">软脂酸
+                        <th class="param palmiticT">软脂酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -481,7 +481,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param stearicT">硬脂酸
+                        <th class="param stearicT">硬脂酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">

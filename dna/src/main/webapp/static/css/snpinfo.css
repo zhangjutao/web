@@ -212,3 +212,57 @@ p.first{
     line-height:32px;
     /*background-url:*/
 }
+.param img {
+    width: 15px;
+    vertical-align: middle;
+}
+.inputComponent {
+    margin-top: 13px;
+    display: none;
+    position: absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 1;
+    padding: 15px 10px;
+    width: 114px;
+    background-color: #fff;
+    margin-left: -16px;
+}
+
+.inputStyle {
+    width: 90px;
+}
+.inputComponent .selectOperate {
+    width: 30px;
+}
+.inputComponent p a {
+    padding: 2px 8px;
+    display: inline-block;
+    border: 1px solid #5c8ce6;
+    border-radius: 3px;
+}
+
+.btnCancel {
+    margin-right: 5px;
+    color: #5c8ce6;
+}
+a {
+    color: #000;
+    text-decoration: none;
+}
+.inputComponent p {
+    margin-top: 10px;
+}
+.btnConfirmInfo {
+    background: #5c8ce6;
+    color: #fff;
+}
+#errorBoxShow{
+    color:#ff0000;
+    width: 200px;
+    height:25px;
+    padding:5px 10px;
+    margin-left:81px;
+    text-align:center;
+    line-height:25px;
+    display:none;
+}
