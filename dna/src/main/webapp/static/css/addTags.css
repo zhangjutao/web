@@ -303,3 +303,16 @@ p.first{
     background:#5C8CE6;
     color:#fff!important;
 }
+.errorBoxShow{
+    color:#ff0000;
+    width: 385px;
+    height:25px;
+    padding:5px 10px;
+    margin-left:12px;
+    text-align:left;
+    line-height:25px;
+    display:none;
+}
+.inputError{
+    border:1px solid #ff0000!important;
+}
