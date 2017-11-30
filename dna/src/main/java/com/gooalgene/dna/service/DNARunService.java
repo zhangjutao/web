@@ -6,6 +6,7 @@ import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -138,6 +139,15 @@ public class DNARunService {
         }
         List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
+        return pageInfo;
+    }
+
+    public PageInfo<DNARunSearchResult> getListByConditionWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
+        if(!StringUtils.isBlank(isPage)){
+            PageHelper.startPage(pageNum,pageSize);
+        }
+        List<DNARunSearchResult> list=dnaRunDao.getListByConditionWithTypeHandler(dnaRunDto);
+        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
         return pageInfo;
     }
 

@@ -554,7 +554,6 @@ $(function () {
                         }
                     }
                     total = res.total;
-                    // drawGeneConstructor(res,"constructorPanel2","tableBody2");
                     maskClose("#mask-test2");
                     INDELData = res.data;
                     if(res.data.length > 0) {
