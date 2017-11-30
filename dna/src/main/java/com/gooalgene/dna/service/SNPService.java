@@ -95,7 +95,6 @@ public class SNPService {
         Map oneDataResult = new HashMap();
         int markNumber = CommonUtil.getCharPositionBeforNum(id);
         if (markNumber == -1) {
-            oneDataResult.put("id不符合规范", null);
             return oneDataResult;
         }
         String type;
@@ -104,24 +103,15 @@ public class SNPService {
         } else if (id.indexOf("S", markNumber) == markNumber) {
             type = "SNP";
         } else {
-            oneDataResult.put("id不符合规范", null);
             return oneDataResult;
         }
         String chr = "Chr" + (id.substring(markNumber + 2, markNumber + 4));
         SNP oneData = dnaMongoService.findDataById(type, chr, id);
         if (oneData == null) {
-            return null;
-        }
-        if (type.equals("SNP")) {
-            oneDataResult = genotypeTransform(oneData, type);
-            //oneDataResult.put("SNPData", oneData);
-            return oneDataResult;
-        } else if (type.equals("INDEL")) {
-            oneDataResult = genotypeTransform(oneData, type);
-            //oneDataResult.put("INDELData", oneData);
             return oneDataResult;
         }
-        return null;
+        oneDataResult = genotypeTransform(oneData, type);
+        return oneDataResult;
     }
 
 

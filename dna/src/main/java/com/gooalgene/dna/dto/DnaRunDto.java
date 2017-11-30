@@ -1,11 +1,15 @@
 package com.gooalgene.dna.dto;
 
+import java.util.List;
+
 public class DnaRunDto{
     public static final String EQ="eq";
     public static final String GT="gt";
     public static final String LT="lt";
 
     private String runNo;//run编号
+
+    private List<String> runNos;
 
     private String species;//物种
 
@@ -81,6 +85,14 @@ public class DnaRunDto{
 
     private String yield_min;
     private String yield_max;
+
+    public List<String> getRunNos() {
+        return runNos;
+    }
+
+    public void setRunNos(List<String> runNos) {
+        this.runNos = runNos;
+    }
 
     public String getRunNo() {
         return runNo;

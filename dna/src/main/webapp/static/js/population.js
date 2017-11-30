@@ -281,9 +281,9 @@ $(function (){
                         var proteinTV = totalDatas[i].protein==null?"":totalDatas[i].protein;
                         var oilTV = totalDatas[i].oil==null?"":totalDatas[i].oil;
                         var maturityDateTV = totalDatas[i].maturityDate==null?"":totalDatas[i].maturityDate;
-                        var heightTV = totalDatas[i].height==null?"":totalDatas[i].height
+                        var heightTV = totalDatas[i].height==null?"":totalDatas[i].height;
                         var seedCoatColorTV = totalDatas[i].seedCoatColor==null?"":totalDatas[i].seedCoatColor;
-                        var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor==null;
+                        var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor;
                         var cotyledonColorTV = totalDatas[i].cotyledonColor==null?"":totalDatas[i].cotyledonColor;
                         var flowerColorTV = totalDatas[i].flowerColor==null?"":totalDatas[i].flowerColor;
                         var podColorTV = totalDatas[i].podColor==null?"":totalDatas[i].podColor;
