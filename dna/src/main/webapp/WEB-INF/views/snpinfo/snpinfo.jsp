@@ -48,7 +48,7 @@
             </p>
         </div>
         <div id="errorBoxShow">
-           未找到相关数据
+            没有找到您要查询的内容，请尝试其他搜索词
         </div>
         <div id="trInfos">
             <table cellspacing="0" cellpadding="0" >
@@ -868,9 +868,15 @@
                     console.log(result);
                     if(result.code !=0){
                         $("#paging").hide();
-                        $(".searchBox input").css('border',"1px solid #cd0000;")
+                        $(".searchBox input").addClass("inputError")
                         $("#errorBoxShow").show();
                     }else {
+                        if($(".searchBox input").hasClass("inputError")){
+                            $(".searchBox input").removeClass("inputError");
+                        };
+                        if( !$("#errorBoxShow").is(":hidden")){
+                            $("#errorBoxShow").hide();
+                        }
                         id = result.data.snpData.id;
                         major =result.data.snpData.majorallen;
                         minor =result.data.snpData.minorallen;

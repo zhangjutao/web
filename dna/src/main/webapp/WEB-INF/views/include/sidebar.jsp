@@ -117,6 +117,9 @@
                     <span class="js-search-gene-btn"><img src="${ctxStatic}/images/search.png">搜索</span>
                 </label>
             </div>
+            <div class="errorBoxShow">
+                没有找到您要查询的内容，请尝试其他搜索词
+            </div>
             <div class="gene-search-list">
                 <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
                 <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
@@ -1637,6 +1640,13 @@
                 timeout: 10000,
                 success: function(res) {
                     if(res.data.length > 0) {
+
+                        if($(".gene-search input").hasClass("inputError")){
+                            $(".gene-search input").removeClass("inputError");
+                        };
+                        if( !$(".errorBoxShow").is(":hidden")){
+                            $(".errorBoxShow").hide();
+                        }
                         var len = res.data.length;
                         var str = '';
                         for(var i = 0; i < len; i++) {
@@ -1645,6 +1655,8 @@
                         $(".gene-search-list").empty().append(str);
                     } else {
                         $(".gene-search-list").empty();
+                        $(".gene-search input").addClass("inputError")
+                        $(".errorBoxShow").show();
                     }
                     $(document).on("mouseover mouseout",".gene-search-list label",function(e){
                         var e= e||event;

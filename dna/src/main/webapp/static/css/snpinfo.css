@@ -258,11 +258,14 @@ a {
 }
 #errorBoxShow{
     color:#ff0000;
-    width: 200px;
+    width: 385px;
     height:25px;
     padding:5px 10px;
     margin-left:81px;
     text-align:center;
     line-height:25px;
     display:none;
+}
+.inputError{
+    border:1px solid #ff0000!important;
 }
