@@ -90,7 +90,7 @@ public class ExportDataController {
 
         fileName+= UUID.randomUUID()+".csv";
 
-        String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile\\";
+        String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile/";
         String csvStr="";
         List<DNARun> result=dnaRunDao.getListByCondition(dnaRunDto);
 
