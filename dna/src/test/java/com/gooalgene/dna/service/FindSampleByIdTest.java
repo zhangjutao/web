@@ -18,7 +18,7 @@ import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml","classpath:spring-mongodb.xml"}))
-public class findSampleByIdTest extends TestCase{
+public class FindSampleByIdTest extends TestCase{
     @Autowired
     private SNPService snpService;
     @Autowired
