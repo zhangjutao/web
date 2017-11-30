@@ -1864,7 +1864,13 @@
                 return GeneObj;
             }
         }
-
+        // 选择类型时，如果选择的时基因，则根据范围搜索出来的基因列表隐藏
+        $(".selcet select").change(function (){
+            var selectType = $(this).find('option:selected').val();
+            if(selectType.indexOf("Gene") !=-1){
+                $("#GlyIds").hide();
+            }
+        })
 
     })
 </script>

@@ -457,7 +457,7 @@ $(function () {
                     if( !$("#mask-test .ga-mask").is(":hidden")){
                         $("#mask-test .ga-mask").show();
                     }
-                    total = res.total;
+                    totalSnp = res.total;
                     if(url =="/dna/dna/searchSNPinRegion"){
                         // var GlyList = res.data;
                         // var $ul = $("#GlyIds ul");
@@ -553,7 +553,7 @@ $(function () {
                             $("#constructorPanel").hide();
                         }
                     }
-                    total = res.total;
+                    totalIndel = res.total;
                     maskClose("#mask-test2");
                     INDELData = res.data;
                     if(res.data.length > 0) {
@@ -950,24 +950,28 @@ $(function () {
         }
     });
     // 定义全局查询总数
-    var total;
+    var totalSnp;
+    var totalIndel;
     /* 导出 */
     $(".js-export").click(function() {
+        debugger;
         var fma = $(".t_fmajorAllele").find("option:selected").text();
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "gene") {
             var _form = $("#exportGeneForm");
             var params = GetPanelParams.getGeneParams();
-            params.total = total;
+            // params.total = total;
             _form.find(".gene").val(params.gene);
             _form.find(".upstream").val(params.upstream);
             _form.find(".downstream").val(params.downstream);
             _form.find(".type").val(CurrentTab);
-            _form.find(".total").val(params.total);
+            // _form.find(".total").val(params.total);
             if(CurrentTab == "SNP") {
+                _form.find(".total").val(totalSnp);
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
             } else {
+                _form.find(".total").val(totalIndel);
                 _form.find(".ctype").val(CTypeIndel);
                 var _labels = $(".js-table-header-setting-indel").find("label");
             }
@@ -994,16 +998,18 @@ $(function () {
         } else {
             var _form = $("#exportRegionForm");
             var params = GetPanelParams.getRegionParams();
-            params.total = total;
+            // params.total = total;
             _form.find(".chromosome").val(params.chromosome);
             _form.find(".start").val(params.start);
             _form.find(".end").val(params.end);
             _form.find(".type").val(CurrentTab);
-            _form.find(".total").val(params.total);
+            // _form.find(".total").val(params.total);
             if(CurrentTab=="SNP") {
+                _form.find(".total").val(totalSnp);
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
             } else {
+                _form.find(".total").val(totalIndel);
                 _form.find(".ctype").val(CTypeIndel);
                 var _labels = $(".js-table-header-setting-indel").find("label");
             }
