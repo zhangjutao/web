@@ -317,9 +317,12 @@ public class SNPController {
     public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         if (id == null) {
-            return ResultUtil.error(200, "未拿到id的值");
+            return ResultUtil.error(-1, "未拿到id的值");
         }
-            Map result = snpService.findSampleById(id);
+        Map result = snpService.findSampleById(id);
+        if (result.size() == 0) {
+            return ResultUtil.error(-1, "无对应id");
+        }
         return ResultUtil.success(result);
     }
 
