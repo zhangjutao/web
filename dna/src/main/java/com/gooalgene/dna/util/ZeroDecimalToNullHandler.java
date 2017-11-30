@@ -39,7 +39,7 @@ public class ZeroDecimalToNullHandler extends BaseTypeHandler<String> {
 
     private String convertDoubleToString(double value){
         if (value == 0.00){
-            return "";
+            return "-";
         }else {
             return String.valueOf(value);
         }
