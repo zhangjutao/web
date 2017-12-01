@@ -190,10 +190,7 @@ $(function () {
         params['pageSize'] = pageSizeSNP;
         params['type'] =type;
         params['ctype'] = CTypeSnp;
-        // if(params.gene == ""){
-        //
-        //     return alert("请选择一个基因");
-        // }else {
+
             $.ajax({
                 url: ctxRoot + url,
                 data: params,
@@ -206,7 +203,6 @@ $(function () {
                     console.log(error);
                 }
             })
-        // }
     }
     // 根据范围查询所有的snp位点信息
     function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,gid,url){
@@ -440,7 +436,7 @@ $(function () {
         params['pageSize'] = pageSizeSNP;
         params['type'] = 'SNP';
         params['ctype'] = CTypeSnp;
-
+        console.error(params);
         loadMask ("#mask-test");
         $.ajax({
             url: url,
@@ -451,29 +447,13 @@ $(function () {
                 // 如果返回值为空，则隐藏
                 if(res.data == null){
                     $("#constructorPanel").hide();
-                    // $("#errorShow").show();
                     $("#mask-test .ga-mask").hide();
-                    // $("#tableErrorShow").show();
                 }else {
-
-                    //     if(!$("#errorShow").is(":hidden")){
-                    //     $("#errorShow").hide();
-                    // }
-                    // if( !$("#tableErrorShow").is(":hidden")){
-                    //     $("#tableErrorShow").hide();
-                    // }
                     if( !$("#mask-test .ga-mask").is(":hidden")){
                         $("#mask-test .ga-mask").show();
                     }
                     totalSnp = res.total;
                     if(url =="/dna/dna/searchSNPinRegion"){
-                        // var GlyList = res.data;
-                        // var $ul = $("#GlyIds ul");
-                        // $ul.find("li").remove();
-                        // for (var i=0;i<GlyList.length;i++){
-                        //     var $li = $("<li>" + GlyList[i].gene + "</li>");
-                        //     $ul.append($li);
-                        // };
                         fn && fn();
                     };
                     maskClose("#mask-test");
