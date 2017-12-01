@@ -363,7 +363,7 @@
         <include refid="Base_Column_List" />
         from dna_run
         <trim prefix="where" prefixOverrides="and|or">
-            <if test="runNos!=null">
+            <if test="runNos!=null and runNos.size>0">
                 AND run_no IN
                 <foreach collection="runNos" item="runNo" open="(" close=")" separator=",">
                     #{runNo}
@@ -803,14 +803,6 @@
           WHERE `id` = #{id};
     </update>
 
-    <select id="getByRunNos" resultMap="BaseResultMap">
-      SELECT
-      <include refid="Base_Column_List"/>
-        FROM dna_run WHERE run_no IN
-        <foreach collection="list" item="runNo" open="(" close=")" separator=",">
-            #{runNo}
-        </foreach>
-    </select>
     <select id="getByCultivar" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
