@@ -920,7 +920,6 @@
             if($("#snpinfoTable .genoTypeT input").val()){
                 changeParam = $("#snpinfoTable .genoTypeT input").val();
             };
-            console.warn(changeParam)
             var selectedDatas1 = snpGetParams(changeParam);
 
             selectedDatas1.pageNum = paramData.pageNum;
