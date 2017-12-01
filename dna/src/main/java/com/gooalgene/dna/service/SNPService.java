@@ -169,7 +169,7 @@ public class SNPService {
         for (SNP snp : snps) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            JSONArray freqData = new JSONArray();
+            JSONArray freqData;
             Map map = snpService.findSampleById(snp.getId());
             if(StringUtils.equals(type,"SNP")){
                 freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);
