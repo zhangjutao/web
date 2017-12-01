@@ -269,10 +269,11 @@ a {
 .inputError{
     border:1px solid #ff0000!important;
 }
-.snpMaj,.snpMio,.snpRef{
-    overflow: hidden;
-    text-overflow: ellipsis;
+.snpMaj div,.snpMio div,.snpRef div{
+    width: 368px;
     white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
 }
 #snpInforsPage{
     margin-right:30px;

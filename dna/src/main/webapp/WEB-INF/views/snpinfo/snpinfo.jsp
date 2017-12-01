@@ -55,7 +55,7 @@
             没有找到您要查询的内容，请尝试其他搜索词
         </div>
         <div id="trInfos">
-            <table cellspacing="0" cellpadding="0" >
+            <table cellspacing="0" cellpadding="0" style="table-layout:fixed; ">
                 <tr>
                     <td class="trWidth">SNP ID:</td>
                     <c:if test="${result.snpData!=null}">
@@ -92,27 +92,52 @@
                 <tr>
                     <td class="trWidth">Reference allele:</td>
                     <c:if test="${result.snpData!=null}">
-                        <td class="trWidth2 snpRef">${result.snpData.ref}</td>
+                        <td class="trWidth2 snpRef">
+                            <div>
+                                ${result.snpData.ref}
+                            </div>
+                        </td>
                     </c:if>
                     <c:if test="${result.INDELData!=null}">
-                        <td class="trWidth2 snpRef">${result.INDELData.ref}</td>
+                        <td class="trWidth2 snpRef">
+                            <div>
+                                    ${result.INDELData.ref}
+                            </div>
+                        </td>
                     </c:if>
 
                     <td class="trWidth">Major allele:</td>
                     <c:if test="${result.snpData!=null}">
-                        <td class="trWidth2 snpMaj">${result.snpData.majorallen}</td>
+                        <td class="trWidth2 snpMaj">
+                            <div>
+                                    ${result.snpData.majorallen}
+                            </div>
+
+                        </td>
                     </c:if>
                     <c:if test="${result.INDELData!=null}">
-                        <td class="trWidth2 snpMaj">${result.INDELData.majorallen}</td>
+                        <td class="trWidth2 snpMaj">
+                            <div>
+                                    ${result.INDELData.majorallen}
+                            </div>
+                        </td>
                     </c:if>
                 </tr>
                 <tr>
                     <td class="trWidth">Minor allele:</td>
                     <c:if test="${result.snpData!=null}">
-                        <td class="trWidth2 snpMio">${result.snpData.minorallen}</td>
+                        <td class="trWidth2 snpMio">
+                            <div>
+                                    ${result.snpData.minorallen}
+                            </div>
+                        </td>
                     </c:if>
                     <c:if test="${result.INDELData!=null}">
-                        <td class="trWidth2 snpMio">${result.INDELData.minorallen}</td>
+                        <td class="trWidth2 snpMio">
+                            <div>
+                                    ${result.INDELData.minorallen}
+                            </div>
+                        </td>
                     </c:if>
                     <td class="trWidth">Frequence of major allele:</td>
                     <%--<td class="trWidth2 snpQue">${frequence}%</td>--%>
