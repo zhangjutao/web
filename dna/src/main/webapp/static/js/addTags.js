@@ -396,8 +396,8 @@ $(function (){
                     groups: 3, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                            console.warn(obj);
                             var tmp = getParamas();
+                            tmp.group = liVal;
                             tmp.pageNum = obj.curr;
                             tmp.pageSize = paramData.pageSize;
                             getData(tmp,obj.curr);
@@ -411,12 +411,14 @@ $(function (){
             }
         })
     }
+    // 点击时选择的group;
+    var liVal;
     // 每个group的点击事件
     $(".popNames li").click(function (){
-        var liVal = $(this).text();
+        liVal = $(this).text();
         var data = getParamas();
         data.group = liVal;
-        getData(data);
+        getData(data,curr);
     })
     // 样式调整方法
     function pageStyle(nums,intNums){
@@ -508,7 +510,7 @@ $(function (){
         var selectedDatas = getParamas();
         selectedDatas.pageNum = paramData.pageNum;
         selectedDatas.pageSize = paramData.pageSize;
-        getData(selectedDatas);
+        getData(selectedDatas,paramData.pageNum);
     })
     // "<" 点击事件
     $(".first").click(function () {
@@ -537,7 +539,7 @@ $(function (){
             var selectedDatas = getParamas();
             selectedDatas.pageNum = paramData.pageNum;
             selectedDatas.pageSize = paramData.pageSize;
-            getData(selectedDatas);
+            getData(selectedDatas,paramData.pageNum);
         }
     });
     // ">" 点击事件
