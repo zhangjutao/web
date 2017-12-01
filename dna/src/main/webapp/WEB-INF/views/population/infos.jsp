@@ -507,40 +507,6 @@
             </table>
 
         </div>
-        <%--// 分页显示 begin--%>
-        <%--<div id="paging">--%>
-
-            <%--<div id="inputNums">--%>
-                <%--<span>跳转到</span>--%>
-                <%--<div>--%>
-                    <%--<input type="number" min="1" name="number" value="" id="inputNum" >--%>
-                <%--</div>--%>
-                <%--<span>页</span>--%>
-                <%--<span>展示数量</span>--%>
-                <%--<div id="selectedNum">--%>
-                    <%--<select name="selected" id="selectSize" style="width:40px;">--%>
-                        <%--<option value="10" selected = "true">10</option>--%>
-                        <%--<option value="10">20</option>--%>
-                        <%--<option value="10">30</option>--%>
-                        <%--<option value="10">40</option>--%>
-                    <%--</select>--%>
-                <%--</div>--%>
-                <%--<span>/页</span>--%>
-                <%--<p style="margin:0px;">总数：<span id="totals"></span> 条</p>--%>
-            <%--</div>--%>
-            <%--<div id="page">--%>
-                <%--<b class="first">&lt;</b>--%>
-                <%--<p class="two"></p>--%>
-                <%--<b class="three">...</b>--%>
-                <%--<p class="four"></p>--%>
-                <%--<p class="five"></p>--%>
-                <%--<p class="six"></p>--%>
-                <%--<b class="seven">...</b>--%>
-                <%--<p class="eight"></p>--%>
-                <%--<b class="last">&gt;</b>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <%--// 分页显示 end--%>
         <%--laypage 分页 插件  begin--%>
         <div class="checkbox-item-tab" id="sysPopulations">
             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>

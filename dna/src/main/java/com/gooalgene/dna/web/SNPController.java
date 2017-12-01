@@ -631,7 +631,9 @@ public class SNPController {
     @RequestMapping(value = "/changeByProportion",method = RequestMethod.GET)
     public ResultVO changeByProportion(@RequestParam("snpId")String snpId,@RequestParam("changeParam") String changeParam,
                                        @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                       @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
+                                       @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                       @RequestParam(value = "pageSize",required = false)String isPage,
+                                       DnaRunDto dnaRunDto) {
         Map result = snpService.findSampleById(snpId);
 
         SNP snpTemp=(SNP)result.get("snpData");
@@ -648,13 +650,17 @@ public class SNPController {
                 if(value.contains(changeParam)){
                     runNos.add((String) entry.getKey());
                     samples.put(entry.getKey(),entry.getValue());
-        }
+                }
             }
         }
-        PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);
+        if(dnaRunDto==null){
+            dnaRunDto=new DnaRunDto();
+        }
+        dnaRunDto.setRunNos(runNos);
+        //PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);
+        PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
         Map response= Maps.newHashMap();
         response.put("dnaRuns",dnaRuns);
-        //response.put("samples",map);
         response.put("samples",samples);
         return ResultUtil.success(response);
     }
