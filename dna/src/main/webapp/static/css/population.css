@@ -391,3 +391,9 @@ p.first{
     color: #8E8E8E;
     font-size: 5px;
 }
+#sysPopulations .total-page-count{
+    display: none!important;
+}
+#sysPopulations {
+    margin-right:30px;
+}

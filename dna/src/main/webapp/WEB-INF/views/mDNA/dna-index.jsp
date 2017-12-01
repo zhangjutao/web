@@ -137,29 +137,6 @@
             <%--基因ID 选择区 begin--%>
             <div id="GlyIds">
                     <ul>
-                        <%--<li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li>--%>
                     </ul>
             </div>
             <%--基因ID 选择区 end--%>
@@ -324,28 +301,10 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
-                                            <%--<td class="param t_fmajorAllelein">--%>
-                                                <%--<select class="f-ma-in">--%>
-                                                    <%--<option>Frequency of Major Allele in</option>--%>
-                                                    <%--<option>Frequency of Minor Allele in</option>--%>
-                                                <%--</select>--%>
-                                                <%--<img src="${ctxStatic}/images/down.png">--%>
-                                            <%--</td>--%>
+
                                         </tr>
                                     </thead>
                                     <tbody id="tableBody">
-                                        <%--<tr>--%>
-                                            <%--<td class="t_snpid">sf1111111</td>--%>
-                                            <%--<td class="t_consequenceType"><p class="js-tipes-show">"Okamoto S</p></td>--%>
-                                            <%--<td class="t_snpchromosome"><p>stem internode</p></td>--%>
-                                            <%--<td class="t_position"><p class="js-tipes-show"></p></td>--%>
-                                            <%--<td class="t_snpreference"><p>Enrei</p></td>--%>
-                                            <%--<td class="t_majorAllele"><p>12346873</p></td>--%>
-                                            <%--<td class="t_minorAllele"><p>数值</p></td>--%>
-                                            <%--<td class="t_fmajorAllele"><p>Enrei</p></td>--%>
-                                            <%--<td class="t_fmajorAllelein"><p>12346873</p></td>--%>
-                                        <%--</tr>--%>
-
                                     </tbody>
                                 </table>
                                 <form id="exportForm" action="" method="get">

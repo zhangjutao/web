@@ -154,20 +154,17 @@ public class DNARunService {
         return pageInfo;
     }
 
-    public  List<DNARun> getAll(){
-        return dnaRunDao.getListByCondition(new DnaRunDto());
-    }
-
-    public  PageInfo<DNARunSearchResult> getByRunNos(List<String> runNos,Integer pageNum,Integer pageSize){
-        DnaRunDto dnaRunDto=new DnaRunDto();
-        dnaRunDto.setRunNos(runNos);
-        if(pageNum!=null&&pageSize!=null){
+    public PageInfo<DNARunSearchResult> findListWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
+        if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        //List<DNARun> dnaRuns=dnaRunDao.getByRunNos(runNos);
-        List<DNARunSearchResult> dnaRuns=dnaRunDao.getListByConditionWithTypeHandler(dnaRunDto);
-        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(dnaRuns);
+        List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
+        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
         return pageInfo;
+    }
+
+    public  List<DNARun> getAll(){
+        return dnaRunDao.getListByCondition(new DnaRunDto());
     }
 
     public List<DNARun> getQueryList(String conditions) {

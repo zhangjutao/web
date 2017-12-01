@@ -142,6 +142,10 @@ $(function () {
                 snpPintDatasGene.group = obj.params.group;
                 globelType = "Gene";
                 globelGeneId = obj.params.gene;
+                console.warn(obj.params);
+                if(obj.params.gene == ""){
+                    return alert("请选择一个基因");
+                };
                 getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/searchIdAndPosInGene");
                 getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/searchIdAndPosInGene");
                 requestForSnpData(1, obj.url, obj.params);
@@ -186,18 +190,19 @@ $(function () {
         params['pageSize'] = pageSizeSNP;
         params['type'] =type;
         params['ctype'] = CTypeSnp;
-        $.ajax({
-            url:ctxRoot + url,
-            data: params,
-            type: "POST",
-            dataType: "json",
-            success: function(res) {
-                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
-            },
-            error:function (error){
-                console.log(error);
-            }
-        })
+
+            $.ajax({
+                url: ctxRoot + url,
+                data: params,
+                type: "POST",
+                dataType: "json",
+                success: function (res) {
+                    drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
     }
     // 根据范围查询所有的snp位点信息
     function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,gid,url){
@@ -260,7 +265,6 @@ $(function () {
         }
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (){
-        globelType = "Gene";
         if(!$(this).hasClass("GlyColor")){
             var Glylis = $("#GlyIds li");
             for (var i=0;i<Glylis.length;i++){
@@ -432,7 +436,7 @@ $(function () {
         params['pageSize'] = pageSizeSNP;
         params['type'] = 'SNP';
         params['ctype'] = CTypeSnp;
-
+        console.error(params);
         loadMask ("#mask-test");
         $.ajax({
             url: url,
@@ -443,29 +447,13 @@ $(function () {
                 // 如果返回值为空，则隐藏
                 if(res.data == null){
                     $("#constructorPanel").hide();
-                    // $("#errorShow").show();
                     $("#mask-test .ga-mask").hide();
-                    // $("#tableErrorShow").show();
                 }else {
-
-                    //     if(!$("#errorShow").is(":hidden")){
-                    //     $("#errorShow").hide();
-                    // }
-                    // if( !$("#tableErrorShow").is(":hidden")){
-                    //     $("#tableErrorShow").hide();
-                    // }
                     if( !$("#mask-test .ga-mask").is(":hidden")){
                         $("#mask-test .ga-mask").show();
                     }
                     totalSnp = res.total;
                     if(url =="/dna/dna/searchSNPinRegion"){
-                        // var GlyList = res.data;
-                        // var $ul = $("#GlyIds ul");
-                        // $ul.find("li").remove();
-                        // for (var i=0;i<GlyList.length;i++){
-                        //     var $li = $("<li>" + GlyList[i].gene + "</li>");
-                        //     $ul.append($li);
-                        // };
                         fn && fn();
                     };
                     maskClose("#mask-test");
@@ -670,7 +658,6 @@ $(function () {
     }
 
     function replaceUnvalideChar(str) {
-        //console.log(str.replace(/[\%,\/]/g,"_"));
         return str.replace(/[\%,\/]/g,"_");
     }
 
@@ -754,9 +741,6 @@ $(function () {
     for(var i=0;i<tab.length;i++){
         tab[i].onclick=function(){
         }
-        //(function(){
-        //    console.log($(this).text());
-        //})
     }
     // 表头设置
     window.TableHeaderSettingSnp = function () {
@@ -1053,10 +1037,7 @@ $(function () {
         var startPos1 = startPos+2000;
         var endPos =parseInt(result.data.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.data.conditions.split(",")[2]);
         var endPos1 = endPos-2000;
-        // console.info(startPos)
-        // console.info(endPos);
         var geneLength = endPos - startPos;
-        // console.error(geneLength);
        d3.select("#" + id).selectAll("svg").remove();
        // 创建一个svg 元素
         var svgTotal = $("#" + id).width();
@@ -1262,7 +1243,6 @@ $(function () {
                 singleData.downstream = snpPintDatasGene.downstream;
                 singleData.group = params.group;
                 singleData.gene = globelGeneId;
-                console.log(params);
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatasGene.url,
