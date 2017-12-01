@@ -1,7 +1,10 @@
 package com.gooalgene.dna.service;
 
+import com.gooalgene.common.Page;
+import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
 import junit.framework.TestCase;
+import net.sf.json.JSONArray;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,4 +54,17 @@ public class DNAMongoServiceTest extends TestCase {
         List<SNP> snps = dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
         System.out.println(snps.size());
     }
+    @Test
+    public void testSearchInGene(){
+        String type = "INDEL";
+        String ctype = "all";
+        String gene = "Glyma.20G250100";
+        Page<DNAGens> page=new Page<>();
+        page.setPageSize(87);
+        String upsteam="47868688";
+        String downsteam="47872967";
+        List<SNP> snps = dnaMongoService.searchInGene(type, ctype,gene, upsteam,downsteam, page);
+        System.out.println(snps.size());
+    }
+
 }
