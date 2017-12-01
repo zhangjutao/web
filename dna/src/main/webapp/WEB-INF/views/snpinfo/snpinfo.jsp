@@ -667,7 +667,7 @@
                             for (var i=0;i<totalDatas.length;i++){
                                 GenoType = dnaSamples[totalDatas[i].runNo];
                                 var cultivarTV = totalDatas[i].cultivar==null?"":totalDatas[i].cultivar;
-                                var genoTypeTV = GenoType==null?"":GenoType;
+                                var genoTypeTV = GenoType==null?"-":GenoType;
                                 var speciesTV = totalDatas[i].species==null?"":totalDatas[i].species;
                                 var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;
                                 var sampleNameTV = totalDatas[i].sampleName==null?"":totalDatas[i].sampleName;
