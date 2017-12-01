@@ -253,20 +253,31 @@ $(function (){
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
     });
-    // // enter 键盘事件
-    // $("#per-page-count input").keydown(function(event){
-    //     event=document.all?window.event:event;
-    //     if((event.keyCode || event.which)==13){
-    //         var selectedNum = $(this).val();
-    //         page.pageNum = selectedNum;
-    //         paramData.pageNum = page.pageNum;
-    //         var selectedDatas = getParamas();
-    //         selectedDatas.pageNum = paramData.pageNum;
-    //         selectedDatas.pageSize = paramData.pageSize;
-    //         getData(selectedDatas,selectedDatas.pageNum);
-    //     }
-    // });
-    // 页面初始化页数
+    // 获取焦点添加样式：
+    $("#sysPopulations").on("focus", ".laypage_skip", function() {
+        $(this).addClass("isFocus");
+    });
+    $("#sysPopulations").on("blur", ".laypage_skip", function() {
+        $(this).removeClass("isFocus");
+    });
+
+    document.onkeydown = function(e) {
+        var _page_skip = $('#sysPopulations .laypage_skip');
+        if(e && e.keyCode==13){ // enter 键
+            if( _page_skip.hasClass("isFocus") ) {
+                if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
+                    return alert("输入页码不能大于总页数");
+                }
+                var selectedNum = $('#sysPopulations .laypage_skip').val();
+                page.pageNum = selectedNum;
+                paramData.pageNum = page.pageNum;
+                var selectedDatas = getParamas();
+                selectedDatas.pageNum = paramData.pageNum;
+                selectedDatas.pageSize = paramData.pageSize;
+                getData(selectedDatas,selectedDatas.pageNum);
+            }
+        }
+    }
     var curr = 1;
     //ajax 请求
     function getData(data,curr){
@@ -276,17 +287,15 @@ $(function (){
             data:data,
             success:function (result) {
                 count = result.data.total;
-                if(count <40){
-                    // $("#page").css({"padding-left":"186px"});
-                }else {
-                    // $("#page").css({"padding-left":"10px"});
-                };
                 if(count == 0){
                     $("#tableShow table tbody tr").remove();
-                    // $("#paging").hide();
                     $("#errorImg").show();
                     $("#containerAdmin").css("height","754px");
+                    $("#per-page-count").hide();
                 }else{
+                    if($("#per-page-count").is(":hidden")){
+                        $("#per-page-count").show();
+                    }
                     totalDatas = result.data.list;
                     $("#tableShow table tbody tr").remove();
                     nums = Math.ceil(count / page.pageSize);
@@ -343,11 +352,8 @@ $(function (){
                         var $tbody = $("#tableShow table tbody");
                         $tbody.append(tr);
                     }
-                        // pageStyle(nums,intNums);
-                        // $("#totals").text(count);
                 }
                 // 分页
-
                 laypage({
                     cont: $('#sysPopulations .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
@@ -376,150 +382,6 @@ $(function (){
             }
         })
     }
-    // // 样式调整方法
-    // function pageStyle(nums,intNums){
-    //     if (nums > 4) {
-    //         // $(".first").hide().next().text(1).next().hide();
-    //         $(".first").next().text(1);
-    //         $(".four").text(2).next().text(3).next().text(4);
-    //         $(".eight").text(nums);
-    //         $(".seven").show();
-    //         $(".last").show();
-    //     };
-    //     if (intNums == 0) {
-    //         styleChange();
-    //         $(".two").text(1);
-    //         $(".four").hide();
-    //         $(".five").hide();
-    //         $(".six").hide();
-    //     }
-    //     switch (nums) {
-    //         case 1:
-    //             styleChange();
-    //             $(".two").text(1);
-    //             $(".four").hide();
-    //             $(".five").hide();
-    //             $(".six").hide();
-    //             break;
-    //         case 2:
-    //             styleChange();
-    //             $(".two").text(1);
-    //             $(".four").text(2);
-    //             $(".five").hide();
-    //             $(".six").hide();
-    //             break;
-    //         case 3:
-    //             styleChange();
-    //             $(".two").text(1);
-    //             $(".four").text(2);
-    //             $(".five").text(3);
-    //             $(".six").hide();
-    //             break;
-    //         case 4:
-    //             styleChange();
-    //             $(".two").text(1);
-    //             $(".four").text(2);
-    //             $(".five").text(3);
-    //             $(".six").text(4);
-    //             break;
-    //     }
-    // }
-    // // 显示隐藏样式封装
-    // function styleChange() {
-    //     $(".three").hide();
-    //     $(".first").hide();
-    //     $(".seven").hide();
-    //     $(".eight").hide();
-    //     $(".last").hide();
-    // };
-    //
-    // //每个页码的点击事件
-    // $("#page>p").click(function (e) {
-    //     //样式
-    //     if (nums > 4) {
-    //         $(".first").show();
-    //         $(".three").show();
-    //         $(".eight").text(nums);
-    //     };
-    //     var $p = $(e.target);
-    //
-    //     page.pageNum = parseInt($p.text());
-    //     paramData.pageNum = page.pageNum;
-    //     var selectedDatas = getParamas();
-    //     selectedDatas.pageNum = paramData.pageNum;
-    //     selectedDatas.pageSize = paramData.pageSize;
-    //     getData(selectedDatas);
-    //     var plists = $p.siblings();
-    //     for (var i = 0; i < plists.length; i++) {
-    //         if ($(plists[i]).hasClass("pageColor")) {
-    //             $(plists[i]).removeClass("pageColor");
-    //         }
-    //     }
-    //     $p.addClass("pageColor");
-    //
-    // });
-    // // pageSize 选择事件
-    // $("#selectedNum").change(function (e){
-    //     var currentSelected = $("#selectedNum option:selected").text();
-    //     page.pageSize = currentSelected;
-    //     paramData.pageSize = page.pageSize;
-    //     var selectedDatas = getParamas();
-    //     selectedDatas.pageNum = paramData.pageNum;
-    //     selectedDatas.pageSize = paramData.pageSize;
-    //     getData(selectedDatas);
-    // })
-    // // "<" 点击事件
-    // $(".first").click(function () {
-    //     var content6 = Number($(".six").text());
-    //     var content4 = Number($(".four").text());
-    //     var content5 = Number($(".five").text());
-    //     if (content6 < nums) {
-    //         $(".last").show();
-    //         $(".seven").show();
-    //     }
-    //     if (content4 <= 2) {
-    //         $(".first").hide().next().next().hide();
-    //     } else {
-    //         $(".six").text(content6 - 1);
-    //         $(".four").text(content4 - 1);
-    //         $(".five").text(content5 - 1);
-    //     }
-    // })
-    // // enter 键盘事件
-    // $("#inputNum").keydown(function(event){
-    //     event=document.all?window.event:event;
-    //     if((event.keyCode || event.which)==13){
-    //         var selectedNum = $(this).val();
-    //         page.pageNum = pageNum = selectedNum;
-    //         paramData.pageNum = page.pageNum;
-    //         var selectedDatas = getParamas();
-    //         selectedDatas.pageNum = paramData.pageNum;
-    //         selectedDatas.pageSize = paramData.pageSize;
-    //         getData(selectedDatas);
-    //     }
-    // });
-    // // ">" 点击事件
-    // $(".last").click(function () {
-    //     var content6 = Number($(".six").text());
-    //     var content4 = Number($(".four").text());
-    //     var content5 = Number($(".five").text());
-    //     var content2 = Number($(".two").text());
-    //     if (content2 == 1) {
-    //         $(".first").show();
-    //         $(".three").show();
-    //     }
-    //
-    //     if (content6 >= nums - 1) {
-    //         $(".seven").hide();
-    //         $(this).hide();
-    //     } else {
-    //         $(".six").text(content6 + 1);
-    //         $(".four").text(content4 + 1);
-    //         $(".five").text(content5 + 1);
-    //     }
-    // })
-
-    // 分页end
     // 表格导出
     $("#exportData").click(function (){
         var unSelectes = $("#selectedDetails ul input");

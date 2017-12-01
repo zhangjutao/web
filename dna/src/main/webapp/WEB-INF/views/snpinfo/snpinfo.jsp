@@ -18,10 +18,14 @@
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+
+    <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
+    <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/highcharts/highcharts.js"></script>
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
+
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
 </head>
 <body>
@@ -441,41 +445,11 @@
             </table>
 
         </div>
-        <%--// 分页显示 begin--%>
-        <div id="paging">
-
-            <div id="inputNums">
-                <span>跳转到</span>
-                <div>
-                    <input type="number" min="1" name="number" value="" id="inputNum" >
-                </div>
-                <span>页</span>
-                <span>展示数量</span>
-                <div id="selectedNum">
-                    <select name="selected" id="selectSize" style="width:40px;">
-                        <option value="10" selected = "true">10</option>
-                        <option value="10">20</option>
-                        <option value="10">30</option>
-                        <option value="10">40</option>
-                    </select>
-                </div>
-                <span>/页</span>
-                <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
-            </div>
-            <div id="page">
-                <b class="first">&lt;</b>
-                <p class="two"></p>
-                <b class="three">...</b>
-                <p class="four"></p>
-                <p class="five"></p>
-                <p class="six"></p>
-                <b class="seven">...</b>
-                <p class="eight"></p>
-                <b class="last">&gt;</b>
-            </div>
+        <%--laypage 分页 插件  begin--%>
+        <div class="checkbox-item-tab" id="snpInforsPage">
+            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
         </div>
-        <%--// 分页显示 end--%>
-
+        <%--laypage 分页 end --%>
     </div>
 
 </body>
@@ -606,6 +580,38 @@
             data.pageSize = paramData.pageSize;
             getData(data);
         }
+        // // pageSize 选择事件
+        $("#snpInforsPage select").change(function (e){
+            var currentSelected = $(this).find("option:selected").text();
+            page.pageSize = currentSelected;
+            paramData.pageSize = page.pageSize;
+        });
+        // 获取焦点添加样式：
+        $("#snpInforsPage").on("focus", ".laypage_skip", function() {
+            $(this).addClass("isFocus");
+        });
+        $("#snpInforsPage").on("blur", ".laypage_skip", function() {
+            $(this).removeClass("isFocus");
+        });
+
+        document.onkeydown = function(e) {
+            debugger;
+            var _page_skip = $('#snpInforsPage .laypage_skip');
+            if(e && e.keyCode==13){ // enter 键
+                if( _page_skip.hasClass("isFocus") ) {
+                    if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
+                        return alert("输入页码不能大于总页数");
+                    }
+                    var selectedNum = $('#snpInforsPage .laypage_skip').val();
+                    page.pageNum = selectedNum;
+                    paramData.pageNum = page.pageNum;
+                    var selectedDatas = snpGetParams();
+                    selectedDatas.pageNum = paramData.pageNum;
+                    selectedDatas.pageSize = paramData.pageSize;
+                    getData(selectedDatas,selectedDatas.pageNum);
+                }
+            }
+        }
         // 分页
         var nums;
         var totalDatas;
@@ -620,9 +626,9 @@
             pageNum:page.pageNum,
             pageSize:page.pageSize
         };
-
+        var curr = 1;
         //ajax 请求
-        function getData(data){
+        function getData(data,curr){
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
@@ -630,16 +636,10 @@
                 success:function (result) {
                     console.log(result);
                     if(result.code!=0){
-                        $("#paging").hide();
+//                        $("#paging").hide();
                     }else {
                         count = result.data.dnaRuns.total;
-                        if(count <40){
-                            $("#page").css({"padding-left":"186px"});
-                        }else {
-                            $("#page").css({"padding-left":"10px"});
-                        };
                         if(count == 0){
-                            $("#paging").hide();
                             $("#errorImg").show();
                             $("#containerAdmin").css("height","754px");
                         }else{
@@ -703,11 +703,33 @@
                                 var $tbody = $("#snpinfoTable table tbody");
                                 $tbody.append(tr);
                             }
-                            pageStyle(nums,intNums);
-                            $("#totals").text(count);
                         }
+                    };
+                    console.log(page);
+                    console.log(paramData);
+                    // 分页
+                    laypage({
+                        cont: $('#snpInforsPage .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(count /  page.pageSize), //通过后台拿到的总页数
+                        curr: curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(count /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                var tmp = snpGetParams(changeParam);
 
-                    }
+                                tmp.pageNum = obj.curr;
+                                tmp.pageSize = paramData.pageSize;
+                                getData(tmp,obj.curr);
+                            }
+                        }
+                    });
+                    $(".total-page-count-snp").html(count);
 
 
                 },
@@ -716,150 +738,150 @@
                 }
             })
         }
-        // 样式调整方法
-        function pageStyle(nums,intNums){
-            if (nums > 4) {
-                // $(".first").hide().next().text(1).next().hide();
-                $(".first").next().text(1);
-                $(".four").text(2).next().text(3).next().text(4);
-                $(".eight").text(nums);
-                $(".seven").show();
-                $(".last").show();
-            };
-            if (intNums == 0) {
-                styleChange();
-                $(".two").text(1);
-                $(".four").hide();
-                $(".five").hide();
-                $(".six").hide();
-            }
-            switch (nums) {
-                case 1:
-                    styleChange();
-                    $(".two").text(1);
-                    $(".four").hide();
-                    $(".five").hide();
-                    $(".six").hide();
-                    break;
-                case 2:
-                    styleChange();
-                    $(".two").text(1);
-                    $(".four").text(2);
-                    $(".five").hide();
-                    $(".six").hide();
-                    break;
-                case 3:
-                    styleChange();
-                    $(".two").text(1);
-                    $(".four").text(2);
-                    $(".five").text(3);
-                    $(".six").hide();
-                    break;
-                case 4:
-                    styleChange();
-                    $(".two").text(1);
-                    $(".four").text(2);
-                    $(".five").text(3);
-                    $(".six").text(4);
-                    break;
-            }
-        }
-        // 显示隐藏样式封装
-        function styleChange() {
-            $(".three").hide();
-            $(".first").hide();
-            $(".seven").hide();
-            $(".eight").hide();
-            $(".last").hide();
-        };
-
-        //每个页码的点击事件
-        $("#page>p").click(function (e) {
-            //样式
-            if (nums > 4) {
-                $(".first").show();
-                $(".three").show();
-                $(".eight").text(nums);
-            };
-            var $p = $(e.target);
-
-            page.pageNum = parseInt($p.text());
-            paramData.pageNum = page.pageNum;
-
-            var selectedDatas = snpGetParams(changeParam);
-            selectedDatas.pageNum = paramData.pageNum;
-            selectedDatas.pageSize = paramData.pageSize;
-            console.log(selectedDatas);
-            getData(selectedDatas);
-            var plists = $p.siblings();
-            for (var i = 0; i < plists.length; i++) {
-                if ($(plists[i]).hasClass("pageColor")) {
-                    $(plists[i]).removeClass("pageColor");
-                }
-            }
-            $p.addClass("pageColor");
-
-        });
-        // pageSize 选择事件
-        $("#selectedNum").change(function (e){
-            var currentSelected = $("#selectedNum option:selected").text();
-            page.pageSize = currentSelected;
-            paramData.pageSize = page.pageSize;
-            var selectedDatas =snpGetParams(changeParam);
-            selectedDatas.pageNum = paramData.pageNum;
-            selectedDatas.pageSize = paramData.pageSize;
-            getData(selectedDatas);
-        })
-        // "<" 点击事件
-        $(".first").click(function () {
-            var content6 = Number($(".six").text());
-            var content4 = Number($(".four").text());
-            var content5 = Number($(".five").text());
-            if (content6 < nums) {
-                $(".last").show();
-                $(".seven").show();
-            }
-            if (content4 <= 2) {
-                $(".first").hide().next().next().hide();
-            } else {
-                $(".six").text(content6 - 1);
-                $(".four").text(content4 - 1);
-                $(".five").text(content5 - 1);
-            }
-        })
-        // enter 键盘事件
-        $("#inputNum").keydown(function(event){
-            event=document.all?window.event:event;
-            if((event.keyCode || event.which)==13){
-                var selectedNum = $(this).val();
-                page.pageNum = pageNum = selectedNum;
-                paramData.pageNum = page.pageNum;
-                var selectedDatas = snpGetParams(changeParam);
-                selectedDatas.pageNum = paramData.pageNum;
-                selectedDatas.pageSize = paramData.pageSize;
-                getData(selectedDatas);
-            }
-        });
-        // ">" 点击事件
-        $(".last").click(function () {
-            var content6 = Number($(".six").text());
-            var content4 = Number($(".four").text());
-            var content5 = Number($(".five").text());
-            var content2 = Number($(".two").text());
-            if (content2 == 1) {
-                $(".first").show();
-                $(".three").show();
-            }
-
-            if (content6 >= nums - 1) {
-                $(".seven").hide();
-                $(this).hide();
-            } else {
-                $(".six").text(content6 + 1);
-                $(".four").text(content4 + 1);
-                $(".five").text(content5 + 1);
-            }
-        })
+//        // 样式调整方法
+//        function pageStyle(nums,intNums){
+//            if (nums > 4) {
+//                // $(".first").hide().next().text(1).next().hide();
+//                $(".first").next().text(1);
+//                $(".four").text(2).next().text(3).next().text(4);
+//                $(".eight").text(nums);
+//                $(".seven").show();
+//                $(".last").show();
+//            };
+//            if (intNums == 0) {
+//                styleChange();
+//                $(".two").text(1);
+//                $(".four").hide();
+//                $(".five").hide();
+//                $(".six").hide();
+//            }
+//            switch (nums) {
+//                case 1:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").hide();
+//                    $(".five").hide();
+//                    $(".six").hide();
+//                    break;
+//                case 2:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").text(2);
+//                    $(".five").hide();
+//                    $(".six").hide();
+//                    break;
+//                case 3:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").text(2);
+//                    $(".five").text(3);
+//                    $(".six").hide();
+//                    break;
+//                case 4:
+//                    styleChange();
+//                    $(".two").text(1);
+//                    $(".four").text(2);
+//                    $(".five").text(3);
+//                    $(".six").text(4);
+//                    break;
+//            }
+//        }
+//        // 显示隐藏样式封装
+//        function styleChange() {
+//            $(".three").hide();
+//            $(".first").hide();
+//            $(".seven").hide();
+//            $(".eight").hide();
+//            $(".last").hide();
+//        };
+//
+//        //每个页码的点击事件
+//        $("#page>p").click(function (e) {
+//            //样式
+//            if (nums > 4) {
+//                $(".first").show();
+//                $(".three").show();
+//                $(".eight").text(nums);
+//            };
+//            var $p = $(e.target);
+//
+//            page.pageNum = parseInt($p.text());
+//            paramData.pageNum = page.pageNum;
+//
+//            var selectedDatas = snpGetParams(changeParam);
+//            selectedDatas.pageNum = paramData.pageNum;
+//            selectedDatas.pageSize = paramData.pageSize;
+//            console.log(selectedDatas);
+//            getData(selectedDatas);
+//            var plists = $p.siblings();
+//            for (var i = 0; i < plists.length; i++) {
+//                if ($(plists[i]).hasClass("pageColor")) {
+//                    $(plists[i]).removeClass("pageColor");
+//                }
+//            }
+//            $p.addClass("pageColor");
+//
+//        });
+//        // pageSize 选择事件
+//        $("#selectedNum").change(function (e){
+//            var currentSelected = $("#selectedNum option:selected").text();
+//            page.pageSize = currentSelected;
+//            paramData.pageSize = page.pageSize;
+//            var selectedDatas =snpGetParams(changeParam);
+//            selectedDatas.pageNum = paramData.pageNum;
+//            selectedDatas.pageSize = paramData.pageSize;
+//            getData(selectedDatas);
+//        })
+//        // "<" 点击事件
+//        $(".first").click(function () {
+//            var content6 = Number($(".six").text());
+//            var content4 = Number($(".four").text());
+//            var content5 = Number($(".five").text());
+//            if (content6 < nums) {
+//                $(".last").show();
+//                $(".seven").show();
+//            }
+//            if (content4 <= 2) {
+//                $(".first").hide().next().next().hide();
+//            } else {
+//                $(".six").text(content6 - 1);
+//                $(".four").text(content4 - 1);
+//                $(".five").text(content5 - 1);
+//            }
+//        })
+//        // enter 键盘事件
+//        $("#inputNum").keydown(function(event){
+//            event=document.all?window.event:event;
+//            if((event.keyCode || event.which)==13){
+//                var selectedNum = $(this).val();
+//                page.pageNum = pageNum = selectedNum;
+//                paramData.pageNum = page.pageNum;
+//                var selectedDatas = snpGetParams(changeParam);
+//                selectedDatas.pageNum = paramData.pageNum;
+//                selectedDatas.pageSize = paramData.pageSize;
+//                getData(selectedDatas);
+//            }
+//        });
+//        // ">" 点击事件
+//        $(".last").click(function () {
+//            var content6 = Number($(".six").text());
+//            var content4 = Number($(".four").text());
+//            var content5 = Number($(".five").text());
+//            var content2 = Number($(".two").text());
+//            if (content2 == 1) {
+//                $(".first").show();
+//                $(".three").show();
+//            }
+//
+//            if (content6 >= nums - 1) {
+//                $(".seven").hide();
+//                $(this).hide();
+//            } else {
+//                $(".six").text(content6 + 1);
+//                $(".four").text(content4 + 1);
+//                $(".five").text(content5 + 1);
+//            }
+//        })
 
         // 分页end
 

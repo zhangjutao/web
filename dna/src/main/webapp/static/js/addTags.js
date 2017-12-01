@@ -258,12 +258,45 @@ $(function (){
         $(this).parent().parent().find("input").val("");
         $(this).parent().parent().hide();
     })
+    // // pageSize 选择事件
+    $("#per-page-count select").change(function (e){
+        var currentSelected = $(this).find("option:selected").text();
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
+    });
 
+
+    // 获取焦点添加样式：
+    $("#tagsPagination").on("focus", ".laypage_skip", function() {
+        $(this).addClass("isFocus");
+    });
+    $("#tagsPagination").on("blur", ".laypage_skip", function() {
+        $(this).removeClass("isFocus");
+    });
+
+    document.onkeydown = function(e) {
+        var _page_skip = $('#tagsPagination .laypage_skip');
+        if(e && e.keyCode==13){ // enter 键
+            if( _page_skip.hasClass("isFocus") ) {
+                if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
+                    return alert("输入页码不能大于总页数");
+                }
+                var selectedNum = $('#tagsPagination .laypage_skip').val();
+                page.pageNum = selectedNum;
+                paramData.pageNum = page.pageNum;
+                var selectedDatas = getParamas();
+                selectedDatas.pageNum = paramData.pageNum;
+                selectedDatas.pageSize = paramData.pageSize;
+                getData(selectedDatas,selectedDatas.pageNum);
+            }
+        }
+    }
     // 分页
     var nums;
     var totalDatas;
     var intNums;
     var count;
+    var curr = 1;
     var page = {
         pageNum:1,
         pageSize:10
@@ -273,21 +306,21 @@ $(function (){
         pageNum:page.pageNum,
         pageSize:page.pageSize
     };
+    // // pageSize 选择事件
+    $("#tagsPagination select").change(function (e){
+        var currentSelected = $(this).find("option:selected").text();
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
+    });
     //ajax 请求
-    function getData(data,fn){
+    function getData(data,curr){
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
             data:data,
             success:function (result) {
                 count = result.data.total;
-                if(count <40){
-                    $("#page").css({"padding-left":"186px"});
-                }else {
-                    $("#page").css({"padding-left":"10px"});
-                };
                 if(count == 0){
-                    $("#paging").hide();
                     $("#errorImg").show();
                     $("#containerAdmin").css("height","754px");
                     $("#tagTBody").empty();
@@ -348,10 +381,30 @@ $(function (){
                         var $tbody = $("#tagKind table tbody");
                         $tbody.append(tr);
                     }
-                    pageStyle(nums,intNums);
-                    $("#totals").text(count);
-                    fn && fn();
-                }
+                };
+                // 分页
+                laypage({
+                    cont: $('#tagsPagination .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
+                    curr: curr || 1, //当前页
+                    skin: '#5c8de5',
+                    skip: true,
+                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                    last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                    prev: '<',
+                    next: '>',
+                    groups: 3, //连续显示分页数
+                    jump: function (obj, first) { //触发分页后的回调
+                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                            console.warn(obj);
+                            var tmp = getParamas();
+                            tmp.pageNum = obj.curr;
+                            tmp.pageSize = paramData.pageSize;
+                            getData(tmp,obj.curr);
+                        }
+                    }
+                });
+                $(".total-page-count-snp").html(result.data.total);
             },
             error:function (error){
                 console.log(error);
