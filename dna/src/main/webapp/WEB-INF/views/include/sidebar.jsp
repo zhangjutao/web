@@ -1814,7 +1814,7 @@
                     delete GeneObj["upstream"];
                 } else {
                     if(!isNaN(GeneObj.upstream * 1)) {
-                        if (GeneObj.upstream * 1 > 200000) {
+                        if (GeneObj.upstream * 1 > 20000) {
                             return alert("输入范围值要小于20kb");
                         } else if (GeneObj.upstream * 1 < 0) {
                             return alert("输入数字应大于0");
@@ -1827,7 +1827,7 @@
                     delete GeneObj["downstream"];
                 } else {
                     if(!isNaN(GeneObj.downstream * 1)) {
-                        if (GeneObj.downstream * 1 > 200000) {
+                        if (GeneObj.downstream * 1 > 20000) {
                             return alert("输入范围值要小于20kb");
                         } else if (GeneObj.downstream * 1 < 0) {
                             return alert("输入数字应大于0");

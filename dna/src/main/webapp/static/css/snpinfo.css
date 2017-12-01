@@ -274,3 +274,11 @@ a {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+#snpInforsPage{
+    margin-right:30px;
+}
+#snpinfoTable table tbody td.genoTypeT{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
