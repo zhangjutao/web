@@ -154,6 +154,15 @@ public class DNARunService {
         return pageInfo;
     }
 
+    public PageInfo<DNARunSearchResult> findListWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
+        if(!StringUtils.isBlank(isPage)){
+            PageHelper.startPage(pageNum,pageSize);
+        }
+        List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
+        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
+        return pageInfo;
+    }
+
     public  List<DNARun> getAll(){
         return dnaRunDao.getListByCondition(new DnaRunDto());
     }
