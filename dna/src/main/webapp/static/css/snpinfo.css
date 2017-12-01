@@ -269,3 +269,8 @@ a {
 .inputError{
     border:1px solid #ff0000!important;
 }
+.snpMaj,.snpMio,.snpRef{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

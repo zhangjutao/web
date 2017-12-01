@@ -148,7 +148,14 @@
                         </div>
                     </th>
                     <th class="param genoTypeT">GenoType
-
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="speciesI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
                     </th>
                     <th class="param speciesT">物种
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
@@ -455,6 +462,11 @@
 </body>
 <script>
     $(function (){
+        var urlParmas = window.location.search;
+        var stateType = urlParmas.substring(urlParmas.length-3);
+        if(stateType == "ind"){
+             $(".genoTypeT").hide();
+        }
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
         if("${result.RefAndRefPercent}"!=""){
@@ -703,6 +715,12 @@
                                     "</td><td class='param stearicT'>" + stearicTV +"</td></tr>"
                                 var $tbody = $("#snpinfoTable table tbody");
                                 $tbody.append(tr);
+                            }
+                            if(stateType == "ind"){
+                                var genos = $("#snpinfoTable table tbody tr");
+                                $.each(genos,function (i,item){
+                                    $(item).find("td.genoTypeT").hide();
+                                })
                             }
                         }
                     };
