@@ -135,14 +135,14 @@ public class ExportDataController {
         map.put("sampleName", "Sample Name");
         map.put("cultivar", "Cultivar");
         map.put("locality", "Locality");
-        map.put("protein", "Protein");
-        map.put("oil", "Oil");
-        map.put("linoleic", "Linoleic");
-        map.put("linolenic", "Linolenic");
-        map.put("oleic", "Oleic");
-        map.put("palmitic", "Palmitic");
-        map.put("stearic", "Stearic");
-        map.put("height", "Height");
+        map.put("protein", "Protein(%)");
+        map.put("oil", "Oil(%)");
+        map.put("linoleic", "Linoleic(%)");
+        map.put("linolenic", "Linolenic(%)");
+        map.put("oleic", "Oleic(%)");
+        map.put("palmitic", "Palmitic(%)");
+        map.put("stearic", "Stearic(%)");
+        map.put("height", "Height(cm)");
         map.put("flowerColor", "Flower Color");
         map.put("hilumColor", "Hilum Color");
         map.put("podColor",   "Pod Color");
@@ -356,7 +356,7 @@ public class ExportDataController {
     }
 
 
-    //用于SNP result页面的信息  searchInRegion 所在页面
+    //用于SNP result页面的信息  searchInRegion 所在页面 以及样本导出
 
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
 
@@ -580,95 +580,95 @@ public class ExportDataController {
                 JSONObject one = data.getJSONObject(i);
                 if (map.containsKey("species")) {
                     String species = one.getString("species");
-                    sb.append((species != null ? species : "-")).append(",");
+                    sb.append((species != null&&!species.toString().equals("") ? species : "-")).append(",");
                 }
                 if (map.containsKey("locality")) {
                     String locality = one.getString("locality");
-                    sb.append((locality != null ?locality.replace(",","，") : "-")).append(",");
+                    sb.append((locality != null&&!locality.toString().equals("") ?locality.replace(",","，") : "-")).append(",");
                 }
                 if (map.containsKey("sampleName")) {
                     String sampleName = one.getString("sampleName");
-                    sb.append((sampleName != null ? sampleName : "-")).append(",");
+                    sb.append((sampleName != null &&!sampleName.toString().equals("")? sampleName : "-")).append(",");
                 }
                 if (map.containsKey("cultivar")) {
                     String cultivar = one.getString("cultivar");
-                    sb.append((cultivar != null ? cultivar : "-")).append(",");
+                    sb.append((cultivar != null&&!cultivar.toString().equals("") ? cultivar : "-")).append(",");
                 }
                 if (map.containsKey("weightPer100seeds")) {
                     Object weightPer100seeds = one.get("weightPer100seeds");
-                    sb.append((weightPer100seeds != null ? weightPer100seeds : "-")).append(",");
+                    sb.append((weightPer100seeds != null &&!weightPer100seeds.toString().equals("")? weightPer100seeds : "-")).append(",");
                 }
                 if (map.containsKey("oil")) {
                     Object oil = one.get("oil");
-                    sb.append((oil != null ? oil : "-")).append(",");
+                    sb.append((oil != null &&!oil.toString().equals("")? oil : "-")).append(",");
                 }
                 if (map.containsKey("protein")) {
                     Object protein = one.get("protein");
-                    sb.append((protein != null ? protein : "-")).append(",");
+                    sb.append((protein != null&&!protein.toString().equals("")? protein : "-")).append(",");
                 }
                 if (map.containsKey("floweringDate")) {
                     Object floweringDate = one.get("floweringDate");
-                    sb.append((floweringDate != null ? floweringDate : "-")).append(",");
+                    sb.append((floweringDate != null &&!floweringDate.toString().equals("")? floweringDate : "-")).append(",");
                 }
                 if (map.containsKey("maturityDate")) {
                     Object maturityDate = one.get("maturityDate");
-                    sb.append((maturityDate != null ? maturityDate : "-")).append(",");
+                    sb.append((maturityDate != null &&!maturityDate.toString().equals("")? maturityDate : "-")).append(",");
                 }
                 if (map.containsKey("height")) {
                     Object height = one.get("height");
-                    sb.append((height != null ? height : "-")).append(",");
+                    sb.append((height != null&&!height.toString().equals("")? height : "-")).append(",");
                 }
                 if (map.containsKey("seedCoatColor")) {
                     Object seedCoatColor = one.get("seedCoatColor");
-                    sb.append((seedCoatColor != null ? seedCoatColor : "-")).append(",");
+                    sb.append((seedCoatColor != null&&!seedCoatColor.toString().equals("") ? seedCoatColor : "-")).append(",");
                 }
                 if (map.containsKey("hilumColor")) {
                     Object hilumColor = one.get("hilumColor");
-                    sb.append((hilumColor != null ? hilumColor : "-")).append(",");
+                    sb.append((hilumColor != null&&!hilumColor.toString().equals("")? hilumColor : "-")).append(",");
                 }
                 if (map.containsKey("cotyledonColor")) {
                     Object cotyledonColor = one.get("cotyledonColor");
-                    sb.append((cotyledonColor != null ? cotyledonColor : "-")).append(",");
+                    sb.append((cotyledonColor != null&&!cotyledonColor.toString().equals("")? cotyledonColor : "-")).append(",");
                 }
                 if (map.containsKey("flowerColor")) {
                     Object flowerColor = one.get("flowerColor");
-                    sb.append((flowerColor != null ? flowerColor : "-")).append(",");
+                    sb.append((flowerColor != null &&!flowerColor.toString().equals("")? flowerColor : "-")).append(",");
                 }
                 if (map.containsKey("podColor")) {
                     Object podColor = one.get("podColor");
-                    sb.append((podColor != null ? podColor : "-")).append(",");
+                    sb.append((podColor != null&&!podColor.toString().equals("")? podColor : "-")).append(",");
                 }
                 if (map.containsKey("pubescenceColor")) {
                     Object pubescenceColor = one.get("pubescenceColor");
-                    sb.append((pubescenceColor != null ? pubescenceColor : "-")).append(",");
+                    sb.append((pubescenceColor != null&&!pubescenceColor.toString().equals("")? pubescenceColor : "-")).append(",");
                 }
                 if (map.containsKey("yield")) {
                     Object maturityDate = one.get("yield");
-                    sb.append((maturityDate != null ? maturityDate : "-")).append(",");
+                    sb.append((maturityDate != null&&!maturityDate.toString().equals("")? maturityDate : "-")).append(",");
                 }
                 if (map.containsKey("upperLeafletLength")) {
                     Object upperLeafletLength = one.get("upperLeafletLength");
-                    sb.append((upperLeafletLength != null ? upperLeafletLength : "-")).append(",");
+                    sb.append((upperLeafletLength != null&&!upperLeafletLength.toString().equals("")?upperLeafletLength : "-")).append(",");
                 }
                 if (map.containsKey("linoleic")) {
                     Object linoleic = one.get("linoleic");
-                    sb.append((linoleic != null ? linoleic : "-")).append(",");
+                    sb.append((linoleic != null &&!linoleic.toString().equals("")? linoleic : "-")).append(",");
                 }
                 if (map.containsKey("linolenic")) {
                     Object linolenic = one.get("linolenic");
-                    sb.append((linolenic != null ? linolenic : "-")).append(",");
+                    sb.append((linolenic != null&&!linolenic.toString().equals("")? linolenic : "-")).append(",");
                 }
                 if (map.containsKey("oleic")) {
                     Object oleic = one.get("oleic");
-                    sb.append((oleic != null ? oleic : "-")).append(",");
+                    sb.append((oleic != null&&!oleic.toString().equals("") ? oleic : "-")).append(",");
                 }
                 if (map.containsKey("palmitic")) {
                     Object palmitic = one.get("palmitic");
-                    sb.append((palmitic != null ? palmitic : "-")).append(",");
+                    sb.append((palmitic != null&&!palmitic.toString().equals("")? palmitic : "-")).append(",");
                 }
                 if (map.containsKey("stearic")) {
                     Object stearic = one.get("stearic");
-                    sb.append((stearic != null ? stearic : "-")).append(",");
+                    sb.append((stearic != null&&!stearic.toString().equals("")? stearic : "-")).append(",");
                 }
                 sb.append("\n");
             }
