@@ -25,6 +25,8 @@ public class FindSampleByIdTest extends TestCase{
     DNAMongoService dnaMongoService;
     @Autowired
     DNARunService dnaRunService;
+
+
     @Test
     public void testFindSNPBySNPId() {
         Map oneSNP = snpService.findSampleById("GlyI001090");
@@ -61,6 +63,15 @@ public class FindSampleByIdTest extends TestCase{
         assertNotNull(list);
         for (DNARunSearchResult result : list.getList()){
             System.out.println(result.getHeight());
+        }
+    }
+
+    @Test
+    public void testFindListWithTypeHandler(){
+        PageInfo<DNARunSearchResult> list = dnaRunService.findListWithTypeHandler(new DnaRunDto(), 1, 10, "1");
+        assertNotNull(list);
+        for (DNARunSearchResult result : list.getList()){
+            System.out.println(result.getHilumColor());
         }
     }
 }
