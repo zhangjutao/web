@@ -150,7 +150,7 @@
                     <th class="param genoTypeT">GenoType
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="speciesI inputStyle">
+                            <input type="text" placeholder="请输入" class="genoTypeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -892,7 +892,12 @@
         }
         // 获取表格数据
         $("#snpinfoTable .btnConfirmInfo").click(function (){
+            if($("#snpinfoTable .genoTypeT input").val()){
+                changeParam = $("#snpinfoTable .genoTypeT input").val();
+            };
+            console.warn(changeParam)
             var selectedDatas1 = snpGetParams(changeParam);
+
             selectedDatas1.pageNum = paramData.pageNum;
             selectedDatas1.pageSize = paramData.pageSize;
             getData(selectedDatas1,selectedDatas1.pageNum);

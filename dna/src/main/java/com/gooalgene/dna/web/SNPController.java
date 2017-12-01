@@ -647,7 +647,7 @@ public class SNPController {
         for(Map.Entry entry:entrySet){
             String value=(String)entry.getValue();
             if(StringUtils.isNotBlank(changeParam)){
-                if(value.contains(changeParam)){
+                if(StringUtils.containsIgnoreCase(value,changeParam)){
                     runNos.add((String) entry.getKey());
                     samples.put(entry.getKey(),entry.getValue());
                 }
