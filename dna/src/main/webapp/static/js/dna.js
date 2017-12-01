@@ -142,7 +142,6 @@ $(function () {
                 snpPintDatasGene.group = obj.params.group;
                 globelType = "Gene";
                 globelGeneId = obj.params.gene;
-                console.warn(obj.params);
                 if(obj.params.gene == ""){
                     return alert("请选择一个基因");
                 };
@@ -436,7 +435,6 @@ $(function () {
         params['pageSize'] = pageSizeSNP;
         params['type'] = 'SNP';
         params['ctype'] = CTypeSnp;
-        console.error(params);
         loadMask ("#mask-test");
         $.ajax({
             url: url,
@@ -938,7 +936,6 @@ $(function () {
     var totalIndel;
     /* 导出 */
     $(".js-export").click(function() {
-        debugger;
         var fma = $(".t_fmajorAllele").find("option:selected").text();
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "gene") {
@@ -1022,6 +1019,7 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
+        debugger;
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1033,21 +1031,19 @@ $(function () {
         //     return;
         // };
         var referenceVal = result.data.bps;
-        var startPos = parseInt(result.data.conditions.split(",")[1])-2000<0?0:parseInt(result.data.conditions.split(",")[1])-2000;
-        var startPos1 = startPos+2000;
-        var endPos =parseInt(result.data.conditions.split(",")[2])+2000>referenceVal?referenceVal:parseInt(result.data.conditions.split(",")[2]);
-        var endPos1 = endPos-2000;
+        var startPos = parseInt(result.data.conditions.split(",")[1]);
+        var endPos =parseInt(result.data.conditions.split(",")[2]);
         var geneLength = endPos - startPos;
        d3.select("#" + id).selectAll("svg").remove();
        // 创建一个svg 元素
         var svgTotal = $("#" + id).width();
         var totalLength;
         if(geneLength >svgTotal*10){
-            var svg = d3.select("#" +id).append("svg").attr("width",geneLength/10 + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[geneLength/10,220]];
-            var topLineData = [[20,1],[geneLength/10,1]];
-            var centerLineData = [[20,90],[geneLength/10,90]]
-            totalLength = geneLength/10;
+            var svg = d3.select("#" +id).append("svg").attr("width",parseInt(geneLength/10) + "px").attr("height","250px");
+            var acrossLineData = [[20,220],[parseInt(geneLength/10),220]];
+            var topLineData = [[20,1],[parseInt(geneLength/10),1]];
+            var centerLineData = [[20,90],[parseInt(geneLength/10),90]]
+            totalLength = parseInt(geneLength/10);
         }else {
             var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","250px");
             var acrossLineData = [[20,220],[svgTotal,220]];
@@ -1075,20 +1071,18 @@ $(function () {
         var svgLength = $("#" + id).find("svg").width();
         // to do
         if (svgLength >885){
-            var intervalNums = geneLength/100;
+            var intervalNums = parseInt(svgLength/100);
             // 每份的长度
-            ttdistance = geneLength/intervalNums;
+            ttdistance = parseInt(svgLength/intervalNums);
 
             // ttdistance =100;
         }else {
             // 如果svg 长度小于容器长度，则默认分为10份
-            // var intervalNums = svgLength/10;
+            // var intervalNums = Math.floor(svgLength/100);
             var intervalNums = 10;
             // 每份的长度
-            // ttdistance = geneLength/intervalNums;
-            // ttdistance = svgTotal/10 ;
-            ttdistance = 100 ;
-            // ttdistance = geneLength/10;
+            // ttdistance = svgLength/intervalNums;
+            ttdistance = parseInt(geneLength/100);
         }
         for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
@@ -1107,8 +1101,13 @@ $(function () {
             // to do
             // 要对startPos+ i*ttdistance 取整数显示（保留 * 位 0 ）
             // 画位置文字信息
-            svg.append("text").text(parseInt(startPos+ i*((endPos - startPos)/10))).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +(i)*ttdistance +",250)");
+            if(svgLength>885){
+                svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +i*ttdistance +",250)");
+            }else {
+                svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +i*svgLength/10 +",250)");
+            }
         }
+        console.log(intervalLineData)
         // 利用defined 把一条路径切割成一段一段的多条路径
             var line2 = line.defined(function(d, i, index) {
                 //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
@@ -1154,7 +1153,7 @@ $(function () {
                     var feature = geneConstructs[i].feature;
                     var colorVal = chromoColor(feature);
                     // g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-                    g.append("rect").attr("x",(geneConstructs[i].start-startPos1)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                    g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
                 }
             // }
             // 画snp 位点
@@ -1232,7 +1231,6 @@ $(function () {
         // snp 位点基因查询
         function getSnpPointGene(tabid){
             var allSnpNum =  $("#" + gsnpid + " a rect");
-            debugger;
             var singleData = {};
                 singleData.index = snpIndex;
                 singleData.id = tabid;
