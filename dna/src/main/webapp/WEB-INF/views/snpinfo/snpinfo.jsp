@@ -487,7 +487,6 @@
         var changeParam = major;  // major 和 minor 页面切换
         // 花饼图
         function drawPie(ref,alt,refAlt,name1,name2,name3){
-            console.table(ref*100,alt*100,refAlt*100);
             $('#pieShow').highcharts({
                 chart: {
                     plotBackgroundColor: null,
@@ -554,7 +553,6 @@
         //点击每个群体
         $(".popNames li").click(function (){
             populVal = $(this).text();
-            console.log(populVal);
             $(this).parent().parent().hide();
         })
         // 获取表格数据
@@ -564,7 +562,7 @@
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data);
+            getData(data,paramData.pageNum);
         });
         $(".major").click(function (){
             major = $(".snpMaj").text();
@@ -572,13 +570,13 @@
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data);
+            getData(data,paramData.pageNum);
         })
         window.onload = function (){
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data);
+            getData(data,paramData.pageNum);
         }
         // // pageSize 选择事件
         $("#snpInforsPage select").change(function (e){
@@ -595,7 +593,6 @@
         });
 
         document.onkeydown = function(e) {
-            debugger;
             var _page_skip = $('#snpInforsPage .laypage_skip');
             if(e && e.keyCode==13){ // enter 键
                 if( _page_skip.hasClass("isFocus") ) {
@@ -605,7 +602,7 @@
                     var selectedNum = $('#snpInforsPage .laypage_skip').val();
                     page.pageNum = selectedNum;
                     paramData.pageNum = page.pageNum;
-                    var selectedDatas = snpGetParams();
+                    var selectedDatas = snpGetParams(changeParam);
                     selectedDatas.pageNum = paramData.pageNum;
                     selectedDatas.pageSize = paramData.pageSize;
                     getData(selectedDatas,selectedDatas.pageNum);
@@ -634,7 +631,6 @@
                 url:ctxRoot + "/dna/changeByProportion",
                 data:data,
                 success:function (result) {
-                    console.log(result);
                     if(result.code!=0){
 //                        $("#paging").hide();
                     }else {
@@ -642,9 +638,14 @@
                         if(count == 0){
                             $("#errorImg").show();
                             $("#containerAdmin").css("height","754px");
+                            $("#snpInforsPage").hide();
+                            $("#snpinfoTable table tbody tr").remove();
+                            return;
                         }else{
+                            if($("#snpInforsPage").is(":hidden")){
+                                $("#snpInforsPage").show();
+                            }
                             totalDatas = result.data.dnaRuns.list;
-                            console.log(totalDatas);
                             $("#snpinfoTable table tbody tr").remove();
 
                             nums = Math.ceil(count / page.pageSize);
@@ -705,8 +706,6 @@
                             }
                         }
                     };
-                    console.log(page);
-                    console.log(paramData);
                     // 分页
                     laypage({
                         cont: $('#snpInforsPage .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -738,153 +737,6 @@
                 }
             })
         }
-//        // 样式调整方法
-//        function pageStyle(nums,intNums){
-//            if (nums > 4) {
-//                // $(".first").hide().next().text(1).next().hide();
-//                $(".first").next().text(1);
-//                $(".four").text(2).next().text(3).next().text(4);
-//                $(".eight").text(nums);
-//                $(".seven").show();
-//                $(".last").show();
-//            };
-//            if (intNums == 0) {
-//                styleChange();
-//                $(".two").text(1);
-//                $(".four").hide();
-//                $(".five").hide();
-//                $(".six").hide();
-//            }
-//            switch (nums) {
-//                case 1:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").hide();
-//                    $(".five").hide();
-//                    $(".six").hide();
-//                    break;
-//                case 2:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").text(2);
-//                    $(".five").hide();
-//                    $(".six").hide();
-//                    break;
-//                case 3:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").text(2);
-//                    $(".five").text(3);
-//                    $(".six").hide();
-//                    break;
-//                case 4:
-//                    styleChange();
-//                    $(".two").text(1);
-//                    $(".four").text(2);
-//                    $(".five").text(3);
-//                    $(".six").text(4);
-//                    break;
-//            }
-//        }
-//        // 显示隐藏样式封装
-//        function styleChange() {
-//            $(".three").hide();
-//            $(".first").hide();
-//            $(".seven").hide();
-//            $(".eight").hide();
-//            $(".last").hide();
-//        };
-//
-//        //每个页码的点击事件
-//        $("#page>p").click(function (e) {
-//            //样式
-//            if (nums > 4) {
-//                $(".first").show();
-//                $(".three").show();
-//                $(".eight").text(nums);
-//            };
-//            var $p = $(e.target);
-//
-//            page.pageNum = parseInt($p.text());
-//            paramData.pageNum = page.pageNum;
-//
-//            var selectedDatas = snpGetParams(changeParam);
-//            selectedDatas.pageNum = paramData.pageNum;
-//            selectedDatas.pageSize = paramData.pageSize;
-//            console.log(selectedDatas);
-//            getData(selectedDatas);
-//            var plists = $p.siblings();
-//            for (var i = 0; i < plists.length; i++) {
-//                if ($(plists[i]).hasClass("pageColor")) {
-//                    $(plists[i]).removeClass("pageColor");
-//                }
-//            }
-//            $p.addClass("pageColor");
-//
-//        });
-//        // pageSize 选择事件
-//        $("#selectedNum").change(function (e){
-//            var currentSelected = $("#selectedNum option:selected").text();
-//            page.pageSize = currentSelected;
-//            paramData.pageSize = page.pageSize;
-//            var selectedDatas =snpGetParams(changeParam);
-//            selectedDatas.pageNum = paramData.pageNum;
-//            selectedDatas.pageSize = paramData.pageSize;
-//            getData(selectedDatas);
-//        })
-//        // "<" 点击事件
-//        $(".first").click(function () {
-//            var content6 = Number($(".six").text());
-//            var content4 = Number($(".four").text());
-//            var content5 = Number($(".five").text());
-//            if (content6 < nums) {
-//                $(".last").show();
-//                $(".seven").show();
-//            }
-//            if (content4 <= 2) {
-//                $(".first").hide().next().next().hide();
-//            } else {
-//                $(".six").text(content6 - 1);
-//                $(".four").text(content4 - 1);
-//                $(".five").text(content5 - 1);
-//            }
-//        })
-//        // enter 键盘事件
-//        $("#inputNum").keydown(function(event){
-//            event=document.all?window.event:event;
-//            if((event.keyCode || event.which)==13){
-//                var selectedNum = $(this).val();
-//                page.pageNum = pageNum = selectedNum;
-//                paramData.pageNum = page.pageNum;
-//                var selectedDatas = snpGetParams(changeParam);
-//                selectedDatas.pageNum = paramData.pageNum;
-//                selectedDatas.pageSize = paramData.pageSize;
-//                getData(selectedDatas);
-//            }
-//        });
-//        // ">" 点击事件
-//        $(".last").click(function () {
-//            var content6 = Number($(".six").text());
-//            var content4 = Number($(".four").text());
-//            var content5 = Number($(".five").text());
-//            var content2 = Number($(".two").text());
-//            if (content2 == 1) {
-//                $(".first").show();
-//                $(".three").show();
-//            }
-//
-//            if (content6 >= nums - 1) {
-//                $(".seven").hide();
-//                $(this).hide();
-//            } else {
-//                $(".six").text(content6 + 1);
-//                $(".four").text(content4 + 1);
-//                $(".five").text(content5 + 1);
-//            }
-//        })
-
-        // 分页end
-
         // 详情页 搜索按钮点击事件
         $(".searBtn").click(function (){
             var searchId = $(".searchBox").find("input").val();
@@ -894,7 +746,6 @@
                 data:{id:searchId},
                 dataType:"json",
                 success:function (result){
-                    console.log(result);
                     if(result.code !=0){
                         $("#paging").hide();
                         $(".searchBox input").addClass("inputError")
@@ -921,7 +772,7 @@
                         var data = snpGetParams(changeParam);
                         data.pageNum = paramData.pageNum;
                         data.pageSize = paramData.pageSize;
-                        getData(data);
+                        getData(data,paramData.pageNum);
                         //重新画图
                         AA = result.data.RefAndRefPercent;
                         TT = result.data.totalAltAndAltPercent;
@@ -938,7 +789,6 @@
             })
         })
 
-    })
         // tag 样式切换
         $(".changeTab p").click(function (){
             if(!$(this).hasClass("changeTagColor")){
@@ -954,80 +804,83 @@
                 }
             }
         })
-    //表格筛选框显示隐藏
-    $("#snpinfoTable thead th").mouseover(function (){
-        $(this).find(".inputComponent").show();
-    }).mouseleave(function (){
-        $(this).find(".inputComponent").hide();
-    })
-    // 筛选取消按钮 样式
-    $("#snpinfoTable .inputComponent .btnCancel").click(function (){
-        $(this).parent().parent().find("input").val("");
-        $(this).parent().parent().hide();
-    })
-    // 表格筛选功能  --》 获取数据
+        //表格筛选框显示隐藏
+        $("#snpinfoTable thead th").mouseover(function (){
+            $(this).find(".inputComponent").show();
+        }).mouseleave(function (){
+            $(this).find(".inputComponent").hide();
+        })
+        // 筛选取消按钮 样式
+        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
+            $(this).parent().parent().find("input").val("");
+            $(this).parent().parent().hide();
+        })
+        // 表格筛选功能  --》 获取数据
 
-    // 获取参数
-    function snpGetParams(type){
-        var datas = {
-            snpId: $(".snpId").text(),
-            changeParam:type,
-            cultivar:$(".cultivarI").val(),  // 品种名
+        // 获取参数
+        function snpGetParams(type){
+            var datas = {
+                snpId: $(".snpId").text(),
+                changeParam:type,
+                cultivar:$(".cultivarI").val(),  // 品种名
 //            group:popuSelectedVal, // 群体
-            species:$(".speciesI").val(),// 物种
-            locality:$(".localityI").val(), // 位置
-            sampleName:$(".sampleNameI").val(), // 样品名
-            // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
-            "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "weightPer100seeds.value":$(".weightPer100seedsI").val(),
-            // protein:$(".proteinI").val(), //蛋白质含量
-            "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "protein.value":$(".proteinI").val(),
-            // 含油量
-            "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "oil.value":$(".oilI").val(),
-            maturityDate:$(".maturityDateI").val(), // 熟期
-            // height:$(".heightI").val(),//株高
-            "height.operation":$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":$(".heightI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "height.value":$(".heightI").val(),
-            seedCoatColor:$(".seedCoatColorI").val(),//种皮色
-            hilumColor:$(".hilumColorI").val(),//种脐色
-            cotyledonColor:$(".cotyledonColorI").val(), //子叶色
-            flowerColor:$(".flowerColorI").val(),//花色
-            podColor:$(".podColorI").val(),//荚色
-            pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
-            // yield:$(".yieldI").val(),// 产量
-            "yield.operation":$(".yieldI").parent().find("option:selected").text().trim() == ">"?"gt":$(".yieldI").parent().find("option:selected").text().trim()=="="?"eq":$(".yieldI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "yield.value":$(".yieldI").val(),
-            // upperLeafletLength:$(".upperLeaf
-            // letLengthI").val(), //顶端小叶长度
-            "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
-            // linoleic:$(".linoleicI").val(), //亚油酸
-            "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "linoleic.value":$(".linoleicI").val(),
-            // linolenic:$(".linolenicI").val(), //亚麻酸
-            "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "linolenic.value":$(".linolenicI").val(),
-            // oleic:$(".oleicI").val(), //油酸
-            "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "oleic.value":$(".oleicI").val(),
-            // palmitic:$(".palmiticI").val(),  //软脂酸
-            "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "palmitic.value":$(".palmiticI").val(),
-            // stearic:$(".stearicI").val(), //硬脂酸
-            "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "stearic.value":$(".stearicI").val(),
-            isPage:1  // 是否分页
-        };
-        return datas;
-    }
-    // 获取表格数据
-    $("#snpinfoTable .btnConfirmInfo").click(function (){
-        var selectedDatas = snpGetParams(changeParam);
-        selectedDatas.pageNum = paramData.pageNum;
-        selectedDatas.pageSize = paramData.pageSize;
-        getData(selectedDatas);
+                species:$(".speciesI").val(),// 物种
+                locality:$(".localityI").val(), // 位置
+                sampleName:$(".sampleNameI").val(), // 样品名
+                // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
+                "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "weightPer100seeds.value":$(".weightPer100seedsI").val(),
+                // protein:$(".proteinI").val(), //蛋白质含量
+                "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "protein.value":$(".proteinI").val(),
+                // 含油量
+                "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "oil.value":$(".oilI").val(),
+                maturityDate:$(".maturityDateI").val(), // 熟期
+                // height:$(".heightI").val(),//株高
+                "height.operation":$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":$(".heightI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "height.value":$(".heightI").val(),
+                seedCoatColor:$(".seedCoatColorI").val(),//种皮色
+                hilumColor:$(".hilumColorI").val(),//种脐色
+                cotyledonColor:$(".cotyledonColorI").val(), //子叶色
+                flowerColor:$(".flowerColorI").val(),//花色
+                podColor:$(".podColorI").val(),//荚色
+                pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
+                // yield:$(".yieldI").val(),// 产量
+                "yield.operation":$(".yieldI").parent().find("option:selected").text().trim() == ">"?"gt":$(".yieldI").parent().find("option:selected").text().trim()=="="?"eq":$(".yieldI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "yield.value":$(".yieldI").val(),
+                // upperLeafletLength:$(".upperLeaf
+                // letLengthI").val(), //顶端小叶长度
+                "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
+                // linoleic:$(".linoleicI").val(), //亚油酸
+                "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "linoleic.value":$(".linoleicI").val(),
+                // linolenic:$(".linolenicI").val(), //亚麻酸
+                "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "linolenic.value":$(".linolenicI").val(),
+                // oleic:$(".oleicI").val(), //油酸
+                "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "oleic.value":$(".oleicI").val(),
+                // palmitic:$(".palmiticI").val(),  //软脂酸
+                "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "palmitic.value":$(".palmiticI").val(),
+                // stearic:$(".stearicI").val(), //硬脂酸
+                "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
+                "stearic.value":$(".stearicI").val(),
+                isPage:1  // 是否分页
+            };
+            return datas;
+        }
+        // 获取表格数据
+        $("#snpinfoTable .btnConfirmInfo").click(function (){
+            var selectedDatas1 = snpGetParams(changeParam);
+            selectedDatas1.pageNum = paramData.pageNum;
+            selectedDatas1.pageSize = paramData.pageSize;
+            getData(selectedDatas1,selectedDatas1.pageNum);
+        })
+
     })
+
 </script>
 </html>
