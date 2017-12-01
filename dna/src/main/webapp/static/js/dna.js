@@ -1344,8 +1344,9 @@ $(function () {
            var position = $(this).find("td.t_position").find("p").text();
            var majorAllele = $(this).find("td.t_majorAllele").find("div").text();
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
+           var clickType = "snp";
           window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
-            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1);
+            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1)  + "&clickType=" + clickType;
     })
     $("#tableBody2").on("click","tr",function (e){
         var id = $(this).attr("id");
@@ -1356,7 +1357,8 @@ $(function () {
         var position = $(this).find("td.t_position").find("p").text();
         var majorAllele = $(this).find("td.t_majorAllele").find("div").text();
         var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
+        var clickType = "ind";
         window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
-            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1);
+            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1)  + "&clickType=" + clickType;
     })
 })
