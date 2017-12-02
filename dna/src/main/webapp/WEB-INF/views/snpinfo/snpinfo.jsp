@@ -1062,6 +1062,16 @@
             }
 
         })
+        var exportTitles = [];
+        function initExportTitles (){
+            var lists = $("#selectedDetails li");
+            $.each(lists,function (i,item){
+                var $input = $(item).find("input");
+                var classVal = $input.attr("name");
+                exportTitles.push(classVal);
+            })
+        };
+        initExportTitles();
         // 确定按钮（过滤条件）
         $("#operate .sure").click(function (){
             var lists = $("#selectedDetails li");
@@ -1074,7 +1084,9 @@
                     $("#snpinfoTable tbody").find(newClassVal).hide();
                 }
                 else {
+
                     var classVal = $input.attr("name");
+                    exportTitles.push(classVal);
                     var newClassVal = "." + classVal + "T";
                     if($("#snpinfoTable thead").find(newClassVal).is(":hidden")){
                         $("#snpinfoTable thead").find(newClassVal).show();
@@ -1107,6 +1119,30 @@
         $("#SelectAllBox").click(function (){
             var status = $(this).prop("checked");
             checkStatus(status);
+        })
+        // 表格导出
+        $("#exportData").click(function (){
+            debugger;
+            var titleData = snpGetParams(changeParam);
+            console.info(exportTitles);
+            console.info(titleData);
+
+            $.ajax({
+                type:"GET",
+                url:CTXROOT + "/export",
+                data:{
+                    "titles":exportTitles.join(","),
+                    "condition":JSON.stringify(titleData)
+                },
+                dataType: "json",
+                contentType: "application/json",
+                success:function (result){
+                    window.location.href = result;
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
         })
 
     })
