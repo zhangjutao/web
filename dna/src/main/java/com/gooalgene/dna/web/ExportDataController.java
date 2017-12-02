@@ -13,6 +13,7 @@ import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.dna.util.Json2DnaRunDto;
 import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.Tools;
+import com.sun.xml.internal.bind.v2.TODO;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -69,15 +70,14 @@ public class ExportDataController {
         String titles="";
         //此处condition 用来表示表头信息
         String[] condition=null;
-
         if(choices!=null&&!choices.equals("")){
              titles=choices.substring(0, choices.length() - 1);
              condition=titles.split(",");
         }else{
              condition=",".split(",");
         }
-        String fileName="";
 
+        String fileName="";
         //生成文件名
         if(condition.length>5){
             for (int i=0;i<5;i++){
@@ -90,17 +90,17 @@ public class ExportDataController {
         }
 
         fileName+= UUID.randomUUID()+".csv";
-
         String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile/";
         String csvStr="";
         List<DNARun> result=dnaRunDao.getListByCondition(dnaRunDto);
-
         //使用csv进行导出
         if(choices==null||choices.equals("")){
             csvStr="请正确选择表格内容";
         }else {
             csvStr=createCsvStr(result,condition);
         }
+
+
         File tempfile=new File(filePath+fileName);
         if (!tempfile.getParentFile().exists()){
                  if (!tempfile.getParentFile().mkdirs()){
@@ -128,6 +128,8 @@ public class ExportDataController {
         logger.info(path);
         return JsonUtils.Bean2Json(path);
     }
+
+
     //调整表头显示
     private static Map<String, String> changeCloumn2Web() {
         Map<String, String> map = new HashMap<String, String>();
@@ -157,6 +159,8 @@ public class ExportDataController {
         map.put("population","Group");
         return map;
     }
+
+
     //将列表中的数据  生成csv的格式
     /**
      *@param  result 要导出的内容
@@ -220,19 +224,19 @@ public class ExportDataController {
             //百粒重
             if (map.containsKey("weightPer100seeds")){
                 float weight=dnaRun.getWeightPer100seeds();
-                dnaList.add(String.valueOf(weight)!=null?String.valueOf(weight):"-");
+                dnaList.add(!String.valueOf(weight).equals("")?String.valueOf(weight):"-");
                 sb.append(weight!=0?String.valueOf(weight):"-").append(",");
             }
             //蛋白质含量
             if(map.containsKey("protein")){
                 float protein=dnaRun.getProtein();
-                dnaList.add(String.valueOf(protein)!=null?String.valueOf(protein):"-");
+                dnaList.add(!String.valueOf(protein).equals("")?String.valueOf(protein):"-");
                 sb.append(protein!=0?String.valueOf(protein):"-").append(",");
             }
             //含油量
             if(map.containsKey("oil")){
                 float oil=dnaRun.getOil();
-                dnaList.add(String.valueOf(oil)!=null?String.valueOf(oil):"-");
+                dnaList.add(!String.valueOf(oil).equals("0")?String.valueOf(oil):"-");
                 sb.append(oil!=0?String.valueOf(oil):"-").append(",");
             }
             //成熟期
@@ -244,7 +248,7 @@ public class ExportDataController {
             //株高
             if (map.containsKey("height")){
                 float height=dnaRun.getHeight();
-                dnaList.add(String.valueOf(height)!=null?String.valueOf(height):"-");
+                dnaList.add(!String.valueOf(height).equals("0")?String.valueOf(height):"-");
                 sb.append(height!=0?String.valueOf(height):"-").append(",");
             }
 
@@ -288,51 +292,47 @@ public class ExportDataController {
             //产量
             if (map.containsKey("yield")){
                 float yield=dnaRun.getYield();
-                dnaList.add(String.valueOf(yield)!=null?String.valueOf(yield):"-");
+                dnaList.add(!String.valueOf(yield).equals("0")?String.valueOf(yield):"-");
                 sb.append(yield!=0?String.valueOf(yield):"-").append(",");
             }
             //顶端小叶长度
             if (map.containsKey("upperLeafletLength")){
                 float upperLeafletLength=dnaRun.getUpperLeafletLength();
-                dnaList.add(String.valueOf(upperLeafletLength)!=null?String.valueOf(upperLeafletLength):"-");
+                dnaList.add(!String.valueOf(upperLeafletLength).equals("")?String.valueOf(upperLeafletLength):"-");
                 sb.append(upperLeafletLength!=0?String.valueOf(upperLeafletLength):"-").append(",");
             }
             //脂肪酸的内容
             //亚油酸
             if(map.containsKey("linoleic")){
                 float linoleic=dnaRun.getLinoleic();
-                dnaList.add(String.valueOf(linoleic)!=null?String.valueOf(linoleic):"-");
+                dnaList.add(!String.valueOf(linoleic).equals("")?String.valueOf(linoleic):"-");
                 sb.append(linoleic!=0?String.valueOf(linoleic):"-").append(",");
             }
             //亚麻酸
             if (map.containsKey("linolenic")){
                 float linolenic=dnaRun.getLinolenic();
-                dnaList.add(String.valueOf(linolenic)!=null?String.valueOf(linolenic):"-");
+                dnaList.add(!String.valueOf(linolenic).equals("")?String.valueOf(linolenic):"-");
                 sb.append(linolenic!=0?String.valueOf(linolenic):"-").append(",");
             }
             //油酸
             if (map.containsKey("oleic")){
                 float oleic=dnaRun.getOleic();
-                dnaList.add(String.valueOf(oleic)!=null?String.valueOf(oleic):"-");
+                dnaList.add(!String.valueOf(oleic).equals("")?String.valueOf(oleic):"-");
                 sb.append(oleic!=0?String.valueOf(oleic):"-").append(",");
             }
 
             //软脂酸
             if (map.containsKey("palmitic")){
                 float palmitic=dnaRun.getPalmitic();
-                dnaList.add(String.valueOf(palmitic)!=null?String.valueOf(palmitic):"-");
+                dnaList.add(!String.valueOf(palmitic).equals("")?String.valueOf(palmitic):"-");
                 sb.append(palmitic!=0?String.valueOf(palmitic):"-").append(",");
             }
             //硬脂酸
             if (map.containsKey("stearic")){
                 float stearic=dnaRun.getStearic();
-                dnaList.add(String.valueOf(stearic)!=null?String.valueOf(stearic):"-");
+                dnaList.add(!String.valueOf(stearic).equals("")?String.valueOf(stearic):"-");
                 sb.append(stearic!=0?String.valueOf(stearic):"-").append(",");
             }
-
-
-
-
 
             //前端数据不包含部分
             //编号
@@ -348,19 +348,14 @@ public class ExportDataController {
                 dnaList.add(String.valueOf(plantName));
                 sb.append(plantName!=null?plantName:"-").append(",");
             }
-
             sb.append("\n");
-
         }
         return sb.toString();
     }
 
 
     //用于SNP result页面的信息  searchInRegion 所在页面 以及样本导出
-
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
-
-
     @RequestMapping("/dna/dataExport")
     @ResponseBody
     public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
