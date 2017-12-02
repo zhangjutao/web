@@ -155,6 +155,112 @@
         <div id="pieShow">
         </div>
         <div id="snpinfoTable">
+            <div id="snpSetPanel">
+                <div id="tableCnt">
+                    <div class="selecting" >
+                        <p>
+                            表格内容：
+                        </p>
+                        <div id="selectedDetails">
+                            <ul>
+                                <li>
+                                    <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> GenoType
+                                </li>
+                                <li>
+                                    <%--无--%>
+                                    <input type="checkbox" name="population" class="population" checked="checked"> 群体
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="species" class="species" checked="checked"> 物种
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="locality" class="locality" checked="checked"> 位置
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 样品名
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="protein" class="protein" checked="checked"> 蛋白质含量
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="height" class="height" checked="checked"> 株高
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="seedCoatColor" class="seedCoatColor" checked="checked"> 种皮色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="hilumColor" class="hilumColor" checked="checked"> 种脐色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="cotyledonColor" class="cotyledonColor" checked="checked"> 子叶色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="flowerColor" class="flowerColor" checked="checked"> 花色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="podColor" class="podColor" checked="checked"> 荚色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="pubescenceColor" class="pubescenceColor" checked="checked"> 茸毛色
+                                </li>
+                                <li>
+                                    <%--无--%>
+                                    <input type="checkbox" name="yield" class="yield" checked="checked"> 茸毛色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="linoleic" class="linoleic" checked="checked">亚油酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="linolenic" class="linolenic" checked="checked"> 亚麻酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="oleic" class="oleic" checked="checked"> 油酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="palmitic" class="palmitic" checked="checked"> 软脂酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 硬脂酸
+                                </li>
+                            </ul>
+                            <div>
+                                <input type="checkbox" id="SelectAllBox" checked="checked"> 全选
+                            </div>
+                        </div>
+                    </div>
+                    <div class="changeStauts">
+                        <div class="sets">
+                            <span id="exportData">导出数据</span>
+                            <span id="tableSet">表格设置</span>
+                        </div>
+                        <div id="operate">
+                            <p class="sure">确定</p>
+                            <div class="opOthers">
+                                <p class="selectedAll">清空</p>
+                                <p class="packUp">收起
+                                    <img src="${ctxStatic}/images/down.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <div class="changeTab">
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
@@ -925,6 +1031,82 @@
             selectedDatas1.pageNum = paramData.pageNum;
             selectedDatas1.pageSize = paramData.pageSize;
             getData(selectedDatas1,selectedDatas1.pageNum);
+        })
+        // 导出数据部分
+        $('#tableSet').click(function (){
+            $(".selecting").show();
+            $("#operate").show();
+            $(this).hide();
+            // $("#exportData").addClass("pageUpMargin")
+            // $("#exportData").css("margin-right","20px")
+        })
+        $(".packUp").click(function (){
+            $(".selecting").hide();
+            $("#operate").hide();
+            $("#tableSet").show();
+            $("#tableSet").css("margin-right","10px");
+            // $("#tableSet").removeClass("pageUpMargin");
+        })
+        // 清空所有选中的
+        $(".selectedAll").click(function  (){
+            var lists = $("#selectedDetails li");
+            var status = $("#SelectAllBox").prop("checked");
+            if(status){
+                $("#SelectAllBox").removeAttr("checked");
+            }
+            for(var i=0;i<lists.length;i++){
+                var $input = $(lists[i]).find("input");
+                if($input.is(":checked")){
+                    $input.removeAttr("checked");
+                }
+            }
+
+        })
+        // 确定按钮（过滤条件）
+        $("#operate .sure").click(function (){
+            var lists = $("#selectedDetails li");
+            for(var i=0;i<lists.length;i++){
+                var $input = $(lists[i]).find("input");
+                if(!$input.is(":checked")){
+                    var classVal = $input.attr("name");
+                    var newClassVal = "." + classVal + "T";
+                    $("#snpinfoTable thead").find(newClassVal).hide();
+                    $("#snpinfoTable tbody").find(newClassVal).hide();
+                }
+                else {
+                    var classVal = $input.attr("name");
+                    var newClassVal = "." + classVal + "T";
+                    if($("#snpinfoTable thead").find(newClassVal).is(":hidden")){
+                        $("#snpinfoTable thead").find(newClassVal).show();
+                        $("#snpinfoTable tbody").find(newClassVal).show();
+                    }
+                }
+            }
+        });
+        //选中状态代码封装
+        function checkStatus(bool){
+            var lists = $("#selectedDetails li");
+            if(bool){
+                for(var i=0;i<lists.length;i++){
+                    var $input = $(lists[i]).find("input");
+                    if(!$input.is(":checked")){
+                        $input.get(0).checked = true;
+                    }
+                }
+            }else {
+                for(var i=0;i<lists.length;i++){
+                    var $input = $(lists[i]).find("input");
+                    if($input.is(":checked")){
+                        $input.removeAttr("checked");
+                    }
+                }
+            }
+        }
+        // 全选
+
+        $("#SelectAllBox").click(function (){
+            var status = $(this).prop("checked");
+            checkStatus(status);
         })
 
     })
