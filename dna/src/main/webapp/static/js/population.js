@@ -367,7 +367,6 @@ $(function (){
                     groups: 3, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                            console.warn(obj);
                             var tmp = getParamas();
                             tmp.pageNum = obj.curr;
                             tmp.pageSize = paramData.pageSize;
