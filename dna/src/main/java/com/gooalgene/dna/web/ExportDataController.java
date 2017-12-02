@@ -163,7 +163,8 @@ public class ExportDataController {
         map.put("maturityDate", "Maturity Date");
         map.put("yield", "Yield(Mg/ha)");
         map.put("population","Group");
-        map.put("GenoType","GenoType");
+        map.put("genoType","GenoType");
+        map.put("group","Group");
         return map;
     }
 
@@ -797,10 +798,11 @@ public class ExportDataController {
     * */
     @RequestMapping("/dna/IdDetailExport")
     @ResponseBody
-    public void idDetailPageExport(@RequestParam("titles")String titles,HttpServletRequest request){
-         String[] title=titles.split(",");
+    public String idDetailPageExport(@RequestParam("titles")String titles,HttpServletRequest request){
+
          String condition=request.getParameter("condition");
          JSONObject object=null;
+         boolean isINDEL=false;
          //dnaRunDto用来存储表头筛选的条件
          DnaRunDto dnaRunDto = null;
          if(condition!=null&&!condition.equals("")){
@@ -814,8 +816,15 @@ public class ExportDataController {
          Map result=snpService.findSampleById(snpId);
          SNP snpTemp=(SNP)result.get("snpData");
          if(snpTemp==null){
-             snpTemp=(SNP)result.get("INDELDATA");
+             snpTemp=(SNP)result.get("INDELData");
+             isINDEL=true;
          }
+         if(isINDEL){
+             if(titles.contains(",genoType")){
+                 titles=titles.replaceAll(",genoType","");
+             }
+         }
+         String[] title=titles.split(",");
          Map map=snpTemp.getSamples();
          Set<Map.Entry<String, String>> entrySet=map.entrySet();
          List<String> runNos= Lists.newArrayList();
@@ -851,7 +860,7 @@ public class ExportDataController {
                     String cultivar=dnaRunSearchResult.getCultivar();
                     stringBuilder.append(!cultivar.equals("")?cultivar:"-");
                 }
-                else if(titleItem.equals("GenoType")){
+                else if(titleItem.equals("genoType")){
                     String genoType=(String)samples.get(dnaRunSearchResult.getRunNo());
                     stringBuilder.append(!genoType.equals("")?genoType:"-");
                 }else if(titleItem.equals("group")){
@@ -862,8 +871,8 @@ public class ExportDataController {
                     stringBuilder.append(!species.equals("")?species:"-");
                 }else if(titleItem.equals("locality")){
                     String locality=dnaRunSearchResult.getLocality();
-                    if(locality.contains(",")){
-                        locality.replace(",","，");
+                    if(locality!=null&&locality.contains(",")){
+                        locality = locality.replaceAll(",","，");
                     }
                     stringBuilder.append(!locality.equals("")?locality:"-");
                 }else if(titleItem.equals("sampleName")){
@@ -924,10 +933,48 @@ public class ExportDataController {
                     String stearic=dnaRunSearchResult.getStearic();
                     stringBuilder.append(!stearic.equals("")?stearic:"-");
                 }
+                stringBuilder.append(",");
             }
-            stringBuilder.append(",");
+            stringBuilder.append("\n");
         }
-        stringBuilder.append("\n");
+           csvStr=stringBuilder.toString();
+           String fileName="snpinfo_detail"+UUID.randomUUID()+".csv";
+           String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile/";
+           File tempfile=new File(filePath+fileName);
+           if (!tempfile.getParentFile().exists()){
+             if (!tempfile.getParentFile().mkdirs()){
+                return "文件目录创建失败";
+             }
+            }
+        FileOutputStream tempFile= null;
+        try {
+            tempFile = new FileOutputStream(tempfile);
+            tempFile.write(csvStr.getBytes("gbk"));
+            tempFile.flush();
+            tempFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String scheme = request.getScheme();                // http
+        String serverName = request.getServerName();        // gooalgene.com
+        int serverPort = request.getServerPort();           // 8080
+        String contextPath = request.getContextPath();      // /dna
+        //重构请求URL
+        StringBuilder builder = new StringBuilder();
+        builder.append(scheme).append("://").append(serverName);
+        //针对nginx反向代理、https请求重定向，不需要加端口
+        if (serverPort != 80 && serverPort != 443){
+            builder.append(":").append(serverPort);
+        }
+        builder.append(contextPath);
+        String path=builder.toString()+"/tempFile/"+fileName;
+        logger.info(path);
+        return JsonUtils.Bean2Json(path);
         }
     }
 
