@@ -1106,7 +1106,6 @@ $(function () {
                 svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +i*svgLength/10 +",250)");
             }
         }
-        console.log(intervalLineData)
         // 利用defined 把一条路径切割成一段一段的多条路径
             var line2 = line.defined(function(d, i, index) {
                 //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中

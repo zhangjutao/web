@@ -171,7 +171,7 @@
                                 </li>
                                 <li>
                                     <%--无--%>
-                                    <input type="checkbox" name="population" class="population" checked="checked"> 群体
+                                    <input type="checkbox" name="group" class="group" checked="checked"> 群体
                                 </li>
                                 <li>
                                     <input type="checkbox" name="species" class="species" checked="checked"> 物种
@@ -288,7 +288,7 @@
                             </p>
                         </div>
                     </th>
-                    <th class="param populationT popMoveOnNewAdd" style="position:relative;">群体
+                    <th class="param groupT popMoveOnNewAdd" style="position:relative;">群体
                         <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
                         <div class="popNamesNewAdd">
                             <ul style="margin-top:10px;">
@@ -983,7 +983,7 @@
             $(this).parent().parent().hide();
         })
         // 群体信息
-        var popuSelectedVal;
+        var popuSelectedVal="";
         // 获取参数
         function snpGetParams(type){
             var datas = {
@@ -1157,11 +1157,7 @@
         })
         // 表格导出
         $("#exportData").click(function (){
-            debugger;
             var titleData = snpGetParams(changeParam);
-            console.info(exportTitles);
-            console.info(titleData);
-
             $.ajax({
                 type:"GET",
                 url:CTXROOT + "/dna/IdDetailExport",
