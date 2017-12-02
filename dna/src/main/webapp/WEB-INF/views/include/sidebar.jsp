@@ -1346,7 +1346,6 @@
                 type: "POST",
                 dataType: "json",
                 success: function(res) {
-
                     renderPopuTable(res.data);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>

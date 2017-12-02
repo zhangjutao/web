@@ -378,3 +378,15 @@ a {
     padding-right:10px;
     text-align:right;
 }
+.popNamesNewAdd {
+    position: absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 100;
+    padding: 0px 10px;
+    width: 58px;
+    background-color: #fff;
+    margin-left: -16px;
+    top: 45px;
+    display: none;
+    padding-bottom: 10px;
+}
