@@ -1,11 +1,13 @@
 package com.gooalgene.dna.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNARunService;
@@ -13,6 +15,8 @@ import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.dna.util.Json2DnaRunDto;
 import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.Tools;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.sun.xml.internal.bind.v2.TODO;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -157,9 +161,9 @@ public class ExportDataController {
         map.put("maturityDate", "Maturity Date");
         map.put("yield", "Yield(Mg/ha)");
         map.put("population","Group");
+        map.put("GenoType","GenoType");
         return map;
     }
-
 
     //将列表中的数据  生成csv的格式
     /**
@@ -353,9 +357,9 @@ public class ExportDataController {
         return sb.toString();
     }
 
-
     //用于SNP result页面的信息  searchInRegion 所在页面 以及样本导出
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
+    private static final Integer DEFAULT_PAGE_NUM=1;//默认导出的页数
     @RequestMapping("/dna/dataExport")
     @ResponseBody
     public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
@@ -781,5 +785,137 @@ public class ExportDataController {
     }
 
 
+    /*
+    * @param  snpId      snpId
+    * @param  changeParam
+    * @param  condition  筛选条件
+    * @param  titles     表头信息
+    * @author 张衍平
+    * @return filePath
+    * */
+    @RequestMapping("/dna/IdDetailExport")
+    @ResponseBody
+    public void idDetailPageExport(@RequestParam("snpid") String snpId,@RequestParam("changeParam") String changeParam,@RequestParam("titles")String titles,DnaRunDto dnaRunDto){
+         String[] title=titles.split(",");
+         Map result=snpService.findSampleById(snpId);
+         SNP snpTemp=(SNP)result.get("snpData");
+         if(snpTemp==null){
+             snpTemp=(SNP)result.get("INDELDATA");
+         }
+         Map map=snpTemp.getSamples();
+         Set<Map.Entry<String, String>> entrySet=map.entrySet();
+         List<String> runNos= Lists.newArrayList();
+         Map samples= Maps.newHashMap();
+         for(Map.Entry entry:entrySet){
+            String value=(String)entry.getValue();
+            if(StringUtils.isNotBlank(changeParam)){
+                if(StringUtils.containsIgnoreCase(value,changeParam)){
+                    runNos.add((String) entry.getKey());
+                    samples.put(entry.getKey(),entry.getValue());
+                }
+            }
+        }
+        if(dnaRunDto==null){
+            dnaRunDto=new DnaRunDto();
+        }
+        dnaRunDto.setRunNos(runNos);
+        String csvStr="";
+        StringBuilder stringBuilder=new StringBuilder();
+        Map<String,String> titleMap=changeCloumn2Web();
+        int size=title.length;
+        //生成表头
+        for(int j=0;j<size;j++){
+              stringBuilder.append(titleMap.get(title[j]));
+              if(j!=size-1){
+                  stringBuilder.append(",");
+              }else{
+                  stringBuilder.append("\n");
+              }
+        }
+        PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+        List<DNARunSearchResult> dnaRunSearchResultList=dnaRuns.getList();
+        for(DNARunSearchResult dnaRunSearchResult:dnaRunSearchResultList){
+            for(String titleItem:title){
+                if(titleItem.equals("cultivar")){
+                    String cultivar=dnaRunSearchResult.getCultivar();
+                    stringBuilder.append(!cultivar.equals("")?cultivar:"-");
+                }
+                else if(titleItem.equals("GenoType")){
+                    String genoType=(String)samples.get(dnaRunSearchResult.getRunNo());
+                    stringBuilder.append(!genoType.equals("")?genoType:"-");
+                }else if(titleItem.equals("species")){
+                    String species=dnaRunSearchResult.getSpecies();
+                    stringBuilder.append(!species.equals("")?species:"-");
+                }else if(titleItem.equals("locality")){
+                    String locality=dnaRunSearchResult.getLocality();
+                    if(locality.contains(",")){
+                        locality.replace(",","，");
+                    }
+                    stringBuilder.append(!locality.equals("")?locality:"-");
+                }else if(titleItem.equals("sampleName")){
+                    String sampleName=dnaRunSearchResult.getSampleName();
+                    stringBuilder.append(!sampleName.equals("")?sampleName:"-");
+                }else if(titleItem.equals("weightPer100seeds")){
+                    String weight=dnaRunSearchResult.getWeightPer100seeds();
+                    stringBuilder.append(!weight.equals("")?weight:"-");
+                }else if(titleItem.equals("protein")){
+                    String protein=dnaRunSearchResult.getProtein();
+                    stringBuilder.append(!protein.equals("")?protein:"-");
+                }else if(titleItem.equals("oil")){
+                    String oil=dnaRunSearchResult.getOil();
+                    stringBuilder.append(!oil.equals("")?oil:"-");
+                }else if(titleItem.equals("maturityDate")){
+                    String maturityDate=dnaRunSearchResult.getMaturityDate();
+                    stringBuilder.append(!maturityDate.equals("")?maturityDate:"-");
+                }else if(titleItem.equals("height")){
+                    String height=dnaRunSearchResult.getHeight();
+                    stringBuilder.append(!height.equals("")?height:"-");
+                }else if(titleItem.equals("seedCoatColor")){
+                    String seedCoatColor=dnaRunSearchResult.getSeedCoatColor();
+                    stringBuilder.append(!seedCoatColor.equals("")?seedCoatColor:"-");
+                }else if(titleItem.equals("hilumColor")){
+                    String hilumColor=dnaRunSearchResult.getHilumColor();
+                    stringBuilder.append(!hilumColor.equals("")?hilumColor:"-");
+                }else if(titleItem.equals("cotyledonColor")){
+                    String cotyledonColor=dnaRunSearchResult.getCotyledonColor();
+                    stringBuilder.append(!cotyledonColor.equals("")?cotyledonColor:"-");
+                }else if(titleItem.equals("flowerColor")){
+                    String flowerColor=dnaRunSearchResult.getFlowerColor();
+                    stringBuilder.append(!flowerColor.equals("")?flowerColor:"-");
+                }else if(titleItem.equals("podColor")){
+                    String podColor=dnaRunSearchResult.getPodColor();
+                    stringBuilder.append(!podColor.equals("")?podColor:"-");
+                }else if(titleItem.equals("pubescenceColor")){
+                    String pubscenceColor=dnaRunSearchResult.getPubescenceColor();
+                    stringBuilder.append(!pubscenceColor.equals("")?pubscenceColor:"-");
+                }else if(titleItem.equals("yield")){
+                    String yield=dnaRunSearchResult.getYield();
+                    stringBuilder.append(!yield.equals("")?yield:"-");
+                }else if(titleItem.equals("upperLeafletLength")){
+                    String upperLeafletLength=dnaRunSearchResult.getUpperLeafletLength();
+                    stringBuilder.append(!upperLeafletLength.equals("")?upperLeafletLength:"-");
+                }else if(titleItem.equals("linoleic")){
+                    String linoleic=dnaRunSearchResult.getLinoleic();
+                    stringBuilder.append(!linoleic.equals("")?linoleic:"-");
+                }else if(titleItem.equals("linolenic")){
+                    String linolenic=dnaRunSearchResult.getLinolenic();
+                    stringBuilder.append(!linolenic.equals("")?linolenic:"-");
+                }else if(titleItem.equals("oleic")){
+                    String oleic=dnaRunSearchResult.getOleic();
+                    stringBuilder.append(!oleic.equals("")?oleic:"-");
+                }else if(titleItem.equals("palmitic")){
+                    String palmitic=dnaRunSearchResult.getPalmitic();
+                    stringBuilder.append(!palmitic.equals("")?palmitic:"-");
+                }else if(titleItem.equals("stearic")){
+                    String stearic=dnaRunSearchResult.getStearic();
+                    stringBuilder.append(!stearic.equals("")?stearic:"-");
+                }
+            }
+            stringBuilder.append(",");
+        }
+        stringBuilder.append("\n");
+        }
+    }
 
-}
+
+
