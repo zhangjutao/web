@@ -288,6 +288,23 @@
                             </p>
                         </div>
                     </th>
+                    <th class="param populationT popMoveOnNewAdd" style="position:relative;">群体
+                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                        <div class="popNamesNewAdd">
+                            <ul style="margin-top:10px;">
+                                <li>Q1</li>
+                                <li>Q2</li>
+                                <li>Q3</li>
+                                <li>Q4</li>
+                                <li>Q5</li>
+                                <li>Q6</li>
+                                <li>Q7</li>
+                                <li>Q8</li>
+                                <li>Q9</li>
+                                <li>Q10</li>
+                            </ul>
+                        </div>
+                    </th>
                     <th class="param speciesT">物种
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
@@ -597,6 +614,7 @@
         var stateType = urlParmas.substring(urlParmas.length-3);
         if(stateType == "ind"){
              $(".genoTypeT").hide();
+             $("#selectedDetails .genoType").parent().hide();
         }
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
@@ -964,15 +982,15 @@
             $(this).parent().parent().find("input").val("");
             $(this).parent().parent().hide();
         })
-        // 表格筛选功能  --》 获取数据
-
+        // 群体信息
+        var popuSelectedVal;
         // 获取参数
         function snpGetParams(type){
             var datas = {
                 snpId: $(".snpId").text(),
                 changeParam:type,
                 cultivar:$(".cultivarI").val(),  // 品种名
-//            group:popuSelectedVal, // 群体
+                group:popuSelectedVal, // 群体
                 species:$(".speciesI").val(),// 物种
                 locality:$(".localityI").val(), // 位置
                 sampleName:$(".sampleNameI").val(), // 样品名
@@ -1062,6 +1080,16 @@
             }
 
         })
+        var exportTitles = [];
+        function initExportTitles (){
+            var lists = $("#selectedDetails li");
+            $.each(lists,function (i,item){
+                var $input = $(item).find("input");
+                var classVal = $input.attr("name");
+                exportTitles.push(classVal);
+            })
+        };
+        initExportTitles();
         // 确定按钮（过滤条件）
         $("#operate .sure").click(function (){
             var lists = $("#selectedDetails li");
@@ -1069,12 +1097,16 @@
                 var $input = $(lists[i]).find("input");
                 if(!$input.is(":checked")){
                     var classVal = $input.attr("name");
+                    var idx = exportTitles.indexOf(classVal);
+                    exportTitles.splice(idx,1);
                     var newClassVal = "." + classVal + "T";
                     $("#snpinfoTable thead").find(newClassVal).hide();
                     $("#snpinfoTable tbody").find(newClassVal).hide();
                 }
                 else {
+
                     var classVal = $input.attr("name");
+                    exportTitles.push(classVal);
                     var newClassVal = "." + classVal + "T";
                     if($("#snpinfoTable thead").find(newClassVal).is(":hidden")){
                         $("#snpinfoTable thead").find(newClassVal).show();
@@ -1107,6 +1139,45 @@
         $("#SelectAllBox").click(function (){
             var status = $(this).prop("checked");
             checkStatus(status);
+        })
+        // 新增group 表
+        $(".popMoveOnNewAdd").mouseover(function (){
+            $(".popNamesNewAdd").show();
+        }).mouseleave(function (){
+            $(".popNamesNewAdd").hide()
+        })
+        // 点击群体时触发请求，跟后端协调字段名成是否正确
+        $(".popNamesNewAdd li").click(function (){
+            $(".popNamesNewAdd").hide();
+            popuSelectedVal = $(this).text();
+            var data =snpGetParams(changeParam);
+            data.pageNum = paramData.pageNum;
+            data.pageSize = paramData.pageSize;
+            getData(data);
+        })
+        // 表格导出
+        $("#exportData").click(function (){
+            debugger;
+            var titleData = snpGetParams(changeParam);
+            console.info(exportTitles);
+            console.info(titleData);
+
+            $.ajax({
+                type:"GET",
+                url:CTXROOT + "/export",
+                data:{
+                    "titles":exportTitles.join(","),
+                    "condition":JSON.stringify(titleData)
+                },
+                dataType: "json",
+                contentType: "application/json",
+                success:function (result){
+                    window.location.href = result;
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
         })
 
     })
