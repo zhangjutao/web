@@ -82,7 +82,7 @@ public class ExportDataTest {
                         .param("group", "[{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551\",\"id\":1512034223012},{\"name\":\"物种Glycine soja\",\"id\":1,\"condition\":{\"species\":\"Glycine soja\"}},{\"name\":\"位置Japan\",\"id\":6,\"condition\":{\"locality\":\"Japan\"}},{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551\",\"id\":1512034223012,\"condition\":{\"cultivar\":\"PI 562565,PI 339871A,PI 393551\"}}]")
                         .param("upstream","")
                         .param("downstream","")
-                        .param("total","87")
+                        .param("total", "87")
                                    )
                                    .andExpect(status().isOk())
                                    .andDo(print())
@@ -90,5 +90,6 @@ public class ExportDataTest {
         String content=mvcResult.getResponse().getContentAsString();
         System.out.println(content);
     }
+
 
 }
