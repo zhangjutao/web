@@ -1164,7 +1164,7 @@
 
             $.ajax({
                 type:"GET",
-                url:CTXROOT + "/export",
+                url:CTXROOT + "/dna/IdDetailExport",
                 data:{
                     "titles":exportTitles.join(","),
                     "condition":JSON.stringify(titleData)

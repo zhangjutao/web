@@ -25,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -795,8 +797,20 @@ public class ExportDataController {
     * */
     @RequestMapping("/dna/IdDetailExport")
     @ResponseBody
-    public void idDetailPageExport(@RequestParam("snpid") String snpId,@RequestParam("changeParam") String changeParam,@RequestParam("titles")String titles,DnaRunDto dnaRunDto){
+    public void idDetailPageExport(@RequestParam("titles")String titles,HttpServletRequest request){
          String[] title=titles.split(",");
+         String condition=request.getParameter("condition");
+         JSONObject object=null;
+         //dnaRunDto用来存储表头筛选的条件
+         DnaRunDto dnaRunDto = null;
+         if(condition!=null&&!condition.equals("")){
+            object=JSONObject.fromObject(condition);
+            dnaRunDto = Json2DnaRunDto.json2DnaRunDto(object);
+         }else {
+            dnaRunDto=new DnaRunDto();
+         }
+         String snpId=object.getString("snpId");
+         String changeParam=object.getString("changeParam");
          Map result=snpService.findSampleById(snpId);
          SNP snpTemp=(SNP)result.get("snpData");
          if(snpTemp==null){
@@ -814,9 +828,6 @@ public class ExportDataController {
                     samples.put(entry.getKey(),entry.getValue());
                 }
             }
-        }
-        if(dnaRunDto==null){
-            dnaRunDto=new DnaRunDto();
         }
         dnaRunDto.setRunNos(runNos);
         String csvStr="";
@@ -843,6 +854,9 @@ public class ExportDataController {
                 else if(titleItem.equals("GenoType")){
                     String genoType=(String)samples.get(dnaRunSearchResult.getRunNo());
                     stringBuilder.append(!genoType.equals("")?genoType:"-");
+                }else if(titleItem.equals("group")){
+                    String group=dnaRunSearchResult.getGroup();
+                    stringBuilder.append(!group.equals("")?group:"-");
                 }else if(titleItem.equals("species")){
                     String species=dnaRunSearchResult.getSpecies();
                     stringBuilder.append(!species.equals("")?species:"-");
