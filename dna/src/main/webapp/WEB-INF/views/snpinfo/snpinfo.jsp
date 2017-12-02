@@ -140,7 +140,6 @@
                         </td>
                     </c:if>
                     <td class="trWidth">Frequence of major allele:</td>
-                    <%--<td class="trWidth2 snpQue">${frequence}%</td>--%>
                     <c:if test="${result.snpData!=null}">
                         <td class="trWidth2 snpQue">${result.snpData.major*100}%</td>
                     </c:if>
@@ -150,7 +149,6 @@
                 </tr>
             </table>
         </div>
-        <%--<hr style="border:1px solid #E4E4E4;">--%>
         <p style="width:1200px;height:2px;border-top:1px solid #E4E4E4;margin-top:16px;"></p>
         <div id="pieShow">
         </div>
@@ -595,7 +593,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
             </table>
 
@@ -639,8 +636,6 @@
         }else {
             var mijor = "${result.snpData.alt}";
         }
-
-        <%--var mijor = "${result.snpData.alt}";--%>
         var name1 = major+major;
         var name2 = major+mijor;
         var name3 = mijor+mijor;
@@ -1055,15 +1050,12 @@
             $(".selecting").show();
             $("#operate").show();
             $(this).hide();
-            // $("#exportData").addClass("pageUpMargin")
-            // $("#exportData").css("margin-right","20px")
         })
         $(".packUp").click(function (){
             $(".selecting").hide();
             $("#operate").hide();
             $("#tableSet").show();
             $("#tableSet").css("margin-right","10px");
-            // $("#tableSet").removeClass("pageUpMargin");
         })
         // 清空所有选中的
         $(".selectedAll").click(function  (){
@@ -1175,8 +1167,6 @@
                 }
             })
         })
-
     })
-
 </script>
 </html>
