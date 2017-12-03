@@ -140,7 +140,6 @@
                         </td>
                     </c:if>
                     <td class="trWidth">Frequence of major allele:</td>
-                    <%--<td class="trWidth2 snpQue">${frequence}%</td>--%>
                     <c:if test="${result.snpData!=null}">
                         <td class="trWidth2 snpQue">${result.snpData.major*100}%</td>
                     </c:if>
@@ -150,11 +149,116 @@
                 </tr>
             </table>
         </div>
-        <%--<hr style="border:1px solid #E4E4E4;">--%>
         <p style="width:1200px;height:2px;border-top:1px solid #E4E4E4;margin-top:16px;"></p>
         <div id="pieShow">
         </div>
         <div id="snpinfoTable">
+            <div id="snpSetPanel">
+                <div id="tableCnt">
+                    <div class="selecting" >
+                        <p>
+                            表格内容：
+                        </p>
+                        <div id="selectedDetails">
+                            <ul>
+                                <li>
+                                    <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> GenoType
+                                </li>
+                                <li>
+                                    <%--无--%>
+                                    <input type="checkbox" name="group" class="group" checked="checked"> 群体
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="species" class="species" checked="checked"> 物种
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="locality" class="locality" checked="checked"> 位置
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 样品名
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="protein" class="protein" checked="checked"> 蛋白质含量
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="height" class="height" checked="checked"> 株高
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="seedCoatColor" class="seedCoatColor" checked="checked"> 种皮色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="hilumColor" class="hilumColor" checked="checked"> 种脐色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="cotyledonColor" class="cotyledonColor" checked="checked"> 子叶色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="flowerColor" class="flowerColor" checked="checked"> 花色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="podColor" class="podColor" checked="checked"> 荚色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="pubescenceColor" class="pubescenceColor" checked="checked"> 茸毛色
+                                </li>
+                                <li>
+                                    <%--无--%>
+                                    <input type="checkbox" name="yield" class="yield" checked="checked"> 茸毛色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="linoleic" class="linoleic" checked="checked">亚油酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="linolenic" class="linolenic" checked="checked"> 亚麻酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="oleic" class="oleic" checked="checked"> 油酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="palmitic" class="palmitic" checked="checked"> 软脂酸
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 硬脂酸
+                                </li>
+                            </ul>
+                            <div>
+                                <input type="checkbox" id="SelectAllBox" checked="checked"> 全选
+                            </div>
+                        </div>
+                    </div>
+                    <div class="changeStauts">
+                        <div class="sets">
+                            <span id="exportData">导出数据</span>
+                            <span id="tableSet">表格设置</span>
+                        </div>
+                        <div id="operate">
+                            <p class="sure">确定</p>
+                            <div class="opOthers">
+                                <p class="selectedAll">清空</p>
+                                <p class="packUp">收起
+                                    <img src="${ctxStatic}/images/down.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
             <div class="changeTab">
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
@@ -180,6 +284,23 @@
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
+                        </div>
+                    </th>
+                    <th class="param groupT popMoveOnNewAdd" style="position:relative;">群体
+                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                        <div class="popNamesNewAdd">
+                            <ul style="margin-top:10px;">
+                                <li>Q1</li>
+                                <li>Q2</li>
+                                <li>Q3</li>
+                                <li>Q4</li>
+                                <li>Q5</li>
+                                <li>Q6</li>
+                                <li>Q7</li>
+                                <li>Q8</li>
+                                <li>Q9</li>
+                                <li>Q10</li>
+                            </ul>
                         </div>
                     </th>
                     <th class="param speciesT">物种
@@ -472,7 +593,6 @@
                 </tr>
                 </thead>
                 <tbody>
-
                 </tbody>
             </table>
 
@@ -491,6 +611,7 @@
         var stateType = urlParmas.substring(urlParmas.length-3);
         if(stateType == "ind"){
              $(".genoTypeT").hide();
+             $("#selectedDetails .genoType").parent().hide();
         }
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
@@ -515,8 +636,6 @@
         }else {
             var mijor = "${result.snpData.alt}";
         }
-
-        <%--var mijor = "${result.snpData.alt}";--%>
         var name1 = major+major;
         var name2 = major+mijor;
         var name3 = mijor+mijor;
@@ -858,15 +977,15 @@
             $(this).parent().parent().find("input").val("");
             $(this).parent().parent().hide();
         })
-        // 表格筛选功能  --》 获取数据
-
+        // 群体信息
+        var popuSelectedVal="";
         // 获取参数
         function snpGetParams(type){
             var datas = {
                 snpId: $(".snpId").text(),
                 changeParam:type,
                 cultivar:$(".cultivarI").val(),  // 品种名
-//            group:popuSelectedVal, // 群体
+                group:popuSelectedVal, // 群体
                 species:$(".speciesI").val(),// 物种
                 locality:$(".localityI").val(), // 位置
                 sampleName:$(".sampleNameI").val(), // 样品名
@@ -926,8 +1045,128 @@
             selectedDatas1.pageSize = paramData.pageSize;
             getData(selectedDatas1,selectedDatas1.pageNum);
         })
+        // 导出数据部分
+        $('#tableSet').click(function (){
+            $(".selecting").show();
+            $("#operate").show();
+            $(this).hide();
+        })
+        $(".packUp").click(function (){
+            $(".selecting").hide();
+            $("#operate").hide();
+            $("#tableSet").show();
+            $("#tableSet").css("margin-right","10px");
+        })
+        // 清空所有选中的
+        $(".selectedAll").click(function  (){
+            var lists = $("#selectedDetails li");
+            var status = $("#SelectAllBox").prop("checked");
+            if(status){
+                $("#SelectAllBox").removeAttr("checked");
+            }
+            for(var i=0;i<lists.length;i++){
+                var $input = $(lists[i]).find("input");
+                if($input.is(":checked")){
+                    $input.removeAttr("checked");
+                }
+            }
 
+        })
+        var exportTitles = [];
+        function initExportTitles (){
+            var lists = $("#selectedDetails li");
+            $.each(lists,function (i,item){
+                var $input = $(item).find("input");
+                var classVal = $input.attr("name");
+                exportTitles.push(classVal);
+            })
+        };
+        initExportTitles();
+        // 确定按钮（过滤条件）
+        $("#operate .sure").click(function (){
+            var lists = $("#selectedDetails li");
+            for(var i=0;i<lists.length;i++){
+                var $input = $(lists[i]).find("input");
+                if(!$input.is(":checked")){
+                    var classVal = $input.attr("name");
+                    var idx = exportTitles.indexOf(classVal);
+                    exportTitles.splice(idx,1);
+                    var newClassVal = "." + classVal + "T";
+                    $("#snpinfoTable thead").find(newClassVal).hide();
+                    $("#snpinfoTable tbody").find(newClassVal).hide();
+                }
+                else {
+
+                    var classVal = $input.attr("name");
+                    exportTitles.push(classVal);
+                    var newClassVal = "." + classVal + "T";
+                    if($("#snpinfoTable thead").find(newClassVal).is(":hidden")){
+                        $("#snpinfoTable thead").find(newClassVal).show();
+                        $("#snpinfoTable tbody").find(newClassVal).show();
+                    }
+                }
+            }
+        });
+        //选中状态代码封装
+        function checkStatus(bool){
+            var lists = $("#selectedDetails li");
+            if(bool){
+                for(var i=0;i<lists.length;i++){
+                    var $input = $(lists[i]).find("input");
+                    if(!$input.is(":checked")){
+                        $input.get(0).checked = true;
+                    }
+                }
+            }else {
+                for(var i=0;i<lists.length;i++){
+                    var $input = $(lists[i]).find("input");
+                    if($input.is(":checked")){
+                        $input.removeAttr("checked");
+                    }
+                }
+            }
+        }
+        // 全选
+
+        $("#SelectAllBox").click(function (){
+            var status = $(this).prop("checked");
+            checkStatus(status);
+        })
+        // 新增group 表
+        $(".popMoveOnNewAdd").mouseover(function (){
+            $(".popNamesNewAdd").show();
+        }).mouseleave(function (){
+            $(".popNamesNewAdd").hide()
+        })
+        // 点击群体时触发请求，跟后端协调字段名成是否正确
+        $(".popNamesNewAdd li").click(function (){
+            $(".popNamesNewAdd").hide();
+            popuSelectedVal = $(this).text();
+            var data =snpGetParams(changeParam);
+            data.pageNum = paramData.pageNum;
+            data.pageSize = paramData.pageSize;
+            getData(data);
+        })
+        // 表格导出
+        $("#exportData").click(function (){
+            var titleData = snpGetParams(changeParam);
+            $.ajax({
+                type:"GET",
+                url:CTXROOT + "/dna/IdDetailExport",
+                data:{
+                    "titles":exportTitles.join(","),
+                    "condition":JSON.stringify(titleData)
+                },
+                dataType: "json",
+                contentType: "application/json",
+                success:function (result){
+                    window.location.href = result;
+                },
+                error:function (error){
+                    console.log(error);
+                }
+            })
+        })
     })
-
 </script>
 </html>

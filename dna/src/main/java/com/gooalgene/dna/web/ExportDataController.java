@@ -1,11 +1,13 @@
 package com.gooalgene.dna.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNARunService;
@@ -13,6 +15,9 @@ import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.dna.util.Json2DnaRunDto;
 import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.Tools;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
+import com.sun.xml.internal.bind.v2.TODO;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -20,6 +25,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.json.JsonObject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
@@ -69,15 +76,14 @@ public class ExportDataController {
         String titles="";
         //此处condition 用来表示表头信息
         String[] condition=null;
-
         if(choices!=null&&!choices.equals("")){
              titles=choices.substring(0, choices.length() - 1);
              condition=titles.split(",");
         }else{
              condition=",".split(",");
         }
-        String fileName="";
 
+        String fileName="";
         //生成文件名
         if(condition.length>5){
             for (int i=0;i<5;i++){
@@ -90,17 +96,17 @@ public class ExportDataController {
         }
 
         fileName+= UUID.randomUUID()+".csv";
-
         String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile/";
         String csvStr="";
         List<DNARun> result=dnaRunDao.getListByCondition(dnaRunDto);
-
         //使用csv进行导出
         if(choices==null||choices.equals("")){
             csvStr="请正确选择表格内容";
         }else {
             csvStr=createCsvStr(result,condition);
         }
+
+
         File tempfile=new File(filePath+fileName);
         if (!tempfile.getParentFile().exists()){
                  if (!tempfile.getParentFile().mkdirs()){
@@ -128,6 +134,8 @@ public class ExportDataController {
         logger.info(path);
         return JsonUtils.Bean2Json(path);
     }
+
+
     //调整表头显示
     private static Map<String, String> changeCloumn2Web() {
         Map<String, String> map = new HashMap<String, String>();
@@ -155,8 +163,11 @@ public class ExportDataController {
         map.put("maturityDate", "Maturity Date");
         map.put("yield", "Yield(Mg/ha)");
         map.put("population","Group");
+        map.put("genoType","GenoType");
+        map.put("group","Group");
         return map;
     }
+
     //将列表中的数据  生成csv的格式
     /**
      *@param  result 要导出的内容
@@ -220,19 +231,19 @@ public class ExportDataController {
             //百粒重
             if (map.containsKey("weightPer100seeds")){
                 float weight=dnaRun.getWeightPer100seeds();
-                dnaList.add(String.valueOf(weight)!=null?String.valueOf(weight):"-");
+                dnaList.add(!String.valueOf(weight).equals("")?String.valueOf(weight):"-");
                 sb.append(weight!=0?String.valueOf(weight):"-").append(",");
             }
             //蛋白质含量
             if(map.containsKey("protein")){
                 float protein=dnaRun.getProtein();
-                dnaList.add(String.valueOf(protein)!=null?String.valueOf(protein):"-");
+                dnaList.add(!String.valueOf(protein).equals("")?String.valueOf(protein):"-");
                 sb.append(protein!=0?String.valueOf(protein):"-").append(",");
             }
             //含油量
             if(map.containsKey("oil")){
                 float oil=dnaRun.getOil();
-                dnaList.add(String.valueOf(oil)!=null?String.valueOf(oil):"-");
+                dnaList.add(!String.valueOf(oil).equals("0")?String.valueOf(oil):"-");
                 sb.append(oil!=0?String.valueOf(oil):"-").append(",");
             }
             //成熟期
@@ -244,7 +255,7 @@ public class ExportDataController {
             //株高
             if (map.containsKey("height")){
                 float height=dnaRun.getHeight();
-                dnaList.add(String.valueOf(height)!=null?String.valueOf(height):"-");
+                dnaList.add(!String.valueOf(height).equals("0")?String.valueOf(height):"-");
                 sb.append(height!=0?String.valueOf(height):"-").append(",");
             }
 
@@ -288,51 +299,47 @@ public class ExportDataController {
             //产量
             if (map.containsKey("yield")){
                 float yield=dnaRun.getYield();
-                dnaList.add(String.valueOf(yield)!=null?String.valueOf(yield):"-");
+                dnaList.add(!String.valueOf(yield).equals("0")?String.valueOf(yield):"-");
                 sb.append(yield!=0?String.valueOf(yield):"-").append(",");
             }
             //顶端小叶长度
             if (map.containsKey("upperLeafletLength")){
                 float upperLeafletLength=dnaRun.getUpperLeafletLength();
-                dnaList.add(String.valueOf(upperLeafletLength)!=null?String.valueOf(upperLeafletLength):"-");
+                dnaList.add(!String.valueOf(upperLeafletLength).equals("")?String.valueOf(upperLeafletLength):"-");
                 sb.append(upperLeafletLength!=0?String.valueOf(upperLeafletLength):"-").append(",");
             }
             //脂肪酸的内容
             //亚油酸
             if(map.containsKey("linoleic")){
                 float linoleic=dnaRun.getLinoleic();
-                dnaList.add(String.valueOf(linoleic)!=null?String.valueOf(linoleic):"-");
+                dnaList.add(!String.valueOf(linoleic).equals("")?String.valueOf(linoleic):"-");
                 sb.append(linoleic!=0?String.valueOf(linoleic):"-").append(",");
             }
             //亚麻酸
             if (map.containsKey("linolenic")){
                 float linolenic=dnaRun.getLinolenic();
-                dnaList.add(String.valueOf(linolenic)!=null?String.valueOf(linolenic):"-");
+                dnaList.add(!String.valueOf(linolenic).equals("")?String.valueOf(linolenic):"-");
                 sb.append(linolenic!=0?String.valueOf(linolenic):"-").append(",");
             }
             //油酸
             if (map.containsKey("oleic")){
                 float oleic=dnaRun.getOleic();
-                dnaList.add(String.valueOf(oleic)!=null?String.valueOf(oleic):"-");
+                dnaList.add(!String.valueOf(oleic).equals("")?String.valueOf(oleic):"-");
                 sb.append(oleic!=0?String.valueOf(oleic):"-").append(",");
             }
 
             //软脂酸
             if (map.containsKey("palmitic")){
                 float palmitic=dnaRun.getPalmitic();
-                dnaList.add(String.valueOf(palmitic)!=null?String.valueOf(palmitic):"-");
+                dnaList.add(!String.valueOf(palmitic).equals("")?String.valueOf(palmitic):"-");
                 sb.append(palmitic!=0?String.valueOf(palmitic):"-").append(",");
             }
             //硬脂酸
             if (map.containsKey("stearic")){
                 float stearic=dnaRun.getStearic();
-                dnaList.add(String.valueOf(stearic)!=null?String.valueOf(stearic):"-");
+                dnaList.add(!String.valueOf(stearic).equals("")?String.valueOf(stearic):"-");
                 sb.append(stearic!=0?String.valueOf(stearic):"-").append(",");
             }
-
-
-
-
 
             //前端数据不包含部分
             //编号
@@ -348,19 +355,14 @@ public class ExportDataController {
                 dnaList.add(String.valueOf(plantName));
                 sb.append(plantName!=null?plantName:"-").append(",");
             }
-
             sb.append("\n");
-
         }
         return sb.toString();
     }
 
-
     //用于SNP result页面的信息  searchInRegion 所在页面 以及样本导出
-
     private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
-
-
+    private static final Integer DEFAULT_PAGE_NUM=1;//默认导出的页数
     @RequestMapping("/dna/dataExport")
     @ResponseBody
     public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
@@ -786,5 +788,195 @@ public class ExportDataController {
     }
 
 
+    /*
+    * @param  snpId      snpId
+    * @param  changeParam
+    * @param  condition  筛选条件
+    * @param  titles     表头信息
+    * @author 张衍平
+    * @return filePath
+    * */
+    @RequestMapping("/dna/IdDetailExport")
+    @ResponseBody
+    public String idDetailPageExport(@RequestParam("titles")String titles,HttpServletRequest request){
 
-}
+         String condition=request.getParameter("condition");
+         JSONObject object=null;
+         boolean isINDEL=false;
+         //dnaRunDto用来存储表头筛选的条件
+         DnaRunDto dnaRunDto = null;
+         if(condition!=null&&!condition.equals("")){
+            object=JSONObject.fromObject(condition);
+            dnaRunDto = Json2DnaRunDto.json2DnaRunDto(object);
+         }else {
+            dnaRunDto=new DnaRunDto();
+         }
+         String snpId=object.getString("snpId");
+         String changeParam=object.getString("changeParam");
+         Map result=snpService.findSampleById(snpId);
+         SNP snpTemp=(SNP)result.get("snpData");
+         if(snpTemp==null){
+             snpTemp=(SNP)result.get("INDELData");
+             isINDEL=true;
+         }
+         if(isINDEL){
+             if(titles.contains(",genoType")){
+                 titles=titles.replaceAll(",genoType","");
+             }
+         }
+         String[] title=titles.split(",");
+         Map map=snpTemp.getSamples();
+         Set<Map.Entry<String, String>> entrySet=map.entrySet();
+         List<String> runNos= Lists.newArrayList();
+         Map samples= Maps.newHashMap();
+         for(Map.Entry entry:entrySet){
+            String value=(String)entry.getValue();
+            if(StringUtils.isNotBlank(changeParam)){
+                if(StringUtils.containsIgnoreCase(value,changeParam)){
+                    runNos.add((String) entry.getKey());
+                    samples.put(entry.getKey(),entry.getValue());
+                }
+            }
+        }
+        dnaRunDto.setRunNos(runNos);
+        String csvStr="";
+        StringBuilder stringBuilder=new StringBuilder();
+        Map<String,String> titleMap=changeCloumn2Web();
+        int size=title.length;
+        //生成表头
+        for(int j=0;j<size;j++){
+              stringBuilder.append(titleMap.get(title[j]));
+              if(j!=size-1){
+                  stringBuilder.append(",");
+              }else{
+                  stringBuilder.append("\n");
+              }
+        }
+        PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+        List<DNARunSearchResult> dnaRunSearchResultList=dnaRuns.getList();
+        for(DNARunSearchResult dnaRunSearchResult:dnaRunSearchResultList){
+            for(String titleItem:title){
+                if(titleItem.equals("cultivar")){
+                    String cultivar=dnaRunSearchResult.getCultivar();
+                    stringBuilder.append(!cultivar.equals("")?cultivar:"-");
+                }
+                else if(titleItem.equals("genoType")){
+                    String genoType=(String)samples.get(dnaRunSearchResult.getRunNo());
+                    stringBuilder.append(!genoType.equals("")?genoType:"-");
+                }else if(titleItem.equals("group")){
+                    String group=dnaRunSearchResult.getGroup();
+                    stringBuilder.append(!group.equals("")?group:"-");
+                }else if(titleItem.equals("species")){
+                    String species=dnaRunSearchResult.getSpecies();
+                    stringBuilder.append(!species.equals("")?species:"-");
+                }else if(titleItem.equals("locality")){
+                    String locality=dnaRunSearchResult.getLocality();
+                    if(locality!=null&&locality.contains(",")){
+                        locality = locality.replaceAll(",","，");
+                    }
+                    stringBuilder.append(!locality.equals("")?locality:"-");
+                }else if(titleItem.equals("sampleName")){
+                    String sampleName=dnaRunSearchResult.getSampleName();
+                    stringBuilder.append(!sampleName.equals("")?sampleName:"-");
+                }else if(titleItem.equals("weightPer100seeds")){
+                    String weight=dnaRunSearchResult.getWeightPer100seeds();
+                    stringBuilder.append(!weight.equals("")?weight:"-");
+                }else if(titleItem.equals("protein")){
+                    String protein=dnaRunSearchResult.getProtein();
+                    stringBuilder.append(!protein.equals("")?protein:"-");
+                }else if(titleItem.equals("oil")){
+                    String oil=dnaRunSearchResult.getOil();
+                    stringBuilder.append(!oil.equals("")?oil:"-");
+                }else if(titleItem.equals("maturityDate")){
+                    String maturityDate=dnaRunSearchResult.getMaturityDate();
+                    stringBuilder.append(!maturityDate.equals("")?maturityDate:"-");
+                }else if(titleItem.equals("height")){
+                    String height=dnaRunSearchResult.getHeight();
+                    stringBuilder.append(!height.equals("")?height:"-");
+                }else if(titleItem.equals("seedCoatColor")){
+                    String seedCoatColor=dnaRunSearchResult.getSeedCoatColor();
+                    stringBuilder.append(!seedCoatColor.equals("")?seedCoatColor:"-");
+                }else if(titleItem.equals("hilumColor")){
+                    String hilumColor=dnaRunSearchResult.getHilumColor();
+                    stringBuilder.append(!hilumColor.equals("")?hilumColor:"-");
+                }else if(titleItem.equals("cotyledonColor")){
+                    String cotyledonColor=dnaRunSearchResult.getCotyledonColor();
+                    stringBuilder.append(!cotyledonColor.equals("")?cotyledonColor:"-");
+                }else if(titleItem.equals("flowerColor")){
+                    String flowerColor=dnaRunSearchResult.getFlowerColor();
+                    stringBuilder.append(!flowerColor.equals("")?flowerColor:"-");
+                }else if(titleItem.equals("podColor")){
+                    String podColor=dnaRunSearchResult.getPodColor();
+                    stringBuilder.append(!podColor.equals("")?podColor:"-");
+                }else if(titleItem.equals("pubescenceColor")){
+                    String pubscenceColor=dnaRunSearchResult.getPubescenceColor();
+                    stringBuilder.append(!pubscenceColor.equals("")?pubscenceColor:"-");
+                }else if(titleItem.equals("yield")){
+                    String yield=dnaRunSearchResult.getYield();
+                    stringBuilder.append(!yield.equals("")?yield:"-");
+                }else if(titleItem.equals("upperLeafletLength")){
+                    String upperLeafletLength=dnaRunSearchResult.getUpperLeafletLength();
+                    stringBuilder.append(!upperLeafletLength.equals("")?upperLeafletLength:"-");
+                }else if(titleItem.equals("linoleic")){
+                    String linoleic=dnaRunSearchResult.getLinoleic();
+                    stringBuilder.append(!linoleic.equals("")?linoleic:"-");
+                }else if(titleItem.equals("linolenic")){
+                    String linolenic=dnaRunSearchResult.getLinolenic();
+                    stringBuilder.append(!linolenic.equals("")?linolenic:"-");
+                }else if(titleItem.equals("oleic")){
+                    String oleic=dnaRunSearchResult.getOleic();
+                    stringBuilder.append(!oleic.equals("")?oleic:"-");
+                }else if(titleItem.equals("palmitic")){
+                    String palmitic=dnaRunSearchResult.getPalmitic();
+                    stringBuilder.append(!palmitic.equals("")?palmitic:"-");
+                }else if(titleItem.equals("stearic")){
+                    String stearic=dnaRunSearchResult.getStearic();
+                    stringBuilder.append(!stearic.equals("")?stearic:"-");
+                }
+                stringBuilder.append(",");
+            }
+            stringBuilder.append("\n");
+        }
+           csvStr=stringBuilder.toString();
+           String fileName="snpinfo_detail"+UUID.randomUUID()+".csv";
+           String filePath=request.getSession().getServletContext().getRealPath("/")+"tempFile/";
+           File tempfile=new File(filePath+fileName);
+           if (!tempfile.getParentFile().exists()){
+             if (!tempfile.getParentFile().mkdirs()){
+                return "文件目录创建失败";
+             }
+            }
+        FileOutputStream tempFile= null;
+        try {
+            tempFile = new FileOutputStream(tempfile);
+            tempFile.write(csvStr.getBytes("gbk"));
+            tempFile.flush();
+            tempFile.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        String scheme = request.getScheme();                // http
+        String serverName = request.getServerName();        // gooalgene.com
+        int serverPort = request.getServerPort();           // 8080
+        String contextPath = request.getContextPath();      // /dna
+        //重构请求URL
+        StringBuilder builder = new StringBuilder();
+        builder.append(scheme).append("://").append(serverName);
+        //针对nginx反向代理、https请求重定向，不需要加端口
+        if (serverPort != 80 && serverPort != 443){
+            builder.append(":").append(serverPort);
+        }
+        builder.append(contextPath);
+        String path=builder.toString()+"/tempFile/"+fileName;
+        logger.info(path);
+        return JsonUtils.Bean2Json(path);
+        }
+    }
+
+
+

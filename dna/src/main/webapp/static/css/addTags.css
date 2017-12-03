@@ -181,6 +181,7 @@ p.first{
     line-height:18px;
     float:left;
     margin-right:5px;
+    position:relative;
 }
 #geneConstruction p{
     float:right;
