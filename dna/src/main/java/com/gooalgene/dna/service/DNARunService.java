@@ -122,6 +122,7 @@ public class DNARunService {
             BeanUtils.copyProperties(dnaRun,dnaRunDto);
             PageHelper.startPage(page.getPageNo(),page.getPageSize());
             List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
+            page.setCount(dnaRunDao.getListByCondition(dnaRunDto).size());
             System.out.println("Size:" + list.size());
             page.setList(list);
             for (DNARunSearchResult dnaRunSearchResult : list) {

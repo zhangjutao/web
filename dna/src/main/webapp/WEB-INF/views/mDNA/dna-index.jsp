@@ -26,6 +26,7 @@
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/d3.js"></script>
+    <script src="${ctxStatic}/js/svg-pan-zoom.js"></script>
 
 
     <style>
@@ -161,12 +162,12 @@
                             <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
                         </p>
                     </div>
-                    <div id="constructorPanel"  onmousewheel="return false;">
+                    <div id="constructorPanel" onmousewheel="return false;">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 
                         </svg>
                     </div>
-                    <div id="constructorPanel2"  onmousewheel="return false;">
+                    <div id="constructorPanel2" class="hiddeCurr" onmousewheel="return false;">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 
                         </svg>
