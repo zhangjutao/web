@@ -33,6 +33,8 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by liuyan on 2017/11/13
@@ -857,12 +859,24 @@ public class ExportDataController {
                     String changePaAndMaj=changeParam+snpTemp.getMajorallen();
                     String changePaAndMin=changeParam+snpTemp.getMinorallen();
                     if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
-                        runNos.add((String) entry.getKey());
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 }else {
                     if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                        runNos.add((String) entry.getKey());
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 }
