@@ -263,7 +263,7 @@
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
             </div>
-            <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;">
+            <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;margin-top:20px;">
                 <thead style="overflow-x: scroll;">
                 <tr style="background: #F5F8FF;">
                     <th class="param cultivarT">品种名
