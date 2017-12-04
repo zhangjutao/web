@@ -635,9 +635,10 @@ public class SNPController {
                                        @RequestParam(value = "pageSize",required = false)String isPage,
                                        DnaRunDto dnaRunDto) {
         Map result = snpService.findSampleById(snpId);
-
         SNP snpTemp=(SNP)result.get("snpData");
+        String type="snp";
         if(snpTemp==null){
+            type="indel";
             snpTemp=(SNP)result.get("INDELData");
         }
         Map map=(Map)snpTemp.getSamples();
@@ -647,9 +648,18 @@ public class SNPController {
         for(Map.Entry entry:entrySet){
             String value=(String)entry.getValue();
             if(StringUtils.isNotBlank(changeParam)){
-                if(StringUtils.containsIgnoreCase(value,changeParam)){
-                    runNos.add((String) entry.getKey());
-                    samples.put(entry.getKey(),entry.getValue());
+                if(type=="indel"){
+                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
+                    String changePaAndMin=changeParam+snpTemp.getMinorallen();
+                    if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
+                        runNos.add((String) entry.getKey());
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
+                }else {
+                    if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                        runNos.add((String) entry.getKey());
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
                 }
             }
         }
