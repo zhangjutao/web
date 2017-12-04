@@ -669,7 +669,9 @@
                             format: '<b>{point.name}</b>: {point.percentage:.4f} %',
                             style: {
                                 fontWeight:"10",
+                                fontSize:"14px",
                                 color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+//                                color:"green"
 //                                color:'PaleTurquoise'
                             }
                         }
