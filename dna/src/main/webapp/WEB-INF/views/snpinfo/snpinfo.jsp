@@ -141,10 +141,10 @@
                     </c:if>
                     <td class="trWidth">Frequence of major allele:</td>
                     <c:if test="${result.snpData!=null}">
-                        <td class="trWidth2 snpQue">${result.snpData.major*100}%</td>
+                        <td class="trWidth2 snpQue">${major}%</td>
                     </c:if>
                     <c:if test="${result.INDELData!=null}">
-                        <td class="trWidth2 snpQue">${result.INDELData.major*100}%</td>
+                        <td class="trWidth2 snpQue">${major}%</td>
                     </c:if>
                 </tr>
             </table>
