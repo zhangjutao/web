@@ -929,7 +929,7 @@
                         $(".snpRef").text(result.data.snpData.ref);
                         $(".snpMaj").text(result.data.snpData.majorallen);
                         $(".snpMio").text(result.data.snpData.minorallen);
-                        $(".snpQue").text((result.data.snpData.major*100).toFixed(2) + "%");
+                        $(".snpQue").text(result.data.major + "%");
                         changeParam = major;
                         var data = snpGetParams(changeParam);
                         data.pageNum = paramData.pageNum;
