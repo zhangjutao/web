@@ -850,16 +850,24 @@ public class ExportDataController {
         Set<Map.Entry<String, String>> entrySet = map.entrySet();
         List<String> runNos = Lists.newArrayList();
         Map samples = Maps.newHashMap();
-        for (Map.Entry entry : entrySet) {
-            String value = (String) entry.getValue();
-            if (StringUtils.isNotBlank(changeParam)) {
-                if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                    runNos.add((String) entry.getKey());
-                    samples.put(entry.getKey(), entry.getValue());
+        for(Map.Entry entry:entrySet){
+            String value=(String)entry.getValue();
+            if(StringUtils.isNotBlank(changeParam)){
+                if(isINDEL){
+                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
+                    String changePaAndMin=changeParam+snpTemp.getMinorallen();
+                    if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
+                        runNos.add((String) entry.getKey());
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
+                }else {
+                    if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                        runNos.add((String) entry.getKey());
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
                 }
             }
         }
-        dnaRunDto.setRunNos(runNos);
         String csvStr = "";
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, String> titleMap = changeCloumn2Web();
@@ -873,7 +881,12 @@ public class ExportDataController {
                 stringBuilder.append("\n");
             }
         }
-        PageInfo<DNARunSearchResult> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+        //查询结果集
+        PageInfo<DNARunSearchResult> dnaRuns=null;
+        if(dnaRunDto!=null&&runNos.size()>0){
+            dnaRunDto.setRunNos(runNos);
+             dnaRuns= dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+        }
         List<DNARunSearchResult> dnaRunSearchResultList = dnaRuns.getList();
         for (DNARunSearchResult dnaRunSearchResult : dnaRunSearchResultList) {
             for (String titleItem : title) {
