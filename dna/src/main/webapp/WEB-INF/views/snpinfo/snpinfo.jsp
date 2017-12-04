@@ -610,8 +610,8 @@
         var urlParmas = window.location.search;
         var stateType = urlParmas.substring(urlParmas.length-3);
         if(stateType == "ind"){
-             $(".genoTypeT").hide();
-             $("#selectedDetails .genoType").parent().hide();
+             $("#snpinfoTable table th.genoTypeT").remove();
+             $("#selectedDetails .genoType").parent().remove();
         }
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
@@ -858,8 +858,13 @@
                             if(stateType == "ind"){
                                 var genos = $("#snpinfoTable table tbody tr");
                                 $.each(genos,function (i,item){
-                                    $(item).find("td.genoTypeT").hide();
+                                    var deleteEle = $(item).find("td.genoTypeT").attr("class").split(" ")[1];
+//                                    $(item).find("td.genoTypeT").hide();
+                                    if(deleteEle == "genoTypeT"){
+                                        $(item).find("td.genoTypeT").remove();
+                                    }
                                 })
+
                             }
                         }
                     };
@@ -1087,11 +1092,13 @@
         initExportTitles();
         // 确定按钮（过滤条件）
         $("#operate .sure").click(function (){
+            exportTitles = [];
+            initExportTitles();
             var lists = $("#selectedDetails li");
             for(var i=0;i<lists.length;i++){
                 var $input = $(lists[i]).find("input");
+                var classVal = $input.attr("name");
                 if(!$input.is(":checked")){
-                    var classVal = $input.attr("name");
                     var idx = exportTitles.indexOf(classVal);
                     exportTitles.splice(idx,1);
                     var newClassVal = "." + classVal + "T";
@@ -1106,6 +1113,7 @@
                     }
                 }
             }
+            console.warn(exportTitles);
         });
         //选中状态代码封装
         function checkStatus(bool){
