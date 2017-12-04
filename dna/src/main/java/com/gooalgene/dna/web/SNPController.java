@@ -172,7 +172,7 @@ public class SNPController {
                 start=start-2000<0?0:start-2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream)+2000;
+                end = end + Long.valueOf(downstream);
             }else {
                 end = end +2000;
             }

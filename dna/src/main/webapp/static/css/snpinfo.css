@@ -74,6 +74,7 @@
     overflow-x: scroll;
     min-height: 195px;
     margin-left:33px;
+    position:relative;
 }
 #snpinfoTable table{
     border-collapse: collapse;
@@ -103,6 +104,8 @@
     width:220px;
     margin-top:10px;
     margin-bottom:8px;
+    position:absolute;
+    top:9px;
 }
 .changeTab p{
     float:left;
@@ -281,6 +284,7 @@ a {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+
 }
 /*详情页添加导出数据*/
 #tableCnt{
