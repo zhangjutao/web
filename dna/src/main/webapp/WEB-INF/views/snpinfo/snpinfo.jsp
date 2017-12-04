@@ -661,19 +661,6 @@
                 },
 
                 plotOptions: {
-                    series: {
-                        dataLabels: {
-                            enabled: true,
-//                            color: '#98BEFF',
-                            fontWeight:"5",
-                            borderWidth: 0,
-                            style: {
-                                fontWeight:"10",
-                                fontSize: '14',
-                                fontFamily:"Microsoft Yahei",
-                                strokeWidth:"0px"
-                            }
-                        }},
                     pie: {
                         allowPointSelect: true,
                         cursor: 'pointer',
@@ -681,7 +668,9 @@
                             enabled: true,
                             format: '<b>{point.name}</b>: {point.percentage:.4f} %',
                             style: {
-                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                fontWeight:"10",
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+//                                color:'PaleTurquoise'
                             }
                         }
                     }

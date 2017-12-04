@@ -6,7 +6,7 @@
     float:left;
 }
 .container>div{
-    padding-left:30px;
+    margin-left:30px;
 }
 .systree{
     font-family:"Microsoft YaHei UI Light";
@@ -390,9 +390,6 @@ p.first{
     height: 24px;
     color: #8E8E8E;
     font-size: 5px;
-}
-#sysPopulations .total-page-count{
-    display: none!important;
 }
 #sysPopulations {
     margin-right:30px;
