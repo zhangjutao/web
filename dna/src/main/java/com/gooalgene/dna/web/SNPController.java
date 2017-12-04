@@ -654,7 +654,7 @@ public class SNPController {
             }
         }
         Map response= Maps.newHashMap();
-        if(dnaRunDto!=null||runNos.size()>0){
+        if(dnaRunDto!=null&&runNos.size()>0){
             dnaRunDto.setRunNos(runNos);
             PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
             response.put("dnaRuns",dnaRuns);
