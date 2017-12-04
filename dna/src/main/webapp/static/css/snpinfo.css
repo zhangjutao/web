@@ -393,3 +393,9 @@ a {
     display: none;
     padding-bottom: 10px;
 }
+.changeTabStyle{
+    top:130px;
+}
+.changeTableStyle{
+    margin-top: 56px!important;
+}

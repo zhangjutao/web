@@ -337,7 +337,7 @@
                 <div class="tab">
                     <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
                         <img src="${ctxStatic}/images/dnatree.png">
-                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;">群体信息</a></p>
+                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">群体信息</a></p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>

@@ -1045,12 +1045,21 @@
             $(".selecting").show();
             $("#operate").show();
             $(this).hide();
+            $(".changeTab").addClass("changeTabStyle")
+            $("#snpinfoTable table").addClass("changeTableStyle")
         })
         $(".packUp").click(function (){
             $(".selecting").hide();
             $("#operate").hide();
             $("#tableSet").show();
             $("#tableSet").css("margin-right","10px");
+            if($(".changeTab").hasClass("changeTabStyle")){
+                $(".changeTab").removeClass("changeTabStyle")
+            };
+            if($("#snpinfoTable table").hasClass("changeTableStyle")){
+                $("#snpinfoTable table").removeClass("changeTableStyle")
+
+            }
         })
         // 清空所有选中的
         $(".selectedAll").click(function  (){
@@ -1065,7 +1074,6 @@
                     $input.removeAttr("checked");
                 }
             }
-
         })
         var exportTitles = [];
         function initExportTitles (){
