@@ -411,7 +411,7 @@ public class ExportDataController {
                         long end = dnaGens.getGeneEnd();
                         logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
                         if (StringUtils.isNoneBlank(upstream)) {
-                            start = start - Long.valueOf(upstream)-2000<0?0:start - Long.valueOf(upstream)-2000;
+                            start = start - Long.valueOf(upstream)<0?0:start - Long.valueOf(upstream);
                         }else {
                             start=start-2000<0?0:start-2000;
                         }
@@ -865,7 +865,7 @@ public class ExportDataController {
                 }
                 else if(titleItem.equals("genoType")){
                     String genoType=(String)samples.get(dnaRunSearchResult.getRunNo());
-                    stringBuilder.append(!genoType.equals("")?genoType:"-");
+                    stringBuilder.append(genoType!=null&&!genoType.equals("")?genoType:"-");
                 }else if(titleItem.equals("group")){
                     String group=dnaRunSearchResult.getGroup();
                     stringBuilder.append(!group.equals("")?group:"-");
@@ -877,13 +877,13 @@ public class ExportDataController {
                     if(locality!=null&&locality.contains(",")){
                         locality = locality.replaceAll(",","，");
                     }
-                    stringBuilder.append(locality==null&&!locality.equals("")?locality:"-");
+                    stringBuilder.append(locality!=null&&!locality.equals("")?locality:"-");
                 }else if(titleItem.equals("sampleName")){
                     String sampleName=dnaRunSearchResult.getSampleName();
                     stringBuilder.append(!sampleName.equals("")?sampleName:"-");
                 }else if(titleItem.equals("weightPer100seeds")){
                     String weight=dnaRunSearchResult.getWeightPer100seeds();
-                    stringBuilder.append(!weight.equals("")?weight:"-");
+                    stringBuilder.append(weight!=null&&!weight.equals("")?weight:"-");
                 }else if(titleItem.equals("protein")){
                     String protein=dnaRunSearchResult.getProtein();
                     stringBuilder.append(!protein.equals("")?protein:"-");
