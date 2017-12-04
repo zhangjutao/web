@@ -523,8 +523,6 @@ public class ExportDataController {
                 if (i != (len - 1)) {
                     sb.append(",");
                 } else {
-                    sb.append(",");
-                    sb.append("GenoType");
                     sb.append("\n");
                 }
                 titleList.add(titles[i]);
