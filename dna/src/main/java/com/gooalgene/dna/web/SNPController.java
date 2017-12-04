@@ -41,6 +41,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/dna")
@@ -652,12 +653,14 @@ public class SNPController {
                     String changePaAndMaj=changeParam+snpTemp.getMajorallen();
                     String changePaAndMin=changeParam+snpTemp.getMinorallen();
                     if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
-                        runNos.add((String) entry.getKey());
+                        String runNo=(String) entry.getKey();
+                        runNos.add(runNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 }else {
                     if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                        runNos.add((String) entry.getKey());
+                        String runNo=(String) entry.getKey();
+                        runNos.add(runNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 }
