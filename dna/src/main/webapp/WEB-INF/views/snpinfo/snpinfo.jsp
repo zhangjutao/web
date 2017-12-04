@@ -141,10 +141,10 @@
                     </c:if>
                     <td class="trWidth">Frequence of major allele:</td>
                     <c:if test="${result.snpData!=null}">
-                        <td class="trWidth2 snpQue">${result.snpData.major*100}%</td>
+                        <td class="trWidth2 snpQue">${major}%</td>
                     </c:if>
                     <c:if test="${result.INDELData!=null}">
-                        <td class="trWidth2 snpQue">${result.INDELData.major*100}%</td>
+                        <td class="trWidth2 snpQue">${major}%</td>
                     </c:if>
                 </tr>
             </table>
@@ -1045,12 +1045,21 @@
             $(".selecting").show();
             $("#operate").show();
             $(this).hide();
+            $(".changeTab").addClass("changeTabStyle")
+            $("#snpinfoTable table").addClass("changeTableStyle")
         })
         $(".packUp").click(function (){
             $(".selecting").hide();
             $("#operate").hide();
             $("#tableSet").show();
             $("#tableSet").css("margin-right","10px");
+            if($(".changeTab").hasClass("changeTabStyle")){
+                $(".changeTab").removeClass("changeTabStyle")
+            };
+            if($("#snpinfoTable table").hasClass("changeTableStyle")){
+                $("#snpinfoTable table").removeClass("changeTableStyle")
+
+            }
         })
         // 清空所有选中的
         $(".selectedAll").click(function  (){
@@ -1065,7 +1074,6 @@
                     $input.removeAttr("checked");
                 }
             }
-
         })
         var exportTitles = [];
         function initExportTitles (){

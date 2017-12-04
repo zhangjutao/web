@@ -39,7 +39,12 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -598,14 +603,19 @@ public class SNPController {
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
-        SNP snpFormatMajorFreq = new SNP();
+        SNP snpFormatMajorFreq;
         if (result.containsKey("snpData")) {
             snpFormatMajorFreq = (SNP) result.get("snpData");
         }else {
             snpFormatMajorFreq = (SNP) result.get("INDELData");
         }
-        double major = Double.parseDouble(new DecimalFormat("###0.0000").format(snpFormatMajorFreq.getMajor()));
+        double major = snpFormatMajorFreq.getMajor();
+        BigDecimal decimal = new BigDecimal(major);
+        BigDecimal majorForBigDecimal = decimal.multiply(new BigDecimal(100));
+        StringBuffer convertValue = new StringBuffer();
+        StringBuffer finalResult = new DecimalFormat("###0.00").format(majorForBigDecimal, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD));
         snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
+        modelAndView.addObject("major", finalResult);
         modelAndView.addObject("snp",snp);
         modelAndView.addObject("result",result);
         SNP snpTemp=(SNP)result.get("snpData");
