@@ -41,7 +41,8 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.*;
-import java.util.stream.Collectors;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/dna")
@@ -649,18 +650,28 @@ public class SNPController {
         for(Map.Entry entry:entrySet){
             String value=(String)entry.getValue();
             if(StringUtils.isNotBlank(changeParam)){
-                if(type=="indel"){
+                if(type.equals("indel")){
                     String changePaAndMaj=changeParam+snpTemp.getMajorallen();
                     String changePaAndMin=changeParam+snpTemp.getMinorallen();
                     if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
-                        String runNo=(String) entry.getKey();
-                        runNos.add(runNo);
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 }else {
                     if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                        String runNo=(String) entry.getKey();
-                        runNos.add(runNo);
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 }
