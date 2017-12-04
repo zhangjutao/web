@@ -713,17 +713,21 @@
         })
         // 获取表格数据
         $(".minor").click(function (){
-            mijor = $(".snpMio").text();
+            mijor = $(".snpMio").text().trim();
             changeParam = mijor;
+            console.warn(changeParam)
             var data = snpGetParams(changeParam);
+            console.info(data);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
             getData(data,paramData.pageNum);
         });
         $(".major").click(function (){
-            major = $(".snpMaj").text();
+            major = $(".snpMaj").text().trim();
             changeParam = major;
+            console.warn(changeParam)
             var data = snpGetParams(changeParam);
+            console.info(data);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
             getData(data,paramData.pageNum);
