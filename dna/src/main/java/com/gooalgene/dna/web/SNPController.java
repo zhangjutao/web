@@ -653,14 +653,12 @@ public class SNPController {
                 }
             }
         }
-        if(dnaRunDto==null){
-            dnaRunDto=new DnaRunDto();
-        }
-        dnaRunDto.setRunNos(runNos);
-        //PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);
-        PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
         Map response= Maps.newHashMap();
-        response.put("dnaRuns",dnaRuns);
+        if(dnaRunDto!=null&&runNos.size()>0){
+            dnaRunDto.setRunNos(runNos);
+            PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
+            response.put("dnaRuns",dnaRuns);
+        }
         response.put("samples",samples);
         return ResultUtil.success(response);
     }
