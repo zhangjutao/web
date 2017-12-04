@@ -1,5 +1,7 @@
 package com.gooalgene.dna.service;
 
+import com.gooalgene.common.Page;
+import com.gooalgene.dna.entity.DNAGens;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -69,5 +71,25 @@ public class ExportDataTest {
         String contentAsString = mvcResult.getResponse().getContentAsString();
         System.out.println(contentAsString);
     }
+    @Test
+    public void testSearchInGene()throws Exception{
+        MvcResult mvcResult=mockMvc.perform(get("/dna/dataExport").contentType(MediaType.APPLICATION_JSON)
+                        .param("model", "GENE")
+                        .param("type", "snp")
+                        .param("choices", "SNPID,consequenceType,chromosome,position,reference,majorAllele,minorAllele,FrequencyofMajorAllele,fmajorAllelein品种名PI 562565_品种名PI 339871A_品种名PI 393551,fmajorAllelein物种Glycine soja,fmajorAllelein位置Japan")
+                        .param("ctype", "all")
+                        .param("gene", "Glyma.20G250100")
+                        .param("group", "[{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551\",\"id\":1512034223012},{\"name\":\"物种Glycine soja\",\"id\":1,\"condition\":{\"species\":\"Glycine soja\"}},{\"name\":\"位置Japan\",\"id\":6,\"condition\":{\"locality\":\"Japan\"}},{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551\",\"id\":1512034223012,\"condition\":{\"cultivar\":\"PI 562565,PI 339871A,PI 393551\"}}]")
+                        .param("upstream","")
+                        .param("downstream","")
+                        .param("total", "87")
+                                   )
+                                   .andExpect(status().isOk())
+                                   .andDo(print())
+                                   .andReturn();
+        String content=mvcResult.getResponse().getContentAsString();
+        System.out.println(content);
+    }
+
 
 }

@@ -102,8 +102,8 @@
     margin-left:30px;
     width:220px;
     /*border-top:1px solid #E3E3E3;*/
-    margin-top:20px;
-    margin-bottom:30px;
+    margin-top:10px;
+    margin-bottom:8px;
 }
 .changeTab p{
     float:left;
@@ -269,8 +269,124 @@ a {
 .inputError{
     border:1px solid #ff0000!important;
 }
-.snpMaj,.snpMio,.snpRef{
+.snpMaj div,.snpMio div,.snpRef div{
+    width: 368px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+#snpInforsPage{
+    margin-right:30px;
+}
+#snpinfoTable table tbody td.genoTypeT{
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+/*详情页添加导出数据*/
+#tableCnt{
+    overflow: hidden;
+    padding-left:30px;
+    padding-top:20px;
+    padding-bottom:10px;
+}
+.selecting{
+    float:left;
+    overflow: hidden;
+    display:none;
+}
+.selecting>p{
+    float:left;
+    font-size:18px;
+    margin-right:10px;
+    font-family:"Microsoft Yahei";
+    color:#000;
+}
+#selectedDetails{
+    float:left;
+    width:730px;
+}
+#selectedDetails ul{
+    overflow: hidden;
+}
+#selectedDetails ul li{
+    float:left;
+    margin-right:26px;
+    margin-bottom:12px;
+}
+#exportData,#tableSet{
+    float:right;
+    display:inline-block;
+    /*display:inline-block;*/
+    background:#5C8CE6;
+    color:#fff;
+    width:100px;
+    text-align:center;
+    font-size:16px;
+    padding:5px 4px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    cursor:pointer;
+    margin-right:20px;
+}
+#tableSet{
+    /*margin-right:20px;*/
+    margin-right:10px;
+}
+#operate{
+    overflow: hidden;
+    padding-top:47px;
+    padding-left:60px;
+    display:none;
+}
+.opOthers{
+    margin-top:4px;
+}
+#operate p{
+
+    color:#5C8CE6;
+}
+#operate .sure{
+    border:1px solid #5C8CE6;
+    padding:5px 16px;
+    float:left;
+    margin-right:10px;
+    cursor: pointer;
+}
+.changeStauts{
+    width:270px;
+    margin:0 auto;
+    float:right;
+}
+.selectedAll,.packUp{
+    float:left;
+    cursor: pointer;
+}
+.selectedAll:after{
+    content:"|";
+    color:#ccc;
+    padding-left:5px;
+    padding-right:5px;
+}
+.opOthers{
+    float:left;
+    overflow:hidden;
+}
+.sets{
+    overflow: hidden;
+    padding-right:10px;
+    text-align:right;
+}
+.popNamesNewAdd {
+    position: absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 100;
+    padding: 0px 10px;
+    width: 58px;
+    background-color: #fff;
+    margin-left: -16px;
+    top: 45px;
+    display: none;
+    padding-bottom: 10px;
 }

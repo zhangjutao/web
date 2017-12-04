@@ -629,40 +629,7 @@
                         <div class="checkbox-item-tab" id="tagsPagination">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
                         </div>
-                        <%--laypage 分页 end --%>
-                        <%--// 分页显示 begin--%>
-                        <%--<div id="paging" style="width:730px;margin-top:10px;margin-bottom:-5px;">--%>
-                            <%--<div id="inputNums" style="padding-right:9px;padding-top:0;width:393px;">--%>
-                                <%--<span>跳转到</span>--%>
-                                <%--<div>--%>
-                                    <%--<input type="number" min="1" name="number" value="" id="inputNum" >--%>
-                                <%--</div>--%>
-                                <%--<span>页</span>--%>
-                                <%--<span>展示数量</span>--%>
-                                <%--<div id="selectedNum">--%>
-                                    <%--<select name="selected" id="selectSize" style="width:40px;">--%>
-                                        <%--<option value="10" selected = "true">10</option>--%>
-                                        <%--<option value="10">20</option>--%>
-                                        <%--<option value="10">30</option>--%>
-                                        <%--<option value="10">40</option>--%>
-                                    <%--</select>--%>
-                                <%--</div>--%>
-                                <%--<span>/页</span>--%>
-                                <%--<p style="margin:0px;">总数：<span id="totals"></span> 条</p>--%>
-                            <%--</div>--%>
-                            <%--<div id="page">--%>
-                                <%--<b class="first">&lt;</b>--%>
-                                <%--<p class="two"></p>--%>
-                                <%--<b class="three">...</b>--%>
-                                <%--<p class="four"></p>--%>
-                                <%--<p class="five"></p>--%>
-                                <%--<p class="six"></p>--%>
-                                <%--<b class="seven">...</b>--%>
-                                <%--<p class="eight"></p>--%>
-                                <%--<b class="last">&gt;</b>--%>
-                            <%--</div>--%>
-                        <%--</div>--%>
-                        <%--// 分页显示 end--%>
+
                     </div>
                 </div>
             </div>
@@ -1379,7 +1346,6 @@
                 type: "POST",
                 dataType: "json",
                 success: function(res) {
-
                     renderPopuTable(res.data);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1814,7 +1780,7 @@
                     delete GeneObj["upstream"];
                 } else {
                     if(!isNaN(GeneObj.upstream * 1)) {
-                        if (GeneObj.upstream * 1 > 200000) {
+                        if (GeneObj.upstream * 1 > 20000) {
                             return alert("输入范围值要小于20kb");
                         } else if (GeneObj.upstream * 1 < 0) {
                             return alert("输入数字应大于0");
@@ -1827,7 +1793,7 @@
                     delete GeneObj["downstream"];
                 } else {
                     if(!isNaN(GeneObj.downstream * 1)) {
-                        if (GeneObj.downstream * 1 > 200000) {
+                        if (GeneObj.downstream * 1 > 20000) {
                             return alert("输入范围值要小于20kb");
                         } else if (GeneObj.downstream * 1 < 0) {
                             return alert("输入数字应大于0");
