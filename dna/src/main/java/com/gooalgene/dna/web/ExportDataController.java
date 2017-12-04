@@ -132,7 +132,30 @@ public class ExportDataController {
         builder.append(contextPath);
         String path=builder.toString()+"/tempFile/"+fileName;
         logger.info(path);
+        deleteTempFile(filePath);
         return JsonUtils.Bean2Json(path);
+    }
+
+
+    /**
+     * @param  filePath  文件路径
+     * @author 张衍平
+     */
+    public void deleteTempFile(String filePath){
+        //删除之前下载产生的临时文件 每次下载都删除一个小时之前的文件
+        File[] fileList=null;
+        Calendar calendar=Calendar.getInstance();
+        calendar.add(Calendar.MILLISECOND,-1000*3600);
+        long time=calendar.getTime().getTime();
+        File file=new File(filePath);
+        if(file.exists()){
+            fileList=file.listFiles();
+        }
+        for(File f:fileList){
+            if(f.lastModified()<time){
+                f.delete();
+            }
+        }
     }
 
 
@@ -196,20 +219,20 @@ public class ExportDataController {
             //品种名
             if(map.containsKey("cultivar")){
                 String cultivar=dnaRun.getCultivar();
-                dnaList.add(cultivar!=null?cultivar:"-");
-                sb.append(cultivar!=null?cultivar:"-").append(",");
+                dnaList.add(cultivar!=null&&!cultivar.equals("")?cultivar:"-");
+                sb.append(cultivar!=null&&!cultivar.equals("")?cultivar:"-").append(",");
             }
             //组别
             if(map.containsKey("population")){
                 String group=dnaRun.getGroup();
-                dnaList.add(group);
-                sb.append(group!=null?group:"-").append(",");
+                dnaList.add(group!=null&&!group.equals("")?group:"-");
+                sb.append(group!=null&&!group.equals("")?group:"-").append(",");
             }
             //物种
             if(map.containsKey("species")){
                 String species=dnaRun.getSpecies();
-                dnaList.add(species!=null?species:"-");
-                sb.append(species!=null?species:"-").append(",");
+                dnaList.add(species!=null&&!species.equals("")?species:"-");
+                sb.append(species!=null&&!species.equals("")?species:"-").append(",");
             }
 
             //地理位置
@@ -218,15 +241,15 @@ public class ExportDataController {
                 if(locality!=null&&locality.contains(",")){
                     locality=locality.replaceAll(",","，");
                 }
-                dnaList.add(locality != null ? locality : "-");
-                sb.append(locality!=null?locality:"-").append(",");
+                dnaList.add(locality != null&&!locality.equals("")? locality : "-");
+                sb.append(locality!=null&&!locality.equals("")?locality:"-").append(",");
             }
 
             //样本名
             if(map.containsKey("sampleName")){
                 String sampleName=dnaRun.getSampleName();
-                dnaList.add(sampleName!=null?sampleName:"-");
-                sb.append(sampleName!=null?sampleName:"-").append(",");
+                dnaList.add(sampleName!=null&&!sampleName.equals("")?sampleName:"-");
+                sb.append(sampleName!=null&&!sampleName.equals("")?sampleName:"-").append(",");
             }
             //百粒重
             if (map.containsKey("weightPer100seeds")){
@@ -250,7 +273,7 @@ public class ExportDataController {
             if (map.containsKey("maturityDate")){
                 String maturityGroup=dnaRun.getMaturityDate();
                 dnaList.add(!String.valueOf(maturityGroup).equals("")?String.valueOf(maturityGroup):"-");
-                sb.append(!maturityGroup.equals("")?maturityGroup:"-").append(",");
+                sb.append(maturityGroup!=null&&!maturityGroup.equals("")?maturityGroup:"-").append(",");
             }
             //株高
             if (map.containsKey("height")){
@@ -262,39 +285,39 @@ public class ExportDataController {
             //种皮色
             if (map.containsKey("seedCoatColor")){
                 String seedCoatColor=dnaRun.getSeedCoatColor();
-                dnaList.add(seedCoatColor!=null?seedCoatColor:"-");
-                sb.append(seedCoatColor!=null?seedCoatColor:"-").append(",");
+                dnaList.add(seedCoatColor!=null&&!seedCoatColor.equals("")?seedCoatColor:"-");
+                sb.append(seedCoatColor!=null&&!seedCoatColor.equals("")?seedCoatColor:"-").append(",");
             }
             //种脐色
             if (map.containsKey("hilumColor")){
                 String hilumColor=dnaRun.getHilumColor();
-                dnaList.add(hilumColor!=null?hilumColor:"-");
-                sb.append(hilumColor!=null?hilumColor:"-").append(",");
+                dnaList.add(hilumColor!=null&&!hilumColor.equals("")?hilumColor:"-");
+                sb.append(hilumColor!=null&&!hilumColor.equals("")?hilumColor:"-").append(",");
             }
             //子叶色
             if (map.containsKey("cotyledonColor")){
                 String cotyledonColor=dnaRun.getCotyledonColor();
-                dnaList.add(cotyledonColor!=null?cotyledonColor:"-");
-                sb.append(cotyledonColor!=null?cotyledonColor:"-").append(",");
+                dnaList.add(cotyledonColor!=null&&!cotyledonColor.equals("")?cotyledonColor:"-");
+                sb.append(cotyledonColor!=null&&!cotyledonColor.equals("")?cotyledonColor:"-").append(",");
             }
 
             //花色
             if (map.containsKey("flowerColor")){
                 String flowerColor= dnaRun.getFlowerColor();
-                dnaList.add(flowerColor!=null?flowerColor:"-");
-                sb.append(flowerColor!=null?flowerColor:"-").append(",");
+                dnaList.add(flowerColor!=null&&!flowerColor.equals("")?flowerColor:"-");
+                sb.append(flowerColor!=null&&!flowerColor.equals("")?flowerColor:"-").append(",");
             }
             //荚色
             if (map.containsKey("podColor")){
                 String podColor=dnaRun.getPodColor();
-                dnaList.add(podColor!=null?podColor:"-");
-                sb.append(podColor!=null?podColor:"-").append(",");
+                dnaList.add(podColor!=null&&!podColor.equals("")?podColor:"-");
+                sb.append(podColor!=null&&!podColor.equals("")?podColor:"-").append(",");
             }
             //茸毛色
             if (map.containsKey("pubescenceColor")){
                 String pubescenceColor=dnaRun.getPubescenceColor();
-                dnaList.add(pubescenceColor!=null?pubescenceColor:"-");
-                sb.append(pubescenceColor!=null?pubescenceColor:"-").append(",");
+                dnaList.add(pubescenceColor!=null&&!pubescenceColor.equals("")?pubescenceColor:"-");
+                sb.append(pubescenceColor!=null&&!pubescenceColor.equals("")?pubescenceColor:"-").append(",");
             }
             //产量
             if (map.containsKey("yield")){
@@ -366,6 +389,9 @@ public class ExportDataController {
     @RequestMapping("/dna/dataExport")
     @ResponseBody
     public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
+        long  startTime=new Date().getTime();
+        logger.info("开始时间"+startTime);
+        long  queryTime=0;
         String model = request.getParameter("model");//区分导出数据类型：regin、gene、samples
         String columns = request.getParameter("choices");//表头列
         logger.info("model:" + model + ",colums:" + columns);
@@ -393,6 +419,9 @@ public class ExportDataController {
                     }
                     page.setPageSize(total);
                     result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+                    //临时测试查询时间、
+                    queryTime=new Date().getTime();
+                    logger.info("查询耗时"+(queryTime-startTime)/1000+"秒");
                     content = serialList(type,result,columns.split(","));
 
                 } else if ("GENE".equals(model)) {
@@ -472,6 +501,8 @@ public class ExportDataController {
         } else {
             content = "请选择正确的显示表头数据";
         }
+        long endTime=new Date().getTime();
+        logger.info("读写文件耗时"+(endTime-queryTime)/1000+"秒");
         Tools.toDownload(fileName, content, response);
     }
 
@@ -694,7 +725,7 @@ public class ExportDataController {
                         sb.append(df.format(snpDto.getMajor())).append(",");
                     }else if(titleItem.equals("frequencyOfMinorAllele")){
                         sb.append(df.format(snpDto.getMinor())).append(",");
-                    }else if(titleItem.equals("GenoType")){
+                    }else if(titleItem.equals("genoType")){
                         Map hashMap;
                         hashMap=snpDto.getGeneType();
                         String RR=String.valueOf(df.format((double)hashMap.get("RefAndRefPercent")));
@@ -807,10 +838,13 @@ public class ExportDataController {
             dnaRunDto=new DnaRunDto();
          }
          String snpId="";
-         if(object.containsKey("snpId")) {
+         if(object!=null&&object.containsKey("snpId")) {
               snpId = object.getString("snpId");
          }
-         String changeParam=object.getString("changeParam");
+         String changeParam="";
+         if(object!=null&&object.containsKey("changeParam")){
+             changeParam=object.getString("changeParam");
+         }
          Map result=snpService.findSampleById(snpId);
          SNP snpTemp=(SNP)result.get("snpData");
          if(snpTemp==null){
