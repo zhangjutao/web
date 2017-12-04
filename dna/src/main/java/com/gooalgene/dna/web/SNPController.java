@@ -654,7 +654,7 @@ public class SNPController {
             }
         }
         Map response= Maps.newHashMap();
-        if(dnaRunDto!=null||runNos.size()>0){
+        if(dnaRunDto!=null&&runNos.size()>0){
             dnaRunDto.setRunNos(runNos);
             PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
             response.put("dnaRuns",dnaRuns);
@@ -678,17 +678,22 @@ public class SNPController {
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             JSONArray freqData;
+            SNP snpData =null;
             if(StringUtils.equals(type,"SNP")){
-                freqData = snpService.getFrequencyInSnp((SNP) map.get("snpData"), group_runNos);
+                snpData=(SNP) map.get("snpData");
+                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             }else {
-                freqData = snpService.getFrequencyInSnp((SNP) map.get("INDELData"), group_runNos);
+                snpData=(SNP) map.get("INDELData");
+                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             }
             snpDto.setFreq(freqData);
-            SNP snpData = (SNP) map.get("snpData");
-            if(snpData==null){
+            //SNP snpData = (SNP) map.get("snpData");
+            /*if(snpData==null){
                 snpData = (SNP) map.get("INDELData");
+            }*/
+            if(snpData!=null) {
+                snpData.setSamples(null);
             }
-            snpData.setSamples(null);
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
@@ -728,6 +733,9 @@ public class SNPController {
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             SNP snpData = (SNP) map.get("snpData");
+            if(snpData==null){
+                snpData= (SNP) map.get("INDELData");
+            }
             JSONArray freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             snpDto.setFreq(freqData);
             if(snpData!=null){
