@@ -816,6 +816,7 @@
                                 GenoType = dnaSamples[totalDatas[i].runNo];
                                 var cultivarTV = totalDatas[i].cultivar==null?"":totalDatas[i].cultivar;
                                 var genoTypeTV = GenoType==null?"-":GenoType;
+                                var groupTV = totalDatas[i].group==null?"-":totalDatas[i].group;
                                 var speciesTV = totalDatas[i].species==null?"":totalDatas[i].species;
                                 var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;
                                 var sampleNameTV = totalDatas[i].sampleName==null?"":totalDatas[i].sampleName;
@@ -840,6 +841,7 @@
 
                                 var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
                                     "</td><td class='param genoTypeT'>" + genoTypeTV +
+                                    "</td><td class='param groupT'>" + groupTV +
                                     "</td><td class='param speciesT'>" + speciesTV+
                                     "</td><td class='param localityT'>" + localityTV +
                                     "</td><td class='param sampleNameT'>" + sampleNameTV +
@@ -1100,9 +1102,6 @@
                     $("#snpinfoTable tbody").find(newClassVal).hide();
                 }
                 else {
-
-                    var classVal = $input.attr("name");
-                    exportTitles.push(classVal);
                     var newClassVal = "." + classVal + "T";
                     if($("#snpinfoTable thead").find(newClassVal).is(":hidden")){
                         $("#snpinfoTable thead").find(newClassVal).show();
@@ -1154,6 +1153,7 @@
         // 表格导出
         $("#exportData").click(function (){
             var titleData = snpGetParams(changeParam);
+            console.error(exportTitles);
             $.ajax({
                 type:"GET",
                 url:CTXROOT + "/dna/IdDetailExport",
