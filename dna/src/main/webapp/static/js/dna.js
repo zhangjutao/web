@@ -311,6 +311,10 @@ $(function () {
             dataType: "json",
             success: function(res) {
                 drawGeneConstructor(res,parentCnt,tblBody,"",type,gid);
+                svgPanZoom("#" + parentCnt + " svg", {
+                    zoomEnabled: true,
+                    controlIconsEnabled: true
+                });
             },
             error:function (error){
                 console.log(error);
@@ -519,8 +523,12 @@ $(function () {
                 }else{
                     var currStatus = $(".item-ac").text();
                     if(currStatus == "INDELS"){
-                        if(!$("#constructorPanel").is(":hidden")){
-                            $("#constructorPanel").hide();
+                        // if(!$("#constructorPanel").is(":hidden")){
+                        //     $("#constructorPanel").hide();
+                        // }
+                        if( $("#constructorPanel2").hasClass("hiddeCurr")){
+                            $("#constructorPanel2").removeClass("hiddeCurr")
+                            $("#constructorPanel").addClass("hiddeCurr");
                         }
                     }
                     totalIndel = res.total;
