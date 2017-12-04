@@ -249,8 +249,8 @@ public class ExportDataController {
             //成熟期
             if (map.containsKey("maturityDate")){
                 String maturityGroup=dnaRun.getMaturityDate();
-                dnaList.add(String.valueOf(maturityGroup)!=null?String.valueOf(maturityGroup):"-");
-                sb.append(maturityGroup!=null?maturityGroup:"-").append(",");
+                dnaList.add(!String.valueOf(maturityGroup).equals("")?String.valueOf(maturityGroup):"-");
+                sb.append(!maturityGroup.equals("")?maturityGroup:"-").append(",");
             }
             //株高
             if (map.containsKey("height")){
@@ -710,7 +710,7 @@ public class ExportDataController {
                         String ra=ref+alt;
                         sb.append(ref+ref+":"+RR+"，"+alt+alt+":"+tAA+"，"+ra+":"+tRA);
                     }else{
-                        if(freq.size()==0||freq==null){
+                        if(freq.size()==0){
                             sb.append(",");
                         }
                         for(int j=0;j<freq.size();j++){
@@ -811,7 +811,10 @@ public class ExportDataController {
          }else {
             dnaRunDto=new DnaRunDto();
          }
-         String snpId=object.getString("snpId");
+         String snpId="";
+         if(object.containsKey("snpId")) {
+              snpId = object.getString("snpId");
+         }
          String changeParam=object.getString("changeParam");
          Map result=snpService.findSampleById(snpId);
          SNP snpTemp=(SNP)result.get("snpData");
@@ -874,7 +877,7 @@ public class ExportDataController {
                     if(locality!=null&&locality.contains(",")){
                         locality = locality.replaceAll(",","，");
                     }
-                    stringBuilder.append(!locality.equals("")?locality:"-");
+                    stringBuilder.append(locality==null&&!locality.equals("")?locality:"-");
                 }else if(titleItem.equals("sampleName")){
                     String sampleName=dnaRunSearchResult.getSampleName();
                     stringBuilder.append(!sampleName.equals("")?sampleName:"-");
