@@ -519,7 +519,6 @@ public class ExportDataController {
                 else {
                     sb.append(titles[i]);
                 }
-
                 if (i != (len - 1)) {
                     sb.append(",");
                 } else {
@@ -528,8 +527,6 @@ public class ExportDataController {
                 titleList.add(titles[i]);
                 map.put(titles[i], i);
             }
-            titleList.add("GenoType");
-            map.put("GenoType",len);
         }else {
             for (int i = 0; i < len; i++) {
                 if(titles[i].equals("weightPer100seeds")){
