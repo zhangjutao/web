@@ -886,6 +886,7 @@ public class ExportDataController {
         if(dnaRunDto!=null&&runNos.size()>0){
             dnaRunDto.setRunNos(runNos);
              dnaRuns= dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+
         }
         List<DNARunSearchResult> dnaRunSearchResultList = dnaRuns.getList();
         for (DNARunSearchResult dnaRunSearchResult : dnaRunSearchResultList) {
@@ -971,6 +972,9 @@ public class ExportDataController {
             stringBuilder.append("\n");
         }
         csvStr = stringBuilder.toString();
+        if(title.length==0){
+            csvStr="请正确选择表头信息";
+        }
         String fileName = "snpinfo_detail" + UUID.randomUUID() + ".csv";
         String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
         File tempfile = new File(filePath + fileName);
