@@ -73,6 +73,7 @@
     width: 1137px;
     overflow-x: scroll;
     min-height: 195px;
+    margin-left:33px;
 }
 #snpinfoTable table{
     border-collapse: collapse;
@@ -99,9 +100,7 @@
 }
 .changeTab{
     overflow: hidden;
-    margin-left:30px;
     width:220px;
-    /*border-top:1px solid #E3E3E3;*/
     margin-top:10px;
     margin-bottom:8px;
 }
