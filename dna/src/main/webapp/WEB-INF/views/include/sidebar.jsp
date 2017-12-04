@@ -667,7 +667,7 @@
                     <dd><label for="weightPer100seeds" class="checkbox-ac"><span id="weightPer100seeds" data-value="weightPer100seeds"></span>百粒重(g)</label></dd>
                     <dd><label for="oil" class="checkbox-ac"><span id="oil" data-value="oil"></span>含油量(%)</label></dd>
                     <dd><label for="protein" class="checkbox-ac"><span id="protein" data-value="protein"></span>蛋白质含量(%)</label></dd>
-                    <dd><label for="floweringDate" class="checkbox-ac"><span id="floweringDate" data-value="floweringDate"></span>开花日期</label></dd><span></span>
+                    <%--<dd><label for="floweringDate" class="checkbox-ac"><span id="floweringDate" data-value="floweringDate"></span>开花日期</label></dd><span></span>--%>
                     <dd><label for="maturityDate" class="checkbox-ac"><span id="maturityDate" data-value="maturityDate"></span>成熟日期</label></dd><span></span>
                     <dd><label for="height" class="checkbox-ac"><span id="height" data-value="height"></span>株高</label></dd><span></span>
                     <dd><label for="seedCoatColor" class="checkbox-ac"><span id="seedCoatColor" data-value="seedCoatColor"></span>种皮色</label></dd><span></span>
@@ -720,7 +720,7 @@
                     <td class="weightPer100seeds" rowspan="2">百粒重(g)</td>
                     <td class="oil" rowspan="2">含油量(%)</td>
                     <td class="protein" rowspan="2">蛋白质含量(%)</td>
-                    <td class="floweringDate" rowspan="2">开花日期(月日)</td>
+                    <%--<td class="floweringDate" rowspan="2">开花日期(月日)</td>--%>
                     <td class="maturityDate" rowspan="2">成熟日期(月日)</td>
                     <td class="height" rowspan="2">株高(cm)</td>
                     <td class="seedCoatColor" rowspan="2">种皮色</td>
@@ -1377,7 +1377,8 @@
                 str += '<tr>'
                 str += '<td class="species">'+ item.species +'</td><td class="locality">'+ item.locality +'</td><td class="sampleName">'+ item.sampleName +'</td>'
                 str += '<td class="cultivar">'+ item.cultivar +'</td><td class="weightPer100seeds">'+ item.weightPer100seeds +'</td><td class="oil">'+ item.oil +'</td>'
-                str += '<td class="protein">'+ item.protein +'</td><td class="floweringDate">'+ item.floweringDate +'</td>'
+                str += '<td class="protein">'+ item.protein +'</td>'
+//                str += '<td class="protein">'+ item.protein +'</td><td class="floweringDate">'+ item.floweringDate +'</td>'
                 str += '<td class="maturityDate">'+ item.maturityDate +'</td><td class="height">'+item.height+'</td><td class="seedCoatColor">'+item.seedCoatColor+'</td>'
                 str += '<td class="hilumColor">'+item.hilumColor+'</td><td class="cotyledonColor">'+item.cotyledonColor+'</td><td class="flowerColor">'+item.flowerColor+'</td>'
                 str += '<td class="podColor">'+item.podColor+'</td><td class="pubescenceColor">'+item.pubescenceColor+'</td>'

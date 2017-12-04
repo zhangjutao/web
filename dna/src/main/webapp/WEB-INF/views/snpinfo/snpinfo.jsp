@@ -657,31 +657,20 @@
                 },
                 tooltip: {
                     headerFormat:'',
-                    pointFormat: '<b>GenoType 占比</b>: {point.percentage:.1f} %</b> '
+                    pointFormat: '<b>GenoType 占比</b>: {point.percentage:.4f} %</b> '
                 },
 
                 plotOptions: {
-                    series: {
-                        dataLabels: {
-                            enabled: true,
-//                            color: '#98BEFF',
-                            fontWeight:"5",
-                            borderWidth: 0,
-                            style: {
-                                fontWeight:"10",
-                                fontSize: '14',
-                                fontFamily:"Microsoft Yahei",
-                                strokeWidth:"0px"
-                            }
-                        }},
                     pie: {
                         allowPointSelect: true,
                         cursor: 'pointer',
                         dataLabels: {
                             enabled: true,
-                            format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+                            format: '<b>{point.name}</b>: {point.percentage:.4f} %',
                             style: {
-                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
+                                fontWeight:"10",
+                                color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black',
+//                                color:'PaleTurquoise'
                             }
                         }
                     }
@@ -715,12 +704,10 @@
         $(".minor").click(function (){
             mijor = $(".snpMio").text().trim();
             changeParam = mijor;
-            console.warn(changeParam)
             var data = snpGetParams(changeParam);
-            console.info(data);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data,paramData.pageNum);
+            getData(data);
         });
         $(".major").click(function (){
             major = $(".snpMaj").text().trim();
@@ -889,14 +876,14 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = snpGetParams(changeParam);
-
                                 tmp.pageNum = obj.curr;
                                 tmp.pageSize = paramData.pageSize;
                                 getData(tmp,obj.curr);
                             }
                         }
                     });
-                    $(".total-page-count-snp").html(count);
+                    $("#total-page-count span").html(count);
+
 
 
                 },

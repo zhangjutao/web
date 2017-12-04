@@ -404,7 +404,8 @@ $(function (){
                         }
                     }
                 });
-                $(".total-page-count-snp").html(result.data.total);
+                // $("#total-page-count span").html(result.data.total);
+                $(".js-total-samples").html(result.data.total);
             },
             error:function (error){
                 console.log(error);
