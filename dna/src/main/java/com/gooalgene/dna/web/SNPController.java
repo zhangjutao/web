@@ -263,6 +263,7 @@ public class SNPController {
     @RequestMapping("/searchIdAndPosInGene")
     @ResponseBody
     public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("请求接到了");
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String gene = request.getParameter("gene");
