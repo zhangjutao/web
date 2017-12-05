@@ -890,9 +890,6 @@
                         }
                     });
                     $("#total-page-count span").html(count);
-
-
-
                 },
                 error:function (error){
                     console.log(error);
