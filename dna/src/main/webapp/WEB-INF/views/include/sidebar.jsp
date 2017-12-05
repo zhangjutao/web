@@ -201,10 +201,10 @@
                             </div>
                         </div>
                         <div class="flowering-data " data-name="floweringDate">
-                            <label><b  class="category-title">开花日期(月):</b><span>Ⅰ</span><span>Ⅱ</span><span>Ⅲ</span></label>
+                            <label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>
                         </div>
                         <div class="mature-data " data-name="maturityDate">
-                            <label><b  class="category-title">成熟日期(月):</b><span>Ⅰ</span><span>Ⅱ</span><span>Ⅲ</span></label>
+                            <label><b  class="category-title">成熟日期(月):</b><span>I</span><span>II</span><span>III</span></label>
                         </div>
                         <div class="plant-height" data-name="height">
                             <label  class="category-content"><b  class="category-title">株高(cm):</b><span>20-60</span><span>60-100</span><span>100-140</span><span>140-180</span></label>

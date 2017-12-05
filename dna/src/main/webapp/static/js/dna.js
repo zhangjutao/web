@@ -112,7 +112,6 @@ $(function () {
     var globelGeneId;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
-        console.error("测试是否能进来")
         var obj = getPanelParams();
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
@@ -198,7 +197,6 @@ $(function () {
                 type: "POST",
                 dataType: "json",
                 success: function (res) {
-                    console.warn(res);
                     drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
                     svgPanZoom("#" + parentCont + " svg", {
                         zoomEnabled: true,
@@ -1003,7 +1001,6 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
-        debugger;
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1159,7 +1156,7 @@ $(function () {
                     var newArr = [];
                     for(var i=0;i<snpLocalPoints.length;i++){
                         var obj = {x:0,y:0,id:""};
-                        if(direction == "-"){
+                        if(direction == "-" || direction == -1){
                             obj.x = (endPos - snpLocalPoints[i].pos)/10;
                         }else if(direction == "+"){
                             obj.x = (snpLocalPoints[i].pos - startPos)/10;
