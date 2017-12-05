@@ -6,11 +6,13 @@ import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.guava.GuavaCacheManager;
@@ -104,7 +106,7 @@ public class DNARunService {
      * @param page
      * @return
      */
-    public Map queryDNARunByGroup(String group, Page<DNARun> page) {
+    public Map queryDNARunByGroup(String group, Page<DNARunSearchResult> page) {
         Map result = new HashMap();
         result.put("group", group);
         result.put("pageNo", page.getPageNo());
@@ -116,12 +118,15 @@ public class DNARunService {
             String groupName = one.getString("name");
             String condition= one.getString("condition");
             DNARun dnaRun=getQuery(condition);
-            dnaRun.setPage(page);
-            List<DNARun> list = dnaRunDao.findList(dnaRun);
+            DnaRunDto dnaRunDto=new DnaRunDto();
+            BeanUtils.copyProperties(dnaRun,dnaRunDto);
+            PageHelper.startPage(page.getPageNo(),page.getPageSize());
+            List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
+            page.setCount(dnaRunDao.getListByCondition(dnaRunDto).size());
             System.out.println("Size:" + list.size());
             page.setList(list);
-            for (DNARun dnaRun1 : list) {
-                data.add(dnaRun1.toJSON());
+            for (DNARunSearchResult dnaRunSearchResult : list) {
+                data.add(dnaRunSearchResult.toJSON());
             }
         }
         result.put("total", page.getCount());
@@ -141,17 +146,26 @@ public class DNARunService {
         return pageInfo;
     }
 
-    public  List<DNARun> getAll(){
-        return dnaRunDao.getListByCondition(new DnaRunDto());
-    }
-
-    public  PageInfo<DNARun> getByRunNos(List<String> runNos,Integer pageNum,Integer pageSize){
-        if(pageNum!=null&&pageSize!=null){
+    public PageInfo<DNARunSearchResult> getListByConditionWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
+        if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<DNARun> dnaRuns=dnaRunDao.getByRunNos(runNos);
-        PageInfo<DNARun> pageInfo=new PageInfo<>(dnaRuns);
+        List<DNARunSearchResult> list=dnaRunDao.getListByConditionWithTypeHandler(dnaRunDto);
+        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
         return pageInfo;
+    }
+
+    public PageInfo<DNARunSearchResult> findListWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
+        if(!StringUtils.isBlank(isPage)){
+            PageHelper.startPage(pageNum,pageSize);
+        }
+        List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
+        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
+        return pageInfo;
+    }
+
+    public  List<DNARun> getAll(){
+        return dnaRunDao.getListByCondition(new DnaRunDto());
     }
 
     public List<DNARun> getQueryList(String conditions) {

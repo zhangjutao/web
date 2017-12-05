@@ -26,6 +26,7 @@
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/d3.js"></script>
+    <script src="${ctxStatic}/js/svg-pan-zoom.js"></script>
 
 
     <style>
@@ -53,75 +54,6 @@
     <%@ include file="/WEB-INF/views/include/sidebar.jsp" %>
 
     <div class="contant page-tables" style="display: none;">
-        <%--<div class="table-item box-shadow snp-checkbox" style="display: none">--%>
-            <%--<div class="checkbox-item">--%>
-                <%--<div class="che-list ">--%>
-                    <%--<span class="tab-title">表格内容:</span>--%>
-                    <%--<dl class="table_header_setting js-table-header-setting-snp">--%>
-                        <%--<dd><label for="snpid" class="checkbox-ac" data-col-name="SNPID"><span id="snpid" data-value="snpid"></span>SNP ID</label></dd>--%>
-                        <%--<dd><label for="consequenceType" class="checkbox-ac" data-col-name="consequenceType"><span id="consequenceType" data-value="consequenceType"></span>Consequence Type</label></dd>--%>
-                        <%--<dd><label for="snpchromosome" class="checkbox-ac" data-col-name="chromosome"><span id="snpchromosome" data-value="snpchromosome"></span>Chromosome</label></dd>--%>
-                        <%--<dd><label for="position" class="checkbox-ac" data-col-name="position"><span id="position" data-value="position"></span>Position</label></dd>--%>
-                        <%--<dd><label for="snpreference" class="checkbox-ac" data-col-name="reference"><span id="snpreference" data-value="snpreference"></span>Reference</label></dd>--%>
-                        <%--<dd><label for="majorAllele" class="checkbox-ac" data-col-name="majorAllele"><span id="majorAllele" data-value="majorAllele"></span>Major Allele</label></dd>--%>
-                        <%--<dd><label for="minorAllele" class="checkbox-ac" data-col-name="minorAllele"><span id="minorAllele" data-value="minorAllele"></span>Minor Allele</label></dd>--%>
-                        <%--<dd><label for="fmajorAllele" class="checkbox-ac" data-col-name="frequencyOfMajorAllele"><span id="fmajorAllele" data-value="fmajorAllele"></span>Frequency of Major Allele</label></dd>--%>
-                        <%--<span></span>--%>
-                        <%--&lt;%&ndash;<dd><label for="fmajorAllelein" class="checkbox-ac"><span id="fmajorAllelein" data-value="fmajorAllelein"></span>Frequency of Major Allele in</label></dd>&ndash;%&gt;--%>
-                    <%--</dl>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="export-data">--%>
-                <%--<p class="btn-export-set">--%>
-                    <%--<button type="button" class="btn btn-export js-export">导出数据</button>--%>
-                <%--</p>--%>
-            <%--</div>--%>
-            <%--<div class="choose-default">--%>
-                <%--<div class="btn-default">--%>
-                    <%--<label class="js-choose-all "><span id="js-choose-all"></span>全选</label>--%>
-                    <%--&lt;%&ndash;<label class="js-default js-default-ac"><span id="js-default" ></span>默认</label>&ndash;%&gt;--%>
-                <%--</div>--%>
-                <%--<div class="btn-group" style="display: block;">--%>
-                    <%--<button type="button" class="btn-fill btn-confirm js-snp-setting-btn">确认</button>--%>
-                    <%--<button type="button" class="btn-chooseAll js-clear-btn" id="snp-clear-all">清空</button>--%>
-                    <%--<button type="button" class="btn-toggle">收起<img src="${ctxStatic}/images/down.png"></button>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
-        <%--<div class="table-item box-shadow indels-checkbox" style="display: none">--%>
-            <%--<div class="checkbox-item">--%>
-                <%--<div class="che-list">--%>
-                    <%--<span class="tab-title">表格内容:</span>--%>
-                    <%--<dl class="table_header_setting js-table-header-setting-indel">--%>
-                        <%--<dd><label for="indels" class="checkbox-ac" data-col-name="INDELID"><span id="indels" data-value="indels"></span>INDEL ID</label></dd>--%>
-                        <%--<dd><label for="iconsequenceType" class="checkbox-ac" data-col-name="consequenceType"><span id="iconsequenceType" data-value="consequenceType"></span>Consequence Type</label></dd>--%>
-                        <%--<dd><label for="indelchromosome" class="checkbox-ac" data-col-name="chromosome"><span id="indelchromosome" data-value="snpchromosome"></span>Chromosome</label></dd>--%>
-                        <%--<dd><label for="iposition" class="checkbox-ac" data-col-name="position"><span id="iposition" data-value="position"></span>Position</label></dd>--%>
-                        <%--<dd><label for="indelreference" class="checkbox-ac" data-col-name="reference"><span id="indelreference" data-value="snpreference"></span>Reference</label></dd>--%>
-                        <%--<dd><label for="imajorAllele" class="checkbox-ac" data-col-name="majorAllele"><span id="imajorAllele" data-value="majorAllele"></span>Major Allele</label></dd>--%>
-                        <%--<dd><label for="iminorAllele" class="checkbox-ac" data-col-name="minorAllele"><span id="iminorAllele" data-value="minorAllele"></span>Minor Allele</label></dd>--%>
-                        <%--<dd><label for="ifmajorAllele" class="checkbox-ac" data-col-name="frequencyOfMajorAllele"><span id="ifmajorAllele" data-value="fmajorAllele"></span>Frequency of Major Allele</label></dd>--%>
-                        <%--<span></span>--%>
-                    <%--</dl>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-            <%--<div class="export-data">--%>
-                <%--<p class="btn-export-set">--%>
-                    <%--<button type="button" class="btn btn-export js-export">导出数据</button>--%>
-                <%--</p>--%>
-            <%--</div>--%>
-            <%--<div class="choose-default">--%>
-                <%--<div class="btn-default">--%>
-                    <%--<label class="js-choose-all"><span></span>全选</label>--%>
-                    <%--&lt;%&ndash;<label class="js-default js-default-ac"><span></span>默认</label>&ndash;%&gt;--%>
-                <%--</div>--%>
-                <%--<div class="btn-group" style="display: block;">--%>
-                    <%--<button type="button" class="btn-fill btn-confirm js-indel-setting-btn">确认</button>--%>
-                    <%--<button type="button" class="btn-chooseAll js-clear-btn" id="indels-clear-all">清空</button>--%>
-                    <%--<button type="button" class="btn-toggle">收起<img src="${ctxStatic}/images/down.png"></button>--%>
-                <%--</div>--%>
-            <%--</div>--%>
-        <%--</div>--%>
         <div class="box-shadow resulting">
             <div class="item-header">
                 <div class="icon-left">
@@ -137,29 +69,6 @@
             <%--基因ID 选择区 begin--%>
             <div id="GlyIds">
                     <ul>
-                        <%--<li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li><li>--%>
-                        <%--Glyma.02G00500--%>
-                        <%--</li>--%>
                     </ul>
             </div>
             <%--基因ID 选择区 end--%>
@@ -184,12 +93,12 @@
                             <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
                         </p>
                     </div>
-                    <div id="constructorPanel"  onmousewheel="return false;">
+                    <div id="constructorPanel" onmousewheel="return false;">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 
                         </svg>
                     </div>
-                    <div id="constructorPanel2"  onmousewheel="return false;">
+                    <div id="constructorPanel2" class="hiddeCurr" onmousewheel="return false;">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 
                         </svg>
@@ -216,6 +125,7 @@
                                 <dd><label for="majorAllele" class="checkbox-ac" data-col-name="majorAllele"><span id="majorAllele" data-value="majorAllele"></span>Major Allele</label></dd>
                                 <dd><label for="minorAllele" class="checkbox-ac" data-col-name="minorAllele"><span id="minorAllele" data-value="minorAllele"></span>Minor Allele</label></dd>
                                 <dd><label for="fmajorAllele" class="checkbox-ac" data-col-name="frequencyOfMajorAllele"><span id="fmajorAllele" data-value="fmajorAllele"></span>Frequency of Major Allele</label></dd>
+                                <dd><label for="genoType" class="checkbox-ac" data-col-name="genoType"><span id="exGenoType" data-value="GenoType"></span>GenoType</label></dd>
                                 <span></span>
                                 <%--<dd><label for="fmajorAllelein" class="checkbox-ac"><span id="fmajorAllelein" data-value="fmajorAllelein"></span>Frequency of Major Allele in</label></dd>--%>
                             </dl>
@@ -324,28 +234,10 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
-                                            <%--<td class="param t_fmajorAllelein">--%>
-                                                <%--<select class="f-ma-in">--%>
-                                                    <%--<option>Frequency of Major Allele in</option>--%>
-                                                    <%--<option>Frequency of Minor Allele in</option>--%>
-                                                <%--</select>--%>
-                                                <%--<img src="${ctxStatic}/images/down.png">--%>
-                                            <%--</td>--%>
+
                                         </tr>
                                     </thead>
                                     <tbody id="tableBody">
-                                        <%--<tr>--%>
-                                            <%--<td class="t_snpid">sf1111111</td>--%>
-                                            <%--<td class="t_consequenceType"><p class="js-tipes-show">"Okamoto S</p></td>--%>
-                                            <%--<td class="t_snpchromosome"><p>stem internode</p></td>--%>
-                                            <%--<td class="t_position"><p class="js-tipes-show"></p></td>--%>
-                                            <%--<td class="t_snpreference"><p>Enrei</p></td>--%>
-                                            <%--<td class="t_majorAllele"><p>12346873</p></td>--%>
-                                            <%--<td class="t_minorAllele"><p>数值</p></td>--%>
-                                            <%--<td class="t_fmajorAllele"><p>Enrei</p></td>--%>
-                                            <%--<td class="t_fmajorAllelein"><p>12346873</p></td>--%>
-                                        <%--</tr>--%>
-
                                     </tbody>
                                 </table>
                                 <form id="exportForm" action="" method="get">
@@ -445,7 +337,7 @@
                 <div class="tab">
                     <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
                         <img src="${ctxStatic}/images/dnatree.png">
-                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;">群体信息</a></p>
+                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">群体信息</a></p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>

@@ -110,7 +110,15 @@
         FROM
             gens_structure stru,chrlg c
         WHERE
-            stru.chromosome=c.chr and stru.chromosome=#{chromosome} AND ((stru.`start` <![CDATA[ <= ]]> #{start} and stru.`end`>=#{start}) or
+            stru.chromosome=c.chr and stru.chromosome=#{chromosome}
+            <if test="geneIds!=null and geneIds.size>0">
+                AND stru.gene_id IN
+                <foreach collection="geneIds" item="geneId" separator="," open="(" close=")">
+                    #{geneId}
+                </foreach>
+            </if>
+             AND
+            ((stru.`start` <![CDATA[ <= ]]> #{start} and stru.`end`>=#{start}) or
     (stru.`start` <![CDATA[ <= ]]> #{end} AND stru.`end`>=#{end}) or
     (stru.start>=#{start} and stru.end <![CDATA[ <= ]]> #{end}))
             ORDER BY stru.start DESC

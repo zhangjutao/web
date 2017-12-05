@@ -1,16 +1,16 @@
 $(function (){
     // 定义全局 population 信息
     var popuSelectedVal=""
-    var groupVal1="111利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal2="222利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal3="333利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal4="444利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal5="555利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal6="666利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal7="777利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal8="888利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal9="999利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
-    var groupVal10="100利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群";
+    var groupVal1="含89份材料，多为中国长江流域区域的大豆栽培品种和地方品种，蛋白含量40-50%，含油量15-20%，株高集中在40-160cm，百粒重7-20g，种皮黄，花色紫和白，成熟期IV/V/VI/VII组。";
+    var groupVal2="含137份材料，多为中国东北部黑龙江地区的栽培品种，少量的内蒙古和吉林地区品种及美国品种，蛋白含量35-45%，含油量29-23%，株高70-100cm，百粒重15-25g，种皮黄，花色紫和白，成熟期II/III/IV组。";
+    var groupVal3="含71份材料，多为中国及少数朝、韩地区的野生品种，蛋白含量45-55%，含油量7-15%，株高50-150cm，百粒重1-2g，种皮黑，紫色花朵，成熟期范围广泛I-X组。";
+    var groupVal4="含72份材料，多为中国黄河流域及极少数日韩地区的地方品种，蛋白含量38-50%，含油量15-25%，株高100-200cm，百粒重9-16g，种皮多为黑，少量黄色，紫色花朵为主，部分白色，成熟期III/IV/V组为主。";
+    var groupVal5="含115份材料，多为中国东部地区的地方品种及巴西、美国地区的栽培品种，蛋白含量40-50%，含油量15-20%，株高60-130cm，百粒重10-20g，种皮黄，花色紫和白，成熟期范围广泛I-VI组。";
+    var groupVal6="含102份材料，多为中国黑龙江及吉林地区的栽培品种，蛋白含量35-45%，含油量20-25%，株高70-110cm，百粒重15-25g，种皮黄，花朵以紫色为主，白色次之，成熟期范围广泛I-V组。";
+    var groupVal7="含59份材料，多为美国、加拿大地区的栽培品种，蛋白含量39-45%，含油量15-25%，株高80-150cm，百粒重15-25g，种皮黄，紫色花朵，成熟期0-III为主。";
+    var groupVal8="含102份材料，多为加拿大及少数巴西、美国地区的栽培品种，蛋白含量40-50%，含油量15-25%，株高80-120cm，百粒重10-20g，种皮黄，紫色花朵，成熟期0-IV为主。";
+    var groupVal9="含138份材料，主要为中韩地区的半野生品种和美洲地区的栽培品种，蛋白含量40-50%，含油量15-25%，株高50-120cm，百粒重10-20g，种皮黄，花朵紫和白，成熟期组以III/IV为主。";
+    var groupVal10="含80份材料，主要为中、韩、美地区的地方和栽培品种，蛋白含量40-50%，含油量7-15%，株高50-100cm，百粒重10-25g，种皮多黄，少棕黑色，紫色和白色花朵，成熟期组以I-V为主。";
 
     $("#groups li").click(function (e){
         var val = $(this).find("p").text();
@@ -157,8 +157,8 @@ $(function (){
     })
         // 点击群体信息进入页面初始化开始获取table数据
         var initData = getParamas()
-        getData(initData);
-        $("#page .two").addClass("pageColor");
+        getData(initData,1);
+        // $("#page .two").addClass("pageColor");
 
     // 获取当前参数 封装
     function getParamas (){
@@ -217,7 +217,7 @@ $(function (){
     // 获取表格数据
     $(".btnConfirmInfo").click(function (){
         var data = getParamas();
-        getData(data);
+        getData(data,page.pageNum);
     })
 
     //表格筛选框显示隐藏
@@ -247,24 +247,55 @@ $(function (){
         pageNum:page.pageNum,
         pageSize:page.pageSize
     };
+    // // pageSize 选择事件
+    $("#per-page-count select").change(function (e){
+        var currentSelected = $(this).find("option:selected").text();
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
+    });
+    // 获取焦点添加样式：
+    $("#sysPopulations").on("focus", ".laypage_skip", function() {
+        $(this).addClass("isFocus");
+    });
+    $("#sysPopulations").on("blur", ".laypage_skip", function() {
+        $(this).removeClass("isFocus");
+    });
+
+    document.onkeydown = function(e) {
+        var _page_skip = $('#sysPopulations .laypage_skip');
+        if(e && e.keyCode==13){ // enter 键
+            if( _page_skip.hasClass("isFocus") ) {
+                if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
+                    return alert("输入页码不能大于总页数");
+                }
+                var selectedNum = $('#sysPopulations .laypage_skip').val();
+                page.pageNum = selectedNum;
+                paramData.pageNum = page.pageNum;
+                var selectedDatas = getParamas();
+                selectedDatas.pageNum = paramData.pageNum;
+                selectedDatas.pageSize = paramData.pageSize;
+                getData(selectedDatas,selectedDatas.pageNum);
+            }
+        }
+    }
+    var curr = 1;
     //ajax 请求
-    function getData(data){
+    function getData(data,curr){
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
             data:data,
             success:function (result) {
                 count = result.data.total;
-                if(count <40){
-                    $("#page").css({"padding-left":"186px"});
-                }else {
-                    $("#page").css({"padding-left":"10px"});
-                };
                 if(count == 0){
-                    $("#paging").hide();
+                    $("#tableShow table tbody tr").remove();
                     $("#errorImg").show();
                     $("#containerAdmin").css("height","754px");
+                    $("#per-page-count").hide();
                 }else{
+                    if($("#per-page-count").is(":hidden")){
+                        $("#per-page-count").show();
+                    }
                     totalDatas = result.data.list;
                     $("#tableShow table tbody tr").remove();
                     nums = Math.ceil(count / page.pageSize);
@@ -280,9 +311,9 @@ $(function (){
                         var proteinTV = totalDatas[i].protein==null?"":totalDatas[i].protein;
                         var oilTV = totalDatas[i].oil==null?"":totalDatas[i].oil;
                         var maturityDateTV = totalDatas[i].maturityDate==null?"":totalDatas[i].maturityDate;
-                        var heightTV = totalDatas[i].height==null?"":totalDatas[i].height
+                        var heightTV = totalDatas[i].height==null?"":totalDatas[i].height;
                         var seedCoatColorTV = totalDatas[i].seedCoatColor==null?"":totalDatas[i].seedCoatColor;
-                        var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor==null;
+                        var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor;
                         var cotyledonColorTV = totalDatas[i].cotyledonColor==null?"":totalDatas[i].cotyledonColor;
                         var flowerColorTV = totalDatas[i].flowerColor==null?"":totalDatas[i].flowerColor;
                         var podColorTV = totalDatas[i].podColor==null?"":totalDatas[i].podColor;
@@ -321,159 +352,35 @@ $(function (){
                         var $tbody = $("#tableShow table tbody");
                         $tbody.append(tr);
                     }
-                        pageStyle(nums,intNums);
-                        $("#totals").text(count);
                 }
+                // 分页
+                laypage({
+                    cont: $('#sysPopulations .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
+                    curr: curr || 1, //当前页
+                    skin: '#5c8de5',
+                    skip: true,
+                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                    last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                    prev: '<',
+                    next: '>',
+                    groups: 3, //连续显示分页数
+                    jump: function (obj, first) { //触发分页后的回调
+                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                            var tmp = getParamas();
+                            tmp.pageNum = obj.curr;
+                            tmp.pageSize = paramData.pageSize;
+                            getData(tmp,obj.curr);
+                        }
+                    }
+                });
+                $("#total-page-count span").html(result.data.total);
             },
             error:function (error){
                 console.log(error);
             }
         })
     }
-    // 样式调整方法
-    function pageStyle(nums,intNums){
-        if (nums > 4) {
-            // $(".first").hide().next().text(1).next().hide();
-            $(".first").next().text(1);
-            $(".four").text(2).next().text(3).next().text(4);
-            $(".eight").text(nums);
-            $(".seven").show();
-            $(".last").show();
-        };
-        if (intNums == 0) {
-            styleChange();
-            $(".two").text(1);
-            $(".four").hide();
-            $(".five").hide();
-            $(".six").hide();
-        }
-        switch (nums) {
-            case 1:
-                styleChange();
-                $(".two").text(1);
-                $(".four").hide();
-                $(".five").hide();
-                $(".six").hide();
-                break;
-            case 2:
-                styleChange();
-                $(".two").text(1);
-                $(".four").text(2);
-                $(".five").hide();
-                $(".six").hide();
-                break;
-            case 3:
-                styleChange();
-                $(".two").text(1);
-                $(".four").text(2);
-                $(".five").text(3);
-                $(".six").hide();
-                break;
-            case 4:
-                styleChange();
-                $(".two").text(1);
-                $(".four").text(2);
-                $(".five").text(3);
-                $(".six").text(4);
-                break;
-        }
-    }
-    // 显示隐藏样式封装
-    function styleChange() {
-        $(".three").hide();
-        $(".first").hide();
-        $(".seven").hide();
-        $(".eight").hide();
-        $(".last").hide();
-    };
-
-    //每个页码的点击事件
-    $("#page>p").click(function (e) {
-        //样式
-        if (nums > 4) {
-            $(".first").show();
-            $(".three").show();
-            $(".eight").text(nums);
-        };
-        var $p = $(e.target);
-
-        page.pageNum = parseInt($p.text());
-        paramData.pageNum = page.pageNum;
-        var selectedDatas = getParamas();
-        selectedDatas.pageNum = paramData.pageNum;
-        selectedDatas.pageSize = paramData.pageSize;
-        getData(selectedDatas);
-        var plists = $p.siblings();
-        for (var i = 0; i < plists.length; i++) {
-            if ($(plists[i]).hasClass("pageColor")) {
-                $(plists[i]).removeClass("pageColor");
-            }
-        }
-        $p.addClass("pageColor");
-
-    });
-    // pageSize 选择事件
-    $("#selectedNum").change(function (e){
-        var currentSelected = $("#selectedNum option:selected").text();
-        page.pageSize = currentSelected;
-        paramData.pageSize = page.pageSize;
-        var selectedDatas = getParamas();
-        selectedDatas.pageNum = paramData.pageNum;
-        selectedDatas.pageSize = paramData.pageSize;
-        getData(selectedDatas);
-    })
-    // "<" 点击事件
-    $(".first").click(function () {
-        var content6 = Number($(".six").text());
-        var content4 = Number($(".four").text());
-        var content5 = Number($(".five").text());
-        if (content6 < nums) {
-            $(".last").show();
-            $(".seven").show();
-        }
-        if (content4 <= 2) {
-            $(".first").hide().next().next().hide();
-        } else {
-            $(".six").text(content6 - 1);
-            $(".four").text(content4 - 1);
-            $(".five").text(content5 - 1);
-        }
-    })
-    // enter 键盘事件
-    $("#inputNum").keydown(function(event){
-        event=document.all?window.event:event;
-        if((event.keyCode || event.which)==13){
-            var selectedNum = $(this).val();
-            page.pageNum = pageNum = selectedNum;
-            paramData.pageNum = page.pageNum;
-            var selectedDatas = getParamas();
-            selectedDatas.pageNum = paramData.pageNum;
-            selectedDatas.pageSize = paramData.pageSize;
-            getData(selectedDatas);
-        }
-    });
-    // ">" 点击事件
-    $(".last").click(function () {
-        var content6 = Number($(".six").text());
-        var content4 = Number($(".four").text());
-        var content5 = Number($(".five").text());
-        var content2 = Number($(".two").text());
-        if (content2 == 1) {
-            $(".first").show();
-            $(".three").show();
-        }
-
-        if (content6 >= nums - 1) {
-            $(".seven").hide();
-            $(this).hide();
-        } else {
-            $(".six").text(content6 + 1);
-            $(".four").text(content4 + 1);
-            $(".five").text(content5 + 1);
-        }
-    })
-
-    // 分页end
     // 表格导出
     $("#exportData").click(function (){
         var unSelectes = $("#selectedDetails ul input");

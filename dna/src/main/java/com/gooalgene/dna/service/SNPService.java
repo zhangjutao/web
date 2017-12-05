@@ -1,6 +1,7 @@
 package com.gooalgene.dna.service;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.dna.dao.DNAGensDao;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
@@ -19,6 +20,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.text.ParseException;
 import java.util.*;
 
 /**
@@ -36,6 +41,8 @@ public class SNPService {
     private SNPService snpService;
     @Autowired
     private DNAGenStructureService dnaGenStructureService;
+    @Autowired
+    private DNAGensDao dnaGensDao;
 
 
     /**
@@ -95,7 +102,6 @@ public class SNPService {
         Map oneDataResult = new HashMap();
         int markNumber = CommonUtil.getCharPositionBeforNum(id);
         if (markNumber == -1) {
-            oneDataResult.put("id不符合规范", null);
             return oneDataResult;
         }
         String type;
@@ -104,29 +110,32 @@ public class SNPService {
         } else if (id.indexOf("S", markNumber) == markNumber) {
             type = "SNP";
         } else {
-            oneDataResult.put("id不符合规范", null);
             return oneDataResult;
         }
         String chr = "Chr" + (id.substring(markNumber + 2, markNumber + 4));
         SNP oneData = dnaMongoService.findDataById(type, chr, id);
         if (oneData == null) {
-            return null;
-        }
-        if (type.equals("SNP")) {
-            oneDataResult = genotypeTransform(oneData, type);
-            //oneDataResult.put("SNPData", oneData);
-            return oneDataResult;
-        } else if (type.equals("INDEL")) {
-            oneDataResult = genotypeTransform(oneData, type);
-            //oneDataResult.put("INDELData", oneData);
             return oneDataResult;
         }
-        return null;
+
+        //double类型精度处理
+        double major = oneData.getMajor();
+        BigDecimal decimalMajor = new BigDecimal(major);
+        BigDecimal majorDecimalToPercent = decimalMajor.multiply(new BigDecimal(100));
+        StringBuffer convertValue = new StringBuffer();
+        StringBuffer stringMajorPercent = new DecimalFormat("###0.00").format(
+                majorDecimalToPercent, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD)
+        );
+
+        oneDataResult = genotypeTransform(oneData, type);
+        oneDataResult.put("major", stringMajorPercent);
+        return oneDataResult;
     }
 
 
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
-        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos));
+        List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos),list);
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -174,7 +183,7 @@ public class SNPService {
         for (SNP snp : snps) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            JSONArray freqData = new JSONArray();
+            JSONArray freqData;
             Map map = snpService.findSampleById(snp.getId());
             if(StringUtils.equals(type,"SNP")){
                 freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);

@@ -11,6 +11,7 @@ import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.ResultUtil;
@@ -30,24 +31,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.guava.GuavaCacheManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/dna")
@@ -115,7 +115,7 @@ public class SNPController {
     public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
-        Page<DNARun> page = new Page<DNARun>(request, response);
+        Page<DNARunSearchResult> page = new Page<>(request, response);
         return dnaRunService.queryDNARunByGroup(group, page);
     }
 
@@ -131,7 +131,7 @@ public class SNPController {
                                  @RequestParam(value = "isPage",required = false)String isPage,
                                  DnaRunDto dnaRunDto) {
             logger.info(dnaRunDto.getGroup());
-            PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize,isPage);
+            PageInfo<DNARunSearchResult> dnaRunPageInfo=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
             return ResultUtil.success(dnaRunPageInfo);
 
     }
@@ -174,12 +174,12 @@ public class SNPController {
             long end = dnaGens.getGeneEnd();
             logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream)-2000<0?0:start - Long.valueOf(upstream)-2000;
+                start = start - Long.valueOf(upstream)<0?0:start - Long.valueOf(upstream);
             }else {
                 start=start-2000<0?0:start-2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream)+2000;
+                end = end + Long.valueOf(downstream);
             }else {
                 end = end +2000;
             }
@@ -243,7 +243,8 @@ public class SNPController {
             snpDtos.add(snpDto);
         }
         result.put("snps",snpDtos);
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos));
+        List<String> geneIds=dnaGensService.getByRegionNoCompare(chr,startPos,endPos);
+        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos),geneIds);
         result.put("dnaGenStructures",dnaGenStructures);
         if(CollectionUtils.isNotEmpty(dnaGenStructures)){
             result.put("bps",dnaGenStructures.get(0).getBps());
@@ -274,12 +275,12 @@ public class SNPController {
             long start = dnaGens.getGeneStart();
             long end = dnaGens.getGeneEnd();
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream)-2000<0?0:start - Long.valueOf(upstream)-2000;
+                start = start - Long.valueOf(upstream)<0?0:start - Long.valueOf(upstream);
             }else {
                 start=start-2000<0?0:start-2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream)+2000;
+                end = end + Long.valueOf(downstream);
             }else {
                 end=end+2000;
             }
@@ -317,9 +318,12 @@ public class SNPController {
     public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
         String id = request.getParameter("id");
         if (id == null) {
-            return ResultUtil.error(200, "未拿到id的值");
+            return ResultUtil.error(-1, "未拿到id的值");
         }
-            Map result = snpService.findSampleById(id);
+        Map result = snpService.findSampleById(id);
+        if (result.size() == 0) {
+            return ResultUtil.error(-1, "无对应id");
+        }
         return ResultUtil.success(result);
     }
 
@@ -599,9 +603,19 @@ public class SNPController {
     public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
         ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
-        SNP snpFormatMajorFreq = (SNP)result.get("snpData");
-        double major = Double.parseDouble(new DecimalFormat("###0.0000").format(snpFormatMajorFreq.getMajor()));
+        SNP snpFormatMajorFreq;
+        if (result.containsKey("snpData")) {
+            snpFormatMajorFreq = (SNP) result.get("snpData");
+        }else {
+            snpFormatMajorFreq = (SNP) result.get("INDELData");
+        }
+        double major = snpFormatMajorFreq.getMajor();
+        BigDecimal decimal = new BigDecimal(major);
+        BigDecimal majorForBigDecimal = decimal.multiply(new BigDecimal(100));
+        StringBuffer convertValue = new StringBuffer();
+        StringBuffer finalResult = new DecimalFormat("###0.00").format(majorForBigDecimal, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD));
         snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
+        modelAndView.addObject("major", finalResult);
         modelAndView.addObject("snp",snp);
         modelAndView.addObject("result",result);
         SNP snpTemp=(SNP)result.get("snpData");
@@ -629,11 +643,14 @@ public class SNPController {
     @RequestMapping(value = "/changeByProportion",method = RequestMethod.GET)
     public ResultVO changeByProportion(@RequestParam("snpId")String snpId,@RequestParam("changeParam") String changeParam,
                                        @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                       @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
+                                       @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+                                       @RequestParam(value = "pageSize",required = false)String isPage,
+                                       DnaRunDto dnaRunDto) {
         Map result = snpService.findSampleById(snpId);
-
         SNP snpTemp=(SNP)result.get("snpData");
+        String type="snp";
         if(snpTemp==null){
+            type="indel";
             snpTemp=(SNP)result.get("INDELData");
         }
         Map map=(Map)snpTemp.getSamples();
@@ -643,16 +660,39 @@ public class SNPController {
         for(Map.Entry entry:entrySet){
             String value=(String)entry.getValue();
             if(StringUtils.isNotBlank(changeParam)){
-                if(value.contains(changeParam)){
-                    runNos.add((String) entry.getKey());
-                    samples.put(entry.getKey(),entry.getValue());
-}
+                if(type.equals("indel")){
+                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
+                    String changePaAndMin=changeParam+snpTemp.getMinorallen();
+                    if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
+                }else {
+                    if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
+                }
             }
         }
-        PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,pageNum,pageSize);
         Map response= Maps.newHashMap();
-        response.put("dnaRuns",dnaRuns);
-        //response.put("samples",map);
+        if(dnaRunDto!=null&&runNos.size()>0){
+            dnaRunDto.setRunNos(runNos);
+            PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
+            response.put("dnaRuns",dnaRuns);
+        }
         response.put("samples",samples);
         return ResultUtil.success(response);
     }
@@ -672,17 +712,22 @@ public class SNPController {
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             JSONArray freqData;
+            SNP snpData =null;
             if(StringUtils.equals(type,"SNP")){
-                freqData = snpService.getFrequencyInSnp((SNP) map.get("snpData"), group_runNos);
+                snpData=(SNP) map.get("snpData");
+                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             }else {
-                freqData = snpService.getFrequencyInSnp((SNP) map.get("INDELData"), group_runNos);
+                snpData=(SNP) map.get("INDELData");
+                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             }
             snpDto.setFreq(freqData);
-            SNP snpData = (SNP) map.get("snpData");
-            if(snpData==null){
+            //SNP snpData = (SNP) map.get("snpData");
+            /*if(snpData==null){
                 snpData = (SNP) map.get("INDELData");
+            }*/
+            if(snpData!=null) {
+                snpData.setSamples(null);
             }
-            snpData.setSamples(null);
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
@@ -702,12 +747,12 @@ public class SNPController {
             long start = dnaGens.getGeneStart();
             long end = dnaGens.getGeneEnd();
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream)-2000<0?0:start - Long.valueOf(upstream)-2000;
+                start = start - Long.valueOf(upstream)<0?0:start - Long.valueOf(upstream);
             }else {
                 start=start-2000<0?0:start-2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream)+2000;
+                end = end + Long.valueOf(downstream);
             }else {
                 end=end+2000;
             }
@@ -722,6 +767,9 @@ public class SNPController {
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             SNP snpData = (SNP) map.get("snpData");
+            if(snpData==null){
+                snpData= (SNP) map.get("INDELData");
+            }
             JSONArray freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             snpDto.setFreq(freqData);
             if(snpData!=null){

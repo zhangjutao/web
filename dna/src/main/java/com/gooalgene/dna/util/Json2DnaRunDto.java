@@ -9,6 +9,8 @@ import net.sf.json.JSONObject;
  */
 public class Json2DnaRunDto {
 
+
+
     public static DnaRunDto json2DnaRunDto(JSONObject object){
         DnaRunDto dnaRunDto=new DnaRunDto();
         dnaRunDto.setCultivar(object.getString("cultivar"));

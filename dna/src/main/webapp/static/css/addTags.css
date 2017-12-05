@@ -26,6 +26,7 @@
     overflow-y:scroll;
     /*overflow-x:scroll;*/
   display:none;
+    position: relative;
 }
 #tagKind table{
     border: 1px solid #E4E4E4;
@@ -180,6 +181,7 @@ p.first{
     line-height:18px;
     float:left;
     margin-right:5px;
+    position:relative;
 }
 #geneConstruction p{
     float:right;
@@ -302,4 +304,21 @@ p.first{
 .GlyColor{
     background:#5C8CE6;
     color:#fff!important;
+}
+.errorBoxShow{
+    color:#ff0000;
+    width: 385px;
+    height:25px;
+    padding:5px 10px;
+    margin-left:12px;
+    text-align:left;
+    line-height:25px;
+    display:none;
+}
+.inputError{
+    border:1px solid #ff0000!important;
+}
+#tagsPagination {
+    position: relative;
+    bottom: 14px;
 }
