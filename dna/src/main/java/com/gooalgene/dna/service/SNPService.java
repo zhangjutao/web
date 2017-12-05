@@ -20,6 +20,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.util.*;
 
@@ -114,7 +117,18 @@ public class SNPService {
         if (oneData == null) {
             return oneDataResult;
         }
+
+        //double类型精度处理
+        double major = oneData.getMajor();
+        BigDecimal decimalMajor = new BigDecimal(major);
+        BigDecimal majorDecimalToPercent = decimalMajor.multiply(new BigDecimal(100));
+        StringBuffer convertValue = new StringBuffer();
+        StringBuffer stringMajorPercent = new DecimalFormat("###0.00").format(
+                majorDecimalToPercent, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD)
+        );
+
         oneDataResult = genotypeTransform(oneData, type);
+        oneDataResult.put("major", stringMajorPercent);
         return oneDataResult;
     }
 

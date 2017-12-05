@@ -1052,7 +1052,7 @@ $(function () {
         var svgLength = $("#" + id).find("svg").width();
         // to do
         if (svgLength >885){
-            var intervalNums = parseInt(svgLength/100);
+            var intervalNums = Math.ceil(svgLength/100);
             // 每份的长度
             ttdistance = parseInt(svgLength/intervalNums);
 
@@ -1065,7 +1065,7 @@ $(function () {
             // ttdistance = svgLength/intervalNums;
             ttdistance = parseInt(geneLength/100);
         }
-        for (var i=0;i<intervalNums;i++){
+        for (var i=0,k=intervalNums;i<intervalNums,k<intervalNums+1;i++,k--){
             var intervalElement1 = [];
             var intervalElement2 = [];
             var faultElement = [];
@@ -1082,10 +1082,30 @@ $(function () {
             // to do
             // 要对startPos+ i*ttdistance 取整数显示（保留 * 位 0 ）
             // 画位置文字信息
-            if(svgLength>885){
-                svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +i*ttdistance +",250)");
-            }else {
-                svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +i*svgLength/10 +",250)");
+             if(direction == "+"){
+                if(svgLength>885){
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
+                }else {
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+                }
+             }else if(direction == "-"){
+                 // AxisText(intervalNums);
+                     if(svgLength>885){
+                         svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
+                     }else {
+                         svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+                     }
+             }
+        }
+
+        // 根据方向不同，坐标轴的显示也不同
+        function AxisText(number){
+            for (var i=number,k=0;i<number+1,k<number+1;i--,k++){
+                if(svgLength>885){
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +k*ttdistance +",250)");
+                }else {
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +k*svgLength/10 +",250)");
+                }
             }
         }
         // 利用defined 把一条路径切割成一段一段的多条路径
@@ -1140,7 +1160,11 @@ $(function () {
                     var newArr = [];
                     for(var i=0;i<snpLocalPoints.length;i++){
                         var obj = {x:0,y:0,id:""};
-                        obj.x = (endPos - snpLocalPoints[i].pos)/10;
+                        if(direction == "-"){
+                            obj.x = (endPos - snpLocalPoints[i].pos)/10;
+                        }else if(direction == "+"){
+                            obj.x = (snpLocalPoints[i].pos - startPos)/10;
+                        }
                         obj.y = 90;
                         obj.id = snpLocalPoints[i].id;
                         obj.index = snpLocalPoints[i].index;
