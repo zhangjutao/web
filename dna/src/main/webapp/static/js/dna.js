@@ -1094,7 +1094,7 @@ $(function () {
                          svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
                      }else {
                          svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
-                     }
+        }
              }
         }
 
