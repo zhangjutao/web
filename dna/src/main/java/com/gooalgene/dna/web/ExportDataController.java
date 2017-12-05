@@ -33,6 +33,8 @@ import java.io.*;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Created by liuyan on 2017/11/13
@@ -850,16 +852,36 @@ public class ExportDataController {
         Set<Map.Entry<String, String>> entrySet = map.entrySet();
         List<String> runNos = Lists.newArrayList();
         Map samples = Maps.newHashMap();
-        for (Map.Entry entry : entrySet) {
-            String value = (String) entry.getValue();
-            if (StringUtils.isNotBlank(changeParam)) {
-                if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                    runNos.add((String) entry.getKey());
-                    samples.put(entry.getKey(), entry.getValue());
+        for(Map.Entry entry:entrySet){
+            String value=(String)entry.getValue();
+            if(StringUtils.isNotBlank(changeParam)){
+                if(isINDEL){
+                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
+                    String changePaAndMin=changeParam+snpTemp.getMinorallen();
+                    if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
+                }else {
+                    if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()){
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
                 }
             }
         }
-        dnaRunDto.setRunNos(runNos);
         String csvStr = "";
         StringBuilder stringBuilder = new StringBuilder();
         Map<String, String> titleMap = changeCloumn2Web();
@@ -873,7 +895,13 @@ public class ExportDataController {
                 stringBuilder.append("\n");
             }
         }
-        PageInfo<DNARunSearchResult> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+        //查询结果集
+        PageInfo<DNARunSearchResult> dnaRuns=null;
+        if(dnaRunDto!=null&&runNos.size()>0){
+            dnaRunDto.setRunNos(runNos);
+             dnaRuns= dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+
+        }
         List<DNARunSearchResult> dnaRunSearchResultList = dnaRuns.getList();
         for (DNARunSearchResult dnaRunSearchResult : dnaRunSearchResultList) {
             for (String titleItem : title) {
@@ -958,6 +986,9 @@ public class ExportDataController {
             stringBuilder.append("\n");
         }
         csvStr = stringBuilder.toString();
+        if(title.length==0){
+            csvStr="请正确选择表头信息";
+        }
         String fileName = "snpinfo_detail" + UUID.randomUUID() + ".csv";
         String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
         File tempfile = new File(filePath + fileName);
