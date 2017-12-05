@@ -112,6 +112,7 @@ $(function () {
     var globelGeneId;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
+        console.error("测试是否能进来")
         var obj = getPanelParams();
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
@@ -197,6 +198,7 @@ $(function () {
                 type: "POST",
                 dataType: "json",
                 success: function (res) {
+                    console.warn(res);
                     drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
                     svgPanZoom("#" + parentCont + " svg", {
                         zoomEnabled: true,
@@ -1001,6 +1003,7 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
+        debugger;
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1065,7 +1068,7 @@ $(function () {
             // ttdistance = svgLength/intervalNums;
             ttdistance = parseInt(geneLength/100);
         }
-        for (var i=0,k=intervalNums;i<intervalNums,k<intervalNums+1;i++,k--){
+        for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
             var faultElement = [];
@@ -1088,13 +1091,9 @@ $(function () {
                 }else {
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
                 }
-             }else if(direction == "-"){
-                 // AxisText(intervalNums);
-                     if(svgLength>885){
-                         svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
-                     }else {
-                         svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
-                     }
+             }
+             else if(direction == "-"){
+                 AxisText(intervalNums);
              }
         }
 
