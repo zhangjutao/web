@@ -263,7 +263,7 @@
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
             </div>
-            <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;margin-top:20px;">
+            <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
                 <thead style="overflow-x: scroll;">
                 <tr style="background: #F5F8FF;">
                     <th class="param cultivarT">品种名
@@ -775,6 +775,7 @@
             pageSize:page.pageSize
         };
         var curr = 1;
+        var currPageNumber = 1;
         //ajax 请求
         function getData(data,curr,fn){
             $.ajax({
@@ -886,6 +887,7 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = snpGetParams(changeParam);
+                                currPageNumber = obj.curr;
                                 tmp.pageNum = obj.curr;
                                 tmp.pageSize = paramData.pageSize;
                                 getData(tmp,obj.curr,filterParamer);
@@ -949,7 +951,12 @@
                 error:function (error){
                     console.log(error);
                 }
-            })
+            });
+            var data = snpGetParams(changeParam);
+            data.pageNum = paramData.pageNum;
+            data.pageSize = paramData.pageSize;
+            getData(data,paramData.pageNum);
+
         })
 
         // tag 样式切换
@@ -1179,6 +1186,17 @@
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
             getData(data,paramData.pageNum,filterParamer);
+        });
+
+        // pageSize 事件
+        $("#snpInforsPage select").change(function (e){
+            var val = $(this).val();
+            var data =snpGetParams(changeParam);
+            data.pageNum = paramData.pageNum;
+            data.pageSize = val;
+            data.pageNum = currPageNumber;
+            getData(data,data.pageNum);
+
         })
         // 表格导出
         $("#exportData").click(function (){

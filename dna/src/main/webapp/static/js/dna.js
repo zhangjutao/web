@@ -372,6 +372,7 @@ $(function () {
     $(".js-snp-tab").on("change", ".lay-per-page-count-select", function() {
         pageSizeSNP = $(this).val();
         var obj = getPanelParams();
+        // obj.params.pageNo = currPageNumb;
         requestForSnpData(1, obj.url, obj.params);
     });
 
@@ -417,6 +418,7 @@ $(function () {
     }
 
     var SNPData = [];
+    var currPageNumb=1;
     var Major_Or_Minor_SNP = "major";
     // 请求数据并分页 -- SNP
     function requestForSnpData(curr, url, params,fn) {
@@ -466,6 +468,8 @@ $(function () {
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = getPanelParams();
+                                currPageNumb = obj.curr;
+                                console.warn(currPageNumb);
                                 requestForSnpData(obj.curr, tmp.url, tmp.params);
                             }
                         }
@@ -555,6 +559,7 @@ $(function () {
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = getPanelParams();
+                                currPageNumb = obj.curr;
                                 requestForIndelData(obj.curr, tmp.url, tmp.params);
                             }
                         }
@@ -833,12 +838,22 @@ $(function () {
             $("#table_header_setting dd label").removeClass("checkbox-ac");
         })
     })
+
     /*全选*/
     $(".js-choose-all").click(function () {
         if($(this).hasClass("js-choose-all-ac")){
-            $(this).removeClass("js-choose-all-ac")
+            $(this).removeClass("js-choose-all-ac");
+            var _labels = $(this).parents(".choose-default").siblings(".checkbox-item").find(".table_header_setting label");
+            $.each(_labels, function (index, item) {
+                if($(this).hasClass("checkbox-ac")){
+                    $(this).removeClass("checkbox-ac");
+                }
+            });
+
+
         }else{
             $(this).addClass("js-choose-all-ac")
+
             var _labels = $(this).parents(".choose-default").siblings(".checkbox-item").find(".table_header_setting label");
             $.each(_labels, function (index, item) {
                 $(this).addClass("checkbox-ac");
@@ -1152,9 +1167,9 @@ $(function () {
                     var newArr = [];
                     for(var i=0;i<snpLocalPoints.length;i++){
                         var obj = {x:0,y:0,id:""};
-                        if(direction == "-" || direction == -1){
+                        if(direction == "-" ){
                             obj.x = (endPos - snpLocalPoints[i].pos)/10;
-                        }else if(direction == "+"){
+                        }else if(direction == "+" || direction == -1){
                             obj.x = (snpLocalPoints[i].pos - startPos)/10;
                         }
                         obj.y = 90;
@@ -1180,7 +1195,7 @@ $(function () {
                         }
                         for (var m=0;m<arr.length;m++){
                             var a = g1.append("a").attr("href","#" +arr[m].id);
-                            a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index);;
+                            a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index);
                         }
                         loop(temp)
                     }

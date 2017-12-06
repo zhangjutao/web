@@ -705,8 +705,8 @@
     </div>
     <div class="export-data">
         <p class="btn-export-set">
-            <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
             <button type="button" class="btn popu-set-up"><img src="${ctxStatic}/images/set.png">表格设置</button>
+            <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
         </p>
     </div>
     <div class="tab-detail-tbody">
@@ -1347,6 +1347,8 @@
                 dataType: "json",
                 success: function(res) {
                     renderPopuTable(res.data);
+
+
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(res.total / pageSizePopu), //通过后台拿到的总页数
@@ -1389,6 +1391,7 @@
             });
             $(".popu-table > tbody").empty().append(str);
         }
+         // 弹框 筛选确认按钮
 
         $(".js-popu-setting-btn").click(function(){
             var _labels = $(".js-table-header-setting-popu").find("label");
@@ -1400,8 +1403,21 @@
                     $(".popu-table").find(cls).show();
                 }
             });
+            // 判断脂肪酸是否显示
+            var linoleic1 ,linolenic1,oleic1,palmitic1,stearic1;
+               var linoleic2 =  $(".js-table-header-setting-popu").find("label[for='linoleic']").attr("class");
+               var linolenic2 =  $(".js-table-header-setting-popu").find("label[for='linolenic']").attr("class");
+               var oleic2 =  $(".js-table-header-setting-popu").find("label[for='oleic']").attr("class");
+               var palmitic2 =  $(".js-table-header-setting-popu").find("label[for='palmitic']").attr("class");
+               var stearic2 =  $(".js-table-header-setting-popu").find("label[for='stearic']").attr("class");
+            if(!linoleic2 && !linolenic2 && !oleic2 && !palmitic2 && !stearic2){
+                $(".popu-table thead").find("td[colspan='5']").hide();
+            }else {
+                if( $(".popu-table thead").find("td[colspan='5']").is(":hidden")){
+                    $(".popu-table thead").find("td[colspan='5']").show();
+                }
+            }
         });
-
 
         /* 关闭群体信息、弹框 */
         $(".tab-detail-thead p a").click(function(){

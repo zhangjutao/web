@@ -75,6 +75,7 @@
     min-height: 195px;
     margin-left:33px;
     position:relative;
+    overflow-y: hidden;
 }
 #snpinfoTable table{
     border-collapse: collapse;
