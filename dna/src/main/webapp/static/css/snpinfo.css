@@ -399,3 +399,9 @@ a {
 .changeTableStyle{
     margin-top: 56px!important;
 }
+.pieShowTop{
+    width:1200px;
+    height:2px;
+    border-top:1px solid #E4E4E4;
+    margin-top:16px;"
+}

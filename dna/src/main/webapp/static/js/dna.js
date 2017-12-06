@@ -1065,7 +1065,6 @@ $(function () {
             // ttdistance = svgLength/intervalNums;
             ttdistance = parseInt(geneLength/100);
         }
-        debugger;
         for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
@@ -1083,7 +1082,7 @@ $(function () {
             // to do
             // 要对startPos+ i*ttdistance 取整数显示（保留 * 位 0 ）
             // 画位置文字信息
-             if(direction == "+"){
+             if(direction == "+" || direction == -1){
                 if(svgLength>885){
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
                 }else {

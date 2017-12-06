@@ -149,7 +149,7 @@
                 </tr>
             </table>
         </div>
-        <p style="width:1200px;height:2px;border-top:1px solid #E4E4E4;margin-top:16px;"></p>
+        <p class="pieShowTop"></p>
         <div id="pieShow">
         </div>
         <div id="snpinfoTable">
@@ -612,6 +612,8 @@
         if(stateType == "ind"){
              $("#snpinfoTable table th.genoTypeT").remove();
              $("#selectedDetails .genoType").parent().remove();
+             $("#pieShow").css("border-bottom","1px solid #ffffff");
+             $(".pieShowTop").css("border-top","1px solid #ffffff");
         }
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
@@ -906,7 +908,6 @@
                 dataType:"json",
                 success:function (result){
                     if(result.code !=0){
-                        $("#paging").hide();
                         $(".searchBox input").addClass("inputError")
                         $("#errorBoxShow").show();
                     }else {
@@ -916,16 +917,17 @@
                         if( !$("#errorBoxShow").is(":hidden")){
                             $("#errorBoxShow").hide();
                         }
-                        id = result.data.snpData.id;
-                        major =result.data.snpData.majorallen;
-                        minor =result.data.snpData.minorallen;
-                        $(".snpId").text(result.data.snpData.id);
-                        $(".snpCon").text(result.data.snpData.consequencetype);
-                        $(".snpChr").text(result.data.snpData.chr);
-                        $(".snpPos").text(result.data.snpData.pos);
-                        $(".snpRef").text(result.data.snpData.ref);
-                        $(".snpMaj").text(result.data.snpData.majorallen);
-                        $(".snpMio").text(result.data.snpData.minorallen);
+                        id = result.data.INDELData.id;
+                        major =result.data.INDELData.majorallen;
+                        minor =result.data.INDELData.minorallen;
+                        $(".snpTop").text(result.data.INDELData.id);
+                        $(".snpId").text(result.data.INDELData.id);
+                        $(".snpCon").text(result.data.INDELData.consequencetype);
+                        $(".snpChr").text(result.data.INDELData.chr);
+                        $(".snpPos").text(result.data.INDELData.pos);
+                        $(".snpRef").text(result.data.INDELData.ref);
+                        $(".snpMaj").text(result.data.INDELData.majorallen);
+                        $(".snpMio").text(result.data.INDELData.minorallen);
                         $(".snpQue").text(result.data.major + "%");
                         changeParam = major;
                         var data = snpGetParams(changeParam);
@@ -933,6 +935,7 @@
                         data.pageSize = paramData.pageSize;
                         getData(data,paramData.pageNum);
                         //重新画图
+                        // 这里要判断是indel 进来的还是snp 进来的
                         AA = result.data.RefAndRefPercent;
                         TT = result.data.totalAltAndAltPercent;
                         AT = result.data.totalRefAndAltPercent;
