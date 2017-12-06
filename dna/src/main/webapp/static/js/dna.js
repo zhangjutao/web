@@ -1065,6 +1065,7 @@ $(function () {
             // ttdistance = svgLength/intervalNums;
             ttdistance = parseInt(geneLength/100);
         }
+        debugger;
         for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
@@ -1089,21 +1090,17 @@ $(function () {
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
                 }
              }
+             // 根据方向不同，坐标轴的显示也不同
              else if(direction == "-"){
-                 AxisText(intervalNums);
+                 if(svgLength>885){
+                     svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
+                 }else {
+                     svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+                 }
              }
         }
 
-        // 根据方向不同，坐标轴的显示也不同
-        function AxisText(number){
-            for (var i=number,k=0;i<number+1,k<number+1;i--,k++){
-                if(svgLength>885){
-                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +k*ttdistance +",250)");
-                }else {
-                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +k*svgLength/10 +",250)");
-                }
-            }
-        }
+
         // 利用defined 把一条路径切割成一段一段的多条路径
             var line2 = line.defined(function(d, i, index) {
                 //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
