@@ -321,4 +321,5 @@ p.first{
 #tagsPagination {
     position: relative;
     bottom: 14px;
+    top:-1px;
 }

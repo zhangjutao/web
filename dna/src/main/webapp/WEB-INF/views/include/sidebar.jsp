@@ -300,7 +300,7 @@
                     </div>
                     <div class="retract popCnt1"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
                     <div id="tagKind" class="kindCnt1">
-                        <div style="overflow-x: scroll;height: 438px;">
+                        <div style="overflow-x: scroll;height: 419px;">
                             <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
                                 <thead style="overflow-x: scroll;width:730px;">
                                 <tr>

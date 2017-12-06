@@ -57,7 +57,7 @@
         <div id="trInfos">
             <table cellspacing="0" cellpadding="0" style="table-layout:fixed; ">
                 <tr>
-                    <td class="trWidth">SNP ID:</td>
+                    <td class="trWidth">SNP/INDEL ID:</td>
                     <c:if test="${result.snpData!=null}">
                         <td class="trWidth2 snpId">${result.snpData.id}</td>
                     </c:if>
@@ -711,7 +711,7 @@
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data);
+            getData(data,paramData.pageNum);
         });
         $(".major").click(function (){
             major = $(".snpMaj").text().trim();
@@ -721,7 +721,7 @@
             console.info(data);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data,paramData.pageNum);
+            getData(data,paramData.pageNum,filterParamer);
         })
         window.onload = function (){
             var data = snpGetParams(changeParam);
@@ -756,7 +756,7 @@
                     var selectedDatas = snpGetParams(changeParam);
                     selectedDatas.pageNum = paramData.pageNum;
                     selectedDatas.pageSize = paramData.pageSize;
-                    getData(selectedDatas,selectedDatas.pageNum);
+                    getData(selectedDatas,selectedDatas.pageNum,filterParamer);
                 }
             }
         }
@@ -776,7 +776,7 @@
         };
         var curr = 1;
         //ajax 请求
-        function getData(data,curr){
+        function getData(data,curr,fn){
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
@@ -870,6 +870,7 @@
                             }
                         }
                     };
+                    fn&&fn();
                     // 分页
                     laypage({
                         cont: $('#snpInforsPage .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -887,7 +888,7 @@
                                 var tmp = snpGetParams(changeParam);
                                 tmp.pageNum = obj.curr;
                                 tmp.pageSize = paramData.pageSize;
-                                getData(tmp,obj.curr);
+                                getData(tmp,obj.curr,filterParamer);
                             }
                         }
                     });
@@ -933,7 +934,7 @@
                         var data = snpGetParams(changeParam);
                         data.pageNum = paramData.pageNum;
                         data.pageSize = paramData.pageSize;
-                        getData(data,paramData.pageNum);
+                        getData(data,paramData.pageNum,filterParamer);
                         //重新画图
                         // 这里要判断是indel 进来的还是snp 进来的
                         AA = result.data.RefAndRefPercent;
@@ -1043,7 +1044,7 @@
 
             selectedDatas1.pageNum = paramData.pageNum;
             selectedDatas1.pageSize = paramData.pageSize;
-            getData(selectedDatas1,selectedDatas1.pageNum);
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);
         })
         // 导出数据部分
         $('#tableSet').click(function (){
@@ -1092,6 +1093,31 @@
         initExportTitles();
         // 确定按钮（过滤条件）
         $("#operate .sure").click(function (){
+            filterParamer();
+//            exportTitles = [];
+//            initExportTitles();
+//            var lists = $("#selectedDetails li");
+//            for(var i=0;i<lists.length;i++){
+//                var $input = $(lists[i]).find("input");
+//                var classVal = $input.attr("name");
+//                if(!$input.is(":checked")){
+//                    var idx = exportTitles.indexOf(classVal);
+//                    exportTitles.splice(idx,1);
+//                    var newClassVal = "." + classVal + "T";
+//                    $("#snpinfoTable thead").find(newClassVal).hide();
+//                    $("#snpinfoTable tbody").find(newClassVal).hide();
+//                }
+//                else {
+//                    var newClassVal = "." + classVal + "T";
+//                    if($("#snpinfoTable thead").find(newClassVal).is(":hidden")){
+//                        $("#snpinfoTable thead").find(newClassVal).show();
+//                        $("#snpinfoTable tbody").find(newClassVal).show();
+//                    }
+//                }
+//            }
+        });
+        // 每次请求数据都要检查 当前表格设置的筛选条件
+        function filterParamer(){
             exportTitles = [];
             initExportTitles();
             var lists = $("#selectedDetails li");
@@ -1113,8 +1139,7 @@
                     }
                 }
             }
-            console.warn(exportTitles);
-        });
+        }
         //选中状态代码封装
         function checkStatus(bool){
             var lists = $("#selectedDetails li");
@@ -1153,7 +1178,7 @@
             var data =snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data);
+            getData(data,paramData.pageNum,filterParamer);
         })
         // 表格导出
         $("#exportData").click(function (){
