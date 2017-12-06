@@ -3,6 +3,7 @@ package com.gooalgene.dna.web;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
+import com.gooalgene.common.constant.ResultEnum;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
@@ -662,7 +663,7 @@ public class SNPController {
             String value=(String)entry.getValue();
             if(StringUtils.isNotBlank(changeParam)){
                 if(type.equals("indel")){
-                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
+                    String changePaAndMaj=snpTemp.getMajorallen()+changeParam;
                     String changePaAndMin=changeParam+snpTemp.getMinorallen();
                     if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
@@ -693,6 +694,9 @@ public class SNPController {
             dnaRunDto.setRunNos(runNos);
             PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
             response.put("dnaRuns",dnaRuns);
+        }
+        if(samples.size()<=0){
+            return ResultUtil.error(ResultEnum.SNP_ID_NOT_EXIST);
         }
         response.put("samples",samples);
         return ResultUtil.success(response);
