@@ -867,6 +867,7 @@
                                         $(item).find("td.genoTypeT").remove();
                                     }
                                 })
+                            }else{
 
                             }
                         }
@@ -910,7 +911,6 @@
                 data:{id:searchId},
                 dataType:"json",
                 success:function (result){
-                    debugger;
                     if(result.code !=0){
                         $(".searchBox input").addClass("inputError")
                         $("#errorBoxShow").show();
@@ -923,37 +923,91 @@
                         }
                         // indel 隐藏 饼图和genoType;
                         if(result.data.type=="INDEL"){
-                            $("#snpinfoTable table th.genoTypeT").remove();
-                            $("#selectedDetails .genoType").parent().remove();
-                            $("#pieShow").css("border-bottom","1px solid #ffffff").hide();
+                            stateType = "ind";
+                            console.log($("#snpinfoTable table th.genoTypeT").get(0));
+                            if(($("#snpinfoTable table th.genoTypeT").get(0))){
+                                $("#snpinfoTable table th.genoTypeT").remove();
+                            };
+                            if(($("#selectedDetails .genoType").get(0))){
+                                $("#selectedDetails .genoType").parent().remove();
+                            };
+                            if(!$("#pieShow").is(":hidden")){
+                                $("#pieShow").css("border-bottom","1px solid #ffffff").hide();
+                            }
                             $(".pieShowTop").css("border-top","1px solid #ffffff");
+
+
+                            //  =======
+                            id = result.data.INDELData.id;
+                            major =result.data.INDELData.majorallen;
+                            minor =result.data.INDELData.minorallen;
+                            $(".snpTop").text(result.data.INDELData.id);
+                            $(".snpId").text(result.data.INDELData.id);
+                            $(".snpCon").text(result.data.INDELData.consequencetype);
+                            $(".snpChr").text(result.data.INDELData.chr);
+                            $(".snpPos").text(result.data.INDELData.pos);
+                            $(".snpRef").text(result.data.INDELData.ref);
+                            $(".snpMaj").text(result.data.INDELData.majorallen);
+                            $(".snpMio").text(result.data.INDELData.minorallen);
+                            $(".snpQue").text(result.data.major + "%");
+                            changeParam = major;
+                            var data = snpGetParams(changeParam);
+                            data.pageNum = paramData.pageNum;
+                            data.pageSize = paramData.pageSize;
+                            getData(data,paramData.pageNum,filterParamer);
+//
+                        }else {
+                            stateType = "snp";
+                            if($("#pieShow").is(":hidden")){
+                                $("#pieShow").css("border-bottom","1px solid #E4E4E4").show();
+                            };
+                            if(!$("#snpinfoTable table th.genoTypeT").get(0)){
+                                var th ="<th class='param genoTypeT'> GenoType  <img src='${ctxStatic}/images/arrow-drop-down.png' alt='logo'> <div class='inputComponent'>"+
+                                    "                            <input type='text' placeholder='请输入' class='pubescenceColorI inputStyle'>" +
+                                    "                            <p>" +
+                                    "                                <a href='javascript:void(0);' class='btnCancel'>取消</a>" +
+                                    "                                <a href='javascript:void(0);' class='btnConfirmInfo'>确定</a>" +
+                                    "                            </p>" +
+                                    "                        </div>";
+                                $("#snpinfoTable table th.cultivarT").after(th);
+                            };
+                            if(!$("#selectedDetails .genoType").get(0)){
+                                var li = "<li>" +
+                                            "<input type='checkbox' name='genoType' class='genoType' checked='checked'> GenoType" +
+                                   " </li>";
+                                $("#selectedDetails li input.cultivar").parent().after(li);
+                            };
+                            $(".pieShowTop").css("border-top","1px solid #E4E4E4");
+
+                            ///=====
+                            id = result.data.snpData.id;
+                            major =result.data.snpData.majorallen;
+                            minor =result.data.snpData.minorallen;
+                            $(".snpTop").text(result.data.snpData.id);
+                            $(".snpId").text(result.data.snpData.id);
+                            $(".snpCon").text(result.data.snpData.consequencetype);
+                            $(".snpChr").text(result.data.snpData.chr);
+                            $(".snpPos").text(result.data.snpData.pos);
+                            $(".snpRef").text(result.data.snpData.ref);
+                            $(".snpMaj").text(result.data.snpData.majorallen);
+                            $(".snpMio").text(result.data.snpData.minorallen);
+                            $(".snpQue").text(result.data.major + "%");
+                            changeParam = major;
+                            var data = snpGetParams(changeParam);
+                            data.pageNum = paramData.pageNum;
+                            data.pageSize = paramData.pageSize;
+                            getData(data,paramData.pageNum,filterParamer);
+                            //重新画图
+                            // 这里要判断是indel 进来的还是snp 进来的
+                            AA = result.data.RefAndRefPercent;
+                            TT = result.data.totalAltAndAltPercent;
+                            AT = result.data.totalRefAndAltPercent;
+                            var n1 =result.data.snpData.ref + result.data.snpData.ref;
+                            var n2 =result.data.snpData.ref + result.data.snpData.alt;
+                            var n3 =result.data.snpData.alt +result.data.snpData.alt;
+                            drawPie(AA,TT,AT,n1,n2,n3);
                         }
-                        id = result.data.snpData.id;
-                        major =result.data.snpData.majorallen;
-                        minor =result.data.snpData.minorallen;
-                        $(".snpTop").text(result.data.snpData.id);
-                        $(".snpId").text(result.data.snpData.id);
-                        $(".snpCon").text(result.data.snpData.consequencetype);
-                        $(".snpChr").text(result.data.snpData.chr);
-                        $(".snpPos").text(result.data.snpData.pos);
-                        $(".snpRef").text(result.data.snpData.ref);
-                        $(".snpMaj").text(result.data.snpData.majorallen);
-                        $(".snpMio").text(result.data.snpData.minorallen);
-                        $(".snpQue").text(result.data.major + "%");
-                        changeParam = major;
-                        var data = snpGetParams(changeParam);
-                        data.pageNum = paramData.pageNum;
-                        data.pageSize = paramData.pageSize;
-                        getData(data,paramData.pageNum,filterParamer);
-                        //重新画图
-                        // 这里要判断是indel 进来的还是snp 进来的
-                        AA = result.data.RefAndRefPercent;
-                        TT = result.data.totalAltAndAltPercent;
-                        AT = result.data.totalRefAndAltPercent;
-                        var n1 =result.data.snpData.ref + result.data.snpData.ref;
-                        var n2 =result.data.snpData.ref + result.data.snpData.alt;
-                        var n3 =result.data.snpData.alt +result.data.snpData.alt;
-                        drawPie(AA,TT,AT,n1,n2,n3);
+
                     }
                 },
                 error:function (error){
@@ -984,7 +1038,7 @@
             }
         })
         //表格筛选框显示隐藏
-        $("#snpinfoTable thead th").mouseover(function (){
+        $("#snpinfoTable thead").on("mouseover","th",function (){
             $(this).find(".inputComponent").show();
         }).mouseleave(function (){
             $(this).find(".inputComponent").hide();
