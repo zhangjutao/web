@@ -129,6 +129,9 @@ public class SNPService {
 
         oneDataResult = genotypeTransform(oneData, type);
         oneDataResult.put("major", stringMajorPercent);
+        if (type.equals("INDEL")) {
+            oneDataResult.put("type", type);
+        }
         return oneDataResult;
     }
 
