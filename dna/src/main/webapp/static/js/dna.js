@@ -1016,6 +1016,7 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
+        debugger;
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1036,16 +1037,16 @@ $(function () {
         var totalLength;
         if(geneLength >svgTotal*10){
             var svg = d3.select("#" +id).append("svg").attr("width",parseInt(geneLength/10) + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[parseInt(geneLength/10),220]];
-            var topLineData = [[20,1],[parseInt(geneLength/10),1]];
-            var centerLineData = [[20,90],[parseInt(geneLength/10),90]]
-            totalLength = parseInt(geneLength/10);
+            var acrossLineData = [[20,220],[Math.ceil(geneLength/10),220]];
+            var topLineData = [[20,1],[Math.ceil(geneLength/10),1]];
+            var centerLineData = [[20,90],[Math.ceil(geneLength/10),90]]
+            totalLength = Math.ceil(geneLength/10);
         }else {
-            var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[svgTotal,220]];
-            var topLineData = [[20,1],[svgTotal,1]];
-            var centerLineData = [[20,90],[svgTotal,90]]
-            totalLength = svgTotal;
+            var svg = d3.select("#" + id).append("svg").attr("width",svgTotal+35 + "px").attr("height","250px");
+            var acrossLineData = [[20,220],[svgTotal+35,220]];
+            var topLineData = [[20,1],[svgTotal+35,1]];
+            var centerLineData = [[20,90],[svgTotal+35,90]]
+            totalLength = svgTotal+35;
         }
         // 创建一个直线生成器
         var line = d3.line()
@@ -1164,18 +1165,35 @@ $(function () {
                 }
             // }
             // 画snp 位点
+                    debugger;
                     var newArr = [];
-                    for(var i=0;i<snpLocalPoints.length;i++){
-                        var obj = {x:0,y:0,id:""};
-                        if(direction == "-" ){
-                            obj.x = (endPos - snpLocalPoints[i].pos)/10;
-                        }else if(direction == "+" || direction == -1){
-                            obj.x = (snpLocalPoints[i].pos - startPos)/10;
+                    if(geneLength<8850){
+                            var scale = geneLength/885;
+                            for(var i=0;i<snpLocalPoints.length;i++){
+                                var obj = {x:0,y:0,id:""};
+                                if(direction == "-" ){
+                                    obj.x = (endPos - snpLocalPoints[i].pos)/scale;
+                                }else if(direction == "+" || direction == -1){
+                                    obj.x = (snpLocalPoints[i].pos - startPos)/scale;
+                                }
+                                obj.y = 90;
+                                obj.id = snpLocalPoints[i].id;
+                                obj.index = snpLocalPoints[i].index;
+                                newArr.push(obj);
+                            }
+                    }else {
+                        for(var i=0;i<snpLocalPoints.length;i++){
+                            var obj = {x:0,y:0,id:""};
+                            if(direction == "-" ){
+                                obj.x = (endPos - snpLocalPoints[i].pos)/10;
+                            }else if(direction == "+" || direction == -1){
+                                obj.x = (snpLocalPoints[i].pos - startPos)/10;
+                            }
+                            obj.y = 90;
+                            obj.id = snpLocalPoints[i].id;
+                            obj.index = snpLocalPoints[i].index;
+                            newArr.push(obj);
                         }
-                        obj.y = 90;
-                        obj.id = snpLocalPoints[i].id;
-                        obj.index = snpLocalPoints[i].index;
-                        newArr.push(obj);
                     }
                     var globalY = 10;
                     function loop(arr) {
