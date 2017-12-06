@@ -390,9 +390,9 @@ public class ExportDataController {
     @RequestMapping("/dna/dataExport")
     @ResponseBody
     public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
-        long startTime = new Date().getTime();
+        Date startTime = new Date();
         logger.info("开始时间" + startTime);
-        long queryTime = 0;
+         Date queryTime = null;
         String model = request.getParameter("model");//区分导出数据类型：regin、gene、samples
         String columns = request.getParameter("choices");//表头列
         logger.info("model:" + model + ",colums:" + columns);
@@ -419,10 +419,10 @@ public class ExportDataController {
                         total = EXPORT_NUM;
                     }
                     page.setPageSize(total);
-                    result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
-                    //临时测试查询时间、
-                    queryTime = new Date().getTime();
-                    logger.info("查询耗时" + (queryTime - startTime) / 1000 + "秒");
+                    result = snpService.searchSNPinRegionForExport(type, ctype, chr, startPos, endPos, group, page);
+                    //临时测试查询时间
+                    queryTime = new Date();
+
                     content = serialList(type, result, columns.split(","));
 
                 } else if ("GENE".equals(model)) {
@@ -502,7 +502,8 @@ public class ExportDataController {
         } else {
             content = "请选择正确的显示表头数据";
         }
-        long endTime = new Date().getTime();
+        Date endTime = new Date();
+        logger.info("结束时间:"+endTime);
         Tools.toDownload(fileName, content, response);
     }
 

@@ -135,7 +135,7 @@ public class SNPService {
 
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
         List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
-        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos),list);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos), list);
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -168,6 +168,40 @@ public class SNPService {
         if (CollectionUtils.isNotEmpty(dnaGenStructures)) {
             result.put("bps", dnaGenStructures.get(0).getBps());
         }
+        return result;
+    }
+
+    /*
+    * @author 张衍平
+    * 按范围查询导出数据使用
+    * */
+    public Map searchSNPinRegionForExport(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page){
+
+        List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
+        Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
+        Map result = new HashMap();
+        result.put("conditions", chr + "," + startPos + "," + endPos);
+        if (page != null) {
+            result.put("pageNo", page.getPageNo());
+            result.put("pageSize", page.getPageSize());
+            result.put("total", page.getCount());
+        }
+        List<SNPDto> data = Lists.newArrayList();
+        for (SNP snp : snps) {
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            Map map = snpService.findSampleById(snp.getId());
+            snpDto.setGeneType(map);
+            JSONArray freqData;
+            if(StringUtils.equals(type,"SNP")){
+                freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);
+            }else {
+                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), group_runNos);
+            }
+            snpDto.setFreq(freqData);
+            data.add(snpDto);
+        }
+        result.put("data", data);
         return result;
     }
 
