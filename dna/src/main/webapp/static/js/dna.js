@@ -1065,7 +1065,7 @@ $(function () {
             // ttdistance = svgLength/intervalNums;
             ttdistance = parseInt(geneLength/100);
         }
-        for (var i=0,k=intervalNums;i<intervalNums,k<intervalNums+1;i++,k--){
+        for (var i=0;i<intervalNums;i++){
             var intervalElement1 = [];
             var intervalElement2 = [];
             var faultElement = [];
@@ -1088,13 +1088,9 @@ $(function () {
                 }else {
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
                 }
-             }else if(direction == "-"){
-                 // AxisText(intervalNums);
-                     if(svgLength>885){
-                         svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
-                     }else {
-                         svg.append("text").text(parseInt(startPos+ k*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
-                     }
+             }
+             else if(direction == "-"){
+                 AxisText(intervalNums);
              }
         }
 
@@ -1160,7 +1156,7 @@ $(function () {
                     var newArr = [];
                     for(var i=0;i<snpLocalPoints.length;i++){
                         var obj = {x:0,y:0,id:""};
-                        if(direction == "-"){
+                        if(direction == "-" || direction == -1){
                             obj.x = (endPos - snpLocalPoints[i].pos)/10;
                         }else if(direction == "+"){
                             obj.x = (snpLocalPoints[i].pos - startPos)/10;

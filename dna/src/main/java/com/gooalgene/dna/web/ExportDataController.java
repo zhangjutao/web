@@ -255,19 +255,19 @@ public class ExportDataController {
             if (map.containsKey("weightPer100seeds")) {
                 float weight = dnaRun.getWeightPer100seeds();
                 dnaList.add(!String.valueOf(weight).equals("") ? String.valueOf(weight) : "-");
-                sb.append(weight != 0 ? String.valueOf(weight) : "-").append(",");
+                sb.append(weight != 0 ? ""+String.valueOf(weight) : "-").append(",");
             }
             //蛋白质含量
             if (map.containsKey("protein")) {
                 float protein = dnaRun.getProtein();
                 dnaList.add(!String.valueOf(protein).equals("") ? String.valueOf(protein) : "-");
-                sb.append(protein != 0 ? String.valueOf(protein) : "-").append(",");
+                sb.append(protein != 0 ? ""+String.valueOf(protein) : "-").append(",");
             }
             //含油量
             if (map.containsKey("oil")) {
                 float oil = dnaRun.getOil();
                 dnaList.add(!String.valueOf(oil).equals("0") ? String.valueOf(oil) : "-");
-                sb.append(oil != 0 ? String.valueOf(oil) : "-").append(",");
+                sb.append(oil != 0 ? ""+String.valueOf(oil) : "-").append(",");
             }
             //成熟期
             if (map.containsKey("maturityDate")) {
@@ -279,7 +279,7 @@ public class ExportDataController {
             if (map.containsKey("height")) {
                 float height = dnaRun.getHeight();
                 dnaList.add(!String.valueOf(height).equals("0") ? String.valueOf(height) : "-");
-                sb.append(height != 0 ? String.valueOf(height) : "-").append(",");
+                sb.append(height != 0 ? ""+String.valueOf(height) : "-").append(",");
             }
 
             //种皮色
@@ -323,45 +323,45 @@ public class ExportDataController {
             if (map.containsKey("yield")) {
                 float yield = dnaRun.getYield();
                 dnaList.add(!String.valueOf(yield).equals("0") ? String.valueOf(yield) : "-");
-                sb.append(yield != 0 ? String.valueOf(yield) : "-").append(",");
+                sb.append(yield != 0 ?""+String.valueOf(yield) : "-").append(",");
             }
             //顶端小叶长度
             if (map.containsKey("upperLeafletLength")) {
                 float upperLeafletLength = dnaRun.getUpperLeafletLength();
                 dnaList.add(!String.valueOf(upperLeafletLength).equals("") ? String.valueOf(upperLeafletLength) : "-");
-                sb.append(upperLeafletLength != 0 ? String.valueOf(upperLeafletLength) : "-").append(",");
+                sb.append(upperLeafletLength != 0 ? ""+String.valueOf(upperLeafletLength) : "-").append(",");
             }
             //脂肪酸的内容
             //亚油酸
             if (map.containsKey("linoleic")) {
                 float linoleic = dnaRun.getLinoleic();
                 dnaList.add(!String.valueOf(linoleic).equals("") ? String.valueOf(linoleic) : "-");
-                sb.append(linoleic != 0 ? String.valueOf(linoleic) : "-").append(",");
+                sb.append(linoleic != 0 ? ""+String.valueOf(linoleic) : "-").append(",");
             }
             //亚麻酸
             if (map.containsKey("linolenic")) {
                 float linolenic = dnaRun.getLinolenic();
                 dnaList.add(!String.valueOf(linolenic).equals("") ? String.valueOf(linolenic) : "-");
-                sb.append(linolenic != 0 ? String.valueOf(linolenic) : "-").append(",");
+                sb.append(linolenic != 0 ? ""+String.valueOf(linolenic) : "-").append(",");
             }
             //油酸
             if (map.containsKey("oleic")) {
                 float oleic = dnaRun.getOleic();
                 dnaList.add(!String.valueOf(oleic).equals("") ? String.valueOf(oleic) : "-");
-                sb.append(oleic != 0 ? String.valueOf(oleic) : "-").append(",");
+                sb.append(oleic != 0 ? ""+String.valueOf(oleic) : "-").append(",");
             }
 
             //软脂酸
             if (map.containsKey("palmitic")) {
                 float palmitic = dnaRun.getPalmitic();
                 dnaList.add(!String.valueOf(palmitic).equals("") ? String.valueOf(palmitic) : "-");
-                sb.append(palmitic != 0 ? String.valueOf(palmitic) : "-").append(",");
+                sb.append(palmitic != 0 ? ""+String.valueOf(palmitic) : "-").append(",");
             }
             //硬脂酸
             if (map.containsKey("stearic")) {
                 float stearic = dnaRun.getStearic();
                 dnaList.add(!String.valueOf(stearic).equals("") ? String.valueOf(stearic) : "-");
-                sb.append(stearic != 0 ? String.valueOf(stearic) : "-").append(",");
+                sb.append(stearic != 0 ?""+String.valueOf(stearic) : "-").append(",");
             }
 
             //前端数据不包含部分
@@ -446,7 +446,7 @@ public class ExportDataController {
                             start = start - 2000 < 0 ? 0 : start - 2000;
                         }
                         if (StringUtils.isNoneBlank(downstream)) {
-                            end = end + Long.valueOf(downstream) + 2000;
+                            end = end + Long.valueOf(downstream);
                         } else {
                             end = end + 2000;
                         }
@@ -613,15 +613,15 @@ public class ExportDataController {
                 }
                 if (map.containsKey("weightPer100seeds")) {
                     Object weightPer100seeds = one.get("weightPer100seeds");
-                    sb.append((weightPer100seeds != null && !weightPer100seeds.toString().equals("") ? weightPer100seeds : "-")).append(",");
+                    sb.append((weightPer100seeds != null && !weightPer100seeds.toString().equals("") ? ""+weightPer100seeds : "-")).append(",");
                 }
                 if (map.containsKey("oil")) {
                     Object oil = one.get("oil");
-                    sb.append((oil != null && !oil.toString().equals("") ? oil : "-")).append(",");
+                    sb.append((oil != null && !oil.toString().equals("") ? ""+oil : "-")).append(",");
                 }
                 if (map.containsKey("protein")) {
                     Object protein = one.get("protein");
-                    sb.append((protein != null && !protein.toString().equals("") ? protein : "-")).append(",");
+                    sb.append((protein != null && !protein.toString().equals("") ? ""+protein : "-")).append(",");
                 }
                 if (map.containsKey("floweringDate")) {
                     Object floweringDate = one.get("floweringDate");
@@ -633,7 +633,7 @@ public class ExportDataController {
                 }
                 if (map.containsKey("height")) {
                     Object height = one.get("height");
-                    sb.append((height != null && !height.toString().equals("") ? height : "-")).append(",");
+                    sb.append((height != null && !height.toString().equals("") ?""+height : "-")).append(",");
                 }
                 if (map.containsKey("seedCoatColor")) {
                     Object seedCoatColor = one.get("seedCoatColor");
@@ -660,32 +660,32 @@ public class ExportDataController {
                     sb.append((pubescenceColor != null && !pubescenceColor.toString().equals("") ? pubescenceColor : "-")).append(",");
                 }
                 if (map.containsKey("yield")) {
-                    Object maturityDate = one.get("yield");
-                    sb.append((maturityDate != null && !maturityDate.toString().equals("") ? maturityDate : "-")).append(",");
+                    Object yield = one.get("yield");
+                    sb.append((yield != null && !yield.toString().equals("") ? ""+yield: "-")).append(",");
                 }
                 if (map.containsKey("upperLeafletLength")) {
                     Object upperLeafletLength = one.get("upperLeafletLength");
-                    sb.append((upperLeafletLength != null && !upperLeafletLength.toString().equals("") ? upperLeafletLength : "-")).append(",");
+                    sb.append((upperLeafletLength != null && !upperLeafletLength.toString().equals("") ? ""+upperLeafletLength : "-")).append(",");
                 }
                 if (map.containsKey("linoleic")) {
                     Object linoleic = one.get("linoleic");
-                    sb.append((linoleic != null && !linoleic.toString().equals("") ? linoleic : "-")).append(",");
+                    sb.append((linoleic != null && !linoleic.toString().equals("") ?""+linoleic : "-")).append(",");
                 }
                 if (map.containsKey("linolenic")) {
                     Object linolenic = one.get("linolenic");
-                    sb.append((linolenic != null && !linolenic.toString().equals("") ? linolenic : "-")).append(",");
+                    sb.append((linolenic != null && !linolenic.toString().equals("") ?""+linolenic : "-")).append(",");
                 }
                 if (map.containsKey("oleic")) {
                     Object oleic = one.get("oleic");
-                    sb.append((oleic != null && !oleic.toString().equals("") ? oleic : "-")).append(",");
+                    sb.append((oleic != null && !oleic.toString().equals("") ?""+oleic : "-")).append(",");
                 }
                 if (map.containsKey("palmitic")) {
                     Object palmitic = one.get("palmitic");
-                    sb.append((palmitic != null && !palmitic.toString().equals("") ? palmitic : "-")).append(",");
+                    sb.append((palmitic != null && !palmitic.toString().equals("") ?""+palmitic : "-")).append(",");
                 }
                 if (map.containsKey("stearic")) {
                     Object stearic = one.get("stearic");
-                    sb.append((stearic != null && !stearic.toString().equals("") ? stearic : "-")).append(",");
+                    sb.append((stearic != null && !stearic.toString().equals("") ?""+stearic : "-")).append(",");
                 }
                 sb.append("\n");
             }
@@ -926,19 +926,19 @@ public class ExportDataController {
                     stringBuilder.append(!sampleName.equals("") ? sampleName : "-");
                 } else if (titleItem.equals("weightPer100seeds")) {
                     String weight = dnaRunSearchResult.getWeightPer100seeds();
-                    stringBuilder.append(weight != null && !weight.equals("") ? weight : "-");
+                    stringBuilder.append(weight != null && !weight.equals("") ? ""+weight : "-");
                 } else if (titleItem.equals("protein")) {
                     String protein = dnaRunSearchResult.getProtein();
-                    stringBuilder.append(!protein.equals("") ? protein : "-");
+                    stringBuilder.append(!protein.equals("") ?""+protein : "-");
                 } else if (titleItem.equals("oil")) {
                     String oil = dnaRunSearchResult.getOil();
-                    stringBuilder.append(!oil.equals("") ? oil : "-");
+                    stringBuilder.append(!oil.equals("") ?""+oil : "-");
                 } else if (titleItem.equals("maturityDate")) {
                     String maturityDate = dnaRunSearchResult.getMaturityDate();
                     stringBuilder.append(!maturityDate.equals("") ? maturityDate : "-");
                 } else if (titleItem.equals("height")) {
                     String height = dnaRunSearchResult.getHeight();
-                    stringBuilder.append(!height.equals("") ? height : "-");
+                    stringBuilder.append(!height.equals("") ?""+height : "-");
                 } else if (titleItem.equals("seedCoatColor")) {
                     String seedCoatColor = dnaRunSearchResult.getSeedCoatColor();
                     stringBuilder.append(!seedCoatColor.equals("") ? seedCoatColor : "-");
@@ -959,25 +959,25 @@ public class ExportDataController {
                     stringBuilder.append(!pubscenceColor.equals("") ? pubscenceColor : "-");
                 } else if (titleItem.equals("yield")) {
                     String yield = dnaRunSearchResult.getYield();
-                    stringBuilder.append(!yield.equals("") ? yield : "-");
+                    stringBuilder.append(!yield.equals("") ?""+yield : "-");
                 } else if (titleItem.equals("upperLeafletLength")) {
                     String upperLeafletLength = dnaRunSearchResult.getUpperLeafletLength();
-                    stringBuilder.append(!upperLeafletLength.equals("") ? upperLeafletLength : "-");
+                    stringBuilder.append(!upperLeafletLength.equals("") ?""+upperLeafletLength : "-");
                 } else if (titleItem.equals("linoleic")) {
                     String linoleic = dnaRunSearchResult.getLinoleic();
-                    stringBuilder.append(!linoleic.equals("") ? linoleic : "-");
+                    stringBuilder.append(!linoleic.equals("") ?""+linoleic : "-");
                 } else if (titleItem.equals("linolenic")) {
                     String linolenic = dnaRunSearchResult.getLinolenic();
-                    stringBuilder.append(!linolenic.equals("") ? linolenic : "-");
+                    stringBuilder.append(!linolenic.equals("") ? ""+linolenic : "-");
                 } else if (titleItem.equals("oleic")) {
                     String oleic = dnaRunSearchResult.getOleic();
-                    stringBuilder.append(!oleic.equals("") ? oleic : "-");
+                    stringBuilder.append(!oleic.equals("") ? ""+oleic : "-");
                 } else if (titleItem.equals("palmitic")) {
                     String palmitic = dnaRunSearchResult.getPalmitic();
-                    stringBuilder.append(!palmitic.equals("") ? palmitic : "-");
+                    stringBuilder.append(!palmitic.equals("") ? ""+palmitic : "-");
                 } else if (titleItem.equals("stearic")) {
                     String stearic = dnaRunSearchResult.getStearic();
-                    stringBuilder.append(!stearic.equals("") ? stearic : "-");
+                    stringBuilder.append(!stearic.equals("") ? ""+stearic : "-");
                 }
                 stringBuilder.append(",");
             }
