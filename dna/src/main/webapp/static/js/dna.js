@@ -401,6 +401,7 @@ $(function () {
         var _page_skip2 = $('#indel-paginate .laypage_skip');
         if(e && e.keyCode==13){ // enter 键
             if( _page_skip.hasClass("isFocus") ) {
+
                 if(_page_skip.val() * 1 > Math.ceil(($(".total-page-count-snp").text()*1)/pageSizeSNP)) {
                     return alert("输入页码不能大于总页数");
                 }
@@ -469,7 +470,6 @@ $(function () {
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = getPanelParams();
                                 currPageNumb = obj.curr;
-                                console.warn(currPageNumb);
                                 requestForSnpData(obj.curr, tmp.url, tmp.params);
                             }
                         }

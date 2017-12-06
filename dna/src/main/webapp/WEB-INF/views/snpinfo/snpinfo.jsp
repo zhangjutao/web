@@ -920,6 +920,14 @@
                         if( !$("#errorBoxShow").is(":hidden")){
                             $("#errorBoxShow").hide();
                         }
+                        debugger;
+                        // indel 隐藏 饼图和genoType;
+                        if(result.data.type=="INDEL"){
+                            $("#snpinfoTable table th.genoTypeT").remove();
+                            $("#selectedDetails .genoType").parent().remove();
+                            $("#pieShow").css("border-bottom","1px solid #ffffff").hide();
+                            $(".pieShowTop").css("border-top","1px solid #ffffff");
+                        }
                         id = result.data.INDELData.id;
                         major =result.data.INDELData.majorallen;
                         minor =result.data.INDELData.minorallen;
@@ -942,9 +950,9 @@
                         AA = result.data.RefAndRefPercent;
                         TT = result.data.totalAltAndAltPercent;
                         AT = result.data.totalRefAndAltPercent;
-                        var n1 =result.data.snpData.ref + result.data.snpData.ref;
-                        var n2 =result.data.snpData.ref + result.data.snpData.alt;
-                        var n3 =result.data.snpData.alt +result.data.snpData.alt;
+                        var n1 =result.data.INDELData.ref + result.data.INDELData.ref;
+                        var n2 =result.data.INDELData.ref + result.data.INDELData.alt;
+                        var n3 =result.data.INDELData.alt +result.data.INDELData.alt;
                         drawPie(AA,TT,AT,n1,n2,n3);
                     }
                 },
@@ -952,9 +960,11 @@
                     console.log(error);
                 }
             });
+            debugger;
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
+            console.log(data);
             getData(data,paramData.pageNum);
 
         })

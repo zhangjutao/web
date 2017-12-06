@@ -27,10 +27,8 @@
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/d3.js"></script>
     <script src="${ctxStatic}/js/svg-pan-zoom.js"></script>
-
-
     <style>
-        /*.total-page-count {display: none!important;}*/
+        .total-page-count {display: none!important;}
         /* master分支中无群体信息 */
         #populationInfos{
             padding:8px 20px;

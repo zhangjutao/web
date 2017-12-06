@@ -260,24 +260,24 @@ $(function (){
     $("#sysPopulations").on("blur", ".laypage_skip", function() {
         $(this).removeClass("isFocus");
     });
-
-    document.onkeydown = function(e) {
+    $("#sysPopulations").on("keydown",".laypage_skip",function (e){
         var _page_skip = $('#sysPopulations .laypage_skip');
-        if(e && e.keyCode==13){ // enter 键
-            if( _page_skip.hasClass("isFocus") ) {
-                if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
-                    return alert("输入页码不能大于总页数");
+            if(e && e.keyCode==13){ // enter 键
+                if( _page_skip.hasClass("isFocus") ) {
+                    if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
+                        return alert("输入页码不能大于总页数");
+                    }
+                    var selectedNum = $('#sysPopulations .laypage_skip').val();
+                    page.pageNum = selectedNum;
+                    paramData.pageNum = page.pageNum;
+                    var selectedDatas = getParamas();
+                    selectedDatas.pageNum = paramData.pageNum;
+                    selectedDatas.pageSize = paramData.pageSize;
+                    getData(selectedDatas,selectedDatas.pageNum);
                 }
-                var selectedNum = $('#sysPopulations .laypage_skip').val();
-                page.pageNum = selectedNum;
-                paramData.pageNum = page.pageNum;
-                var selectedDatas = getParamas();
-                selectedDatas.pageNum = paramData.pageNum;
-                selectedDatas.pageSize = paramData.pageSize;
-                getData(selectedDatas,selectedDatas.pageNum);
             }
-        }
-    }
+    })
+
     var curr = 1;
     var currPageNumber = 1;
     //ajax 请求
@@ -387,7 +387,6 @@ $(function (){
     // pageSize 事件
     $("#per-page-count select").change(function (e){
         var val = $(this).val();
-        console.warn(val);
         var data = getParamas();
         data.pageSize = val;
         data.pageNum = currPageNumber;

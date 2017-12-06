@@ -273,24 +273,32 @@ $(function (){
     $("#tagsPagination").on("blur", ".laypage_skip", function() {
         $(this).removeClass("isFocus");
     });
-
-    document.onkeydown = function(e) {
+    $("#tagsPagination").on("keydown",".laypage_skip",function (e){
         var _page_skip = $('#tagsPagination .laypage_skip');
-        if(e && e.keyCode==13){ // enter 键
-            if( _page_skip.hasClass("isFocus") ) {
-                if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
-                    return alert("输入页码不能大于总页数");
+            if(e && e.keyCode==13){ // enter 键
+                if( _page_skip.hasClass("isFocus") ) {
+                    if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
+                        return alert("输入页码不能大于总页数");
+                    }
+                    var selectedNum = $('#tagsPagination .laypage_skip').val();
+                    page.pageNum = selectedNum;
+                    paramData.pageNum = page.pageNum;
+                    var selectedDatas = getParamas();
+                    selectedDatas.pageNum = paramData.pageNum;
+                    selectedDatas.pageSize = paramData.pageSize;
+                    getData(selectedDatas,selectedDatas.pageNum,resetSaveStatus);
                 }
-                var selectedNum = $('#tagsPagination .laypage_skip').val();
-                page.pageNum = selectedNum;
-                paramData.pageNum = page.pageNum;
-                var selectedDatas = getParamas();
-                selectedDatas.pageNum = paramData.pageNum;
-                selectedDatas.pageSize = paramData.pageSize;
-                getData(selectedDatas,selectedDatas.pageNum,resetSaveStatus);
             }
-        }
-    }
+    });
+    // pageSize 事件
+    $("#tagsPagination select").change(function (e){
+        var val = $(this).val();
+        var data = getParamas();
+        data.pageSize = val;
+        data.pageNum =  paramData.pageSize;
+        getData(data,data.pageNum);
+
+    })
     // 分页
     var nums;
     var totalDatas;
@@ -406,8 +414,8 @@ $(function (){
                         }
                     }
                 });
-                $("#total-page-count span").html(result.data.total);
-                // $(".js-total-samples").html(result.data.total);
+                // $("#total-page-count span").html(result.data.total);
+                $(".js-total-samples").html(result.data.total);
             },
             error:function (error){
                 console.log(error);

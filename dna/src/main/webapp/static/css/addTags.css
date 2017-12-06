@@ -323,26 +323,26 @@ p.first{
     bottom: 14px;
     top:-1px;
 }
-#tagsPagination .checkbox-item-tab{
-    padding: 0px!important;
-}
-#tagsPagination .laypage_total{
-    margin: 0px!important;
-}
-#tagsPagination .ga-ctrl-footer{
-    text-align:left!important;
-    overflow:hidden;
-}
-#tagsPagination .pagination{
-    width: 434px;
-    float:left;
-    text-align:right;
-}
-#per-page-count{
-    float:left;
-}
-#total-page-count{
-    float:left;
-    position: absolute;
-    top: 21px;
-}
+/*#tagsPagination .checkbox-item-tab{*/
+    /*padding: 0px!important;*/
+/*}*/
+/*#tagsPagination .laypage_total{*/
+    /*margin: 0px!important;*/
+/*}*/
+/*#tagsPagination .ga-ctrl-footer{*/
+    /*text-align:left!important;*/
+    /*overflow:hidden;*/
+/*}*/
+/*#tagsPagination .pagination{*/
+    /*width: 434px;*/
+    /*float:left;*/
+    /*text-align:right;*/
+/*}*/
+/*#per-page-count{*/
+    /*float:left;*/
+/*}*/
+/*#total-page-count{*/
+    /*float:left;*/
+    /*position: absolute;*/
+    /*top: 21px;*/
+/*}*/
