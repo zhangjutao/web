@@ -131,6 +131,8 @@ public class SNPService {
         oneDataResult.put("major", stringMajorPercent);
         if (type.equals("INDEL")) {
             oneDataResult.put("type", type);
+        } else {
+            oneDataResult.put("type", type);
         }
         return oneDataResult;
     }
