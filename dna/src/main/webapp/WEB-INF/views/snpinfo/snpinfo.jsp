@@ -910,6 +910,7 @@
                 data:{id:searchId},
                 dataType:"json",
                 success:function (result){
+                    debugger;
                     if(result.code !=0){
                         $(".searchBox input").addClass("inputError")
                         $("#errorBoxShow").show();
@@ -917,10 +918,9 @@
                         if($(".searchBox input").hasClass("inputError")){
                             $(".searchBox input").removeClass("inputError");
                         };
-                        if( !$("#errorBoxShow").is(":hidden")){
+                        if(!$("#errorBoxShow").is(":hidden")){
                             $("#errorBoxShow").hide();
                         }
-                        debugger;
                         // indel 隐藏 饼图和genoType;
                         if(result.data.type=="INDEL"){
                             $("#snpinfoTable table th.genoTypeT").remove();
@@ -928,17 +928,17 @@
                             $("#pieShow").css("border-bottom","1px solid #ffffff").hide();
                             $(".pieShowTop").css("border-top","1px solid #ffffff");
                         }
-                        id = result.data.INDELData.id;
-                        major =result.data.INDELData.majorallen;
-                        minor =result.data.INDELData.minorallen;
-                        $(".snpTop").text(result.data.INDELData.id);
-                        $(".snpId").text(result.data.INDELData.id);
-                        $(".snpCon").text(result.data.INDELData.consequencetype);
-                        $(".snpChr").text(result.data.INDELData.chr);
-                        $(".snpPos").text(result.data.INDELData.pos);
-                        $(".snpRef").text(result.data.INDELData.ref);
-                        $(".snpMaj").text(result.data.INDELData.majorallen);
-                        $(".snpMio").text(result.data.INDELData.minorallen);
+                        id = result.data.snpData.id;
+                        major =result.data.snpData.majorallen;
+                        minor =result.data.snpData.minorallen;
+                        $(".snpTop").text(result.data.snpData.id);
+                        $(".snpId").text(result.data.snpData.id);
+                        $(".snpCon").text(result.data.snpData.consequencetype);
+                        $(".snpChr").text(result.data.snpData.chr);
+                        $(".snpPos").text(result.data.snpData.pos);
+                        $(".snpRef").text(result.data.snpData.ref);
+                        $(".snpMaj").text(result.data.snpData.majorallen);
+                        $(".snpMio").text(result.data.snpData.minorallen);
                         $(".snpQue").text(result.data.major + "%");
                         changeParam = major;
                         var data = snpGetParams(changeParam);
@@ -950,9 +950,9 @@
                         AA = result.data.RefAndRefPercent;
                         TT = result.data.totalAltAndAltPercent;
                         AT = result.data.totalRefAndAltPercent;
-                        var n1 =result.data.INDELData.ref + result.data.INDELData.ref;
-                        var n2 =result.data.INDELData.ref + result.data.INDELData.alt;
-                        var n3 =result.data.INDELData.alt +result.data.INDELData.alt;
+                        var n1 =result.data.snpData.ref + result.data.snpData.ref;
+                        var n2 =result.data.snpData.ref + result.data.snpData.alt;
+                        var n3 =result.data.snpData.alt +result.data.snpData.alt;
                         drawPie(AA,TT,AT,n1,n2,n3);
                     }
                 },
@@ -960,12 +960,11 @@
                     console.log(error);
                 }
             });
-            debugger;
-            var data = snpGetParams(changeParam);
-            data.pageNum = paramData.pageNum;
-            data.pageSize = paramData.pageSize;
-            console.log(data);
-            getData(data,paramData.pageNum);
+//            var data = snpGetParams(changeParam);
+//            data.pageNum = paramData.pageNum;
+//            data.pageSize = paramData.pageSize;
+//            console.log(data);
+//            getData(data,paramData.pageNum);
 
         })
 
