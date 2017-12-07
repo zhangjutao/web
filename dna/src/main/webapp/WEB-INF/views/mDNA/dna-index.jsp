@@ -91,6 +91,9 @@
                             <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
                         </p>
                     </div>
+                    <div class="geneError">
+                        无数据
+                    </div>
                     <div id="constructorPanel" onmousewheel="return false;">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
 

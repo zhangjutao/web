@@ -245,3 +245,10 @@ td.t_spots:hover{
     position:absolute;
     top:-200px;
 }
+.geneError{
+    text-align:center;
+    width:885px;
+    height:200px;
+    line-height:200px;
+    display:none;
+}
