@@ -203,11 +203,20 @@ $(function () {
                 type: "POST",
                 dataType: "json",
                 success: function (res) {
-                    drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
-                    svgPanZoom("#" + parentCont + " svg", {
-                        zoomEnabled: true,
-                        controlIconsEnabled: true
-                    });
+                   if(res.code == 0 ){
+                       if(!$(".geneError").is(":hidden")){
+                           $(".geneError").hide();
+                       };
+                       drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
+                       svgPanZoom("#" + parentCont + " svg", {
+                           zoomEnabled: true,
+                           controlIconsEnabled: true
+                       });
+                   }else {
+                       if($(".geneError").is(":hidden")){
+                           $(".geneError").show();
+                       };
+                   }
                 },
                 error: function (error) {
                     console.log(error);
@@ -226,11 +235,20 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
-                svgPanZoom("#" + parentCont + " svg", {
-                    zoomEnabled: true,
-                    controlIconsEnabled: true
-                });
+                if(res.code == 0 ){
+                    if(!$(".geneError").is(":hidden")){
+                        $(".geneError").hide();
+                    };
+                    drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
+                    svgPanZoom("#" + parentCont + " svg", {
+                        zoomEnabled: true,
+                        controlIconsEnabled: true
+                    });
+                }else {
+                    if($(".geneError").is(":hidden")){
+                        $(".geneError").show();
+                    };
+                }
             },
             error:function (error){
                 console.log(error);
@@ -1103,21 +1121,21 @@ $(function () {
             // to do
             // 要对startPos+ i*ttdistance 取整数显示（保留 * 位 0 ）
             // 画位置文字信息
-             if(direction == "+" || direction == -1){
+            //  if(direction == "+" || direction == -1){
                 if(svgLength>885){
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
                 }else {
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
                 }
-             }
+             // }
              // 根据方向不同，坐标轴的显示也不同
-             else if(direction == "-"){
-                 if(svgLength>885){
-                     svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
-                 }else {
-                     svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
-                 }
-             }
+             // else if(direction == "-"){
+             //     if(svgLength>885){
+             //         svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
+             //     }else {
+             //         svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+             //     }
+             // }
         }
 
 
@@ -1166,8 +1184,12 @@ $(function () {
                 for (var i=0;i<geneConstructs.length;i++){
                     var feature = geneConstructs[i].feature;
                     var colorVal = chromoColor(feature);
-                    // g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-                    g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                    if(geneLength<8850){
+                        var scale = geneLength/885;
+                        g.append("rect").attr("x",(geneConstructs[i].start-startPos)/scale).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/scale).attr("height",rectHeight).attr("fill",colorVal);
+                    }else {
+                        g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                    }
                 }
             // }
             // 画snp 位点
@@ -1176,11 +1198,11 @@ $(function () {
                             var scale = geneLength/885;
                             for(var i=0;i<snpLocalPoints.length;i++){
                                 var obj = {x:0,y:0,id:""};
-                                if(direction == "-" ){
-                                    obj.x = (endPos - snpLocalPoints[i].pos)/scale;
-                                }else if(direction == "+" || direction == -1){
+                                // if(direction == "-" ){
+                                //     obj.x = (endPos - snpLocalPoints[i].pos)/scale;
+                                // }else if(direction == "+" || direction == -1){
                                     obj.x = (snpLocalPoints[i].pos - startPos)/scale;
-                                }
+                                // }
                                 obj.y = 90;
                                 obj.id = snpLocalPoints[i].id;
                                 obj.index = snpLocalPoints[i].index;
@@ -1189,11 +1211,11 @@ $(function () {
                     }else {
                         for(var i=0;i<snpLocalPoints.length;i++){
                             var obj = {x:0,y:0,id:""};
-                            if(direction == "-" ){
-                                obj.x = (endPos - snpLocalPoints[i].pos)/10;
-                            }else if(direction == "+" || direction == -1){
+                            // if(direction == "-" ){
+                            //     obj.x = (endPos - snpLocalPoints[i].pos)/10;
+                            // }else if(direction == "+" || direction == -1){
                                 obj.x = (snpLocalPoints[i].pos - startPos)/10;
-                            }
+                            // }
                             obj.y = 90;
                             obj.id = snpLocalPoints[i].id;
                             obj.index = snpLocalPoints[i].index;
