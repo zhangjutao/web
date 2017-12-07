@@ -551,9 +551,6 @@ $(function () {
                 }else{
                     var currStatus = $(".item-ac").text();
                     if(currStatus == "INDELS"){
-                        // if(!$("#constructorPanel").is(":hidden")){
-                        //     $("#constructorPanel").hide();
-                        // }
                         if( $("#constructorPanel2").hasClass("hiddeCurr")){
                             $("#constructorPanel2").removeClass("hiddeCurr")
                             $("#constructorPanel").addClass("hiddeCurr");
@@ -610,7 +607,6 @@ $(function () {
                             autoClose: false,
                             content: content
                         });
-                        //$(".pt").css("left", $(".pt").position().left);
                     },function () {
                         $(".pt").remove();
                     });
@@ -1046,10 +1042,6 @@ $(function () {
         }else {
             var direction = result.data.dnaGenStructures[0].strand;
         }
-        // if (result.data.length == 0 && result.dnaGenStructures.length == 0){
-        //
-        //     return;
-        // };
         var referenceVal = result.data.bps;
         var startPos = parseInt(result.data.conditions.split(",")[1]);
         var endPos =parseInt(result.data.conditions.split(",")[2]);
@@ -1118,27 +1110,12 @@ $(function () {
             intervalLineData.push(intervalElement1);
             intervalLineData.push(intervalElement2);
             intervalLineData.push(faultElement);
-            // to do
-            // 要对startPos+ i*ttdistance 取整数显示（保留 * 位 0 ）
-            // 画位置文字信息
-            //  if(direction == "+" || direction == -1){
                 if(svgLength>885){
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
                 }else {
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
                 }
-             // }
-             // 根据方向不同，坐标轴的显示也不同
-             // else if(direction == "-"){
-             //     if(svgLength>885){
-             //         svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
-             //     }else {
-             //         svg.append("text").text(parseInt(startPos+ (intervalNums-i)*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
-             //     }
-             // }
         }
-
-
         // 利用defined 把一条路径切割成一段一段的多条路径
             var line2 = line.defined(function(d, i, index) {
                 //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
@@ -1198,11 +1175,7 @@ $(function () {
                             var scale = geneLength/885;
                             for(var i=0;i<snpLocalPoints.length;i++){
                                 var obj = {x:0,y:0,id:""};
-                                // if(direction == "-" ){
-                                //     obj.x = (endPos - snpLocalPoints[i].pos)/scale;
-                                // }else if(direction == "+" || direction == -1){
                                     obj.x = (snpLocalPoints[i].pos - startPos)/scale;
-                                // }
                                 obj.y = 90;
                                 obj.id = snpLocalPoints[i].id;
                                 obj.index = snpLocalPoints[i].index;
@@ -1211,11 +1184,7 @@ $(function () {
                     }else {
                         for(var i=0;i<snpLocalPoints.length;i++){
                             var obj = {x:0,y:0,id:""};
-                            // if(direction == "-" ){
-                            //     obj.x = (endPos - snpLocalPoints[i].pos)/10;
-                            // }else if(direction == "+" || direction == -1){
                                 obj.x = (snpLocalPoints[i].pos - startPos)/10;
-                            // }
                             obj.y = 90;
                             obj.id = snpLocalPoints[i].id;
                             obj.index = snpLocalPoints[i].index;
@@ -1250,8 +1219,6 @@ $(function () {
         function getSnpPoint(tabid){
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
-            // for(var i=0;i<allSnpNum.length;i++){
-                // if($(allSnpNum[i]).parent().attr("href").substring(1) == tabid ){
                     singleData.index = snpIndex;
                     singleData.id =tabid;
                     singleData.type = type;
@@ -1261,9 +1228,6 @@ $(function () {
                     singleData.end = snpPintDatas.end;
                     singleData.ctype = snpPintDatas.ctype;
                     singleData.group = snpGroup.group;
-                    // break;
-                // }
-            // };
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatas.url,

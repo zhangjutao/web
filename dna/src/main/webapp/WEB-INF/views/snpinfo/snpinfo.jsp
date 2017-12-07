@@ -716,9 +716,7 @@
         $(".major").click(function (){
             major = $(".snpMaj").text().trim();
             changeParam = major;
-            console.warn(changeParam)
             var data = snpGetParams(changeParam);
-            console.info(data);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
             getData(data,paramData.pageNum,filterParamer);
@@ -924,7 +922,6 @@
                         // indel 隐藏 饼图和genoType;
                         if(result.data.type=="INDEL"){
                             stateType = "ind";
-                            console.log($("#snpinfoTable table th.genoTypeT").get(0));
                             if(($("#snpinfoTable table th.genoTypeT").get(0))){
                                 $("#snpinfoTable table th.genoTypeT").remove();
                             };
@@ -1260,7 +1257,6 @@
         // 表格导出
         $("#exportData").click(function (){
             var titleData = snpGetParams(changeParam);
-            console.error(exportTitles);
             $.ajax({
                 type:"GET",
                 url:CTXROOT + "/dna/IdDetailExport",

@@ -1317,7 +1317,6 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 getKindInfos(obj.curr);
-//                                getKindInfos(obj.curr, currPopu);
                             }
                         }
                     });
@@ -1365,31 +1364,6 @@
         $("#popu-paginate").on("blur", ".laypage_skip", function() {
             $(this).removeClass("isFocus");
         });
-        // 输入框分页跳转页面
-//        $("#popu-paginate").on("keydown",".laypage_skip",function (e){
-//            var _page_skip = $('#popu-paginate .laypage_skip');
-//            if(e && e.keyCode==13){ // enter 键
-//                if( _page_skip.hasClass("isFocus") ) {
-//                    if(_page_skip.val() * 1 > Math.ceil(popCount/ pageSizePopu)) {
-//                        return alert("输入页码不能大于总页数");
-//                    }
-//                    var selectedNum = parseInt($('#popu-paginate .laypage_skip').val());
-//                    console.error(selectedNum);
-//                    if(currVal == "品种名"){
-//                        currPopu = selectKindVal(popId)[0];
-//                        var data = {
-//                            names:kindNames.join(",")
-//                        };
-//                        currFlag = "cultivar";
-//                        getKindInfos(selectedNum);
-//                    }else{
-//                        currFlag = "group"
-//                        currPopu = selectPopulation(popId)[0];
-//                        getPopuTable(selectedNum);
-//                    }
-//                }
-//            }
-//        })
         var pageSizePopu = 10;
         function getPopuTable(curr) {
             $.ajax({
