@@ -414,7 +414,7 @@
                                             </p>
                                         </div>
                                     </th>
-                                    <th class="paramTag">熟期
+                                    <th class="paramTag">成熟期组
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
                                             <input type="text" placeholder="请输入" class="maturityDateI inputStyle">

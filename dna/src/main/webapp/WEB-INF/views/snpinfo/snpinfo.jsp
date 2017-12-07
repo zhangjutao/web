@@ -190,7 +190,7 @@
                                     <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期
+                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 成熟期组
                                 </li>
                                 <li>
                                     <input type="checkbox" name="height" class="height" checked="checked"> 株高
