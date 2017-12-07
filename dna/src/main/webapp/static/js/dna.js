@@ -1016,7 +1016,6 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
-        debugger;
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1165,7 +1164,6 @@ $(function () {
                 }
             // }
             // 画snp 位点
-                    debugger;
                     var newArr = [];
                     if(geneLength<8850){
                             var scale = geneLength/885;

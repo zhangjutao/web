@@ -784,7 +784,7 @@
                 data:data,
                 success:function (result) {
                     if(result.code!=0){
-//                        $("#paging").hide();
+                      $('#snpinfoTable table tbody').empty();
                     }else {
                         count = result.data.dnaRuns.total;
                         if(count == 0){
@@ -1014,14 +1014,7 @@
                     console.log(error);
                 }
             });
-//            var data = snpGetParams(changeParam);
-//            data.pageNum = paramData.pageNum;
-//            data.pageSize = paramData.pageSize;
-//            console.log(data);
-//            getData(data,paramData.pageNum);
-
         })
-
         // tag 样式切换
         $(".changeTab p").click(function (){
             if(!$(this).hasClass("changeTagColor")){
@@ -1038,13 +1031,15 @@
             }
         })
         //表格筛选框显示隐藏
-        $("#snpinfoTable thead").on("mouseover","th",function (){
+        $("#snpinfoTable thead").on("mouseover"," th",function (){
             $(this).find(".inputComponent").show();
-        }).mouseleave(function (){
+        }).on("mouseleave"," th",function (){
+//        }).mouseleave(function (){
             $(this).find(".inputComponent").hide();
         })
         // 筛选取消按钮 样式
-        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
+        $("#snpinfoTable .inputComponent").on("click",".btnCancel",function (){
+//        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
             $(this).parent().parent().find("input").val("");
             $(this).parent().parent().hide();
         })
@@ -1106,7 +1101,8 @@
             return datas;
         }
         // 获取表格数据
-        $("#snpinfoTable .btnConfirmInfo").click(function (){
+        $("#snpinfoTable").on("click",".btnConfirmInfo",function (){
+//        $("#snpinfoTable .btnConfirmInfo").click(function (){
             if($("#snpinfoTable .genoTypeT input").val()){
                 changeParam = $("#snpinfoTable .genoTypeT input").val();
             };
