@@ -283,7 +283,7 @@
                                                     <li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>
                                                     <li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>
                                                     <li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>
-                                                    <li data-type="effect" data-value="frameshift insertion">Exonic_nonframeshift deletion</li>
+                                                    <li data-type="effect" data-value="nonframeshift deletion">Exonic_nonframeshift deletion</li>
                                                     <li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>
                                                     <li data-type="effect" data-value="stopgain">Exonic_stopgain</li>
                                                     <li data-type="effect" data-value="stoploss">Exonic_stoploss</li>

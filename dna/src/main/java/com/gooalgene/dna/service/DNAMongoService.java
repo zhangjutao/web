@@ -450,7 +450,12 @@ public class DNAMongoService {
             Criteria criteria = new Criteria();
             criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(startPos)), Criteria.where("pos").lte(Long.parseLong(endPos)));
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
-                String keywords = ctype.replace("_", ".*");
+                String keywords = "";
+                if (ctype.indexOf(' ')!=-1) {
+                    keywords = ctype.replace("_", ".*_");
+                }else {
+                    keywords = ctype.replace("_", ".*");
+                }
                 Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
                 criteria.and("consequencetype").regex(pattern);
             }
