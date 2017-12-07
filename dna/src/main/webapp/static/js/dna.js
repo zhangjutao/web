@@ -1042,11 +1042,11 @@ $(function () {
             var centerLineData = [[20,90],[Math.ceil(geneLength/10),90]]
             totalLength = Math.ceil(geneLength/10);
         }else {
-            var svg = d3.select("#" + id).append("svg").attr("width",svgTotal+35 + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[svgTotal+35,220]];
-            var topLineData = [[20,1],[svgTotal+35,1]];
-            var centerLineData = [[20,90],[svgTotal+35,90]]
-            totalLength = svgTotal+35;
+            var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","250px");
+            var acrossLineData = [[20,220],[svgTotal,220]];
+            var topLineData = [[20,1],[svgTotal,1]];
+            var centerLineData = [[20,90],[svgTotal,90]]
+            totalLength = svgTotal;
         }
         // 创建一个直线生成器
         var line = d3.line()
