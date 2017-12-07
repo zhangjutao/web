@@ -112,6 +112,12 @@ $(function () {
     var globelGeneId;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
+        if(!$(".custom-groups-content").is(":hidden")){
+            $(".custom-groups-content").hide();
+        };
+        if(!$(".cover").is(":hidden")){
+            $(".cover").hide();
+        }
         var obj = getPanelParams();
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
@@ -289,7 +295,7 @@ $(function () {
                     gene:clickVal,
                     group:obj.params.group,
                 }
-        snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
+                snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
                 globelType="Gene";
                 reginIntoGene(1,paramas1,"SNP","constructorPanel","tableBody","snpid","/dna/searchIdAndPosInGene");
                 reginIntoGene(1,paramas1,"INDEL","constructorPanel2","tableBody2","indelid","/dna/searchIdAndPosInGene");
@@ -310,7 +316,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCnt,tblBody,"",type,gid);
+                drawGeneConstructor(res,parentCnt,tblBody,"",type,gid,params);
                 svgPanZoom("#" + parentCnt + " svg", {
                     zoomEnabled: true,
                     controlIconsEnabled: true
@@ -1140,7 +1146,8 @@ $(function () {
             var leftMargin = 60;
             var snpWidth = 5;
             var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
-            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
+            // var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
+            var g1 = svg.append("g").attr("transform","translate(20,30)").attr("id",gsnpid);  //?问题点
             var geneConstructs = result.data.dnaGenStructures;
             var snpLocalPoints = result.data.snps;
             var snpColor = "#6b69d6";
