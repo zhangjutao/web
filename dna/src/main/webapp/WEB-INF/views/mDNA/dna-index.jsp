@@ -27,8 +27,6 @@
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/d3.js"></script>
     <script src="${ctxStatic}/js/svg-pan-zoom.js"></script>
-
-
     <style>
         .total-page-count {display: none!important;}
         /* master分支中无群体信息 */
@@ -190,8 +188,8 @@
                     <div class="tab-txt tab-txt-ac js-snp-tab">
                         <div class="export-data">
                             <p class="btn-export-set">
-                                <button type="button" class="btn btn-export js-export">导出数据</button>
                                 <button type="button" class="btn snp-set-up">表格设置</button>
+                                <button type="button" class="btn btn-export js-export">导出数据</button>
                             </p>
                         </div>
                         <div id="mask-test">
@@ -262,8 +260,8 @@
                     <div class="tab-txt js-indel-tab">
                         <div class="export-data">
                             <p class="btn-export-set">
-                                <button type="button" class="btn btn-export js-export">导出数据</button>
                                 <button type="button" class="btn indels-set-up">表格设置</button>
+                                <button type="button" class="btn btn-export js-export">导出数据</button>
                             </p>
                         </div>
                         <div id="mask-test2">

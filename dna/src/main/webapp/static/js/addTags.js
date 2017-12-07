@@ -32,7 +32,7 @@ $(function (){
         var currentGroup = $(this).text();
         var data = getParamas();
         data.group = currentGroup;
-        getData(data);
+        getData(data,data.pageNum,resetSaveStatus);
         $(".popNames").hide();
     })
 
@@ -56,14 +56,14 @@ $(function (){
             data.pageNum = 1;
             // 默认回到第一页，
         var pageSizeP = $("#page").find("p")
-
+        liVal = "";
         for(var i=0;i<pageSizeP.length;i++){
             if($(pageSizeP[i]).hasClass("pageColor")){
                 $(pageSizeP[i]).removeClass("pageColor")
             }
         };
         $(pageSizeP[0]).addClass("pageColor");
-        getData(data,resetSaveStatus);
+        getData(data,curr,resetSaveStatus);
 
     })
    // localstorage 存储选择的品种
@@ -235,7 +235,7 @@ $(function (){
         var selectedDatas = getParamas();
         selectedDatas.pageNum = paramData.pageNum;
         selectedDatas.pageSize = paramData.pageSize;
-        getData(selectedDatas);
+        getData(selectedDatas,paramData.pageNum,resetSaveStatus);
     })
     // 选中品种按钮点击获取数据
     $("#kindSelect").click(function (){
@@ -245,7 +245,7 @@ $(function (){
             $(item).val("");
         })
         var data = getParamas();
-       getData(data);
+       getData(data,paramData.pageNum,resetSaveStatus);
     });
     //表格筛选框显示隐藏
     $("#tagKind thead th").mouseover(function (){
@@ -273,24 +273,32 @@ $(function (){
     $("#tagsPagination").on("blur", ".laypage_skip", function() {
         $(this).removeClass("isFocus");
     });
-
-    document.onkeydown = function(e) {
+    $("#tagsPagination").on("keydown",".laypage_skip",function (e){
         var _page_skip = $('#tagsPagination .laypage_skip');
-        if(e && e.keyCode==13){ // enter 键
-            if( _page_skip.hasClass("isFocus") ) {
-                if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
-                    return alert("输入页码不能大于总页数");
+            if(e && e.keyCode==13){ // enter 键
+                if( _page_skip.hasClass("isFocus") ) {
+                    if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
+                        return alert("输入页码不能大于总页数");
+                    }
+                    var selectedNum = $('#tagsPagination .laypage_skip').val();
+                    page.pageNum = selectedNum;
+                    paramData.pageNum = page.pageNum;
+                    var selectedDatas = getParamas();
+                    selectedDatas.pageNum = paramData.pageNum;
+                    selectedDatas.pageSize = paramData.pageSize;
+                    getData(selectedDatas,selectedDatas.pageNum,resetSaveStatus);
                 }
-                var selectedNum = $('#tagsPagination .laypage_skip').val();
-                page.pageNum = selectedNum;
-                paramData.pageNum = page.pageNum;
-                var selectedDatas = getParamas();
-                selectedDatas.pageNum = paramData.pageNum;
-                selectedDatas.pageSize = paramData.pageSize;
-                getData(selectedDatas,selectedDatas.pageNum);
             }
-        }
-    }
+    });
+    // pageSize 事件
+    $("#tagsPagination select").change(function (e){
+        var val = $(this).val();
+        var data = getParamas();
+        data.pageSize = val;
+        data.pageNum =  paramData.pageSize;
+        getData(data,data.pageNum);
+
+    })
     // 分页
     var nums;
     var totalDatas;
@@ -313,7 +321,7 @@ $(function (){
         paramData.pageSize = page.pageSize;
     });
     //ajax 请求
-    function getData(data,curr){
+    function getData(data,curr,fn){
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
@@ -381,7 +389,9 @@ $(function (){
                         var $tbody = $("#tagKind table tbody");
                         $tbody.append(tr);
                     }
+
                 };
+                fn && fn();
                 // 分页
                 laypage({
                     cont: $('#tagsPagination .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -400,7 +410,7 @@ $(function (){
                             tmp.group = liVal;
                             tmp.pageNum = obj.curr;
                             tmp.pageSize = paramData.pageSize;
-                            getData(tmp,obj.curr);
+                            getData(tmp,obj.curr,resetSaveStatus);
                         }
                     }
                 });
@@ -419,151 +429,8 @@ $(function (){
         liVal = $(this).text();
         var data = getParamas();
         data.group = liVal;
-        getData(data,curr);
+        getData(data,curr,resetSaveStatus);
     })
-    // 样式调整方法
-    function pageStyle(nums,intNums){
-        if (nums > 4) {
-            // $(".first").hide().next().text(1).next().hide();
-            $(".first").next().text(1);
-            $(".four").text(2).next().text(3).next().text(4);
-            $(".eight").text(nums);
-            $(".seven").show();
-            $(".last").show();
-        };
-        if (intNums == 0) {
-            styleChange();
-            $(".two").text(1);
-            $(".four").hide();
-            $(".five").hide();
-            $(".six").hide();
-        }
-        switch (nums) {
-            case 1:
-                styleChange();
-                $(".two").text(1);
-                $(".four").hide();
-                $(".five").hide();
-                $(".six").hide();
-                break;
-            case 2:
-                styleChange();
-                $(".two").text(1);
-                $(".four").text(2);
-                $(".five").hide();
-                $(".six").hide();
-                break;
-            case 3:
-                styleChange();
-                $(".two").text(1);
-                $(".four").text(2);
-                $(".five").text(3);
-                $(".six").hide();
-                break;
-            case 4:
-                styleChange();
-                $(".two").text(1);
-                $(".four").text(2);
-                $(".five").text(3);
-                $(".six").text(4);
-                break;
-        }
-    }
-    // 显示隐藏样式封装
-    function styleChange() {
-        $(".three").hide();
-        $(".first").hide();
-        $(".seven").hide();
-        $(".eight").hide();
-        $(".last").hide();
-    };
-
-    //每个页码的点击事件
-    $("#page>p").click(function (e) {
-        //样式
-        if (nums > 4) {
-            $(".first").show();
-            $(".three").show();
-            $(".eight").text(nums);
-        };
-        var $p = $(e.target);
-
-        page.pageNum = parseInt($p.text());
-        paramData.pageNum = page.pageNum;
-        var selectedDatas = getParamas();
-        selectedDatas.pageNum = paramData.pageNum;
-        selectedDatas.pageSize = paramData.pageSize;
-        getData(selectedDatas,resetSaveStatus);
-        var plists = $p.siblings();
-        for (var i = 0; i < plists.length; i++) {
-            if ($(plists[i]).hasClass("pageColor")) {
-                $(plists[i]).removeClass("pageColor");
-            }
-        }
-        $p.addClass("pageColor");
-
-    });
-    // pageSize 选择事件
-    $("#selectedNum").change(function (e){
-        var currentSelected = $("#selectedNum option:selected").text();
-        page.pageSize = currentSelected;
-        paramData.pageSize = page.pageSize;
-        var selectedDatas = getParamas();
-        selectedDatas.pageNum = paramData.pageNum;
-        selectedDatas.pageSize = paramData.pageSize;
-        getData(selectedDatas,paramData.pageNum);
-    })
-    // "<" 点击事件
-    $(".first").click(function () {
-        var content6 = Number($(".six").text());
-        var content4 = Number($(".four").text());
-        var content5 = Number($(".five").text());
-        if (content6 < nums) {
-            $(".last").show();
-            $(".seven").show();
-        }
-        if (content4 <= 2) {
-            $(".first").hide().next().next().hide();
-        } else {
-            $(".six").text(content6 - 1);
-            $(".four").text(content4 - 1);
-            $(".five").text(content5 - 1);
-        }
-    })
-    // enter 键盘事件
-    $("#inputNum").keydown(function(event){
-        event=document.all?window.event:event;
-        if((event.keyCode || event.which)==13){
-            var selectedNum = $(this).val();
-            page.pageNum = pageNum = selectedNum;
-            paramData.pageNum = page.pageNum;
-            var selectedDatas = getParamas();
-            selectedDatas.pageNum = paramData.pageNum;
-            selectedDatas.pageSize = paramData.pageSize;
-            getData(selectedDatas,paramData.pageNum);
-        }
-    });
-    // ">" 点击事件
-    $(".last").click(function () {
-        var content6 = Number($(".six").text());
-        var content4 = Number($(".four").text());
-        var content5 = Number($(".five").text());
-        var content2 = Number($(".two").text());
-        if (content2 == 1) {
-            $(".first").show();
-            $(".three").show();
-        }
-
-        if (content6 >= nums - 1) {
-            $(".seven").hide();
-            $(this).hide();
-        } else {
-            $(".six").text(content6 + 1);
-            $(".four").text(content4 + 1);
-            $(".five").text(content5 + 1);
-        }
-    })
-    // 分页 end
     if(initKindVal){
         var initKindVals = initKindVal.name;
         for (var i=0;i<initKindVals.length;i++){

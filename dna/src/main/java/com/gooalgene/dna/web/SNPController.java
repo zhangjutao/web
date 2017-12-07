@@ -3,6 +3,7 @@ package com.gooalgene.dna.web;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
+import com.gooalgene.common.constant.ResultEnum;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
@@ -81,6 +82,7 @@ public class SNPController {
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
         return model;
     }
+
     @RequestMapping("/populationInfos")
     public ModelAndView populationInfos(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("population/infos");
@@ -124,15 +126,15 @@ public class SNPController {
      *
      * @return
      */
-    @RequestMapping(value = "/condition",method = RequestMethod.GET)
+    @RequestMapping(value = "/condition", method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO getByExample(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
-                                 @RequestParam(value = "isPage",required = false)String isPage,
+    public ResultVO getByExample(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                 @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                 @RequestParam(value = "isPage", required = false) String isPage,
                                  DnaRunDto dnaRunDto) {
-            logger.info(dnaRunDto.getGroup());
-            PageInfo<DNARunSearchResult> dnaRunPageInfo=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
-            return ResultUtil.success(dnaRunPageInfo);
+        logger.info(dnaRunDto.getGroup());
+        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
+        return ResultUtil.success(dnaRunPageInfo);
 
     }
 
@@ -174,14 +176,14 @@ public class SNPController {
             long end = dnaGens.getGeneEnd();
             logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream)<0?0:start - Long.valueOf(upstream);
-            }else {
-                start=start-2000<0?0:start-2000;
+                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
                 end = end + Long.valueOf(downstream);
-            }else {
-                end = end +2000;
+            } else {
+                end = end + 2000;
             }
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
@@ -210,12 +212,13 @@ public class SNPController {
 //      String conditions = request.getParameter("conditions");
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
-        Map result=snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        Map result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
         return result;
     }
 
     /**
      * 在范围中查询所有位点
+     *
      * @param request
      * @param response
      * @return
@@ -232,22 +235,22 @@ public class SNPController {
 //      String conditions = request.getParameter("conditions");
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         //Page<DNARun> page = new Page<DNARun>(request, response);
-        Map result=Maps.newHashMap();
-        List<SNP> snps=dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
-        List<SNPDto> snpDtos=Lists.newArrayList();
-        for (int i=0;i<snps.size();i++){
-            SNP snp=snps.get(i);
-            SNPDto snpDto=new SNPDto();
-            BeanUtils.copyProperties(snp,snpDto);
+        Map result = Maps.newHashMap();
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
+        List<SNPDto> snpDtos = Lists.newArrayList();
+        for (int i = 0; i < snps.size(); i++) {
+            SNP snp = snps.get(i);
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
             snpDto.setIndex(i);
             snpDtos.add(snpDto);
         }
-        result.put("snps",snpDtos);
-        List<String> geneIds=dnaGensService.getByRegionNoCompare(chr,startPos,endPos);
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByStartEnd(chr,Integer.valueOf(startPos),Integer.valueOf(endPos),geneIds);
-        result.put("dnaGenStructures",dnaGenStructures);
-        if(CollectionUtils.isNotEmpty(dnaGenStructures)){
-            result.put("bps",dnaGenStructures.get(0).getBps());
+        result.put("snps", snpDtos);
+        List<String> geneIds = dnaGensService.getByRegionNoCompare(chr, startPos, endPos);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos), geneIds);
+        result.put("dnaGenStructures", dnaGenStructures);
+        if (CollectionUtils.isNotEmpty(dnaGenStructures)) {
+            result.put("bps", dnaGenStructures.get(0).getBps());
         }
         result.put("conditions", chr + "," + startPos + "," + endPos);
         return ResultUtil.success(result);
@@ -276,33 +279,33 @@ public class SNPController {
             long start = dnaGens.getGeneStart();
             long end = dnaGens.getGeneEnd();
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream)<0?0:start - Long.valueOf(upstream);
-            }else {
-                start=start-2000<0?0:start-2000;
+                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
                 end = end + Long.valueOf(downstream);
-            }else {
-                end=end+2000;
+            } else {
+                end = end + 2000;
             }
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        Map result=Maps.newHashMap();
-        List<SNP> snps=dnaMongoService.searchIdAndPosInGene(type,ctype,gene,upstream,downstream,null);
-        List<SNPDto> snpDtos=Lists.newArrayList();
-        for (int i=0;i<snps.size();i++){
-            SNP snp=snps.get(i);
-            SNPDto snpDto=new SNPDto();
-            BeanUtils.copyProperties(snp,snpDto);
+        Map result = Maps.newHashMap();
+        List<SNP> snps = dnaMongoService.searchIdAndPosInGene(type, ctype, gene, upstream, downstream, null);
+        List<SNPDto> snpDtos = Lists.newArrayList();
+        for (int i = 0; i < snps.size(); i++) {
+            SNP snp = snps.get(i);
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
             snpDto.setIndex(i);
             snpDtos.add(snpDto);
         }
-        result.put("snps",snpDtos);
-        List<DNAGenStructureDto> dnaGenStructures=dnaGenStructureService.getByGeneId(gene);
-        result.put("dnaGenStructures",dnaGenStructures);
-        if(CollectionUtils.isNotEmpty(dnaGenStructures)){
-            result.put("bps",dnaGenStructures.get(0).getBps());
+        result.put("snps", snpDtos);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
+        result.put("dnaGenStructures", dnaGenStructures);
+        if (CollectionUtils.isNotEmpty(dnaGenStructures)) {
+            result.put("bps", dnaGenStructures.get(0).getBps());
         }
         result.put("conditions", gene + "," + upstream + "," + downstream);
         return ResultUtil.success(result);
@@ -310,6 +313,7 @@ public class SNPController {
 
     /**
      * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
+     *
      * @param request
      * @param response
      * @return
@@ -600,14 +604,14 @@ public class SNPController {
     /**
      * 进入snp详情页
      */
-    @RequestMapping(value = "/snp/info",method = RequestMethod.GET)
-    public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence")String frequence,SNP snp) {
-        ModelAndView modelAndView=new ModelAndView("snpinfo/snpinfo");
+    @RequestMapping(value = "/snp/info", method = RequestMethod.GET)
+    public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence") String frequence, SNP snp) {
+        ModelAndView modelAndView = new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
         SNP snpFormatMajorFreq;
         if (result.containsKey("snpData")) {
             snpFormatMajorFreq = (SNP) result.get("snpData");
-        }else {
+        } else {
             snpFormatMajorFreq = (SNP) result.get("INDELData");
         }
         double major = snpFormatMajorFreq.getMajor();
@@ -617,69 +621,69 @@ public class SNPController {
         StringBuffer finalResult = new DecimalFormat("###0.00").format(majorForBigDecimal, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD));
         snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
         modelAndView.addObject("major", finalResult);
-        modelAndView.addObject("snp",snp);
-        modelAndView.addObject("result",result);
-        SNP snpTemp=(SNP)result.get("snpData");
-        if(snpTemp==null){
-            snpTemp=(SNP)result.get("INDELData");
+        modelAndView.addObject("snp", snp);
+        modelAndView.addObject("result", result);
+        SNP snpTemp = (SNP) result.get("snpData");
+        if (snpTemp == null) {
+            snpTemp = (SNP) result.get("INDELData");
         }
-        Map map=(Map)snpTemp.getSamples();
-        Set<Map.Entry<String, String>> entrySet=map.entrySet();
-        List<String> runNos= Lists.newArrayList();
-        for(Map.Entry entry:entrySet){
-            if(((String)entry.getValue()).contains(snp.getMajorallen())){
+        Map map = (Map) snpTemp.getSamples();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        List<String> runNos = Lists.newArrayList();
+        for (Map.Entry entry : entrySet) {
+            if (((String) entry.getValue()).contains(snp.getMajorallen())) {
                 runNos.add((String) entry.getKey());
             }
         }
         //todo 此dnaruns可能重复
         //PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
         //modelAndView.addObject("dnaRuns",dnaRuns);
-        modelAndView.addObject("frequence",frequence);
+        modelAndView.addObject("frequence", frequence);
         return modelAndView;
     }
 
     /**
      * 区分mainor和majora
      */
-    @RequestMapping(value = "/changeByProportion",method = RequestMethod.GET)
-    public ResultVO changeByProportion(@RequestParam("snpId")String snpId,@RequestParam("changeParam") String changeParam,
-                                       @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                       @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
-                                       @RequestParam(value = "pageSize",required = false)String isPage,
+    @RequestMapping(value = "/changeByProportion", method = RequestMethod.GET)
+    public ResultVO changeByProportion(@RequestParam("snpId") String snpId, @RequestParam("changeParam") String changeParam,
+                                       @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                       @RequestParam(value = "pageSize", required = false) String isPage,
                                        DnaRunDto dnaRunDto) {
         Map result = snpService.findSampleById(snpId);
-        SNP snpTemp=(SNP)result.get("snpData");
-        String type="snp";
-        if(snpTemp==null){
-            type="indel";
-            snpTemp=(SNP)result.get("INDELData");
+        SNP snpTemp = (SNP) result.get("snpData");
+        String type = "snp";
+        if (snpTemp == null) {
+            type = "indel";
+            snpTemp = (SNP) result.get("INDELData");
         }
-        Map map=(Map)snpTemp.getSamples();
-        Set<Map.Entry<String, String>> entrySet=map.entrySet();
-        List<String> runNos= Lists.newArrayList();
-        Map samples=Maps.newHashMap();
-        for(Map.Entry entry:entrySet){
-            String value=(String)entry.getValue();
-            if(StringUtils.isNotBlank(changeParam)){
-                if(type.equals("indel")){
-                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
-                    String changePaAndMin=changeParam+snpTemp.getMinorallen();
-                    if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
+        Map map = (Map) snpTemp.getSamples();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        List<String> runNos = Lists.newArrayList();
+        Map samples = Maps.newHashMap();
+        for (Map.Entry entry : entrySet) {
+            String value = (String) entry.getValue();
+            if (StringUtils.isNotBlank(changeParam)) {
+                if (type.equals("indel")) {
+                    String changePaAndMaj = snpTemp.getMajorallen() + changeParam;
+                    String changePaAndMin = changeParam + snpTemp.getMinorallen();
+                    if (value.equalsIgnoreCase(changePaAndMaj) || value.equalsIgnoreCase(changePaAndMin)) {
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                         Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
                         Matcher matcher = regexp.matcher(singleRunNo);
-                        if (!matcher.find()){
+                        if (!matcher.find()) {
                             singleRunNo = singleRunNo + ".0";
                         }
                         runNos.add(singleRunNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
-                }else {
+                } else {
                     if (StringUtils.containsIgnoreCase(value, changeParam)) {
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                         Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
                         Matcher matcher = regexp.matcher(singleRunNo);
-                        if (!matcher.find()){
+                        if (!matcher.find()) {
                             singleRunNo = singleRunNo + ".0";
                         }
                         runNos.add(singleRunNo);
@@ -688,37 +692,38 @@ public class SNPController {
                 }
             }
         }
-        Map response= Maps.newHashMap();
-        if(dnaRunDto!=null&&runNos.size()>0){
-            dnaRunDto.setRunNos(runNos);
-            PageInfo<DNARunSearchResult> dnaRuns=dnaRunService.getListByConditionWithTypeHandler(dnaRunDto,pageNum,pageSize,isPage);
-            response.put("dnaRuns",dnaRuns);
+        if (samples.size() <= 0||runNos.size()<=0) {
+            return ResultUtil.error(ResultEnum.SNP_ID_NOT_EXIST);
         }
-        response.put("samples",samples);
+        Map response = Maps.newHashMap();
+        dnaRunDto.setRunNos(runNos);
+        PageInfo<DNARunSearchResult> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
+        response.put("dnaRuns", dnaRuns);
+        response.put("samples", samples);
         return ResultUtil.success(response);
     }
 
-    @RequestMapping(value = "/drawSNPTableInRegion",method = RequestMethod.GET)
-    public ResultVO drawSNPTableInRegion(@RequestParam("id")String snpId,@RequestParam("index") Integer index,
-                                 @RequestParam("chr")String chr,@RequestParam("type") String type,
-                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
-                                         @RequestParam("start") String start,@RequestParam("end") String end,
-                                 @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group",required = false,defaultValue = "[]") String group) {
-        List<SNP> snps=dnaMongoService.findDataByIndexInRegion(type,chr,snpId,index,pageSize,start,end,ctype);
+    @RequestMapping(value = "/drawSNPTableInRegion", method = RequestMethod.GET)
+    public ResultVO drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
+                                         @RequestParam("chr") String chr, @RequestParam("type") String type,
+                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                         @RequestParam("start") String start, @RequestParam("end") String end,
+                                         @RequestParam("ctype") String ctype,
+                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+        List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
-        for (SNP snp:snps){
+        for (SNP snp : snps) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             JSONArray freqData;
-            SNP snpData =null;
-            if(StringUtils.equals(type,"SNP")){
-                snpData=(SNP) map.get("snpData");
+            SNP snpData = null;
+            if (StringUtils.equals(type, "SNP")) {
+                snpData = (SNP) map.get("snpData");
                 freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
-            }else {
-                snpData=(SNP) map.get("INDELData");
+            } else {
+                snpData = (SNP) map.get("INDELData");
                 freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             }
             snpDto.setFreq(freqData);
@@ -726,7 +731,7 @@ public class SNPController {
             /*if(snpData==null){
                 snpData = (SNP) map.get("INDELData");
             }*/
-            if(snpData!=null) {
+            if (snpData != null) {
                 snpData.setSamples(null);
             }
             snpDto.setGeneType(map);
@@ -735,45 +740,45 @@ public class SNPController {
         return ResultUtil.success(data);
     }
 
-    @RequestMapping(value = "/drawSNPTableInGene",method = RequestMethod.GET)
-    public ResultVO drawSNPTableInGene(@RequestParam(value = "id",required = false)String snpId,@RequestParam("index") Integer index,
-                                         @RequestParam("gene")String gene,@RequestParam("type") String type,
-                                         @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
-                                         @RequestParam(value = "upstream",required = false) String upstream,
-                                       @RequestParam(value = "downstream",required = false) String downstream,
-                                         @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group",required = false,defaultValue = "[]") String group) {
+    @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
+    public ResultVO drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
+                                       @RequestParam("gene") String gene, @RequestParam("type") String type,
+                                       @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                       @RequestParam(value = "upstream", required = false) String upstream,
+                                       @RequestParam(value = "downstream", required = false) String downstream,
+                                       @RequestParam("ctype") String ctype,
+                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
             long end = dnaGens.getGeneEnd();
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream)<0?0:start - Long.valueOf(upstream);
-            }else {
-                start=start-2000<0?0:start-2000;
+                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
                 end = end + Long.valueOf(downstream);
-            }else {
-                end=end+2000;
+            } else {
+                end = end + 2000;
             }
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        List<SNP> snps=dnaMongoService.findDataByIndexInGene(type,gene,snpId,index,pageSize,upstream,downstream,ctype);
+        List<SNP> snps = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
-        for (SNP snp:snps){
+        for (SNP snp : snps) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
             SNP snpData = (SNP) map.get("snpData");
-            if(snpData==null){
-                snpData= (SNP) map.get("INDELData");
+            if (snpData == null) {
+                snpData = (SNP) map.get("INDELData");
             }
             JSONArray freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
             snpDto.setFreq(freqData);
-            if(snpData!=null){
+            if (snpData != null) {
                 snpData.setSamples(null);
             }
             snpDto.setGeneType(map);

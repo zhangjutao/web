@@ -200,11 +200,12 @@
                                 <button type="button" data-name="protein" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
-                        <div class="flowering-data " data-name="floweringDate">
-                            <label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>
-                        </div>
+                        <%--<div class="flowering-data " data-name="floweringDate">--%>
+                            <%--<label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>--%>
+                        <%--</div>--%>
                         <div class="mature-data " data-name="maturityDate">
-                            <label><b  class="category-title">成熟日期(月):</b><span>I</span><span>II</span><span>III</span></label>
+                            <label><b  class="category-title">熟期组 :</b><span>0</span><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X
+</span></label>
                         </div>
                         <div class="plant-height" data-name="height">
                             <label  class="category-content"><b  class="category-title">株高(cm):</b><span>20-60</span><span>60-100</span><span>100-140</span><span>140-180</span></label>
@@ -300,7 +301,7 @@
                     </div>
                     <div class="retract popCnt1"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
                     <div id="tagKind" class="kindCnt1">
-                        <div style="overflow-x: scroll;height: 438px;">
+                        <div style="overflow-x: scroll;height: 419px;">
                             <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
                                 <thead style="overflow-x: scroll;width:730px;">
                                 <tr>
@@ -705,8 +706,8 @@
     </div>
     <div class="export-data">
         <p class="btn-export-set">
-            <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
             <button type="button" class="btn popu-set-up"><img src="${ctxStatic}/images/set.png">表格设置</button>
+            <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
         </p>
     </div>
     <div class="tab-detail-tbody">
@@ -1238,10 +1239,12 @@
         });
         var kindNames = [];
         var currPopu = "";
+        var popId;
+        var currVal = "";
 
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click",".label-txt",function(){
-            var currVal = $(this).text().split(",")[0].substring(0,3);
+            currVal = $(this).text().split(",")[0].substring(0,3);
             var currKindList = $(this).text().split(",");
             kindNames = [];
             for (var i=0;i<currKindList.length;i++){
@@ -1258,26 +1261,30 @@
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
-            var id = $(this).parent("label").attr("data-index");
+            popId = $(this).parent("label").attr("data-index");
 //            currPopu = selectPopulation(id)[0];
             if(currVal == "品种名"){
-//                $("#popu-paginate").hide();
-//                $("#paging1").show();
-                currPopu = selectKindVal(id)[0];
+                currPopu = selectKindVal(popId)[0];
                 var data = {
                     names:kindNames.join(",")
                 };
                 currFlag = "cultivar";
                 getKindInfos(1);
-
             }else{
                 currFlag = "group"
-//                $("#popu-paginate").show();
-//                $("#paging1").hide();
-                currPopu = selectPopulation(id)[0];
+                currPopu = selectPopulation(popId)[0];
                 getPopuTable(1);
             }
-
+        // 弹框所有表头都显示
+           var trs = $(".popu-table thead").find("tr");
+            for(var i=0;i<trs.length;i++){
+                var trChildrens = $(trs[i]).find("td");
+                for(var j=0;j<trChildrens.length;j++){
+                    if($(trChildrens[j]).is(":hidden")){
+                        $(trChildrens[j]).show();
+                    }
+                }
+            }
         });
         var currFlag;
         // 选则品种 之后 详情页
@@ -1294,6 +1301,7 @@
                 contentType:"application/json",
                 dataType:"json",
                 success:function (result){
+                    popCount = result.total;
                     renderPopuTable(result.data.list);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1333,11 +1341,55 @@
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
-            var id = $(this).parent("label").attr("data-index");
-            currPopu = selectDefaulPopulation(id)[0];
+             popId  = $(this).parent("label").attr("data-index");
+            currPopu = selectDefaulPopulation(popId)[0];
             getPopuTable(1);
+            // 弹框所有表头都显示
+            var trs = $(".popu-table thead").find("tr");
+            for(var i=0;i<trs.length;i++){
+                var trChildrens = $(trs[i]).find("td");
+                for(var j=0;j<trChildrens.length;j++){
+                    if($(trChildrens[j]).is(":hidden")){
+                        $(trChildrens[j]).show();
+                    }
+                }
+            }
 
         });
+        var popPageNum = 1;
+        var popCount;
+        // 获取焦点添加样式：
+        $("#popu-paginate").on("focus", ".laypage_skip", function() {
+            $(this).addClass("isFocus");
+        });
+        $("#popu-paginate").on("blur", ".laypage_skip", function() {
+            $(this).removeClass("isFocus");
+        });
+        // 输入框分页跳转页面
+//        $("#popu-paginate").on("keydown",".laypage_skip",function (e){
+//            var _page_skip = $('#popu-paginate .laypage_skip');
+//            if(e && e.keyCode==13){ // enter 键
+//                if( _page_skip.hasClass("isFocus") ) {
+//                    if(_page_skip.val() * 1 > Math.ceil(popCount/ pageSizePopu)) {
+//                        return alert("输入页码不能大于总页数");
+//                    }
+//                    var selectedNum = parseInt($('#popu-paginate .laypage_skip').val());
+//                    console.error(selectedNum);
+//                    if(currVal == "品种名"){
+//                        currPopu = selectKindVal(popId)[0];
+//                        var data = {
+//                            names:kindNames.join(",")
+//                        };
+//                        currFlag = "cultivar";
+//                        getKindInfos(selectedNum);
+//                    }else{
+//                        currFlag = "group"
+//                        currPopu = selectPopulation(popId)[0];
+//                        getPopuTable(selectedNum);
+//                    }
+//                }
+//            }
+//        })
         var pageSizePopu = 10;
         function getPopuTable(curr) {
             $.ajax({
@@ -1346,6 +1398,7 @@
                 type: "POST",
                 dataType: "json",
                 success: function(res) {
+                    popCount = res.total;
                     renderPopuTable(res.data);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1389,6 +1442,7 @@
             });
             $(".popu-table > tbody").empty().append(str);
         }
+         // 弹框 筛选确认按钮
 
         $(".js-popu-setting-btn").click(function(){
             var _labels = $(".js-table-header-setting-popu").find("label");
@@ -1400,8 +1454,21 @@
                     $(".popu-table").find(cls).show();
                 }
             });
+            // 判断脂肪酸是否显示
+            var linoleic1 ,linolenic1,oleic1,palmitic1,stearic1;
+               var linoleic2 =  $(".js-table-header-setting-popu").find("label[for='linoleic']").attr("class");
+               var linolenic2 =  $(".js-table-header-setting-popu").find("label[for='linolenic']").attr("class");
+               var oleic2 =  $(".js-table-header-setting-popu").find("label[for='oleic']").attr("class");
+               var palmitic2 =  $(".js-table-header-setting-popu").find("label[for='palmitic']").attr("class");
+               var stearic2 =  $(".js-table-header-setting-popu").find("label[for='stearic']").attr("class");
+            if(!linoleic2 && !linolenic2 && !oleic2 && !palmitic2 && !stearic2){
+                $(".popu-table thead").find("td[colspan='5']").hide();
+            }else {
+                if( $(".popu-table thead").find("td[colspan='5']").is(":hidden")){
+                    $(".popu-table thead").find("td[colspan='5']").show();
+                }
+            }
         });
-
 
         /* 关闭群体信息、弹框 */
         $(".tab-detail-thead p a").click(function(){

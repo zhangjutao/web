@@ -57,7 +57,7 @@
         <div id="trInfos">
             <table cellspacing="0" cellpadding="0" style="table-layout:fixed; ">
                 <tr>
-                    <td class="trWidth">SNP ID:</td>
+                    <td class="trWidth">SNP/INDEL ID:</td>
                     <c:if test="${result.snpData!=null}">
                         <td class="trWidth2 snpId">${result.snpData.id}</td>
                     </c:if>
@@ -149,7 +149,7 @@
                 </tr>
             </table>
         </div>
-        <p style="width:1200px;height:2px;border-top:1px solid #E4E4E4;margin-top:16px;"></p>
+        <p class="pieShowTop"></p>
         <div id="pieShow">
         </div>
         <div id="snpinfoTable">
@@ -263,7 +263,7 @@
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
             </div>
-            <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;margin-top:20px;">
+            <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
                 <thead style="overflow-x: scroll;">
                 <tr style="background: #F5F8FF;">
                     <th class="param cultivarT">品种名
@@ -612,6 +612,8 @@
         if(stateType == "ind"){
              $("#snpinfoTable table th.genoTypeT").remove();
              $("#selectedDetails .genoType").parent().remove();
+             $("#pieShow").css("border-bottom","1px solid #ffffff");
+             $(".pieShowTop").css("border-top","1px solid #ffffff");
         }
         var populVal;   // 点击每个群体信息值
         var ctxRoot = '${ctxroot}';
@@ -709,7 +711,7 @@
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data);
+            getData(data,paramData.pageNum);
         });
         $(".major").click(function (){
             major = $(".snpMaj").text().trim();
@@ -719,7 +721,7 @@
             console.info(data);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data,paramData.pageNum);
+            getData(data,paramData.pageNum,filterParamer);
         })
         window.onload = function (){
             var data = snpGetParams(changeParam);
@@ -754,7 +756,7 @@
                     var selectedDatas = snpGetParams(changeParam);
                     selectedDatas.pageNum = paramData.pageNum;
                     selectedDatas.pageSize = paramData.pageSize;
-                    getData(selectedDatas,selectedDatas.pageNum);
+                    getData(selectedDatas,selectedDatas.pageNum,filterParamer);
                 }
             }
         }
@@ -773,15 +775,16 @@
             pageSize:page.pageSize
         };
         var curr = 1;
+        var currPageNumber = 1;
         //ajax 请求
-        function getData(data,curr){
+        function getData(data,curr,fn){
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
                 data:data,
                 success:function (result) {
                     if(result.code!=0){
-//                        $("#paging").hide();
+                      $('#snpinfoTable table tbody').empty();
                     }else {
                         count = result.data.dnaRuns.total;
                         if(count == 0){
@@ -864,10 +867,12 @@
                                         $(item).find("td.genoTypeT").remove();
                                     }
                                 })
+                            }else{
 
                             }
                         }
                     };
+                    fn&&fn();
                     // 分页
                     laypage({
                         cont: $('#snpInforsPage .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -883,9 +888,10 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = snpGetParams(changeParam);
+                                currPageNumber = obj.curr;
                                 tmp.pageNum = obj.curr;
                                 tmp.pageSize = paramData.pageSize;
-                                getData(tmp,obj.curr);
+                                getData(tmp,obj.curr,filterParamer);
                             }
                         }
                     });
@@ -906,48 +912,109 @@
                 dataType:"json",
                 success:function (result){
                     if(result.code !=0){
-                        $("#paging").hide();
                         $(".searchBox input").addClass("inputError")
                         $("#errorBoxShow").show();
                     }else {
                         if($(".searchBox input").hasClass("inputError")){
                             $(".searchBox input").removeClass("inputError");
                         };
-                        if( !$("#errorBoxShow").is(":hidden")){
+                        if(!$("#errorBoxShow").is(":hidden")){
                             $("#errorBoxShow").hide();
                         }
-                        id = result.data.snpData.id;
-                        major =result.data.snpData.majorallen;
-                        minor =result.data.snpData.minorallen;
-                        $(".snpId").text(result.data.snpData.id);
-                        $(".snpCon").text(result.data.snpData.consequencetype);
-                        $(".snpChr").text(result.data.snpData.chr);
-                        $(".snpPos").text(result.data.snpData.pos);
-                        $(".snpRef").text(result.data.snpData.ref);
-                        $(".snpMaj").text(result.data.snpData.majorallen);
-                        $(".snpMio").text(result.data.snpData.minorallen);
-                        $(".snpQue").text(result.data.major + "%");
-                        changeParam = major;
-                        var data = snpGetParams(changeParam);
-                        data.pageNum = paramData.pageNum;
-                        data.pageSize = paramData.pageSize;
-                        getData(data,paramData.pageNum);
-                        //重新画图
-                        AA = result.data.RefAndRefPercent;
-                        TT = result.data.totalAltAndAltPercent;
-                        AT = result.data.totalRefAndAltPercent;
-                        var n1 =result.data.snpData.ref + result.data.snpData.ref;
-                        var n2 =result.data.snpData.ref + result.data.snpData.alt;
-                        var n3 =result.data.snpData.alt +result.data.snpData.alt;
-                        drawPie(AA,TT,AT,n1,n2,n3);
+                        // indel 隐藏 饼图和genoType;
+                        if(result.data.type=="INDEL"){
+                            stateType = "ind";
+                            console.log($("#snpinfoTable table th.genoTypeT").get(0));
+                            if(($("#snpinfoTable table th.genoTypeT").get(0))){
+                                $("#snpinfoTable table th.genoTypeT").remove();
+                            };
+                            if(($("#selectedDetails .genoType").get(0))){
+                                $("#selectedDetails .genoType").parent().remove();
+                            };
+                            if(!$("#pieShow").is(":hidden")){
+                                $("#pieShow").css("border-bottom","1px solid #ffffff").hide();
+                            }
+                            $(".pieShowTop").css("border-top","1px solid #ffffff");
+
+
+                            //  =======
+                            id = result.data.INDELData.id;
+                            major =result.data.INDELData.majorallen;
+                            minor =result.data.INDELData.minorallen;
+                            $(".snpTop").text(result.data.INDELData.id);
+                            $(".snpId").text(result.data.INDELData.id);
+                            $(".snpCon").text(result.data.INDELData.consequencetype);
+                            $(".snpChr").text(result.data.INDELData.chr);
+                            $(".snpPos").text(result.data.INDELData.pos);
+                            $(".snpRef").text(result.data.INDELData.ref);
+                            $(".snpMaj").text(result.data.INDELData.majorallen);
+                            $(".snpMio").text(result.data.INDELData.minorallen);
+                            $(".snpQue").text(result.data.major + "%");
+                            changeParam = major;
+                            var data = snpGetParams(changeParam);
+                            data.pageNum = paramData.pageNum;
+                            data.pageSize = paramData.pageSize;
+                            getData(data,paramData.pageNum,filterParamer);
+//
+                        }else {
+                            stateType = "snp";
+                            if($("#pieShow").is(":hidden")){
+                                $("#pieShow").css("border-bottom","1px solid #E4E4E4").show();
+                            };
+                            if(!$("#snpinfoTable table th.genoTypeT").get(0)){
+                                var th ="<th class='param genoTypeT'> GenoType  <img src='${ctxStatic}/images/arrow-drop-down.png' alt='logo'> <div class='inputComponent'>"+
+                                    "                            <input type='text' placeholder='请输入' class='pubescenceColorI inputStyle'>" +
+                                    "                            <p>" +
+                                    "                                <a href='javascript:void(0);' class='btnCancel'>取消</a>" +
+                                    "                                <a href='javascript:void(0);' class='btnConfirmInfo'>确定</a>" +
+                                    "                            </p>" +
+                                    "                        </div>";
+                                $("#snpinfoTable table th.cultivarT").after(th);
+                            };
+                            if(!$("#selectedDetails .genoType").get(0)){
+                                var li = "<li>" +
+                                            "<input type='checkbox' name='genoType' class='genoType' checked='checked'> GenoType" +
+                                   " </li>";
+                                $("#selectedDetails li input.cultivar").parent().after(li);
+                            };
+                            $(".pieShowTop").css("border-top","1px solid #E4E4E4");
+
+                            ///=====
+                            id = result.data.snpData.id;
+                            major =result.data.snpData.majorallen;
+                            minor =result.data.snpData.minorallen;
+                            $(".snpTop").text(result.data.snpData.id);
+                            $(".snpId").text(result.data.snpData.id);
+                            $(".snpCon").text(result.data.snpData.consequencetype);
+                            $(".snpChr").text(result.data.snpData.chr);
+                            $(".snpPos").text(result.data.snpData.pos);
+                            $(".snpRef").text(result.data.snpData.ref);
+                            $(".snpMaj").text(result.data.snpData.majorallen);
+                            $(".snpMio").text(result.data.snpData.minorallen);
+                            $(".snpQue").text(result.data.major + "%");
+                            changeParam = major;
+                            var data = snpGetParams(changeParam);
+                            data.pageNum = paramData.pageNum;
+                            data.pageSize = paramData.pageSize;
+                            getData(data,paramData.pageNum,filterParamer);
+                            //重新画图
+                            // 这里要判断是indel 进来的还是snp 进来的
+                            AA = result.data.RefAndRefPercent;
+                            TT = result.data.totalAltAndAltPercent;
+                            AT = result.data.totalRefAndAltPercent;
+                            var n1 =result.data.snpData.ref + result.data.snpData.ref;
+                            var n2 =result.data.snpData.ref + result.data.snpData.alt;
+                            var n3 =result.data.snpData.alt +result.data.snpData.alt;
+                            drawPie(AA,TT,AT,n1,n2,n3);
+                        }
+
                     }
                 },
                 error:function (error){
                     console.log(error);
                 }
-            })
+            });
         })
-
         // tag 样式切换
         $(".changeTab p").click(function (){
             if(!$(this).hasClass("changeTagColor")){
@@ -964,13 +1031,15 @@
             }
         })
         //表格筛选框显示隐藏
-        $("#snpinfoTable thead th").mouseover(function (){
+        $("#snpinfoTable thead").on("mouseover"," th",function (){
             $(this).find(".inputComponent").show();
-        }).mouseleave(function (){
+        }).on("mouseleave"," th",function (){
+//        }).mouseleave(function (){
             $(this).find(".inputComponent").hide();
         })
         // 筛选取消按钮 样式
-        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
+        $("#snpinfoTable .inputComponent").on("click",".btnCancel",function (){
+//        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
             $(this).parent().parent().find("input").val("");
             $(this).parent().parent().hide();
         })
@@ -1032,7 +1101,8 @@
             return datas;
         }
         // 获取表格数据
-        $("#snpinfoTable .btnConfirmInfo").click(function (){
+        $("#snpinfoTable").on("click",".btnConfirmInfo",function (){
+//        $("#snpinfoTable .btnConfirmInfo").click(function (){
             if($("#snpinfoTable .genoTypeT input").val()){
                 changeParam = $("#snpinfoTable .genoTypeT input").val();
             };
@@ -1040,7 +1110,7 @@
 
             selectedDatas1.pageNum = paramData.pageNum;
             selectedDatas1.pageSize = paramData.pageSize;
-            getData(selectedDatas1,selectedDatas1.pageNum);
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);
         })
         // 导出数据部分
         $('#tableSet').click(function (){
@@ -1089,6 +1159,31 @@
         initExportTitles();
         // 确定按钮（过滤条件）
         $("#operate .sure").click(function (){
+            filterParamer();
+//            exportTitles = [];
+//            initExportTitles();
+//            var lists = $("#selectedDetails li");
+//            for(var i=0;i<lists.length;i++){
+//                var $input = $(lists[i]).find("input");
+//                var classVal = $input.attr("name");
+//                if(!$input.is(":checked")){
+//                    var idx = exportTitles.indexOf(classVal);
+//                    exportTitles.splice(idx,1);
+//                    var newClassVal = "." + classVal + "T";
+//                    $("#snpinfoTable thead").find(newClassVal).hide();
+//                    $("#snpinfoTable tbody").find(newClassVal).hide();
+//                }
+//                else {
+//                    var newClassVal = "." + classVal + "T";
+//                    if($("#snpinfoTable thead").find(newClassVal).is(":hidden")){
+//                        $("#snpinfoTable thead").find(newClassVal).show();
+//                        $("#snpinfoTable tbody").find(newClassVal).show();
+//                    }
+//                }
+//            }
+        });
+        // 每次请求数据都要检查 当前表格设置的筛选条件
+        function filterParamer(){
             exportTitles = [];
             initExportTitles();
             var lists = $("#selectedDetails li");
@@ -1110,8 +1205,7 @@
                     }
                 }
             }
-            console.warn(exportTitles);
-        });
+        }
         //选中状态代码封装
         function checkStatus(bool){
             var lists = $("#selectedDetails li");
@@ -1150,7 +1244,18 @@
             var data =snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
-            getData(data);
+            getData(data,paramData.pageNum,filterParamer);
+        });
+
+        // pageSize 事件
+        $("#snpInforsPage select").change(function (e){
+            var val = $(this).val();
+            var data =snpGetParams(changeParam);
+            data.pageNum = paramData.pageNum;
+            data.pageSize = val;
+            data.pageNum = currPageNumber;
+            getData(data,data.pageNum);
+
         })
         // 表格导出
         $("#exportData").click(function (){
