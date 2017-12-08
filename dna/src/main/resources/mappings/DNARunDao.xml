@@ -817,7 +817,7 @@
           WHERE `id` = #{id};
     </update>
 
-    <select id="getByCultivar" resultMap="HandlerResultMap">
+    <select id="getByCultivar" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM dna_run WHERE replace(cultivar,' ','') IN
