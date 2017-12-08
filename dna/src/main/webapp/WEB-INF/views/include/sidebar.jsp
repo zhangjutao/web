@@ -363,7 +363,7 @@
                                             </p>
                                         </div>
                                     </th>
-                                    <th class="paramTag">百粒重
+                                    <th class="paramTag">百粒重(g)
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
                                             <select class="selectOperate">
@@ -518,7 +518,7 @@
                                             </p>
                                         </div>
                                     </th>
-                                    <th class="paramTag">顶端小叶长度
+                                    <th class="paramTag">顶端小叶长度(mm)
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
                                             <select class="selectOperate">
