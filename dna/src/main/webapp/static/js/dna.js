@@ -112,6 +112,12 @@ $(function () {
     var globelGeneId;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
+        if(!$(".custom-groups-content").is(":hidden")){
+            $(".custom-groups-content").hide();
+        };
+        if(!$(".cover").is(":hidden")){
+            $(".cover").hide();
+        }
         var obj = getPanelParams();
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
@@ -197,11 +203,20 @@ $(function () {
                 type: "POST",
                 dataType: "json",
                 success: function (res) {
-                    drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
-                    svgPanZoom("#" + parentCont + " svg", {
-                        zoomEnabled: true,
-                        controlIconsEnabled: true
-                    });
+                   if(res.code == 0 ){
+                       if(!$(".geneError").is(":hidden")){
+                           $(".geneError").hide();
+                       };
+                       drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
+                       svgPanZoom("#" + parentCont + " svg", {
+                           zoomEnabled: true,
+                           controlIconsEnabled: true
+                       });
+                   }else {
+                       if($(".geneError").is(":hidden")){
+                           $(".geneError").show();
+                       };
+                   }
                 },
                 error: function (error) {
                     console.log(error);
@@ -220,11 +235,20 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
-                svgPanZoom("#" + parentCont + " svg", {
-                    zoomEnabled: true,
-                    controlIconsEnabled: true
-                });
+                if(res.code == 0 ){
+                    if(!$(".geneError").is(":hidden")){
+                        $(".geneError").hide();
+                    };
+                    drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
+                    svgPanZoom("#" + parentCont + " svg", {
+                        zoomEnabled: true,
+                        controlIconsEnabled: true
+                    });
+                }else {
+                    if($(".geneError").is(":hidden")){
+                        $(".geneError").show();
+                    };
+                }
             },
             error:function (error){
                 console.log(error);
@@ -289,7 +313,7 @@ $(function () {
                     gene:clickVal,
                     group:obj.params.group,
                 }
-        snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
+                snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
                 globelType="Gene";
                 reginIntoGene(1,paramas1,"SNP","constructorPanel","tableBody","snpid","/dna/searchIdAndPosInGene");
                 reginIntoGene(1,paramas1,"INDEL","constructorPanel2","tableBody2","indelid","/dna/searchIdAndPosInGene");
@@ -310,7 +334,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
-                drawGeneConstructor(res,parentCnt,tblBody,"",type,gid);
+                drawGeneConstructor(res,parentCnt,tblBody,"",type,gid,params);
                 svgPanZoom("#" + parentCnt + " svg", {
                     zoomEnabled: true,
                     controlIconsEnabled: true
@@ -372,6 +396,7 @@ $(function () {
     $(".js-snp-tab").on("change", ".lay-per-page-count-select", function() {
         pageSizeSNP = $(this).val();
         var obj = getPanelParams();
+        // obj.params.pageNo = currPageNumb;
         requestForSnpData(1, obj.url, obj.params);
     });
 
@@ -400,6 +425,7 @@ $(function () {
         var _page_skip2 = $('#indel-paginate .laypage_skip');
         if(e && e.keyCode==13){ // enter 键
             if( _page_skip.hasClass("isFocus") ) {
+
                 if(_page_skip.val() * 1 > Math.ceil(($(".total-page-count-snp").text()*1)/pageSizeSNP)) {
                     return alert("输入页码不能大于总页数");
                 }
@@ -417,6 +443,7 @@ $(function () {
     }
 
     var SNPData = [];
+    var currPageNumb=1;
     var Major_Or_Minor_SNP = "major";
     // 请求数据并分页 -- SNP
     function requestForSnpData(curr, url, params,fn) {
@@ -466,6 +493,7 @@ $(function () {
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = getPanelParams();
+                                currPageNumb = obj.curr;
                                 requestForSnpData(obj.curr, tmp.url, tmp.params);
                             }
                         }
@@ -523,9 +551,6 @@ $(function () {
                 }else{
                     var currStatus = $(".item-ac").text();
                     if(currStatus == "INDELS"){
-                        // if(!$("#constructorPanel").is(":hidden")){
-                        //     $("#constructorPanel").hide();
-                        // }
                         if( $("#constructorPanel2").hasClass("hiddeCurr")){
                             $("#constructorPanel2").removeClass("hiddeCurr")
                             $("#constructorPanel").addClass("hiddeCurr");
@@ -555,6 +580,7 @@ $(function () {
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var tmp = getPanelParams();
+                                currPageNumb = obj.curr;
                                 requestForIndelData(obj.curr, tmp.url, tmp.params);
                             }
                         }
@@ -581,7 +607,6 @@ $(function () {
                             autoClose: false,
                             content: content
                         });
-                        //$(".pt").css("left", $(".pt").position().left);
                     },function () {
                         $(".pt").remove();
                     });
@@ -833,12 +858,22 @@ $(function () {
             $("#table_header_setting dd label").removeClass("checkbox-ac");
         })
     })
+
     /*全选*/
     $(".js-choose-all").click(function () {
         if($(this).hasClass("js-choose-all-ac")){
-            $(this).removeClass("js-choose-all-ac")
+            $(this).removeClass("js-choose-all-ac");
+            var _labels = $(this).parents(".choose-default").siblings(".checkbox-item").find(".table_header_setting label");
+            $.each(_labels, function (index, item) {
+                if($(this).hasClass("checkbox-ac")){
+                    $(this).removeClass("checkbox-ac");
+                }
+            });
+
+
         }else{
             $(this).addClass("js-choose-all-ac")
+
             var _labels = $(this).parents(".choose-default").siblings(".checkbox-item").find(".table_header_setting label");
             $.each(_labels, function (index, item) {
                 $(this).addClass("checkbox-ac");
@@ -1007,10 +1042,6 @@ $(function () {
         }else {
             var direction = result.data.dnaGenStructures[0].strand;
         }
-        // if (result.data.length == 0 && result.dnaGenStructures.length == 0){
-        //
-        //     return;
-        // };
         var referenceVal = result.data.bps;
         var startPos = parseInt(result.data.conditions.split(",")[1]);
         var endPos =parseInt(result.data.conditions.split(",")[2]);
@@ -1021,10 +1052,10 @@ $(function () {
         var totalLength;
         if(geneLength >svgTotal*10){
             var svg = d3.select("#" +id).append("svg").attr("width",parseInt(geneLength/10) + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[parseInt(geneLength/10),220]];
-            var topLineData = [[20,1],[parseInt(geneLength/10),1]];
-            var centerLineData = [[20,90],[parseInt(geneLength/10),90]]
-            totalLength = parseInt(geneLength/10);
+            var acrossLineData = [[20,220],[Math.ceil(geneLength/10),220]];
+            var topLineData = [[20,1],[Math.ceil(geneLength/10),1]];
+            var centerLineData = [[20,90],[Math.ceil(geneLength/10),90]]
+            totalLength = Math.ceil(geneLength/10);
         }else {
             var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","250px");
             var acrossLineData = [[20,220],[svgTotal,220]];
@@ -1052,7 +1083,7 @@ $(function () {
         var svgLength = $("#" + id).find("svg").width();
         // to do
         if (svgLength >885){
-            var intervalNums = parseInt(svgLength/100);
+            var intervalNums = Math.ceil(svgLength/100);
             // 每份的长度
             ttdistance = parseInt(svgLength/intervalNums);
 
@@ -1079,14 +1110,11 @@ $(function () {
             intervalLineData.push(intervalElement1);
             intervalLineData.push(intervalElement2);
             intervalLineData.push(faultElement);
-            // to do
-            // 要对startPos+ i*ttdistance 取整数显示（保留 * 位 0 ）
-            // 画位置文字信息
-            if(svgLength>885){
-                svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +i*ttdistance +",250)");
-            }else {
-                svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","#ff0000").attr("transform","translate(" +i*svgLength/10 +",250)");
-            }
+                if(svgLength>885){
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
+                }else {
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+                }
         }
         // 利用defined 把一条路径切割成一段一段的多条路径
             var line2 = line.defined(function(d, i, index) {
@@ -1113,7 +1141,8 @@ $(function () {
             var leftMargin = 60;
             var snpWidth = 5;
             var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
-            var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
+            // var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
+            var g1 = svg.append("g").attr("transform","translate(20,30)").attr("id",gsnpid);  //?问题点
             var geneConstructs = result.data.dnaGenStructures;
             var snpLocalPoints = result.data.snps;
             var snpColor = "#6b69d6";
@@ -1132,19 +1161,35 @@ $(function () {
                 for (var i=0;i<geneConstructs.length;i++){
                     var feature = geneConstructs[i].feature;
                     var colorVal = chromoColor(feature);
-                    // g.append("rect").attr("x",(endPos-geneConstructs[i].start)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-                    g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                    if(geneLength<8850){
+                        var scale = geneLength/885;
+                        g.append("rect").attr("x",(geneConstructs[i].start-startPos)/scale).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/scale).attr("height",rectHeight).attr("fill",colorVal);
+                    }else {
+                        g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                    }
                 }
             // }
             // 画snp 位点
                     var newArr = [];
-                    for(var i=0;i<snpLocalPoints.length;i++){
-                        var obj = {x:0,y:0,id:""};
-                        obj.x = (endPos - snpLocalPoints[i].pos)/10;
-                        obj.y = 90;
-                        obj.id = snpLocalPoints[i].id;
-                        obj.index = snpLocalPoints[i].index;
-                        newArr.push(obj);
+                    if(geneLength<8850){
+                            var scale = geneLength/885;
+                            for(var i=0;i<snpLocalPoints.length;i++){
+                                var obj = {x:0,y:0,id:""};
+                                    obj.x = (snpLocalPoints[i].pos - startPos)/scale;
+                                obj.y = 90;
+                                obj.id = snpLocalPoints[i].id;
+                                obj.index = snpLocalPoints[i].index;
+                                newArr.push(obj);
+                            }
+                    }else {
+                        for(var i=0;i<snpLocalPoints.length;i++){
+                            var obj = {x:0,y:0,id:""};
+                                obj.x = (snpLocalPoints[i].pos - startPos)/10;
+                            obj.y = 90;
+                            obj.id = snpLocalPoints[i].id;
+                            obj.index = snpLocalPoints[i].index;
+                            newArr.push(obj);
+                        }
                     }
                     var globalY = 10;
                     function loop(arr) {
@@ -1164,7 +1209,7 @@ $(function () {
                         }
                         for (var m=0;m<arr.length;m++){
                             var a = g1.append("a").attr("href","#" +arr[m].id);
-                            a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index);;
+                            a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index);
                         }
                         loop(temp)
                     }
@@ -1174,8 +1219,6 @@ $(function () {
         function getSnpPoint(tabid){
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
-            // for(var i=0;i<allSnpNum.length;i++){
-                // if($(allSnpNum[i]).parent().attr("href").substring(1) == tabid ){
                     singleData.index = snpIndex;
                     singleData.id =tabid;
                     singleData.type = type;
@@ -1185,9 +1228,6 @@ $(function () {
                     singleData.end = snpPintDatas.end;
                     singleData.ctype = snpPintDatas.ctype;
                     singleData.group = snpGroup.group;
-                    // break;
-                // }
-            // };
             $.ajax({
                 type:'GET',
                 url:ctxRoot + snpPintDatas.url,

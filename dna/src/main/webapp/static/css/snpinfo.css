@@ -72,9 +72,10 @@
 #snpinfoTable{
     width: 1137px;
     overflow-x: scroll;
-    min-height: 195px;
+    min-height: 250px;
     margin-left:33px;
     position:relative;
+    overflow-y: hidden;
 }
 #snpinfoTable table{
     border-collapse: collapse;
@@ -398,4 +399,13 @@ a {
 }
 .changeTableStyle{
     margin-top: 56px!important;
+}
+.pieShowTop{
+    width:1200px;
+    height:2px;
+    border-top:1px solid #E4E4E4;
+    margin-top:16px;"
+}
+.param{
+    border: 1px solid #E4E4E4;
 }

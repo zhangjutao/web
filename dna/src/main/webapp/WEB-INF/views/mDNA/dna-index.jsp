@@ -27,8 +27,6 @@
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/d3.js"></script>
     <script src="${ctxStatic}/js/svg-pan-zoom.js"></script>
-
-
     <style>
         .total-page-count {display: none!important;}
         /* master分支中无群体信息 */
@@ -92,6 +90,9 @@
                             <span class="colorBlock" style="background: #f76919;"></span>
                             <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
                         </p>
+                    </div>
+                    <div class="geneError">
+                        无数据
                     </div>
                     <div id="constructorPanel" onmousewheel="return false;">
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg">
@@ -190,8 +191,8 @@
                     <div class="tab-txt tab-txt-ac js-snp-tab">
                         <div class="export-data">
                             <p class="btn-export-set">
-                                <button type="button" class="btn btn-export js-export">导出数据</button>
                                 <button type="button" class="btn snp-set-up">表格设置</button>
+                                <button type="button" class="btn btn-export js-export">导出数据</button>
                             </p>
                         </div>
                         <div id="mask-test">
@@ -262,8 +263,8 @@
                     <div class="tab-txt js-indel-tab">
                         <div class="export-data">
                             <p class="btn-export-set">
-                                <button type="button" class="btn btn-export js-export">导出数据</button>
                                 <button type="button" class="btn indels-set-up">表格设置</button>
+                                <button type="button" class="btn btn-export js-export">导出数据</button>
                             </p>
                         </div>
                         <div id="mask-test2">
@@ -282,7 +283,7 @@
                                                     <li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>
                                                     <li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>
                                                     <li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>
-                                                    <li data-type="effect" data-value="frameshift insertion">Exonic_nonframeshift deletion</li>
+                                                    <li data-type="effect" data-value="nonframeshift deletion">Exonic_nonframeshift deletion</li>
                                                     <li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>
                                                     <li data-type="effect" data-value="stopgain">Exonic_stopgain</li>
                                                     <li data-type="effect" data-value="stoploss">Exonic_stoploss</li>
