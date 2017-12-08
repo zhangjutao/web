@@ -218,7 +218,7 @@
                                     <input type="checkbox" name="yield" class="yield" checked="checked"> 茸毛色
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度(mm)
+                                    <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
                                 </li>
                                 <li>
                                     <input type="checkbox" name="linoleic" class="linoleic" checked="checked">亚油酸
@@ -488,7 +488,7 @@
                             </p>
                         </div>
                     </th>
-                    <th class="param upperLeafletLengthT">顶端小叶长度
+                    <th class="param upperLeafletLengthT">顶端小叶长度(mm)
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <select class="selectOperate">
