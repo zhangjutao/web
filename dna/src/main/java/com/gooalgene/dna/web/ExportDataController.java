@@ -482,7 +482,7 @@ public class ExportDataController {
                         Map tempResult = new HashMap();
                         List<String> cultivarList;
                         cultivarList = Arrays.asList(culltivarsArray);
-                        List<DNARun> dnaRunList = dnaRunDao.getByCultivar(cultivarList);
+                        List<DNARun> dnaRunList = dnaRunDao.getByCultivarForExport(cultivarList);
                         JSONArray data = new JSONArray();
                         for (DNARun dnaRun : dnaRunList) {
                             data.add(dnaRun.toJSON());
