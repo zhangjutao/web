@@ -190,7 +190,7 @@
                                     <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 成熟期组
+                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期组
                                 </li>
                                 <li>
                                     <input type="checkbox" name="height" class="height" checked="checked"> 株高
@@ -384,7 +384,7 @@
                             </p>
                         </div>
                     </th>
-                    <th class="param maturityDateT">熟期
+                    <th class="param maturityDateT">熟期组
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
