@@ -650,7 +650,6 @@ public class SNPController {
                                        @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                        @RequestParam(value = "pageSize", required = false) String isPage,
-                                       @RequestParam("judgeAllele")String judgeAllele,
                                        DnaRunDto dnaRunDto) {
         Map result = snpService.findSampleById(snpId);
         SNP snpTemp = (SNP) result.get("snpData");
@@ -667,9 +666,9 @@ public class SNPController {
             String value = (String) entry.getValue();
             if (StringUtils.isNotBlank(changeParam)) {
                 if (type.equals("indel")) {
-                    String majAndchangePa= snpTemp.getMajorallen() + changeParam;
+                    String changePaAndMaj = snpTemp.getMajorallen() + changeParam;
                     String changePaAndMin = changeParam + snpTemp.getMinorallen();
-                    if (value.equalsIgnoreCase(majAndchangePa) || value.equalsIgnoreCase(changePaAndMin)) {
+                    if (value.equalsIgnoreCase(changePaAndMaj) || value.equalsIgnoreCase(changePaAndMin)) {
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                         Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
                         Matcher matcher = regexp.matcher(singleRunNo);
@@ -680,32 +679,15 @@ public class SNPController {
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 } else {
-                    if(StringUtils.equalsIgnoreCase(judgeAllele,"major")){
-                        if(value.contains(snpTemp.getMajorallen())){
-                            if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                                String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
-                                Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
-                                Matcher matcher = regexp.matcher(singleRunNo);
-                                if (!matcher.find()) {
-                                    singleRunNo = singleRunNo + ".0";
-                                }
-                                runNos.add(singleRunNo);
-                                samples.put(entry.getKey(), entry.getValue());
-                            }
+                    if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()) {
+                            singleRunNo = singleRunNo + ".0";
                         }
-                    }else {
-                        if(value.contains(snpTemp.getMinorallen())){
-                            if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                                String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
-                                Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
-                                Matcher matcher = regexp.matcher(singleRunNo);
-                                if (!matcher.find()) {
-                                    singleRunNo = singleRunNo + ".0";
-                                }
-                                runNos.add(singleRunNo);
-                                samples.put(entry.getKey(), entry.getValue());
-                            }
-                        }
+                        runNos.add(singleRunNo);
+                        samples.put(entry.getKey(), entry.getValue());
                     }
                 }
             }

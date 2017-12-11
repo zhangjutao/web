@@ -845,28 +845,28 @@ public class ExportDataController {
         Set<Map.Entry<String, String>> entrySet = map.entrySet();
         List<String> runNos = Lists.newArrayList();
         Map samples = Maps.newHashMap();
-        for(Map.Entry entry:entrySet){
-            String value=(String)entry.getValue();
-            if(StringUtils.isNotBlank(changeParam)){
-                if(isINDEL){
-                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
-                    String changePaAndMin=changeParam+snpTemp.getMinorallen();
-                    if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
+        for (Map.Entry entry : entrySet) {
+            String value = (String) entry.getValue();
+            if (StringUtils.isNotBlank(changeParam)) {
+                if (isINDEL) {
+                    String changePaAndMaj = snpTemp.getMajorallen() + changeParam;
+                    String changePaAndMin = changeParam + snpTemp.getMinorallen();
+                    if (value.equalsIgnoreCase(changePaAndMaj) || value.equalsIgnoreCase(changePaAndMin)) {
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                         Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
                         Matcher matcher = regexp.matcher(singleRunNo);
-                        if (!matcher.find()){
+                        if (!matcher.find()) {
                             singleRunNo = singleRunNo + ".0";
                         }
                         runNos.add(singleRunNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
-                }else {
+                } else {
                     if (StringUtils.containsIgnoreCase(value, changeParam)) {
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                         Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
                         Matcher matcher = regexp.matcher(singleRunNo);
-                        if (!matcher.find()){
+                        if (!matcher.find()) {
                             singleRunNo = singleRunNo + ".0";
                         }
                         runNos.add(singleRunNo);
