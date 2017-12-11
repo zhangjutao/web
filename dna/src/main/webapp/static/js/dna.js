@@ -1140,7 +1140,8 @@ $(function () {
             var rectHeight = 20;   // 基因结构图高度
             var leftMargin = 60;
             var snpWidth = 5;
-            var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            // var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            var g = svg.append("g").attr("transform","translate(0,10)");
             // var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
             var g1 = svg.append("g").attr("transform","translate(20,30)").attr("id",gsnpid);  //?问题点
             var geneConstructs = result.data.dnaGenStructures;
