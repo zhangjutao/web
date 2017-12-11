@@ -334,7 +334,14 @@
                 AND flowering_date like CONCAT('%',#{floweringDate},'%')
             </if>
             <if test="maturityDate!=null and maturityDate!=''">
-                AND maturity_date like CONCAT('%',#{maturityDate},'%')
+                <choose>
+                    <when test="maturityDate!='0'.toString()">
+                        AND maturity_date REGEXP CONCAT('^',#{maturityDate},' -')
+                    </when>
+                    <when test="maturityDate=='0'.toString()">
+                        AND maturity_date like CONCAT('',#{maturityDate},'%')
+                    </when>
+                </choose>
             </if>
 
             <if test="yield!=null">
@@ -707,8 +714,15 @@
                 </otherwise>
             </choose>
         </if>
-        <if test="maturityDate!=null">
-            AND maturity_date LIKE CONCAT('',#{maturityDate},'%')
+        <if test="maturityDate!=null and maturityDate!=''">
+            <choose>
+                <when test="maturityDate!='0'.toString()">
+                    AND maturity_date REGEXP CONCAT('^',#{maturityDate},' -')
+                </when>
+                <when test="maturityDate=='0'.toString()">
+                    AND maturity_date like CONCAT('',#{maturityDate},'%')
+                </when>
+            </choose>
         </if>
         <if test="hilumColor!=null">
             AND hilum_color = #{hilumColor}
@@ -804,6 +818,15 @@
     </update>
 
     <select id="getByCultivar" resultMap="HandlerResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM dna_run WHERE replace(cultivar,' ','') IN
+        <foreach collection="list" item="cultivar" open="(" close=")" separator=",">
+            replace(#{cultivar},' ','')
+        </foreach>
+    </select>
+
+    <select id="getByCultivarForExport" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM dna_run WHERE replace(cultivar,' ','') IN

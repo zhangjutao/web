@@ -350,7 +350,7 @@ $(function (){
                         var maturityDateTV = totalDatas[i].maturityDate==null?"":totalDatas[i].maturityDate;  //熟期
                         var heightTV = totalDatas[i].height==null?"":totalDatas[i].height  //株高
                         var seedCoatColorTV = totalDatas[i].seedCoatColor==null?"":totalDatas[i].seedCoatColor;  //种皮色
-                        var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor==null;  //种脐色
+                        var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor;  //种脐色
                         var cotyledonColorTV = totalDatas[i].cotyledonColor==null?"":totalDatas[i].cotyledonColor;  //子叶色
                         var flowerColorTV = totalDatas[i].flowerColor==null?"":totalDatas[i].flowerColor;  //花色
                         var podColorTV = totalDatas[i].podColor==null?"":totalDatas[i].podColor;  //荚色

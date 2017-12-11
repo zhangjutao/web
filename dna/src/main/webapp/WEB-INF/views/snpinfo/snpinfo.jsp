@@ -488,7 +488,7 @@
                             </p>
                         </div>
                     </th>
-                    <th class="param upperLeafletLengthT">顶端小叶长度
+                    <th class="param upperLeafletLengthT">顶端小叶长度(mm)
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <select class="selectOperate">
