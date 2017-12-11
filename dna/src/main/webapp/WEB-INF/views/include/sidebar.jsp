@@ -250,7 +250,7 @@
                             <label><b  class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>
                         </div>
                         <div class="yield category-more" data-name="yield">
-                            <label><b  class="category-title">产量(t/ha):</b><span>0-1</span><span>1-2</span><span>2-3</span><span>3-4</span><span>4-5</span></label>
+                            <label><b  class="category-title">产量(Mg/ha):</b><span>0-1</span><span>1-2</span><span>2-3</span><span>3-4</span><span>4-5</span></label>
                             <div class="oil-content-section">
                                 <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
                                 <button type="button" data-name="yield" class="btn js-customize-sample">确定</button>
@@ -299,7 +299,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="retract popCnt1"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
+                    <div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
                     <div id="tagKind" class="kindCnt1">
                         <div style="overflow-x: scroll;height: 419px;">
                             <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
