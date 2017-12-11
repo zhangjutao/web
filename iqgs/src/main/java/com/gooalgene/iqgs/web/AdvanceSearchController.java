@@ -17,11 +17,19 @@ import java.util.List;
 public class AdvanceSearchController {
 
     /**
-     * 根据用户输入的qtl name进行模糊查询，返回模糊查询与之匹配的一组qtl name集合 <br/>
-     * <span style="color:red;">请求URL</span>: http://localhost:port/iqgs/advance-search/query-by-qtl-name <br>
-     * 请求方式: GET
-     * @param qtlName 用户输入的qtl name
-     * @return 匹配的qtl name集合
+     * @api {get} /advance-search/query-by-qtl-name 根据用户输入的qtl name进行模糊查询，返回模糊查询与之匹配的一组qtl name集合
+     * @apiName queryByQTLName
+     * @apiGroup Search
+     *
+     * @apiParam {String} qtlName 用户输入的qtl name
+     *
+     * @apiSuccessExample Success-Response:
+     *      HTTP/1.1 200 OK
+     *     {
+     *       "firstname": "John",
+     *       "lastname": "Doe"
+     *     }
+     *
      */
     @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET)
     public List<String> queryByQTLName(String qtlName){
