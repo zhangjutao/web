@@ -1011,7 +1011,7 @@
                         unit = "月";
                         break;
                     case 'maturityDate':
-                        unit = "月";
+                        unit = "";
                         break;
                     default :
                         unit = "";
