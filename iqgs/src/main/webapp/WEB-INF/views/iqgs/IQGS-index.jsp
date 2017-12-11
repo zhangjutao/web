@@ -11,6 +11,7 @@
     <title>IQGS index</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
@@ -30,6 +31,7 @@
                 <li class="active geneIdName"><a class="" >Search By Gene ID/Name</a></li>
                 <li class=" geneFunction"><a class="" >Search By Gene Function</a></li>
                 <li class="region" ><a class="">Search By Region</a></li>
+                <li class="qtl" ><a class="">Search By QTL</a></li>
             </ul>
             <div id="myTabContent" class="tab-content">
                 <div id="GeneIdName" class="tab-pane tab-pane-ac">

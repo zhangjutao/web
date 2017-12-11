@@ -58,7 +58,7 @@ public class IndexExpalinController {
         }
         jsonobj.put("aData", result);
         Map<String, Object> map = new HashMap<String, Object>();
-        // 为操作次数加1，必须这样做
+        // 为操作次数加1，必须这样做、
         int initEcho = sEcho + 1;
         map.put("sEcho", initEcho);
         map.put("iTotalRecords", result.size());
