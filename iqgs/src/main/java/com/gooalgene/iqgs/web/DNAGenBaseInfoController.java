@@ -33,12 +33,14 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Created by sauldong on 2017/10/12.
+ * 整合数据库主页,包含三个主要查询入口
+ * @since 2017/10/12
+ * @version 1.0
+ * @author sauldong
  */
 @Controller
 @RequestMapping("/iqgs")
 public class DNAGenBaseInfoController {
-
 
     Logger logger = LoggerFactory.getLogger(DNAGenBaseInfoController.class);
 
@@ -48,6 +50,11 @@ public class DNAGenBaseInfoController {
     @Autowired
     private StudyService studyService;
 
+    /**
+     * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/index <br>
+     * 请求方式: GET OR POST
+     * @return 跳转到iqgs目录下IQGS-index.jsp页面
+     */
     @RequestMapping("/index")
     public String toIndexPage() {
         return "iqgs/IQGS-index";
@@ -91,11 +98,12 @@ public class DNAGenBaseInfoController {
     }
 
     /**
-     * 根据基因function字段进行模糊查询
-     *
-     * @param req
-     * @param resp
-     * @return
+     * 根据基因function字段进行模糊查询 <br>
+     * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/search/func <br>
+     * 请求方式: GET OR POST
+     * @param req http请求
+     * @param resp http响应
+     * @return total:搜索出来的总条数, data:搜索出来的数据,data中包含哪些数据...
      */
     @RequestMapping("/search/func")
     @ResponseBody
