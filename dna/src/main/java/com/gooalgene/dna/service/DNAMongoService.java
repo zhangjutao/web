@@ -453,7 +453,9 @@ public class DNAMongoService {
                 String keywords = "";
                 if (ctype.indexOf(' ')!=-1) {
                     keywords = ctype.replace("_", ".*_");
-                }else {
+                } else if (ctype.indexOf(';') == -1 && ctype.endsWith("_")) {
+                    keywords = ctype.replace("_", "");
+                } else {
                     keywords = ctype.replace("_", ".*");
                 }
                 Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);

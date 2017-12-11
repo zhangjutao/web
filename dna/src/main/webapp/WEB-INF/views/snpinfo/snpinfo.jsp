@@ -190,7 +190,7 @@
                                     <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 成熟期组
+                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期组
                                 </li>
                                 <li>
                                     <input type="checkbox" name="height" class="height" checked="checked"> 株高
@@ -384,7 +384,7 @@
                             </p>
                         </div>
                     </th>
-                    <th class="param maturityDateT">熟期
+                    <th class="param maturityDateT">熟期组
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
@@ -711,6 +711,7 @@
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
+            data.judgeAllele = $(this).text().split(" ")[0];
             getData(data,paramData.pageNum);
         });
         $(".major").click(function (){
@@ -719,12 +720,14 @@
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
+            data.judgeAllele = $(this).text().split(" ")[0];
             getData(data,paramData.pageNum,filterParamer);
         })
         window.onload = function (){
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
             getData(data,paramData.pageNum);
         }
         // // pageSize 选择事件
@@ -754,6 +757,7 @@
                     var selectedDatas = snpGetParams(changeParam);
                     selectedDatas.pageNum = paramData.pageNum;
                     selectedDatas.pageSize = paramData.pageSize;
+                    selectedDatas.judgeAllele = $(".changeTagColor").text().split(" ")[0];
                     getData(selectedDatas,selectedDatas.pageNum,filterParamer);
                 }
             }
@@ -776,6 +780,7 @@
         var currPageNumber = 1;
         //ajax 请求
         function getData(data,curr,fn){
+            console.warn(data)
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
@@ -889,6 +894,7 @@
                                 currPageNumber = obj.curr;
                                 tmp.pageNum = obj.curr;
                                 tmp.pageSize = paramData.pageSize;
+                                tmp.judgeAllele = $(".changeTagColor").text().split(" ")[0];
                                 getData(tmp,obj.curr,filterParamer);
                             }
                         }
@@ -951,6 +957,7 @@
                             var data = snpGetParams(changeParam);
                             data.pageNum = paramData.pageNum;
                             data.pageSize = paramData.pageSize;
+                            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
                             getData(data,paramData.pageNum,filterParamer);
 //
                         }else {
@@ -993,6 +1000,7 @@
                             var data = snpGetParams(changeParam);
                             data.pageNum = paramData.pageNum;
                             data.pageSize = paramData.pageSize;
+                            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
                             getData(data,paramData.pageNum,filterParamer);
                             //重新画图
                             // 这里要判断是indel 进来的还是snp 进来的
@@ -1107,6 +1115,8 @@
 
             selectedDatas1.pageNum = paramData.pageNum;
             selectedDatas1.pageSize = paramData.pageSize;
+            selectedDatas1.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            console.log(selectedDatas1)
             getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);
         })
         // 导出数据部分
@@ -1241,6 +1251,7 @@
             var data =snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
             getData(data,paramData.pageNum,filterParamer);
         });
 
@@ -1251,6 +1262,7 @@
             data.pageNum = paramData.pageNum;
             data.pageSize = val;
             data.pageNum = currPageNumber;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
             getData(data,data.pageNum);
 
         })
@@ -1262,7 +1274,8 @@
                 url:CTXROOT + "/dna/IdDetailExport",
                 data:{
                     "titles":exportTitles.join(","),
-                    "condition":JSON.stringify(titleData)
+                    "condition":JSON.stringify(titleData),
+                    "judgeAllele":$(".changeTagColor").text().split(" ")[0]
                 },
                 dataType: "json",
                 contentType: "application/json",

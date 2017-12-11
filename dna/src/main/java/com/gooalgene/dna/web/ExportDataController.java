@@ -142,7 +142,7 @@ public class ExportDataController {
      */
     public void deleteTempFile(String filePath) {
         //删除之前下载产生的临时文件 每次下载都删除一个小时之前的文件
-        File[] fileList =null;
+        File[] fileList = null;
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MILLISECOND, -1000 * 3600);
         long time = calendar.getTime().getTime();
@@ -150,7 +150,7 @@ public class ExportDataController {
         if (file.exists()) {
             fileList = file.listFiles();
         }
-        if(fileList!=null&&fileList.length>0) {
+        if (fileList != null && fileList.length > 0) {
             for (File f : fileList) {
                 if (f.lastModified() < time) {
                     f.delete();
@@ -257,19 +257,19 @@ public class ExportDataController {
             if (map.containsKey("weightPer100seeds")) {
                 float weight = dnaRun.getWeightPer100seeds();
                 dnaList.add(!String.valueOf(weight).equals("") ? String.valueOf(weight) : "-");
-                sb.append(weight != 0 ?String.valueOf(weight) : "-").append(",");
+                sb.append(weight != 0 ? String.valueOf(weight) : "-").append(",");
             }
             //蛋白质含量
             if (map.containsKey("protein")) {
                 float protein = dnaRun.getProtein();
                 dnaList.add(!String.valueOf(protein).equals("") ? String.valueOf(protein) : "-");
-                sb.append(protein != 0 ?String.valueOf(protein) : "-").append(",");
+                sb.append(protein != 0 ? String.valueOf(protein) : "-").append(",");
             }
             //含油量
             if (map.containsKey("oil")) {
                 float oil = dnaRun.getOil();
                 dnaList.add(!String.valueOf(oil).equals("0") ? String.valueOf(oil) : "-");
-                sb.append(oil != 0 ?String.valueOf(oil) : "-").append(",");
+                sb.append(oil != 0 ? String.valueOf(oil) : "-").append(",");
             }
             //成熟期
             if (map.containsKey("maturityDate")) {
@@ -281,7 +281,7 @@ public class ExportDataController {
             if (map.containsKey("height")) {
                 float height = dnaRun.getHeight();
                 dnaList.add(!String.valueOf(height).equals("0") ? String.valueOf(height) : "-");
-                sb.append(height != 0 ?String.valueOf(height) : "-").append(",");
+                sb.append(height != 0 ? String.valueOf(height) : "-").append(",");
             }
 
             //种皮色
@@ -325,45 +325,45 @@ public class ExportDataController {
             if (map.containsKey("yield")) {
                 float yield = dnaRun.getYield();
                 dnaList.add(!String.valueOf(yield).equals("0") ? String.valueOf(yield) : "-");
-                sb.append(yield != 0 ?String.valueOf(yield) : "-").append(",");
+                sb.append(yield != 0 ? String.valueOf(yield) : "-").append(",");
             }
             //顶端小叶长度
             if (map.containsKey("upperLeafletLength")) {
                 float upperLeafletLength = dnaRun.getUpperLeafletLength();
                 dnaList.add(!String.valueOf(upperLeafletLength).equals("") ? String.valueOf(upperLeafletLength) : "-");
-                sb.append(upperLeafletLength != 0 ?String.valueOf(upperLeafletLength) : "-").append(",");
+                sb.append(upperLeafletLength != 0 ? String.valueOf(upperLeafletLength) : "-").append(",");
             }
             //脂肪酸的内容
             //亚油酸
             if (map.containsKey("linoleic")) {
                 float linoleic = dnaRun.getLinoleic();
                 dnaList.add(!String.valueOf(linoleic).equals("") ? String.valueOf(linoleic) : "-");
-                sb.append(linoleic != 0 ?String.valueOf(linoleic) : "-").append(",");
+                sb.append(linoleic != 0 ? String.valueOf(linoleic) : "-").append(",");
             }
             //亚麻酸
             if (map.containsKey("linolenic")) {
                 float linolenic = dnaRun.getLinolenic();
                 dnaList.add(!String.valueOf(linolenic).equals("") ? String.valueOf(linolenic) : "-");
-                sb.append(linolenic != 0 ?String.valueOf(linolenic) : "-").append(",");
+                sb.append(linolenic != 0 ? String.valueOf(linolenic) : "-").append(",");
             }
             //油酸
             if (map.containsKey("oleic")) {
                 float oleic = dnaRun.getOleic();
                 dnaList.add(!String.valueOf(oleic).equals("") ? String.valueOf(oleic) : "-");
-                sb.append(oleic != 0 ?String.valueOf(oleic) : "-").append(",");
+                sb.append(oleic != 0 ? String.valueOf(oleic) : "-").append(",");
             }
 
             //软脂酸
             if (map.containsKey("palmitic")) {
                 float palmitic = dnaRun.getPalmitic();
                 dnaList.add(!String.valueOf(palmitic).equals("") ? String.valueOf(palmitic) : "-");
-                sb.append(palmitic != 0 ?String.valueOf(palmitic) : "-").append(",");
+                sb.append(palmitic != 0 ? String.valueOf(palmitic) : "-").append(",");
             }
             //硬脂酸
             if (map.containsKey("stearic")) {
                 float stearic = dnaRun.getStearic();
                 dnaList.add(!String.valueOf(stearic).equals("") ? String.valueOf(stearic) : "-");
-                sb.append(stearic != 0 ?String.valueOf(stearic) : "-").append(",");
+                sb.append(stearic != 0 ? String.valueOf(stearic) : "-").append(",");
             }
 
             //前端数据不包含部分
@@ -400,7 +400,7 @@ public class ExportDataController {
         if (StringUtils.isNoneBlank(columns)) {
             if (StringUtils.isNoneBlank(model)) {
                 Map result;
-                 if ("REGION".equals(model)) {
+                if ("REGION".equals(model)) {
                     String type = request.getParameter("type");
                     fileName += "_" + type;
                     String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
@@ -482,7 +482,7 @@ public class ExportDataController {
                         Map tempResult = new HashMap();
                         List<String> cultivarList;
                         cultivarList = Arrays.asList(culltivarsArray);
-                        List<DNARun> dnaRunList = dnaRunDao.getByCultivar(cultivarList);
+                        List<DNARun> dnaRunList = dnaRunDao.getByCultivarForExport(cultivarList);
                         JSONArray data = new JSONArray();
                         for (DNARun dnaRun : dnaRunList) {
                             data.add(dnaRun.toJSON());
@@ -608,15 +608,15 @@ public class ExportDataController {
                 }
                 if (map.containsKey("weightPer100seeds")) {
                     Object weightPer100seeds = one.get("weightPer100seeds");
-                    sb.append((weightPer100seeds != null && !weightPer100seeds.toString().equals("") ?weightPer100seeds : "-")).append(",");
+                    sb.append((weightPer100seeds != null && !weightPer100seeds.toString().equals("") ? weightPer100seeds : "-")).append(",");
                 }
                 if (map.containsKey("oil")) {
                     Object oil = one.get("oil");
-                    sb.append((oil != null && !oil.toString().equals("") ?oil : "-")).append(",");
+                    sb.append((oil != null && !oil.toString().equals("") ? oil : "-")).append(",");
                 }
                 if (map.containsKey("protein")) {
                     Object protein = one.get("protein");
-                    sb.append((protein != null && !protein.toString().equals("") ?protein : "-")).append(",");
+                    sb.append((protein != null && !protein.toString().equals("") ? protein : "-")).append(",");
                 }
                 if (map.containsKey("floweringDate")) {
                     Object floweringDate = one.get("floweringDate");
@@ -628,7 +628,7 @@ public class ExportDataController {
                 }
                 if (map.containsKey("height")) {
                     Object height = one.get("height");
-                    sb.append((height != null && !height.toString().equals("") ?height : "-")).append(",");
+                    sb.append((height != null && !height.toString().equals("") ? height : "-")).append(",");
                 }
                 if (map.containsKey("seedCoatColor")) {
                     Object seedCoatColor = one.get("seedCoatColor");
@@ -656,31 +656,31 @@ public class ExportDataController {
                 }
                 if (map.containsKey("yield")) {
                     Object yield = one.get("yield");
-                    sb.append((yield != null && !yield.toString().equals("") ?yield: "-")).append(",");
+                    sb.append((yield != null && !yield.toString().equals("") ? yield : "-")).append(",");
                 }
                 if (map.containsKey("upperLeafletLength")) {
                     Object upperLeafletLength = one.get("upperLeafletLength");
-                    sb.append((upperLeafletLength != null && !upperLeafletLength.toString().equals("") ?upperLeafletLength : "-")).append(",");
+                    sb.append((upperLeafletLength != null && !upperLeafletLength.toString().equals("") ? upperLeafletLength : "-")).append(",");
                 }
                 if (map.containsKey("linoleic")) {
                     Object linoleic = one.get("linoleic");
-                    sb.append((linoleic != null && !linoleic.toString().equals("") ?linoleic : "-")).append(",");
+                    sb.append((linoleic != null && !linoleic.toString().equals("") ? linoleic : "-")).append(",");
                 }
                 if (map.containsKey("linolenic")) {
                     Object linolenic = one.get("linolenic");
-                    sb.append((linolenic != null && !linolenic.toString().equals("") ?linolenic : "-")).append(",");
+                    sb.append((linolenic != null && !linolenic.toString().equals("") ? linolenic : "-")).append(",");
                 }
                 if (map.containsKey("oleic")) {
                     Object oleic = one.get("oleic");
-                    sb.append((oleic != null && !oleic.toString().equals("") ?oleic : "-")).append(",");
+                    sb.append((oleic != null && !oleic.toString().equals("") ? oleic : "-")).append(",");
                 }
                 if (map.containsKey("palmitic")) {
                     Object palmitic = one.get("palmitic");
-                    sb.append((palmitic != null && !palmitic.toString().equals("") ?palmitic : "-")).append(",");
+                    sb.append((palmitic != null && !palmitic.toString().equals("") ? palmitic : "-")).append(",");
                 }
                 if (map.containsKey("stearic")) {
                     Object stearic = one.get("stearic");
-                    sb.append((stearic != null && !stearic.toString().equals("") ?stearic : "-")).append(",");
+                    sb.append((stearic != null && !stearic.toString().equals("") ? stearic : "-")).append(",");
                 }
                 sb.append("\n");
             }
@@ -808,7 +808,7 @@ public class ExportDataController {
     * */
     @RequestMapping("/dna/IdDetailExport")
     @ResponseBody
-    public String idDetailPageExport(@RequestParam("titles") String titles, HttpServletRequest request) {
+    public String idDetailPageExport(@RequestParam("titles") String titles, @RequestParam("judgeAllele") String judgeAllele, HttpServletRequest request) {
 
         String condition = request.getParameter("condition");
         JSONObject object = null;
@@ -845,32 +845,49 @@ public class ExportDataController {
         Set<Map.Entry<String, String>> entrySet = map.entrySet();
         List<String> runNos = Lists.newArrayList();
         Map samples = Maps.newHashMap();
-        for(Map.Entry entry:entrySet){
-            String value=(String)entry.getValue();
-            if(StringUtils.isNotBlank(changeParam)){
-                if(isINDEL){
-                    String changePaAndMaj=changeParam+snpTemp.getMajorallen();
-                    String changePaAndMin=changeParam+snpTemp.getMinorallen();
-                    if(value.equalsIgnoreCase(changePaAndMaj)||value.equalsIgnoreCase(changePaAndMin)){
+        for (Map.Entry entry : entrySet) {
+            String value = (String) entry.getValue();
+            if (StringUtils.isNotBlank(changeParam)) {
+                if (isINDEL) {
+                    String majAndchangePa = snpTemp.getMajorallen() + changeParam;
+                    String changePaAndMin = changeParam + snpTemp.getMinorallen();
+                    if (value.equalsIgnoreCase(majAndchangePa) || value.equalsIgnoreCase(changePaAndMin)) {
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                         Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
                         Matcher matcher = regexp.matcher(singleRunNo);
-                        if (!matcher.find()){
+                        if (!matcher.find()) {
                             singleRunNo = singleRunNo + ".0";
                         }
                         runNos.add(singleRunNo);
                         samples.put(entry.getKey(), entry.getValue());
                     }
-                }else {
-                    if (StringUtils.containsIgnoreCase(value, changeParam)) {
-                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
-                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
-                        Matcher matcher = regexp.matcher(singleRunNo);
-                        if (!matcher.find()){
-                            singleRunNo = singleRunNo + ".0";
+                } else {
+                    if (StringUtils.equalsIgnoreCase(judgeAllele, "major")) {
+                        if (value.contains(snpTemp.getMajorallen())) {
+                            if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                                String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                                Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                                Matcher matcher = regexp.matcher(singleRunNo);
+                                if (!matcher.find()) {
+                                    singleRunNo = singleRunNo + ".0";
+                                }
+                                runNos.add(singleRunNo);
+                                samples.put(entry.getKey(), entry.getValue());
+                            }
                         }
-                        runNos.add(singleRunNo);
-                        samples.put(entry.getKey(), entry.getValue());
+                    } else {
+                        if (value.contains(snpTemp.getMinorallen())) {
+                            if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                                String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                                Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                                Matcher matcher = regexp.matcher(singleRunNo);
+                                if (!matcher.find()) {
+                                    singleRunNo = singleRunNo + ".0";
+                                }
+                                runNos.add(singleRunNo);
+                                samples.put(entry.getKey(), entry.getValue());
+                            }
+                        }
                     }
                 }
             }
@@ -889,97 +906,101 @@ public class ExportDataController {
             }
         }
         //查询结果集
-        PageInfo<DNARunSearchResult> dnaRuns=null;
-        if(dnaRunDto!=null&&runNos.size()>0){
+        PageInfo<DNARunSearchResult> dnaRuns = null;
+        if (dnaRunDto != null && runNos.size() > 0) {
             dnaRunDto.setRunNos(runNos);
-             dnaRuns= dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+            dnaRuns = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
         }
-        List<DNARunSearchResult> dnaRunSearchResultList = dnaRuns.getList();
-        for (DNARunSearchResult dnaRunSearchResult : dnaRunSearchResultList) {
-            for (String titleItem : title) {
-                if (titleItem.equals("cultivar")) {
-                    String cultivar = dnaRunSearchResult.getCultivar();
-                    stringBuilder.append(!cultivar.equals("") ? cultivar : "-");
-                } else if (titleItem.equals("genoType")) {
-                    String genoType = (String) samples.get(dnaRunSearchResult.getRunNo());
-                    stringBuilder.append(genoType != null && !genoType.equals("") ? genoType : "-");
-                } else if (titleItem.equals("group")) {
-                    String group = dnaRunSearchResult.getGroup();
-                    stringBuilder.append(!group.equals("") ? group : "-");
-                } else if (titleItem.equals("species")) {
-                    String species = dnaRunSearchResult.getSpecies();
-                    stringBuilder.append(!species.equals("") ? species : "-");
-                } else if (titleItem.equals("locality")) {
-                    String locality = dnaRunSearchResult.getLocality();
-                    if (locality != null && locality.contains(",")) {
-                        locality = locality.replaceAll(",", "，");
+        if(dnaRuns!=null){
+            List<DNARunSearchResult> dnaRunSearchResultList= dnaRuns.getList();
+            for (DNARunSearchResult dnaRunSearchResult : dnaRunSearchResultList) {
+                for (String titleItem : title) {
+                    if (titleItem.equals("cultivar")) {
+                        String cultivar = dnaRunSearchResult.getCultivar();
+                        stringBuilder.append(!cultivar.equals("") ? cultivar : "-");
+                    } else if (titleItem.equals("genoType")) {
+                        String genoType = (String) samples.get(dnaRunSearchResult.getRunNo());
+                        stringBuilder.append(genoType != null && !genoType.equals("") ? genoType : "-");
+                    } else if (titleItem.equals("group")) {
+                        String group = dnaRunSearchResult.getGroup();
+                        stringBuilder.append(!group.equals("") ? group : "-");
+                    } else if (titleItem.equals("species")) {
+                        String species = dnaRunSearchResult.getSpecies();
+                        stringBuilder.append(!species.equals("") ? species : "-");
+                    } else if (titleItem.equals("locality")) {
+                        String locality = dnaRunSearchResult.getLocality();
+                        if (locality != null && locality.contains(",")) {
+                            locality = locality.replaceAll(",", "，");
+                        }
+                        stringBuilder.append(locality != null && !locality.equals("") ? locality : "-");
+                    } else if (titleItem.equals("sampleName")) {
+                        String sampleName = dnaRunSearchResult.getSampleName();
+                        stringBuilder.append(!sampleName.equals("") ? sampleName : "-");
+                    } else if (titleItem.equals("weightPer100seeds")) {
+                        String weight = dnaRunSearchResult.getWeightPer100seeds();
+                        stringBuilder.append(weight != null && !weight.equals("") ? weight : "-");
+                    } else if (titleItem.equals("protein")) {
+                        String protein = dnaRunSearchResult.getProtein();
+                        stringBuilder.append(!protein.equals("") ? protein : "-");
+                    } else if (titleItem.equals("oil")) {
+                        String oil = dnaRunSearchResult.getOil();
+                        stringBuilder.append(!oil.equals("") ? oil : "-");
+                    } else if (titleItem.equals("maturityDate")) {
+                        String maturityDate = dnaRunSearchResult.getMaturityDate();
+                        stringBuilder.append(!maturityDate.equals("") ? maturityDate : "-");
+                    } else if (titleItem.equals("height")) {
+                        String height = dnaRunSearchResult.getHeight();
+                        stringBuilder.append(!height.equals("") ? height : "-");
+                    } else if (titleItem.equals("seedCoatColor")) {
+                        String seedCoatColor = dnaRunSearchResult.getSeedCoatColor();
+                        stringBuilder.append(!seedCoatColor.equals("") ? seedCoatColor : "-");
+                    } else if (titleItem.equals("hilumColor")) {
+                        String hilumColor = dnaRunSearchResult.getHilumColor();
+                        stringBuilder.append(!hilumColor.equals("") ? hilumColor : "-");
+                    } else if (titleItem.equals("cotyledonColor")) {
+                        String cotyledonColor = dnaRunSearchResult.getCotyledonColor();
+                        stringBuilder.append(!cotyledonColor.equals("") ? cotyledonColor : "-");
+                    } else if (titleItem.equals("flowerColor")) {
+                        String flowerColor = dnaRunSearchResult.getFlowerColor();
+                        stringBuilder.append(!flowerColor.equals("") ? flowerColor : "-");
+                    } else if (titleItem.equals("podColor")) {
+                        String podColor = dnaRunSearchResult.getPodColor();
+                        stringBuilder.append(!podColor.equals("") ? podColor : "-");
+                    } else if (titleItem.equals("pubescenceColor")) {
+                        String pubscenceColor = dnaRunSearchResult.getPubescenceColor();
+                        stringBuilder.append(!pubscenceColor.equals("") ? pubscenceColor : "-");
+                    } else if (titleItem.equals("yield")) {
+                        String yield = dnaRunSearchResult.getYield();
+                        stringBuilder.append(!yield.equals("") ? yield : "-");
+                    } else if (titleItem.equals("upperLeafletLength")) {
+                        String upperLeafletLength = dnaRunSearchResult.getUpperLeafletLength();
+                        stringBuilder.append(!upperLeafletLength.equals("") ? upperLeafletLength : "-");
+                    } else if (titleItem.equals("linoleic")) {
+                        String linoleic = dnaRunSearchResult.getLinoleic();
+                        stringBuilder.append(!linoleic.equals("") ? linoleic : "-");
+                    } else if (titleItem.equals("linolenic")) {
+                        String linolenic = dnaRunSearchResult.getLinolenic();
+                        stringBuilder.append(!linolenic.equals("") ? linolenic : "-");
+                    } else if (titleItem.equals("oleic")) {
+                        String oleic = dnaRunSearchResult.getOleic();
+                        stringBuilder.append(!oleic.equals("") ? oleic : "-");
+                    } else if (titleItem.equals("palmitic")) {
+                        String palmitic = dnaRunSearchResult.getPalmitic();
+                        stringBuilder.append(!palmitic.equals("") ? palmitic : "-");
+                    } else if (titleItem.equals("stearic")) {
+                        String stearic = dnaRunSearchResult.getStearic();
+                        stringBuilder.append(!stearic.equals("") ? stearic : "-");
                     }
-                    stringBuilder.append(locality != null && !locality.equals("") ? locality : "-");
-                } else if (titleItem.equals("sampleName")) {
-                    String sampleName = dnaRunSearchResult.getSampleName();
-                    stringBuilder.append(!sampleName.equals("") ? sampleName : "-");
-                } else if (titleItem.equals("weightPer100seeds")) {
-                    String weight = dnaRunSearchResult.getWeightPer100seeds();
-                    stringBuilder.append(weight != null && !weight.equals("") ?weight : "-");
-                } else if (titleItem.equals("protein")) {
-                    String protein = dnaRunSearchResult.getProtein();
-                    stringBuilder.append(!protein.equals("") ?protein : "-");
-                } else if (titleItem.equals("oil")) {
-                    String oil = dnaRunSearchResult.getOil();
-                    stringBuilder.append(!oil.equals("") ?oil : "-");
-                } else if (titleItem.equals("maturityDate")) {
-                    String maturityDate = dnaRunSearchResult.getMaturityDate();
-                    stringBuilder.append(!maturityDate.equals("") ? maturityDate : "-");
-                } else if (titleItem.equals("height")) {
-                    String height = dnaRunSearchResult.getHeight();
-                    stringBuilder.append(!height.equals("") ?height : "-");
-                } else if (titleItem.equals("seedCoatColor")) {
-                    String seedCoatColor = dnaRunSearchResult.getSeedCoatColor();
-                    stringBuilder.append(!seedCoatColor.equals("") ? seedCoatColor : "-");
-                } else if (titleItem.equals("hilumColor")) {
-                    String hilumColor = dnaRunSearchResult.getHilumColor();
-                    stringBuilder.append(!hilumColor.equals("") ? hilumColor : "-");
-                } else if (titleItem.equals("cotyledonColor")) {
-                    String cotyledonColor = dnaRunSearchResult.getCotyledonColor();
-                    stringBuilder.append(!cotyledonColor.equals("") ? cotyledonColor : "-");
-                } else if (titleItem.equals("flowerColor")) {
-                    String flowerColor = dnaRunSearchResult.getFlowerColor();
-                    stringBuilder.append(!flowerColor.equals("") ? flowerColor : "-");
-                } else if (titleItem.equals("podColor")) {
-                    String podColor = dnaRunSearchResult.getPodColor();
-                    stringBuilder.append(!podColor.equals("") ? podColor : "-");
-                } else if (titleItem.equals("pubescenceColor")) {
-                    String pubscenceColor = dnaRunSearchResult.getPubescenceColor();
-                    stringBuilder.append(!pubscenceColor.equals("") ? pubscenceColor : "-");
-                } else if (titleItem.equals("yield")) {
-                    String yield = dnaRunSearchResult.getYield();
-                    stringBuilder.append(!yield.equals("") ?yield : "-");
-                } else if (titleItem.equals("upperLeafletLength")) {
-                    String upperLeafletLength = dnaRunSearchResult.getUpperLeafletLength();
-                    stringBuilder.append(!upperLeafletLength.equals("") ?upperLeafletLength : "-");
-                } else if (titleItem.equals("linoleic")) {
-                    String linoleic = dnaRunSearchResult.getLinoleic();
-                    stringBuilder.append(!linoleic.equals("") ?linoleic : "-");
-                } else if (titleItem.equals("linolenic")) {
-                    String linolenic = dnaRunSearchResult.getLinolenic();
-                    stringBuilder.append(!linolenic.equals("") ?linolenic : "-");
-                } else if (titleItem.equals("oleic")) {
-                    String oleic = dnaRunSearchResult.getOleic();
-                    stringBuilder.append(!oleic.equals("") ?oleic : "-");
-                } else if (titleItem.equals("palmitic")) {
-                    String palmitic = dnaRunSearchResult.getPalmitic();
-                    stringBuilder.append(!palmitic.equals("") ?palmitic : "-");
-                } else if (titleItem.equals("stearic")) {
-                    String stearic = dnaRunSearchResult.getStearic();
-                    stringBuilder.append(!stearic.equals("") ?stearic : "-");
+                    stringBuilder.append(",");
                 }
-                stringBuilder.append(",");
+                stringBuilder.append("\n");
             }
-            stringBuilder.append("\n");
+        } else {
+            stringBuilder.append("");
         }
         csvStr = stringBuilder.toString();
-        if(title.length==0){
-            csvStr="请正确选择表头信息";
+        if (title.length == 0) {
+            csvStr = "请正确选择表头信息";
         }
         String fileName = "snpinfo_detail" + UUID.randomUUID() + ".csv";
         String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";

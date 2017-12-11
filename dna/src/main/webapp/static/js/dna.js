@@ -1140,7 +1140,8 @@ $(function () {
             var rectHeight = 20;   // 基因结构图高度
             var leftMargin = 60;
             var snpWidth = 5;
-            var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            // var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+            var g = svg.append("g").attr("transform","translate(0,10)");
             // var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
             var g1 = svg.append("g").attr("transform","translate(20,30)").attr("id",gsnpid);  //?问题点
             var geneConstructs = result.data.dnaGenStructures;
@@ -1325,8 +1326,8 @@ $(function () {
            var majorAllele = $(this).find("td.t_majorAllele").find("div").text();
            var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
            var clickType = "snp";
-          window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
-            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1)  + "&clickType=" + clickType;
+          window.open(ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
+            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1)  + "&clickType=" + clickType);
     })
     $("#tableBody2").on("click","tr",function (e){
         var id = $(this).attr("id");
@@ -1338,7 +1339,7 @@ $(function () {
         var majorAllele = $(this).find("td.t_majorAllele").find("div").text();
         var frequence = $(this).find("td.t_fmajorAllele").find("p").text();
         var clickType = "ind";
-        window.location.href=ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
-            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1)  + "&clickType=" + clickType;
+        window.open(ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
+            "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1)  + "&clickType=" + clickType);
     })
 })

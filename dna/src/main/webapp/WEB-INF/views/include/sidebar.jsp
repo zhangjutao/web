@@ -250,7 +250,7 @@
                             <label><b  class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>
                         </div>
                         <div class="yield category-more" data-name="yield">
-                            <label><b  class="category-title">产量(t/ha):</b><span>0-1</span><span>1-2</span><span>2-3</span><span>3-4</span><span>4-5</span></label>
+                            <label><b  class="category-title">产量(Mg/ha):</b><span>0-1</span><span>1-2</span><span>2-3</span><span>3-4</span><span>4-5</span></label>
                             <div class="oil-content-section">
                                 <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
                                 <button type="button" data-name="yield" class="btn js-customize-sample">确定</button>
@@ -299,7 +299,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="retract popCnt1"><p>更多选项(开花日期、成熟日期、株高等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
+                    <div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
                     <div id="tagKind" class="kindCnt1">
                         <div style="overflow-x: scroll;height: 419px;">
                             <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
@@ -414,7 +414,7 @@
                                             </p>
                                         </div>
                                     </th>
-                                    <th class="paramTag">成熟期组
+                                    <th class="paramTag">熟期组
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
                                             <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
@@ -722,7 +722,7 @@
                     <td class="oil" rowspan="2">含油量(%)</td>
                     <td class="protein" rowspan="2">蛋白质含量(%)</td>
                     <%--<td class="floweringDate" rowspan="2">开花日期(月日)</td>--%>
-                    <td class="maturityDate" rowspan="2">成熟日期(月日)</td>
+                    <td class="maturityDate" rowspan="2">熟期组</td>
                     <td class="height" rowspan="2">株高(cm)</td>
                     <td class="seedCoatColor" rowspan="2">种皮色</td>
                     <td class="hilumColor" rowspan="2">种脐色</td>
@@ -730,7 +730,7 @@
                     <td class="flowerColor" rowspan="2">花色</td>
                     <td class="podColor" rowspan="2">荚色</td>
                     <td class="pubescenceColor" rowspan="2">茸毛色</td>
-                    <td class="yield" rowspan="2">产量(t/ha)</td>
+                    <td class="yield" rowspan="2">产量(Mg/ha)</td>
                     <td class="upperLeafletLength" rowspan="2">顶端小叶长度(mm)</td>
                     <td colspan="5" >脂肪酸(%)</td>
                 </tr>
@@ -927,7 +927,7 @@
                 case 'floweringDate':
                     return "开花日期";
                 case 'maturityDate':
-                    return "成熟日期";
+                    return "熟期组";
                 case 'height':
                     return "株高";
                 case 'seedCoatColor':
@@ -1011,7 +1011,7 @@
                         unit = "月";
                         break;
                     case 'maturityDate':
-                        unit = "月";
+                        unit = "";
                         break;
                     default :
                         unit = "";
@@ -1457,6 +1457,7 @@
 
         /* 自定义样本选中 */
         $("body").on("click", ".sample-category > div span", function(){
+
             $(this).parent().find("span").removeClass("js-span-ac");
             $(this).addClass("js-span-ac");
 

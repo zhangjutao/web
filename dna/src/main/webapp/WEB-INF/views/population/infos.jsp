@@ -106,7 +106,7 @@
                             <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 样品名
                         </li>
                         <li>
-                            <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重
+                            <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重(g)
                         </li>
                         <li>
                             <input type="checkbox" name="protein" class="protein" checked="checked"> 蛋白质含量
@@ -115,7 +115,7 @@
                             <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
                         </li>
                         <li>
-                            <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期
+                            <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期组
                         </li>
                         <li>
                             <input type="checkbox" name="height" class="height" checked="checked"> 株高
@@ -294,7 +294,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param maturityDateT">熟期
+                        <th class="param maturityDateT">熟期组
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
