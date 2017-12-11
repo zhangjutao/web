@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.web;
 
+import com.gooalgene.entity.Qtl;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,7 +33,7 @@ public class AdvanceSearchController {
      *
      */
     @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET)
-    public List<String> queryByQTLName(String qtlName){
+    public List<Qtl> queryByQTLName(String qtlName){
         return null;
     }
 }

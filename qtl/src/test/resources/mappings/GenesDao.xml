@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.qtl.dao.GenesDao">
+
+    <select id="findList" resultType="com.gooalgene.entity.Genes">
+        SELECT * FROM mrna_gens
+        WHERE 1=1
+        <if test="gene!=null">
+            AND gene LIKE CONCAT('%',#{gene},'%')
+        </if>
+        <if test="keywords!=null">
+            AND (gene LIKE CONCAT('%',#{keywords},'%') OR geneName LIKE CONCAT('%',#{keywords},'%') OR functions LIKE CONCAT('%',#{keywords},'%'))
+        </if>
+    </select>
+
+    <insert id="insert" parameterType="com.gooalgene.entity.Genes">
+       INSERT INTO `mrna_gens`(`gene`,`geneName`,`functions`) VALUES (#{gene,jdbcType=VARCHAR},#{geneName,jdbcType=VARCHAR},#{functions,jdbcType=VARCHAR})
+    </insert>
+
+    <insert id="insertBatch">
+        INSERT INTO `mrna_gens`(`gene`,`geneName`,`functions`) VALUES
+        <foreach collection="list" item="item" index="index" separator=",">
+            (#{item.gene,jdbcType=VARCHAR},#{item.geneName,jdbcType=VARCHAR},#{item.functions,jdbcType=VARCHAR})
+        </foreach>
+    </insert>
+
+    <delete id="deleteById" parameterType="int">
+        DELETE FROM mrna_gens WHERE id=#{id}
+    </delete>
+</mapper>
