@@ -510,7 +510,14 @@ public class DNAMongoService {
 //                criteria.and("gene").is(gene);//匹配基因
             }
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
-                String keywords = ctype.replace("_", ".*");
+                String keywords = "";
+                if (ctype.indexOf(' ')!=-1) {
+                    keywords = ctype.replace("_", ".*_");
+                } else if (ctype.indexOf(';') == -1 && ctype.endsWith("_")) {
+                    keywords = ctype.replace("_", "");
+                } else {
+                    keywords = ctype.replace("_", ".*");
+                }
                 Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
                 criteria.and("consequencetype").regex(pattern);
             }
