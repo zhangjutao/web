@@ -151,7 +151,6 @@ public class QueryService {
             for (TraitList traitList : one) {
                 jsonArray.add(traitList.getTraitName());
             }
-//            System.out.println(t.getQtlDesc() + "\t" + one.size());
             jsonObject.put("name", t.getQtlName());
             jsonObject.put("desc", t.getQtlDesc());
             jsonObject.put("data", jsonArray);
@@ -249,13 +248,8 @@ public class QueryService {
         qtl.setPage(page);
         List<Map> list = null;
         List<Qtl> list1 = null;
-//        if ("all".equalsIgnoreCase(type)) {//all的时候需要全文匹配，查询字段使用or进行关联
-//            list = qtlDao.findByTypeAll(qtl);
-//            list1 = qtlDao.findByTypeAllList(qtl);
-//        } else {//其他的字段查询是对应的and关联
         list = qtlDao.findByCondition(qtl);
         list1 = qtlDao.findList(qtl);
-//        }
         Map lgAndMarkerlg = lgAndMarkerlg();
         for (Map m : list) {
             String qtlName = (String) m.get("qtlName");
