@@ -84,25 +84,38 @@
                     </div>
                     <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
                 </div>
+
                 <div id="qtlAdd" class="tab-pane">
                     <p class="search-title">Search By QTL</p>
                     <label>
                         <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
-                        <%--<span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>--%>
                         <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
-                    <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
-                    <%--<div class="fuzzySearch">--%>
-                        <%--<ul>--%>
+                    <div id="qtlErrorTip">
+                        根据输入的关键字查询的结果为: 0 条
+                    </div>
+                    <div class="fuzzySearch">
+                        <ul>
                             <%--<li>--%>
-                                <%--<input type="checkbox" name="qtlName">--%>
-
+                                <%--<label for="name1">--%>
+                                    <%--<span id ="name1" data-value="name11"></span>--%>
+                                    <%--Fusarium lesion length 1-1--%>
+                                <%--</label>--%>
                             <%--</li>--%>
-                        <%--</ul>--%>
-                    <%--</div>--%>
+                        </ul>
+                    </div>
+                    <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                    <div class="sureBtn">
+                        <p>确定</p>
+                    </div>
                 </div>
-
             </div>
+        </div>
+    </div>
+    <div id="advancedSearch">
+        <div class="advanceBtn">
+            <p>Advanced search</p>
+            <img src="${ctxStatic}/images/downtou.png" alt="down" >
         </div>
     </div>
     <div class="database-link">
@@ -152,6 +165,9 @@
 <script type="text/javascript">
     window.DOMAIN = "${ctxroot}/iqgs";
 </script>
+
+<script src="${ctxStatic}/js/mock/mock.js"></script>
 <script src="${ctxStatic}/js/iqgs.js"></script>
+<script src="${ctxStatic}/js/newAddNeed.js"></script>
 </body>
 </html>
