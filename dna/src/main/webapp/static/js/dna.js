@@ -1112,8 +1112,10 @@ $(function () {
             intervalLineData.push(faultElement);
                 if(svgLength>885){
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
-                }else {
+                }else if(svgLength<885&&svgLength>100){
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+                }else {
+                    svg.append("text").text(parseInt(i*svgLength/90)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*(svgLength/10) +",250)");
                 }
         }
         // 利用defined 把一条路径切割成一段一段的多条路径
