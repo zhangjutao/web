@@ -169,6 +169,7 @@ public class DNAGenBaseInfoService {
         JSONArray jsonArray1 = new JSONArray();
         for (DNAGenOffset dnaGenOffset : list1) {
             JSONObject json1 = new JSONObject();
+            json1.put("geneName", dnaGenOffset.getGeneName());
             json1.put("geneID", dnaGenOffset.getGeneId());
             json1.put("length", dnaGenOffset.getLength());
 
