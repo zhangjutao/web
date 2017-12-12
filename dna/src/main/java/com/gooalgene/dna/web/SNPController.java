@@ -711,7 +711,10 @@ public class SNPController {
             }
         }
         if (samples.size() <= 0||runNos.size()<=0) {
-            return ResultUtil.error(ResultEnum.SNP_ID_NOT_EXIST);
+            Map response = Maps.newHashMap();
+            PageInfo<DNARunSearchResult> dnaRuns = new PageInfo<>();
+            response.put("dnaRuns", dnaRuns);
+            return ResultUtil.success(response);
         }
         Map response = Maps.newHashMap();
         dnaRunDto.setRunNos(runNos);
