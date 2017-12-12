@@ -1,3 +1,65 @@
 
 /*2017 - 12 新增业务需求 add by jarry*/
+#qtlAdd{
+    position:relative;
+}
+.fuzzySearch{
+    width:745px;
+    height:60px;
+    border:1px solid #DEDEDE;
 
+    margin-top:12px;
+}
+.fuzzySearch ul{
+    overflow:hidden;
+    width:744px;
+    height:60px;
+    overflow-y: scroll;
+}
+.fuzzySearch li{
+    float:left;
+    width:212px;
+    height:28px;
+    line-height:28px;
+    margin-right:18px;
+}
+.fuzzySearch li:nth-child(3n+1){
+    margin-left:25px;
+}
+/*.checked{*/
+    /*!*background-image: url("../images/contrast-ac.png");*!*/
+/*}*/
+#qtlAdd .fuzzySearch li.checked span{
+    background-image: url("../images/contrast-ac.png");
+}
+.fuzzySearch li span{
+    width: 14px;
+    height: 14px;
+    background-image: url("../images/contrast.png");
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    margin-right: 8px;
+    display: inline-block;
+}
+#qtlAdd .sureBtn{
+    width:745px;
+    overflow: hidden;
+    margin:12px 0;
+}
+#qtlAdd .sureBtn P{
+    position:absolute;
+    top:195px;
+    right:1px;
+    float:right;
+    width:80px;
+    height:30px;
+    line-height:30px;
+    text-align:center;
+    background: #5C8CE6;
+    color:#fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    font-size:16px;
+    cursor:pointer;
+}
