@@ -33,6 +33,9 @@
 .searchNav li.region a{
     background-color:#b2b2b2 ;
 }
+.searchNav li.qtl a{
+    background-color:#a2a2f1 ;
+}
 .searchNav li.active:after{
     content: "";display: block;
     position: absolute;
@@ -51,6 +54,9 @@
 }
 .searchNav li.region.active:after{
     border-left: 15px solid #b2b2b2;
+}
+.searchNav li.qtl.active:after{
+    border-left: 15px solid #a2a2f1;
 }
 .tab-content{padding-top: 12px; float: left}
 .search-title {font-size: 18px;color: #333;    padding-bottom: 32px;}
