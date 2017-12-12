@@ -28,7 +28,15 @@ $(function(){
     $("#myTabs li").each(function(i){
        $(this).click(function(){
            $(this).addClass("active").siblings().removeClass("active");
-           $("#myTabContent").find("div").eq(i).show().siblings().hide();
+           var divs = $("#myTabContent>div");
+           for(var k=0;k<divs.length;k++){
+               if(k == i){
+                   $(divs[k]).addClass("tab-pane-ac")
+               }else {
+                   $(divs[k]).removeClass("tab-pane-ac");
+               }
+           }
+           // $("#myTabContent").find("div").eq(i).show().siblings().hide();
        })
     })
 })

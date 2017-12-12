@@ -84,8 +84,25 @@
                     </div>
                     <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
                 </div>
-            </div>
+                <div id="qtlAdd" class="tab-pane">
+                    <p class="search-title">Search By QTL</p>
+                    <label>
+                        <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
+                        <%--<span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>--%>
+                        <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
+                    </label>
+                    <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                    <%--<div class="fuzzySearch">--%>
+                        <%--<ul>--%>
+                            <%--<li>--%>
+                                <%--<input type="checkbox" name="qtlName">--%>
 
+                            <%--</li>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                </div>
+
+            </div>
         </div>
     </div>
     <div class="database-link">
