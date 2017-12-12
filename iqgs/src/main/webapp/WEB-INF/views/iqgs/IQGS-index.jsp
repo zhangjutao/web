@@ -109,8 +109,13 @@
                         <p>确定</p>
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
+    <div id="advancedSearch">
+        <div class="advanceBtn">
+            <p>Advanced search</p>
+            <img src="${ctxStatic}/images/downtou.png" alt="down" >
         </div>
     </div>
     <div class="database-link">
