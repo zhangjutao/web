@@ -218,12 +218,39 @@ public class DNAGenBaseInfoController {
     }
 
     /**
-     * 基因家族
+     * @api {get} /iqgs/detail/family 基因的基因家族信息获取
+     * @apiName detailForFamily
+     * @apiGroup DNAGeneBaseInfo
+     * @apiParam {HttpServletRequest}req 在gene-family.jsp中，包含有
+     * @apiParam {HttpServletResponse}resp 没有用到
+     * @apiParam {Model}model 页面模型
+     * @apiSuccessExample model structure:
+     * [
+     * {
+     * "hasFamilyFlg":true
+     * },
+     * {
+     * "dnaGenFamilyRels":[{
+     *                      "geneId":"Glyma.01G004900",
+     *                      "familyId":"MYB",
+     *                      "remarks":null,
+     *                      "createTime":null,
+     *                      "updateDate":null,
+     *                      "deFlag":"0",
+     *                      "id":null,
+     *                      "page":null,
+     *                      "sqlMap":null,
+     *                      "isNewRecord":false
      *
-     * @param req
-     * @param resp
-     * @param model
-     * @return
+     *                      }]
+     * },
+     * {
+     *     "familyId":"MYB"
+     * },
+     * {
+     *
+     * }
+     * ]
      */
     @RequestMapping("/detail/family")
     public String detailForFamily(HttpServletRequest req, HttpServletResponse resp, Model model) {
@@ -254,6 +281,7 @@ public class DNAGenBaseInfoController {
         }
 
         model.addAttribute("genId", genId);
+        System.out.println(model);
         return "iqgs/gene-family";
     }
 
