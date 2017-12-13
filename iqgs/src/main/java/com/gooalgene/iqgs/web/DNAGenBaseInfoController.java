@@ -50,6 +50,9 @@ public class DNAGenBaseInfoController {
     @Autowired
     private StudyService studyService;
 
+    @Autowired
+    private QueryService queryService;
+
     /**
      * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/index <br>
      * 请求方式: GET OR POST
@@ -319,10 +322,6 @@ public class DNAGenBaseInfoController {
         model.addAttribute("genId", genId);
         return "iqgs/IQGS-expression";
     }
-
-    @Autowired
-    private QueryService queryService;
-
 
     @RequestMapping("/detail/qtl")
     public ModelAndView detailForQTL(HttpServletRequest req, HttpServletResponse resp) {

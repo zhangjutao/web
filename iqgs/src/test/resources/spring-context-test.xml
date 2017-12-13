@@ -9,7 +9,7 @@
 
     <!-- 加载配置属性文件 -->
     <context:property-placeholder ignore-unresolvable="true" location="classpath:qtldb.properties"/>
-
+    <import resource="spring-mongodb.xml" />
     <!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
     <context:component-scan base-package="com.gooalgene">
         <context:exclude-filter type="annotation" expression="com.gooalgene.common.annotations.TestExcluded"/>
@@ -17,7 +17,7 @@
 
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-        <property name="basePackage" value="com.gooalgene.iqgs.dao;com.gooalgene.common.dao"/>
+        <property name="basePackage" value="com.gooalgene.iqgs.dao;com.gooalgene.qtl.dao;com.gooalgene.dna.dao;com.gooalgene.common.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <property name="annotationClass" value="com.gooalgene.common.persistence.MyBatisDao"/>
     </bean>
