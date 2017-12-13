@@ -210,10 +210,8 @@ public class DNAGenBaseInfoController {
      * @api {get} /iqgs/detail/origin 基因的同源基因信息获取
      * @apiName detailForOrigin
      * @apiGroup DNAGeneBaseInfo
-     * @apiParam {HttpServletRequest}req
-     * @apiParam {HttpServletResponse}resp 没有用到
-     * @apiParam {Model}model 页面模型
-     * @apidescription 跳转
+     * @apiParam {String} gen_id 基因详情页对应的基因id
+     * @apidescription 返回页面转发（到homologous-gene.jsp），通过EL表达式取到后台查询的值。
      * @apiSuccessExample model structure:
      * {
      * "geneId": "Glyma.01G004900",
@@ -241,36 +239,96 @@ public class DNAGenBaseInfoController {
      * @api {get} /iqgs/detail/family 基因的基因家族信息获取
      * @apiName detailForFamily
      * @apiGroup DNAGeneBaseInfo
-     * @apiParam {HttpServletRequest}req
-     * @apiParam {HttpServletResponse}resp 没有用到
-     * @apiParam {Model}model 页面模型
+     * @apiParam {String} gen_id 基因详情页对应的基因id
+     * @apidescription 返回页面转发（到gene-family.jsp），通过EL表达式取到后台查询的值。
      * @apiSuccessExample model structure:
-     * [
      * {
-     * "hasFamilyFlg":true
+     * "hasFamilyFlg":true,
+     * "dnaGenFamilyRels":{"geneId":"Glyma.04G202000","familyId":"LFY"},
+     * "familyId":"LFY",
+     * "dnaGenFamily":{
+     * "isNewRecord":false,
+     * "familyId":"LFY",
+     * "treeJson": {
+     * "b_value": 0,
+     * "branch": "0.0186335",
+     * "children": [
+     * {
+     * "branch": "0.0186335",
+     * "name": "Glyma.04G202000",
+     * "node_id": 1
      * },
      * {
-     * "dnaGenFamilyRels":[{
-     * "geneId":"Glyma.01G004900",
-     * "familyId":"MYB",
-     * "remarks":null,
-     * "createTime":null,
-     * "updateDate":null,
-     * "deFlag":"0",
-     * "id":null,
-     * "page":null,
-     * "sqlMap":null,
-     * "isNewRecord":false
-     * <p>
-     * }]
+     * "branch": "0.0186335",
+     * "name": "Glyma.06G163600",
+     * "node_id": 2
+     * }
+     * ],
+     * "name": "TN3",
+     * "node_id": 3
+     * }
+     * },
+     * "structureData":{
+     * "max_length": 3078,
+     * "data": [
+     * {
+     * "geneName": "LFY,LFY3",
+     * "geneID": "Glyma.04G202000",
+     * "length": 3079,
+     * "structure": [
+     * {
+     * "type": "three_prime_UTR",
+     * "start": 0,
+     * "end": 141
      * },
      * {
-     * "familyId":"MYB"
+     * "type": "CDS",
+     * "start": 142,
+     * "end": 504
      * },
      * {
-     * <p>
+     * "type": "CDS",
+     * "start": 1392,
+     * "end": 1522
+     * },
+     * {
+     * "type": "CDS",
+     * "start": 2601,
+     * "end": 3078
      * }
      * ]
+     * },
+     * {
+     * "geneName": "LFY,LFY3",
+     * "geneID": "Glyma.06G163600",
+     * "length": 2931,
+     * "structure": [
+     * {
+     * "type": "CDS",
+     * "start": 0,
+     * "end": 477
+     * },
+     * {
+     * "type": "CDS",
+     * "start": 976,
+     * "end": 1364
+     * },
+     * {
+     * "type": "CDS",
+     * "start": 2334,
+     * "end": 2696
+     * },
+     * {
+     * "type": "three_prime_UTR",
+     * "start": 2697,
+     * "end": 2930
+     * }
+     * ]
+     * }
+     * ]
+     * },
+     *"geneId":"Glyma.04G202000"
+     * }
      */
     @RequestMapping("/detail/family")
     public String detailForFamily(HttpServletRequest req, HttpServletResponse resp, Model model) {

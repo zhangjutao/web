@@ -9,6 +9,7 @@ import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenHomologous;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import junit.framework.TestCase;
+import net.sf.json.JSONObject;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -52,7 +53,7 @@ public class DnaGenBaseInfoCtrlTest extends TestCase{
      */
     @Test
     public void testFindFamilyByFamilyId() throws IOException {
-        DNAGenFamily dnaGenFamilies = dnaGenBaseInfoService.findFamilyByFamilyId("ARR-B");
+        DNAGenFamily dnaGenFamilies = dnaGenBaseInfoService.findFamilyByFamilyId("LFY");
         jsonGenerator.writeObject(dnaGenFamilies);
     }
 
@@ -60,5 +61,11 @@ public class DnaGenBaseInfoCtrlTest extends TestCase{
     public void testGetGenHomologousByGeneId() throws IOException {
         List<DNAGenHomologous> homologous = dnaGenBaseInfoService.getGenHomologousByGeneId("Glyma.01G004900");
         jsonGenerator.writeObject(homologous.get(0));
+    }
+
+    @Test
+    public void testFindStructureByFamilyId() {
+        JSONObject structureData = dnaGenBaseInfoService.findStructureByFamilyId("LFY");
+        System.out.println(structureData);
     }
 }
