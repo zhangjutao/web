@@ -421,7 +421,7 @@ public class DNAMongoService {
             }
             Query query = new Query();
             query.addCriteria(criteria);
-            query.fields().include("pos");
+            query.fields().include("pos").include("consequencetype");
             logger.info("Query:" + query.toString());
             total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
             logger.info(collectionName + " searchIdAndPosInGene:" + query.toString() + ",total:" + total);
