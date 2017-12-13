@@ -201,12 +201,13 @@ public class DNAGenBaseInfoController {
     }
 
     /**
-     * 同源基因
-     *
-     * @param req
-     * @param resp
-     * @param model
-     * @return
+     * @api {get} /iqgs/detail/origin 基因的同源基因信息获取
+     * @apiName detailForOrigin
+     * @apiGroup DNAGeneBaseInfo
+     * @apiParam {HttpServletRequest}req
+     * @apiParam {HttpServletResponse}resp 没有用到
+     * @apiParam {Model}model 页面模型
+     * @apiSuccessExample model structure:
      */
     @RequestMapping("/detail/origin")
     public String detailForOrigin(HttpServletRequest req, HttpServletResponse resp, Model model) {
