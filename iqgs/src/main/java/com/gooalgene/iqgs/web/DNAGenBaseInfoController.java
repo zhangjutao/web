@@ -195,13 +195,21 @@ public class DNAGenBaseInfoController {
         }
         //获取gene结构
         List<DNAGenStructure> dstu = dnaGenBaseInfoService.getGenStructureByTranscriptId(transcriptId);
+        Long firstIndex = new Long(99999999);
+        for (int i = 0; i < dstu.size(); i++) {
+            DNAGenStructure dnaGenStructure =  dstu.get(i);
+            if(firstIndex>dnaGenStructure.getStart()){
+                firstIndex=dnaGenStructure.getStart();
+            }
+        }
         for (DNAGenStructure a : dstu) {
             JSONObject jo = new JSONObject();
             jo.put("geneId",a.getGeneId());
             jo.put("transcriptId",a.getTranscriptId());
             jo.put("strand",a.getStrand());
-            jo.put("start",a.getStart());
-            jo.put("end",a.getEnd());
+            jo.put("start",a.getStart()+1-firstIndex);
+            jo.put("end",a.getEnd()+1-firstIndex);
+            jo.put("firstIndex",firstIndex);
             jo.put("length",a.getLength());
             jo.put("feature",a.getFeature());
             json.add(jo);
