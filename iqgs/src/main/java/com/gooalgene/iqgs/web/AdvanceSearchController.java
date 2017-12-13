@@ -3,6 +3,8 @@ package com.gooalgene.iqgs.web;
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
+import com.gooalgene.iqgs.entity.condition.QTLCondition;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -221,12 +223,47 @@ public class AdvanceSearchController {
      * @api {post} /advance-search/search 高级搜索查询接口
      * @apiName advanceSearch
      * @apiGroup Search
-     * @apiParam {String} geneExpression 已选中的基因表达量字符串拼接，
-     * 如"Al tolerance 1-2&Asian Soybean Rust 2-1",使用&符号拼接，后台将按照该符号解析产生一个集合
+     * @apiParam {Object[]} geneExpression 已选中的基因表达量对象集合
+     * @apiParamExample {json} Request-Example:
+     * {
+     * snpParams: "Downstream,Exonic;Splicing"
+     * indelParams: "Downstream,5UTR",
+     * pageNo: 1,
+     * pageSize: 10,
+     * geneExpression: {[
+     * {
+     *   "organic": "Seed",
+     *   "childOrganic": ["seed", "coat"],
+     *   "FPKM": "2-20"
+     * },
+     * {
+     *   "organic": "Seed",
+     *   "childOrganic": ["seed", "coat"],
+     *   "FPKM": "2-20"
+     * }
+     * ]}
+     * qtlParams: {[
+     * {
+     *     "qtlName": "Seed About",
+     *     "traitId": 10,
+     *     "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * },
+     * {
+     *     "qtlName": "Seed About",
+     *     "traitId": 10,
+     *     "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * },
+     * {
+     *     "qtlName": "Seed About",
+     *     "traitId": 10,
+     *     "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * }
+     * ]}
+     * }
      * @apiParam {String} snpParams 选中的SNP筛选条件，各个值之间使用","号分开
      * @apiParam {String} indelParams 选中的INDEL筛选条件，各个值之间使用","分开
-     * @apiParam {String} qtlParams 高级搜索中选中的qtl查询条件字符串拼接，
-     * 如"Seed&Asian Soybean Rust 2-1",使用&符号拼接，后台将按照该符号解析产生一个集合
+     * @apiParam {Object[]} qtlParams 高级搜索中选中的qtl查询条件对象集合
+     *
      * @apiParam {int} pageNo 页码
      * @apiParam {int} pageSize 每页数量
      * @apisamplerequest http://localhost:8080/iqgs/advance-search/search
@@ -277,7 +314,7 @@ public class AdvanceSearchController {
      * }
      */
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public Page<DNAGenBaseInfo> advanceSearch(String geneExpression, String snpParams, String indelParams, String qtlParams){
+    public Page<DNAGenBaseInfo> advanceSearch(GeneExpressionCondition geneExpression, String snpParams, String indelParams, QTLCondition qtlParams){
         return null;
     }
 }
