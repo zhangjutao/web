@@ -307,7 +307,22 @@ $(function () {
                         var $li = $("<li>" + GlyList[i] + "</li>");
                         $ul.append($li);
                     };
-                   $("#GlyIds li:first").trigger("click")
+                   // $("#GlyIds li:first").trigger("click")
+                    var clickVal = $("#GlyIds ul").find("li:first").text();
+                    globelGeneId = clickVal;
+                    var obj = getPanelParams();
+                    var paramas1 = {
+                        gene:clickVal,
+                        group:obj.params.group,
+                    }
+                    snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
+                    globelType="Gene";
+                    reginIntoGene(1,paramas1,"SNP","constructorPanel","tableBody","snpid","/dna/searchIdAndPosInGene");
+                    reginIntoGene(1,paramas1,"INDEL","constructorPanel2","tableBody2","indelid","/dna/searchIdAndPosInGene");
+                    requestForSnpData(1, obj.url, obj.params);
+                    requestForIndelData(1, obj.url, obj.params);
+                    renderSearchText();
+                    renderTableHead();
                     // fn && fn();
                 }
             },
@@ -334,10 +349,6 @@ $(function () {
         e.preventDefault();
         $(".genesInfo").show();
 
-
-
-
-
         if(!$(this).hasClass("GlyColor")){
             var Glylis = $("#GlyIds li");
             for (var i=0;i<Glylis.length;i++){
@@ -346,7 +357,7 @@ $(function () {
                 }
             }
             $(this).addClass("GlyColor");
-        }
+        };
         var clickVal = $(this).text();
         globelGeneId = clickVal;
         var obj = getPanelParams();
@@ -358,6 +369,8 @@ $(function () {
                 globelType="Gene";
                 reginIntoGene(1,paramas1,"SNP","constructorPanel","tableBody","snpid","/dna/searchIdAndPosInGene");
                 reginIntoGene(1,paramas1,"INDEL","constructorPanel2","tableBody2","indelid","/dna/searchIdAndPosInGene");
+                obj.url=CTXROOT + "/dna/searchSNPinGene";
+                obj.params['gene']=clickVal;
                 requestForSnpData(1, obj.url, obj.params);
                 requestForIndelData(1, obj.url, obj.params);
                 renderSearchText();
@@ -1411,7 +1424,7 @@ $(function () {
         for (var i=0;i<snps.length;i++){
             if(snps[i].id == id){
                 d3.select("#snpid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
-            }else {
+            }else if(snps[i].consequencetypeColor !=1){
                 d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
             }
         };
@@ -1424,7 +1437,7 @@ $(function () {
         for (var i=0;i<snps.length;i++){
             if(snps[i].id == id){
                 d3.select("#indelid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
-            }else {
+            }else if(snps[i].consequencetypeColor ==0){
                 d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
             }
         };
@@ -1450,14 +1463,4 @@ $(function () {
         if (r != null) return unescape(r[2]);
         return null; //返回参数值
     };
-
-    // 每个基因的点击事件，然后显示基因基本结构信息
-    //     $("#GlyIds").on("click","li",function (){
-    //         var version = getUrlParam("version");
-    //         var geneName =$(this).text();
-    //         $(".js-gene-head-name").html(geneName);
-    //         $("#geneIframe").attr("src", ctxRoot + "/geneInfo?geneName=" + geneName + "&version=" + version);
-    //         e.preventDefault();
-    //         $(".genesInfo").show();
-    //     })
 })
