@@ -44,6 +44,15 @@ public class SNPDto {
     private Object freq;
     private Map geneType;
     private Integer index;
+    private Integer consequencetypeColor;
+
+    public Integer getConsequencetypeColor() {
+        return consequencetypeColor;
+    }
+
+    public void setConsequencetypeColor(Integer consequencetypeColor) {
+        this.consequencetypeColor = consequencetypeColor;
+    }
 
     public Integer getIndex() {
         return index;
