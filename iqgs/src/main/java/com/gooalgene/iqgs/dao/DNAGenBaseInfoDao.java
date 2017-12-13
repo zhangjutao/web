@@ -16,6 +16,8 @@ public interface DNAGenBaseInfoDao {
 
     public List<DNAGenSequence> findGenSequenceByGeneId(DNAGenSequence bean);
 
+    public List<DNAGenStructure> findGenStructureByTranscriptId(DNAGenStructure bean);
+
     public List<DNAGenAnnoGo> findGenAnnoGoByGeneId(DNAGenAnnoGo bean);
 
     public List<DNAGenAnnoIpr> findGenAnnoIprByGeneId(DNAGenAnnoIpr bean);

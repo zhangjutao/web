@@ -45,6 +45,12 @@ public class DNAGenBaseInfoService {
         return dnaGenBaseInfoDao.findGenSequenceByGeneId(bean);
     }
 
+    public List<DNAGenStructure> getGenStructureByTranscriptId(String TranscriptId) {
+        DNAGenStructure bean = new DNAGenStructure();
+        bean.setTranscriptId(TranscriptId);
+        return dnaGenBaseInfoDao.findGenStructureByTranscriptId(bean);
+    }
+
     public List<DNAGenAnnoGo> getGenAnnoGoByGeneId(String genId) {
         DNAGenAnnoGo bean = new DNAGenAnnoGo();
         bean.setGeneId(genId);
@@ -69,6 +75,12 @@ public class DNAGenBaseInfoService {
         List<DNAGenStructure> gss = dnaGenBaseInfoDao.findGenStructureByGeneId(bean);
         Map stct = buildStructure(gss);
         return stct;
+    }
+
+    public List<DNAGenStructure> getGenStructureByGeneId(String genId) {
+        DNAGenStructure bean = new DNAGenStructure();
+        bean.setGeneId(genId);
+        return dnaGenBaseInfoDao.findGenStructureByGeneId(bean);
     }
 
     private Map buildStructure(List<DNAGenStructure> gss) {

@@ -169,14 +169,74 @@ public class DNAGenBaseInfoController {
 		}
 	}
 
+    /**
+     * 根据基因id获取gain基因序列 <br>
+     * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/detail/sequence?gen_id=${genId} <br>
+     * 请求方式: GET OR POST
+     * @param req http请求
+     * @param resp http响应
+     * @return
+     */
     @RequestMapping("/detail/sequence")
     public String detailForSequence(HttpServletRequest req, HttpServletResponse resp, Model model) {
         String genId = req.getParameter("gen_id");
+        JSONArray json = new JSONArray();
+        //获取gene序列
+        String transcriptId="";
         List<DNAGenSequence> dnas = dnaGenBaseInfoService.getGenSequenceByGeneId(genId);
+        for (DNAGenSequence a : dnas) {
+            transcriptId=a.getTranscriptId();
+            JSONObject jo = new JSONObject();
+            jo.put("geneId",a.getGeneId());
+            jo.put("transcriptId",a.getTranscriptId());
+            jo.put("type",a.getType());
+            jo.put("sequence",a.getSequence());
+            json.add(jo);
+        }
+        //获取gene结构
+        List<DNAGenStructure> dstu = dnaGenBaseInfoService.getGenStructureByTranscriptId(transcriptId);
+        for (DNAGenStructure a : dstu) {
+            JSONObject jo = new JSONObject();
+            jo.put("geneId",a.getGeneId());
+            jo.put("transcriptId",a.getTranscriptId());
+            jo.put("strand",a.getStrand());
+            jo.put("start",a.getStart());
+            jo.put("end",a.getEnd());
+            jo.put("length",a.getLength());
+            jo.put("feature",a.getFeature());
+            json.add(jo);
+        }
+        System.out.println(json.toString());
         model.addAttribute("genId", genId);
+        model.addAttribute("transcriptId", transcriptId);
         model.addAttribute("dnas", dnas);
+        model.addAttribute("dstu", dstu);
+        model.addAttribute("data", json.toString());
         return "iqgs/Ref-sequence";
     }
+
+    /**
+     *
+     * @param req
+     * @param resp
+     * @return json数组
+     */
+    /*@RequestMapping("/detail/newsequence")
+    @ResponseBody
+    public Map detailForNewSequence(HttpServletRequest req, HttpServletResponse resp) {
+        Map result = new HashMap();
+        String genId = req.getParameter("gen_id");
+        String transcriptId="";
+        List<DNAGenSequence> dnas = dnaGenBaseInfoService.getGenSequenceByGeneId(genId);
+        for (DNAGenSequence a : dnas) {
+            transcriptId=a.getTranscriptId();
+        }
+        //获取gene结构
+        List<DNAGenStructure> dstu = dnaGenBaseInfoService.getGenStructureByTranscriptId(transcriptId);
+        result.put("dnas", dnas);
+        result.put("dstu", dstu);
+        return result;
+    }*/
 
     @RequestMapping("/detail/dnalist")
     public String detailForDnalist(HttpServletRequest req, HttpServletResponse resp, Model model) {

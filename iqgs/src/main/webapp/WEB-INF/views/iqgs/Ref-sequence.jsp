@@ -35,9 +35,16 @@
                 <div class="explain-h">
                     <p>参考序列</p>
                 </div>
+                <%--<c:forEach items="${maps}" var="v">
+                    <div class="box">
+                        <a href="${v.value.userName }/showUserbyJson">json格式数据<br></a>
+
+                    </div>
+                </c:forEach>--%>
                 <div class="explain-b">
                     <table>
                         <tbody>
+                        ${data}
                         <c:forEach items="${dnas}" var="dna">
                             <tr>
                                 <td>
