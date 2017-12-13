@@ -78,6 +78,7 @@
                 <%--基因结构图 begin--%>
                 <div id="geneConstruction">
                     <div class="geneLegend">
+
                         <p>
                             <span class="colorBlock" style="background: #ffb902;"></span>
                             <span class="legendCnt">3'UTR</span>
@@ -89,6 +90,18 @@
                         <p>
                             <span class="colorBlock" style="background: #f76919;"></span>
                             <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
+                        </p>
+                        <p style="width:183px;" class="snpTipE">
+                            <span class="colorBlock" style="background: #02ccb1;"></span>
+                            <span class="legendCnt" style="width:155px;">nonsynonymouse SNY</span>
+                        </p>
+                        <p style="width:208px;" class="indelTipE">
+                            <span class="colorBlock" style="background: #0ccdf1;"></span>
+                            <span class="legendCnt" style="width:180px;">Exonic_frameshift deletion</span>
+                        </p>
+                        <p style="width:208px;" class="indelTipE">
+                            <span class="colorBlock" style="background:#df39e0;"></span>
+                            <span class="legendCnt" style="width:180px;">Exonic_frameshift insertion</span>
                         </p>
                     </div>
                     <div class="geneError">
@@ -390,6 +403,16 @@
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
+<%--// 新增基因结构信息 弹出框--%>
+<div class="genesInfo" style="display: none">
+    <div class="genesInfo-head">
+        <p>基因<span class="js-gene-head-name"></span>信息</p>
+        <a href="#">x</a>
+    </div>
+    <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
+</div>
+<%--// 新增基因结构信息 弹出框--%>
+
 <script>
     var ctxRoot = '${ctxroot}';
 </script>

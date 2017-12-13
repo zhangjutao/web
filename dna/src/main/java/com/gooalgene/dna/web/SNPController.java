@@ -242,6 +242,13 @@ public class SNPController {
             SNP snp = snps.get(i);
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
+            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+                snpDto.setConsequencetypeColor(1);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+                snpDto.setConsequencetypeColor(2);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+                snpDto.setConsequencetypeColor(3);
+            }
             snpDto.setIndex(i);
             snpDtos.add(snpDto);
         }
@@ -298,6 +305,13 @@ public class SNPController {
             SNP snp = snps.get(i);
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
+            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+                snpDto.setConsequencetypeColor(1);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+                snpDto.setConsequencetypeColor(2);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+                snpDto.setConsequencetypeColor(3);
+            }
             snpDto.setIndex(i);
             snpDtos.add(snpDto);
         }
@@ -711,7 +725,10 @@ public class SNPController {
             }
         }
         if (samples.size() <= 0||runNos.size()<=0) {
-            return ResultUtil.error(ResultEnum.SNP_ID_NOT_EXIST);
+            Map response = Maps.newHashMap();
+            PageInfo<DNARunSearchResult> dnaRuns = new PageInfo<>();
+            response.put("dnaRuns", dnaRuns);
+            return ResultUtil.success(response);
         }
         Map response = Maps.newHashMap();
         dnaRunDto.setRunNos(runNos);
