@@ -94,53 +94,62 @@ public class AdvanceSearchController {
      * @apisamplerequest http://localhost:8080/iqgs/advance-search/fetch-qtl-smarty
      * @apidescription 点击高级搜索时，qtl选项二级联动列表数据，无需入参，页面载入时直接向后台取即可
      * @apiSuccessExample Success-Response:
-     * {
+     * [{
      * "qtlName": "Fungal resistance QTL",
      * "qtlDesc": "真菌抗性",
+     * "qtlId": 16,
      * "qtlOthername": "QTL_fungal",
      * "traitLists": [
      * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Phakopsora pachyrhizi infection"
+     * "traitName": "Reaction to Phakopsora pachyrhizi infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * },
      * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Phialophora gregata infection"
+     * "traitName": "Reaction to Phialophora gregata infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * },
      * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Fusarium infection"
+     * "traitName": "Reaction to Fusarium infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * },
      * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection"
+     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * },
      * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Diaporthe longicolla Infection"
-     * },
-     * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Phytophthora sojae infection"
-     * },
-     * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Fusarium solani f sp glycines infection"
-     * },
-     * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Sclerotinia sclerotiorum infection"
+     * "traitName": "Reaction to Diaporthe longicolla Infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * }
      * ]
+     * },
+     * {
+     * "qtlName": "Insect resistance QTL",
+     * "qtlDesc": "抗虫性",
+     * "qtlId": 17,
+     * "qtlOthername": "QTL_insectv",
+     * "traitLists": [
+     * {
+     * "traitName": "Reaction to Aulacorthum solani, choice",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * },
+     * {
+     * "traitName": "Reaction to Aulacorthum solani, no choice",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * },
+     * {
+     * "traitName": "Reaction to Fusarium infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * },
+     * {
+     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * },
+     * {
+     * "traitName": "Reaction to Diaporthe longicolla Infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * }
+     * ]
+     * }]
      */
     @RequestMapping(value = "/fetch-qtl-smarty")
     public String fetchQtlSmartyData() {
