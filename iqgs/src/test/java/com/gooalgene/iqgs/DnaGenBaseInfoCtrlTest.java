@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
+import com.gooalgene.iqgs.entity.DNAGenHomologous;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import junit.framework.TestCase;
 import org.junit.Before;
@@ -17,6 +18,7 @@ import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.util.List;
 
 /**
  * DNAGenBaseInfoCtroller相关方法测试
@@ -32,7 +34,7 @@ public class DnaGenBaseInfoCtrlTest extends TestCase{
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    private DNAGenBaseInfoDao dnaGenBaseInfoService;
+    private DNAGenBaseInfoService dnaGenBaseInfoService;
 
     @Before
     public void setUp(){
@@ -52,5 +54,11 @@ public class DnaGenBaseInfoCtrlTest extends TestCase{
     public void testFindFamilyByFamilyId() throws IOException {
         DNAGenFamily dnaGenFamilies = dnaGenBaseInfoService.findFamilyByFamilyId("ARR-B");
         jsonGenerator.writeObject(dnaGenFamilies);
+    }
+
+    @Test
+    public void testGetGenHomologousByGeneId() throws IOException {
+        List<DNAGenHomologous> homologous = dnaGenBaseInfoService.getGenHomologousByGeneId("Glyma.01G004900");
+        jsonGenerator.writeObject(homologous.get(0));
     }
 }

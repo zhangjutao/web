@@ -34,9 +34,10 @@ import java.util.Map;
 
 /**
  * 整合数据库主页,包含三个主要查询入口
- * @since 2017/10/12
- * @version 1.0
+ *
  * @author sauldong
+ * @version 1.0
+ * @since 2017/10/12
  */
 @Controller
 @RequestMapping("/iqgs")
@@ -56,6 +57,7 @@ public class DNAGenBaseInfoController {
     /**
      * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/index <br>
      * 请求方式: GET OR POST
+     *
      * @return 跳转到iqgs目录下IQGS-index.jsp页面
      */
     @RequestMapping("/index")
@@ -104,7 +106,8 @@ public class DNAGenBaseInfoController {
      * 根据基因function字段进行模糊查询 <br>
      * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/search/func <br>
      * 请求方式: GET OR POST
-     * @param req http请求
+     *
+     * @param req  http请求
      * @param resp http响应
      * @return total:搜索出来的总条数, data:搜索出来的数据,data中包含哪些数据...
      */
@@ -152,25 +155,25 @@ public class DNAGenBaseInfoController {
         return "iqgs/IQGS-structure";
     }
 
-	@RequestMapping("/detail/structure/downloadSeq")
-	public void downloadSeq(HttpServletRequest request, HttpServletResponse response)  {
-		try {
-			String transcriptId = request.getParameter("transcript_id");
-			String fileName = transcriptId + "_Sequence.txt";
-			String sequence = dnaGenBaseInfoService.findSequenceByTranscriptId(transcriptId);
+    @RequestMapping("/detail/structure/downloadSeq")
+    public void downloadSeq(HttpServletRequest request, HttpServletResponse response) {
+        try {
+            String transcriptId = request.getParameter("transcript_id");
+            String fileName = transcriptId + "_Sequence.txt";
+            String sequence = dnaGenBaseInfoService.findSequenceByTranscriptId(transcriptId);
 
-			// response.setContentType("multipart/form-data");
-			// response.setContentType("application/OCTET-STREAM;charset=UTF-8");
-			response.setContentType("text/plain;charset=UTF-8");
-			response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
-			OutputStream os = new BufferedOutputStream(response.getOutputStream());
-			os.write(sequence.getBytes());
-			os.flush();
-			os.close();
-		} catch (IOException ex) {
-			ex.printStackTrace();
-		}
-	}
+            // response.setContentType("multipart/form-data");
+            // response.setContentType("application/OCTET-STREAM;charset=UTF-8");
+            response.setContentType("text/plain;charset=UTF-8");
+            response.addHeader("Content-Disposition", "attachment;filename=" + fileName);
+            OutputStream os = new BufferedOutputStream(response.getOutputStream());
+            os.write(sequence.getBytes());
+            os.flush();
+            os.close();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
 
     @RequestMapping("/detail/sequence")
     public String detailForSequence(HttpServletRequest req, HttpServletResponse resp, Model model) {
@@ -210,7 +213,20 @@ public class DNAGenBaseInfoController {
      * @apiParam {HttpServletRequest}req
      * @apiParam {HttpServletResponse}resp 没有用到
      * @apiParam {Model}model 页面模型
+     * @apidescription 跳转
      * @apiSuccessExample model structure:
+     * {
+     * "geneId": "Glyma.01G004900",
+     * "homologous": [
+     * {
+     * "isNewRecord": false,
+     * "orthologSpecies": "Arabidopsis thaliana",
+     * "geneId": "Glyma.01G004900",
+     * "OrthologGeneId": "AT5G65790.1",
+     * "orthologGeneDescription": "myb domain protein 68"
+     * }
+     * ]
+     * }
      */
     @RequestMapping("/detail/origin")
     public String detailForOrigin(HttpServletRequest req, HttpServletResponse resp, Model model) {
@@ -225,7 +241,7 @@ public class DNAGenBaseInfoController {
      * @api {get} /iqgs/detail/family 基因的基因家族信息获取
      * @apiName detailForFamily
      * @apiGroup DNAGeneBaseInfo
-     * @apiParam {HttpServletRequest}req 在gene-family.jsp中，包含有
+     * @apiParam {HttpServletRequest}req
      * @apiParam {HttpServletResponse}resp 没有用到
      * @apiParam {Model}model 页面模型
      * @apiSuccessExample model structure:
@@ -235,24 +251,24 @@ public class DNAGenBaseInfoController {
      * },
      * {
      * "dnaGenFamilyRels":[{
-     *                      "geneId":"Glyma.01G004900",
-     *                      "familyId":"MYB",
-     *                      "remarks":null,
-     *                      "createTime":null,
-     *                      "updateDate":null,
-     *                      "deFlag":"0",
-     *                      "id":null,
-     *                      "page":null,
-     *                      "sqlMap":null,
-     *                      "isNewRecord":false
-     *
-     *                      }]
+     * "geneId":"Glyma.01G004900",
+     * "familyId":"MYB",
+     * "remarks":null,
+     * "createTime":null,
+     * "updateDate":null,
+     * "deFlag":"0",
+     * "id":null,
+     * "page":null,
+     * "sqlMap":null,
+     * "isNewRecord":false
+     * <p>
+     * }]
      * },
      * {
-     *     "familyId":"MYB"
+     * "familyId":"MYB"
      * },
      * {
-     *
+     * <p>
      * }
      * ]
      */
@@ -396,7 +412,6 @@ public class DNAGenBaseInfoController {
         }
         return json;
     }
-
 
 
     @Autowired
