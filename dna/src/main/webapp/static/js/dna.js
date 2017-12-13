@@ -942,7 +942,20 @@ $(function () {
             CurrentTab = "SNP";
             $(".page-num-tab-indel").hide();
             $(".page-num-tab-snp").show();
+            if($(".snpTipE").is(":hidden")){
+                $(".snpTipE").show();
+            };
+
+            if(!$(".indelTipE").is(":hidden")){
+                $(".indelTipE").hide();
+            };
         } else {
+            if(!$(".snpTipE").is(":hidden")){
+                $(".snpTipE").hide();
+            };
+            if($(".indelTipE").is(":hidden")){
+                $(".indelTipE").show();
+            };
             CurrentTab = "INDEL";
             $(".page-num-tab-indel").show();
             $(".page-num-tab-snp").hide();

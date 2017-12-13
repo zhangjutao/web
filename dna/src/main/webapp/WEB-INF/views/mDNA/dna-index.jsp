@@ -78,6 +78,7 @@
                 <%--基因结构图 begin--%>
                 <div id="geneConstruction">
                     <div class="geneLegend">
+
                         <p>
                             <span class="colorBlock" style="background: #ffb902;"></span>
                             <span class="legendCnt">3'UTR</span>
@@ -89,6 +90,18 @@
                         <p>
                             <span class="colorBlock" style="background: #f76919;"></span>
                             <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
+                        </p>
+                        <p style="width:183px;" class="snpTipE">
+                            <span class="colorBlock" style="background: #02ccb1;"></span>
+                            <span class="legendCnt" style="width:155px;">nonsynonymouse SNY</span>
+                        </p>
+                        <p style="width:208px;" class="indelTipE">
+                            <span class="colorBlock" style="background: #0ccdf1;"></span>
+                            <span class="legendCnt" style="width:180px;">Exonic_frameshift deletion</span>
+                        </p>
+                        <p style="width:208px;" class="indelTipE">
+                            <span class="colorBlock" style="background:#df39e0;"></span>
+                            <span class="legendCnt" style="width:180px;">Exonic_frameshift insertion</span>
                         </p>
                     </div>
                     <div class="geneError">
