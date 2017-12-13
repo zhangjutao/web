@@ -319,14 +319,18 @@ $(function () {
     // 初始化第一个样式
         function initFirstStyle (){
             $("#GlyIds ul li:first-child").addClass("GlyColor");
-        }
+        };
+    $(".genesInfo a").click(function (){
+        $(".genesInfo").hide();
+    });
+
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (e){
         // 每个基因的点击事件，然后显示基因基本结构信息
         var version = getUrlParam("version");
         var geneName =$(this).text();
         $(".js-gene-head-name").html(geneName);
-        $("#geneIframe").attr("src", ctxRoot + "/geneInfo?geneName=" + geneName + "&version=" + version);
+        $("#geneIframe").attr("src", ctxRoot + "/dnagens/geneInfo?geneName=" + geneName + "&version=" + version);
         e.preventDefault();
         $(".genesInfo").show();
 
