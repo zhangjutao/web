@@ -1065,7 +1065,6 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
-        // debugger;
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
@@ -1217,6 +1216,7 @@ $(function () {
                                 obj.y = 90;
                                 obj.id = snpLocalPoints[i].id;
                                 obj.index = snpLocalPoints[i].index;
+                                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
                                 newArr.push(obj);
                             }
                     }else {
@@ -1226,6 +1226,8 @@ $(function () {
                             obj.y = 90;
                             obj.id = snpLocalPoints[i].id;
                             obj.index = snpLocalPoints[i].index;
+                            obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+
                             newArr.push(obj);
                         }
                     }
@@ -1247,7 +1249,17 @@ $(function () {
                         }
                         for (var m=0;m<arr.length;m++){
                             var a = g1.append("a").attr("href","#" +arr[m].id);
-                            a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index);
+                            if(arr[m].consequencetypeColor == 1){
+                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#02ccb1").attr("data-index",arr[m].index);
+                              continue;
+                            }else if(arr[m].consequencetypeColor == 2){
+                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#0ccdf1").attr("data-index",arr[m].index);
+                                continue;
+                            }else if (arr[m].consequencetypeColor == 3){
+                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#df39e0").attr("data-index",arr[m].index);
+                                continue;
+                            };
+                              a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index);
                         }
                         loop(temp)
                     }
