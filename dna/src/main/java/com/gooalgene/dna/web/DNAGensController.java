@@ -109,4 +109,10 @@ public class DNAGensController {
         String end = json.get("end");
         return ResultUtil.success(dnaGensService.getByRegion(chr,start,end));
     }
+
+    @RequestMapping("/geneInfo")
+    public String geneInfo(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        return "/search/genesInfo";
+    }
 }
