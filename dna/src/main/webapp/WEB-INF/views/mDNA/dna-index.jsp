@@ -403,6 +403,16 @@
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
+<%--// 新增基因结构信息 弹出框--%>
+<div class="genesInfo" style="display: none">
+    <div class="genesInfo-head">
+        <p>基因<span class="js-gene-head-name"></span>信息</p>
+        <a href="#">x</a>
+    </div>
+    <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
+</div>
+<%--// 新增基因结构信息 弹出框--%>
+
 <script>
     var ctxRoot = '${ctxroot}';
 </script>

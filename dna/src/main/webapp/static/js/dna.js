@@ -116,6 +116,7 @@ $(function () {
     };
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
+
         if(!$(".custom-groups-content").is(":hidden")){
             $(".custom-groups-content").hide();
         };
@@ -144,9 +145,9 @@ $(function () {
             CTypeIndel = "all";
             // 根据基因查询
             if(obj.url.indexOf('searchSNPinGene') !== -1){
-                if(!$("#GlyIds").is(":hidden")){
-                    $("#GlyIds").hide();
-                }
+                // if(!$("#GlyIds").is(":hidden")){
+                //     $("#GlyIds").hide();
+                // }
                 CurrentTab = "SNP";
                 snpPintDatasGene.upstream = $(".js-up-stream").val();
                 snpPintDatasGene.downstream = $(".js-down-stream").val();
@@ -157,6 +158,14 @@ $(function () {
                 if(obj.params.gene == ""){
                     return alert("请选择一个基因");
                 };
+                // 点击基因查询 搜索的时候， 显示当前选择的基因
+                if($("#GlyIds").is(":hidden")){
+                    $("#GlyIds").show();
+                };
+                $("#GlyIds ul").empty();
+                var str = "<li>" +globelGeneId + "</li>";
+                $("#GlyIds ul").append(str);
+
                 getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/searchIdAndPosInGene");
                 getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/searchIdAndPosInGene");
                 requestForSnpData(1, obj.url, obj.params);
@@ -312,7 +321,19 @@ $(function () {
             $("#GlyIds ul li:first-child").addClass("GlyColor");
         }
     // in region 每个基因ID的点击事件
-    $("#GlyIds ul").on("click","li",function (){
+    $("#GlyIds ul").on("click","li",function (e){
+        // 每个基因的点击事件，然后显示基因基本结构信息
+        var version = getUrlParam("version");
+        var geneName =$(this).text();
+        $(".js-gene-head-name").html(geneName);
+        $("#geneIframe").attr("src", ctxRoot + "/geneInfo?geneName=" + geneName + "&version=" + version);
+        e.preventDefault();
+        $(".genesInfo").show();
+
+
+
+
+
         if(!$(this).hasClass("GlyColor")){
             var Glylis = $("#GlyIds li");
             for (var i=0;i<Glylis.length;i++){
@@ -1417,5 +1438,22 @@ $(function () {
         var clickType = "ind";
         window.open(ctxRoot + "/dna/snp/info?id=" + id + "&chr=" + chr+"&ref=" + reference + "&minorallen="+minorAllele+"&consequencetype="+consquence+
             "&pos="+position +"&majorallen="+majorAllele+"&frequence="+frequence.substring(0,frequence.length-1)  + "&clickType=" + clickType);
-    })
+    });
+
+    function getUrlParam(name) {
+        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+        if (r != null) return unescape(r[2]);
+        return null; //返回参数值
+    };
+
+    // 每个基因的点击事件，然后显示基因基本结构信息
+    //     $("#GlyIds").on("click","li",function (){
+    //         var version = getUrlParam("version");
+    //         var geneName =$(this).text();
+    //         $(".js-gene-head-name").html(geneName);
+    //         $("#geneIframe").attr("src", ctxRoot + "/geneInfo?geneName=" + geneName + "&version=" + version);
+    //         e.preventDefault();
+    //         $(".genesInfo").show();
+    //     })
 })
