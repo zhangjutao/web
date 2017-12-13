@@ -25,7 +25,7 @@ import java.io.IOException;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
-public class dnaGenBaseInfoCtrlTest extends TestCase{
+public class DnaGenBaseInfoCtrlTest extends TestCase{
 
     private JsonGenerator jsonGenerator = null;
 
