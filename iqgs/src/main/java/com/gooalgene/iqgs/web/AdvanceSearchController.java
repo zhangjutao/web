@@ -1,6 +1,7 @@
 package com.gooalgene.iqgs.web;
 
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -153,6 +154,56 @@ public class AdvanceSearchController {
      */
     @RequestMapping(value = "/fetch-qtl-smarty")
     public String fetchQtlSmartyData() {
+        return null;
+    }
+
+    /**
+     * @api {get} /advance-search/confirm 选中几个qtl点击确认
+     * @apiName clickConfirm
+     * @apiGroup Search
+     * @apisamplerequest http://localhost:8080/iqgs/advance-search/confirm
+     * @apidescription 点击高级搜索时，qtl选项二级联动列表数据，无需入参，页面载入时直接向后台取即可
+     * @apiSuccessExample Success-Response:
+     * [ {
+     * "id" : null,
+     * "isNewRecord" : false,
+     * "geneId" : "Glyma.02G218700",
+     * "geneName" : "GLY1,SFD1",
+     * "geneType" : "Protein_coding",
+     * "locus" : "Chr02:40667610bp-40671395bp:+",
+     * "length" : "3785bp",
+     * "species" : "Glycine max",
+     * "functions" : "glycerol-3-phosphate dehydrogenase [NAD(+)] 2, chloroplastic",
+     * "description" : "NAD-dependent glycerol-3-phosphate dehydrogenase family protein",
+     * "familyId" : null
+     * }, {
+     * "id" : null,
+     * "isNewRecord" : false,
+     * "geneId" : "Glyma.02G220100",
+     * "geneName" : "GLX2-2,GLY2",
+     * "geneType" : "Protein_coding",
+     * "locus" : "Chr02:40797403bp-40800820bp:+",
+     * "length" : "3417bp",
+     * "species" : "Glycine max",
+     * "functions" : "glyoxalase GLYII-1",
+     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
+     * "familyId" : null
+     * }, {
+     * "id" : null,
+     * "isNewRecord" : false,
+     * "geneId" : "Glyma.04G224100",
+     * "geneName" : "GLX2-2,GLY2",
+     * "geneType" : "Protein_coding",
+     * "locus" : "Chr04:49456049bp-49460172bp:+",
+     * "length" : "4123bp",
+     * "species" : "Glycine max",
+     * "functions" : null,
+     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
+     * "familyId" : null
+     * } ]
+     */
+    @RequestMapping(value = "/confirm", method = RequestMethod.GET)
+    public List<DNAGenBaseInfo> clickConfirm() {
         return null;
     }
 }
