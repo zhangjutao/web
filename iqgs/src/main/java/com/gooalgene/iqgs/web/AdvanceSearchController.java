@@ -71,7 +71,7 @@ public class AdvanceSearchController {
     }
 
     /**
-     * @api {get} /advance-search/query-by-qtl-name 查询所有组织以及其小组织
+     * @api {get} /advance-search/query-all-organic 查询所有组织以及其小组织
      * @apiName getAllOrganicAndChildren
      * @apiGroup Search
      * @apisamplerequest http://localhost:8080/iqgs/advance-search/query-by-qtl-name
@@ -84,6 +84,66 @@ public class AdvanceSearchController {
      */
     @RequestMapping(value = "/query-all-organic")
     public String getAllOrganicAndChildren() {
+        return null;
+    }
+
+    /**
+     * @api {get} /advance-search/fetch-qtl-smarty qtl搜索选项二级联动
+     * @apiName fetchQtlSmartyData
+     * @apiGroup Search
+     * @apisamplerequest http://localhost:8080/iqgs/advance-search/fetch-qtl-smarty
+     * @apidescription 点击高级搜索时，qtl选项二级联动列表数据，无需入参，页面载入时直接向后台取即可
+     * @apiSuccessExample Success-Response:
+     * {
+     * "qtlName": "Fungal resistance QTL",
+     * "qtlDesc": "真菌抗性",
+     * "qtlOthername": "QTL_fungal",
+     * "traitLists": [
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Phakopsora pachyrhizi infection"
+     * },
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Phialophora gregata infection"
+     * },
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Fusarium infection"
+     * },
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection"
+     * },
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Diaporthe longicolla Infection"
+     * },
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Phytophthora sojae infection"
+     * },
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Fusarium solani f sp glycines infection"
+     * },
+     * {
+     * "isNewRecord": false,
+     * "qtlId": 16,
+     * "traitName": "Reaction to Sclerotinia sclerotiorum infection"
+     * }
+     * ]
+     * }
+     */
+    @RequestMapping(value = "/fetch-qtl-smarty")
+    public String fetchQtlSmartyData() {
         return null;
     }
 }

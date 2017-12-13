@@ -3,6 +3,7 @@ package com.gooalgene.qtl.dao;
 import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.entity.TraitCategory;
+import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 
 import java.util.List;
 
@@ -24,4 +25,9 @@ public interface TraitCategoryDao extends CrudDao<TraitCategory> {
     boolean deleteById(int id);
 
     TraitCategory findById(int id);
+
+    /**
+     * 查找所有trait category以及所有trait list，trait list中包含的所有的qtl name
+     */
+    List<TraitCategoryWithinMultipleTraitList> findAllTraitCategoryAndItsTraitList();
 }

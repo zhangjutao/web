@@ -84,59 +84,24 @@
                     </div>
                     <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
                 </div>
+
                 <div id="qtlAdd" class="tab-pane">
                     <p class="search-title">Search By QTL</p>
                     <label>
                         <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
                         <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
+                    <div id="qtlErrorTip">
+                        根据输入的关键字查询的结果为: 0 条
+                    </div>
                     <div class="fuzzySearch">
                         <ul>
-                            <li>
-                                <label for="name1">
-                                    <span id ="name1" data-value="name11"></span>
-                                    Fusarium lesion length 1-1
-                                </label>
-                            </li>
-                            <li>
-                                <label for="name2">
-                                    <span id ="name2" data-value="name22"></span>
-                                    Fusarium lesion length 1-2
-                                </label>
-                            </li>
-                            <li>
-                                <label for="name3">
-                                    <span id ="name3" data-value="name33"></span>
-                                    Fusarium lesion length 1-3
-                                </label>
-                            </li>
-                            <li>
-                                <label for="name1">
-                                    <span id ="name4" data-value="name44"></span>
-                                    Fusarium lesion length 1-4
-                                </label>
-                            </li>
-                            <li>
-                                <label for="name1">
-                                    <span id ="name5" data-value="name55"></span>
-                                    Fusarium lesion length 1-5
-                                </label>
-                            </li>
-                            <li>
-                                <label for="name6">
-                                    <span id ="name6" data-value="name66"></span>
-                                    Fusarium lesion length 1-5
-                                </label>
-                            </li>
-                            <li>
-                                <label for="name7">
-                                    <span id ="name7" data-value="name77"></span>
-                                    Fusarium lesion length 1-5
-                                </label>
-                            </li>
-
-
-
+                            <%--<li>--%>
+                                <%--<label for="name1">--%>
+                                    <%--<span id ="name1" data-value="name11"></span>--%>
+                                    <%--Fusarium lesion length 1-1--%>
+                                <%--</label>--%>
+                            <%--</li>--%>
                         </ul>
                     </div>
                     <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
@@ -144,8 +109,13 @@
                         <p>确定</p>
                     </div>
                 </div>
-
             </div>
+        </div>
+    </div>
+    <div id="advancedSearch">
+        <div class="advanceBtn">
+            <p>Advanced search</p>
+            <img src="${ctxStatic}/images/downtou.png" alt="down" >
         </div>
     </div>
     <div class="database-link">
