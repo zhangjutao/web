@@ -97,12 +97,12 @@ public class AdvanceSearchController {
      * {
      * "qtlName": "Fungal resistance QTL",
      * "qtlDesc": "真菌抗性",
+     * "qtlId": 16,
      * "qtlOthername": "QTL_fungal",
      * "traitLists": [
      * {
-     * "isNewRecord": false,
-     * "qtlId": 16,
-     * "traitName": "Reaction to Phakopsora pachyrhizi infection"
+     * "traitName": "Reaction to Phakopsora pachyrhizi infection",
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * },
      * {
      * "isNewRecord": false,
