@@ -242,6 +242,13 @@ public class SNPController {
             SNP snp = snps.get(i);
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
+            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+                snpDto.setConsequencetypeColor(1);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+                snpDto.setConsequencetypeColor(2);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+                snpDto.setConsequencetypeColor(3);
+            }
             snpDto.setIndex(i);
             snpDtos.add(snpDto);
         }
