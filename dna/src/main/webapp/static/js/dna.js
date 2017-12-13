@@ -1065,6 +1065,7 @@ $(function () {
     // 基因结构图
     function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
         // 参考值
+        // debugger;
         var ttdistance;
         if(result.data.dnaGenStructures.length==0){
             var direction = -1;
