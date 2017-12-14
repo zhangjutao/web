@@ -46,6 +46,10 @@ public class QtlService {
         return qtlDao.update(qtl);
     }
 
+    public List<Qtl> findQtlsByName(String qtlName){
+        return qtlDao.findQtlsByName(qtlName);
+    }
+
     /**
      * 后台管理查询qtl分页处理
      *
