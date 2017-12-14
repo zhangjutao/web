@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 
@@ -34,47 +35,72 @@ public class AdvanceSearchController {
      * @apiParam {String} qtlName 用户输入的qtl name
      * @apiSuccessExample Success-Response:
      * [{
-     * "id": "12329",
+     * "id": "12491",
      * "isNewRecord": false,
-     * "createTime": "2017-07-11 03:45:18",
-     * "qtlName": "Al tolerance 1-2",
-     * "trait": "Aluminum Tolerance",
-     * "type": "QTL_inorganic",
-     * "chrlgId": 51,
-     * "marker1": "cr207_1",
-     * "marker2": "",
-     * "associatedGenesId": 3861,
-     * "version": "Glycine_max.V1.0.23.dna.genome",
-     * "method": "ANOVA",
-     * "genomeStart": 19.0,
-     * "genomeEnd": 21.0,
-     * "parent1": "Young",
-     * "parent2": "PI229358",
-     * "ref": "Aluminum tolerance associated with quantitative trait loci derived from soybean PI 416937 in hydroponics\u0026nbsp;Crop Sci. 2000, 40(2):538-545",
-     * "author": "Bianchi-Hall et al. 2000"
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "cqSeed oil-001",
+     * "trait": null,
+     * "type": null,
+     * "chrlgId": null,
+     * "chr": null,
+     * "lg": null,
+     * "marker1": null,
+     * "marker2": null,
+     * "marker": null,
+     * "associatedGenesId": null,
+     * "version": null,
+     * "method": null,
+     * "genomeStart": null,
+     * "genomeStartType": null,
+     * "genomeEnd": null,
+     * "genomeEndType": null,
+     * "lod": null,
+     * "lodType": null,
+     * "parent1": null,
+     * "parent2": null,
+     * "parent": null,
+     * "ref": null,
+     * "author": null,
+     * "keywords": null,
+     * "createtime": null
      * },
      * {
-     * "id": "12329",
+     * "id": "12492",
      * "isNewRecord": false,
-     * "createTime": "2017-07-11 03:45:18",
-     * "qtlName": "Al tolerance 1-2",
-     * "trait": "Aluminum Tolerance",
-     * "type": "QTL_inorganic",
-     * "chrlgId": 51,
-     * "marker1": "cr207_1",
-     * "marker2": "",
-     * "associatedGenesId": 3861,
-     * "version": "Glycine_max.V1.0.23.dna.genome",
-     * "method": "ANOVA",
-     * "genomeStart": 19.0,
-     * "genomeEnd": 21.0,
-     * "parent1": "Young",
-     * "parent2": "PI229358",
-     * "ref": "Aluminum tolerance associated with quantitative trait loci derived from soybean PI 416937 in hydroponics\u0026nbsp;Crop Sci. 2000, 40(2):538-545",
-     * "author": "Bianchi-Hall et al. 2000"
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "cqSeed oil-002",
+     * "trait": null,
+     * "type": null,
+     * "chrlgId": null,
+     * "chr": null,
+     * "lg": null,
+     * "marker1": null,
+     * "marker2": null,
+     * "marker": null,
+     * "associatedGenesId": null,
+     * "version": null,
+     * "method": null,
+     * "genomeStart": null,
+     * "genomeStartType": null,
+     * "genomeEnd": null,
+     * "genomeEndType": null,
+     * "lod": null,
+     * "lodType": null,
+     * "parent1": null,
+     * "parent2": null,
+     * "parent": null,
+     * "ref": null,
+     * "author": null,
+     * "keywords": null,
+     * "createtime": null
      * }]
      */
-    @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET)
+    @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
+    @ResponseBody
     public List<Qtl> queryByQTLName(String qtlName) {
         return qtlService.findQtlsByName(qtlName);
     }
@@ -237,38 +263,37 @@ public class AdvanceSearchController {
      * pageSize: 10,
      * geneExpression: {[
      * {
-     *   "organic": "Seed",
-     *   "childOrganic": ["seed", "coat"],
-     *   "FPKM": "2-20"
+     * "organic": "Seed",
+     * "childOrganic": ["seed", "coat"],
+     * "FPKM": "2-20"
      * },
      * {
-     *   "organic": "Seed",
-     *   "childOrganic": ["seed", "coat"],
-     *   "FPKM": "2-20"
+     * "organic": "Seed",
+     * "childOrganic": ["seed", "coat"],
+     * "FPKM": "2-20"
      * }
      * ]}
      * qtlParams: {[
      * {
-     *     "qtlName": "Seed About",
-     *     "traitId": 10,
-     *     "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * "qtlName": "Seed About",
+     * "traitId": 10,
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * },
      * {
-     *     "qtlName": "Seed About",
-     *     "traitId": 10,
-     *     "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * "qtlName": "Seed About",
+     * "traitId": 10,
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * },
      * {
-     *     "qtlName": "Seed About",
-     *     "traitId": 10,
-     *     "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * "qtlName": "Seed About",
+     * "traitId": 10,
+     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * }
      * ]}
      * }
      * @apiParam {String} snpParams 选中的SNP筛选条件，各个值之间使用","号分开
      * @apiParam {String} indelParams 选中的INDEL筛选条件，各个值之间使用","分开
      * @apiParam {Object[]} qtlParams 高级搜索中选中的qtl查询条件对象集合
-     *
      * @apiParam {int} pageNo 页码
      * @apiParam {int} pageSize 每页数量
      * @apisamplerequest http://localhost:8080/iqgs/advance-search/search
@@ -319,7 +344,7 @@ public class AdvanceSearchController {
      * }
      */
     @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public Page<DNAGenBaseInfo> advanceSearch(GeneExpressionCondition geneExpression, String snpParams, String indelParams, QTLCondition qtlParams){
+    public Page<DNAGenBaseInfo> advanceSearch(GeneExpressionCondition geneExpression, String snpParams, String indelParams, QTLCondition qtlParams) {
         return null;
     }
 }
