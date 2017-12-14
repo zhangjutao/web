@@ -76,8 +76,7 @@ public class AdvanceSearchController {
      */
     @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET)
     public List<Qtl> queryByQTLName(String qtlName) {
-
-        return null;
+        return qtlService.findQtlsByName(qtlName);
     }
 
     /**
