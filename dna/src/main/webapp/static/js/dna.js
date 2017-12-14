@@ -114,6 +114,7 @@ $(function () {
         snp:[],
         indel:[]
     };
+    var filterEvent;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
 
@@ -296,10 +297,12 @@ $(function () {
                 if (res.data.length == 0){
                     $("#GlyIds").hide();
                 }else {
+                    filterEvent = res.data.length;
                     if($("#GlyIds").is(":hidden")){
                         $("#GlyIds").show();
                     }
                     $("#GlyIds").show();
+
                     var GlyList = res.data;
                     var $ul = $("#GlyIds ul");
                     $ul.find("li").remove();
@@ -358,6 +361,7 @@ $(function () {
             }
             $(this).addClass("GlyColor");
         };
+        // 列表重新获取数据
         var clickVal = $(this).text();
         globelGeneId = clickVal;
         var obj = getPanelParams();
@@ -445,18 +449,40 @@ $(function () {
     // 配置默认每页显示条数
     var pageSizeINDEL = 10;
     $("#indel-paginate .lay-per-page-count-select").val(pageSizeINDEL);
+    //  // 去除snp 图中的选中位点
+    function deleteSelectedSnp (){
+        if(CurrentTab == "SNP"){
+            var snppoints = $("#snpid").find("a");
+            for(var i=0;i<snppoints.length;i++){
+                if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"){
+                    var id = $(snppoints[i]).attr("href");
+                    d3.select("#snpid").select("a[href='" +id+ "']").select("rect").attr("fill","#6b69d6");
+                }
+            };
+        }else {
+            var snppoints = $("#indelid").find("a");
+            for(var i=0;i<snppoints.length;i++){
+                if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"){
+                    var id = $(snppoints[i]).attr("href");
+                    d3.select("#indelid").select("a[href='" +id+ "']").select("rect").attr("fill","#6b69d6");
+                }
+            };
+        };
 
+    };
     // 修改每页显示条数
     $(".js-snp-tab").on("change", ".lay-per-page-count-select", function() {
         pageSizeSNP = $(this).val();
         var obj = getPanelParams();
         // obj.params.pageNo = currPageNumb;
+        deleteSelectedSnp()
         requestForSnpData(1, obj.url, obj.params);
     });
 
     $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
         pageSizeINDEL = $(this).val();
         var obj = getPanelParams();
+        deleteSelectedSnp()
         requestForIndelData(1, obj.url, obj.params);
     });
 
@@ -475,6 +501,7 @@ $(function () {
     });
     // 注册 enter 事件的元素
     document.onkeydown = function(e) {
+        deleteSelectedSnp();
         var _page_skip = $('#snp-paginate .laypage_skip');
         var _page_skip2 = $('#indel-paginate .laypage_skip');
         if(e && e.keyCode==13){ // enter 键
@@ -546,6 +573,7 @@ $(function () {
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                deleteSelectedSnp();
                                 var tmp = getPanelParams();
                                 currPageNumb = obj.curr;
                                 requestForSnpData(obj.curr, tmp.url, tmp.params);
@@ -633,6 +661,7 @@ $(function () {
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                deleteSelectedSnp();
                                 var tmp = getPanelParams();
                                 currPageNumb = obj.curr;
                                 requestForIndelData(obj.curr, tmp.url, tmp.params);
@@ -760,6 +789,9 @@ $(function () {
             $.each(freq, function(i, e) {
                 str += '<td class="t_fmajorAllelein'+ replaceUnvalideChar(e.name).split(",").join("_").replace(/\s/g,"") +'"><p>' + formatPercent(e[Major_Or_Minor_SNP]) + '</p></td>'
             });
+            // for(var k=0;k<freq.length;k++){
+            //     str += '<td class="t_fmajorAllelein'+ replaceUnvalideChar(freq[k].name).split(",").join("_").replace(/\s/g,"") +'"><p>' + formatPercent(freq[k][Major_Or_Minor_SNP]) + '</p></td>'
+            // };
 
             str += '</tr>';
            $("tr").data(item.id,item.geneType);
@@ -848,6 +880,15 @@ $(function () {
     // consequence type 交互
     var CTypeSnp = 'all';
     $(".js-snp-table").on("click", ".consequence-type li", function() {
+        // 每次进行筛选都要snp 位点上的信息都去掉
+        var snppoints = $("#snpid").find("a");
+        for(var i=0;i<snppoints.length;i++){
+
+            if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"){
+                var id = $(snppoints[i]).attr("href");
+                d3.select("#snpid").select("a[href='" +id+ "']").select("rect").attr("fill","#6b69d6");
+            }
+        };
         snpPintDatas.ctype = $(this).text();
         $(".js-snp-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
@@ -859,12 +900,36 @@ $(function () {
         } else {
             CTypeSnp = 'all';
         }
-        var obj = getPanelParams();
-        requestForSnpData(1, obj.url, obj.params);
+        var currSelectId = $("#GlyIds").find("li.GlyColor").text();
+        if(filterEvent){
+            var obj = getPanelParams();
+            obj.url=CTXROOT + "/dna/searchSNPinGene";
+            obj.params.ctype=snpPintDatas.ctype;
+            obj.params.type = "SNP";
+            // obj.params.type = CurrentTab;
+            obj.params.gene = currSelectId;
+            delete obj.params.start;
+            delete obj.params.end;
+            delete obj.params.chromosome;
+            requestForSnpData(1, obj.url, obj.params);
+
+        }else {
+            var obj = getPanelParams();
+            requestForSnpData(1, obj.url, obj.params);
+        }
     });
 
     var CTypeIndel = 'all';
     $(".js-indel-table").on("click", ".consequence-type li", function() {
+        // 每次进行筛选都要snp 位点上的信息都去掉
+        var snppoints = $("#indelid").find("a");
+        for(var i=0;i<snppoints.length;i++){
+            if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"){
+                var id = $(snppoints[i]).attr("href");
+                d3.select("#indelid").select("a[href='" +id+ "']").select("rect").attr("fill","#6b69d6");
+            }
+        };
+        snpPintDatas.ctype = $(this).text();
         $(".js-indel-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
         var type = $(".js-indel-table .consequence-type").find(".active").attr("data-type");
@@ -875,8 +940,24 @@ $(function () {
         } else {
             CTypeIndel = 'all';
         }
-        var obj = getPanelParams();
-        requestForIndelData(1, obj.url, obj.params);
+        var currSelectId = $("#GlyIds").find("li.GlyColor").text();
+
+        if(filterEvent){
+            var obj = getPanelParams();
+            obj.url=CTXROOT + "/dna/searchSNPinGene";
+            obj.params.ctype=snpPintDatas.ctype;
+            // delete obj.params.type;
+            obj.params.type = "INDEL";
+            obj.params.gene = currSelectId;
+            delete obj.params.start;
+            delete obj.params.end;
+            delete obj.params.chromosome;
+            var obje = obj;
+            requestForIndelData(1, obje.url, obje.params);
+        }else {
+            var obj = getPanelParams();
+            requestForIndelData(1, obj.url, obj.params);
+        }
     });
 
     function showtab() {
@@ -1391,6 +1472,33 @@ $(function () {
             var snpIndex;
         // 每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
+                var id = $(this).parent().attr("href").substring(1);
+                var snps = result.data.snps;
+                if(type=="SNP"){
+                    var list = $("#snpid").find("a");
+                    for (var i=0;i<snps.length;i++){
+                        if(snps[i].id == id){
+                            d3.select("#snpid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
+                        }else if(snps[i].consequencetypeColor ==1){
+                            d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill"," #02ccb1");
+                        }else {
+                            d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
+                        }
+                    };
+                }else if(type="INDEL"){
+                    for (var i=0;i<snps.length;i++){
+                        if(snps[i].id == id){
+                            d3.select("#indelid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
+                        }
+                        else if(snps[i].consequencetypeColor ==2){
+                            d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#0ccdf1");
+                        }  else if(snps[i].consequencetypeColor ==3){
+                            d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#df39e0");
+                        }  else {
+                            d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
+                        }
+                    };
+                }
                 snpIndex = $(e.target).attr("data-index");
             var tabid = $(e.target).parent().attr("href").substring(1);
             // 调用每个位点获取数据；
@@ -1424,10 +1532,21 @@ $(function () {
         for (var i=0;i<snps.length;i++){
             if(snps[i].id == id){
                 d3.select("#snpid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
-            }else if(snps[i].consequencetypeColor !=1){
+            }else if(snps[i].consequencetypeColor ==1){
+                d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill"," #02ccb1");
+            }else {
                 d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
             }
         };
+        // 让当前高亮显示，同时其他行的高亮都消失
+        var trs = $("#tableBody").find("tr");
+        for(var i=0;i<trs.length;i++){
+            if($(trs[i]).hasClass("tabTrColor")){
+                $(trs[i]).removeClass("tabTrColor");
+            }
+        };
+        $(this).parent().addClass("tabTrColor");
+
     });
     // 根据表格去锚点图上的snp 位点 -- indel
     $("#tableBody2").on("click","tr>td:not('.t_indels')",function (e){
@@ -1437,10 +1556,23 @@ $(function () {
         for (var i=0;i<snps.length;i++){
             if(snps[i].id == id){
                 d3.select("#indelid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
-            }else if(snps[i].consequencetypeColor ==0){
+            }
+            else if(snps[i].consequencetypeColor ==2){
+                d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#0ccdf1");
+            }  else if(snps[i].consequencetypeColor ==3){
+                d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#df39e0");
+            }  else {
                 d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
             }
         };
+        // 让当前高亮显示，同时其他行的高亮都消失
+        var trs = $("#tableBody2").find("tr");
+        for(var i=0;i<trs.length;i++){
+            if($(trs[i]).hasClass("tabTrColor")){
+                $(trs[i]).removeClass("tabTrColor");
+            }
+        };
+        $(this).parent().addClass("tabTrColor");
     });
 
     $("#tableBody2").on("click","tr>td.t_indels",function (e){

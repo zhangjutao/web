@@ -91,17 +91,17 @@
                             <span class="colorBlock" style="background: #f76919;"></span>
                             <span class="legendCnt" style="margin-bottom:5px;">5'UTR</span>
                         </p>
-                        <p style="width:183px;" class="snpTipE">
+                        <p style="width:223px;" class="snpTipE">
                             <span class="colorBlock" style="background: #02ccb1;"></span>
-                            <span class="legendCnt" style="width:155px;">nonsynonymouse SNY</span>
+                            <span class="legendCnt" style="width:195px;font-size:14px;">Exonic_nonsynonymous SNY</span>
                         </p>
                         <p style="width:208px;" class="indelTipE">
                             <span class="colorBlock" style="background: #0ccdf1;"></span>
-                            <span class="legendCnt" style="width:180px;">Exonic_frameshift deletion</span>
+                            <span class="legendCnt" style="width:180px;font-size:14px;">Exonic_frameshift deletion</span>
                         </p>
-                        <p style="width:208px;" class="indelTipE">
+                        <p style="width:210px;" class="indelTipE">
                             <span class="colorBlock" style="background:#df39e0;"></span>
-                            <span class="legendCnt" style="width:180px;">Exonic_frameshift insertion</span>
+                            <span class="legendCnt" style="width:182px;font-size:14px;">Exonic_frameshift insertion</span>
                         </p>
                     </div>
                     <div class="geneError">
