@@ -479,17 +479,26 @@ $(function () {
         if(CurrentTab == "SNP"){
             var snppoints = $("#snpid").find("a");
             for(var i=0;i<snppoints.length;i++){
-                if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"){
+                if($(snppoints[i]).find("rect").attr("fill") == "#ff0000" && $(snppoints[i]).find("rect").attr("data-status")=="save"){
                     var id = $(snppoints[i]).attr("href");
                     d3.select("#snpid").select("a[href='" +id+ "']").select("rect").attr("fill","#6b69d6");
+                }else if($(snppoints[i]).find("rect").attr("fill") == "#ff0000" && $(snppoints[i]).find("rect").attr("data-status")=="snp1"){
+                    var id = $(snppoints[i]).attr("href");
+                    d3.select("#snpid").select("a[href='" +id+ "']").select("rect").attr("fill","#02ccb1");
                 }
             };
         }else {
             var snppoints = $("#indelid").find("a");
             for(var i=0;i<snppoints.length;i++){
-                if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"){
+                if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"&&$(snppoints[i]).find("rect").attr("data-status")=="save1"){
                     var id = $(snppoints[i]).attr("href");
                     d3.select("#indelid").select("a[href='" +id+ "']").select("rect").attr("fill","#6b69d6");
+                }else if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"&&$(snppoints[i]).find("rect").attr("data-status")=="indel1"){
+                    var id = $(snppoints[i]).attr("href");
+                    d3.select("#indelid").select("a[href='" +id+ "']").select("rect").attr("fill","#0ccdf1");
+                }else if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"&&$(snppoints[i]).find("rect").attr("data-status")=="indel2"){
+                    var id = $(snppoints[i]).attr("href");
+                    d3.select("#indelid").select("a[href='" +id+ "']").select("rect").attr("fill","#df39e0");
                 }
             };
         };
@@ -1467,16 +1476,16 @@ $(function () {
                         for (var m=0;m<arr.length;m++){
                             var a = g1.append("a").attr("href","#" +arr[m].id);
                             if(arr[m].consequencetypeColor == 1){
-                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#02ccb1").attr("data-index",arr[m].index);
+                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#02ccb1").attr("data-index",arr[m].index).attr("data-status","snp1");
                               continue;
                             }else if(arr[m].consequencetypeColor == 2){
-                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#0ccdf1").attr("data-index",arr[m].index);
+                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#0ccdf1").attr("data-index",arr[m].index).attr("data-status","indel1");;
                                 continue;
                             }else if (arr[m].consequencetypeColor == 3){
-                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#df39e0").attr("data-index",arr[m].index);
+                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#df39e0").attr("data-index",arr[m].index).attr("data-status","indel2");
                                 continue;
                             };
-                              a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index);
+                              a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index).attr("data-status","save1");;
                         }
                         loop(temp)
                     }
