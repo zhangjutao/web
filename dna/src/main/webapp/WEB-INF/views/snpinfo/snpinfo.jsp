@@ -165,7 +165,7 @@
                                     <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> GenoType
+                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> Genotype
                                 </li>
                                 <li>
                                     <%--无--%>
@@ -276,7 +276,7 @@
                             </p>
                         </div>
                     </th>
-                    <th class="param genoTypeT">GenoType
+                    <th class="param genoTypeT">Genotype
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <input type="text" placeholder="请输入" class="genoTypeI inputStyle">
@@ -652,7 +652,7 @@
                     plotShadow: false
                 },
                 title: {
-                    text: 'GenoType'
+                    text: 'Genotype'
                 },
                 credits: {
                     enabled: false
