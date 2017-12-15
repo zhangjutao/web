@@ -296,10 +296,11 @@ $(function () {
             data:JSON.stringify(data),
             dataType:"json",
             success:function (res){
-                isPop = 1;
+
                 if (res.data.length == 0){
                     $("#GlyIds").hide();
                 }else {
+                    isPop = 1;
                     filterEvent = res.data.length;
                     if($("#GlyIds").is(":hidden")){
                         $("#GlyIds").show();
