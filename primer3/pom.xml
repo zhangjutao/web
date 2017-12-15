@@ -56,6 +56,12 @@
             <artifactId>log4j</artifactId>
             <version>1.2.16</version>
         </dependency>
+        <dependency>
+            <groupId>com.101tec</groupId>
+            <artifactId>zkclient</artifactId>
+            <version>0.10</version>
+        </dependency>
+
     </dependencies>
     <build>
         <finalName>primer3</finalName>
@@ -63,25 +69,6 @@
             <plugin>
                 <artifactId>maven-jar-plugin</artifactId>
                 <version>3.0.2</version>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-install-plugin</artifactId>
-                <version>2.3.1</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>install-file</goal>
-                        </goals>
-                        <phase>install</phase>
-                        <configuration>
-                            <file>${project.build.finalName}.jar</file>
-                            <generatePom>true</generatePom>
-                            <pomFile>pom.xml</pomFile>
-                            <version>1.0</version>
-                        </configuration>
-                    </execution>
-                </executions>
             </plugin>
             <plugin>
                 <artifactId>maven-compiler-plugin</artifactId>
