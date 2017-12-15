@@ -7,6 +7,8 @@ import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.mrna.vo.GenVo;
 import com.mongodb.WriteResult;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -23,10 +25,11 @@ import java.util.Map;
 
 /**
  * Created by ShiYun on 2017/7/31 0031.
+ * Modified By Crabime on 12/14/2017
  */
 @Service
 public class ClassifyService {
-
+    private final static Logger logger = LoggerFactory.getLogger(ClassifyService.class);
     @Autowired
     private MongoTemplate mongoTemplate;
 
@@ -62,7 +65,7 @@ public class ClassifyService {
     public boolean query() {
         List<Classifys> all = mongoTemplate.findAll(Classifys.class);
         for (Classifys classifys : all) {
-            System.out.println(classifys.getId() + "\t" + classifys.getName()
+            logger.info(classifys.getId() + "\t" + classifys.getName()
                     + "\t" + classifys.getChinese() + "\t" + classifys.getChildren().size());
         }
         return true;
