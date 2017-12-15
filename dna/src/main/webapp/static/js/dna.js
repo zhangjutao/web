@@ -191,12 +191,14 @@ $(function () {
                 snpGroup.group = obj.params.group;
                 globelType = "Regin";
                 requestForGeneId(data);
-                getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,"snpid","/dna/searchIdAndPosInRegion");
-                getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,"indelid","/dna/searchIdAndPosInRegion");
-                requestForSnpData(1, obj.url, obj.params,initFirstStyle);
-                requestForIndelData(1, obj.url, obj.params);
-                renderSearchText();
-                renderTableHead();
+                if(isPop ==0){
+                    getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,"snpid","/dna/searchIdAndPosInRegion");
+                    getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,"indelid","/dna/searchIdAndPosInRegion");
+                    requestForSnpData(1, obj.url, obj.params,initFirstStyle);
+                    requestForIndelData(1, obj.url, obj.params);
+                    renderSearchText();
+                    renderTableHead();
+                };
             }
         // 如果输入条件返回不符合要求，则隐藏部分元素
         }else {
@@ -286,6 +288,7 @@ $(function () {
         $.ajax({
             type:'POST',
             url:ctxRoot + "/dnagens/geneIds",
+            async: false,
             headers: {
                 'Accept': 'application/json',
                 'Content-Type': 'application/json'
@@ -293,10 +296,10 @@ $(function () {
             data:JSON.stringify(data),
             dataType:"json",
             success:function (res){
+                isPop = 1;
                 if (res.data.length == 0){
                     $("#GlyIds").hide();
                 }else {
-                    isPop = 1;
                     filterEvent = res.data.length;
                     if($("#GlyIds").is(":hidden")){
                         $("#GlyIds").show();
@@ -408,6 +411,11 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
+                if(type == "SNP"){
+                    globelTotalSnps.snp = res.data.snps;
+                }else if(type == "INDEL"){
+                    globelTotalSnps.indel = res.data.snps;
+                };
                 drawGeneConstructor(res,parentCnt,tblBody,"",type,gid,params);
                 svgPanZoom("#" + parentCnt + " svg", {
                     zoomEnabled: true,
