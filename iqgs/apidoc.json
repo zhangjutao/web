@@ -3,6 +3,6 @@
   "version": "0.0.1",
   "description": "整合数据库接口文档",
   "title": "整合数据库接口文档",
-  "url" : "http://localhost:8080/iqgs",
-  "sampleUrl" : "http://localhost:8080/iqgs/detail/sequence"
+  "url" : "http://localhost:8080/",
+  "sampleUrl" : "http://localhost:8080/iqgs"
 }
