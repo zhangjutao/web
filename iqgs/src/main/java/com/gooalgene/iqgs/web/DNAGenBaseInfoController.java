@@ -221,7 +221,8 @@ public class DNAGenBaseInfoController {
      * "orthologSpecies": "Arabidopsis thaliana",
      * "geneId": "Glyma.01G004900",
      * "OrthologGeneId": "AT5G65790.1",
-     * "orthologGeneDescription": "myb domain protein 68"
+     * "orthologGeneDescription": "myb domain protein 68",
+     * "relationship":"many-to-one"
      * }
      * ]
      * }
