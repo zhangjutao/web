@@ -29,7 +29,7 @@
                     <input type="text" name="username" id="username" placeholder="请输入用户名" value="${username}"
                            onkeyup="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
                            onpaste="value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')"
-                           oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" >
+                           oncontextmenu = "value=value.replace(/[^\a-\z\A-\Z0-9]/g,'')" style="line-height:36px;">
                 </label>
                 <span class="tips real">输入后不可更改,<br/>只支持2到14位的英文和数字</span>
                 <span class="tips errorU" style="display:none;">该用户名已存在</span>
@@ -37,7 +37,7 @@
             <div class="reg-mail">
                 <label>
                     <span><b>*</b>邮箱:</span>
-                    <input type="email" name="email" id="mail" placeholder="请输入用户邮箱" value="${email}" >
+                    <input type="email" name="email" id="mail" placeholder="请输入用户邮箱" value="${email}"  style="line-height:36px;">
                     <span class="tips errorM" style="display:none;">该用户名已存在</span>
                 </label>
                 <span class="tips mailTip" style="display:none;color:#ff0000;">邮箱格式不对</span>
@@ -45,34 +45,34 @@
             <div class="reg-pwd">
                 <label>
                     <span><b>*</b>密码:</span>
-                    <input type="password" name="password" min="5" id="pwd" placeholder="请输入用户密码" value="${password}" >
+                    <input type="password" name="password" min="5" id="pwd" placeholder="请输入用户密码" value="${password}"  style="line-height:36px;">
                 </label>
                 <span class="tips pwdTip">密码长度不能少于5位,且只能包含字符和数字。</span>
             </div>
             <div class="reg-confirm-pwd">
                 <label>
                     <span><b>*</b>确认密码:</span>
-                    <input type="password" name="passwordVerify" id="confirmPwd" placeholder="请确认用户密码" value="${passwordVerify}" >
+                    <input type="password" name="passwordVerify" id="confirmPwd" placeholder="请确认用户密码" value="${passwordVerify}"  style="line-height:36px;">
                 </label>
                 <span class="tips confirmTip" style="display:none;color:#ff0000;">密码不一致</span>
             </div>
             <div class="reg-contact">
                 <label>
                     <span>联系方式:</span>
-                    <input type="tel" name="phone" id="contact" placeholder="请输入联系方式" value="${phone}">
+                    <input type="tel" name="phone" id="contact" placeholder="请输入联系方式" value="${phone}" style="line-height:36px;">
                 </label>
             </div>
             <div class="reg-industry">
                 <label>
                     <span>从事行业:</span>
-                    <input type="text" name="domains" id="industry" placeholder="请输入从事行业" value="${domains}">
+                    <input type="text" name="domains" id="industry" placeholder="请输入从事行业" value="${domains}" style="line-height:36px;">
                 </label>
                 <span class="tips industryTip" style="display:none;color:#ff0000;">不能包含特殊字符</span>
             </div>
             <div class="reg-Colleges">
                 <label>
                     <span>所属院校:</span>
-                    <input type="text" name="university" id="Colleges" placeholder="请输入所属院校" value="${university}">
+                    <input type="text" name="university" id="Colleges" placeholder="请输入所属院校" value="${university}" style="line-height:36px;">
                 </label>
                 <span class="tips CollegesTip" style="display:none;color:#ff0000;">不能包含特殊字符</span>
             </div>

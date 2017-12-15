@@ -6,7 +6,7 @@
     float:left;
 }
 .container>div{
-    padding-left:30px;
+    margin-left:30px;
 }
 .systree{
     font-family:"Microsoft YaHei UI Light";
@@ -212,7 +212,7 @@
 #tableShow{
     width:1137px;
     overflow-x: scroll;
-    min-height: 300px;
+    min-height: 155px;
 }
 #tableShow>table{
     border-collapse: collapse;
@@ -343,6 +343,7 @@ p.first{
 #selectedNum{
     float:left;
 }
+/*分页end */
 #errorImg{
     display:none;
     /*margin:0 auto;*/
@@ -372,4 +373,24 @@ p.first{
 }
 .pageUpMargin{
     margin-right:20px!important;
+}
+.popNamesNewAdd{
+    position: absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 100;
+    padding: 0px 10px;
+    width: 58px;
+    background-color: #fff;
+    margin-left: -16px;
+    top: 45px;
+    display: none;
+    padding-bottom: 10px;
+}
+.popNamesNewAdd li{
+    height: 24px;
+    color: #8E8E8E;
+    font-size: 5px;
+}
+#sysPopulations {
+    margin-right:30px;
 }

@@ -2,18 +2,20 @@ package com.gooalgene.dna.web;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
-import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.DnaRunDto;
+import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.*;
-import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.ResultUtil;
-import com.gooalgene.utils.Tools;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -23,32 +25,32 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.guava.GuavaCacheManager;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.util.*;
+import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.text.FieldPosition;
+import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @RestController
 @RequestMapping("/dna")
 public class SNPController {
 
     Logger logger = LoggerFactory.getLogger(SNPController.class);
-
-    @Autowired
-    private DNARunService dnaRunService;
 
     @Autowired
     private IndexExplainService indexExplainService;
@@ -64,6 +66,10 @@ public class SNPController {
 
     @Autowired
     private DNAGroupsService dnaGroupsService;
+    @Autowired
+    private DNARunService dnaRunService;
+    @Autowired
+    private DNAGenStructureService dnaGenStructureService;
 
 
     @RequestMapping("/index")
@@ -72,6 +78,7 @@ public class SNPController {
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
         return model;
     }
+
     @RequestMapping("/populationInfos")
     public ModelAndView populationInfos(HttpServletRequest request) {
         ModelAndView model = new ModelAndView("population/infos");
@@ -101,29 +108,30 @@ public class SNPController {
      * @param response
      * @return
      */
-    @RequestMapping("/queryByGroup")
+    @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
     public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
-        Page<DNARun> page = new Page<DNARun>(request, response);
+        Page<DNARunSearchResult> page = new Page<>(request, response);
         return dnaRunService.queryDNARunByGroup(group, page);
     }
 
     /**
      * 按基因条件搜索
      *
-     * @param request
-     * @param response
      * @return
      */
-    @RequestMapping(value = "/condition",method = RequestMethod.GET)
+    @RequestMapping(value = "/condition", method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO getByExample(@RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                 @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize,
+    public ResultVO getByExample(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                 @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                 @RequestParam(value = "isPage", required = false) String isPage,
                                  DnaRunDto dnaRunDto) {
-        PageInfo<DNARun> dnaRunPageInfo=dnaRunService.getByCondition(dnaRunDto,pageNum,pageSize);
+        logger.info(dnaRunDto.getGroup());
+        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
         return ResultUtil.success(dnaRunPageInfo);
+
     }
 
     /**
@@ -137,28 +145,6 @@ public class SNPController {
     @ResponseBody
     public JSONArray QueryDefaultGroup(HttpServletRequest request, HttpServletResponse response) {
         return dnaGroupsService.searchAll();
-    }
-
-    /**
-     * 按群组条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping("/searchSNPinRegion")
-    @ResponseBody
-    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-        String chr = request.getParameter("chromosome");
-        String startPos = request.getParameter("start");
-        String endPos = request.getParameter("end");
-        String group = request.getParameter("group");
-//      String conditions = request.getParameter("conditions");
-        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
-        Page<DNARun> page = new Page<DNARun>(request, response);
-        return snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
     }
 
     /**
@@ -185,10 +171,14 @@ public class SNPController {
             long end = dnaGens.getGeneEnd();
             logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
             if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream);
+                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
             }
             if (StringUtils.isNoneBlank(downstream)) {
                 end = end + Long.valueOf(downstream);
+            } else {
+                end = end + 2000;
             }
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
@@ -198,316 +188,162 @@ public class SNPController {
         return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
     }
 
-    private static final Integer EXPORT_NUM = 10000;//默认最大导出10000条记录
-
-
-    @RequestMapping("/dataExport")
+    /**
+     * 按群组条件搜索
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/searchSNPinRegion")
     @ResponseBody
-    public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
-        String model = request.getParameter("model");//区分导出数据类型：regin、gene、samples
-        String columns = request.getParameter("choices");//表头列
-        logger.info("model:" + model + ",colums:" + columns);
-        String content = "";
-        String fileName = model;
-        if (StringUtils.isNoneBlank(columns)) {
-            if (StringUtils.isNoneBlank(model)) {
-                Map result = new HashMap();
-                if ("REGION".equals(model)) {
-                    String type = request.getParameter("type");
-                    fileName += "_" + type;
-                    String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-                    String chr = request.getParameter("chromosome");
-                    String startPos = request.getParameter("start");
-                    String endPos = request.getParameter("end");
-                    fileName += "_" + chr + "_Position:[" + startPos + "," + endPos + "]_" + ctype;
-                    String group = request.getParameter("group");
-//                    fileName += "_" + group;
-                    Page<DNARun> page = new Page<DNARun>(request, response);
-                    page.setPageSize(EXPORT_NUM);
-                    result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
-                    content = serialList(type, result, columns.split(","));
-                } else if ("GENE".equals(model)) {
-                    String type = request.getParameter("type");
-                    fileName += "_" + type;
-                    String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-                    String gene = request.getParameter("gene");
-                    String upstream = request.getParameter("upstream");
-                    String downstream = request.getParameter("downstream");
-                    fileName += "_" + gene + "Stream:[" + upstream + "," + downstream + "]_" + ctype;
-                    String group = request.getParameter("group");
-//                    fileName += "_" + group;
-                    DNAGens dnaGens = dnaGensService.findByGene(gene);
-                    if (dnaGens != null) {
-                        long start = dnaGens.getGeneStart();
-                        long end = dnaGens.getGeneEnd();
-                        logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
-                        if (StringUtils.isNoneBlank(upstream)) {
-                            start = start - Long.valueOf(upstream);
-                        }
-                        if (StringUtils.isNoneBlank(downstream)) {
-                            end = end + Long.valueOf(downstream);
-                        }
-                        upstream = String.valueOf(start);
-                        downstream = String.valueOf(end);
-                    }
-                    logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
-                    Page<DNAGens> page = new Page<DNAGens>(request, response);
-                    page.setPageSize(EXPORT_NUM);
-                    result = snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
-                    content = serialList(type, result, columns.split(","));
-                } else if ("SAMPLES".equals(model)) {
-                    String group = request.getParameter("group");
-//                    fileName += "_" + group;
-                    Page<DNARun> page = new Page<DNARun>(request, response);
-                    page.setPageSize(EXPORT_NUM);
-                    result = dnaRunService.queryDNARunByGroup(group, page);
-                    content = serialList(model, result, columns.split(","));
-                } else {
-
-                }
-            } else {
-                content = "请选择导出数据类型";
-            }
-        } else {
-            content = "请选择正确的显示表头数据";
-        }
-        Tools.toDownload(fileName, content, response);
+    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
+        String type = request.getParameter("type");  //区分snp和indel数据
+        String ctype = request.getParameter("ctype");  //list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String chr = request.getParameter("chromosome");
+        String startPos = request.getParameter("start");
+        String endPos = request.getParameter("end");
+        String group = request.getParameter("group");
+//      String conditions = request.getParameter("conditions");
+        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
+        Page<DNARun> page = new Page<DNARun>(request, response);
+        Map result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
+        return result;
     }
 
     /**
-     * 生成导出内容
+     * 在范围中查询所有位点
      *
-     * @param model  数据类型
-     * @param result 导出内容
-     * @param titles 导出表头
+     * @param request
+     * @param response
      * @return
      */
-    private String serialList(String model, Map result, String[] titles) {
-        StringBuilder sb = new StringBuilder();
-        Map<String, Integer> map = new HashMap<String, Integer>();
-        int len = titles.length;
-        for (int i = 0; i < len; i++) {
-            sb.append(titles[i]);
-            if (i != (len - 1)) {
-                sb.append(",");
-            } else {
-                sb.append("\n");
+    @RequestMapping("/searchIdAndPosInRegion")
+    @ResponseBody
+    public ResultVO searchIdAndPosInRegion(HttpServletRequest request, HttpServletResponse response) {
+        String type = request.getParameter("type");//区分snp和indel数据
+        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String chr = request.getParameter("chromosome");
+        String startPos = request.getParameter("start");
+        String endPos = request.getParameter("end");
+        String group = request.getParameter("group");
+//      String conditions = request.getParameter("conditions");
+        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
+        //Page<DNARun> page = new Page<DNARun>(request, response);
+        Map result = Maps.newHashMap();
+        List<SNP> snps = dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
+        List<SNPDto> snpDtos = Lists.newArrayList();
+        for (int i = 0; i < snps.size(); i++) {
+            SNP snp = snps.get(i);
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+                snpDto.setConsequencetypeColor(1);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+                snpDto.setConsequencetypeColor(2);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+                snpDto.setConsequencetypeColor(3);
             }
-            map.put(titles[i], i);
+            snpDto.setIndex(i);
+            snpDtos.add(snpDto);
         }
-        JSONArray data = (JSONArray) result.get("data");
-        int size = data.size();
-        if ("SAMPLES".equals(model)) {
-            for (int i = 0; i < size; i++) {
-                JSONObject one = data.getJSONObject(i);
-//                if (map.containsKey("ID")) {
-//                    sb.append(one.getString("id")).append(",");
-//                }
-//                if (map.containsKey("runNo")) {
-//                    sb.append(one.getString("runNo")).append(",");
-//                }
-                if (map.containsKey("species")) {
-                    String species = one.getString("species");
-                    sb.append((species != null ? species : "")).append(",");
-                }
-                if (map.containsKey("locality")) {
-                    String locality = one.getString("locality");
-                    sb.append((locality != null ? Tools.getRightContent(locality) : "")).append(",");
-                }
-                if (map.containsKey("sampleName")) {
-                    String sampleName = one.getString("sampleName");
-                    sb.append((sampleName != null ? sampleName : "")).append(",");
-                }
-                if (map.containsKey("cultivar")) {
-                    String cultivar = one.getString("cultivar");
-                    sb.append((cultivar != null ? cultivar : "")).append(",");
-                }
-                if (map.containsKey("weightPer100seeds")) {
-                    Object weightPer100seeds = one.get("weightPer100seeds");
-                    sb.append((weightPer100seeds != null ? weightPer100seeds : "")).append(",");
-                }
-//                if (map.containsKey("plantName")) {
-//                    String plantName = one.getString("plantName");
-//                    sb.append((plantName != null ? plantName : "")).append(",");
-//                }
-                if (map.containsKey("oil")) {
-                    Object oil = one.get("oil");
-                    sb.append((oil != null ? oil : "")).append(",");
-                }
-                if (map.containsKey("protein")) {
-                    Object protein = one.get("protein");
-                    sb.append((protein != null ? protein : "")).append(",");
-                }
-                if (map.containsKey("floweringDate")) {
-                    Object floweringDate = one.get("floweringDate");
-                    sb.append((floweringDate != null ? floweringDate : "")).append(",");
-                }
-                if (map.containsKey("maturityDate")) {
-                    Object maturityDate = one.get("maturityDate");
-                    sb.append((maturityDate != null ? maturityDate : "")).append(",");
-                }
-                if (map.containsKey("height")) {
-                    Object height = one.get("height");
-                    sb.append((height != null ? height : "")).append(",");
-                }
-                if (map.containsKey("seedCoatColor")) {
-                    Object seedCoatColor = one.get("seedCoatColor");
-                    sb.append((seedCoatColor != null ? seedCoatColor : "")).append(",");
-                }
-                if (map.containsKey("hilumColor")) {
-                    Object hilumColor = one.get("hilumColor");
-                    sb.append((hilumColor != null ? hilumColor : "")).append(",");
-                }
-                if (map.containsKey("cotyledonColor")) {
-                    Object cotyledonColor = one.get("cotyledonColor");
-                    sb.append((cotyledonColor != null ? cotyledonColor : "")).append(",");
-                }
-                if (map.containsKey("flowerColor")) {
-                    Object flowerColor = one.get("flowerColor");
-                    sb.append((flowerColor != null ? flowerColor : "")).append(",");
-                }
-                if (map.containsKey("podColor")) {
-                    Object podColor = one.get("podColor");
-                    sb.append((podColor != null ? podColor : "")).append(",");
-                }
-                if (map.containsKey("pubescenceColor")) {
-                    Object pubescenceColor = one.get("pubescenceColor");
-                    sb.append((pubescenceColor != null ? pubescenceColor : "")).append(",");
-                }
-                if (map.containsKey("yield")) {
-                    Object maturityDate = one.get("yield");
-                    sb.append((maturityDate != null ? maturityDate : "")).append(",");
-                }
-                if (map.containsKey("upperLeafletLength")) {
-                    Object upperLeafletLength = one.get("upperLeafletLength");
-                    sb.append((upperLeafletLength != null ? upperLeafletLength : "")).append(",");
-                }
-                if (map.containsKey("linoleic")) {
-                    Object linoleic = one.get("linoleic");
-                    sb.append((linoleic != null ? linoleic : "")).append(",");
-                }
-                if (map.containsKey("linolenic")) {
-                    Object linolenic = one.get("linolenic");
-                    sb.append((linolenic != null ? linolenic : "")).append(",");
-                }
-                if (map.containsKey("oleic")) {
-                    Object oleic = one.get("oleic");
-                    sb.append((oleic != null ? oleic : "")).append(",");
-                }
-                if (map.containsKey("palmitic")) {
-                    Object palmitic = one.get("palmitic");
-                    sb.append((palmitic != null ? palmitic : "")).append(",");
-                }
-                if (map.containsKey("stearic")) {
-                    Object stearic = one.get("stearic");
-                    sb.append((stearic != null ? stearic : "")).append(",");
-                }
-                sb.append("\n");
-            }
-        } else if ("SNP".equals(model)) {
-            for (int i = 0; i < size; i++) {
-                JSONObject one = data.getJSONObject(i);
-                if (map.containsKey("SNPID")) {
-                    sb.append(one.getString("id")).append(",");
-                }
-                if (map.containsKey("consequenceType")) {
-                    sb.append(one.getString("consequencetype")).append(",");
-                }
-                if (map.containsKey("chromosome")) {
-                    sb.append(one.getString("chr")).append(",");
-                }
-                if (map.containsKey("position")) {
-                    sb.append(one.getString("pos")).append(",");
-                }
-                if (map.containsKey("reference")) {
-                    sb.append(one.getString("ref")).append(",");
-                }
-                if (map.containsKey("majorAllele")) {
-                    sb.append(one.getString("majorallen")).append(",");
-                }
-                if (map.containsKey("minorAllele")) {
-                    sb.append(one.getString("minorallen")).append(",");
-                }
-                JSONArray freq = one.getJSONArray("freq");
-                if (map.containsKey("frequencyOfMajorAllele")) {
-                    sb.append(one.getString("major")).append(",");
-                    for (int j = 0; j < freq.size(); j++) {
-                        JSONObject groupFreq = freq.getJSONObject(j);
-                        String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
-                        String major = groupFreq.getString("major");
-                        if (map.containsKey(name)) {
-                            sb.append(major).append(",");
-                        }
-                    }
-                }
-                if (map.containsKey("frequencyOfMinorAllele")) {
-                    for (int j = 0; j < freq.size(); j++) {
-                        JSONObject groupFreq = freq.getJSONObject(j);
-                        String name = "fminorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
-                        String minor = groupFreq.getString("minor");
-                        if (map.containsKey(name)) {
-                            sb.append(minor).append(",");
-                        }
-                    }
-                }
-                sb.append("\n");
-            }
-        } else if ("INDEL".equals(model)) {
-            for (int i = 0; i < size; i++) {
-                JSONObject one = data.getJSONObject(i);
-                if (map.containsKey("INDELID")) {
-                    sb.append(one.getString("id")).append(",");
-                }
-                if (map.containsKey("consequenceType")) {
-                    sb.append(one.getString("consequencetype")).append(",");
-                }
-                if (map.containsKey("chromosome")) {
-                    sb.append(one.getString("chr")).append(",");
-                }
-                if (map.containsKey("position")) {
-                    sb.append(one.getString("pos")).append(",");
-                }
-                if (map.containsKey("reference")) {
-                    sb.append(one.getString("ref")).append(",");
-                }
-                if (map.containsKey("majorAllele")) {
-                    sb.append(one.getString("majorallen")).append(",");
-                }
-                if (map.containsKey("minorAllele")) {
-                    sb.append(one.getString("minorallen")).append(",");
-                }
-                JSONArray freq = one.getJSONArray("freq");
-                if (map.containsKey("frequencyOfMajorAllele")) {
-                    sb.append(one.getString("major")).append(",");
-                    for (int j = 0; j < freq.size(); j++) {
-                        JSONObject groupFreq = freq.getJSONObject(j);
-                        String name = "fmajorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
-                        String major = groupFreq.getString("major");
-                        if (map.containsKey(name)) {
-                            sb.append(major).append(",");
-                        }
-                    }
-                }
-                if (map.containsKey("frequencyOfMinorAllele")) {
-                    for (int j = 0; j < freq.size(); j++) {
-                        JSONObject groupFreq = freq.getJSONObject(j);
-                        String name = "fminorAllelein" + groupFreq.getString("name").replaceAll(",", "_");
-                        String minor = groupFreq.getString("minor");
-                        if (map.containsKey(name)) {
-                            sb.append(minor).append(",");
-                        }
-                    }
-                }
-                sb.append("\n");
-            }
-        } else {
+        result.put("snps", snpDtos);
+        List<String> geneIds = dnaGensService.getByRegionNoCompare(chr, startPos, endPos);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos), geneIds);
+        result.put("dnaGenStructures", dnaGenStructures);
+        if (CollectionUtils.isNotEmpty(dnaGenStructures)) {
+            result.put("bps", dnaGenStructures.get(0).getBps());
+        }
+        result.put("conditions", chr + "," + startPos + "," + endPos);
+        return ResultUtil.success(result);
+    }
 
+    /**
+     * 通过geneId搜索位点
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/searchIdAndPosInGene")
+    @ResponseBody
+    public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) {
+        logger.info("请求接到了");
+        String type = request.getParameter("type");//区分snp和indel数据
+        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String gene = request.getParameter("gene");
+        String upstream = request.getParameter("upstream");
+        String downstream = request.getParameter("downstream");
+        String group = request.getParameter("group");
+        DNAGens dnaGens = dnaGensService.findByGene(gene);
+        logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
+        if (dnaGens != null) {
+            long start = dnaGens.getGeneStart();
+            long end = dnaGens.getGeneEnd();
+            if (StringUtils.isNoneBlank(upstream)) {
+                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
+            }
+            if (StringUtils.isNoneBlank(downstream)) {
+                end = end + Long.valueOf(downstream);
+            } else {
+                end = end + 2000;
+            }
+            upstream = String.valueOf(start);
+            downstream = String.valueOf(end);
         }
-        return sb.toString();
+        Map result = Maps.newHashMap();
+        List<SNP> snps = dnaMongoService.searchIdAndPosInGene(type, ctype, gene, upstream, downstream, null);
+        List<SNPDto> snpDtos = Lists.newArrayList();
+        for (int i = 0; i < snps.size(); i++) {
+            SNP snp = snps.get(i);
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+                snpDto.setConsequencetypeColor(1);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+                snpDto.setConsequencetypeColor(2);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+                snpDto.setConsequencetypeColor(3);
+            }
+            snpDto.setIndex(i);
+            snpDtos.add(snpDto);
+        }
+        result.put("snps", snpDtos);
+        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
+        result.put("dnaGenStructures", dnaGenStructures);
+        if (CollectionUtils.isNotEmpty(dnaGenStructures)) {
+            result.put("bps", dnaGenStructures.get(0).getBps());
+        }
+        result.put("conditions", gene + "," + upstream + "," + downstream);
+        return ResultUtil.success(result);
+    }
+
+    /**
+     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
+     *
+     * @param request
+     * @param response
+     * @return
+     */
+    @RequestMapping("/findSampleById")
+    @ResponseBody
+    public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
+        String id = request.getParameter("id");
+        if (id == null) {
+            return ResultUtil.error(-1, "未拿到id的值");
+        }
+        Map result = snpService.findSampleById(id);
+        if (result.size() == 0) {
+            return ResultUtil.error(-1, "无对应id");
+        }
+        return ResultUtil.success(result);
     }
 
 
-    //    @RequestMapping(value = "/insertSNP")
+    //此方法为原来 导入数据的方法  目前未使用
+    @RequestMapping(value = "/insertSNP")
     @ResponseBody
     public String insertSNP(HttpServletRequest request, HttpServletResponse response) {
         String fileName = "E:\\古奥科技资料\\DNA\\snp.test.tab";
@@ -515,8 +351,8 @@ public class SNPController {
         return "success";
     }
 
-
-    //    @RequestMapping(value = "/insertDNAGenes")
+    //此方法为原来 导入数据的方法  目前未使用
+    @RequestMapping(value = "/insertDNAGenes")
     @ResponseBody
     public String insertDNAGene(HttpServletRequest request, HttpServletResponse response) {
         String efile = "E:\\古奥科技资料\\DNA\\gma2.0_ID_name_function_locus_noscaffold";
@@ -556,8 +392,8 @@ public class SNPController {
         return "success";
     }
 
-
-//    @RequestMapping(value = "/insert", method = RequestMethod.GET)
+    //此方法为原来 导入数据的方法  目前未使用
+    @RequestMapping(value = "/insert", method = RequestMethod.GET)
     @ResponseBody
     public String insert(HttpServletRequest request, HttpServletResponse response) {
         String efile = "F:\\古奥科技\\20171107soyDNA_sampleinfo_withgroupV1.1.xls";
@@ -762,7 +598,6 @@ public class SNPController {
                     }
                     list.add(dnaRun);
                     System.out.println("\n");
-//                    break;
                 } else {
                     System.out.println("empty line.");
                 }
@@ -773,5 +608,212 @@ public class SNPController {
             ex.printStackTrace();
         }
         return "success";
+    }
+
+    /**
+     * 进入snp详情页
+     */
+    @RequestMapping(value = "/snp/info", method = RequestMethod.GET)
+    public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence") String frequence, SNP snp) {
+        ModelAndView modelAndView = new ModelAndView("snpinfo/snpinfo");
+        Map result = snpService.findSampleById(snp.getId());
+        SNP snpFormatMajorFreq;
+        if (result.containsKey("snpData")) {
+            snpFormatMajorFreq = (SNP) result.get("snpData");
+        } else {
+            snpFormatMajorFreq = (SNP) result.get("INDELData");
+        }
+        double major = snpFormatMajorFreq.getMajor();
+        BigDecimal decimal = new BigDecimal(major);
+        BigDecimal majorForBigDecimal = decimal.multiply(new BigDecimal(100));
+        StringBuffer convertValue = new StringBuffer();
+        StringBuffer finalResult = new DecimalFormat("###0.00").format(majorForBigDecimal, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD));
+        snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
+        modelAndView.addObject("major", finalResult);
+        modelAndView.addObject("snp", snp);
+        modelAndView.addObject("result", result);
+        SNP snpTemp = (SNP) result.get("snpData");
+        if (snpTemp == null) {
+            snpTemp = (SNP) result.get("INDELData");
+        }
+        Map map = (Map) snpTemp.getSamples();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        List<String> runNos = Lists.newArrayList();
+        for (Map.Entry entry : entrySet) {
+            if (((String) entry.getValue()).contains(snp.getMajorallen())) {
+                runNos.add((String) entry.getKey());
+            }
+        }
+        //todo 此dnaruns可能重复
+        //PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
+        //modelAndView.addObject("dnaRuns",dnaRuns);
+        modelAndView.addObject("frequence", frequence);
+        return modelAndView;
+    }
+
+    /**
+     * 区分mainor和majora
+     */
+    @RequestMapping(value = "/changeByProportion", method = RequestMethod.GET)
+    public ResultVO changeByProportion(@RequestParam("snpId") String snpId, @RequestParam("changeParam") String changeParam,
+                                       @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                       @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                       @RequestParam(value = "pageSize", required = false) String isPage,
+                                       @RequestParam("judgeAllele")String judgeAllele,
+                                       DnaRunDto dnaRunDto) {
+        Map result = snpService.findSampleById(snpId);
+        SNP snpTemp = (SNP) result.get("snpData");
+        String type = "snp";
+        if (snpTemp == null) {
+            type = "indel";
+            snpTemp = (SNP) result.get("INDELData");
+        }
+        Map map = (Map) snpTemp.getSamples();
+        Set<Map.Entry<String, String>> entrySet = map.entrySet();
+        List<String> runNos = Lists.newArrayList();
+        Map samples = Maps.newHashMap();
+        for (Map.Entry entry : entrySet) {
+            String value = (String) entry.getValue();
+            if (StringUtils.isNotBlank(changeParam)) {
+                if (type.equals("indel")) {
+                    String majAndchangePa= snpTemp.getMajorallen() + changeParam;
+                    String changePaAndMin = changeParam + snpTemp.getMinorallen();
+                    if (value.equalsIgnoreCase(majAndchangePa) || value.equalsIgnoreCase(changePaAndMin)) {
+                        String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                        Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                        Matcher matcher = regexp.matcher(singleRunNo);
+                        if (!matcher.find()) {
+                            singleRunNo = singleRunNo + ".0";
+                        }
+                        runNos.add(singleRunNo);
+                        samples.put(entry.getKey(), entry.getValue());
+                    }
+                } else {
+                    if(StringUtils.equalsIgnoreCase(judgeAllele,"major")){
+                        if(value.contains(snpTemp.getMajorallen())){
+                            if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                                String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                                Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                                Matcher matcher = regexp.matcher(singleRunNo);
+                                if (!matcher.find()) {
+                                    singleRunNo = singleRunNo + ".0";
+                                }
+                                runNos.add(singleRunNo);
+                                samples.put(entry.getKey(), entry.getValue());
+                            }
+                        }
+                    }else {
+                        if(value.contains(snpTemp.getMinorallen())){
+                            if (StringUtils.containsIgnoreCase(value, changeParam)) {
+                                String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
+                                Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
+                                Matcher matcher = regexp.matcher(singleRunNo);
+                                if (!matcher.find()) {
+                                    singleRunNo = singleRunNo + ".0";
+                                }
+                                runNos.add(singleRunNo);
+                                samples.put(entry.getKey(), entry.getValue());
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        if (samples.size() <= 0||runNos.size()<=0) {
+            Map response = Maps.newHashMap();
+            PageInfo<DNARunSearchResult> dnaRuns = new PageInfo<>();
+            response.put("dnaRuns", dnaRuns);
+            return ResultUtil.success(response);
+        }
+        Map response = Maps.newHashMap();
+        dnaRunDto.setRunNos(runNos);
+        PageInfo<DNARunSearchResult> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
+        response.put("dnaRuns", dnaRuns);
+        response.put("samples", samples);
+        return ResultUtil.success(response);
+    }
+
+    @RequestMapping(value = "/drawSNPTableInRegion", method = RequestMethod.GET)
+    public ResultVO drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
+                                         @RequestParam("chr") String chr, @RequestParam("type") String type,
+                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                         @RequestParam("start") String start, @RequestParam("end") String end,
+                                         @RequestParam("ctype") String ctype,
+                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+        List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
+        Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
+        List<SNPDto> data = Lists.newArrayList();
+        for (SNP snp : snps) {
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            Map map = snpService.findSampleById(snp.getId());
+            JSONArray freqData;
+            SNP snpData = null;
+            if (StringUtils.equals(type, "SNP")) {
+                snpData = (SNP) map.get("snpData");
+                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
+            } else {
+                snpData = (SNP) map.get("INDELData");
+                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
+            }
+            snpDto.setFreq(freqData);
+            //SNP snpData = (SNP) map.get("snpData");
+            /*if(snpData==null){
+                snpData = (SNP) map.get("INDELData");
+            }*/
+            if (snpData != null) {
+                snpData.setSamples(null);
+            }
+            snpDto.setGeneType(map);
+            data.add(snpDto);
+        }
+        return ResultUtil.success(data);
+    }
+
+    @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
+    public ResultVO drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
+                                       @RequestParam("gene") String gene, @RequestParam("type") String type,
+                                       @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                       @RequestParam(value = "upstream", required = false) String upstream,
+                                       @RequestParam(value = "downstream", required = false) String downstream,
+                                       @RequestParam("ctype") String ctype,
+                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+        DNAGens dnaGens = dnaGensService.findByGene(gene);
+        if (dnaGens != null) {
+            long start = dnaGens.getGeneStart();
+            long end = dnaGens.getGeneEnd();
+            if (StringUtils.isNoneBlank(upstream)) {
+                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
+            }
+            if (StringUtils.isNoneBlank(downstream)) {
+                end = end + Long.valueOf(downstream);
+            } else {
+                end = end + 2000;
+            }
+            upstream = String.valueOf(start);
+            downstream = String.valueOf(end);
+        }
+        List<SNP> snps = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
+        Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
+        List<SNPDto> data = Lists.newArrayList();
+        for (SNP snp : snps) {
+            SNPDto snpDto = new SNPDto();
+            BeanUtils.copyProperties(snp, snpDto);
+            Map map = snpService.findSampleById(snp.getId());
+            SNP snpData = (SNP) map.get("snpData");
+            if (snpData == null) {
+                snpData = (SNP) map.get("INDELData");
+            }
+            JSONArray freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
+            snpDto.setFreq(freqData);
+            if (snpData != null) {
+                snpData.setSamples(null);
+            }
+            snpDto.setGeneType(map);
+            data.add(snpDto);
+        }
+        return ResultUtil.success(data);
     }
 }

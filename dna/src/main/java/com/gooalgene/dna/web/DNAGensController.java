@@ -1,8 +1,10 @@
 package com.gooalgene.dna.web;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.service.DNAGensService;
+import com.gooalgene.utils.ResultUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -10,8 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -98,5 +99,20 @@ public class DNAGensController {
             e.printStackTrace();
         }
         return flag;
+    }
+
+    @RequestMapping(value = "/geneIds",method = RequestMethod.POST, produces = "application/json")
+    @ResponseBody
+    public ResultVO geneIds(@RequestBody Map<String, String> json) {
+        String chr = json.get("chr");
+        String start = json.get("start");
+        String end = json.get("end");
+        return ResultUtil.success(dnaGensService.getByRegion(chr,start,end));
+    }
+
+    @RequestMapping("/geneInfo")
+    public String geneInfo(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        return "/search/genesInfo";
     }
 }

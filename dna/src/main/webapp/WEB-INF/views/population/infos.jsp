@@ -22,6 +22,8 @@
         var CTXROOT = "${ctxroot}";
     </script>
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
+    <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
+    <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/population.js"></script>
 </head>
 <body>
@@ -90,10 +92,10 @@
                         <li>
                             <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
                         </li>
-                        <%--<li>--%>
-                            <%--&lt;%&ndash;无&ndash;%&gt;--%>
-                            <%--<input type="checkbox" name="population" class="population"> 群体--%>
-                        <%--</li>--%>
+                        <li>
+                            <%--无--%>
+                            <input type="checkbox" name="population" class="population" checked="checked"> 群体
+                        </li>
                         <li>
                             <input type="checkbox" name="species" class="species" checked="checked"> 物种
                         </li>
@@ -104,7 +106,7 @@
                             <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 样品名
                         </li>
                         <li>
-                            <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重
+                            <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重(g)
                         </li>
                         <li>
                             <input type="checkbox" name="protein" class="protein" checked="checked"> 蛋白质含量
@@ -113,7 +115,7 @@
                             <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
                         </li>
                         <li>
-                            <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期
+                            <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期组
                         </li>
                         <li>
                             <input type="checkbox" name="height" class="height" checked="checked"> 株高
@@ -138,7 +140,7 @@
                         </li>
                         <li>
                             <%--无--%>
-                            <input type="checkbox" name="yield" class="yield" checked="checked"> 产量
+                            <input type="checkbox" name="yield" class="yield" checked="checked"> 茸毛色
                         </li>
                         <li>
                             <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
@@ -174,7 +176,7 @@
                     <div class="opOthers">
                         <p class="selectedAll">清空</p>
                         <p class="packUp">收起
-                            <img src="${ctxStatic}/images/packUp.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
+                            <img src="${ctxStatic}/images/down.png" alt="logo" style="width:12px;margin-left:5px;margin-top: -3px;">
                         </p>
                     </div>
                 </div>
@@ -204,6 +206,23 @@
                                 </p>
                             </div>
                         </th>
+                        <th class="param populationT popMoveOnNewAdd" style="position:relative;">群体
+                            <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                            <div class="popNamesNewAdd">
+                                <ul style="margin-top:10px;">
+                                    <li>Q1</li>
+                                    <li>Q2</li>
+                                    <li>Q3</li>
+                                    <li>Q4</li>
+                                    <li>Q5</li>
+                                    <li>Q6</li>
+                                    <li>Q7</li>
+                                    <li>Q8</li>
+                                    <li>Q9</li>
+                                    <li>Q10</li>
+                                </ul>
+                            </div>
+                        </th>
                         <th class="param localityT">位置
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
@@ -224,7 +243,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param weightPer100seedsT">百粒重
+                        <th class="param weightPer100seedsT">百粒重(g)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -241,7 +260,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param proteinT">蛋白质含量
+                        <th class="param proteinT">蛋白质含量(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -258,7 +277,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param oilT">含油量
+                        <th class="param oilT">含油量(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -275,7 +294,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param maturityDateT">熟期
+                        <th class="param maturityDateT">熟期组
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
@@ -285,7 +304,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param heightT">株高
+                        <th class="param heightT">株高(cm)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -362,7 +381,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param yieldT">产量
+                        <th class="param yieldT">产量(Mg/ha)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -396,7 +415,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param linoleicT">亚油酸
+                        <th class="param linoleicT">亚油酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -413,7 +432,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param linolenicT">亚麻酸
+                        <th class="param linolenicT">亚麻酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -430,7 +449,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param oleicT">油酸
+                        <th class="param oleicT">油酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -447,7 +466,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param palmiticT">软脂酸
+                        <th class="param palmiticT">软脂酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -464,7 +483,7 @@
                                 </p>
                             </div>
                         </th>
-                        <th class="param stearicT">硬脂酸
+                        <th class="param stearicT">硬脂酸(%)
                             <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                             <div class="inputComponent">
                                 <select class="selectOperate">
@@ -488,40 +507,11 @@
             </table>
 
         </div>
-        <%--// 分页显示 begin--%>
-        <div id="paging">
-
-            <div id="inputNums">
-                <span>跳转到</span>
-                <div>
-                    <input type="number" min="1" name="number" value="" id="inputNum" >
-                </div>
-                <span>页</span>
-                <span>展示数量</span>
-                <div id="selectedNum">
-                    <select name="selected" id="selectSize" style="width:40px;">
-                        <option value="10" selected = "true">10</option>
-                        <option value="10">20</option>
-                        <option value="10">30</option>
-                        <option value="10">40</option>
-                    </select>
-                </div>
-                <span>/页</span>
-                <p style="margin:0px;">总数：<span id="totals"></span> 条</p>
-            </div>
-            <div id="page">
-                <b class="first">&lt;</b>
-                <p class="two"></p>
-                <b class="three">...</b>
-                <p class="four"></p>
-                <p class="five"></p>
-                <p class="six"></p>
-                <b class="seven">...</b>
-                <p class="eight"></p>
-                <b class="last">&gt;</b>
-            </div>
+        <%--laypage 分页 插件  begin--%>
+        <div class="checkbox-item-tab" id="sysPopulations">
+            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
         </div>
-        <%--// 分页显示 end--%>
+        <%--laypage 分页 end --%>
         <%--弹出框--%>
         <div id="popTips">
             <div class="tipTop">

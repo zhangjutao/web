@@ -4,6 +4,7 @@ public enum ResultEnum {
     UNKONW_ERROR(-1, "系统异常"),
     ENABLE_FAILED(-2,"审核用户失败"),
     EMAIL_REPEAT(-3,"邮箱重复"),
+    SNP_ID_NOT_EXIST(-4,"snpId不存在"),
     SUCCESS(0, "成功"),
     ;
     private Integer code;

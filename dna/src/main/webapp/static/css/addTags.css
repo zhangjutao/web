@@ -1,0 +1,350 @@
+#addTags>span{
+    display:inline-block;
+    padding:0 15px;
+    border:1px solid #5D8CE6;
+    /*margin-left:10px;*/
+    cursor:pointer;
+}
+#addTags{
+    margin:15px 0;
+}
+.tagColor{
+    background:#5D8CE6;
+    color:#fff;
+}
+.paramTag{
+    height: 40px;
+    padding: 2px 15px;
+    white-space: nowrap;
+    cursor: pointer;
+    position: relative;
+    text-align: center;
+}
+#tagKind{
+    height:484px;
+    width:749px;
+    overflow-y:scroll;
+    /*overflow-x:scroll;*/
+  display:none;
+    position: relative;
+}
+#tagKind table{
+    border: 1px solid #E4E4E4;
+    border-collapse: collapse;
+}
+#tagKind table th,#tagKind table td{
+    border: 1px solid #E4E4E4;
+    white-space: nowrap;
+}
+#tagKind table td{
+    padding:0 10px;
+    text-align:center;
+}
+
+#tagKind table th{
+    font-family:"Microsoft Yahei";
+    color:#434445;
+}
+.popNames{
+    position:absolute;
+    border: 1px solid #5c8ce6;
+    z-index: 100;
+    padding: 0px 10px;
+    width: 58px;
+    background-color: #fff;
+    margin-left: -16px;
+    top:45px;
+    display:none;
+    padding-bottom:10px;
+}
+.popNames li{
+    height:24px;
+    color:#8E8E8E;
+    font-size:5px;
+}
+/*// 分页*/
+#paging,#paging1{
+    width:1204px;
+    height:50px;
+    /* border:1px solid #ccc; */
+    margin:0 auto;
+    margin-top:30px;
+    margin-bottom:100px;
+    overflow:hidden;
+}
+#paging1{
+    width:955px;
+    display:none;
+    margin-bottom: 0px;
+}
+#page,#page1{
+    overflow: hidden;
+    float:right;
+    /*padding-left: 250px;*/
+    text-align:right;
+    margin-right:10px;
+}
+#page1{
+    margin-right:10px;
+}
+p.first{
+    margin-left:20px;
+    /* font-size:20px; */
+}
+
+#page>p,#page>b,#page1>p,#page1>b{
+    float:left;
+    width:30px;
+    height:30px;
+    border:1px solid #ddd;
+    line-height:30px;
+    text-align:center;
+    cursor:pointer;
+    /*margin:0 10px 0 0;*/
+
+}
+#page1>p,#page1>b{
+    width:28px;
+    height:28px;
+}
+#inputNums1>span{
+    float:left;
+}
+
+#page #inputNums,#page1 #inputNums1{
+    float:left;
+    overflow:hidden;
+    padding-top:4px;
+}
+#inputNums>span,#inputNums>div,#inputNums>p，#inputNums1>span,#inputNums1>div,#inputNums1>p{
+    float:left;
+    margin-right:10px;
+}
+.pageColor{
+    background:#5C8DE5;
+    color:#fff;
+}
+#tblbody>tr:nth-child(2n){
+    background:#F5F8FF;
+}
+/*.pageMleftS{*/
+/*padding-left:500px;*/
+/*}*/
+.pageMleftB{
+    padding-left:233px;
+}
+#inputNum,#inputNum1{
+    width:62px;height:20px;
+    text-align:center;
+}
+#inputNums,#inputNums1{
+    heigth:32px;
+    padding-top:6px;
+    float:right;
+    padding-right: 67px;
+}
+#selectedNum,#selectedNum1{
+    float:left;
+}
+#selectedNum1{
+    margin-right:10px;
+}
+#inputNum1{
+    width:40px;
+}
+/*分页 end*/
+
+.resetBtn{
+    display:none;
+    width:86px;
+}
+.saveKind,.resetBtn{
+
+    display:inline-block;
+    display:none;
+    background-color: #5c8ce6;
+    color: #fff;
+    border: none;
+    padding: 0 15px;
+    height: 24px;
+    border-radius: 3px;
+    cursor: pointer;
+}
+/*基因结构图*/
+/*#geneConstruction{*/
+    /*overflow: scroll;*/
+/*}*/
+#geneConstruction span{
+    display:inline-block;
+    width:18px;
+    height:18px;
+    line-height:18px;
+    float:left;
+    margin-right:5px;
+    position:relative;
+}
+#geneConstruction p{
+    float:right;
+    margin-right:10px;
+    width:66px;
+    height:22px;
+    line-height:22px;
+    overflow:hidden;
+}
+#geneConstruction .geneLegend{
+    overflow: hidden;
+    margin-top:20px;
+    margin-bottom:14px;
+}
+#geneConstruction .colorBlock{
+    /*width:18px;*/
+    /*height:18px;*/
+}
+.legendCnt{
+    /*position:relative;*/
+}
+#constructorPanel,#constructorPanel2{
+    width:885px;
+    height:280px;
+    overflow-x:scroll;
+    margin:0 auto;
+}
+#errorShow,#tableErrorShow{
+    display:none;
+    width:885px;
+    height:280px;
+    text-align:center;
+}
+#tableErrorShow{
+    position: relative;
+    top: -296px;
+}
+#tableErrorShow p{
+    margin:0 auto;
+    text-align:center;
+    width:200px;
+}
+#errorShow p{
+    margin:0 auto;
+    text-align:center;
+    width:200px;
+}
+.tabTrColor{
+    background:#5d8ce6!important;
+     color:#fff;
+}
+#constructorPanel2{
+    /*display:none;*/
+}
+
+#tableBody td.t_genoType p{
+    float:left;
+    width:100%;
+    height:20px;
+    line-height:20px;
+}
+#tableBody td.t_genoType{
+    width:200px;
+}
+#tableBody td.t_genoType>div:nth-child(1){
+   padding-top:6px;
+}
+#tableBody td.t_genoType{
+    padding:0;
+    overflow:hidden;
+}
+#tableBody td.t_genoType div{
+    overflow: hidden;
+    width:200px;
+    float:left;
+    height:25px;
+}
+#tableBody td.t_genoType p{
+    display:inline-block;
+    height:12px;
+    background:green;
+ padding-top:6px;
+}
+#tableBody td.t_genoType p:nth-child(1){
+    width:80px;
+    text-align:right;
+    margin-right:10px;
+    background:#fff;
+    padding-top:0px;
+}
+#tableBody tr,#tableBody2 tr{
+    cursor:pointer;
+}
+#tableBody tr:nth-child(even) td.t_genoType>div p:first-child{
+    background:#F5F8FF;
+}
+/*基因选择列表*/
+#GlyIds{
+    padding-left:26px;
+    padding-top:20px;
+    background:#fff;
+    display:none;
+}
+#GlyIds ul{
+    overflow:hidden;
+}
+#GlyIds ul li{
+    float:left;
+    margin-right:11px;
+    width:156px;
+    height:40px;
+    text-align:center;
+    border:1px solid #DDDDDD;
+    line-height:40px;
+    margin-bottom:15px;
+    cursor: pointer;
+    font-family:"Microsoft Yahei";
+    font-size:14px;
+    color:#5c8ce6;
+}
+.GlyColor{
+    background:#5C8CE6;
+    color:#fff!important;
+}
+.errorBoxShow{
+    color:#ff0000;
+    width: 385px;
+    height:25px;
+    padding:5px 10px;
+    margin-left:12px;
+    text-align:left;
+    line-height:25px;
+    display:none;
+}
+.inputError{
+    border:1px solid #ff0000!important;
+}
+#tagsPagination {
+    position: relative;
+    bottom: 14px;
+    top:-1px;
+}
+/*#tagsPagination .checkbox-item-tab{*/
+    /*padding: 0px!important;*/
+/*}*/
+/*#tagsPagination .laypage_total{*/
+    /*margin: 0px!important;*/
+/*}*/
+/*#tagsPagination .ga-ctrl-footer{*/
+    /*text-align:left!important;*/
+    /*overflow:hidden;*/
+/*}*/
+/*#tagsPagination .pagination{*/
+    /*width: 434px;*/
+    /*float:left;*/
+    /*text-align:right;*/
+/*}*/
+/*#per-page-count{*/
+    /*float:left;*/
+/*}*/
+/*#total-page-count{*/
+    /*float:left;*/
+    /*position: absolute;*/
+    /*top: 21px;*/
+/*}*/
+

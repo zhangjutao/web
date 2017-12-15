@@ -550,7 +550,7 @@
                 case 'floweringDate':
                     return "开花日期";
                 case 'maturityDate':
-                    return "成熟日期";
+                    return "熟期组";
                 case 'height':
                     return "株高";
                 case 'seedCoatColor':
@@ -977,6 +977,8 @@
 
         /* 自定义样本选中 */
         $("body").on("click", ".sample-category > div span", function(){
+            console.log($(this).text());
+            debugger;
             $(this).parent().find("span").removeClass("js-span-ac");
             $(this).addClass("js-span-ac");
 

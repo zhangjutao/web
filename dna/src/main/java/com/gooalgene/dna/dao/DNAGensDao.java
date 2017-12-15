@@ -3,6 +3,7 @@ package com.gooalgene.dna.dao;
 import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.entity.DNAGens;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -23,4 +24,6 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
     int insertBatch(List<DNAGens> toInsert);
 
     DNAGens findDNAGensInfoByGene(String gene);
+
+    List<String> getByRegion(@Param("chr") String chr,@Param("start") String start, @Param("end") String end);
 }

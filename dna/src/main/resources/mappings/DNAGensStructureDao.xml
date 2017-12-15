@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.gooalgene.dna.dao.DNAGensStructureDao">
+    <resultMap id="BaseResultMap" type="com.gooalgene.dna.entity.DNAGenStructure">
+        <result column="chromosome" property="chromosome" jdbcType="VARCHAR"/>
+        <result column="gene_id" property="geneId" jdbcType="VARCHAR"/>
+        <result column="transcript_id" property="transcriptId" jdbcType="VARCHAR"/>
+        <result column="feature" property="feature" jdbcType="VARCHAR"/>
+        <result column="start" property="start" jdbcType="INTEGER"/>
+        <result column="end" property="end" jdbcType="INTEGER"/>
+        <result column="length" property="length" jdbcType="INTEGER"/>
+        <result column="strand" property="strand" jdbcType="VARCHAR"/>
+    </resultMap>
+    <sql id="Base_Column_List">
+        chromosome, gene_id, transcript_id, feature, start, end, length, strand
+    </sql>
+    <insert id="insert" parameterType="com.gooalgene.dna.entity.DNAGenStructure">
+    insert into gens_structure (chromosome, gene_id, transcript_id, 
+      feature, start, end, 
+      length, strand)
+    values (#{chromosome,jdbcType=VARCHAR}, #{geneId,jdbcType=VARCHAR}, #{transcriptId,jdbcType=VARCHAR}, 
+      #{feature,jdbcType=VARCHAR}, #{start,jdbcType=INTEGER}, #{end,jdbcType=INTEGER}, 
+      #{length,jdbcType=INTEGER}, #{strand,jdbcType=VARCHAR})
+  </insert>
+    <insert id="insertSelective" parameterType="com.gooalgene.dna.entity.DNAGenStructure">
+        insert into gens_structure
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="chromosome != null">
+                chromosome,
+            </if>
+            <if test="geneId != null">
+                gene_id,
+            </if>
+            <if test="transcriptId != null">
+                transcript_id,
+            </if>
+            <if test="feature != null">
+                feature,
+            </if>
+            <if test="start != null">
+                start,
+            </if>
+            <if test="end != null">
+                end,
+            </if>
+            <if test="length != null">
+                length,
+            </if>
+            <if test="strand != null">
+                strand,
+            </if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="chromosome != null">
+                #{chromosome,jdbcType=VARCHAR},
+            </if>
+            <if test="geneId != null">
+                #{geneId,jdbcType=VARCHAR},
+            </if>
+            <if test="transcriptId != null">
+                #{transcriptId,jdbcType=VARCHAR},
+            </if>
+            <if test="feature != null">
+                #{feature,jdbcType=VARCHAR},
+            </if>
+            <if test="start != null">
+                #{start,jdbcType=INTEGER},
+            </if>
+            <if test="end != null">
+                #{end,jdbcType=INTEGER},
+            </if>
+            <if test="length != null">
+                #{length,jdbcType=INTEGER},
+            </if>
+            <if test="strand != null">
+                #{strand,jdbcType=VARCHAR},
+            </if>
+        </trim>
+    </insert>
+
+    <select id="getByGeneId" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
+        SELECT
+            stru.*, c.bps
+        FROM
+            gens_structure stru,
+            chrlg c
+        WHERE
+            stru.chromosome = c.chr
+        AND transcript_id = (
+            SELECT DISTINCT
+                transcript_id
+            FROM
+                gens_sequence
+            WHERE
+                gene_id = #{geneId}
+        )ORDER BY stru.start DESC
+    </select>
+
+    <!--SELECT DISTINCT stru.*,c.bps FROM gens_structure stru LEFT JOIN dna_gens d ON d.gene_id=stru.gene_id
+    LEFT JOIN chrlg c ON stru.chromosome=c.chr
+    WHERE stru.chromosome=#{chromosome}
+    AND ((d.`gene_start` <![CDATA[ <= ]]> #{start} and d.`gene_end`>=#{start}) or
+    (d.`gene_start` <![CDATA[ <= ]]> #{end} AND d.`gene_end`>=#{end}) or
+    (d.gene_start>=#{start} and d.gene_end <![CDATA[ <= ]]> #{end}))
+    ORDER BY stru.start DESC-->
+    <!--stru.chromosome=#{chromosome} AND stru.start>=#{start} AND stru.end <![CDATA[ <= ]]> #{end}-->
+    <select id="getByStartEnd" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
+          SELECT
+            stru.*, c.bps
+        FROM
+            gens_structure stru,chrlg c
+        WHERE
+            stru.chromosome=c.chr and stru.chromosome=#{chromosome}
+            <if test="geneIds!=null and geneIds.size>0">
+                AND stru.gene_id IN
+                <foreach collection="geneIds" item="geneId" separator="," open="(" close=")">
+                    #{geneId}
+                </foreach>
+            </if>
+             AND
+            ((stru.`start` <![CDATA[ <= ]]> #{start} and stru.`end`>=#{start}) or
+    (stru.`start` <![CDATA[ <= ]]> #{end} AND stru.`end`>=#{end}) or
+    (stru.start>=#{start} and stru.end <![CDATA[ <= ]]> #{end}))
+            ORDER BY stru.start DESC
+    </select>
+</mapper>

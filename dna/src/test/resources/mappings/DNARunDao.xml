@@ -2,6 +2,99 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.dna.dao.DNARunDao">
 
+    <resultMap id="BaseResultMap" type="com.gooalgene.dna.entity.DNARun" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="run_no" property="runNo" jdbcType="VARCHAR" />
+        <result column="species" property="species" jdbcType="VARCHAR" />
+        <result column="sample_name" property="sampleName" jdbcType="VARCHAR" />
+        <result column="cultivar" property="cultivar" jdbcType="VARCHAR" />
+        <result column="plant_name" property="plantName" jdbcType="VARCHAR" />
+        <result column="locality" property="locality" jdbcType="VARCHAR" />
+        <result column="protein" property="protein" jdbcType="REAL" />
+        <result column="oil" property="oil" jdbcType="REAL" />
+        <result column="linoleic" property="linoleic" jdbcType="REAL" />
+        <result column="linolenic" property="linolenic" jdbcType="REAL" />
+        <result column="oleic" property="oleic" jdbcType="REAL" />
+        <result column="palmitic" property="palmitic" jdbcType="REAL" />
+        <result column="stearic" property="stearic" jdbcType="REAL" />
+        <result column="height" property="height" jdbcType="DOUBLE"/>
+        <result column="flower_color" property="flowerColor" jdbcType="VARCHAR" />
+        <result column="hilum_color" property="hilumColor" jdbcType="VARCHAR" />
+        <result column="pod_color" property="podColor" jdbcType="VARCHAR" />
+        <result column="pubescence_color" property="pubescenceColor" jdbcType="VARCHAR" />
+        <result column="seed_coat_color" property="seedCoatColor" jdbcType="VARCHAR" />
+        <result column="cotyledon_color" property="cotyledonColor" jdbcType="VARCHAR" />
+        <result column="weight_per_100seeds" property="weightPer100seeds" jdbcType="REAL" />
+        <result column="upper_leaflet_length" property="upperLeafletLength" jdbcType="REAL" />
+        <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR" />
+        <result column="yield" property="yield" jdbcType="REAL" />
+        <result column="category" property="group" jdbcType="VARCHAR" />
+    </resultMap>
+    <resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="run_no" property="runNo" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="species" property="species" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="sample_name" property="sampleName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="cultivar" property="cultivar" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="plant_name" property="plantName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="locality" property="locality" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="protein" property="protein" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler" />
+        <result column="oil" property="oil" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"  />
+        <result column="linoleic" property="linoleic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler" />
+        <result column="linolenic" property="linolenic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"  />
+        <result column="oleic" property="oleic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
+        <result column="palmitic" property="palmitic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler" />
+        <result column="stearic" property="stearic" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
+        <result column="height" property="height" jdbcType="DOUBLE" typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
+        <result column="flower_color" property="flowerColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="hilum_color" property="hilumColor" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="pod_color" property="podColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="pubescence_color" property="pubescenceColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="seed_coat_color" property="seedCoatColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="cotyledon_color" property="cotyledonColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="weight_per_100seeds" property="weightPer100seeds" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
+        <result column="upper_leaflet_length" property="upperLeafletLength" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
+        <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="yield" property="yield" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
+        <result column="category" property="group" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+    </resultMap>
+    <sql id="Base_Column_List" >
+        id, run_no, species, sample_name, cultivar, plant_name, locality, protein, oil, linoleic,
+        linolenic, oleic, palmitic, stearic, height, flower_color, hilum_color, pod_color,
+        pubescence_color, seed_coat_color, cotyledon_color, weight_per_100seeds, upper_leaflet_length,
+        maturity_date, yield, category
+    </sql>
+
+    <sql id="Example_Where_Clause" >
+        <where >
+            <foreach collection="oredCriteria" item="criteria" separator="or" >
+                <if test="criteria.valid" >
+                    <trim prefix="(" suffix=")" prefixOverrides="and" >
+                        <foreach collection="criteria.criteria" item="criterion" >
+                            <choose >
+                                <when test="criterion.noValue" >
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue" >
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue" >
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue" >
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+
     <select id="get" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run where id=#{id}
     </select>
@@ -14,17 +107,14 @@
         INSERT INTO `dna_run`(`run_no`,`species`,`sample_name`,`cultivar`,`plant_name`,`locality`,
         `protein`,`oil`,`linoleic`,`linolenic`,`oleic`,`palmitic`,`stearic`,`height`,
         `flower_color`,`hilum_color`,`pod_color`,`pubescence_color`,`seed_coat_color`,`cotyledon_color`,
-        `weight_per_100seeds`,`upper_leaflet_length`,
-        `flowering_date`,`maturity_date`,
-        `yield`)
+        `weight_per_100seeds`,`upper_leaflet_length`,`maturity_date`,`yield`, `category`)
         VALUES
         <foreach collection="list" item="item" index="index" separator=",">
             (#{item.runNo,jdbcType=VARCHAR},#{item.species,jdbcType=VARCHAR},#{item.sampleName,jdbcType=VARCHAR},#{item.cultivar,jdbcType=VARCHAR},#{item.plantName,jdbcType=VARCHAR},#{item.locality,jdbcType=VARCHAR},
             #{item.protein,jdbcType=FLOAT},#{item.oil,jdbcType=FLOAT},#{item.linoleic,jdbcType=FLOAT},#{item.linolenic,jdbcType=FLOAT},#{item.oleic,jdbcType=FLOAT},#{item.palmitic,jdbcType=FLOAT},#{item.stearic,jdbcType=FLOAT},#{item.height,jdbcType=FLOAT},
             #{item.flowerColor,jdbcType=VARCHAR},#{item.hilumColor,jdbcType=VARCHAR},#{item.podColor,jdbcType=VARCHAR},#{item.pubescenceColor,jdbcType=VARCHAR},#{item.seedCoatColor,jdbcType=VARCHAR},#{item.cotyledonColor,jdbcType=VARCHAR},
             #{item.weightPer100seeds,jdbcType=FLOAT},#{item.upperLeafletLength,jdbcType=FLOAT},
-            #{item.floweringDate,jdbcType=VARCHAR},#{item.maturityDate,jdbcType=VARCHAR},
-            #{item.yield,jdbcType=FLOAT})
+            #{item.maturityDate,jdbcType=VARCHAR},#{item.yield,jdbcType=FLOAT},#{item.group,jdbcType=VARCHAR})
         </foreach>
     </insert>
 
@@ -33,8 +123,7 @@
         `protein`,`oil`,`linoleic`,`linolenic`,`oleic`,`palmitic`,`stearic`,`height`,
         `flower_color`,`hilum_color`,`pod_color`,`pubescence_color`,`seed_coat_color`,`cotyledon_color`,
         `weight_per_100seeds`,`upper_leaflet_length`,
-        `flowering_date`,`maturity_date`,
-        `yield`)
+        `flowering_date`,`maturity_date`,`yield`)
         VALUES (#{runNo,jdbcType=VARCHAR},#{species,jdbcType=VARCHAR},#{sampleName,jdbcType=VARCHAR},#{cultivar,jdbcType=VARCHAR},#{plantName,jdbcType=VARCHAR},#{locality,jdbcType=VARCHAR},
         #{protein,jdbcType=FLOAT},#{oil,jdbcType=FLOAT},#{linoleic,jdbcType=FLOAT},#{linolenic,jdbcType=FLOAT},#{oleic,jdbcType=FLOAT},#{palmitic,jdbcType=FLOAT},#{stearic,jdbcType=FLOAT},#{height,jdbcType=FLOAT},
         #{flowerColor,jdbcType=VARCHAR},#{hilumColor,jdbcType=VARCHAR},#{podColor,jdbcType=VARCHAR},#{pubescenceColor,jdbcType=VARCHAR},#{seedCoatColor,jdbcType=VARCHAR},#{cotyledonColor,jdbcType=VARCHAR},
@@ -42,6 +131,462 @@
         #{floweringDate,jdbcType=VARCHAR},#{maturityDate,jdbcType=VARCHAR},
         #{yield,jdbcType=FLOAT})
     </insert>
+    <select id="getListByCondition" resultMap="BaseResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
+        select
+        <include refid="Base_Column_List" />
+        from dna_run
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="runNo!=null and runNo!=''">
+                AND run_no like CONCAT('%',#{runNo},'%' )
+            </if>
+            <if test="species!=null and species!=''">
+                AND species like CONCAT('%',#{species},'%' )
+            </if>
+            <if test="sampleName!=null and sampleName!=''">
+                AND sample_name like CONCAT('%',#{sampleName},'%' )
+            </if>
+            <if test="cultivar!=null and cultivar!=''">
+                AND cultivar like CONCAT('%',#{cultivar},'%' )
+            </if>
+            <if test="plantName!=null and plantName!=''">
+                AND plant_name like CONCAT('%',#{plantName},'%' )
+            </if>
+            <if test="locality!=null and locality!=''">
+                AND locality like CONCAT('%',#{locality},'%' )
+            </if>
+            <if test="protein!=null">
+                <if test="protein.operation!=null and protein.operation!=''">
+                    <choose>
+                        <when test="protein.operation=='eq'">
+                            AND protein =#{protein.value}
+                        </when>
+                        <when test="protein.operation=='lt'">
+                            AND protein <![CDATA[ < ]]>#{protein.value}
+                        </when>
+                        <when test="protein.operation=='gt'">
+                            AND protein  >#{protein.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="oil!=null">
+                <if test="oil.operation!=null and oil.operation!=''">
+                    <choose>
+                        <when test="oil.operation=='eq'">
+                            AND oil =#{oil.value}
+                        </when>
+                        <when test="oil.operation=='lt'">
+                            AND oil <![CDATA[ < ]]>#{oil.value}
+                        </when>
+                        <when test="oil.operation=='gt'">
+                            AND oil >#{oil.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="linoleic!=null">
+                <if test="linoleic.operation!=null and linoleic.operation!=''">
+                    <choose>
+                        <when test="linoleic.operation=='eq'">
+                            AND linoleic =#{linoleic.value}
+                        </when>
+                        <when test="linoleic.operation=='lt'">
+                            AND linoleic <![CDATA[ < ]]>#{linoleic.value}
+                        </when>
+                        <when test="linoleic.operation=='gt'">
+                            AND linoleic >#{linoleic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="linolenic!=null">
+                <if test="linolenic.operation!=null and linolenic.operation!=''">
+                    <choose>
+                        <when test="linolenic.operation=='eq'">
+                            AND linolenic =#{linolenic.value}
+                        </when>
+                        <when test="linolenic.operation=='lt'">
+                            AND linolenic <![CDATA[ < ]]>#{linolenic.value}
+                        </when>
+                        <when test="linolenic.operation=='gt'">
+                            AND linolenic >#{linolenic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="oleic!=null">
+                <if test="oleic.operation!=null and oleic.operation!=''">
+                    <choose>
+                        <when test="oleic.operation=='eq'">
+                            AND oleic =#{oleic.value}
+                        </when>
+                        <when test="oleic.operation=='lt'">
+                            AND oleic <![CDATA[ < ]]>#{oleic.value}
+                        </when>
+                        <when test="oleic.operation=='gt'">
+                            AND oleic >#{oleic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="palmitic!=null">
+                <if test="palmitic.operation!=null and palmitic.operation!=''">
+                    <choose>
+                        <when test="palmitic.operation=='eq'">
+                            AND palmitic =#{palmitic.value}
+                        </when>
+                        <when test="palmitic.operation=='lt'">
+                            AND palmitic <![CDATA[ < ]]>#{palmitic.value}
+                        </when>
+                        <when test="palmitic.operation=='gt'">
+                            AND palmitic >#{palmitic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="stearic!=null">
+                <if test="stearic.operation!=null and stearic.operation!=''">
+                    <choose>
+                        <when test="stearic.operation=='eq'">
+                            AND stearic =#{stearic.value}
+                        </when>
+                        <when test="stearic.operation=='lt'">
+                            AND stearic <![CDATA[ < ]]>#{stearic.value}
+                        </when>
+                        <when test="stearic.operation=='gt'">
+                            AND stearic >#{stearic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="height!=null">
+                <if test="height.operation!=null and height.operation!=''">
+                    <choose>
+                        <when test="height.operation=='eq'">
+                            AND height =#{height.value}
+                        </when>
+                        <when test="height.operation=='lt'">
+                            AND height <![CDATA[ < ]]>#{height.value}
+                        </when>
+                        <when test="height.operation=='gt'">
+                            AND height >#{height.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="flowerColor!=null and flowerColor!=''">
+                AND flower_color like CONCAT('%',#{flowerColor},'%')
+            </if>
+            <if test="hilumColor!=null and hilumColor!=''">
+                AND hilum_color like CONCAT('%',#{hilumColor},'%')
+            </if>
+            <if test="podColor!=null and podColor!=''">
+                AND pod_color like CONCAT('%',#{podColor},'%')
+            </if>
+            <if test="pubescenceColor!=null and pubescenceColor!=''">
+                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            </if>
+            <if test="seedCoatColor!=null and seedCoatColor!=''">
+                AND seed_coat_color like CONCAT('%',#{seedCoatColor},'%')
+            </if>
+            <if test="cotyledonColor!=null and cotyledonColor!=''">
+                AND cotyledon_color like CONCAT('%',#{cotyledonColor},'%')
+            </if>
+            <if test="pubescenceColor!=null and pubescenceColor!=''">
+                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            </if>
+
+            <if test="weightPer100seeds!=null">
+                <if test="weightPer100seeds.operation!=null and weightPer100seeds.operation!=''">
+                    <choose>
+                        <when test="weightPer100seeds.operation=='eq'">
+                            AND weight_per_100seeds =#{weightPer100seeds.value}
+                        </when>
+                        <when test="weightPer100seeds.operation=='lt'">
+                            AND weight_per_100seeds <![CDATA[ < ]]>#{weightPer100seeds.value}
+                        </when>
+                        <when test="weightPer100seeds.operation=='gt'">
+                            AND weight_per_100seeds >#{weightPer100seeds.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="upperLeafletLength!=null">
+                <if test="upperLeafletLength.operation!=null and upperLeafletLength.operation!=''">
+                    <choose>
+                        <when test="upperLeafletLength.operation=='eq'">
+                            AND upper_leaflet_length =#{upperLeafletLength.value}
+                        </when>
+                        <when test="upperLeafletLength.operation=='lt'">
+                            AND upper_leaflet_length <![CDATA[ < ]]>#{upperLeafletLength.value}
+                        </when>
+                        <when test="upperLeafletLength.operation=='gt'">
+                            AND upper_leaflet_length >#{upperLeafletLength.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="floweringDate!=null and floweringDate!=''">
+                AND flowering_date like CONCAT('%',#{floweringDate},'%')
+            </if>
+            <if test="maturityDate!=null and maturityDate!=''">
+                AND maturity_date like CONCAT('%',#{maturityDate},'%')
+            </if>
+
+            <if test="yield!=null">
+                <if test="yield.operation!=null and yield.operation!=''">
+                    <choose>
+                        <when test="yield.operation=='eq'">
+                            AND yield =#{yield.value}
+                        </when>
+                        <when test="yield.operation=='lt'">
+                            AND yield <![CDATA[ < ]]>#{yield.value}
+                        </when>
+                        <when test="yield.operation=='gt'">
+                            AND yield >#{yield.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="group!=null and group!=''">
+                AND category =#{group}
+            </if>
+        </trim>
+    </select>
+
+    <select id="getListByConditionWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
+        select
+        <include refid="Base_Column_List" />
+        from dna_run
+        <trim prefix="where" prefixOverrides="and|or">
+            <if test="runNos!=null and runNos.size>0">
+                AND run_no IN
+                <foreach collection="runNos" item="runNo" open="(" close=")" separator=",">
+                    #{runNo}
+                </foreach>
+            </if>
+            <if test="species!=null and species!=''">
+                AND species like CONCAT('%',#{species},'%' )
+            </if>
+            <if test="sampleName!=null and sampleName!=''">
+                AND sample_name like CONCAT('%',#{sampleName},'%' )
+            </if>
+            <if test="cultivar!=null and cultivar!=''">
+                AND cultivar like CONCAT('%',#{cultivar},'%' )
+            </if>
+            <if test="plantName!=null and plantName!=''">
+                AND plant_name like CONCAT('%',#{plantName},'%' )
+            </if>
+            <if test="locality!=null and locality!=''">
+                AND locality like CONCAT('%',#{locality},'%' )
+            </if>
+            <if test="protein!=null">
+                <if test="protein.operation!=null and protein.operation!=''">
+                    <choose>
+                        <when test="protein.operation=='eq'">
+                            AND protein =#{protein.value}
+                        </when>
+                        <when test="protein.operation=='lt'">
+                            AND protein <![CDATA[ < ]]>#{protein.value}
+                        </when>
+                        <when test="protein.operation=='gt'">
+                            AND protein  >#{protein.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="oil!=null">
+                <if test="oil.operation!=null and oil.operation!=''">
+                    <choose>
+                        <when test="oil.operation=='eq'">
+                            AND oil =#{oil.value}
+                        </when>
+                        <when test="oil.operation=='lt'">
+                            AND oil <![CDATA[ < ]]>#{oil.value}
+                        </when>
+                        <when test="oil.operation=='gt'">
+                            AND oil >#{oil.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="linoleic!=null">
+                <if test="linoleic.operation!=null and linoleic.operation!=''">
+                    <choose>
+                        <when test="linoleic.operation=='eq'">
+                            AND linoleic =#{linoleic.value}
+                        </when>
+                        <when test="linoleic.operation=='lt'">
+                            AND linoleic <![CDATA[ < ]]>#{linoleic.value}
+                        </when>
+                        <when test="linoleic.operation=='gt'">
+                            AND linoleic >#{linoleic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="linolenic!=null">
+                <if test="linolenic.operation!=null and linolenic.operation!=''">
+                    <choose>
+                        <when test="linolenic.operation=='eq'">
+                            AND linolenic =#{linolenic.value}
+                        </when>
+                        <when test="linolenic.operation=='lt'">
+                            AND linolenic <![CDATA[ < ]]>#{linolenic.value}
+                        </when>
+                        <when test="linolenic.operation=='gt'">
+                            AND linolenic >#{linolenic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="oleic!=null">
+                <if test="oleic.operation!=null and oleic.operation!=''">
+                    <choose>
+                        <when test="oleic.operation=='eq'">
+                            AND oleic =#{oleic.value}
+                        </when>
+                        <when test="oleic.operation=='lt'">
+                            AND oleic <![CDATA[ < ]]>#{oleic.value}
+                        </when>
+                        <when test="oleic.operation=='gt'">
+                            AND oleic >#{oleic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="palmitic!=null">
+                <if test="palmitic.operation!=null and palmitic.operation!=''">
+                    <choose>
+                        <when test="palmitic.operation=='eq'">
+                            AND palmitic =#{palmitic.value}
+                        </when>
+                        <when test="palmitic.operation=='lt'">
+                            AND palmitic <![CDATA[ < ]]>#{palmitic.value}
+                        </when>
+                        <when test="palmitic.operation=='gt'">
+                            AND palmitic >#{palmitic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="stearic!=null">
+                <if test="stearic.operation!=null and stearic.operation!=''">
+                    <choose>
+                        <when test="stearic.operation=='eq'">
+                            AND stearic =#{stearic.value}
+                        </when>
+                        <when test="stearic.operation=='lt'">
+                            AND stearic <![CDATA[ < ]]>#{stearic.value}
+                        </when>
+                        <when test="stearic.operation=='gt'">
+                            AND stearic >#{stearic.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="height!=null">
+                <if test="height.operation!=null and height.operation!=''">
+                    <choose>
+                        <when test="height.operation=='eq'">
+                            AND height =#{height.value}
+                        </when>
+                        <when test="height.operation=='lt'">
+                            AND height <![CDATA[ < ]]>#{height.value}
+                        </when>
+                        <when test="height.operation=='gt'">
+                            AND height >#{height.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="flowerColor!=null and flowerColor!=''">
+                AND flower_color like CONCAT('%',#{flowerColor},'%')
+            </if>
+            <if test="hilumColor!=null and hilumColor!=''">
+                AND hilum_color like CONCAT('%',#{hilumColor},'%')
+            </if>
+            <if test="podColor!=null and podColor!=''">
+                AND pod_color like CONCAT('%',#{podColor},'%')
+            </if>
+            <if test="pubescenceColor!=null and pubescenceColor!=''">
+                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            </if>
+            <if test="seedCoatColor!=null and seedCoatColor!=''">
+                AND seed_coat_color like CONCAT('%',#{seedCoatColor},'%')
+            </if>
+            <if test="cotyledonColor!=null and cotyledonColor!=''">
+                AND cotyledon_color like CONCAT('%',#{cotyledonColor},'%')
+            </if>
+            <if test="pubescenceColor!=null and pubescenceColor!=''">
+                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            </if>
+
+            <if test="weightPer100seeds!=null">
+                <if test="weightPer100seeds.operation!=null and weightPer100seeds.operation!=''">
+                    <choose>
+                        <when test="weightPer100seeds.operation=='eq'">
+                            AND weight_per_100seeds =#{weightPer100seeds.value}
+                        </when>
+                        <when test="weightPer100seeds.operation=='lt'">
+                            AND weight_per_100seeds <![CDATA[ < ]]>#{weightPer100seeds.value}
+                        </when>
+                        <when test="weightPer100seeds.operation=='gt'">
+                            AND weight_per_100seeds >#{weightPer100seeds.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="upperLeafletLength!=null">
+                <if test="upperLeafletLength.operation!=null and upperLeafletLength.operation!=''">
+                    <choose>
+                        <when test="upperLeafletLength.operation=='eq'">
+                            AND upper_leaflet_length =#{upperLeafletLength.value}
+                        </when>
+                        <when test="upperLeafletLength.operation=='lt'">
+                            AND upper_leaflet_length <![CDATA[ < ]]>#{upperLeafletLength.value}
+                        </when>
+                        <when test="upperLeafletLength.operation=='gt'">
+                            AND upper_leaflet_length >#{upperLeafletLength.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+
+            <if test="floweringDate!=null and floweringDate!=''">
+                AND flowering_date like CONCAT('%',#{floweringDate},'%')
+            </if>
+            <if test="maturityDate!=null and maturityDate!=''">
+                AND maturity_date like CONCAT('%',#{maturityDate},'%')
+            </if>
+
+            <if test="yield!=null">
+                <if test="yield.operation!=null and yield.operation!=''">
+                    <choose>
+                        <when test="yield.operation=='eq'">
+                            AND yield =#{yield.value}
+                        </when>
+                        <when test="yield.operation=='lt'">
+                            AND yield <![CDATA[ < ]]>#{yield.value}
+                        </when>
+                        <when test="yield.operation=='gt'">
+                            AND yield >#{yield.value}
+                        </when>
+                    </choose>
+                </if>
+            </if>
+            <if test="group!=null and group!=''">
+                AND category =#{group}
+            </if>
+        </trim>
+    </select>
 
     <select id="findList" resultType="com.gooalgene.dna.entity.DNARun">
         SELECT * from dna_run
@@ -53,8 +598,8 @@
             linoleic LIKE CONCAT('%',#{keywords},'%') OR linolenic LIKE CONCAT('%',#{keywords},'%') OR oleic LIKE CONCAT('%',#{keywords},'%') OR palmitic LIKE CONCAT('%',#{keywords},'%') OR
             stearic LIKE CONCAT('%',#{keywords},'%') OR height LIKE CONCAT('%',#{keywords},'%') OR flower_color LIKE CONCAT('%',#{keywords},'%') OR hilum_color LIKE CONCAT('%',#{keywords},'%') OR
             pod_color LIKE CONCAT('%',#{keywords},'%') OR pubescence_color LIKE CONCAT('%',#{keywords},'%') OR seed_coat_color LIKE CONCAT('%',#{keywords},'%') OR cotyledon_color LIKE CONCAT('%',#{keywords},'%') OR
-            weight_per_100seeds LIKE CONCAT('%',#{keywords},'%') OR upper_leaflet_length LIKE CONCAT('%',#{keywords},'%') OR flowering_date LIKE CONCAT('%',#{keywords},'%') OR
-            maturity_date LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%')
+            weight_per_100seeds LIKE CONCAT('%',#{keywords},'%') OR upper_leaflet_length LIKE CONCAT('%',#{keywords},'%') OR
+            maturity_date LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%') OR category LIKE concat('%',#{group},'%')
             )
         </if>
         <if test="species!=null">
@@ -69,9 +614,6 @@
                     AND locality LIKE CONCAT('%',#{locality},'%')
                 </otherwise>
             </choose>
-        </if>
-        <if test="floweringDate!=null">
-            AND flowering_date LIKE CONCAT('',#{floweringDate},'%')
         </if>
         <if test="maturityDate!=null">
             AND maturity_date LIKE CONCAT('',#{maturityDate},'%')
@@ -127,6 +669,107 @@
         <if test="yield_min!=null and yield_max!=null">
             AND (yield BETWEEN #{yield_min} AND #{yield_max})
         </if>
+        <if test="group!=null">
+            AND category = #{group}
+        </if>
+        <if test="cultivar!=null">
+            AND cultivar=#{cultivar}
+        </if>
+        <if test="sampleName!=null">
+            AND sample_name=#{sampleName}
+        </if>
+    </select>
+
+    <select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
+        SELECT * from dna_run
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND (
+            run_no LIKE CONCAT('%',#{keywords},'%') OR species LIKE CONCAT('%',#{keywords},'%') OR sample_name LIKE CONCAT('%',#{keywords},'%') OR cultivar LIKE CONCAT('%',#{keywords},'%') OR
+            plant_name LIKE CONCAT('%',#{keywords},'%') OR locality LIKE CONCAT('%',#{keywords},'%') OR protein LIKE CONCAT('%',#{keywords},'%') OR oil LIKE CONCAT('%',#{keywords},'%') OR
+            linoleic LIKE CONCAT('%',#{keywords},'%') OR linolenic LIKE CONCAT('%',#{keywords},'%') OR oleic LIKE CONCAT('%',#{keywords},'%') OR palmitic LIKE CONCAT('%',#{keywords},'%') OR
+            stearic LIKE CONCAT('%',#{keywords},'%') OR height LIKE CONCAT('%',#{keywords},'%') OR flower_color LIKE CONCAT('%',#{keywords},'%') OR hilum_color LIKE CONCAT('%',#{keywords},'%') OR
+            pod_color LIKE CONCAT('%',#{keywords},'%') OR pubescence_color LIKE CONCAT('%',#{keywords},'%') OR seed_coat_color LIKE CONCAT('%',#{keywords},'%') OR cotyledon_color LIKE CONCAT('%',#{keywords},'%') OR
+            weight_per_100seeds LIKE CONCAT('%',#{keywords},'%') OR upper_leaflet_length LIKE CONCAT('%',#{keywords},'%') OR
+            maturity_date LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%') OR category LIKE concat('%',#{group},'%')
+            )
+        </if>
+        <if test="species!=null">
+            AND species = #{species}
+        </if>
+        <if test="locality!=null">
+            <choose>
+                <when test="locality=='Other'">
+                    AND locality NOT REGEXP 'China|United States|Japan|Korea|Brazil'
+                </when>
+                <otherwise>
+                    AND locality LIKE CONCAT('%',#{locality},'%')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="maturityDate!=null">
+            AND maturity_date LIKE CONCAT('',#{maturityDate},'%')
+        </if>
+        <if test="hilumColor!=null">
+            AND hilum_color = #{hilumColor}
+        </if>
+        <if test="flowerColor!=null">
+            AND flower_color = #{flowerColor}
+        </if>
+        <if test="podColor!=null">
+            AND pod_color = #{podColor}
+        </if>
+        <if test="pubescenceColor!=null">
+            AND pubescence_color =#{pubescenceColor}
+        </if>
+        <if test="seedCoatColor!=null">
+            AND seed_coat_color =#{seedCoatColor}
+        </if>
+        <if test="cotyledonColor!=null">
+            AND cotyledon_color = #{cotyledonColor}
+        </if>
+        <if test="protein_min!=null and protein_max!=null">
+            AND (protein BETWEEN #{protein_min} AND #{protein_max})
+        </if>
+        <if test="oil_min!=null and oil_max!=null">
+            AND (oil BETWEEN #{oil_min} AND #{oil_max})
+        </if>
+        <if test="linoleic_min!=null and linoleic_max!=null">
+            AND (linoleic BETWEEN #{linoleic_min} AND #{linoleic_max})
+        </if>
+        <if test="linolenic_min!=null and linolenic_max!=null">
+            AND (linolenic BETWEEN #{linolenic_min} AND #{linolenic_max})
+        </if>
+        <if test="oleic_min!=null and oleic_max!=null">
+            AND (oleic BETWEEN #{oleic_min} AND #{oleic_max})
+        </if>
+        <if test="palmitic_min!=null and palmitic_max!=null">
+            AND (palmitic BETWEEN #{palmitic_min} AND #{palmitic_max})
+        </if>
+        <if test="stearic_min!=null and stearic_max!=null">
+            AND (stearic BETWEEN #{stearic_min} AND #{stearic_max})
+        </if>
+        <if test="height_min!=null and height_max!=null">
+            AND (height BETWEEN #{height_min} AND #{height_max})
+        </if>
+        <if test="weightPer100seeds_min!=null and weightPer100seeds_max!=null">
+            AND (weight_per_100seeds BETWEEN #{weightPer100seeds_min} AND #{weightPer100seeds_max})
+        </if>
+        <if test="upperLeafletLength_min!=null and upperLeafletLength_max!=null">
+            AND (upper_leaflet_length BETWEEN #{upperLeafletLength_min} AND #{upperLeafletLength_max})
+        </if>
+        <if test="yield_min!=null and yield_max!=null">
+            AND (yield BETWEEN #{yield_min} AND #{yield_max})
+        </if>
+        <if test="group!=null">
+            AND category = #{group}
+        </if>
+        <if test="cultivar!=null">
+            AND cultivar=#{cultivar}
+        </if>
+        <if test="sampleName!=null">
+            AND sample_name=#{sampleName}
+        </if>
     </select>
 
     <update id="update" parameterType="com.gooalgene.dna.entity.DNARun">
@@ -154,10 +797,19 @@
               `cotyledon_color` = #{cotyledonColor,jdbcType=VARCHAR},
               `weight_per_100seeds` = #{weightPer100seeds},
               `upper_leaflet_length` = #{upperLeafletLength},
-              `flowering_date` = #{floweringDate,jdbcType=VARCHAR},
               `maturity_date` = #{maturityDate,jdbcType=VARCHAR},
-              `yield` = #{yield,jdbcType=FLOAT}
+              `yield` = #{yield,jdbcType=FLOAT},
+              `category` = #{group,jdbcType=VARCHAR}
           WHERE `id` = #{id};
     </update>
+
+    <select id="getByCultivar" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM dna_run WHERE replace(cultivar,' ','') IN
+        <foreach collection="list" item="cultivar" open="(" close=")" separator=",">
+            replace(#{cultivar},' ','')
+        </foreach>
+    </select>
 
 </mapper>
