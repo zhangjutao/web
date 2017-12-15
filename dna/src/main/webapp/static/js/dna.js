@@ -1615,9 +1615,19 @@ $(function () {
         for(var i=0;i<trs.length;i++){
             if($(trs[i]).hasClass("tabTrColor")){
                 $(trs[i]).removeClass("tabTrColor");
+
+                if( i%2 == 0){
+                    $(trs[i]).find("td:last-child>div>p:first-child").css("background","#fff");
+                }else{
+                    $(trs[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
+                }
             }
         };
         $(this).parent().addClass("tabTrColor");
+        var pps = $("#" + id).find("td.t_genoType div");
+        for (var i=0;i<pps.length;i++){
+            $(pps[i]).find("p:first").css("background","#5D8CE6");
+        }
 
     });
     // 根据表格去锚点图上的snp 位点 -- indel
@@ -1642,9 +1652,19 @@ $(function () {
         for(var i=0;i<trs.length;i++){
             if($(trs[i]).hasClass("tabTrColor")){
                 $(trs[i]).removeClass("tabTrColor");
+
+                if( i%2 == 0){
+                    $(trs[i]).find("td:last-child>div>p:first-child").css("background","#fff");
+                }else{
+                    $(trs[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
+                }
             }
         };
         $(this).parent().addClass("tabTrColor");
+        var pps = $("#" + id).find("td.t_genoType div");
+        for (var i=0;i<pps.length;i++){
+            $(pps[i]).find("p:first").css("background","#5D8CE6");
+        }
     });
 
     $("#tableBody2").on("click","tr>td.t_indels",function (e){
