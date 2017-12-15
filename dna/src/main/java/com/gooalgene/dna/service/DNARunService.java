@@ -44,7 +44,7 @@ public class DNARunService {
      * @param group
      * @return
      */
-    public Map<String, List<String>>    queryDNARunByCondition(String group) {
+    public Map<String, List<String>> queryDNARunByCondition(String group) {
         if (group.equals("[{}]")) {
             group = "[]";
         }
