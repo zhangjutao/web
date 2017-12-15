@@ -1163,7 +1163,7 @@
                         '<td class="param t_minorAllele">Minor Allele</td>'+
                         '<td class="param t_fmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
                         '<option value="minor">Frequency of Minor Allele</option></select></td>'+
-                        '<td class="param t_genoType">GenoType</td>';
+                        '<td class="param t_genoType">Genotype</td>';
             var headStr2 = '<td class="t_indels">INDEL ID</td>' +
                         '<td class="param t_iconsequenceType">Consequence Type'+
                         '<img src="${ctxStatic}/images/down.png">'+
@@ -1719,7 +1719,6 @@
         function selectKindVal (id){
             var o=[];
             var kindStor = JSON.parse(storage.getItem("kind"));
-
             for (var i=0;i<kindStor.name.length;i++){
                 if(kindStor.name[i].id == id){
                     o.push(kindStor.name[i]);

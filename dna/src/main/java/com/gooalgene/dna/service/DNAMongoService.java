@@ -230,6 +230,16 @@ public class DNAMongoService {
         SNP oneData = new SNP();
         if (mongoTemplate.collectionExists(collectionName)) {
             oneData = mongoTemplate.findOne(Query.query(Criteria.where("_id").is(id)), SNP.class, collectionName);
+
+            //对consequencetype为“UTR3”、“UTR5”及“UTR5；UTR3”的数据进行处理
+            if (oneData.getConsequencetype().equalsIgnoreCase("UTR3")) {
+                oneData.setConsequencetype("3'UTR");
+            } else if (oneData.getConsequencetype().equalsIgnoreCase("UTR5")) {
+                oneData.setConsequencetype("5'UTR");
+            } else if (oneData.getConsequencetype().equalsIgnoreCase("UTR5;UTR3")) {
+                oneData.setConsequencetype("UTR5;UTR3");
+            }
+
             return oneData;
         } else {
             return oneData;
