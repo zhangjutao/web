@@ -154,127 +154,31 @@
             <if test="locality!=null and locality!=''">
                 AND locality like CONCAT('%',#{locality},'%' )
             </if>
-            <if test="protein!=null">
-                <if test="protein.operation!=null and protein.operation!=''">
-                    <choose>
-                        <when test="protein.operation=='eq'">
-                            AND protein =#{protein.value}
-                        </when>
-                        <when test="protein.operation=='lt'">
-                            AND protein <![CDATA[ < ]]>#{protein.value}
-                        </when>
-                        <when test="protein.operation=='gt'">
-                            AND protein  >#{protein.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="protein_min!=null and protein_max!=null">
+                AND (protein BETWEEN #{protein_min} AND #{protein_max})
             </if>
-            <if test="oil!=null">
-                <if test="oil.operation!=null and oil.operation!=''">
-                    <choose>
-                        <when test="oil.operation=='eq'">
-                            AND oil =#{oil.value}
-                        </when>
-                        <when test="oil.operation=='lt'">
-                            AND oil <![CDATA[ < ]]>#{oil.value}
-                        </when>
-                        <when test="oil.operation=='gt'">
-                            AND oil >#{oil.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="oil_min!=null and oil_max!=null">
+                AND (oil BETWEEN #{oil_min} AND #{oil_max})
             </if>
-            <if test="linoleic!=null">
-                <if test="linoleic.operation!=null and linoleic.operation!=''">
-                    <choose>
-                        <when test="linoleic.operation=='eq'">
-                            AND linoleic =#{linoleic.value}
-                        </when>
-                        <when test="linoleic.operation=='lt'">
-                            AND linoleic <![CDATA[ < ]]>#{linoleic.value}
-                        </when>
-                        <when test="linoleic.operation=='gt'">
-                            AND linoleic >#{linoleic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="linoleic_min!=null and linoleic_max!=null">
+                AND (linoleic BETWEEN #{linoleic_min} AND #{linoleic_max})
             </if>
-            <if test="linolenic!=null">
-                <if test="linolenic.operation!=null and linolenic.operation!=''">
-                    <choose>
-                        <when test="linolenic.operation=='eq'">
-                            AND linolenic =#{linolenic.value}
-                        </when>
-                        <when test="linolenic.operation=='lt'">
-                            AND linolenic <![CDATA[ < ]]>#{linolenic.value}
-                        </when>
-                        <when test="linolenic.operation=='gt'">
-                            AND linolenic >#{linolenic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="linolenic_min!=null and linolenic_max!=null">
+                AND (linolenic BETWEEN #{linolenic_min} AND #{linolenic_max})
             </if>
 
-            <if test="oleic!=null">
-                <if test="oleic.operation!=null and oleic.operation!=''">
-                    <choose>
-                        <when test="oleic.operation=='eq'">
-                            AND oleic =#{oleic.value}
-                        </when>
-                        <when test="oleic.operation=='lt'">
-                            AND oleic <![CDATA[ < ]]>#{oleic.value}
-                        </when>
-                        <when test="oleic.operation=='gt'">
-                            AND oleic >#{oleic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="oleic_min!=null and oleic_max!=null">
+                AND (oleic BETWEEN #{oleic_min} AND #{oleic_max})
             </if>
-            <if test="palmitic!=null">
-                <if test="palmitic.operation!=null and palmitic.operation!=''">
-                    <choose>
-                        <when test="palmitic.operation=='eq'">
-                            AND palmitic =#{palmitic.value}
-                        </when>
-                        <when test="palmitic.operation=='lt'">
-                            AND palmitic <![CDATA[ < ]]>#{palmitic.value}
-                        </when>
-                        <when test="palmitic.operation=='gt'">
-                            AND palmitic >#{palmitic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="palmitic_min!=null and palmitic_max!=null">
+                AND (palmitic BETWEEN #{palmitic_min} AND #{palmitic_max})
             </if>
 
-            <if test="stearic!=null">
-                <if test="stearic.operation!=null and stearic.operation!=''">
-                    <choose>
-                        <when test="stearic.operation=='eq'">
-                            AND stearic =#{stearic.value}
-                        </when>
-                        <when test="stearic.operation=='lt'">
-                            AND stearic <![CDATA[ < ]]>#{stearic.value}
-                        </when>
-                        <when test="stearic.operation=='gt'">
-                            AND stearic >#{stearic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="stearic_min!=null and stearic_max!=null">
+                AND (stearic BETWEEN #{stearic_min} AND #{stearic_max})
             </if>
-            <if test="height!=null">
-                <if test="height.operation!=null and height.operation!=''">
-                    <choose>
-                        <when test="height.operation=='eq'">
-                            AND height =#{height.value}
-                        </when>
-                        <when test="height.operation=='lt'">
-                            AND height <![CDATA[ < ]]>#{height.value}
-                        </when>
-                        <when test="height.operation=='gt'">
-                            AND height >#{height.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="height_min!=null and height_max!=null">
+                AND (height BETWEEN #{height_min} AND #{height_max})
             </if>
             <if test="flowerColor!=null and flowerColor!=''">
                 AND flower_color like CONCAT('%',#{flowerColor},'%')
@@ -298,36 +202,11 @@
                 AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
             </if>
 
-            <if test="weightPer100seeds!=null">
-                <if test="weightPer100seeds.operation!=null and weightPer100seeds.operation!=''">
-                    <choose>
-                        <when test="weightPer100seeds.operation=='eq'">
-                            AND weight_per_100seeds =#{weightPer100seeds.value}
-                        </when>
-                        <when test="weightPer100seeds.operation=='lt'">
-                            AND weight_per_100seeds <![CDATA[ < ]]>#{weightPer100seeds.value}
-                        </when>
-                        <when test="weightPer100seeds.operation=='gt'">
-                            AND weight_per_100seeds >#{weightPer100seeds.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="weightPer100seeds_min!=null and weightPer100seeds_max!=null">
+                AND (weight_per_100seeds BETWEEN #{weightPer100seeds_min} AND #{weightPer100seeds_max})
             </if>
-
-            <if test="upperLeafletLength!=null">
-                <if test="upperLeafletLength.operation!=null and upperLeafletLength.operation!=''">
-                    <choose>
-                        <when test="upperLeafletLength.operation=='eq'">
-                            AND upper_leaflet_length =#{upperLeafletLength.value}
-                        </when>
-                        <when test="upperLeafletLength.operation=='lt'">
-                            AND upper_leaflet_length <![CDATA[ < ]]>#{upperLeafletLength.value}
-                        </when>
-                        <when test="upperLeafletLength.operation=='gt'">
-                            AND upper_leaflet_length >#{upperLeafletLength.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="upperLeafletLength_min!=null and upperLeafletLength_max!=null">
+                AND (upper_leaflet_length BETWEEN #{upperLeafletLength_min} AND #{upperLeafletLength_max})
             </if>
 
             <if test="floweringDate!=null and floweringDate!=''">
@@ -344,20 +223,8 @@
                 </choose>
             </if>
 
-            <if test="yield!=null">
-                <if test="yield.operation!=null and yield.operation!=''">
-                    <choose>
-                        <when test="yield.operation=='eq'">
-                            AND yield =#{yield.value}
-                        </when>
-                        <when test="yield.operation=='lt'">
-                            AND yield <![CDATA[ < ]]>#{yield.value}
-                        </when>
-                        <when test="yield.operation=='gt'">
-                            AND yield >#{yield.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="yield_min!=null and yield_max!=null">
+                AND (yield BETWEEN #{yield_min} AND #{yield_max})
             </if>
             <if test="group!=null and group!=''">
                 AND category =#{group}
