@@ -1719,7 +1719,6 @@
         function selectKindVal (id){
             var o=[];
             var kindStor = JSON.parse(storage.getItem("kind"));
-
             for (var i=0;i<kindStor.name.length;i++){
                 if(kindStor.name[i].id == id){
                     o.push(kindStor.name[i]);

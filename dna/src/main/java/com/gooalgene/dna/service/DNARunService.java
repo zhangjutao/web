@@ -12,6 +12,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -25,7 +27,7 @@ import java.util.*;
  */
 @Service
 public class DNARunService {
-
+    private static final Logger logger = LoggerFactory.getLogger(DNARunService.class);
     @Autowired
     private DNARunDao dnaRunDao;
     @Autowired
@@ -42,12 +44,13 @@ public class DNARunService {
      * @param group
      * @return
      */
-    public Map<String, List<String>> queryDNARunByCondition(String group) {
+    public Map<String, List<String>>    queryDNARunByCondition(String group) {
         if (group.equals("[{}]")) {
             group = "[]";
         }
         Map<String, List<String>> result = new HashMap();
         if (StringUtils.isNotBlank(group)) {
+            logger.info(group);
             JSONArray data = JSONArray.fromObject(group);
             int len = data.size();
             for (int i = 0; i < len; i++) {
@@ -55,7 +58,7 @@ public class DNARunService {
                 String groupName = one.getString("name");
                 if (one.containsKey("condition")) {
                     String condition = one.getString("condition");
-                    if (condition.indexOf("cultivar") != -1) {
+                    if (condition.indexOf("{\"cultivar") != -1) {
                         List<String> runNoList = new ArrayList<String>();
                         List<DNARun> dnaRunList = getQueryList(condition);
                         for (DNARun dnaRun : dnaRunList) {

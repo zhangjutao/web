@@ -788,8 +788,10 @@
                 success:function (result) {
                     if(result.code!=0){
                       $('#snpinfoTable table tbody').empty();
+                      $("#snpInforsPage .total-page-count span").text(0);
                     }else {
                         count = result.data.dnaRuns.total;
+                        $("#total-page-count span").html(count)
                         if(count == 0){
                             $("#errorImg").show();
                             $("#containerAdmin").css("height","754px");
@@ -899,7 +901,7 @@
                             }
                         }
                     });
-                    $("#total-page-count span").html(count);
+//                    $("#total-page-count span").html(count);
                 },
                 error:function (error){
                     console.log(error);
