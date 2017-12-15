@@ -910,7 +910,7 @@
         }
         // 详情页 搜索按钮点击事件
         $(".searBtn").click(function (){
-            var searchId = $(".searchBox").find("input").val();
+            var searchId = $(".searchBox").find("input").val().trim();
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/findSampleById",
