@@ -1687,4 +1687,12 @@ $(function () {
         if (r != null) return unescape(r[2]);
         return null; //返回参数值
     };
+    // table thead 每次点击的时候select 的时候清空snp 红色小点
+        $("#mask-test table thead").on("change","td.t_fmajorAllele",function (){
+            deleteSelectedSnp();
+        });
+    $("#mask-test2 table thead").on("change","td.t_ifmajorAllele",function (){
+        deleteSelectedSnp();
+    })
+
 })
