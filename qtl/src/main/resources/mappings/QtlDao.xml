@@ -24,6 +24,10 @@
         SELECT COUNT(*) FROM qtl WHERE qtl_name=#{qlt_name}
     </select>
 
+    <select id="findQtlsByName" parameterType="string" resultType="com.gooalgene.entity.Qtl">
+        SELECT id, qtl_name FROM qtl WHERE qtl_name LIKE concat('%', #{qtlName},'%')
+    </select>
+
     <select id="findQTLMap" resultType="Map">
         SELECT a.id,a.`qtl_name` AS
         qtlName,trait,type,marker1,marker2,b.lg,b.chr,method,lod,parent1,parent2,genome_start AS

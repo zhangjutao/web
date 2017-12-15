@@ -65,14 +65,6 @@ public interface QtlDao extends CrudDao<Qtl> {
     List<Qtl> findByTypeAllList(Qtl qtl);
 
     /**
-     * 首页搜索
-     *
-     * @param qtl
-     * @return
-     */
-    List<Map> findByTypeAll(Qtl qtl);
-
-    /**
      * 根据chrlgId查找 qtl
      *
      * @param chrlgId
@@ -89,6 +81,8 @@ public interface QtlDao extends CrudDao<Qtl> {
     Qtl findById(int id);
 
     int findQtlByNameNum(String qlt_name);
+
+    List<Qtl> findQtlsByName(String qtlName);
 
     /**
      * 根据基因查询对应的QTL数据
