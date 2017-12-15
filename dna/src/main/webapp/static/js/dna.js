@@ -114,10 +114,9 @@ $(function () {
         snp:[],
         indel:[]
     };
-    var filterEvent;
+    var filterEvent=0;
     // 筛选面板 确认
     $(".js-panel-btn").click(function() {
-
         if(!$(".custom-groups-content").is(":hidden")){
             $(".custom-groups-content").hide();
         };
@@ -127,11 +126,11 @@ $(function () {
         var obj = getPanelParams();
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
-        if(JSON.stringify(getKindSNames) != "{}"){
-           for (var i=0;i<getKindSNames.infos.length;i++){
-               totalGroups.push(getKindSNames.infos[i]);
-           }
-        }
+        // if(JSON.stringify(getKindSNames) != "{}"){
+        //    for (var i=0;i<getKindSNames.infos.length;i++){
+        //        totalGroups.push(getKindSNames.infos[i]);
+        //    }
+        // }
        // 去掉null 值
         for (var i=0;i<totalGroups.length;i++){
            if (!totalGroups[i]){
@@ -146,6 +145,7 @@ $(function () {
             CTypeIndel = "all";
             // 根据基因查询
             if(obj.url.indexOf('searchSNPinGene') !== -1){
+                filterEvent = 0;
                 // if(!$("#GlyIds").is(":hidden")){
                 //     $("#GlyIds").hide();
                 // }
@@ -166,7 +166,6 @@ $(function () {
                 $("#GlyIds ul").empty();
                 var str = "<li>" +globelGeneId + "</li>";
                 $("#GlyIds ul").append(str);
-
                 getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/searchIdAndPosInGene");
                 getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/searchIdAndPosInGene");
                 requestForSnpData(1, obj.url, obj.params);
@@ -474,7 +473,19 @@ $(function () {
     $(".js-snp-tab").on("change", ".lay-per-page-count-select", function() {
         pageSizeSNP = $(this).val();
         var obj = getPanelParams();
-        // obj.params.pageNo = currPageNumb;
+        // add
+        if(filterEvent!=0) {
+            obj.url = CTXROOT + "/dna/searchSNPinGene";
+            obj.params.ctype = "all";
+            obj.params.type = "SNP";
+            // obj.params.type = CurrentTab;
+            obj.params.gene = $("#GlyIds .GlyColor").text();
+            delete obj.params.start;
+            delete obj.params.end;
+            delete obj.params.chromosome;
+            // add
+            // obj.params.pageNo = currPageNumb;
+        }
         deleteSelectedSnp()
         requestForSnpData(1, obj.url, obj.params);
     });
@@ -482,6 +493,18 @@ $(function () {
     $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
         pageSizeINDEL = $(this).val();
         var obj = getPanelParams();
+        // add
+        if(filterEvent!=0) {
+            obj.url = CTXROOT + "/dna/searchSNPinGene";
+            obj.params.ctype = "all";
+            obj.params.type = "INDEL";
+            // obj.params.type = CurrentTab;
+            obj.params.gene = $("#GlyIds .GlyColor").text();
+            delete obj.params.start;
+            delete obj.params.end;
+            delete obj.params.chromosome;
+            // add
+        }
         deleteSelectedSnp()
         requestForIndelData(1, obj.url, obj.params);
     });
@@ -511,6 +534,18 @@ $(function () {
                     return alert("输入页码不能大于总页数");
                 }
                 var obj = getPanelParams();
+                if(filterEvent!=0){
+                    // add
+                    obj.url=CTXROOT + "/dna/searchSNPinGene";
+                    obj.params.ctype="all";
+                    obj.params.type = "SNP";
+                    // obj.params.type = CurrentTab;
+                    obj.params.gene = $("#GlyIds .GlyColor").text();
+                    delete obj.params.start;
+                    delete obj.params.end;
+                    delete obj.params.chromosome;
+                    // add
+                };
                 requestForSnpData(_page_skip.val() * 1, obj.url, obj.params);
             }
             if(_page_skip2.hasClass("isFocus")) {
@@ -518,6 +553,18 @@ $(function () {
                     return alert("输入页码不能大于总页数");
                 }
                 var obj = getPanelParams();
+                if(filterEvent!=0){
+                    // add
+                    obj.url=CTXROOT + "/dna/searchSNPinGene";
+                    obj.params.ctype="all";
+                    obj.params.type = "INDEL";
+                    // obj.params.type = CurrentTab;
+                    obj.params.gene = $("#GlyIds .GlyColor").text();
+                    delete obj.params.start;
+                    delete obj.params.end;
+                    delete obj.params.chromosome;
+                    // add
+                };
                 requestForIndelData(_page_skip2.val() * 1, obj.url, obj.params);
             }
         }
@@ -576,6 +623,19 @@ $(function () {
                                 deleteSelectedSnp();
                                 var tmp = getPanelParams();
                                 currPageNumb = obj.curr;
+                                // add
+
+                            if(filterEvent!=0) {
+                                tmp.url = CTXROOT + "/dna/searchSNPinGene";
+                                tmp.params.ctype = "all";
+                                tmp.params.type = "SNP";
+                                // obj.params.type = CurrentTab;
+                                tmp.params.gene = $("#GlyIds .GlyColor").text();
+                                delete tmp.params.start;
+                                delete tmp.params.end;
+                                delete tmp.params.chromosome;
+                                // add
+                            }
                                 requestForSnpData(obj.curr, tmp.url, tmp.params);
                             }
                         }
@@ -664,6 +724,18 @@ $(function () {
                                 deleteSelectedSnp();
                                 var tmp = getPanelParams();
                                 currPageNumb = obj.curr;
+                                // add
+                                if(filterEvent!=0){
+                                    tmp.url=CTXROOT + "/dna/searchSNPinGene";
+                                    tmp.params.ctype="all";
+                                    tmp.params.type = "INDEL";
+                                    // obj.params.type = CurrentTab;
+                                    tmp.params.gene = $("#GlyIds .GlyColor").text();
+                                    delete tmp.params.start;
+                                    delete tmp.params.end;
+                                    delete tmp.params.chromosome;
+                                    // add
+                                }
                                 requestForIndelData(obj.curr, tmp.url, tmp.params);
                             }
                         }
