@@ -93,7 +93,7 @@
                         </p>
                         <p style="width:223px;" class="snpTipE">
                             <span class="colorBlock" style="background: #02ccb1;"></span>
-                            <span class="legendCnt" style="width:195px;font-size:14px;">Exonic_nonsynonymous SNY</span>
+                            <span class="legendCnt" style="width:195px;font-size:14px;">Exonic_nonsynonymous SNV</span>
                         </p>
                         <p style="width:208px;" class="indelTipE">
                             <span class="colorBlock" style="background: #0ccdf1;"></span>
