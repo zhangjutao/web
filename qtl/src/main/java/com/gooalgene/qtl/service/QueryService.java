@@ -269,7 +269,7 @@ public class QueryService {
             m.put("genesNum", genes == null ? 0 : genes.split(",").length);
             data.add(m);
         }
-        page.setList(list1);
+        // page.setList(list1);
         result.put("total", page.getCount());
         result.put("data", data);
         return result;
