@@ -23,4 +23,7 @@
     <dubbo:service interface="com.gooalgene.primer.interfaces.DubboService" ref="dubboService" protocol="dubbo" />
 
     <bean id="dubboService" class="com.gooalgene.primer.interfaces.impl.DubboServiceImpl" />
+
+    <dubbo:service interface="com.gooalgene.primer.interfaces.Primer3Service" ref="primer3Service" protocol="dubbo"/>
+    <bean id="primer3Service" class="com.gooalgene.primer.interfaces.impl.Primer3ServiceImpl"/>
 </beans>
