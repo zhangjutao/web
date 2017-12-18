@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface Primer3Service {
 
-    List<Primer> getPrimer();
+    List<Primer> getPrimer(String url,String param);
 }

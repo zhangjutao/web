@@ -99,4 +99,7 @@ public class Primer {
     public void setLink(String link) {
         this.link = link;
     }
+    public String getLink() {
+        return this.link;
+    }
 }
