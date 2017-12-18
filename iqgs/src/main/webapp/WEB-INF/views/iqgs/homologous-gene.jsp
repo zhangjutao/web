@@ -15,7 +15,11 @@
 	<!--jquery-1.11.0-->
 	<script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 	<script src="${ctxStatic}/js/d3.js"></script>
-
+<style>
+	.explain-list .explain-b tbody tr td:first-child{
+		width:auto;
+	}
+</style>
 </head>
 
 <body>
@@ -37,11 +41,17 @@
 				<div class="explain-b">
                     <table>
                         <thead>
-                            <tr><th>Gene ID</th><th>Arabi ID</th><th>Arabi Symbol</th><th>Arabi Definition</th></tr>
+                            <tr><th>Gene ID</th><th>Ortholog Species</th><th>Ortholog Gene ID</th><th>Ortholog Gene Description</th><th>Relationship</th></tr>
                         </thead>
                         <tbody>
 						<c:forEach items="${homologous}" var="homo">
-                            <tr><td>${homo.geneId}</td><td><a class="arabi-link" target="_blank" href="http://www.arabidopsis.org/servlets/Search?type=general&search_action=detail&method=1&show_obsolete=F&name=${homo.arabiId}&sub_type=gene&SEARCH_EXACT=4&SEARCH_CONTAINS=1">${homo.arabiId}</a></td><td>${homo.arabiSymbol}</td><td>${homo.arabiDefinition}</td></tr>
+                            <tr>
+								<td>${homo.geneId}</td>
+								<td><a class="arabi-link" target="_blank" href="http://www.arabidopsis.org/servlets/Search?type=general&search_action=detail&method=1&show_obsolete=F&name=${homo.arabiId}&sub_type=gene&SEARCH_EXACT=4&SEARCH_CONTAINS=1">${homo.arabiId}</a></td>
+								<td>${homo.arabiSymbol}</td>
+								<td>${homo.arabiDefinition}</td>
+								<td>${homo.arabiDefinition}</td>
+							</tr>
 						</c:forEach>
                         </tbody>
                     </table>
