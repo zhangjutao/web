@@ -7,6 +7,7 @@ import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -538,7 +539,7 @@ public class DNAMongoService {
         return result;
     }
 
-    public List<SNP> searchByGene(String type, String gene, Page<DNAGens> page) {
+    public List<SNP> searchByGene(String type, String[] ctypeList, String gene, Page<DNAGens> page) {
         int index = gene.indexOf(".") + 1;//Glyma.17G187600
         String chr = "Chr" + gene.substring(index, index + 2);
         String collectionName = type + "_" + chr;
@@ -546,8 +547,10 @@ public class DNAMongoService {
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
-//                criteria.and("gene").regex(Tools.getRegex(gene));//匹配基因
             criteria.and("gene").is(gene);//匹配基因
+            if (ctypeList!=null && (!ArrayUtils.contains(ctypeList, "all"))){
+                criteria.and("consequencetype").in(ctypeList);
+            }
             Query query = new Query();
             query.addCriteria(criteria);
             logger.info("Query:" + query.toString());
