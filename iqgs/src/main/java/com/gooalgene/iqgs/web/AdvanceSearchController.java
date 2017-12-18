@@ -5,7 +5,11 @@ import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.QTLCondition;
+import com.gooalgene.mrna.entity.Classifys;
+import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
+import com.gooalgene.qtl.service.TraitCategoryService;
+import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,6 +31,12 @@ public class AdvanceSearchController {
 
     @Autowired
     private QtlService qtlService;
+
+    @Autowired
+    private TService tService;
+
+    @Autowired
+    private TraitCategoryService traitCategoryService;
 
     /**
      * @api {get} /advance-search/query-by-qtl-name 主页qtl search
@@ -112,14 +122,211 @@ public class AdvanceSearchController {
      * @apisamplerequest http://localhost:8080/iqgs/advance-search/query-by-qtl-name
      * @apidescription 该方法在用户点击高级搜索时发起请求，所有的下拉组织、对应小组织都是动态的
      * @apiSuccessExample Success-Response:
+     * [
      * {
-     * "seed" : [ "seed", "seed coat", "embryo" ],
-     * "pod" : [ "seed", "dogTail" ]
+     * "id": "59898cfc1d78c746c0df80cf",
+     * "name": "pod_All",
+     * "chinese": "豆荚",
+     * "children": [
+     * {
+     * "name": "pod",
+     * "chinese": "",
+     * "children": []
+     * }
+     * ]
+     * },
+     * {
+     * "id": "59898cfc1d78c746c0df80d0",
+     * "name": "seed_All",
+     * "chinese": "种子 ",
+     * "children": [
+     * {
+     * "name": "seed",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat",
+     * "chinese": "",
+     * "children": [
+     * {
+     * "name": "seed coat endothelium",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat epidermis",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat hilum",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat inner integument",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat outer integument",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat parenchyma compartment",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat hourglass",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat parenchyma",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "seed coat palisade",
+     * "chinese": "",
+     * "children": []
+     * }
+     * ]
+     * },
+     * {
+     * "name": "embryo",
+     * "chinese": "",
+     * "children": [
+     * {
+     * "name": "embryo proper",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "suspensor",
+     * "chinese": "",
+     * "children": []
+     * }
+     * ]
+     * },
+     * {
+     * "name": "cotyledon",
+     * "chinese": "",
+     * "children": [
+     * {
+     * "name": "cotyledon abaxial parenchyma",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "cotyledon adaxial epidermis",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "cotyledon adaxial parenchyma",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "cotyledon vasculature",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "cotyledon abaxial epidermis",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "germinated cotyledon",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "immature cotyledon",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "embryonic cotyledon",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "embryo proper cotyledon",
+     * "chinese": "",
+     * "children": []
+     * }
+     * ]
+     * },
+     * {
+     * "name": "axis",
+     * "chinese": "",
+     * "children": [
+     * {
+     * "name": "embryo proper axis ",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "embryonic axis",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "axis epidermis",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "axis plumules",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "axis vasculature",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "axis parenchyma",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "axis root tip",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "axis shoot apical meristem",
+     * "chinese": "",
+     * "children": []
+     * },
+     * {
+     * "name": "axis stele",
+     * "chinese": "",
+     * "children": []
+     * }
+     * ]
+     * },
+     * {
+     * "name": "endosperm",
+     * "chinese": "",
+     * "children": []
+     * }
+     * ]
      * }
      */
     @RequestMapping(value = "/query-all-organic")
-    public String getAllOrganicAndChildren() {
-        return null;
+    @ResponseBody
+    public List<Classifys> getAllOrganicAndChildren() {
+        List<Classifys> classify = tService.getClassifyTree();
+        return classify;
     }
 
     /**
@@ -129,66 +336,89 @@ public class AdvanceSearchController {
      * @apisamplerequest http://localhost:8080/iqgs/advance-search/fetch-qtl-smarty
      * @apidescription 点击高级搜索时，qtl选项二级联动列表数据，无需入参，页面载入时直接向后台取即可
      * @apiSuccessExample Success-Response:
-     * [{
-     * "qtlName": "Fungal resistance QTL",
-     * "qtlDesc": "真菌抗性",
-     * "qtlId": 16,
-     * "qtlOthername": "QTL_fungal",
+     * [
+     * {
+     * "qtlName": null,
+     * "qtlDesc": "无机物耐性",
+     * "qtlOthername": null,
      * "traitLists": [
      * {
-     * "traitName": "Reaction to Phakopsora pachyrhizi infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * "qtlId": 23,
+     * "traitName": "Aluminum Tolerance",
+     * "qtls": [
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Al tolerance 1-2",
+     * "trait": null,
+     * "type": null,
+     * "chrlgId": null,
+     * "chr": null,
+     * "lg": null,
+     * "marker1": null,
+     * "marker2": null,
+     * "marker": null,
+     * "associatedGenesId": null,
+     * "version": null,
+     * "method": null,
+     * "genomeStart": null,
+     * "genomeStartType": null,
+     * "genomeEnd": null,
+     * "genomeEndType": null,
+     * "lod": null,
+     * "lodType": null,
+     * "parent1": null,
+     * "parent2": null,
+     * "parent": null,
+     * "ref": null,
+     * "author": null,
+     * "keywords": null,
+     * "createtime": null
      * },
      * {
-     * "traitName": "Reaction to Phialophora gregata infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Fusarium infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe longicolla Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Al tolerance 1-3",
+     * "trait": null,
+     * "type": null,
+     * "chrlgId": null,
+     * "chr": null,
+     * "lg": null,
+     * "marker1": null,
+     * "marker2": null,
+     * "marker": null,
+     * "associatedGenesId": null,
+     * "version": null,
+     * "method": null,
+     * "genomeStart": null,
+     * "genomeStartType": null,
+     * "genomeEnd": null,
+     * "genomeEndType": null,
+     * "lod": null,
+     * "lodType": null,
+     * "parent1": null,
+     * "parent2": null,
+     * "parent": null,
+     * "ref": null,
+     * "author": null,
+     * "keywords": null,
+     * "createtime": null
      * }
      * ]
-     * },
-     * {
-     * "qtlName": "Insect resistance QTL",
-     * "qtlDesc": "抗虫性",
-     * "qtlId": 17,
-     * "qtlOthername": "QTL_insectv",
-     * "traitLists": [
-     * {
-     * "traitName": "Reaction to Aulacorthum solani, choice",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Aulacorthum solani, no choice",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Fusarium infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe longicolla Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * }
      * ]
-     * }]
      */
     @RequestMapping(value = "/fetch-qtl-smarty")
-    public String fetchQtlSmartyData() {
-        return null;
+    @ResponseBody
+    public List<TraitCategoryWithinMultipleTraitList> fetchQtlSmartyData() {
+        List<TraitCategoryWithinMultipleTraitList> allTraitCategoryAndItsTraitList = traitCategoryService.findAllTraitCategoryAndItsTraitList();
+        return allTraitCategoryAndItsTraitList;
     }
 
     /**
