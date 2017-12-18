@@ -374,7 +374,7 @@
                 sequence:$('.sequence-block').val().toUpperCase()
             };
             console.log(data)
-            var promise = primer3.utils.sendAjaxRequest("GET", "http://192.168.0.123:8080/iqgs/primer/getPrimer", data);
+            var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
             promise.then(
                 function (result) {
                     console.log(result);
