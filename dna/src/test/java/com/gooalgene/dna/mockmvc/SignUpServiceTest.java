@@ -43,7 +43,7 @@ public class SignUpServiceTest extends TestCase {
     }
 
     @Test
-    public void testForgetPasswordController() throws Exception {
+       public void testForgetPasswordController() throws Exception {
         mockMvc.perform(post("/signup/forget")
                 .param("username", "huyao")
                 .param("email", "crabime@gmail.com"))

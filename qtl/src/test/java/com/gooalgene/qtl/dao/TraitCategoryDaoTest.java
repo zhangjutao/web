@@ -48,7 +48,6 @@ public class TraitCategoryDaoTest extends TestCase {
         List<TraitCategoryWithinMultipleTraitList> allTraitCategoryAndItsTraitLists = traitCategoryDao.findAllTraitCategoryAndItsTraitList();
         assertNotNull(allTraitCategoryAndItsTraitLists);
         TraitCategoryWithinMultipleTraitList firstTraitCategory = allTraitCategoryAndItsTraitLists.get(0);
-        assertEquals("真菌抗性", firstTraitCategory.getQtlDesc());
         String result = objectMapper.writeValueAsString(firstTraitCategory);
         System.out.println(result);
     }

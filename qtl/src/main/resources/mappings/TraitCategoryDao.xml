@@ -4,12 +4,13 @@
     
     <resultMap id="traitCategoryResultMap" type="com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList">
         <id column="id" jdbcType="INTEGER" javaType="int" />
-        <result property="qtlName" column="qtl_name" javaType="String" jdbcType="VARCHAR"/>
         <result property="qtlDesc" column="qtl_desc" javaType="String" jdbcType="VARCHAR"/>
-        <result property="qtlOthername" column="qtl_othername" javaType="String" jdbcType="VARCHAR"/>
-        <collection property="traitLists" column="qtl_id" ofType="com.gooalgene.entity.TraitList">
+        <collection property="traitLists" column="qtl_id" ofType="com.gooalgene.qtl.views.TraitListWithinMultipleQtlName">
             <result property="qtlId" column="qtl_id" javaType="int" jdbcType="INTEGER" />
             <result property="traitName" column="trait_name" javaType="String" jdbcType="VARCHAR" />
+            <collection property="qtls" column="trait" ofType="com.gooalgene.entity.Qtl">
+                <result property="qtlName" column="qtl_name" javaType="String" jdbcType="VARCHAR" />
+            </collection>
         </collection>
     </resultMap>
 
@@ -50,6 +51,11 @@
     </select>
 
     <select id="findAllTraitCategoryAndItsTraitList" resultMap="traitCategoryResultMap">
-        SELECT * FROM trait_category a LEFT JOIN trait_list b ON a.id = b.qtl_id;
+        SELECT a.id,a.qtl_desc, b.qtl_id, b.trait_name, c.qtl_name
+        FROM trait_category a
+          LEFT JOIN trait_list b
+        ON a.id = b.qtl_id
+          LEFT JOIN qtl c
+        ON b.trait_name = c.trait
     </select>
 </mapper>

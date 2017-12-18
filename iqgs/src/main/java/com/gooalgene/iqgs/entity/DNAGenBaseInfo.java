@@ -14,7 +14,7 @@ public class DNAGenBaseInfo extends BaseEntity<DNAGenBaseInfo> {
     private String species;
     private String functions;
     private String description;
-
+    private String geneOldId;
 	// 用于基因家族查询
 	private String familyId;
 
@@ -90,7 +90,15 @@ public class DNAGenBaseInfo extends BaseEntity<DNAGenBaseInfo> {
 		this.familyId = familyId;
 	}
 
-	@Override
+    public String getGeneOldId() {
+        return geneOldId;
+    }
+
+    public void setGeneOldId(String geneOldId) {
+        this.geneOldId = geneOldId;
+    }
+
+    @Override
     public void preInsert() {
 
     }
