@@ -81,4 +81,11 @@ public class QtlDaoTest extends TestCase {
             e.printStackTrace();
         }
     }
+
+    @Test
+    public void testFindQtlsByName(){
+        List<Qtl> qtls = qtlDao.findQtlsByName("daidzein");
+        assertNotNull(qtls);
+        assertEquals(60, qtls.size());
+    }
 }

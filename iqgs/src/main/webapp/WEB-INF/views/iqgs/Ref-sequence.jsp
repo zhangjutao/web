@@ -64,7 +64,7 @@
             padding-right: 0px;
         }
         .refseq_ul li i{
-width:12px; height: 12px; border-radius: 50%; display: block;    display: flex;
+            width:12px; height: 12px; border-radius: 50%; display: block;    display: flex;
             position: relative;
             top:4px;
             margin-right: 4px;
@@ -124,6 +124,7 @@ width:12px; height: 12px; border-radius: 50%; display: block;    display: flex;
                                     <div class="foo_div">
                                         <textarea id="input"></textarea>
                                         <div class="copy_p" id="copyConter">
+                                            ${data}
                                         </div>
                                     </div>
                                 </div>
