@@ -35,18 +35,12 @@
                 <div class="explain-h">
                     <p>参考序列</p>
                 </div>
-                ${data}
+                <%--${data}--%>
                 <span style="background-color: red;color: white">红色背景  CDS</span>
                 <span style="background-color: green;color: white">绿色背景 3-UTR</span>
                 <span style="background-color: blue;color: white">蓝色背景 5-UTR</span>
                 <span style="background-color: grey;color: white">灰色背景 upstream2k</span>
 
-            <%--<c:forEach items="${maps}" var="v">
-                    <div class="box">
-                        <a href="${v.value.userName }/showUserbyJson">json格式数据<br></a>
-
-                    </div>
-                </c:forEach>--%>
                 <div class="explain-b">
                     <table>
                         <tbody>

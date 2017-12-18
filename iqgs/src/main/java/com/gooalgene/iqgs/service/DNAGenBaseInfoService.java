@@ -21,6 +21,7 @@ public class DNAGenBaseInfoService {
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         bean.setGeneId(keyword);
+        bean.setGeneOldId(keyword);
         bean.setGeneName(keyword);
         bean.setPage(page);
         return dnaGenBaseInfoDao.findByConditions(bean);

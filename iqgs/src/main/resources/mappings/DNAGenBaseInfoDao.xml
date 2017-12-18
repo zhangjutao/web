@@ -10,6 +10,9 @@
             <if test="geneId!=null">
                 a.gene_id LIKE CONCAT('%', #{geneId}, '%')
             </if>
+            <if test="geneOldId!=null">
+                OR a.gene_id_old LIKE CONCAT('%', #{geneOldId}, '%')
+            </if>
             <if test="geneName!=null">
                 OR a.gene_name LIKE CONCAT('%', #{geneName}, '%')
             </if>
