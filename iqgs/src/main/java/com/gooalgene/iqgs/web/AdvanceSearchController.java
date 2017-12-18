@@ -336,62 +336,83 @@ public class AdvanceSearchController {
      * @apisamplerequest http://localhost:8080/iqgs/advance-search/fetch-qtl-smarty
      * @apidescription 点击高级搜索时，qtl选项二级联动列表数据，无需入参，页面载入时直接向后台取即可
      * @apiSuccessExample Success-Response:
-     * [{
-     * "qtlName": "Fungal resistance QTL",
-     * "qtlDesc": "真菌抗性",
-     * "qtlId": 16,
-     * "qtlOthername": "QTL_fungal",
+     * [
+     * {
+     * "qtlName": null,
+     * "qtlDesc": "无机物耐性",
+     * "qtlOthername": null,
      * "traitLists": [
      * {
-     * "traitName": "Reaction to Phakopsora pachyrhizi infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * "qtlId": 23,
+     * "traitName": "Aluminum Tolerance",
+     * "qtls": [
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Al tolerance 1-2",
+     * "trait": null,
+     * "type": null,
+     * "chrlgId": null,
+     * "chr": null,
+     * "lg": null,
+     * "marker1": null,
+     * "marker2": null,
+     * "marker": null,
+     * "associatedGenesId": null,
+     * "version": null,
+     * "method": null,
+     * "genomeStart": null,
+     * "genomeStartType": null,
+     * "genomeEnd": null,
+     * "genomeEndType": null,
+     * "lod": null,
+     * "lodType": null,
+     * "parent1": null,
+     * "parent2": null,
+     * "parent": null,
+     * "ref": null,
+     * "author": null,
+     * "keywords": null,
+     * "createtime": null
      * },
      * {
-     * "traitName": "Reaction to Phialophora gregata infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Fusarium infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe longicolla Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Al tolerance 1-3",
+     * "trait": null,
+     * "type": null,
+     * "chrlgId": null,
+     * "chr": null,
+     * "lg": null,
+     * "marker1": null,
+     * "marker2": null,
+     * "marker": null,
+     * "associatedGenesId": null,
+     * "version": null,
+     * "method": null,
+     * "genomeStart": null,
+     * "genomeStartType": null,
+     * "genomeEnd": null,
+     * "genomeEndType": null,
+     * "lod": null,
+     * "lodType": null,
+     * "parent1": null,
+     * "parent2": null,
+     * "parent": null,
+     * "ref": null,
+     * "author": null,
+     * "keywords": null,
+     * "createtime": null
      * }
      * ]
-     * },
-     * {
-     * "qtlName": "Insect resistance QTL",
-     * "qtlDesc": "抗虫性",
-     * "qtlId": 17,
-     * "qtlOthername": "QTL_insectv",
-     * "traitLists": [
-     * {
-     * "traitName": "Reaction to Aulacorthum solani, choice",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Aulacorthum solani, no choice",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Fusarium infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "traitName": "Reaction to Diaporthe longicolla Infection",
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
      * }
      * ]
-     * }]
      */
     @RequestMapping(value = "/fetch-qtl-smarty")
     @ResponseBody
