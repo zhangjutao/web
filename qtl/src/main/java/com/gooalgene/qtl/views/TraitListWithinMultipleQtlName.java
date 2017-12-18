@@ -1,9 +1,12 @@
 package com.gooalgene.qtl.views;
 
+import com.gooalgene.entity.Qtl;
+
 import java.util.List;
 
 /**
  * 一个trait list中包含多个qtl name
+ * 数据参见qtl中trait与qtl_name两个字段
  * @author crabime
  */
 public class TraitListWithinMultipleQtlName {
@@ -11,5 +14,29 @@ public class TraitListWithinMultipleQtlName {
 
     private String traitName;
 
-//    private List<String> qtlNames;
+    private List<Qtl> qtls;
+
+    public Integer getQtlId() {
+        return qtlId;
+    }
+
+    public void setQtlId(Integer qtlId) {
+        this.qtlId = qtlId;
+    }
+
+    public String getTraitName() {
+        return traitName;
+    }
+
+    public void setTraitName(String traitName) {
+        this.traitName = traitName;
+    }
+
+    public List<Qtl> getQtls() {
+        return qtls;
+    }
+
+    public void setQtls(List<Qtl> qtls) {
+        this.qtls = qtls;
+    }
 }
