@@ -54,12 +54,6 @@ public class DNAGenBaseInfoController {
     @Autowired
     private QueryService queryService;
 
-    /**
-     * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/index <br>
-     * 请求方式: GET OR POST
-     *
-     * @return 跳转到iqgs目录下IQGS-index.jsp页面
-     */
     @RequestMapping("/index")
     public String toIndexPage() {
         return "iqgs/IQGS-index";
