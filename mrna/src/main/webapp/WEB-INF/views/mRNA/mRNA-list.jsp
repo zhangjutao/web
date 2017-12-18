@@ -400,7 +400,8 @@
                     keywords=keywords+".all";
                 }
             }
-            $.getJSON('listByResult', {
+
+            $.getJSON('${ctxroot}/mrna/listByResult', {
                 pageNo: curr || 1,
                 pageSize: pageSize,
                 type:type ,
