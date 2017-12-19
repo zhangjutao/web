@@ -7,9 +7,10 @@ import com.gooalgene.common.DataEntity;
  */
 public class DNAGenHomologous extends DataEntity<DNAGenHomologous> {
     private String geneId;
-    private String arabiId;
-    private String arabiSymbol;
-    private String arabiDefinition;
+    private String orthologSpecies;
+    private String orthologGeneId;
+    private String orthologGeneDesc;
+    private String relationship;
 
     public String getGeneId() {
         return geneId;
@@ -19,27 +20,36 @@ public class DNAGenHomologous extends DataEntity<DNAGenHomologous> {
         this.geneId = geneId;
     }
 
-    public String getArabiId() {
-        return arabiId;
+    public String getOrthologSpecies() {
+        return orthologSpecies;
     }
 
-    public void setArabiId(String arabiId) {
-        this.arabiId = arabiId;
+    public void setOrthologSpecies(String orthologSpecies) {
+        this.orthologSpecies = orthologSpecies;
     }
 
-    public String getArabiSymbol() {
-        return arabiSymbol;
+    public String getOrthologGeneId() {
+        return orthologGeneId;
     }
 
-    public void setArabiSymbol(String arabiSymbol) {
-        this.arabiSymbol = arabiSymbol;
+    public void setOrthologGeneId(String orthologGeneId) {
+        this.orthologGeneId = orthologGeneId;
     }
 
-    public String getArabiDefinition() {
-        return arabiDefinition;
+    public String getOrthologGeneDesc() {
+        return orthologGeneDesc;
     }
 
-    public void setArabiDefinition(String arabiDefinition) {
-        this.arabiDefinition = arabiDefinition;
+    public void setOrthologGeneDesc(String orthologGeneDesc) {
+        this.orthologGeneDesc = orthologGeneDesc;
+    }
+
+
+    public String getRelationship() {
+        return relationship;
+    }
+
+    public void setRelationship(String relationship) {
+        this.relationship = relationship;
     }
 }

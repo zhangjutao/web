@@ -584,25 +584,28 @@ public class DNAGenBaseInfoController {
      * @apiParam {int} pageSize 每页包含的条数
      * @apiParamExample 参数请求实例1（用户不进行consequencetype筛选时）:
      * {
+     *     "gene":"Glyma.01G004900",
      *     "type":"SNP",
      *     "ctype":"all",
      *     "pageNo":2,
-     *     "pageSize":10,
+     *     "pageSize":10
      * }
      * @apiParamExample 参数请求实例2（用户筛选consequencetype时）:
      * {
+     *     "gene":"Glyma.01G004900",
      *     "type":"SNP",
      *     "gene":"Glyma.01G004900",
-     *     "ctype":"upstream","downstream","intronic",
+     *     "ctype":"upstream,downstream,intronic",
      *     "pageNo":2,
-     *     "pageSize":10,
+     *     "pageSize":10
      * }
      * @apiParamExample 参数请求实例3（用户点选INDEL时）:
      * {
+     *     "gene":"Glyma.01G004900",
      *     "type":"INDEL",
      *     "ctype":"all",
      *     "pageNo":2,
-     *     "pageSize":10,
+     *     "pageSize":10
      * }
      * @apidescription 返回页面转发（到gene-family.jsp），通过EL表达式取到后台查询的值。
      * @apiSuccessExample 成功返回数据:
