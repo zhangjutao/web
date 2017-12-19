@@ -99,7 +99,7 @@ public class Primer3Controller {
                 primerOptSize + primerMaxSize + primerMinTm +
                 primerOptTm + primerMaxTm + param3 + primerMinGc +
                 param4 + primerMaxGc + primerProductSizeRange + param5;
-        List<Primer> primerList = primer3Service.getPrimer("http://192.168.14.128/cgi-bin/primer3web_results.cgi?", params);
+        List<Primer> primerList = primer3Service.getPrimer("http://180.76.160.204:90/cgi-bin/primer3web_results.cgi?", params);
         return primerList;
     }
 }
