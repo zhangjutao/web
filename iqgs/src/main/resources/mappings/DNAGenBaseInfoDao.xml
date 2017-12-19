@@ -76,7 +76,7 @@
 
     <select id="findGenHomologousByGeneId"
             resultType="com.gooalgene.iqgs.entity.DNAGenHomologous">
-        SELECT * FROM gens_homologous WHERE gene_id = #{geneId};
+        SELECT gene_id,ortholog_species,ortholog_gene_id,ortholog_gene_desc AS orthologGeneDescription,relationship FROM homologous_gene WHERE gene_id = #{geneId};
     </select>
 
     <select id="findBaseInfoByFamilyId"
