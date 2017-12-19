@@ -315,8 +315,8 @@
                             method: method,
                             url: url,
                             data:data,
-                            //dataType: "json",
-                            contentType: "application/json,charset=UTF-8;",
+                            dataType: "json",
+                            //contentType: "application/json,charset=UTF-8;",
                             success: function (result) {
                                 resolve(result)
                             },
