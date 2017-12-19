@@ -407,9 +407,8 @@
                 function (result) {
                     console.log(result);
                     result.param=data;
-
                     result=JSON.stringify(result);
-                    localStorage.setItem('peimer3List',result);
+                    localStorage.setItem('primer3List',result);
                     window.location=ctxRoot+"/primer3out";
                 },
                 function (error) {
