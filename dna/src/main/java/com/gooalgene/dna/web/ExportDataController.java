@@ -420,7 +420,6 @@ public class ExportDataController {
                     page.setPageSize(total);
                     result = snpService.searchSNPinRegionForExport(type, ctype, chr, startPos, endPos, group, page);
                     content = serialList(type, result, columns.split(","));
-
                 } else if ("GENE".equals(model)) {
                     String type = request.getParameter("type");
                     fileName += "_" + type;
