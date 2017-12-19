@@ -175,7 +175,7 @@
             var targetGeneArray = [];
             // 定义图片结构
             var svg_legend_height = 80,
-                svg_main_height = structure_data.data.length * 40,
+                svg_main_height = structure_data.data.length * 36,
                 svg_bottom_height = 40,
                 svg_height = svg_legend_height + svg_main_height + svg_bottom_height,
                 main_margin = 30
@@ -256,8 +256,6 @@
 
                 structure_legend_main.append("rect").attr("x", 120).attr("y", 0).attr("width", rect_width).attr("height", rect_width).attr("fill", structureColor.three_prime_UTR)
                 structure_legend_main.append("text").text("3'UTR").attr("dominant-baseline", "middle").attr("transform", "translate(136," + (main_height / 2 + 1) + ")").attr("font-size", "12px")
-
-
                 svg_legend_g.selectAll("text").attr("fill", "#666666")
             }
 
@@ -315,10 +313,6 @@
                     .on("mouseout", function () {
                         d3.select(this).style("cursor", "default").attr("stroke", "");
                     })
-                // .append("title").text(function (d) {
-                //   return d.data.name
-                // })
-
 
                 function elbow(d, i) {
                     return "M" + d.source.y + "," + d.source.x
@@ -334,10 +328,7 @@
                     else {
                         targetGeneArray.push(d.data.name);
                     }
-
-
                 }
-
             }
             //画基因结构图
             function drawStructurePic(json) {
@@ -353,16 +344,15 @@
                 for (let i = 0; i < json.data.length; i++) {
 //                    svg.append("defs").append("Path").attr("id", "myTextPath"+i).attr("d", "M0,10a1,0 0 0,0 120,0");
                     var single_gene_g = svg_structure_g.append("g").attr("id", "structure_" + json.data[i].geneID).attr("class", "structure_name")
-                        .attr("transform", "translate( 0 ," + (i *40) + ")")
+                        .attr("transform", "translate( 0 ," + (i *36) + ")")
                     // label文字
                     var gene_name = single_gene_g.append("g").attr("class", "gene_name");
-                    gene_name.append("text").attr("class", "labelGeneID").attr("transform", "translate( 10 ,10 )")
-                        .text(json.data[i].geneID).attr("dominant-baseline", "middle").style("font-size", "12px");
-                    var labelGeneName=gene_name.append("text").attr("class", "labelGeneName").attr("transform", "translate( 10 ,16)");
-//                    labelGeneName.append("defs").append("Path").attr("id", "myTextPath"+i).attr("d", "M0,10a1,0 0 0,0 120,0");
-                    labelGeneName.append("textPath").attr('title',json.data[i].geneName).attr("xlink:href", "#myTextPath")
-                        .text(json.data[i].geneName).attr("dominant-baseline", "middle").style("font-size", "12px");
-                    gene_name.on("click", function () {
+
+                   var gene_id= gene_name.append("text").attr("class", "labelGeneID").attr("transform", "translate( 10 ,10 )")
+                       .text(json.data[i].geneID).attr("dominant-baseline", "middle").style("font-size", "12px");
+                    var labelGeneName = gene_name.append("text").attr("class", "labelGeneName").attr("transform", "translate( 10 ,26)").style("cursor", "pointer")
+                    .attr('title',json.data[i].geneName).text(json.data[i].geneName).attr("dominant-baseline", "middle").style("font-size", "12px");
+                    gene_id.on("click", function () {
                         targetGeneArray = [];
                         targetGeneArray.push(this.textContent)
                         SearchGeneArray(targetGeneArray)
@@ -373,9 +363,6 @@
                         .on("mouseout", function () {
                             d3.select(this).style("cursor", "default").attr("fill", "#000000");
                         })
-
-//                var maxWidth = $('.gene_name').width();
-//                console.log(maxWidth)
 
                     // 结构图
                     var single_gene_structure = single_gene_g.append("g").attr("class", "gene_structure").attr("transform", "translate( 140 , 16)")
@@ -390,8 +377,8 @@
 
                     //给超长的基因名称添加省略号
                     var maxwidth = 15;//显示多少字符
-                    for(var j=0;j<$("#clusterPic textPath").length;j++){
-                        var cur = $("#clusterPic textPath").eq(j);
+                    for(var j=0;j<$(".labelGeneName").length;j++){
+                        var cur = $(".labelGeneName").eq(j);
                         if(cur.text().length>maxwidth){
                             cur.text(cur.text().substring(0,maxwidth)+'...')
                         }
@@ -401,28 +388,24 @@
             function drawAxis(length) {
                 var svg_Axis_g = svg.append("g").attr("class", "geneStructureAxis")
                     .attr("transform", "translate(" + (140 + main_margin + svg_width * 0.3) + "," + (svg_legend_height + svg_main_height) + ")");
-
                 var xScale = d3.scaleLinear().range([svg_width * 0.7 - 140 - main_margin * 2, 0]).clamp(true).domain([length, 0])
                 var xAxis = d3.axisBottom(xScale).tickSizeOuter(0).ticks(5).tickSize(-svg_main_height).tickPadding([10])
                 svg_Axis_g.append("g").call(xAxis)
                 svg_Axis_g.selectAll("line").attr("stroke", "#CCCCCC").attr("stroke-dasharray", 1)
                 svg_Axis_g.selectAll("text").attr("fill", "#666666")
                 svg_Axis_g.selectAll("path").remove()
-
-
             }
             //对目标基因数组的处理函数
             function SearchGeneArray(geneArray) {
                 console.log(geneArray);
                 window.open("${ctxroot}/specific/index?genes="+geneArray.join(","));
             }
-
         }
             //基因名称悬浮框显示
-                $('.gene_name').hover(function () {
+                $('.gene_name .labelGeneName').hover(function () {
                     var self = this;
-                    var cont = $(this).parent(".structure_name").find(".labelGeneName textPath").attr("title");
-                    if($(this).parent(".structure_name").find(".labelGeneName textPath").text()!==""&&cont.length>15){
+                    var cont = $(this).attr("title");
+                    if($(this).text()!==""&&cont.length>15){
                         $.pt({
                             target: self,
                             content: cont

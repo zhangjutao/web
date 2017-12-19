@@ -70,17 +70,18 @@
             margin-right: 4px;
         }
         .refseq_i1{background: #abbac3;
-
         }
         .refseq_i2{background: #f87481;
-
         }
         .refseq_i3{background: #0099bb;
-
         }
         .refseq_i4{background: #ffb902;
-
         }
+        .upstream2k_bg{background: #abbac3;}
+        .cds_bg{background: #0099bb;}
+        .five_p{background: #f87481;}
+        .three_p{background:#ffb902;}
+
     </style>
 </head>
 
@@ -124,7 +125,6 @@
                                     <div class="foo_div">
                                         <textarea id="input"></textarea>
                                         <div class="copy_p" id="copyConter">
-                                            ${data}
                                         </div>
                                     </div>
                                 </div>
@@ -145,19 +145,7 @@
                                     </div>
                                 </div>
                             </td>
-
                         </tr>
-                        <%--<c:forEach items="${dnas}" var="dna">--%>
-                        <%--<tr>--%>
-                        <%--<td>--%>
-                        <%--<p class="sequence-name"><b>${dna.type}</b></p>--%>
-                        <%--<button class="copy"><img src="${ctxStatic}/images/i-1-ac.png">复制序列</button>--%>
-                        <%--</td>--%>
-                        <%--<td>--%>
-                        <%--<p class="gene-sequence">${dna.sequence}</p>--%>
-                        <%--</td>--%>
-                        <%--</tr>--%>
-                        <%--</c:forEach>--%>
                         </tbody>
                     </table>
                 </div>
@@ -171,25 +159,24 @@
 <script>
     $(document).ready(function () {
         var data=${data};
-        var xfbRightHtml = "";
+        console.log(data)
+        var gDNAHtml = "";
         var peptideHtml="";
-        var str = $(".gDNA").html();
         for (var i = 0; i < data.length; i++) {
             //gDNA
             if (data[i].type == "gDNA") {
-                xfbRightHtml += '<span class="gDNA">' + data[i].sequence + '</span>';
+                gDNAHtml += '<span class="gDNA">' + data[i].sequence + '</span>';
             }
-
-            $("#copyConter").html(xfbRightHtml);
+            $("#copyConter").html(gDNAHtml);
             //upstream2k
             if (data[i].type == "upstream2k") {
-                xfbRightHtml += '<span class="upstream2k">' + data[i].sequence + '</span>';
+                gDNAHtml += '<span class="upstream2k upstream2k_bg">' + data[i].sequence + '</span>';
             }
-            $("#copyConter").html(xfbRightHtml);
+            $("#copyConter").html(gDNAHtml);
+            //判断给gDNA下为'-'时upstream2k位置在gDNA之上
             if (data[i].strand == "-") {
                 $('.upstream2k').prependTo($("#copyConter"));
             }
-
             //peptide
             if (data[i].type == "peptide") {
                 peptideHtml += '<span class="peptide">' + data[i].sequence + '</span>';
@@ -198,74 +185,80 @@
         }
 
         //CDS
-        var str = $(".gDNA").html();
+        var str = $(".gDNA").text();
         for (var i = 0; i < data.length; i++) {
             if (data[i].feature == "CDS") {
-                var reg2 = str.substring(data[i].start, data[i].end+1);
-                var reg_test="<span class='CDS'>"+reg2+"</span>"
-                str = str.replace(reg2, reg_test);
+                var reg = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
+                var reg_CDS="<span class='CDS cds_bg'>"+reg+"</span>"
+                str = str.replace(reg, reg_CDS);
             }
             if (data[i].feature == "three_prime_UTR") {
-                var reg2 = str.substring(data[i].start, data[i].end + 1);
-                var reg_test = "<span class='three_prime_UTR'>" + reg2 + "</span>"
-                str = str.replace(reg2, reg_test);
+                var reg = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
+                var reg_three_prime_UTR = "<span class='three_prime_UTR three_p'>" + reg + "</span>"
+                str = str.replace(reg, reg_three_prime_UTR);
             }
+                if (data[i].feature == "five_prime_UTR") {
+                    var reg2 = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
+                    var reg_five_prime_UTR = "<span class='five_prime_UTR five_p'>" + reg2 + "</span>"
+                    str= str.replace(reg2, reg_five_prime_UTR);
+                }
         }
         $(".gDNA").html(str)
     });
 
-
     //复制gDNA
     function copygDNA() {
-        $(".CDS").removeClass("order_bg");
-        $(".upstream2k").removeClass("order_bg");
-        $("#copyConter").removeClass("order_bg");
-        $(".peptide").removeClass("order_bg");
+        $(".upstream2k").addClass("upstream2k_bg");
+        $(".three_prime_UTR").removeClass('three_p');
+        $(".five_prime_UTR").removeClass('five_p');
+        $(".CDS").removeClass('cds_bg');
+        $(".CDS,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
         var text = $("#copyConter .gDNA").text();
         var input = document.getElementById("input");
         input.value = text; // 修改文本框的内容
         input.select(); // 选中文本
         document.execCommand("copy"); // 执行浏览器复制命令
-        $(".gDNA").addClass("order_bg");
+        $(".gDNA").removeClass('cds_bg').addClass("order_bg");
         layer.msg("复制成功！");
     }
 
     //复制CDS
     function copyCDS(){
-        $(".gDNA").removeClass("order_bg");
-        $(".upstream2k").removeClass("order_bg");
-        $("#copyConter").removeClass("order_bg");
-        $(".peptide").removeClass("order_bg");
+        $(".upstream2k").addClass("upstream2k_bg");
+        $(".three_prime_UTR").addClass('three_p');
+        $(".five_prime_UTR").addClass('five_p');
+        $(".gDNA,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
         var text = $("#copyConter .CDS").text();
         var input = document.getElementById("input");
         input.value = text; // 修改文本框的内容
         input.select(); // 选中文本
         document.execCommand("copy"); // 执行浏览器复制命令
-        $(".CDS").addClass("order_bg");
+        $(".CDS").removeClass('cds_bg').addClass("order_bg");
         layer.msg("复制成功！");
     }
 
     //复制upstream2k
     function copyUpstream2k() {
-        $(".gDNA").removeClass("order_bg");
-        $(".CDS").removeClass("order_bg");
-        $("#copyConter").removeClass("order_bg");
-        $(".peptide").removeClass("order_bg");
+        $(".three_prime_UTR").addClass('three_p');
+        $(".five_prime_UTR").addClass('five_p');
+        $(".CDS").addClass('cds_bg');
+        $(".gDNA,.CDS,#copyConter,.peptide").removeClass("order_bg");
         var text = $("#copyConter .upstream2k").text();
         var input = document.getElementById("input");
         input.value = text; // 修改文本框的内容
         input.select(); // 选中文本
         document.execCommand("copy"); // 执行浏览器复制命令
-        $(".upstream2k").addClass("order_bg");
+        $(".upstream2k").removeClass("upstream2k_bg").addClass("order_bg");
         layer.msg("复制成功！");
     }
 
     //复制全部序列
     function copyConter() {
-        $(".gDNA").removeClass("order_bg");
-        $(".CDS").removeClass("order_bg");
-        $(".upstream2k").removeClass("order_bg");
-        $(".peptide").removeClass("order_bg");
+        $(".CDS").removeClass('cds_bg');
+        $(".upstream2k").removeClass("upstream2k_bg")
+        $(".three_prime_UTR").removeClass('three_p');
+        $(".five_prime_UTR").removeClass('five_p');
+        $(".gDNA,.CDS,.upstream2k,.peptide").removeClass("order_bg");
         var text = $("#copyConter").text();
         var input = document.getElementById("input");
         input.value = text; // 修改文本框的内容
@@ -277,10 +270,11 @@
 
     //复制Peptide全部序列
     function copyPeptide() {
-        $(".gDNA").removeClass("order_bg");
-        $(".CDS").removeClass("order_bg");
-        $(".upstream2k").removeClass("order_bg");
-        $("#copyConter").removeClass("order_bg");
+        $(".three_prime_UTR").addClass('three_p');
+        $(".five_prime_UTR").addClass('five_p');
+        $(".CDS").addClass('cds_bg');
+        $(".upstream2k").addClass("upstream2k_bg")
+        $(".gDNA,.CDS,.upstream2k,#copyConter").removeClass("order_bg");
         var text = $(".peptide").text();
         var input = document.getElementById("input");
         input.value = text; // 修改文本框的内容
@@ -289,41 +283,6 @@
         $(".peptide").addClass("order_bg");
         layer.msg("复制成功！");
     }
-    //    var t=document.getElementById("txt");
-    //    t.select();
-    //    window.clipboardData.setData('text',t.createTextRange().text);
-
-    <%--$('.copy').each(function(i){--%>
-    <%--$(this).click(function(){--%>
-    <%--$(".gene-sequence").removeClass("copy-ac")--%>
-    <%--var obj=$(this).parent().siblings().find(".gene-sequence");--%>
-    <%--obj.addClass("copy-ac");--%>
-    <%--var t=obj.text();--%>
-    <%--var clipboard = new Clipboard('.copy', {--%>
-    <%--text: function() {--%>
-    <%--return t;--%>
-    <%--}--%>
-    <%--});--%>
-    <%--clipboard.on('success', function(e) {--%>
-    <%--layer.msg("复制成功！")--%>
-    <%--console.log(t);--%>
-    <%--});--%>
-
-    <%--&lt;%&ndash;$(this).zclip({&ndash;%&gt;--%>
-    <%--&lt;%&ndash;path: "${ctxStatic}/js/zclip/ZeroClipboard.swf",&ndash;%&gt;--%>
-    <%--&lt;%&ndash;copy: function(){&ndash;%&gt;--%>
-    <%--&lt;%&ndash;return $(this).parent().siblings().find(".gene-sequence").text();&ndash;%&gt;--%>
-    <%--&lt;%&ndash;},&ndash;%&gt;--%>
-    <%--&lt;%&ndash;afterCopy:function(){/* 复制成功后的操作 */&ndash;%&gt;--%>
-    <%--&lt;%&ndash;console.log($(this).parent().siblings().find(".gene-sequence").text());&ndash;%&gt;--%>
-    <%--&lt;%&ndash;$(this).parent().siblings().find(".gene-sequence").css({"background-color":"#5c8ce6","color":"#fff"});&ndash;%&gt;--%>
-
-    <%--&lt;%&ndash;}&ndash;%&gt;--%>
-    <%--&lt;%&ndash;});&ndash;%&gt;--%>
-
-    <%--});--%>
-    <%--});--%>
-
 </script>
 </body>
 </html>
