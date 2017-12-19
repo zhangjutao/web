@@ -28,6 +28,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -54,12 +55,6 @@ public class DNAGenBaseInfoController {
     @Autowired
     private QueryService queryService;
 
-    /**
-     * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/index <br>
-     * 请求方式: GET OR POST
-     *
-     * @return 跳转到iqgs目录下IQGS-index.jsp页面
-     */
     @RequestMapping("/index")
     public String toIndexPage() {
         return "iqgs/IQGS-index";
@@ -301,7 +296,7 @@ public class DNAGenBaseInfoController {
      * @apiGroup DNAGeneBaseInfo
      * @apiParam {String} gen_id 基因详情页对应的基因id
      * @apidescription 返回页面转发（到gene-family.jsp），通过EL表达式取到后台查询的值。
-     * @apiSuccessExample model structure:
+     * @apiSuccessExample success model structure:
      * {
      * "hasFamilyFlg":true,
      * "dnaGenFamilyRels":{"geneId":"Glyma.04G202000","familyId":"LFY"},
@@ -387,7 +382,7 @@ public class DNAGenBaseInfoController {
      * }
      * ]
      * },
-     *"geneId":"Glyma.04G202000"
+     * "geneId":"Glyma.04G202000"
      * }
      */
     @RequestMapping("/detail/family")
@@ -579,17 +574,52 @@ public class DNAGenBaseInfoController {
     /**
      * 按基因搜索差异变异数据
      *
-     * @param request
-     * @param response
-     * @return
+     * @api {POST} /iqgs/searchDNAinGene 按基因搜索差异变异数据
+     * @apiName searchSNPinGene
+     * @apiGroup DNAGeneBaseInfo
+     * @apiParam {String} type 区分SNP和INDEL数据,默认传SNP
+     * @apiParam {String} gene 基因详情页对应的基因id
+     * @apiParam {list} ctype 默认为all，用户进行consequencetype筛选时将用户输入的所有类型以“ctype:[ctype1,ctype2,...]”形式返回
+     * @apiParam {int} pageNo 页码
+     * @apiParam {int} pageSize 每页包含的条数
+     * @apiParamExample 参数请求实例1（用户不进行consequencetype筛选时）:
+     * {
+     *     "gene":"Glyma.01G004900",
+     *     "type":"SNP",
+     *     "ctype":"all",
+     *     "pageNo":2,
+     *     "pageSize":10
+     * }
+     * @apiParamExample 参数请求实例2（用户筛选consequencetype时）:
+     * {
+     *     "gene":"Glyma.01G004900",
+     *     "type":"SNP",
+     *     "gene":"Glyma.01G004900",
+     *     "ctype":"upstream,downstream,intronic",
+     *     "pageNo":2,
+     *     "pageSize":10
+     * }
+     * @apiParamExample 参数请求实例3（用户点选INDEL时）:
+     * {
+     *     "gene":"Glyma.01G004900",
+     *     "type":"INDEL",
+     *     "ctype":"all",
+     *     "pageNo":2,
+     *     "pageSize":10
+     * }
+     * @apidescription 返回页面转发（到gene-family.jsp），通过EL表达式取到后台查询的值。
+     * @apiSuccessExample 成功返回数据:
+     *
      */
     @RequestMapping("/searchDNAinGene")
     @ResponseBody
     public Map searchSNPinGene(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
         String gene = request.getParameter("gene");//具体的gene
-        logger.info("queryBy " + type + " with gene:" + gene);
+        String ctype = request.getParameter("ctype");
+        logger.info("queryBy " + type + "and ctype" + ctype + " with gene:" + gene);
+        String[] ctypeList = ctype.split(",");
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPByGene(type, gene, page);
+        return snpService.searchSNPByGene(type, ctypeList, gene, page);
     }
 }

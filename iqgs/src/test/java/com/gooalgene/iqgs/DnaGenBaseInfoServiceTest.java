@@ -7,6 +7,7 @@ import com.gooalgene.common.Page;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
+import com.gooalgene.iqgs.entity.DNAGenHomologous;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import junit.framework.TestCase;
 import org.junit.Before;
@@ -34,10 +35,10 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @Autowired
-    private DNAGenBaseInfoDao dnaGenBaseInfoService;
+    private DNAGenBaseInfoDao dnaGenBaseInfoDao;
 
     @Autowired
-    private DNAGenBaseInfoDao dnaGenBaseInfoDao;
+    DNAGenBaseInfoService dnaGenBaseInfoService;
 
     @Before
     public void setUp(){
@@ -57,6 +58,12 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     public void testFindFamilyByFamilyId() throws IOException {
         DNAGenFamily dnaGenFamilies = dnaGenBaseInfoService.findFamilyByFamilyId("ARR-B");
         jsonGenerator.writeObject(dnaGenFamilies);
+    }
+
+    @Test
+    public void testGetGenHomologousByGeneId() {
+        List<DNAGenHomologous> homologous = dnaGenBaseInfoService.getGenHomologousByGeneId("Glyma.01G004900");
+        System.out.println(homologous);
     }
 
     /**
