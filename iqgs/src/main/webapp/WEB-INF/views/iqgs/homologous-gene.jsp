@@ -78,6 +78,8 @@
 <!--footer-->
 
 <script>
+	var data=${homologous};
+	conslole.log(data)
 	$(function(){
 		$(".item li").each(function(i){
 			$(this).click(function(){
