@@ -52,11 +52,11 @@
                         <tbody>
 						<c:forEach items="${homologous}" var="homo">
                             <tr>
-								<td>${homo.geneId}</td>
-								<td>${homo.orthologSpecies}</td>
-								<td>${homo.OrthologGeneId}</td>
-								<td>${homo.orthologGeneDescription}</td>
-								<td>${homo.relationship}</td>
+								<%--<td>${homo.geneId}</td>--%>
+								<%--<td>${homo.orthologSpecies}</td>--%>
+								<%--<td>${homo.orthologGeneId}</td>--%>
+								<%--<td>${homo.orthologGeneDescription}</td>--%>
+								<%--<td>${homo.relationship}</td>--%>
 							</tr>
 						</c:forEach>
                         </tbody>
