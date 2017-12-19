@@ -32,7 +32,7 @@
     </style>
 </head>
 <body>
-<iqgs:iqgs-header />
+<iqgs:iqgs-header/>
 <!--header-->
 <div class="container primer3-content js-nav-ac">
     <%--<%@ include file="/WEB-INF/views/include/sidebar.jsp" %>--%>
@@ -49,46 +49,45 @@
             <div class="clear-fix"></div>
         </div>
         <div class="primer3-table">
-            <table ><%--cellspacing="50%" cellpadding="80"--%>
+            <table><%--cellspacing="50%" cellpadding="80"--%>
                 <thead>
-                    <tr>
-                        <td></td>
-                        <td>Position</td>
-                        <td>Length</td>
-                        <td>Tm</td>
-                        <td>GC%</td>
-                        <td>any(Self Cornplementarity)</td>
-                        <td>3'(Self Complementarity)</td>
-                        <td>Hairpin</td>
-                        <td>Sequence(5'-3')</td>
-                        <td>引物检测</td>
-                    </tr>
+                <tr>
+                    <td></td>
+                    <td>Position</td>
+                    <td>Length</td>
+                    <td>Tm</td>
+                    <td>GC%</td>
+                    <td>any(Self Cornplementarity)</td>
+                    <td>3'(Self Complementarity)</td>
+                    <td>Hairpin</td>
+                    <td>Sequence(5'-3')</td>
+                    <td>引物检测</td>
+                </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Primer F</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddddddddddddddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                    </tr>
-                    <tr>
-                        <td>Primer R</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddddddddddddddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                        <td>dddddd</td>
-                    </tr>
+                <tr>
+                    <td>Primer F</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>ddddddddddddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td class="primer3-link" rowspan="2"><a href="www.baidu.com">可跳转的网址地址</a></td>
+                </tr>
+                <tr>
+                    <td>Primer R</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddddddddddddddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                    <td>dddddd</td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -126,7 +125,9 @@
             <ul>
                 <li class="sequence-list-li-one">
                     <div class="line-number">1</div>
-                    <div class="sequence-content">ATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATTATATATATATATAT</div>
+                    <div class="sequence-content">
+                        ATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATTATATATATATATAT
+                    </div>
                     <div class="clear-fix"></div>
                 </li>
                 <li>
@@ -153,11 +154,60 @@
 
 <script>
     var ctxRoot = '${ctxroot}';
-
+    var templet = {
+        primer3Tr: '<tr>\n' +
+            '<td>Primer F</td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td class="primer3-link" rowspan="2"><a href="www.baidu.com">可跳转的网址地址</a></td>\n' +
+            '</tr>\n' +
+            '<tr>\n' +
+            '<td>Primer R</td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '<td></td>\n' +
+            '</tr>',
+    }
 
     $(function () {
-        var primer3List= localStorage.getItem("primer3List");
+        var primer3List = localStorage.getItem("primer3List");
+        var param=localStorage.getItem('param');
+        primer3List = JSON.parse(primer3List);
+        param=JSON.parse(param);
         console.log(primer3List);
+        console.log(param);
+
+        if(primer3List.length>0){
+            for(var i=0;i<primer3List.length;i++){
+                var primer3=primer3List[i];
+                console.log(primer3.type)
+                if(primer3.group==1){
+
+                }
+                if(primer3.type=='primerF'){
+
+                }else{
+
+                }
+                var trs=$('.primer3-table tbody>tr');
+                for(var j=0;j<trs.length;j++){
+                    var tr=trs.get(j).css('background','red');
+                    $(tr).append('<td>'+primer3.position+'</td>')
+                }
+            }
+        }
+
     })
 
 

@@ -406,9 +406,10 @@
             promise.then(
                 function (result) {
                     console.log(result);
-                    result.param=data;
+                    //result.param=data;
                     result=JSON.stringify(result);
                     localStorage.setItem('primer3List',result);
+                    localStorage.setItem('param',data);
                     window.location=ctxRoot+"/primer3out";
                 },
                 function (error) {
