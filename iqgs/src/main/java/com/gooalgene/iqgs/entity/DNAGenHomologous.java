@@ -9,7 +9,7 @@ public class DNAGenHomologous extends DataEntity<DNAGenHomologous> {
     private String geneId;
     private String orthologSpecies;
     private String orthologGeneId;
-    private String orthologGeneDesc;
+    private String orthologGeneDescription;
     private String relationship;
 
     public String getGeneId() {
@@ -36,12 +36,12 @@ public class DNAGenHomologous extends DataEntity<DNAGenHomologous> {
         this.orthologGeneId = orthologGeneId;
     }
 
-    public String getOrthologGeneDesc() {
-        return orthologGeneDesc;
+    public String getOrthologGeneDescription() {
+        return orthologGeneDescription;
     }
 
-    public void setOrthologGeneDesc(String orthologGeneDesc) {
-        this.orthologGeneDesc = orthologGeneDesc;
+    public void setOrthologGeneDescription(String orthologGeneDecripition) {
+        this.orthologGeneDescription = orthologGeneDecripition;
     }
 
 
