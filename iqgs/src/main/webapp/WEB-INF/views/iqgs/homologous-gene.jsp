@@ -53,7 +53,6 @@
 						<c:forEach items="${homologous}" var="homo">
                             <tr>
 								<td>${homo.geneId}</td>
-								<%--<td><a class="arabi-link" target="_blank" href="http://www.arabidopsis.org/servlets/Search?type=general&search_action=detail&method=1&show_obsolete=F&name=${homo.arabiId}&sub_type=gene&SEARCH_EXACT=4&SEARCH_CONTAINS=1">${homo.arabiId}</a></td>--%>
 								<td>${homo.orthologSpecies}</td>
 								<td>${homo.OrthologGeneId}</td>
 								<td>${homo.orthologGeneDescription}</td>
@@ -80,7 +79,6 @@
 
 <script>
 	$(function(){
-
 		$(".item li").each(function(i){
 			$(this).click(function(){
 				$(this).addClass("item-ac").siblings().removeClass("item-ac");

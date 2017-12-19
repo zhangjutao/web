@@ -159,7 +159,6 @@
 <script>
     $(document).ready(function () {
         var data=${data};
-        console.log(data)
         var gDNAHtml = "";
         var peptideHtml="";
         for (var i = 0; i < data.length; i++) {
@@ -192,16 +191,18 @@
                 var reg_CDS="<span class='CDS cds_bg'>"+reg+"</span>"
                 str = str.replace(reg, reg_CDS);
             }
+            //three_prime_UTR
             if (data[i].feature == "three_prime_UTR") {
                 var reg = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
                 var reg_three_prime_UTR = "<span class='three_prime_UTR three_p'>" + reg + "</span>"
                 str = str.replace(reg, reg_three_prime_UTR);
             }
-                if (data[i].feature == "five_prime_UTR") {
-                    var reg2 = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
-                    var reg_five_prime_UTR = "<span class='five_prime_UTR five_p'>" + reg2 + "</span>"
-                    str= str.replace(reg2, reg_five_prime_UTR);
-                }
+            //five_prime_UTR
+            if (data[i].feature == "five_prime_UTR") {
+                var reg2 = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
+                var reg_five_prime_UTR = "<span class='five_prime_UTR five_p'>" + reg2 + "</span>"
+                str= str.replace(reg2, reg_five_prime_UTR);
+            }
         }
         $(".gDNA").html(str)
     });
