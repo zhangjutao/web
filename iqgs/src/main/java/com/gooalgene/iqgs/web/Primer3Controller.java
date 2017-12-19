@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -84,9 +85,9 @@ public class Primer3Controller {
         String primerMinSize = "PRIMER_MIN_SIZE=" + primerSizeMin + "&";
         String primerOptSize = "PRIMER_OPT_SIZE=&";
         String primerMaxSize = "PRIMER_MAX_SIZE=" + primerSizeMax + "&";
-        String primerMinTm = "PRIMER_MIN_TM=" + primerTMMin + "&";
+        String primerMinTm = "PRIMER_MIN_TM=" + primerTmMin + "&";
         String primerOptTm = "PRIMER_OPT_TM=&";
-        String primerMaxTm = "PRIMER_MAX_TM=" + primerTMMax + "&";
+        String primerMaxTm = "PRIMER_MAX_TM=" + primerTmMax + "&";
         String param3 = "&PRIMER_PAIR_MAX_DIFF_TM=5.0&PRIMER_TM_FORMULA=1&PRIMER_PRODUCT_MIN_TM=-1000000.0&PRIMER_PRODUCT_OPT_TM=0.0&PRIMER_PRODUCT_MAX_TM=1000000.0&";
         String primerMinGc = "PRIMER_MIN_GC=" + primerGCMin + "&";
         String param4 = "PRIMER_OPT_GC_PERCENT=50.0&";
