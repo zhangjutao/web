@@ -12,7 +12,8 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <%--<link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">--%>
     <%--<link rel="stylesheet" href="${ctxStatic}/css/primer3.css">--%>
-    <link rel="stylesheet" href="${ctxStatic}/css/primer3-input.css">
+    <%--<link rel="stylesheet" href="${ctxStatic}/css/primer3-input.css">--%>
+    <link rel="stylesheet" href="${ctxStatic}/css/primer3-output.css">
     <%--<link rel="stylesheet" href="${ctxStatic}/css/addTags.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">--%>
     <%--<link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">--%>
@@ -26,27 +27,8 @@
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
-    <%--<script src="${ctxStatic}/js/d3.js"></script>
-    <script src="${ctxStatic}/js/svg-pan-zoom.js"></script>--%>
     <style>
-        .total-page-count {
-            display: none !important;
-        }
 
-        /* master分支中无群体信息 */
-        #populationInfos {
-            padding: 8px 20px;
-            background: #5D8CE6;
-            color: #fff;
-            width: 68px;
-            float: right;
-            cursor: pointer;
-            font-size: 16px;
-            margin-bottom: 16px;
-            -webkit-border-radius: 5px;
-            -moz-border-radius: 5px;
-            border-radius: 5px;
-        }
     </style>
 </head>
 <body>
@@ -55,128 +37,116 @@
 <div class="container primer3-content js-nav-ac">
     <%--<%@ include file="/WEB-INF/views/include/sidebar.jsp" %>--%>
     <div class="peimer3-main">
-        <div class="primer3-top">
-            <div class="paste-explain">
-                Paste sequence below(5'~3')
-            </div>
-            <div class="sequence-length">
-                Length:<span class="length-value">0</span>bp
+        <div class="primer3-result-title">
+            <div class="result-icon">
+                <%--<img src="${ctxroot}/static/images/primer3/resultIcon.png" style="vertical-align:text-bottom"/>--%>
+                <div class="result-title-icon1"></div>
+                <div class="blue-result">结果</div>
+                <%--<img src="${ctxroot}/static/images/primer3/resultIcon2.png" style="vertical-align:text-bottom"/>--%>
+                <div class="result-title-icon2"></div>
+                <div class="primer3-conditions">搜索条件：<span></span></div>
             </div>
             <div class="clear-fix"></div>
         </div>
-        <div class="primer3-middle">
-            <textarea class="sequence-block"></textarea>
+        <div class="primer3-table">
+            <table ><%--cellspacing="50%" cellpadding="80"--%>
+                <thead>
+                    <tr>
+                        <td></td>
+                        <td>Position</td>
+                        <td>Length</td>
+                        <td>Tm</td>
+                        <td>GC%</td>
+                        <td>any(Self Cornplementarity)</td>
+                        <td>3'(Self Complementarity)</td>
+                        <td>Hairpin</td>
+                        <td>Sequence(5'-3')</td>
+                        <td>引物检测</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Primer F</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddddddddddddddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                    </tr>
+                    <tr>
+                        <td>Primer R</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddddddddddddddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                        <td>dddddd</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
-        <div class="primer3-bottom">
-            <div class="primer3-bottom-top">
-                <div class="setting-title">Genaral Primer Condition Settings</div>
-                <div class="reset-btn">默认设置</div>
-                <div class="clear-fix"></div>
+        <div class="primer3-designed">
+            <div class="primer3-designed-title">
+                Primer designed in sequence
             </div>
-            <div class="primer3-input">
-                <div class="primer3-input-left">
-                    <div class="peimer3-input-item primer-size">
-                        <div class="peimer3-input-item-title input-item-common">Primer Size(nt)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerSizeMin" value="18"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerSizeMax" value="23"/>
-                        <div class="clear-fix"></div>
+            <div class="primer3-designed-content">
+                <div class="primer3-designed-content-left">
+                    <div class="primer3-designed-item">
+                        Primer F : <span>ATATATATATATATATATATAT</span>
                     </div>
-                    <div class="peimer3-input-item primer-GC">
-                        <div class="peimer3-input-item-title input-item-common">Primer GC(%)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerGCMin" value="30"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerGCMax" value="70"/>
-                        <div class="clear-fix"></div>
+                    <div class="primer3-designed-item">
+                        Sequence Size : <span>111110</span>
                     </div>
-                    <%--<div class="peimer3-input-item">&lt;%&ndash;&ndash;%&gt;
-                        <div class="peimer3-input-item-title input-item-common">Primer F(bp)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input class="input-content input-item-common"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input class="input-content input-item-common"/>
-                        <div class="clear-fix"></div>
-                    </div>--%>
+
                 </div>
-                <div class="primer3-input-right">
-                    <div class="peimer3-input-item primer-Tm"><%--Primer3 Tm--%>
-                        <div class="peimer3-input-item-title input-item-common">Primer Tm(℃)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerTmMin" value="57"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerTmMax" value="62"/>
-                        <div class="clear-fix"></div>
+                <div class="primer3-designed-content-right">
+                    <div class="primer3-designed-item">
+                        Primer R : <span>ATATATATATATATATATATAT</span>
                     </div>
-                    <div class="peimer3-input-item product-size"><%--Product Size--%>
-                        <div class="peimer3-input-item-title input-item-common">Product Size(bp)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="productSizeMin"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input type="number" type="text" class="input-content input-item-common" name="productSizeMax"/>
-                        <div class="clear-fix"></div>
+                    <div class="primer3-designed-item">
+                        lnclude Region Sequence Size : <span>2222220</span>
                     </div>
-                    <%--<div class="peimer3-input-item">&lt;%&ndash;Primer3 R&ndash;%&gt;
-                        <div class="peimer3-input-item-title input-item-common">Primer R(bp)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input type="text" name="primer-r-min" class="input-content input-item-common"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input type="text" name="primer-r-max" class="input-content input-item-common"/>
-                        <div class="clear-fix"></div>
-                    </div>--%>
-                    <div class="primer3-submit-btn">Search</div>
                 </div>
                 <div class="clear-fix"></div>
             </div>
+        </div>
+        <div class="sequence-list">
+            <div class="sequence-list-cover">
+                <div class="sequence-list-cover-left"></div>
+                <div class="sequence-list-cover-right"></div>
+                <div class="clear-fix"></div>
+            </div>
+            <ul>
+                <li class="sequence-list-li-one">
+                    <div class="line-number">1</div>
+                    <div class="sequence-content">ATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATTATATATATATATAT</div>
+                    <div class="clear-fix"></div>
+                </li>
+                <li>
+                    <div class="line-number">2</div>
+                    <div class="sequence-content"></div>
+                    <div class="clear-fix"></div>
+                </li>
+                <li>
+                    <div class="line-number">3</div>
+                    <div class="sequence-content"></div>
+                    <div class="clear-fix"></div>
+                </li>
+                <li>
+                    <div class="line-number">4</div>
+                    <div class="sequence-content"></div>
+                    <div class="clear-fix"></div>
+                </li>
+            </ul>
         </div>
     </div>
-
-    <%--<div class="contant page-circle" id="systreeContainer">
-        <div class="box-shadow">
-            <div class="item-header">
-                <div class="icon-left"><img src="${ctxStatic}/images/tag-name.png"> 树形图</div>
-            </div>
-            <div class="tab-item">
-                &lt;%&ndash;<ul class="item">&ndash;%&gt;
-                    &lt;%&ndash;<li class="item-ac">标签1</li>&ndash;%&gt;
-                    &lt;%&ndash;<!--<li>标签2</li>-->&ndash;%&gt;
-                &lt;%&ndash;</ul>&ndash;%&gt;
-                <div class="tab">
-                    <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
-                        <img src="${ctxStatic}/images/dnatree.png">
-                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">群体信息</a></p>
-                            &lt;%&ndash;<%@ include file="/WEB-INF/views/include/dna.jsp" %>&ndash;%&gt;
-                            &lt;%&ndash;<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>&ndash;%&gt;
-                    </div>
-                    <div class="tab-txt tree-explain">
-                        <div class="txt-title explain-title">
-                            <img src="${ctxStatic}/images/tree-img.png">
-                            树形图说明
-                        </div>
-                        <div class="txt-content explain-text">
-                            上图利用大豆群体近1000个样本的SNP信息，使用structure软件计算种群内的亚群结构，将群体分为10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而亚群与亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群；同时，采用邻接法（neighbor-joining）计算种群之间的距离，构建系统进化树（phylogenetic tree，又称evolutionary tree）展示了本数据库中大豆样本之间的进化历程和亲缘关系。
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="database-overview box-shadow">
-            <div class="explain-title">
-                <img src="${ctxStatic}/images/explain.png">数据库概况
-            </div>
-            <div class="explain-text">
-                SNP/INDEL数据库提供了大豆相关的21,657,613条SNPs及2,329,103条InDels变异信息。这些变异信息由收集NCBI公共网站上近1000个大豆重测序数据，与Glycine max Wm82.a2.v1基因组进行比对后获得。该数据库收录了丰富的样本变异信息，用户可以根据属性自定义组合群体，查询SNP、INDEL变异在不同群体中的出现频率。同时，亦可以根据基因及感兴趣位点对特定区域上的变异位点进行查看。通过该变异数据库，快速、直观地了解群体中变异发生比例，辅助群体遗传变异研究。
-            </div>
-        </div>
-    </div>--%>
-
 </div>
 <!--footer-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
@@ -315,8 +285,8 @@
                             method: method,
                             url: url,
                             data:data,
-                            dataType: "json",
-                            //contentType: "application/json,charset=UTF-8;",
+                            //dataType: "json",
+                            contentType: "application/json,charset=UTF-8;",
                             success: function (result) {
                                 resolve(result)
                             },
@@ -336,22 +306,6 @@
 
     $(function () {
         //记录用户输入序列的长度
-        /*$('.sequence-block').keyup(function () {
-            //clearTimeout(primer3.time);
-            //primer3.time = setTimeout("primer3.changeLength()", 500);
-            primer3.changeLength();
-            var length=$('.sequence-block').val().length;
-            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
-            $('input[name="productSizeMax"]').val(length);
-        });
-        $('.sequence-block').change(function () {
-            //clearTimeout(primer3.time);
-            //primer3.time = setTimeout("primer3.changeLength()", 500);
-            primer3.changeLength();
-            var length=$('.sequence-block').val().length;
-            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
-            $('input[name="productSizeMax"]').val(length);
-        });*/
         $('.sequence-block').on({
             keyup:primer3.changeLengthAndProductSize,
             change:primer3.changeLengthAndProductSize
@@ -406,9 +360,6 @@
             promise.then(
                 function (result) {
                     console.log(result);
-                    result.param=data;
-                    localStorage.setItem('peimer3List',result);
-                    window.location=ctxRoot+"/primer3out";
                 },
                 function (error) {
                     console.log(error);
