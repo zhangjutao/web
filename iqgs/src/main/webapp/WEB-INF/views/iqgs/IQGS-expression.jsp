@@ -107,7 +107,6 @@
                         <thead>
                         <tr>
                             <td>Gene ID</td>
-							<td class="param t_experiment">Expression value</td>
                             <td>Experiment ID</td>
                             <td class="t_sampleName">Sample Name</td>
                             <td class="param t_study">Study</td>
@@ -119,6 +118,7 @@
                             <td class="param t_scientificName">ScientificName</td>
                             <td class="param t_sampleRun">Run</td>
                             <td class="param t_sraStudy">SRAStudy</td>
+							<td class="param t_experiment">Expression value</td>
                         </tr>
                         </thead>
                         <tbody>
@@ -462,7 +462,6 @@
             $.each(data, function(idx, ele) {
                 str += '<tr>'
                 str += '<td>'+ ele.geneId +'</td>';
-                str += '<td>'+ ele.expressionValue +'</td>';
                 str += '<td>'+ ele.experiment +'</td>';
                 str += '<td>'+ ele.sampleName +'</td>';
                 str += '<td><p class="js-tipes-show"><a href="'+ ele.links +'" target="_blank">'+ ele.study +'</a></p></td>';
@@ -474,6 +473,7 @@
                 str += '<td>'+ ele.scientificName +'</td>';
                 str += '<td>'+ ele.sampleRun +'</td>';
                 str += '<td>'+ ele.sraStudy +'</td>';
+                str += '<td>'+ ele.expressionValue +'</td>';
                 str += '</tr>';
 
             });

@@ -738,6 +738,47 @@ public class StudyService {
         return studyDao.deleteById(id);
     }
 
+    public List<ExpressionStudy> getStudyByGene(String gene, Page<ExpressionStudy> page){
+        List<String> run = studyDao.findSampleruns();//查询所有的run
+        List<ExpressionStudy> data = new ArrayList<ExpressionStudy>();
+        String collectionName="all_gens_fpkm";
+        long total = 0;
+        List<ExpressionVo> result = new ArrayList<ExpressionVo>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Query query = new Query();
+            query.addCriteria(Criteria.where("gene").is(gene));
+            query.addCriteria(Criteria.where("samplerun.name").in(run));
+            query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "samplerun.value")));//降序
+            total = mongoTemplate.count(query, ExpressionVo.class, collectionName);//总记录数
+            Integer pageNo = page.getPageNo();
+            Integer pageSize = page.getPageSize();
+            int skip = (pageNo - 1) * pageSize;
+            if (skip < 0) {
+                skip = 0;
+            }
+            query.skip(skip);
+            query.limit(pageSize);
+            result = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
+            for (int i = 0; i < result.size(); i++) {
+                Study study=null;
+                ExpressionVo expressionVo =  result.get(i);
+                String samplerunName=expressionVo.getSamplerun().getName();
+                study=studyDao.findBySampleRun(samplerunName);
+                ExpressionStudy expressionStudy=new ExpressionStudy();
+                expressionStudy.setId(expressionVo.getId());
+                expressionStudy.setGene(expressionVo.getGene());
+                expressionStudy.setSamplerun(expressionVo.getSamplerun());
+                expressionStudy.setStudy(study);
+                data.add(expressionStudy);
+            }
+        }else {
+            System.out.println(" collectionName is not exist.");
+            /*logger.info(collectionName + " is not exist.");*/
+        }
+        page.setCount(total);
+        return data;
+    }
+
     public JSONArray queryStudyByGene(String gene) {
 
         List<String> run = studyDao.findSampleruns();//查询所有的run
@@ -746,7 +787,7 @@ public class StudyService {
         Query query = new Query();
         query.addCriteria(Criteria.where("gene").is(gene));
         query.addCriteria(Criteria.where("samplerun.name").in(run));
-        query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "samplerun.value")));//降序
+        //query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "samplerun.value")));//降序
 //      query.limit(10);//取10条
 
         System.out.println("Query count:" + query.toString());
