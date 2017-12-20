@@ -1,0 +1,77 @@
+/*snp-content*/
+button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!important;}
+.clear-fix::after{clear: both;content:"";display: block;}
+.primer3-content{margin-bottom: 50px;}
+.primer3-content:after{content: "";display: block;clear: both;}
+.peimer3-main{width: 100%;/*padding: 0 30px;*/box-sizing: border-box;background: white;-moz-box-shadow: 0px 2px 3px #ccc;
+    -webkit-box-shadow:0px 2px 3px #ccc; box-shadow:0px 2px 3px #ccc;overflow:hidden;}
+.primer3-result-title{height: 80px; border-bottom:1px solid #ddd; padding: 0 30px;box-sizing: border-box;}
+.result-title-icon1{background: url("../images/primer3/resultIcon.png") no-repeat; height: 28px;width: 28px;float: left;margin: 24px 8px 0 0;}
+.blue-result{font-size: 24px;color: #386cca;  line-height: 80px;float: left;margin-right: 8px;}
+.result-title-icon2{background: url("../images/primer3/resultIcon2.png") no-repeat;height:15px;width:14px;margin: 36px 8px 0 0;float: left;}
+.primer3-conditions{font-size: 14px; color: #666;float: left;margin-top: 36px;}
+.primer3-table{margin: 30px 30px 24px 30px; box-sizing: border-box;overflow-x:scroll; }
+.primer3-table table thead tr{height: 66px;background: #f5f8ff;}
+.primer3-table table tbody tr{height: 40px;}
+.primer3-table td{border: 1px solid #ddd; text-align: center; }
+.primer3-table tbody tr:nth-of-type(2n){background: #f5f8ff;}
+.primer3-table thead td{padding: 3px 20px;}
+.primer3-table tbody td{padding: 3px 20px;white-space:nowrap;}
+.primer3-link{text-decoration: underline ;color:#5a5a5a;cursor: pointer; }
+
+.primer3-designed{margin:0 30px 24px 30px;}
+.primer3-designed-title{font-size: 18px; color: #5c8ce6;margin-bottom: 16px;}
+.primer3-designed-content{border-bottom: 1px solid #ddd;border-top: 1px solid #ddd; padding: 16px 20px;}
+.primer3-designed-content-right,.primer3-designed-content-left{float: left;}
+.primer3-designed-content-left{margin-right: 240px;}
+.primer3-designed-item{font-size: 14px; color: #666;}
+.primer3-designed-item:nth-of-type(1){margin-bottom: 16px;}
+.primer3-designed-item:nth-of-type(3){margin-bottom: 16px;}
+.primer3-designed-item>span{}
+.primer-legend{float: right;margin-right: 30px;margin-bottom: 16px;}
+.primer-f-blue{margin-right: 20px;}
+.primer-f-blue,.primer-r-orange{float: left;font-size: 12px;}
+.primer-f-blue>p,.primer-r-orange>p{float: left;}
+.blue-block,.orange-block{height: 12px;width:12px;float: left;margin-right: 4px;}
+.blue-block{background: #4572d9;}
+.orange-block{background: #fa9632;}
+.sequence-list{border: 1px solid #ddd;margin:0 30px 30px 30px;font-size: 14px; color: #666;  }
+.sequence-list li{height: 48.8px;}
+.sequence-list-cover-left{background:#f5f8ff;border-right:1px solid #ddd;height: 34.8px;width: 80px;float: left; }
+.sequence-list-cover-right{height: 34.8px;float: left;}
+.line-number{border-right:1px solid #ddd; background: #f5f8ff;width: 80px;text-align: center;height: 48.8px;float: left;}
+.sequence-content{float: left;height: 48.8px;margin-left: 20px;}
+
+
+
+
+
+
+
+
+.primer3-top{margin-bottom:16px;padding-top: 24px;}
+.paste-explain{color: #333;float: left;font-size: 16px;}
+.sequence-length{float: right;color: #333;font-size: 14px;}
+.length-value{  color: #5c8ce6}
+.primer3-middle{margin-bottom: 24px; }
+.sequence-block{padding:16px;border: 1px solid #E6E6E6;font-size: 14px;color:#666;background:none;outline:none;display: block;width:100%;
+    box-sizing: border-box;resize:none;height: 88px; }
+.primer3-bottom{}
+.primer3-bottom-top{margin-bottom: 16px;}
+.setting-title{color: #333;font-size: 16px;line-height: 30px;float: left;margin-right: 10px;}
+.reset-btn{border: 1px solid #5c8ce6;line-height: 30px; color: #5c8ce6;text-align: center;width: 80px;float: left;cursor: pointer;}
+.primer3-input{  }
+.input-item-common{float: left;line-height: 30px;}
+.primer3-input-left,.primer3-input-right{float: left;}
+.primer3-input-left{margin-right: 110px;}
+.peimer3-input-item{margin-bottom: 16px;}
+.peimer3-input-item-title{width: 124px;color: #666;font-size: 14px;}
+.input-min,.input-max{color: #999;font-size: 14px;margin-right: 10px;}
+.input-max{margin-left: 16px;}
+.input-content{background:none;outline:none;border: 1px solid #ccc;width: 100px;font-size: 14px; color: #333;text-align: center;margin-right: 16px;}
+.primer3-submit-btn{width: 120px; font-size: 16px; color: #fff;background: #5c8ce6;height: 40px; text-align: center;border-radius: 2px; line-height: 40px;
+float: right;margin: 8px 16px 30px 0;cursor: pointer;}
+
+.error-message{margin-left: 160px;width: 100px;background: darkcyan; }
+
+.red-border{border:1px solid red;}

@@ -56,7 +56,7 @@
                                                 <table class="js-snp-table">
                                                     <thead>
                                                     <tr>
-                                                        <td class="t_snpid">SNP ID</td>
+                                                        <td class="t_snpid">SNP1 ID</td>
                                                         <td class="param t_consequenceType">Consequence Type</td>
                                                         <td class="param t_snpchromosome">Chromosome</td>
                                                         <td class="param t_position">Position</td>

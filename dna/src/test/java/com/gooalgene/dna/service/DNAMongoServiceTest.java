@@ -67,4 +67,13 @@ public class DNAMongoServiceTest extends TestCase {
         System.out.println(snps.size());
     }
 
+    @Test
+    public void testSearchByGene() {
+        String[] ctypeList = {"upstream", "downstream"};
+        Page page = new Page();
+        page.setPageSize(10);
+        page.setPageNo(2);
+        List<SNP> snps = dnaMongoService.searchByGene("SNP", ctypeList, "Glyma.01G004900", page);
+        System.out.println(snps);
+    }
 }
