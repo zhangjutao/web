@@ -65,7 +65,7 @@
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
+                <%--<tr>
                     <td>Primer F</td>
                     <td>dddddd</td>
                     <td>dddddd</td>
@@ -87,7 +87,7 @@
                     <td>dddddd</td>
                     <td>dddddd</td>
                     <td>dddddd</td>
-                </tr>
+                </tr>--%>
                 </tbody>
             </table>
         </div>
@@ -155,7 +155,7 @@
 <script>
     var ctxRoot = '${ctxroot}';
     var templet = {
-        primer3Tr: '<tr>\n' +
+        primer3TrF: '<tr>\n' +
             '<td>Primer F</td>\n' +
             '<td></td>\n' +
             '<td></td>\n' +
@@ -166,8 +166,8 @@
             '<td></td>\n' +
             '<td></td>\n' +
             '<td class="primer3-link" rowspan="2"><a href="www.baidu.com">可跳转的网址地址</a></td>\n' +
-            '</tr>\n' +
-            '<tr>\n' +
+            '</tr>\n',
+        primer3trR:'<tr>\n' +
             '<td>Primer R</td>\n' +
             '<td></td>\n' +
             '<td></td>\n' +
@@ -177,36 +177,47 @@
             '<td></td>\n' +
             '<td></td>\n' +
             '<td></td>\n' +
-            '</tr>',
+            '</tr>'
     }
 
     $(function () {
-        var primer3List = localStorage.getItem("primer3List");
+        var primer3Map = localStorage.getItem("primer3List");
         var param=localStorage.getItem('param');
-        primer3List = JSON.parse(primer3List);
+        primer3Map = JSON.parse(primer3Map);
         param=JSON.parse(param);
-        console.log(primer3List);
         console.log(param);
-
-        /*if(primer3List.length>0){
-            for(var i=0;i<primer3List.length;i++){
-                var primer3=primer3List[i];
-                console.log(primer3.type)
-                if(primer3.group==1){
-
-                }
-                if(primer3.type=='primerF'){
-
-                }else{
-
-                }
-                var trs=$('.primer3-table tbody>tr');
-                for(var j=0;j<trs.length;j++){
-                    var tr=trs.get(j).css('background','red');
-                    $(tr).append('<td>'+primer3.position+'</td>')
-                }
-            }
-        }*/
+        console.log(primer3Map);
+        for(var i in primer3Map){
+            //console.log(i+":"+primer3Map[i]);
+            var primer3F=primer3Map[i][0];
+            var primer3TrF= '<tr>\n' +
+                '<td>Primer F</td>\n' +
+                '<td>'+primer3F.position+'</td>\n' +
+                '<td>'+primer3F.length+'</td>\n' +
+                '<td>'+primer3F.tm+'</td>\n' +
+                '<td>'+primer3F.gc+'</td>\n' +
+                '<td>'+primer3F.any+'</td>\n' +
+                '<td>'+primer3F.three+'</td>\n' +
+                '<td>'+primer3F.hairpin+'</td>\n' +
+                '<td>'+primer3F.sequence+'</td>\n' +
+                '<td class="primer3-link" rowspan="2"><a href="'+primer3F.link+'">可跳转的网址地址</a></td>\n' +
+                '</tr>\n';
+            $('.primer3-table tbody').append(primer3TrF);
+            var primer3R=primer3Map[i][1];
+            var primer3TrR='<tr>\n' +
+                '<td>Primer R</td>\n' +
+                '<td>'+primer3R.position+'</td>\n' +
+                '<td>'+primer3R.length+'</td>\n' +
+                '<td>'+primer3R.tm+'</td>\n' +
+                '<td>'+primer3R.gc+'</td>\n' +
+                '<td>'+primer3R.any+'</td>\n' +
+                '<td>'+primer3R.three+'</td>\n' +
+                '<td>'+primer3R.hairpin+'</td>\n' +
+                '<td>'+primer3R.sequence+'</td>\n' +
+                '</tr>';
+            $('.primer3-table tbody').append(primer3TrR);
+            //$('.primer3-table tbody').append(templet.primer3TrR);
+        }
 
     })
 
