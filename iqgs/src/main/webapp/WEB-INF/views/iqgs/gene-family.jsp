@@ -400,6 +400,7 @@
         }
             //基因名称悬浮框显示
                 $('.gene_name .labelGeneName').hover(function () {
+                    $(this).attr("fill", "#5C8CE6")
                     var self = this;
                     var cont = $(this).attr("title");
                     if($(this).text()!==""&&cont.length>15){
@@ -409,8 +410,9 @@
                         })
                     }
                 },function(){
+                    $(this).attr("fill", "#000000");
                     if( $(".pt").css("display")=='block' ){
-                        $("body .pt").css("display","none")
+                        $("body .pt").css("display","none");
                   }
                 })
     </script>
