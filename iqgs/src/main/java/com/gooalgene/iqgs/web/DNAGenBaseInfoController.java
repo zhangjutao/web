@@ -671,6 +671,6 @@ public class DNAGenBaseInfoController {
         logger.info("queryBy " + type + "and ctype" + ctype + " with gene:" + gene);
         String[] ctypeList = ctype.split(",");
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPByGene(type, ctypeList, gene, page);
+        return snpService.searchSNPByGene(type,ctypeList,gene,page);
     }
 }
