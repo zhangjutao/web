@@ -11,6 +11,7 @@ import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenSequence;
 import com.gooalgene.iqgs.entity.DNAGenStructure;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionVo;
 import com.mongodb.BasicDBObject;
@@ -107,14 +108,22 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     @Test
     public void testqueryDNAGenBaseInfosByIdorName() {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        //bean.setGeneOldId("G00805");
         Page<DNAGenBaseInfo> page = new Page<>(1, 10);
         bean.setPage(page);
-        String keyWord="G00805";//oldgeneID
+        String keyWord="G00805";
         List<DNAGenBaseInfo> geneResult = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(keyWord,page);
         for (int i = 0; i < geneResult.size(); i++) {
             DNAGenBaseInfo dnaGenBaseInfo =  geneResult.get(i);
             System.out.println(dnaGenBaseInfo.toString());
+        }
+    }
+
+    @Test
+    public void testQueryDNAGenBaseInfos(){
+        Page<DNAGenBaseInfo> page = new Page<>(1, 10);
+        List<DNAGeneSearchResult> searchResults = dnaGenBaseInfoService.queryDNAGenBaseInfos("Glyma.01G004900", page);
+        for (DNAGeneSearchResult gene : searchResults){
+            System.out.println(gene.isExistsSNP());
         }
     }
 

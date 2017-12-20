@@ -597,7 +597,7 @@ public class DNAMongoService {
         return allDistinctConsequenceType;
     }
 
-    private class DocumentCallbackHandlerImpl<T> implements DocumentCallbackHandler{
+    protected class DocumentCallbackHandlerImpl<T> implements DocumentCallbackHandler{
 
         private String key; //要从mongodb返回值中取的值
 

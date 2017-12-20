@@ -2,8 +2,9 @@ package com.gooalgene.common.constant;
 
 public interface CommonConstant {
 
-    final String RUN_DNA="run_dna";
-    final Integer ADMIN_VALUE=1;
-    final Integer USER_VALUE=2;
-
+    String RUN_DNA="run_dna";
+    Integer ADMIN_VALUE=1;
+    Integer USER_VALUE=2;
+    String SNP = "SNP";
+    String EXONIC_NONSYNONYMOUSE = "exonic_nonsynonymous SNV";
 }
