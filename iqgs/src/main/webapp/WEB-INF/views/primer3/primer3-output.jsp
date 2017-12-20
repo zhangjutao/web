@@ -97,36 +97,47 @@
             </div>
             <div class="primer3-designed-content">
                 <div class="primer3-designed-content-left">
-                    <div class="primer3-designed-item">
-                        Primer F : <span>ATATATATATATATATATATAT</span>
+                    <div class="primer3-designed-item primer3-designed-item-f">
+                        Primer F : <span></span>
                     </div>
-                    <div class="primer3-designed-item">
-                        Sequence Size : <span>111110</span>
+                    <div class="primer3-designed-item primer3-designed-item-sequence-size">
+                        Sequence Size : <span></span>
                     </div>
 
                 </div>
                 <div class="primer3-designed-content-right">
-                    <div class="primer3-designed-item">
-                        Primer R : <span>ATATATATATATATATATATAT</span>
+                    <div class="primer3-designed-item primer3-designed-item-r">
+                        Primer R : <span></span>
                     </div>
-                    <div class="primer3-designed-item">
-                        lnclude Region Sequence Size : <span>2222220</span>
+                    <div class="primer3-designed-item  primer3-designed-item-lnclude-region">
+                        lnclude Region Sequence Size : <span></span>
                     </div>
                 </div>
                 <div class="clear-fix"></div>
             </div>
         </div>
+        <div class="primer-legend">
+            <div class="primer-f-blue">
+                <div class="blue-block"></div>
+                <p>Primer F</p>
+            </div>
+            <div class="primer-r-orange">
+                <div class="orange-block"></div>
+                <p>Primer R</p>
+            </div>
+        </div>
+        <div class="clear-fix"></div>
         <div class="sequence-list">
-            <div class="sequence-list-cover">
+            <%--<div class="sequence-list-cover">
                 <div class="sequence-list-cover-left"></div>
                 <div class="sequence-list-cover-right"></div>
                 <div class="clear-fix"></div>
-            </div>
-            <ul>
-                <li class="sequence-list-li-one">
+            </div>--%>
+            <%--<ul>--%>
+                <%--<li class="sequence-list-li-one">
                     <div class="line-number">1</div>
                     <div class="sequence-content">
-                        ATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATATTATATATATATATAT
+
                     </div>
                     <div class="clear-fix"></div>
                 </li>
@@ -144,8 +155,8 @@
                     <div class="line-number">4</div>
                     <div class="sequence-content"></div>
                     <div class="clear-fix"></div>
-                </li>
-            </ul>
+                </li>--%>
+            <%--</ul>--%>
         </div>
     </div>
 </div>
@@ -179,6 +190,100 @@
             '<td></td>\n' +
             '</tr>'
     }
+    var primer3Out={
+        drawTableAndDesigned:function (primer3Map,param) {
+            for(var i in primer3Map){
+                var index=0;
+                var primer3F=primer3Map[i][0];
+                var primer3TrF= '<tr>\n' +
+                    '<td>Primer F</td>\n' +
+                    '<td>'+primer3F.position+'</td>\n' +
+                    '<td>'+primer3F.length+'</td>\n' +
+                    '<td>'+primer3F.tm+'</td>\n' +
+                    '<td>'+primer3F.gc+'</td>\n' +
+                    '<td>'+primer3F.any+'</td>\n' +
+                    '<td>'+primer3F.three+'</td>\n' +
+                    '<td>'+primer3F.hairpin+'</td>\n' +
+                    '<td>'+primer3F.sequence+'</td>\n' +
+                    '<td class="primer3-link" rowspan="2">可跳转的网址地址</td>\n' +
+                    '</tr>\n';
+                $('.primer3-table tbody').append(primer3TrF);
+                $('.primer3-link').on('click',function () {
+                    window.location="http://"+primer3F.link;
+                });
+                var primer3R=primer3Map[i][1];
+                var primer3TrR='<tr>\n' +
+                    '<td>Primer R</td>\n' +
+                    '<td>'+primer3R.position+'</td>\n' +
+                    '<td>'+primer3R.length+'</td>\n' +
+                    '<td>'+primer3R.tm+'</td>\n' +
+                    '<td>'+primer3R.gc+'</td>\n' +
+                    '<td>'+primer3R.any+'</td>\n' +
+                    '<td>'+primer3R.three+'</td>\n' +
+                    '<td>'+primer3R.hairpin+'</td>\n' +
+                    '<td>'+primer3R.sequence+'</td>\n' +
+                    '</tr>';
+                $('.primer3-table tbody').append(primer3TrR);
+                if(index==0){
+                    $('.primer3-designed-item-f>span').text(primer3F.sequence);
+                    $('.primer3-designed-item-r>span').text(primer3R.sequence);
+                    $('.primer3-designed-item-sequence-size>span').text(param.seqLength);
+                    $('.primer3-designed-item-lnclude-region>span').text(parseInt(primer3R.position)-parseInt(primer3F.position)+1);
+                }
+                index++;
+            }
+        },
+        formatParam:function (param) {
+            var paramStr='';
+            //paramStr+='Primer F:、 ';
+            if(param){
+                if(param.primerSizeMin&&param.primerSizeMax){
+                    paramStr+='Primer Size:'+param.primerSizeMin+'-'+param.primerSizeMax+'nt、';
+                }
+                if(param.primerGCMin&&param.primerGCMax){
+                    paramStr+='Primer GC:'+param.primerGCMin+'-'+param.primerGCMax+'%、';
+                }
+                if(param.primerTmMin&&param.primerTmMax){
+                    paramStr+='Primer Tm:'+param.primerTmMin+'-'+param.primerTmMax+'℃、';
+                }
+                if(param.productSizeMin&&param.productSizeMax){
+                    paramStr+='Product Size:'+param.productSizeMin+'-'+param.productSizeMax+'bp、';
+                }
+                if(paramStr[paramStr.length-1]=='、'){
+                    paramStr=paramStr.substring(0,paramStr.length-1);
+                }
+            }
+            $('.primer3-conditions>span').append(paramStr);
+        },
+        renderSequence:function (primer3Map,param) {
+            if(param.seqLength>0){
+                //alert(param.seqLength)
+                $('.sequence-list').append(
+                    '<div class="sequence-list-cover">\n' +
+                    '                <div class="sequence-list-cover-left"></div>\n' +
+                    '                <div class="sequence-list-cover-right"></div>\n' +
+                    '                <div class="clear-fix"></div>\n' +
+                    '            </div><ul></ul>'
+                );
+                var line=Math.ceil(param.seqLength/100);
+                console.log("line: "+line);
+                for(var i=0;i<line;i++){
+                    var seqFragment=param.sequence.substring(i*100,(i+1)*100);
+                    console.log("seqFragment: "+seqFragment);
+                    $('.sequence-list>ul').append(
+                        '<li class="sequence-list-li-one">\n' +
+                        '                    <div class="line-number">'+(i+1)+'</div>\n' +
+                        '                    <div class="sequence-content">'
+                            +seqFragment+
+                        '                    </div>\n' +
+                        '                    <div class="clear-fix"></div>\n' +
+                        '                </li>'
+                    );
+                }
+
+            }
+        }
+    }
 
     $(function () {
         var primer3Map = localStorage.getItem("primer3List");
@@ -187,8 +292,10 @@
         param=JSON.parse(param);
         console.log(param);
         console.log(primer3Map);
-        for(var i in primer3Map){
-            //console.log(i+":"+primer3Map[i]);
+        primer3Out.drawTableAndDesigned(primer3Map,param);
+        primer3Out.formatParam(param);
+        primer3Out.renderSequence(primer3Map,param);
+        /*for(var i in primer3Map){
             var primer3F=primer3Map[i][0];
             var primer3TrF= '<tr>\n' +
                 '<td>Primer F</td>\n' +
@@ -217,7 +324,7 @@
                 '</tr>';
             $('.primer3-table tbody').append(primer3TrR);
             //$('.primer3-table tbody').append(templet.primer3TrR);
-        }
+        }*/
 
     })
 
