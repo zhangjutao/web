@@ -50,7 +50,7 @@
     </style>
 </head>
 <body>
-<dna:dna-header/>
+<iqgs:iqgs-header />
 <!--header-->
 <div class="container primer3-content js-nav-ac">
     <%--<%@ include file="/WEB-INF/views/include/sidebar.jsp" %>--%>
@@ -218,6 +218,14 @@
             /*primerFMin:0,
             primerFMax:0.5,*/
         },
+        changeLengthAndProductSize:function () {
+            //clearTimeout(primer3.time);
+            //primer3.time = setTimeout("primer3.changeLength()", 500);
+            primer3.changeLength();
+            var length=$('.sequence-block').val().length;
+            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
+            $('input[name="productSizeMax"]').val(length);
+        },
         changeLength: function () {
             var val = $('.sequence-block').val();
             var seqLength = val.length;
@@ -268,6 +276,10 @@
         },
         checkProductSize:function () {
             var length=$('.length-value').text();
+            if(length==0&&$('.sequence-block').val()!=''){
+                length=$('.sequence-block').val().length;
+                //alert(length);
+            }
             var productSizeMin=$('.primer3-input  .product-size>input[name="productSizeMin"]').val();
             var productSizeMax=$('.primer3-input  .product-size>input[name="productSizeMax"]').val();
             if(productSizeMin==''){
@@ -307,8 +319,8 @@
                             method: method,
                             url: url,
                             data:data,
-                            //dataType: "json",
-                            contentType: "application/json,charset=UTF-8;",
+                            dataType: "json",
+                            //contentType: "application/json,charset=UTF-8;",
                             success: function (result) {
                                 resolve(result)
                             },
@@ -328,11 +340,26 @@
 
     $(function () {
         //记录用户输入序列的长度
-        $('.sequence-block').keyup(function () {
+        /*$('.sequence-block').keyup(function () {
             //clearTimeout(primer3.time);
             //primer3.time = setTimeout("primer3.changeLength()", 500);
             primer3.changeLength();
+            var length=$('.sequence-block').val().length;
+            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
+            $('input[name="productSizeMax"]').val(length);
         });
+        $('.sequence-block').change(function () {
+            //clearTimeout(primer3.time);
+            //primer3.time = setTimeout("primer3.changeLength()", 500);
+            primer3.changeLength();
+            var length=$('.sequence-block').val().length;
+            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
+            $('input[name="productSizeMax"]').val(length);
+        });*/
+        $('.sequence-block').on({
+            keyup:primer3.changeLengthAndProductSize,
+            change:primer3.changeLengthAndProductSize
+        })
 
         //重置用户输入
         $('.reset-btn').click(function () {
@@ -342,6 +369,11 @@
             $('.primer3-input  .primer-GC>input[name="primerGCMax"]').val(primer3.defaultValue.primerGCMax);
             $('.primer3-input  .primer-Tm>input[name="primerTmMin"]').val(primer3.defaultValue.primerTmMin);
             $('.primer3-input  .primer-Tm>input[name="primerTmMax"]').val(primer3.defaultValue.primerTmMax);
+            var length=$('.sequence-block').val().length;
+            if(length>0){
+                $('input[name="productSizeMin"]').val(parseInt(length*0.8));
+                $('input[name="productSizeMax"]').val(length);
+            }
         });
 
         $('.primer3-submit-btn').on('click', function () {
@@ -373,11 +405,16 @@
                 productSizeMax:productSizeMax,
                 sequence:$('.sequence-block').val().toUpperCase()
             };
-            console.log(data)
+            //alert("data: "+JSON.stringify(data))
             var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
             promise.then(
                 function (result) {
                     console.log(result);
+                    //result.param=data;
+                    result=JSON.stringify(result);
+                    localStorage.setItem('primer3List',result);
+                    localStorage.setItem('param',JSON.stringify(data));
+                    window.location=ctxRoot+"/primer3out";
                 },
                 function (error) {
                     console.log(error);

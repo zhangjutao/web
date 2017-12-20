@@ -6,9 +6,11 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * primer3 引物设计相关接口
@@ -75,7 +77,7 @@ public class Primer3Controller {
      * "sequence":"AGAGTAGATAGTAGTATAGTAGATATG"
      **/
     @RequestMapping(value = "/getPrimer", method = RequestMethod.POST)
-    public List<Primer> getPrimer(String primerSizeMin, String primerSizeMax, String primerGCMin, String primerGCMax, String primerTMMin, String primerTMMax, String productSizeMin, String productSizeMax, String sequence) {
+    public Map<Integer,List<Primer>> getPrimer(String primerSizeMin, String primerSizeMax, String primerGCMin, String primerGCMax, String primerTmMin, String primerTmMax, String productSizeMin, String productSizeMax, String sequence) {
         String param1 = "PRIMER_TASK=generic&PRIMER_MASK_KMERLIST_PREFIX=&PRIMER_MASK_FAILURE_RATE=0.1&PRIMER_MASK_5P_DIRECTION=1&PRIMER_MASK_3P_DIRECTION=1&PRIMER_MISPRIMING_LIBRARY=NONE&";
         String squenceTemplate = "SEQUENCE_TEMPLATE=" + sequence + "&";
         String param2 = "MUST_XLATE_PRIMER_PICK_LEFT_PRIMER=1&MUST_XLATE_PRIMER_PICK_RIGHT_PRIMER=1&SEQUENCE_PRIMER=&SEQUENCE_INTERNAL_OLIGO=&SEQUENCE_PRIMER_REVCOMP=&SEQUENCE_ID=&" +
@@ -84,9 +86,9 @@ public class Primer3Controller {
         String primerMinSize = "PRIMER_MIN_SIZE=" + primerSizeMin + "&";
         String primerOptSize = "PRIMER_OPT_SIZE=&";
         String primerMaxSize = "PRIMER_MAX_SIZE=" + primerSizeMax + "&";
-        String primerMinTm = "PRIMER_MIN_TM=" + primerTMMin + "&";
+        String primerMinTm = "PRIMER_MIN_TM=" + primerTmMin + "&";
         String primerOptTm = "PRIMER_OPT_TM=&";
-        String primerMaxTm = "PRIMER_MAX_TM=" + primerTMMax + "&";
+        String primerMaxTm = "PRIMER_MAX_TM=" + primerTmMax + "&";
         String param3 = "&PRIMER_PAIR_MAX_DIFF_TM=5.0&PRIMER_TM_FORMULA=1&PRIMER_PRODUCT_MIN_TM=-1000000.0&PRIMER_PRODUCT_OPT_TM=0.0&PRIMER_PRODUCT_MAX_TM=1000000.0&";
         String primerMinGc = "PRIMER_MIN_GC=" + primerGCMin + "&";
         String param4 = "PRIMER_OPT_GC_PERCENT=50.0&";
@@ -98,7 +100,7 @@ public class Primer3Controller {
                 primerOptSize + primerMaxSize + primerMinTm +
                 primerOptTm + primerMaxTm + param3 + primerMinGc +
                 param4 + primerMaxGc + primerProductSizeRange + param5;
-        List<Primer> primerList = primer3Service.getPrimer("http://192.168.14.128/cgi-bin/primer3web_results.cgi?", params);
+        Map<Integer,List<Primer>> primerList = primer3Service.getPrimer("http://180.76.160.204:90/cgi-bin/primer3web_results.cgi?", params);
         return primerList;
     }
 }
