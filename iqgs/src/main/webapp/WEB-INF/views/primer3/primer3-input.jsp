@@ -276,6 +276,10 @@
         },
         checkProductSize:function () {
             var length=$('.length-value').text();
+            if(length==0&&$('.sequence-block').val()!=''){
+                length=$('.sequence-block').val().length;
+                //alert(length);
+            }
             var productSizeMin=$('.primer3-input  .product-size>input[name="productSizeMin"]').val();
             var productSizeMax=$('.primer3-input  .product-size>input[name="productSizeMax"]').val();
             if(productSizeMin==''){
@@ -401,7 +405,7 @@
                 productSizeMax:productSizeMax,
                 sequence:$('.sequence-block').val().toUpperCase()
             };
-            console.log(data)
+            //alert("data: "+JSON.stringify(data))
             var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
             promise.then(
                 function (result) {
@@ -409,7 +413,7 @@
                     //result.param=data;
                     result=JSON.stringify(result);
                     localStorage.setItem('primer3List',result);
-                    localStorage.setItem('param',data);
+                    localStorage.setItem('param',JSON.stringify(data));
                     window.location=ctxRoot+"/primer3out";
                 },
                 function (error) {

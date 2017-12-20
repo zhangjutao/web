@@ -188,7 +188,7 @@
         console.log(primer3List);
         console.log(param);
 
-        if(primer3List.length>0){
+        /*if(primer3List.length>0){
             for(var i=0;i<primer3List.length;i++){
                 var primer3=primer3List[i];
                 console.log(primer3.type)
@@ -206,7 +206,7 @@
                     $(tr).append('<td>'+primer3.position+'</td>')
                 }
             }
-        }
+        }*/
 
     })
 
