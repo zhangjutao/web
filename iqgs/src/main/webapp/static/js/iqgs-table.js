@@ -101,10 +101,10 @@ $(function () {
         var commonStr = '<li data-value="all">ALL</li>'+
             '<li data-type="type" data-value="downstream">Downstream</li>'+
             '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
-            '<li data-type="effect" data-value="nonsynonymous SNV">Exonic_nonsynonymous SNV</li>'+
-            '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
-            '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>' +
-            '<li data-type="effect" data-value="synonymous SNV">Exonic_synonymous SNV</li>' +
+            '<li data-type="effect" data-value="exonic_nonsynonymous SNV">Exonic_nonsynonymous SNV</li>'+
+            '<li data-type="effect" data-value="exonic_stopgain">Exonic_stopgain</li>'+
+            '<li data-type="effect" data-value="exonic_stoploss">Exonic_stoploss</li>' +
+            '<li data-type="effect" data-value="exonic_synonymous SNV">Exonic_synonymous SNV</li>' +
             '<li data-type="type" data-value="intergenic">Intergenic</li>'+
             '<li data-type="type" data-value="intronic">Intronic</li>'+
             '<li data-type="type" data-value="splicing">Splicing</li>'+
@@ -116,12 +116,12 @@ $(function () {
         var commonStr2 = '<li data-value="all">ALL</li>'+
             '<li data-type="type" data-value="downstream">Downstream</li>'+
             '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
-            '<li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>'+
-            '<li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>'+
-            '<li data-type="effect" data-value="frameshift insertion">Exonic_nonframeshift deletion</li>'+
-            '<li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>'+
-            '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
-            '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>'+
+            '<li data-type="effect" data-value="exonic_frameshift deletion">Exonic_frameshift deletion</li>'+
+            '<li data-type="effect" data-value="exonic_frameshift insertion">Exonic_frameshift insertion</li>'+
+            '<li data-type="effect" data-value="exonic_frameshift insertion">Exonic_nonframeshift deletion</li>'+
+            '<li data-type="effect" data-value="exonic_nonframeshift insertion">Exonic_nonframeshift insertion</li>'+
+            '<li data-type="effect" data-value="exonic_stopgain">Exonic_stopgain</li>'+
+            '<li data-type="effect" data-value="exonic_stoploss">Exonic_stoploss</li>'+
             '<li data-type="type" data-value="intergenic">Intergenic</li>'+
             '<li data-type="type" data-value="intronic">Intronic</li>'+
             '<li data-type="type" data-value="splicing">Splicing</li>'+
@@ -132,7 +132,15 @@ $(function () {
             '<li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>';
 
         var headStr = '<td class="t_snpid">SNP ID</td>' +
-            '<td class="param t_consequenceType">Consequence Type</td>'+
+            '<td class="param t_consequenceType">Consequence Type' +
+                 ' <img src="/iqgs/static/images/down.png">\n' +
+                 '<input type="hidden" class="js-consequence-type">\n' +
+                    ' <div class="input-component ">\n' +
+                        '<ul class="consequence-type ">\n' +
+                            commonStr  +
+                        '</ul>\n' +
+                    '</div>' +
+            '</td>'+
             '<td class="param t_snpchromosome">Chromosome</td>'+
             '<td class="param t_position">Position</td>'+
             '<td class="param t_snpreference">Reference</td>'+
@@ -141,7 +149,15 @@ $(function () {
             '<td class="param t_fmajorAllele"><select class="f-ma"><option value="major">Frequence of Major Allele</option>' +
             '<option value="minor">Frequence of Minor Allele</option></select></td>';
         var headStr2 = '<td class="t_indels">INDEL ID</td>' +
-            '<td class="param t_iconsequenceType">Consequence Type</td>'+
+            '<td class="param t_iconsequenceType">Consequence Type' +
+                ' <img src="/iqgs/static/images/down.png">\n' +
+                '<input type="hidden" class="js-consequence-type">\n' +
+                ' <div class="input-component ">\n' +
+                    '<ul class="consequence-type ">\n' +
+                        commonStr2 +
+                    '</ul>\n' +
+                '</div>' +
+            '</td>'+
             '<td class="param t_indelchromosome">Chromosome</td>'+
             '<td class="param t_iposition">Position</td>'+
             '<td class="param t_indelreference">Reference</td>'+
@@ -535,7 +551,7 @@ $(function () {
         if(type == "effect") {
             CTypeSnp = "_" + $(".js-snp-table .consequence-type").find(".active").attr("data-value");
         } else if(type == "type") {
-            CTypeSnp = $(".js-snp-table .consequence-type").find(".active").attr("data-value") + "_";
+            CTypeSnp = $(".js-snp-table .consequence-type").find(".active").attr("data-value");
         } else {
             CTypeSnp = 'all';
         }
@@ -551,7 +567,7 @@ $(function () {
         if(type == "effect") {
             CTypeIndel = "_" + $(".js-indel-table .consequence-type").find(".active").attr("data-value");
         } else if(type == "type") {
-            CTypeIndel = $(".js-indel-table .consequence-type").find(".active").attr("data-value") + "_";
+            CTypeIndel = $(".js-indel-table .consequence-type").find(".active").attr("data-value");
         } else {
             CTypeIndel = 'all';
         }
