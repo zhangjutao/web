@@ -70,9 +70,6 @@
 
                         <div id="clusterPic" style="min-width:800px">
                             <svg xmlns="http://www.w3.org/2000/svg" style="border:1px solid #f0f0f0;">
-                                <defs>
-                                    <path id="myTextPath" d="M0,10a1,0 0 0,0 120,0" />
-                                </defs>
                             </svg>
                         </div>
 

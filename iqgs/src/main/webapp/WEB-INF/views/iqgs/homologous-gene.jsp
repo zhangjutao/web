@@ -19,6 +19,9 @@
 	.explain-list .explain-b tbody tr td:first-child{
 		width:auto;
 	}
+	.explain-b tbody tr td:last-child {
+		padding-left: 0px;
+	}
 </style>
 </head>
 
@@ -52,11 +55,11 @@
                         <tbody>
 						<c:forEach items="${homologous}" var="homo">
                             <tr>
-								<%--<td>${homo.geneId}</td>--%>
-								<%--<td>${homo.orthologSpecies}</td>--%>
-								<%--<td>${homo.orthologGeneId}</td>--%>
-								<%--<td>${homo.orthologGeneDescription}</td>--%>
-								<%--<td>${homo.relationship}</td>--%>
+								<td>${homo.geneId}</td>
+								<td>${homo.orthologSpecies}</td>
+								<td>${homo.orthologGeneId}</td>
+								<td style="width:200px;">${homo.orthologGeneDescription}</td>
+								<td>${homo.relationship}</td>
 							</tr>
 						</c:forEach>
                         </tbody>
@@ -78,8 +81,6 @@
 <!--footer-->
 
 <script>
-	var data=${homologous};
-	conslole.log(data)
 	$(function(){
 		$(".item li").each(function(i){
 			$(this).click(function(){
