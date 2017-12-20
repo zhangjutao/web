@@ -1250,6 +1250,12 @@ $(function () {
             _form.submit();
         } else {
             var _form = $("#exportRegionForm");
+            if(isPop == 1){
+                _form.find(".model").val("GENE");
+                _form.find(".gene").val($("#GlyIds .GlyColor").text());
+            }else {
+                _form.find(".model").val("REGION");
+            }
             var params = GetPanelParams.getRegionParams();
             // params.total = total;
             _form.find(".chromosome").val(params.chromosome);

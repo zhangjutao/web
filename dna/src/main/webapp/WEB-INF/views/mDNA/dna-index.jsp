@@ -378,7 +378,7 @@
     </div>
 
     <form id="exportRegionForm" action="${ctxroot}/dna/dataExport" method="get">
-        <input class="model" name="model" type="hidden" value="REGION"/>
+        <input class="model" name="model" type="hidden" value=""/>
         <input class="chromosome" name="chromosome" type="hidden" value=""/>
         <input class="start" name="start" type="hidden" value=""/>
         <input class="end" name="end" type="hidden" value=""/>
@@ -387,6 +387,9 @@
         <input class="choices" name="choices" type="hidden" value=""/>
         <input class="group" name="group" type="hidden" value=""/>
         <input class="total" name="total" type="hidden" value=""/>
+        <input class="gene" name="gene" type="hidden" value=""/>
+        <input class="upstream" name="upstream" type="hidden" value=""/>
+        <input class="downstream" name="downstream" type="hidden" value=""/>
     </form>
 
     <form id="exportGeneForm" action="${ctxroot}/dna/dataExport" method="get">
