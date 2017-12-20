@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -55,12 +56,6 @@ public class DNAGenBaseInfoController {
     @Autowired
     private QueryService queryService;
 
-    /**
-     * <span style="color:red;">请求URL</span>: http://host:port/contextPath/iqgs/index <br>
-     * 请求方式: GET OR POST
-     *
-     * @return 跳转到iqgs目录下IQGS-index.jsp页面
-     */
     @RequestMapping("/index")
     public String toIndexPage() {
         return "iqgs/IQGS-index";
@@ -279,7 +274,7 @@ public class DNAGenBaseInfoController {
      * "isNewRecord": false,
      * "orthologSpecies": "Arabidopsis thaliana",
      * "geneId": "Glyma.01G004900",
-     * "OrthologGeneId": "AT5G65790.1",
+     * "orthologGeneId": "AT5G65790.1",
      * "orthologGeneDescription": "myb domain protein 68",
      * "relationship":"many-to-one"
      * }
@@ -301,7 +296,7 @@ public class DNAGenBaseInfoController {
      * @apiGroup DNAGeneBaseInfo
      * @apiParam {String} gen_id 基因详情页对应的基因id
      * @apidescription 返回页面转发（到gene-family.jsp），通过EL表达式取到后台查询的值。
-     * @apiSuccessExample model structure:
+     * @apiSuccessExample success model structure:
      * {
      * "hasFamilyFlg":true,
      * "dnaGenFamilyRels":{"geneId":"Glyma.04G202000","familyId":"LFY"},
@@ -497,6 +492,7 @@ public class DNAGenBaseInfoController {
     /**
      * 按基因搜索差异变异数据,按照value倒叙排列
      *
+     *
      * @api {post} /iqgs/queryExpressionByGene
      * @apiGroup detail
      * @apiName queryExpressionByGene
@@ -604,17 +600,103 @@ public class DNAGenBaseInfoController {
     /**
      * 按基因搜索差异变异数据
      *
-     * @param request
-     * @param response
-     * @return
+     * @api {GET} /iqgs/searchDNAinGene 按基因搜索差异变异数据
+     * @apiName searchSNPinGene
+     * @apiGroup DNAGeneBaseInfo
+     * @apiParam {String} type 区分SNP和INDEL数据,默认传SNP
+     * @apiParam {String} gene 基因详情页对应的基因id
+     * @apiParam {list} ctype 默认为all，用户进行consequencetype筛选时将用户输入的所有类型以“"ctype":"ctype1,ctype2,..."形式返回
+     * @apiParam {int} pageNo 页码
+     * @apiParam {int} pageSize 每页包含的条数
+     * @apiParamExample 参数请求实例1（用户不进行consequencetype筛选时）:
+     * {
+     * "gene":"Glyma.01G004900",
+     * "type":"SNP",
+     * "ctype":"all",
+     * "pageNo":2,
+     * "pageSize":10
+     * }
+     * @apiParamExample 参数请求实例2（用户筛选consequencetype时）:
+     * {
+     * "gene":"Glyma.01G004900",
+     * "type":"SNP",
+     * "ctype":"upstream,downstream,intronic",
+     * "pageNo":2,
+     * "pageSize":10
+     * }
+     * @apiParamExample 参数请求实例3（用户点选INDEL时）:
+     * {
+     * "gene":"Glyma.01G004900",
+     * "type":"INDEL",
+     * "ctype":"all",
+     * "pageNo":2,
+     * "pageSize":10
+     * }
+     * @apiSuccessExample 成功返回，有数据时的格式:
+     * {
+     * "total": 148,
+     * "data":[{
+     * "id": "GlyS0010456979",
+     * "chr": "Chr01",
+     * "pos": 456979,
+     * "ref": "T",
+     * "alt": "G",
+     * "qual": 733.77,
+     * "maf": 0.001,
+     * "type": "downstream",
+     * "gene": "Glyma.01G004900",
+     * "effect": "---",
+     * "consequencetype": "downstream",
+     * "majorallen": "T",
+     * "minorallen": "G",
+     * "major": 0.9974120082815735,
+     * "minor": 0.002587991718426501
+     * },
+     * {
+     * "id": "GlyS0010457020",
+     * "chr": "Chr01",
+     * "pos": 457020,
+     * "ref": "T",
+     * "alt": "C",
+     * "qual": 908.77,
+     * "maf": 0.001,
+     * "type": "downstream",
+     * "gene": "Glyma.01G004900",
+     * "effect": "---",
+     * "consequencetype": "downstream",
+     * "majorallen": "T",
+     * "minorallen": "C",
+     * "major": 0.9989648033126294,
+     * "minor": 0.0010351966873706005
+     * }
+     * ],
+     * "pageNo": 2,
+     * "pageSize": 10
+     * }
+     * @apiSuccessExample 成功返回，查无数据时的格式：
+     * {
+     * "total": 0,
+     * "data": [],
+     * "pageNo": 1,
+     * "pageSize": 10
+     * }
+     * @apiErrorExample 传回参数名称不对或缺少时：
+     * {
+     * "msg": "系统异常",
+     * "code": -1,
+     * "status": null,
+     * "data": null
+     * }
      */
     @RequestMapping("/searchDNAinGene")
     @ResponseBody
     public Map searchSNPinGene(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
         String gene = request.getParameter("gene");//具体的gene
-        logger.info("queryBy " + type + " with gene:" + gene);
+        String ctype = request.getParameter("ctype");
+        logger.info("queryBy " + type + "and ctype" + ctype + " with gene:" + gene);
+        String[] ctypeList = ctype.split(",");
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPByGene(type, gene, page);
+        return snpService.searchSNPByGene(type,ctypeList,gene,page);
     }
 }

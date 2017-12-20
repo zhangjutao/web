@@ -68,7 +68,6 @@ $(function(){
 
     // qtl 搜索 -- 》获取数据 -- >search
     $("#QtlBtnName").click(function (){
-        debugger;
         //Mock 拦截请求
         var number = Mock.mock({
             "total|1-100": 100
@@ -77,7 +76,6 @@ $(function(){
         for (var i=0;i<number.total;i++){
             var id = Mock.mock({ "number|1-100000": 100 });
             var qtlName = Mock.Random.string("lower",7,7) +Mock.Random.string("lower",7,7) + Mock.Random.string("lower",7,7) ;
-
             arr.push({
                 id:id.number,
                 qtlName:qtlName
@@ -88,10 +86,12 @@ $(function(){
             data:arr
         }
         Mock.mock(/(query-by-qtl-name){1}\w*/,obj);
+        debugger;
         var qtlSearchVal = $("#qtlName").val();
         var data ={
             qtlName:qtlSearchVal
         };
+        console.log(data)
         var promise = SendAjaxRequest("GET","query-by-qtl-name",data);
         promise.then(
             function (result){
@@ -158,12 +158,12 @@ $(function(){
             alert("最多只能选择 5 个");
             return;
         }else {
-            Mock.mock(/(getFisrtQtlNames){1}\w*/,{data:[3,4,56,7]});
+            Mock.mock(/(confirm){1}\w*/,{data:[3,4,56,7]});
             var qtlSearchVal = $("#qtlName").val();
             var data = JSON.stringify(globleObject.selectedQtl);
-            console.log(JSON.parse(data));
+            // console.log(JSON.parse(data));
             // 发送请求
-            var promise = SendAjaxRequest("POST","getFisrtQtlNames",data);
+            var promise = SendAjaxRequest("POST","confirm",data);
             promise.then(
                 function (result){
                    console.warn(result);

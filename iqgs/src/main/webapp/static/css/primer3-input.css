@@ -1,0 +1,32 @@
+/*snp-content*/
+button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!important;}
+.clear-fix::after{clear: both;content:"";display: block;}
+.primer3-content{margin-bottom: 50px;}
+.primer3-content:after{content: "";display: block;clear: both;}
+.peimer3-main{width: 100%;padding: 0 30px;box-sizing: border-box;background: white;-moz-box-shadow: 0px 2px 3px #ccc;-webkit-box-shadow:0px 2px 3px #ccc; box-shadow:0px 2px 3px #ccc;}
+.primer3-top{margin-bottom:16px;padding-top: 24px;}
+.paste-explain{color: #333;float: left;font-size: 16px;}
+.sequence-length{float: right;color: #333;font-size: 14px;}
+.length-value{  color: #5c8ce6}
+.primer3-middle{margin-bottom: 24px; }
+.sequence-block{padding:16px;border: 1px solid #E6E6E6;font-size: 14px;color:#666;background:none;outline:none;display: block;width:100%;
+    box-sizing: border-box;resize:none;height: 88px; }
+.primer3-bottom{}
+.primer3-bottom-top{margin-bottom: 16px;}
+.setting-title{color: #333;font-size: 16px;line-height: 30px;float: left;margin-right: 10px;}
+.reset-btn{border: 1px solid #5c8ce6;line-height: 30px; color: #5c8ce6;text-align: center;width: 80px;float: left;cursor: pointer;}
+.primer3-input{  }
+.input-item-common{float: left;line-height: 30px;}
+.primer3-input-left,.primer3-input-right{float: left;}
+.primer3-input-left{margin-right: 110px;}
+.peimer3-input-item{margin-bottom: 16px;}
+.peimer3-input-item-title{width: 124px;color: #666;font-size: 14px;}
+.input-min,.input-max{color: #999;font-size: 14px;margin-right: 10px;}
+.input-max{margin-left: 16px;}
+.input-content{background:none;outline:none;border: 1px solid #ccc;width: 100px;font-size: 14px; color: #333;text-align: center;margin-right: 16px;}
+.primer3-submit-btn{width: 120px; font-size: 16px; color: #fff;background: #5c8ce6;height: 40px; text-align: center;border-radius: 2px; line-height: 40px;
+float: right;margin: 8px 16px 30px 0;cursor: pointer;}
+
+.error-message{margin-left: 160px;width: 100px;background: darkcyan; }
+
+.red-border{border:1px solid red;}

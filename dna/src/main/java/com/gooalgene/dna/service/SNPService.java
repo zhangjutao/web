@@ -436,8 +436,9 @@ public class SNPService {
         return jsonArray;
     }
 
-    public Map searchSNPByGene(String type, String gene, Page<DNAGens> page) {
-        List<SNP> snps = dnaMongoService.searchByGene(type, gene, page);
+    public Map searchSNPByGene(String type, String[] ctypeList, String gene, Page<DNAGens> page) {
+
+        List<SNP> snps = dnaMongoService.searchByGene(type, ctypeList, gene, page);
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());

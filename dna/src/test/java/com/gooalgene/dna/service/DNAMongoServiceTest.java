@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml","classpath:spring-mongodb.xml"}))
+@ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
 public class DNAMongoServiceTest extends TestCase {
     @Autowired
     private DNAMongoService dnaMongoService;
@@ -67,4 +67,13 @@ public class DNAMongoServiceTest extends TestCase {
         System.out.println(snps.size());
     }
 
+    @Test
+    public void testSearchByGene() {
+        String[] ctypeList = {"upstream", "downstream"};
+        Page page = new Page();
+        page.setPageSize(10);
+        page.setPageNo(2);
+        List<SNP> snps = dnaMongoService.searchByGene("SNP", ctypeList, "Glyma.01G004900", page);
+        System.out.println(snps);
+    }
 }
