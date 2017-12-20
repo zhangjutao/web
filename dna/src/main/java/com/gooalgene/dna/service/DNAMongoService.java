@@ -3,6 +3,7 @@ package com.gooalgene.dna.service;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
+import com.google.common.collect.ImmutableSet;
 import com.google.common.collect.Lists;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
@@ -20,15 +21,13 @@ import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
 import org.springframework.data.mongodb.core.query.BasicQuery;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Field;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
 
 /**
@@ -570,5 +569,27 @@ public class DNAMongoService {
         }
         page.setCount(total);
         return result;
+    }
+
+    /**
+     * 输入一个geneId，拿到所有SNP中distinct consequenceType
+     * @param geneId 基因ID
+     * @return 所有不同consequenceType的集合
+     */
+    public Set<String> getAllConsequenceTypeByGeneId(String geneId, String type){
+        Set<String> allDistinctConsequenceType = null;
+        int index = geneId.indexOf(".") + 1;
+        String chr = "Chr" + geneId.substring(index, index + 2);
+        String collectionName = type + "_" + chr;
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.and("gene").is(geneId);
+            Query query = new Query();
+            query.addCriteria(criteria);
+            query.fields().include("consequencetype").exclude("_id");
+            List<String> allConsequenceType = mongoTemplate.find(query, String.class, collectionName);
+            allDistinctConsequenceType = new HashSet<>(allConsequenceType);
+        }
+        return allDistinctConsequenceType;
     }
 }

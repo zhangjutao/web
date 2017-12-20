@@ -19,12 +19,18 @@ public class DNAGenBaseInfoService {
     private DNAGenBaseInfoDao dnaGenBaseInfoDao;
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
+        List<DNAGenBaseInfo> result = null;
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         bean.setGeneId(keyword);
         bean.setGeneOldId(keyword);
         bean.setGeneName(keyword);
         bean.setPage(page);
-        return dnaGenBaseInfoDao.findByConditions(bean);
+        result = dnaGenBaseInfoDao.findByConditions(bean);
+        for (DNAGenBaseInfo gene : result){
+            String geneName = gene.getGeneName();
+
+        }
+        return result;
     }
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFunc(String func, Page<DNAGenBaseInfo> page) {

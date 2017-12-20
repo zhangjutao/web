@@ -403,7 +403,8 @@
                 primerTmMax:primerTmMax==''?primer3.defaultValue.primerTmMax:primerTmMax,
                 productSizeMin:productSizeMin,
                 productSizeMax:productSizeMax,
-                sequence:$('.sequence-block').val().toUpperCase()
+                sequence:$('.sequence-block').val().toUpperCase(),
+                seqLength:$('.sequence-block').val().length
             };
             //alert("data: "+JSON.stringify(data))
             var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);

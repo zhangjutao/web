@@ -17,7 +17,7 @@ button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!importa
 .primer3-table tbody tr:nth-of-type(2n){background: #f5f8ff;}
 .primer3-table thead td{padding: 3px 20px;}
 .primer3-table tbody td{padding: 3px 20px;white-space:nowrap;}
-.primer3-link a{text-decoration: underline ;color:#5a5a5a; }
+.primer3-link{text-decoration: underline ;color:#5a5a5a;cursor: pointer; }
 
 .primer3-designed{margin:0 30px 24px 30px;}
 .primer3-designed-title{font-size: 18px; color: #5c8ce6;margin-bottom: 16px;}
@@ -28,12 +28,23 @@ button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!importa
 .primer3-designed-item:nth-of-type(1){margin-bottom: 16px;}
 .primer3-designed-item:nth-of-type(3){margin-bottom: 16px;}
 .primer3-designed-item>span{}
-.sequence-list{border: 1px solid #ddd;margin:0 30px 30px 30px;font-size: 14px; color: #666;height: 230px;  }
+.primer-legend{float: right;margin-right: 30px;margin-bottom: 16px;}
+.primer-f-blue{margin-right: 20px;}
+.primer-f-blue,.primer-r-orange{float: left;font-size: 12px;}
+.primer-f-blue>p,.primer-r-orange>p{float: left;}
+.blue-block,.orange-block{height: 12px;width:12px;float: left;margin-right: 4px;}
+.blue-block{background: #4572d9;}
+.orange-block{background: #fa9632;}
+.sequence-list{border: 1px solid #ddd;margin:0 30px 30px 30px;font-size: 14px; color: #666;  }
 .sequence-list li{height: 48.8px;}
 .sequence-list-cover-left{background:#f5f8ff;border-right:1px solid #ddd;height: 34.8px;width: 80px;float: left; }
 .sequence-list-cover-right{height: 34.8px;float: left;}
 .line-number{border-right:1px solid #ddd; background: #f5f8ff;width: 80px;text-align: center;height: 48.8px;float: left;}
 .sequence-content{float: left;height: 48.8px;margin-left: 20px;}
+
+
+
+
 
 
 
