@@ -17,6 +17,12 @@
 	<script src="${ctxStatic}/js/d3.js"></script>
     <script src="${ctxStatic}/js/clipboard.min.js"></script>
     <script src="${ctxStatic}/js/layer/layer.js"></script>
+    <style>
+        #totalSequence{z-index: 5;background-color: white}
+        #showUpstream{border: 1px solid red;position: absolute;z-index: 1;top:350px}
+
+
+    </style>
 
 </head>
 
@@ -36,16 +42,19 @@
                     <p>参考序列</p>
                 </div>
                 <%--${data}--%>
-                <span style="background-color: red;color: white">红色背景  CDS</span>
-                <span style="background-color: green;color: white">绿色背景 3-UTR</span>
-                <span style="background-color: blue;color: white">蓝色背景 5-UTR</span>
-                <span style="background-color: grey;color: white">灰色背景 upstream2k</span>
-
                 <div class="explain-b">
+                    <div class="color-example">
+                        <label>
+                            <span><i class="cor-pro"></i>Upstream2k</span>
+                            <span><i class="cor-5utr"></i>5'UTR</span>
+                            <span><i class="cor-cds"></i>CDS</span>
+                            <span><i class="cor-3utr"></i>3'UTR</span>
+                        </label>
+                    </div>
                     <table>
                         <tbody>
                         <tr>
-                            <td>
+                            <td height="300px">
                                 <p class="sequence-name"><b>Genomic sequence</b></p>
                                 <button class="copy" id="copyAll"><img src="${ctxStatic}/images/i-1-ac.png">复制序列</button>
                                 <button class="copy" id="copyUpstream><img src="${ctxStatic}/images/i-1-ac.png">复制Upstream2k</button>
@@ -53,10 +62,10 @@
                                 <button class="copy" id="copyCDS><img src="${ctxStatic}/images/i-1-ac.png">复制CDS</button>
                             </td>
                             <td>
-                                <p class="gene-sequence" id="totalSequence" class="gene-sequence" ><%--gDNA+Upstream2k序列--%></p>
-                                <p style="display: none" id="showUpstream" class="gene-sequence" ></p>
-                                <p style="display: none" id="showgDNA" class="gene-sequence" ></p>
-                                <p style="display: none" id="showCDS" class="gene-sequence" ></p>
+                                <p class="gene-sequence" id="totalSequence" class="gene-sequence" style="height: 300px"><%--gDNA+Upstream2k序列--%></p>
+                                <%--<p id="showUpstream" class="gene-sequence" ></p>
+                                <p id="showgDNA" class="gene-sequence" ></p>
+                                <p id="showCDS" class="gene-sequence" ></p>--%>
                             </td>
                         </tr>
                         <%--peptide部分--%>
@@ -69,18 +78,6 @@
                                 <p class="gene-sequence" id="peptideSequence"></p>
                             </td>
                         </tr>
-                        <%--${data}
-                        <c:forEach items="${dnas}" var="dna">
-                            <tr>
-                                <td>
-                                    <p class="sequence-name"><b>${dna.type}</b></p>
-                                    <button class="copy"><img src="${ctxStatic}/images/i-1-ac.png">复制序列</button>
-                                </td>
-                                <td>
-                                    <p class="gene-sequence">${dna.sequence}</p>
-                                </td>
-                            </tr>
-                        </c:forEach>--%>
                         </tbody>
                     </table>
                 </div>
@@ -116,7 +113,7 @@
                 strand=result[i].strand;
                 var cdsPart=gdnaSequenceLoad.substring(result[i].start+increasedIndex-1,result[i].end+increasedIndex);
                 console.log("cdsPart",cdsPart)
-                var cdsNewpart="<span style='background-color:red'>"+cdsPart+"</span>";
+                var cdsNewpart="<span style='background-color:rgb(0,153,187)'>"+cdsPart+"</span>";
                 gdnaSequenceLoad=gdnaSequenceLoad.replace(cdsPart,cdsNewpart);
                 increasedIndex=gdnaSequenceLoad.length-originalIndex;
             }
@@ -124,7 +121,7 @@
                 originalIndex=gdnaSequenceLoad.length;
                 strand=result[i].strand;
                 var cdsPart=gdnaSequenceLoad.substring(result[i].start+increasedIndex-1,result[i].end+increasedIndex);
-                var cdsNewpart="<span style='background-color:green'>"+cdsPart+"</span>";
+                var cdsNewpart="<span style='background-color:rgb(255,185,2)'>"+cdsPart+"</span>";
                 gdnaSequenceLoad=gdnaSequenceLoad.replace(cdsPart,cdsNewpart);
                 increasedIndex=gdnaSequenceLoad.length-originalIndex;
                 console.log(gdnaSequenceLoad)
@@ -133,12 +130,12 @@
                 originalIndex=gdnaSequenceLoad.length;
                 strand=result[i].strand;
                 var cdsPart=gdnaSequenceLoad.substring(result[i].start+increasedIndex-1,result[i].end+increasedIndex);
-                var cdsNewpart="<span style='background-color:blue'>"+cdsPart+"</span>";
+                var cdsNewpart="<span style='background-color:rgb(248,116,129)'>"+cdsPart+"</span>";
                 gdnaSequenceLoad=gdnaSequenceLoad.replace(cdsPart,cdsNewpart);
                 increasedIndex=gdnaSequenceLoad.length-originalIndex;
             }
         }
-        var upstream2kSequenceLoad="<span style='background-color:grey'>"+upstream2kSequence+"</span>";
+        var upstream2kSequenceLoad="<span style='background-color:rgb(199,255,255)'>"+upstream2kSequence+"</span>";
         if(strand=="+"){
             totalSequence=upstream2kSequenceLoad+gdnaSequenceLoad;
         }
