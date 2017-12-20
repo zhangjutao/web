@@ -36,7 +36,8 @@
 				<div class="explain-b">
 					<table>
 						<tbody>
-							<tr><td>基因ID</td><td>${dna.geneId}</td></tr>
+							<tr><td>基因ID(V2.0)</td><td>${dna.geneId}</td></tr>
+							<tr><td>基因ID(V1.1)</td><td>${dna.geneOldId}</td></tr>
 							<tr><td>基因名</td><td>${dna.geneName}</td></tr>
 							<tr><td>基因类型</td><td>${dna.geneType}</td></tr>
 							<tr><td>基因位置</td><td>${dna.locus}</td></tr>

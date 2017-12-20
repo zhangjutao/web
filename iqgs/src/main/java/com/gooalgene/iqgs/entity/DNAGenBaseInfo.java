@@ -7,6 +7,7 @@ import com.gooalgene.common.BaseEntity;
  */
 public class DNAGenBaseInfo extends BaseEntity<DNAGenBaseInfo> {
     private String geneId;
+    private String geneOldId;
     private String geneName;
     private String geneType;
     private String locus;
@@ -14,7 +15,6 @@ public class DNAGenBaseInfo extends BaseEntity<DNAGenBaseInfo> {
     private String species;
     private String functions;
     private String description;
-    private String geneOldId;
 	// 用于基因家族查询
 	private String familyId;
 

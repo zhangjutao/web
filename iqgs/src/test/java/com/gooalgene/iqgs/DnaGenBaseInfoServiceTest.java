@@ -4,20 +4,36 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.dao.StudyDao;
+import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
+import com.gooalgene.iqgs.entity.DNAGenSequence;
+import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.mrna.entity.ExpressionVo;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.DB;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -33,11 +49,19 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+    private static DB db = null;
+
     @Autowired
-    private DNAGenBaseInfoDao dnaGenBaseInfoService;
+    private DNAGenBaseInfoService dnaGenBaseInfoService;
 
     @Autowired
     private DNAGenBaseInfoDao dnaGenBaseInfoDao;
+
+    @Autowired
+    private StudyDao studyDao;
+
+    @Autowired
+    private MongoTemplate mongoTemplate;
 
     @Before
     public void setUp(){
@@ -75,4 +99,100 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         String result = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(firstThree);
         System.out.println(result);
     }
+
+    /**
+     * 测试iqgs中根据id和name模糊查询gene
+     * 要求支持oldid的搜索
+     */
+    @Test
+    public void testqueryDNAGenBaseInfosByIdorName() {
+        DNAGenBaseInfo bean = new DNAGenBaseInfo();
+        //bean.setGeneOldId("G00805");
+        Page<DNAGenBaseInfo> page = new Page<>(1, 10);
+        bean.setPage(page);
+        String keyWord="G00805";//oldgeneID
+        List<DNAGenBaseInfo> geneResult = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(keyWord,page);
+        for (int i = 0; i < geneResult.size(); i++) {
+            DNAGenBaseInfo dnaGenBaseInfo =  geneResult.get(i);
+            System.out.println(dnaGenBaseInfo.toString());
+        }
+    }
+
+    /**
+     * 测试iqgs中获取基因序列的dao接口
+     */
+    @Test
+    public void testfindGenSequenceByGeneIdDao() throws Exception {
+        DNAGenSequence dnaGenSequence =new DNAGenSequence();
+        dnaGenSequence.setGeneId("Glyma.01G004900");
+        List<DNAGenSequence> dgs=dnaGenBaseInfoDao.findGenSequenceByGeneId(dnaGenSequence);
+        for (int i = 0; i < dgs.size(); i++) {
+            DNAGenSequence genSequence =  dgs.get(i);
+            System.out.println(genSequence.toString());
+        }
+    }
+
+    /**
+     * 测试iqgs中获取基因基本信息接口
+     */
+    @Test
+    public void testfindByGeneIdDao() throws Exception {
+        DNAGenBaseInfo bean=new DNAGenBaseInfo();
+        bean.setGeneId("Glyma.01G004900");
+        DNAGenBaseInfo dna=dnaGenBaseInfoDao.findByGeneId(bean);
+        System.out.println(dna.toString());
+    }
+
+    /**
+     * 测试iqgs中获取基因结构的dao接口
+     */
+    @Test
+    public void testfindGenStructureByTranscriptIdDao() throws IOException {
+        DNAGenStructure dnaGenStructure =new DNAGenStructure();
+        dnaGenStructure.setTranscriptId("Glyma.01G004900.1");
+        List<DNAGenStructure> dgs=dnaGenBaseInfoDao.findGenStructureByTranscriptId(dnaGenStructure);
+        for (int i = 0; i < dgs.size(); i++) {
+            DNAGenStructure genStructure =  dgs.get(i);
+            System.out.println(genStructure.toString());
+        }
+    }
+
+    /**
+     * 测试iqgs中基因表达量排序
+     */
+    @Test
+    public void testqueryStudyByGene() throws Exception {
+        //List<String> run = studyDao.findSampleruns();//查询所有的run
+        String collectionName="all_gens_fpkm";
+        Query query = new Query();
+        query.addCriteria(Criteria.where("gene").is("Glyma.01G004900"));
+        //query.addCriteria(Criteria.where("samplerun.name").in(run));
+        query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "samplerun.value")));//降序
+        long total = mongoTemplate.count(query, ExpressionVo.class, collectionName);
+        System.out.println(total);
+        query.limit(10);//取10条
+        query.skip(5);
+        //query.limit(15);
+        //System.out.println("Query count:" + query.toString());
+        List<ExpressionVo> runs = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
+        //System.out.println(runs.toString());
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        for (int i = 0; i < runs.size(); i++) {
+            ExpressionVo expressionVo =  runs.get(i);
+            String samplerunName=expressionVo.getSamplerun().getName();
+            Study study=studyDao.findBySampleRun(samplerunName);
+            System.out.println(study.toString());
+
+            Date time = (Date) study.getCreateTime();
+            //study.setCreateTime(simpleDateFormat.format(time));
+            //System.out.println(study.getCreateTime());
+            /*System.out.println(expressionVo.getSamplerun().getValue());
+            System.out.println(expressionVo.toString());*/
+        }
+
+
+    }
+
+
 }
