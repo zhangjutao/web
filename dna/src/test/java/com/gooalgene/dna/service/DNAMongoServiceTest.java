@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
@@ -75,5 +76,13 @@ public class DNAMongoServiceTest extends TestCase {
         page.setPageNo(2);
         List<SNP> snps = dnaMongoService.searchByGene("SNP", ctypeList, "Glyma.01G004900", page);
         System.out.println(snps);
+    }
+
+    @Test
+    public void testGetAllConsequenceTypeByGeneId(){
+        Set<String> result = dnaMongoService.getAllConsequenceTypeByGeneId("Glyma.10G000100", "SNP");
+        for (String s : result){
+            System.out.println(s);
+        }
     }
 }
