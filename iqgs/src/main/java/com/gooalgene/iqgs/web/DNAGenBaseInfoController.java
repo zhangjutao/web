@@ -694,6 +694,9 @@ public class DNAGenBaseInfoController {
         String type = request.getParameter("type");//区分snp和indel数据
         String gene = request.getParameter("gene");//具体的gene
         String ctype = request.getParameter("ctype");
+        if (ctype.startsWith("_")) {
+            ctype = ctype.substring(1);
+        }
         logger.info("queryBy " + type + "and ctype" + ctype + " with gene:" + gene);
         String[] ctypeList = ctype.split(",");
         Page<DNAGens> page = new Page<DNAGens>(request, response);
