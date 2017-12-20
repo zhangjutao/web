@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml","classpath:spring-mongodb.xml"}))
+@ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
 public class DNAMongoServiceTest extends TestCase {
     @Autowired
     private DNAMongoService dnaMongoService;
