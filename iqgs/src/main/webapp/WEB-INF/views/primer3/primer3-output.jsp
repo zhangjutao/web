@@ -307,20 +307,19 @@
 
             var line=Math.ceil(primer3Out.sequence.length/100);
             for(var i=0;i<line;i++){
-                //debugger;
                 if(posStartF<(i+1)*100&&posEndF<=(i+1)*100){//说明整个F在第X行
                     var seqInLine=$($('.sequence-content')[i]).text();
-                    var seqInColor='<span style="background:#4572d9;color:#fff;">'+seqInLine.substring(posStartF,posEndF)+'</span>';
-                    seqInLine=seqInLine.substring(0,posStartF)+seqInColor+seqInLine.substring(posEndF);
+                    var seqInColor='<span style="background:#4572d9;color:#fff;">'+seqInLine.substring(posStartF-i*100,posEndF-i*100)+'</span>';
+                    seqInLine=seqInLine.substring(0,posStartF-i*100)+seqInColor+seqInLine.substring(posEndF-i*100);
                     $($('.sequence-content')[i]).html(seqInLine);
                     break;
                 }else if(posStartF<(i+1)*100&&posEndF>=(i+1)*100){//说明一部分F在第X行，另一部分在第X+1行
                     var seqInLine1=$($('.sequence-content')[i]).text();
                     var seqInLine2=$($('.sequence-content')[i+1]).text();
-                    var seqInColor1='<span style="background:#4572d9;color:#fff;">'+seqInLine1.substring(posStartF,100)+'</span>';
-                    var seqInColor2='<span style="background:#4572d9;color:#fff;">'+seqInLine2.substring(0,posEndF-100)+'</span>';
-                    seqInLine1=seqInLine1.substring(0,posStartF)+seqInColor1;
-                    seqInLine2=seqInColor2+seqInLine2.substring(posEndF-100);
+                    var seqInColor1='<span style="background:#4572d9;color:#fff;">'+seqInLine1.substring(posStartF-i*100,(i+1)*100)+'</span>';
+                    var seqInColor2='<span style="background:#4572d9;color:#fff;">'+seqInLine2.substring(0,posEndF-(i+1)*100)+'</span>';
+                    seqInLine1=seqInLine1.substring(0,posStartF-i*100)+seqInColor1;
+                    seqInLine2=seqInColor2+seqInLine2.substring(posEndF-(i+1)*100);
                     $($('.sequence-content')[i]).html(seqInLine1);
                     $($('.sequence-content')[i+1]).html(seqInLine2);
                     break;

@@ -222,13 +222,13 @@
             //clearTimeout(primer3.time);
             //primer3.time = setTimeout("primer3.changeLength()", 500);
             primer3.changeLength();
-            var length=$('.sequence-block').val().length;
+            var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
             $('input[name="productSizeMin"]').val(parseInt(length*0.8));
             $('input[name="productSizeMax"]').val(length);
         },
         changeLength: function () {
             var val = $('.sequence-block').val();
-            var seqLength = val.length;
+            var seqLength = val.replace(/[\r\n]/g, "").length;
             $('.length-value').html(seqLength);
         },
         errorTip:function (ele,key) {
@@ -277,7 +277,7 @@
         checkProductSize:function () {
             var length=$('.length-value').text();
             if(length==0&&$('.sequence-block').val()!=''){
-                length=$('.sequence-block').val().length;
+                length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
                 //alert(length);
             }
             var productSizeMin=$('.primer3-input  .product-size>input[name="productSizeMin"]').val();
@@ -353,7 +353,7 @@
             $('.primer3-input  .primer-GC>input[name="primerGCMax"]').val(primer3.defaultValue.primerGCMax);
             $('.primer3-input  .primer-Tm>input[name="primerTmMin"]').val(primer3.defaultValue.primerTmMin);
             $('.primer3-input  .primer-Tm>input[name="primerTmMax"]').val(primer3.defaultValue.primerTmMax);
-            var length=$('.sequence-block').val().length;
+            var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
             if(length>0){
                 $('input[name="productSizeMin"]').val(parseInt(length*0.8));
                 $('input[name="productSizeMax"]').val(length);
@@ -388,7 +388,7 @@
                 productSizeMin:productSizeMin,
                 productSizeMax:productSizeMax,
                 sequence:$('.sequence-block').val().toUpperCase(),
-                seqLength:$('.sequence-block').val().length
+                seqLength:$('.sequence-block').val().replace(/[\r\n]/g, "").length
             };
             //alert("data: "+JSON.stringify(data))
             var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
