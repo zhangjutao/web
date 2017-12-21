@@ -24,6 +24,7 @@
             height: 210px;
             overflow-y: auto;
             text-align: left;
+            word-break: break-all;
         }
         .upstream2k,.peptide,.gDNA{    width: 573px;
             word-break: break-all;
@@ -159,6 +160,7 @@
 <script>
     $(document).ready(function () {
         var data=${data};
+        console.log(data)
         var gDNAHtml = "";
         var peptideHtml="";
         for (var i = 0; i < data.length; i++) {
