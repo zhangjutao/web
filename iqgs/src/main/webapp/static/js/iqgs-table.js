@@ -261,7 +261,7 @@ $(function () {
                     pages: Math.ceil(res.total / pageSizeSNP), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
                     skin: '#5c8de5',
-                    skip: true,
+                    // skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                     last: Math.ceil(res.total / pageSizeSNP), //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',
@@ -335,7 +335,7 @@ $(function () {
                     pages: Math.ceil(res.total / pageSizeINDEL), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
                     skin: '#5c8de5',
-                    skip: true,
+                    // skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                     last: Math.ceil(res.total / pageSizeINDEL), //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',

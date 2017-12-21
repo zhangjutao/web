@@ -26,7 +26,6 @@
 	<script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
 	<script src="${ctxStatic}/js/dataTool.min.js"></script>
 
-
 	<link href="https://cdn.bootcss.com/datatables/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet">
 	<script src="https://cdn.bootcss.com/datatables/1.10.16/js/jquery.dataTables.min.js"></script>
 
@@ -68,6 +67,23 @@
 		.js-label.has-child.ml-10 {
 			margin-left: -10px;
 		}
+		#expression-data thead td {
+			border: 1px solid #e6e6e6;
+			white-space: nowrap;
+			height: 35px;
+			padding: 0 15px;
+			background-color: #f5f8ff;
+			border-bottom: none;
+			border-right: none;
+		}
+		#expression-table tbody td {
+			padding: 0 10px;
+			white-space: nowrap;
+			position: relative;
+		}
+		body #snp-paginate{padding-right: 20px;}
+		body #expression-data .explain-b{overflow-x:inherit;}
+		.expressionTable{width:860px;overflow-x:scroll;}
 	</style>
 </head>
 
@@ -102,7 +118,7 @@
 							<div id="line" style="height: 400px; margin: 20px 0; min-width: 310px; width: 100%; "></div>
 						</div>
 					</div>
-                    <div >
+                    <div class="expressionTable">
                     <table id="expression-table">
                         <thead>
                         <tr>
@@ -126,11 +142,10 @@
                         </tbody>
                     </table>
                     </div>
-					<div class="checkbox-item-tab" id="snp-paginate">
-						<%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-					</div>
 				</div>
-
+				<div class="checkbox-item-tab" id="snp-paginate">
+					<%@ include file="/WEB-INF/views/include/pagination.jsp" %>
+				</div>
 
 			</div>
 		</div>
@@ -141,23 +156,30 @@
 </form>
 <!--container-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
-
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
 <!--footer-->
 <script>
 
     $(function () {
 
+        function loadMask (el) {
+            $(el).css({"position": "relative"});
+            var _mask = $('<div class="ga-mask"><div>数据加载中...</div></div>');
+            $(el).append(_mask);
+        }
+
+        function maskClose(el) {
+            $(el).find(".ga-mask").remove();
+        }
+
         var LineMapDt, LineCate, prevData;
         function getLine(genes) {
-//            alert(111);
             $.ajax({
                 url: "${ctxroot}/iqgs/line",
                 type: "POST",
                 data: {genes: genes},
                 dataType: "json",
                 success: function(res) {
-
                     // .. res 数据处理
                     LineMapDt = _.orderBy(res.cate, ["name"]);
                     LineCate = res.gens;
@@ -190,7 +212,7 @@
             }
 
             data = _.orderBy(data, ['name']); // 按基因名称排序
-            console.log(data);
+//            console.log(data);
             var src = {};
             src.cate = categories;
             src.data = data;
@@ -447,61 +469,69 @@
 
         }
 
-
-        // 获取表格数据
-		function getTable(gene) {
-			$.ajax({
-				url: "${ctxroot}/iqgs/queryExpressionByGene",
-				type:"POST",
-				dataType:"json",
-				data: {gene: gene},
-				success: function(res) {
-                    renderTable(res);
-                    console.log(res)
-                    laypage({
-                        cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.total / pageSizeINDEL), //通过后台拿到的总页数
-                        curr: curr || 1, //当前页
-                        skin: '#5c8de5',
-                        skip: true,
-                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.total / pageSizeINDEL), //将尾页显示为总页数。若不显示，设置false即可
-                        prev: '<',
-                        next: '>',
-                        groups: 3, //连续显示分页数
-                        jump: function (obj, first) { //触发分页后的回调
-                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                var tmp = getPanelParams();
-                                requestForIndelData(obj.curr, tmp.url, tmp.params);
-                            }
-                        }
-                    });
-                    $(".total-page-count-indel").html(res.total);
-
+        var pageSize = 10;
+        $(".lay-per-page-count-select").val(pageSize);
+        // 获取表格数据+分页
+        function initTables(curr){
+            loadMask ("#mask-test");
+            $.getJSON('${ctxroot}/iqgs/queryExpressionByGene', {
+                pageNo: curr || 1,
+                pageSize: pageSize,
+                gene: "${genId}"
+            }, function(res){
+                maskClose();
+                //显示表格内容
+                if(res.data.length==0){
+                    console.log("表格无数据显示!")
+                    $("#tableBody").html("<p>表格暂无数据显示!</p>")
                 }
-			});
+                renderTable(res);
+
+                $("#total-page-count > span").html(res.total);
+
+                //显示分页
+                laypage({
+                    cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
+                    curr: curr || 1, //当前页
+                    skin: '#5c8de5',
+                    prev: '<',
+                    next: '>',
+                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                    last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                    groups: 3, //连续显示分页数
+                    jump: function(obj, first){ //触发分页后的回调
+                        if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+                            initTables(obj.curr);
+                        }
+                        if(res.data.length==0){
+                            $("#tableBody").html("<p class='no-data'>无数据显示!</p>")
+                        }
+                    }
+                });
+            });
         }
 
         function renderTable(data) {
+            var eleData=data.data;
             var str = '';
-            $.each(data, function(idx, ele) {
+            for(var i=0;i<eleData.length; i++){
                 str += '<tr>'
-                str += '<td>'+ ele.geneId +'</td>';
-                str += '<td>'+ ele.expressionValue +'</td>';
-                str += '<td>'+ ele.experiment +'</td>';
-                str += '<td>'+ ele.sampleName +'</td>';
-                str += '<td><p class="js-tipes-show"><a href="'+ ele.links +'" target="_blank">'+ ele.study +'</a></p></td>';
-                str += '<td>'+ ele.tissue +'</td>';
-                str += '<td>'+ ele.stage +'</td>';
-                str += '<td><p class="js-tipes-show">'+ ele.treat +'</p></td>';
-                str += '<td><p class="js-tipes-show">'+ ele.geneType +'</p></td>';
-                str += '<td>'+ ele.ccultivar +'</td>';
-                str += '<td>'+ ele.scientificName +'</td>';
-                str += '<td>'+ ele.sampleRun +'</td>';
-                str += '<td>'+ ele.sraStudy +'</td>';
+                str += '<td>'+ eleData[i].gene +'</td>';
+                str += '<td>'+ eleData[i].samplerun.value +'</td>';
+                str += '<td>'+ eleData[i].study.experiment+'</td>';
+                str += '<td>'+ eleData[i].samplerun.name +'</td>';
+                str += '<td><p class="js-tipes-show"><a href="'+ eleData[i].study.links +'" target="_blank">'+ eleData[i].study.study +'</a></p></td>';
+                str += '<td>'+ eleData[i].study.tissue +'</td>';
+                str += '<td>'+ eleData[i].study.stage +'</td>';
+                str += '<td><p class="js-tipes-show">'+ eleData[i].study.treat +'</p></td>';
+                str += '<td><p class="js-tipes-show">'+ eleData[i].study.geneType +'</p></td>';
+                str += '<td>'+ eleData[i].study.ccultivar +'</td>';
+                str += '<td>'+ eleData[i].study.scientificName +'</td>';
+                str += '<td>'+ eleData[i].study.sampleRun +'</td>';
+                str += '<td>'+ eleData[i].study.sraStudy +'</td>';
                 str += '</tr>';
-
-            });
+			}
             $("#expression-table > tbody").empty().append(str);
 
             $(".js-tipes-show").hover(
@@ -522,47 +552,24 @@
                         }else{
                             $(".pt").remove();
                         }
-
                     },
                     function(){
                         $(".pt").remove();
                     }
             )
-
-			$("#expression-table").DataTable({
-                "bFilter": false,
-                "bSort": false,
-                "scrollX": true,
-                "language": {
-                    "sProcessing": "处理中...",
-                    "sLengthMenu": "显示 _MENU_ 项结果",
-                    "sZeroRecords": "没有匹配结果",
-                    "sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
-                    "sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
-                    "sInfoFiltered": "(由 _MAX_ 项结果过滤)",
-                    "sInfoPostFix": "",
-                    "sSearch": "搜索:",
-                    "sUrl": "",
-                    "sEmptyTable": "表中数据为空",
-                    "sLoadingRecords": "载入中...",
-                    "sInfoThousands": ",",
-                    "oPaginate": {
-                        "sFirst": "首页",
-                        "sPrevious": "上页",
-                        "sNext": "下页",
-                        "sLast": "末页"
-                    },
-                    "oAria": {
-                        "sSortAscending": ": 以升序排列此列",
-                        "sSortDescending": ": 以降序排列此列"
-                    }
-                }
-            });
         }
 
         getLine('${genId}');
 
-        getTable('${genId}');
+        <%--getTable('${genId}');--%>
+
+        // 修改每页显示条数
+        $("body").on("change",".lay-per-page-count-select", function() {
+            pageSize = $(this).val();
+            initTables(1)
+        });
+        /*列表初始化*/
+        initTables(1);
 
         $("body").on("click",".cateOnToggleLineClass",function(){
             cateOnToggleLine($(this));
@@ -571,7 +578,6 @@
         $(".js-export-line").click(function() {
             chartLine.exportChart();
         });
-
     });
 
 </script>

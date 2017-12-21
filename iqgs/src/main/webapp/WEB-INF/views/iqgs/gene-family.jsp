@@ -120,7 +120,7 @@
                 pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                 curr: page.curr || 1, //当前页
                 skin: '#5c8de5',
-                skip: true,
+//                skip: true,
                 first: 1, //将首页显示为数字1,。若不显示，设置false即可
                 last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                 prev: '<',
@@ -135,6 +135,14 @@
             });
             $(".total-page-count span").html(res.total);
         }
+
+        // 修改每页显示条数
+        $("body").on("change",".lay-per-page-count-select", function() {
+            page.pageSize = $(this).val();
+            requestPageData(1)
+        });
+        /*列表初始化*/
+        requestPageData(1);
 
         function renderList(listdata) {
             if (listdata && listdata.length > 0) {
@@ -349,9 +357,9 @@
                        .text(json.data[i].geneID).attr("dominant-baseline", "middle").style("font-size", "12px");
                     var labelGeneName = gene_name.append("text").attr("class", "labelGeneName").attr("transform", "translate( 10 ,26)").style("cursor", "pointer")
                     .attr('title',json.data[i].geneName).text(json.data[i].geneName).attr("dominant-baseline", "middle").style("font-size", "12px");
-                    gene_id.on("click", function () {
+                    gene_name.on("click", function () {
                         targetGeneArray = [];
-                        targetGeneArray.push(this.textContent)
+                        targetGeneArray.push(d3.select(this).select('.labelGeneID').text())
                         SearchGeneArray(targetGeneArray)
                     })
                         .on("mouseover", function (d) {
@@ -394,13 +402,13 @@
             }
             //对目标基因数组的处理函数
             function SearchGeneArray(geneArray) {
-                console.log(geneArray);
+//                console.log(geneArray);
                 window.open("${ctxroot}/specific/index?genes="+geneArray.join(","));
             }
         }
             //基因名称悬浮框显示
                 $('.gene_name .labelGeneName').hover(function () {
-                    $(this).attr("fill", "#5C8CE6")
+//                    $(this).attr("fill", "#5C8CE6")
                     var self = this;
                     var cont = $(this).attr("title");
                     if($(this).text()!==""&&cont.length>15){
@@ -410,7 +418,7 @@
                         })
                     }
                 },function(){
-                    $(this).attr("fill", "#000000");
+//                    $(this).attr("fill", "#000000");
                     if( $(".pt").css("display")=='block' ){
                         $("body .pt").css("display","none");
                   }
