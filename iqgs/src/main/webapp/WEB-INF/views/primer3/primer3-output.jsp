@@ -234,10 +234,11 @@
                 $('.primer3-table tbody').append(primer3TrR);
                 console.log("group: "+i)
                 if(i==0){
-                    $('.primer3-designed-item-f>span').text(primer3F.sequence);
+                    /*$('.primer3-designed-item-f>span').text(primer3F.sequence);
                     $('.primer3-designed-item-r>span').text(primer3R.sequence);
                     $('.primer3-designed-item-sequence-size>span').text(param.seqLength);
-                    $('.primer3-designed-item-lnclude-region>span').text(parseInt(primer3R.position)-parseInt(primer3F.position)+1);
+                    $('.primer3-designed-item-lnclude-region>span').text(parseInt(primer3R.position)-parseInt(primer3F.position)+1);*/
+                    primer3Out.renderDesigned(param,primer3Map,i);
                 }
                 $('.data-primer3-'+i+'').data('primer3',primer3Map[i]);
                 $('.data-primer3-'+i+'').on('click',function () {
@@ -329,6 +330,14 @@
                 }*/
             }
         },
+        renderDesigned:function (param,primer3Map,primer3Index) {
+            var primer3F=primer3Map[primer3Index][0];
+            var primer3R=primer3Map[primer3Index][1];
+            $('.primer3-designed-item-f>span').text(primer3F.sequence);
+            $('.primer3-designed-item-r>span').text(primer3R.sequence);
+            $('.primer3-designed-item-sequence-size>span').text(param.seqLength);
+            $('.primer3-designed-item-lnclude-region>span').text(parseInt(primer3R.position)-parseInt(primer3F.position)+1);
+        },
         utils:{
             seqMarke:function(str,subStr,pos){
                 //debugger
@@ -344,20 +353,18 @@
         var primer3Map = localStorage.getItem("primer3List");
         if(primer3Map=='{}'){
             $('.primer3-box').html('<div style="margin: 0 auto;text-align: center; padding: 30px 100px;">你输入的条件有误! (￣ε(#￣)</div>');
+        }else {
+            var param=localStorage.getItem('param');
+            primer3Map = JSON.parse(primer3Map);
+            param=JSON.parse(param);
+
+            console.log(param);
+            console.log(primer3Map);
+            primer3Out.drawTableAndDesigned(primer3Map,param);
+            primer3Out.formatParam(param);
+            primer3Out.renderSequence(primer3Map,param);
+            primer3Out.makeColorOnSeq(primer3Map);
         }
-        var param=localStorage.getItem('param');
-        primer3Map = JSON.parse(primer3Map);
-        param=JSON.parse(param);
-
-        console.log(param);
-        console.log(primer3Map);
-        primer3Out.drawTableAndDesigned(primer3Map,param);
-        primer3Out.formatParam(param);
-        primer3Out.renderSequence(primer3Map,param);
-        primer3Out.makeColorOnSeq(primer3Map);
-
-
-
     })
 
 

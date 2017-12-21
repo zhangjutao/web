@@ -93,7 +93,7 @@
                         <input type="number" class="input-content input-item-common" name="primerGCMax" value="70"/>
                         <div class="clear-fix"></div>
                     </div>
-                    <%--<div class="peimer3-input-item">&lt;%&ndash;&ndash;%&gt;
+                    <div class="peimer3-input-item"><%----%>
                         <div class="peimer3-input-item-title input-item-common">Primer F(bp)</div>
                         <div class="input-min input-item-common">Min</div>
                         <input class="input-content input-item-common"/>
@@ -101,7 +101,7 @@
                         <div class="input-max input-item-common">Max</div>
                         <input class="input-content input-item-common"/>
                         <div class="clear-fix"></div>
-                    </div>--%>
+                    </div>
                 </div>
                 <div class="primer3-input-right">
                     <div class="peimer3-input-item primer-Tm"><%--Primer3 Tm--%>
@@ -122,7 +122,7 @@
                         <input type="number" type="text" class="input-content input-item-common" name="productSizeMax"/>
                         <div class="clear-fix"></div>
                     </div>
-                    <%--<div class="peimer3-input-item">&lt;%&ndash;Primer3 R&ndash;%&gt;
+                    <div class="peimer3-input-item"><%--Primer3 R--%>
                         <div class="peimer3-input-item-title input-item-common">Primer R(bp)</div>
                         <div class="input-min input-item-common">Min</div>
                         <input type="text" name="primer-r-min" class="input-content input-item-common"/>
@@ -130,7 +130,7 @@
                         <div class="input-max input-item-common">Max</div>
                         <input type="text" name="primer-r-max" class="input-content input-item-common"/>
                         <div class="clear-fix"></div>
-                    </div>--%>
+                    </div>
                     <div class="primer3-submit-btn">Search</div>
                 </div>
                 <div class="clear-fix"></div>
@@ -202,9 +202,9 @@
             primerTmMin: 57,
             primerTmMax: 62,
             primerGCMin: 30,
-            primerGCMax: 70
-            /*primerFMin:0,
-            primerFMax:0.1,*/
+            primerGCMax: 70,
+            primerFMin:0,
+            primerFMax:0.1,
         },
         valueScope: {
             primerSizeMin: 15,
@@ -214,9 +214,9 @@
             primerGCMin: 20,
             primerGCMax: 80,
             productSizeMin: 0.8,
-            productSizeMax: 1
-            /*primerFMin:0,
-            primerFMax:0.5,*/
+            productSizeMax: 1,
+            primerFMin:0,
+            primerFMax:0.5,
         },
         changeLengthAndProductSize:function () {
             //clearTimeout(primer3.time);
@@ -340,22 +340,6 @@
 
     $(function () {
         //记录用户输入序列的长度
-        /*$('.sequence-block').keyup(function () {
-            //clearTimeout(primer3.time);
-            //primer3.time = setTimeout("primer3.changeLength()", 500);
-            primer3.changeLength();
-            var length=$('.sequence-block').val().length;
-            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
-            $('input[name="productSizeMax"]').val(length);
-        });
-        $('.sequence-block').change(function () {
-            //clearTimeout(primer3.time);
-            //primer3.time = setTimeout("primer3.changeLength()", 500);
-            primer3.changeLength();
-            var length=$('.sequence-block').val().length;
-            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
-            $('input[name="productSizeMax"]').val(length);
-        });*/
         $('.sequence-block').on({
             keyup:primer3.changeLengthAndProductSize,
             change:primer3.changeLengthAndProductSize
@@ -416,7 +400,7 @@
                     localStorage.setItem('primer3List',result);
                     localStorage.setItem('param',JSON.stringify(data));
 
-                    window.location=ctxRoot+"/primer3out";
+                    window.open(ctxRoot+"/primer3out");
                 },
                 function (error) {
                     console.log(error);
