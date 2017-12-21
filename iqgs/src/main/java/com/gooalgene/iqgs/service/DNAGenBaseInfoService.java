@@ -1,14 +1,20 @@
 package com.gooalgene.iqgs.service;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.constant.CommonConstant;
+import com.gooalgene.dna.service.DNAMongoService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+
+import static com.gooalgene.common.constant.CommonConstant.EXONIC_NONSYNONYMOUSE;
 
 /**
  * Created by sauldong on 2017/10/12.
@@ -18,6 +24,9 @@ public class DNAGenBaseInfoService {
     @Autowired
     private DNAGenBaseInfoDao dnaGenBaseInfoDao;
 
+    @Autowired
+    private DNAMongoService dnaMongoService;
+
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
         List<DNAGenBaseInfo> result = null;
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
@@ -26,11 +35,31 @@ public class DNAGenBaseInfoService {
         bean.setGeneName(keyword);
         bean.setPage(page);
         result = dnaGenBaseInfoDao.findByConditions(bean);
-        for (DNAGenBaseInfo gene : result){
-            String geneName = gene.getGeneName();
-
-        }
         return result;
+    }
+
+    public List<DNAGeneSearchResult> queryDNAGenBaseInfos(String keyword, Page<DNAGenBaseInfo> page) {
+        List<DNAGenBaseInfo> result = null;
+        DNAGenBaseInfo bean = new DNAGenBaseInfo();
+        bean.setGeneId(keyword);
+        bean.setGeneOldId(keyword);
+        bean.setGeneName(keyword);
+        bean.setPage(page);
+        result = dnaGenBaseInfoDao.findByConditions(bean);
+        List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
+        DNAGeneSearchResult dnaGeneSearchResult = null;
+        for (DNAGenBaseInfo gene : result){
+            String geneId = gene.getGeneId();
+            Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
+            dnaGeneSearchResult = new DNAGeneSearchResult();
+            BeanUtils.copyProperties(gene, dnaGeneSearchResult); //将从MySQL中查询到的数据全部拷贝到返回值结果bean上
+            boolean exists = result.contains(EXONIC_NONSYNONYMOUSE);
+            if (exists){
+                dnaGeneSearchResult.setExistsSNP(true);
+            }
+            searchResultWithSNP.add(dnaGeneSearchResult);
+        }
+        return searchResultWithSNP;
     }
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFunc(String func, Page<DNAGenBaseInfo> page) {

@@ -81,8 +81,6 @@ public class DNAMongoServiceTest extends TestCase {
     @Test
     public void testGetAllConsequenceTypeByGeneId(){
         Set<String> result = dnaMongoService.getAllConsequenceTypeByGeneId("Glyma.10G000100", "SNP");
-        for (String s : result){
-            System.out.println(s);
-        }
+        assertTrue(result.contains("exonic_nonsynonymous SNV"));
     }
 }
