@@ -22,6 +22,16 @@
         </where>
     </select>
 
+    <select id="findGeneByQTLName" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
+        SELECT a.* FROM gens_baseinfo a
+        RIGHT JOIN qtl_gene b ON a.id = b.gene_info_id
+        RIGHT JOIN associatedgenes c ON b.qtl_id = c.id
+        WHERE c.id IN
+        <foreach collection="list" item="item" open="(" separator="," close=")">
+          #{item}
+        </foreach>
+    </select>
+
     <select id="findByGeneId"
             resultMap="dnaGenBaseInfoMap">
         SELECT a.*, b.functions from gens_baseinfo a JOIN mrna_gens b on a.gene_id = b.gene

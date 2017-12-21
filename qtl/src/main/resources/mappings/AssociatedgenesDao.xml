@@ -40,6 +40,13 @@
         SELECT * FROM associatedgenes WHERE id=#{id}
     </select>
 
+    <select id="findAssociatedGeneByGeneId" resultType="com.gooalgene.entity.Associatedgenes">
+        SELECT a.qtl_name FROM associatedgenes a
+        LEFT JOIN qtl_gene b ON a.id = b.qtl_id
+        LEFT JOIN gens_baseinfo c ON b.gene_info_id = c.id
+        WHERE c.id = #{geneId}
+    </select>
+
     <update id="updateAssociatedgenes" parameterType="com.gooalgene.entity.Associatedgenes">
         UPDATE associatedgenes SET qtl_name=#{qtlName},version=#{version},associated_genes=#{associatedGenes} WHERE id=#{id}
     </update>

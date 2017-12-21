@@ -1,11 +1,14 @@
 package com.gooalgene.iqgs.service;
 
+import com.github.pagehelper.PageHelper;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.service.DNAMongoService;
+import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
+import com.gooalgene.qtl.dao.AssociatedgenesDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
@@ -25,6 +28,9 @@ public class DNAGenBaseInfoService {
     private DNAGenBaseInfoDao dnaGenBaseInfoDao;
 
     @Autowired
+    private AssociatedgenesDao associatedgenesDao;
+
+    @Autowired
     private DNAMongoService dnaMongoService;
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
@@ -33,27 +39,32 @@ public class DNAGenBaseInfoService {
         bean.setGeneId(keyword);
         bean.setGeneOldId(keyword);
         bean.setGeneName(keyword);
-        bean.setPage(page);
         result = dnaGenBaseInfoDao.findByConditions(bean);
         return result;
     }
 
-    public List<DNAGeneSearchResult> queryDNAGenBaseInfos(String keyword, Page<DNAGenBaseInfo> page) {
+    /**
+     * QTL输入框搜索结果对应的查询服务
+     * @param allQTLId 所有的QTL ID
+     * @param pageNum 页码
+     * @param pageSize 页数
+     * @return 搜索结果列表
+     */
+    public List<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNum, int pageSize) {
         List<DNAGenBaseInfo> result = null;
-        DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        bean.setGeneId(keyword);
-        bean.setGeneOldId(keyword);
-        bean.setGeneName(keyword);
-        bean.setPage(page);
-        result = dnaGenBaseInfoDao.findByConditions(bean);
+        PageHelper.startPage(pageNum,pageSize);
+        result = dnaGenBaseInfoDao.findGeneByQTLName(allQTLId);
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (DNAGenBaseInfo gene : result){
+            int id = gene.getId(); //拿到基因查询结果，根据ID查询与之关联的SNP_NAME
+            List<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
             String geneId = gene.getGeneId();
             Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
             dnaGeneSearchResult = new DNAGeneSearchResult();
             BeanUtils.copyProperties(gene, dnaGeneSearchResult); //将从MySQL中查询到的数据全部拷贝到返回值结果bean上
-            boolean exists = result.contains(EXONIC_NONSYNONYMOUSE);
+            dnaGeneSearchResult.setAssociateQTLs(associatedQTLs); //将查询出来的AssociateQTL关联到搜索结果上
+            boolean exists = allConsequenceType.contains(EXONIC_NONSYNONYMOUSE);
             if (exists){
                 dnaGeneSearchResult.setExistsSNP(true);
             }
@@ -65,7 +76,7 @@ public class DNAGenBaseInfoService {
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFunc(String func, Page<DNAGenBaseInfo> page) {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         bean.setFunctions(func);
-        bean.setPage(page);
+//        bean.setPage(page);
         return dnaGenBaseInfoDao.findByConditions(bean);
     }
 
@@ -194,7 +205,7 @@ public class DNAGenBaseInfoService {
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFamilyId(String familyId, Page<DNAGenBaseInfo> page) {
         DNAGenBaseInfo dnaGenBaseInfo = new DNAGenBaseInfo();
         dnaGenBaseInfo.setFamilyId(familyId);
-        dnaGenBaseInfo.setPage(page);
+//        dnaGenBaseInfo.setPage(page);
         return dnaGenBaseInfoDao.findBaseInfoByFamilyId(dnaGenBaseInfo);
     }
 

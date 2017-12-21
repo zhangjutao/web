@@ -1,0 +1,949 @@
+{
+  "cate": [
+    {
+      "name": "hypocotyl (stem)",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "stem_All",
+      "values": [
+        1.311466727272727,
+        1.5660594090909092,
+        0.7340571363636363,
+        6.13150818181818,
+        0.20488172727272727
+      ]
+    },
+    {
+      "name": "axis plumules",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        9.74948,
+        49.9452,
+        55.8224,
+        3.94507,
+        3.53133
+      ]
+    },
+    {
+      "name": "embryo proper cotyledon",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        8.70671,
+        25.9002,
+        51.4693,
+        5.70737,
+        3.72732
+      ]
+    },
+    {
+      "name": "embryonic axis",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        2.2618940000000003,
+        1.6156859999999997,
+        2.049662,
+        5.689342,
+        0.529806
+      ]
+    },
+    {
+      "name": "leafbud",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "leaf_All",
+      "values": [
+        1.63745,
+        5.57082,
+        1.147817,
+        8.35178,
+        0.0
+      ]
+    },
+    {
+      "name": "pod",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "pod_All",
+      "values": [
+        1.3955548333333334,
+        3.2233676666666664,
+        4.637347277777778,
+        6.274906666666666,
+        0.4979417222222222
+      ]
+    },
+    {
+      "name": "leaf",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "leaf_All",
+      "values": [
+        2.4216156836734695,
+        3.2234945102040813,
+        1.9475665397959188,
+        4.87236210612245,
+        1.4266225738043163
+      ]
+    },
+    {
+      "name": "flower",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "flower_All",
+      "values": [
+        1.4379779999999998,
+        4.464251111111111,
+        2.736776666666666,
+        4.649005555555556,
+        0.43060566666666666
+      ]
+    },
+    {
+      "name": "embryo proper",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "embryo",
+      "values": [
+        11.6110975,
+        24.768225,
+        26.795675,
+        2.97887825,
+        2.1291700000000002
+      ]
+    },
+    {
+      "name": "leaflet",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "leaf_All",
+      "values": [
+        3.46091,
+        4.3004774999999995,
+        2.128075,
+        7.284955,
+        0.46800400000000003
+      ]
+    },
+    {
+      "name": "seed coat epidermis",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        14.699333333333334,
+        20.182433333333336,
+        25.258866666666666,
+        6.085539999999999,
+        3.4371666666666667
+      ]
+    },
+    {
+      "name": "seed coat hourglass",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        8.45808,
+        16.3002,
+        6.37687,
+        5.65139,
+        2.65675
+      ]
+    },
+    {
+      "name": "seed coat",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seed_All",
+      "values": [
+        6.736612490909091,
+        10.40574592727273,
+        8.04501598909091,
+        5.5973154545454555,
+        1.6003534545454545
+      ]
+    },
+    {
+      "name": "seed coat palisade",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        11.95985,
+        61.83105,
+        46.963300000000004,
+        6.186775000000001,
+        5.558085
+      ]
+    },
+    {
+      "name": "root hair",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "root_All",
+      "values": [
+        0.28684116666666665,
+        0.7728966666666667,
+        2.3182758333333333,
+        3.4847266666666665,
+        0.5878545260831833
+      ]
+    },
+    {
+      "name": "shoot_All",
+      "chinese": "芽 ",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        3.10474475,
+        2.7463306875,
+        1.1489818125,
+        3.67953375,
+        0.4120383345069312
+      ]
+    },
+    {
+      "name": "root tip",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "root_All",
+      "values": [
+        2.5146746666666666,
+        12.83792475,
+        18.013842333333333,
+        5.0481050000000005,
+        0.3045716666666667
+      ]
+    },
+    {
+      "name": "germinated cotyledon",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "shoot apical meristem",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "shoot_All",
+      "values": [
+        3.9378100000000003,
+        2.7586500000000003,
+        2.1654337999999997,
+        4.352302,
+        0.17857320000000002
+      ]
+    },
+    {
+      "name": "seed",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seed_All",
+      "values": [
+        2.443707877049181,
+        3.76626431967213,
+        4.267375704918033,
+        4.453639704918034,
+        0.5618487385343902
+      ]
+    },
+    {
+      "name": "stem internode",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "stem_All",
+      "values": [
+        2.16039,
+        4.17268,
+        1.099,
+        3.42074,
+        0.0
+      ]
+    },
+    {
+      "name": "leaf_All",
+      "chinese": "叶 ",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        2.419402245398773,
+        3.5455870368098155,
+        1.61441412208589,
+        5.171355401226994,
+        1.0491454962142515
+      ]
+    },
+    {
+      "name": "axis root tip",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        12.315,
+        65.6114,
+        94.5106,
+        4.48543,
+        1.81615
+      ]
+    },
+    {
+      "name": "axis vasculature",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        6.3433,
+        38.0411,
+        30.49,
+        2.90473,
+        1.48399
+      ]
+    },
+    {
+      "name": "root",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "root_All",
+      "values": [
+        4.054751181818183,
+        2.035439,
+        1.186001513636364,
+        3.887968757575758,
+        1.0059115151515154
+      ]
+    },
+    {
+      "name": "flower bud",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "flower_All",
+      "values": [
+        3.042823333333333,
+        2.359863333333333,
+        2.3595733333333335,
+        4.5783700000000005,
+        0.5905699999999999
+      ]
+    },
+    {
+      "name": "primaryleaf",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "leaf_All",
+      "values": [
+        0.12208350000000001,
+        0.1301995,
+        0.0,
+        2.066885,
+        0.0
+      ]
+    },
+    {
+      "name": "cotyledon vasculature",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        17.5188,
+        51.24655,
+        35.56815,
+        4.651765,
+        2.290335
+      ]
+    },
+    {
+      "name": "axis stele",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "seed coat parenchyma compartment",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        3.56736,
+        9.41405,
+        2.556575,
+        1.324265,
+        0.3670285
+      ]
+    },
+    {
+      "name": "embryo proper axis ",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "seedling_All",
+      "chinese": "幼苗 ",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        3.6888970000000003,
+        4.088545,
+        0.7196858333333332,
+        6.537861666666667,
+        0.4686238333333334
+      ]
+    },
+    {
+      "name": "embryonic cotyledon",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        1.0944175,
+        3.04656,
+        3.420585,
+        3.7791949999999996,
+        0.48005849999999994
+      ]
+    },
+    {
+      "name": "shoot",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "shoot_All",
+      "values": [
+        1.6276669999999998,
+        2.0290063750000003,
+        0.649144375,
+        1.61002,
+        0.2656296690138625
+      ]
+    },
+    {
+      "name": "cotyledon adaxial epidermis",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        6.94027,
+        36.0347,
+        27.0536,
+        4.84285,
+        3.46676
+      ]
+    },
+    {
+      "name": "stem_All",
+      "chinese": "茎 ",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        1.7645370312499997,
+        2.48332084375,
+        1.05807978125,
+        6.459036249999999,
+        0.27411239295178125
+      ]
+    },
+    {
+      "name": "suspensor",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "embryo",
+      "values": [
+        20.64894,
+        4.6451625000000005,
+        5.798020999999999,
+        1.6053007499999998,
+        1.775345
+      ]
+    },
+    {
+      "name": "root_All",
+      "chinese": "根 ",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        3.582118950000001,
+        2.7987659062500003,
+        2.7254436112500002,
+        3.9144501000000007,
+        0.8968089644562391
+      ]
+    },
+    {
+      "name": "seed coat outer integument",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        7.261970000000001,
+        16.52517333333333,
+        18.70331,
+        4.3196200000000005,
+        2.917386666666667
+      ]
+    },
+    {
+      "name": "seed coat hilum",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        11.27636,
+        26.1132,
+        25.227649999999997,
+        6.222355,
+        2.7443475
+      ]
+    },
+    {
+      "name": "seedling",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seedling_All",
+      "values": [
+        4.0093544,
+        4.3712159999999995,
+        0.835919,
+        6.402104,
+        0.3634858
+      ]
+    },
+    {
+      "name": "newly emerged trifoliate",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "trifoliate",
+      "values": [
+        5.19232,
+        4.359308333333333,
+        1.5975229999999998,
+        8.435246666666666,
+        0.09921433333333333
+      ]
+    },
+    {
+      "name": "seed coat inner integument",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        14.765466666666669,
+        12.436066666666667,
+        6.79071,
+        5.304880000000001,
+        2.725146666666667
+      ]
+    },
+    {
+      "name": "petiole",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "leaf_All",
+      "values": [
+        0.5861270000000001,
+        2.1050918000000003,
+        0.0937682,
+        3.0027028,
+        0.9539959300199999
+      ]
+    },
+    {
+      "name": "trifoliate",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "leaf_All",
+      "values": [
+        2.6492830784313726,
+        4.261333274509805,
+        1.1737919411764708,
+        5.727392156862745,
+        0.48156290196078433
+      ]
+    },
+    {
+      "name": "immature cotyledon",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0
+      ]
+    },
+    {
+      "name": "embryo",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seed_All",
+      "values": [
+        8.20413611111111,
+        11.872820555555556,
+        11.870661333333333,
+        4.309274222222223,
+        0.9698675666666667
+      ]
+    },
+    {
+      "name": "cotyledons of seedling",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seedling_All",
+      "values": [
+        2.08661,
+        2.67519,
+        0.13852,
+        7.21665,
+        0.994314
+      ]
+    },
+    {
+      "name": "seed_All",
+      "chinese": "种子 ",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        5.578731935028251,
+        9.885091601694915,
+        9.32143151073446,
+        4.9120132203389835,
+        1.1889193403988578
+      ]
+    },
+    {
+      "name": "axis shoot apical meristem",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        73.9695,
+        35.2615,
+        41.2658,
+        2.54891,
+        0.827539
+      ]
+    },
+    {
+      "name": "cotyledon adaxial parenchyma",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        9.00359,
+        35.757,
+        73.0868,
+        4.37671,
+        4.01849
+      ]
+    },
+    {
+      "name": "nodule",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "root_All",
+      "values": [
+        1.0734215,
+        3.9486850000000002,
+        8.88334,
+        2.67654,
+        0.0
+      ]
+    },
+    {
+      "name": "shoot tip",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "shoot_All",
+      "values": [
+        6.90075,
+        4.25036,
+        0.5714275,
+        9.106145,
+        1.787355
+      ]
+    },
+    {
+      "name": "5th trifoliate leaf",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "trifoliate",
+      "values": [
+        3.06577125,
+        7.530728125000001,
+        1.483508625,
+        6.490271875,
+        0.5963437500000001
+      ]
+    },
+    {
+      "name": "cotyledon",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seed_All",
+      "values": [
+        4.934454629629629,
+        12.417434962962963,
+        10.984065777777777,
+        4.922303037037036,
+        1.398279074074074
+      ]
+    },
+    {
+      "name": "cotyledon abaxial epidermis",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        11.7456,
+        36.2627,
+        24.6297,
+        5.41739,
+        3.13524
+      ]
+    },
+    {
+      "name": "pod_All",
+      "chinese": "豆荚",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        1.3955548333333334,
+        3.2233676666666664,
+        4.637347277777778,
+        6.274906666666666,
+        0.4979417222222222
+      ]
+    },
+    {
+      "name": "shoot meristem",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "shoot_All",
+      "values": [
+        3.16403,
+        5.41527,
+        1.22053,
+        6.01858,
+        0.0
+      ]
+    },
+    {
+      "name": "stem",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "stem_All",
+      "values": [
+        2.8280585555555557,
+        4.537808888888889,
+        1.8455884444444446,
+        7.597248888888889,
+        0.4737998416063333
+      ]
+    },
+    {
+      "name": "axis parenchyma",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        11.8248,
+        37.7299,
+        30.3612,
+        3.89436,
+        1.24893
+      ]
+    },
+    {
+      "name": "axis",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seed_All",
+      "values": [
+        12.885040909090911,
+        24.15082090909091,
+        25.428446363636365,
+        4.537001818181818,
+        1.2444626363636364
+      ]
+    },
+    {
+      "name": "axis epidermis",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "axis",
+      "values": [
+        16.2239,
+        30.9915,
+        17.0146,
+        3.68181,
+        2.13212
+      ]
+    },
+    {
+      "name": "flower_All",
+      "chinese": "花",
+      "level": 0,
+      "state": "close",
+      "pname": "",
+      "values": [
+        1.839189333333333,
+        3.938154166666667,
+        2.642475833333333,
+        4.6313466666666665,
+        0.47059674999999995
+      ]
+    },
+    {
+      "name": "endosperm",
+      "chinese": "",
+      "level": 1,
+      "state": "close",
+      "pname": "seed_All",
+      "values": [
+        9.043102000000001,
+        26.592504,
+        31.430597999999996,
+        5.9051659999999995,
+        3.8492539999999993
+      ]
+    },
+    {
+      "name": "seed coat parenchyma",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        6.60716,
+        19.5964,
+        6.72213,
+        3.58715,
+        1.61014
+      ]
+    },
+    {
+      "name": "seed coat endothelium",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "seed coat",
+      "values": [
+        19.4963,
+        19.846766666666667,
+        20.02483333333333,
+        4.354683333333333,
+        3.3015166666666667
+      ]
+    },
+    {
+      "name": "cotyledon abaxial parenchyma",
+      "chinese": "",
+      "level": 2,
+      "state": "close",
+      "pname": "cotyledon",
+      "values": [
+        22.2937,
+        51.8389,
+        25.5327,
+        6.51943,
+        2.15538
+      ]
+    }
+  ],
+  "gens": [
+    "Glyma.01G000100",
+    "Glyma.01G000200",
+    "Glyma.01G000300",
+    "Glyma.01G000400",
+    "Glyma.01G000500"
+  ]
+}

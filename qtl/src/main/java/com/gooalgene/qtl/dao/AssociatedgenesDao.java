@@ -34,7 +34,19 @@ public interface AssociatedgenesDao extends CrudDao<Associatedgenes> {
 
     boolean insert(Associatedgenes associatedgenes);
 
+    /**
+     * 根据Id查找AssociateGene
+     * @param id AssociateGeneId
+     * @return 关联基因
+     */
     Associatedgenes findAssociatedgenesById(int id);
+
+    /**
+     * 根据Gene ID查找包含它的所有QTL
+     * @param geneId 基因ID
+     * @return 包含该基因的QTL
+     */
+    List<Associatedgenes> findAssociatedGeneByGeneId(@Param("geneId") int geneId);
 
     boolean updateAssociatedgenes(Associatedgenes associatedgenes);
 

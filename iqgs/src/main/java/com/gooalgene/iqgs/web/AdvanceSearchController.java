@@ -3,8 +3,10 @@ package com.gooalgene.iqgs.web;
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.QTLCondition;
+import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.Classifys;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
@@ -14,8 +16,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -37,6 +43,9 @@ public class AdvanceSearchController {
 
     @Autowired
     private TraitCategoryService traitCategoryService;
+
+    @Autowired
+    private DNAGenBaseInfoService dnaGenBaseInfoService;
 
     /**
      * @api {get} /advance-search/query-by-qtl-name 主页qtl search
@@ -476,8 +485,12 @@ public class AdvanceSearchController {
      * }
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
-    public Page<DNAGenBaseInfo> clickConfirm(String chosenQtl) {
-        return null;
+    @ResponseBody
+    public List<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "choseQTL[]") Integer[] chosenQtl, HttpServletRequest request) {
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        List<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(Arrays.asList(chosenQtl), pageNo, pageSize);
+        return genes;
     }
 
     /**

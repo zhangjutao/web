@@ -10,37 +10,44 @@ import java.util.List;
  */
 @MyBatisDao
 public interface DNAGenBaseInfoDao {
-    public List<DNAGenBaseInfo> findByConditions(DNAGenBaseInfo bi);
+    List<DNAGenBaseInfo> findByConditions(DNAGenBaseInfo bi);
 
-    public DNAGenBaseInfo findByGeneId(DNAGenBaseInfo bean);
+    /**
+     * 查询集合中QTL所包含的所有基因
+     * @param inputQTLId QTL集合
+     * @return QTL所包含的基因集合
+     */
+    List<DNAGenBaseInfo> findGeneByQTLName(List<Integer> inputQTLId);
 
-    public List<DNAGenSequence> findGenSequenceByGeneId(DNAGenSequence bean);
+    DNAGenBaseInfo findByGeneId(DNAGenBaseInfo bean);
 
-    public List<DNAGenStructure> findGenStructureByTranscriptId(DNAGenStructure bean);
+    List<DNAGenSequence> findGenSequenceByGeneId(DNAGenSequence bean);
 
-    public List<DNAGenAnnoGo> findGenAnnoGoByGeneId(DNAGenAnnoGo bean);
+    List<DNAGenStructure> findGenStructureByTranscriptId(DNAGenStructure bean);
 
-    public List<DNAGenAnnoIpr> findGenAnnoIprByGeneId(DNAGenAnnoIpr bean);
+    List<DNAGenAnnoGo> findGenAnnoGoByGeneId(DNAGenAnnoGo bean);
 
-    public List<DNAGenAnnoKegg> findGenAnnoKeggByGeneId(DNAGenAnnoKegg bean);
+    List<DNAGenAnnoIpr> findGenAnnoIprByGeneId(DNAGenAnnoIpr bean);
 
-    public List<DNAGenStructure> findGenStructureByGeneId(DNAGenStructure bean);
+    List<DNAGenAnnoKegg> findGenAnnoKeggByGeneId(DNAGenAnnoKegg bean);
 
-    public List<DNAGenStructure> findGenByChr(DNAGenStructure dnaGenStructure);
+    List<DNAGenStructure> findGenStructureByGeneId(DNAGenStructure bean);
 
-    public List<DNAGenHomologous> findGenHomologousByGeneId(DNAGenHomologous bean);
+    List<DNAGenStructure> findGenByChr(DNAGenStructure dnaGenStructure);
 
-	public List<DNAGenBaseInfo> findBaseInfoByFamilyId(DNAGenBaseInfo bean);
+    List<DNAGenHomologous> findGenHomologousByGeneId(DNAGenHomologous bean);
 
-	public List<DNAGenFamilyRel> findFamilyByGeneId(String geneId);
+	List<DNAGenBaseInfo> findBaseInfoByFamilyId(DNAGenBaseInfo bean);
 
-	public List<DNAGenOffset> findOffsetByFamilyId(String familyId);
+	List<DNAGenFamilyRel> findFamilyByGeneId(String geneId);
 
-	public DNAGenFamily findFamilyByFamilyId(String familyId);
+	List<DNAGenOffset> findOffsetByFamilyId(String familyId);
 
-	public List<DNAGenFamilyStructure> findStructureByFamilyId(String familyId);
+	DNAGenFamily findFamilyByFamilyId(String familyId);
 
-	public int findMaxLengthByFamilyId(String familyId);
+	List<DNAGenFamilyStructure> findStructureByFamilyId(String familyId);
 
-	public String findSequenceByTranscriptId(String transcriptId);
+	int findMaxLengthByFamilyId(String familyId);
+
+	String findSequenceByTranscriptId(String transcriptId);
 }

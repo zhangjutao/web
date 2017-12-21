@@ -6,6 +6,8 @@ import com.gooalgene.mrna.vo.GVo;
 import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.mrna.vo.GenVo;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -20,6 +22,8 @@ import java.util.Map;
 
 @Service
 public class TService {
+
+    private static final Logger logger = LoggerFactory.getLogger(TService.class);
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -52,10 +56,10 @@ public class TService {
 
             //循坏基因，取出对应分类值
             for (String gen : gens) {
-                //sum 的集合
+                //所有样本type的集合
                 Map<String, Object> sumMaps = sumcountMaps.get(gen);
 
-                //value的集合
+                //所有样本FPKM总值的集合
                 Map<String, Object> valueMaps = valuesMaps.get(gen);
 //				System.out.println("time4:" + System.currentTimeMillis());
                 //Map<String, Map<String, Object>> tempMaps = new HashMap<String, Map<String,Object>>();
@@ -64,10 +68,11 @@ public class TService {
                     Map<String, GenVo> genvosMap = new HashMap<String, GenVo>();
                     int level = 0;
                     String name = c.getName();
-//					System.out.println("name:" + name);
+					logger.info("name:" + name);
                     String chinese = (c.getChinese() == null ? "" : c.getChinese());
                     String countTemp = "";
                     String valueTemp = "";
+                    // todo 这里Classifys中存的都包含_all后缀，而all_gens_fpkm中搜索出来的type不包含该后缀
                     if (null == sumMaps.get(name)) {
                         countTemp = "0";
                     } else {
@@ -93,6 +98,7 @@ public class TService {
 
                     genvosMap.put(gen + name + level, vo);
 
+                    // 获取一个组织分类下的小组织
                     List<Map<String, Object>> childs = c.getChildren();
                     if (childs.size() > 0) {
                         childsGenerateGen(sumMaps, valueMaps, genvosMap, level, childs, gen, name);
@@ -105,13 +111,13 @@ public class TService {
                         if (0.0 == genvo.getValue() || 0.0 == genvo.getCount()) {
                             gvo.setValue(0.0);
                         } else {
-                            double avg = genvo.getValue() / genvo.getCount();
+                            double avg = genvo.getValue() / genvo.getCount();  // 算平均值
                             gvo.setValue(avg);
                         }
                         gvo.setLevel(genvo.getLevel());
                         gvo.setName(genvo.getName());
                         gvo.setPname(genvo.getPname());
-                        gvo.setState("close");
+                        gvo.setState("close");  // 增加该基因状态
                         gvo.setGen(genvo.getGen());
                         gvo.setChinese(genvo.getChinese());
                         gvos.add(gvo);
@@ -254,30 +260,35 @@ public class TService {
         }
     }
 
+    /**
+     * 获取某种基因对应的所有样本的总个数以及每种样本总FPKM
+     * @param gen Gene ID
+     * @return 该种基因对应的所有样本的总个数以及每种样本总FPKM
+     */
     public Map<String, Map<String, Object>> gensData(String gen) {
         Criteria c = Criteria.where("gene").is(gen);
+        // 获取某一个基因下有多少个样本类型和某一个样本类型所对应的相应组织的FPKM
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(c),
 //              Aggregation.unwind("$samplerun"),
                 Aggregation.group("$samplerun.type").count().as("count").sum("$samplerun.value").as("value")
         );
-//        System.out.println(aggregation.toString());
         AggregationResults<Map> aggRes = mongoTemplate.aggregate(aggregation, "all_gens_fpkm", Map.class);
 
         List<Map> listRes = aggRes.getMappedResults();
-        Map<String, Object> countMap = new HashMap<String, Object>();
-        Map<String, Object> valueMap = new HashMap<String, Object>();
+        Map<String, Object> countMap = new HashMap<String, Object>(); //组织-->group个数
+        Map<String, Object> valueMap = new HashMap<String, Object>(); //组织-->FPKM总值
         for (Map map : listRes) {
             String key = String.valueOf(map.get("_id"));
-            Object count = map.get("count");
-            Object value = map.get("value");
+            Object count = map.get("count");  //该种样本的总数
+            Object value = map.get("value");  //该种样本FPKM总值
+            logger.info("key: " + key +", count: " + count+", value: " + value );
 
-//    		System.out.println("key: " + key +", count: " + count+", value: " + value );
             countMap.put(key, count);
             valueMap.put(key, value);
         }
 
-
+        //将组织-->个数与组织-->FPKM总值对应关系汇总，存入Map中
         Map<String, Map<String, Object>> allMap = new HashMap<String, Map<String, Object>>();
         allMap.put("count", countMap);
         allMap.put("value", valueMap);

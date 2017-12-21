@@ -34,6 +34,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -49,8 +51,6 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     private JsonGenerator jsonGenerator = null;
 
     private ObjectMapper objectMapper = new ObjectMapper();
-
-    private static DB db = null;
 
     @Autowired
     private DNAGenBaseInfoService dnaGenBaseInfoService;
@@ -92,7 +92,7 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         bean.setGeneName("Gly");
         Page<DNAGenBaseInfo> page = new Page<>(1, 10);
-        bean.setPage(page);
+//        bean.setPage(page);
         List<DNAGenBaseInfo> geneResult = dnaGenBaseInfoDao.findByConditions(bean);
         assertEquals(10, geneResult.size());
         // 截取集合中前三个
@@ -109,7 +109,7 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     public void testqueryDNAGenBaseInfosByIdorName() {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         Page<DNAGenBaseInfo> page = new Page<>(1, 10);
-        bean.setPage(page);
+//        bean.setPage(page);
         String keyWord="G00805";
         List<DNAGenBaseInfo> geneResult = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(keyWord,page);
         for (int i = 0; i < geneResult.size(); i++) {
@@ -119,12 +119,11 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     }
 
     @Test
-    public void testQueryDNAGenBaseInfos(){
-        Page<DNAGenBaseInfo> page = new Page<>(1, 10);
-        List<DNAGeneSearchResult> searchResults = dnaGenBaseInfoService.queryDNAGenBaseInfos("Glyma.01G004900", page);
-        for (DNAGeneSearchResult gene : searchResults){
-            System.out.println(gene.isExistsSNP());
-        }
+    public void testFindGeneByQTLName(){
+        Integer[] ids = {1003, 1005, 1008};
+        List<DNAGenBaseInfo> all = dnaGenBaseInfoDao.findGeneByQTLName(Arrays.asList(ids));
+        assertNotNull(all);
+        assertEquals(532, all.size());
     }
 
     /**
