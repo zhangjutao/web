@@ -203,7 +203,7 @@
             for(var i in primer3Map){
                 var primer3F=primer3Map[i][0];
                 var primer3TrF= '<tr class="data-primer3-'+i+'">\n' +
-                    '<td>Primer F</td>\n' +
+                    '<td>Primer F'+(parseInt(i)+1)+'</td>\n' +
                     '<td>'+primer3F.position+'</td>\n' +
                     '<td>'+primer3F.length+'</td>\n' +
                     '<td>'+primer3F.tm+'</td>\n' +
@@ -221,7 +221,7 @@
 
                 var primer3R=primer3Map[i][1];
                 var primer3TrR='<tr class="data-primer3-'+i+'">\n' +
-                    '<td>Primer R</td>\n' +
+                    '<td>Primer R'+(parseInt(i)+1)+'</td>\n' +
                     '<td>'+primer3R.position+'</td>\n' +
                     '<td>'+primer3R.length+'</td>\n' +
                     '<td>'+primer3R.tm+'</td>\n' +
@@ -268,10 +268,17 @@
             }
             $('.primer3-conditions>span').append(paramStr);
         },
-        renderSequence:function (primer3Map,param) {
+        renderSequence:function (primer3Map,param,primer3Index) {
+            if(!primer3Index){
+                primer3Index=0;
+            }
             if(param.seqLength>0){
-                var posStartF=parseInt(primer3Map[0][0].position);
-                primer3Out.sequence=primer3Out.utils.seqMarke(param.sequence,primer3Map[0][0].sequence,posStartF);
+                //var posStartF=parseInt(primer3Map[primer3Index][0].position);
+                //primer3Out.sequence=primer3Out.utils.seqMarke(param.sequence,primer3Map[primer3Index][0].sequence,posStartF);
+                primer3Out.sequence=param.sequence;
+
+                //var posStartR=parseInt(primer3Map[primer3Index][1].position)-primer3Map[primer3Index][1].sequence.length;
+                //primer3Out.sequence=primer3Out.utils.seqMarke(primer3Out.sequence,primer3Out.utils.seqInvert(primer3Map[primer3Index][1].sequence),posStartR);
 
                 $('.sequence-list').append(
                     '<div class="sequence-list-cover">\n' +
@@ -302,31 +309,54 @@
             if(!primer3Index){
                 primer3Index=0;
             }
+            //将F涂上颜色
             var posStartF=parseInt(primer3Map[primer3Index][0].position);
             var posEndF=posStartF+primer3Map[primer3Index][0].sequence.length;
 
             var line=Math.ceil(primer3Out.sequence.length/100);
+            //debugger
             for(var i=0;i<line;i++){
                 if(posStartF<(i+1)*100&&posEndF<=(i+1)*100){//说明整个F在第X行
                     var seqInLine=$($('.sequence-content')[i]).text();
-                    var seqInColor='<span style="background:#4572d9;color:#fff;">'+seqInLine.substring(posStartF-i*100,posEndF-i*100)+'</span>';
-                    seqInLine=seqInLine.substring(0,posStartF-i*100)+seqInColor+seqInLine.substring(posEndF-i*100);
+                    var seqInColor='<span style="background:#4572d9;color:#fff;">'+seqInLine.substring(posStartF-i*100-1,posEndF-i*100-1)+'</span>';
+                    seqInLine=seqInLine.substring(0,posStartF-i*100-1)+seqInColor+seqInLine.substring(posEndF-i*100-1);
                     $($('.sequence-content')[i]).html(seqInLine);
                     break;
                 }else if(posStartF<(i+1)*100&&posEndF>=(i+1)*100){//说明一部分F在第X行，另一部分在第X+1行
                     var seqInLine1=$($('.sequence-content')[i]).text();
                     var seqInLine2=$($('.sequence-content')[i+1]).text();
-                    var seqInColor1='<span style="background:#4572d9;color:#fff;">'+seqInLine1.substring(posStartF-i*100,(i+1)*100)+'</span>';
-                    var seqInColor2='<span style="background:#4572d9;color:#fff;">'+seqInLine2.substring(0,posEndF-(i+1)*100)+'</span>';
-                    seqInLine1=seqInLine1.substring(0,posStartF-i*100)+seqInColor1;
-                    seqInLine2=seqInColor2+seqInLine2.substring(posEndF-(i+1)*100);
+                    var seqInColor1='<span style="background:#4572d9;color:#fff;">'+seqInLine1.substring(posStartF-i*100-1,(i+1)*100)+'</span>';
+                    var seqInColor2='<span style="background:#4572d9;color:#fff;">'+seqInLine2.substring(0,posEndF-(i+1)*100-1)+'</span>';
+                    seqInLine1=seqInLine1.substring(0,posStartF-i*100-1)+seqInColor1;
+                    seqInLine2=seqInColor2+seqInLine2.substring(posEndF-(i+1)*100-1);
                     $($('.sequence-content')[i]).html(seqInLine1);
                     $($('.sequence-content')[i+1]).html(seqInLine2);
                     break;
-                }/*else if(posStartF>=(i+1)*100&&posEndF<(i+2)*100){
+                }
+            }
 
-
-                }*/
+            //debugger
+            //将R涂上颜色
+            var posStartR=parseInt(primer3Map[primer3Index][1].position)-primer3Map[primer3Index][1].sequence.length;
+            var posEndR=parseInt(primer3Map[primer3Index][1].position);
+            for(var i=0;i<line;i++){
+                if(posStartR<(i+1)*100&&posEndR<=(i+1)*100){//说明整个R在第X行
+                    var seqInLine=$($('.sequence-content')[i]).text();
+                    var seqInColor='<span style="background:#fa9632;color:#fff;">'+seqInLine.substring(posStartR-i*100,posEndR-i*100)+'</span>';
+                    seqInLine=seqInLine.substring(0,posStartR-i*100)+seqInColor+seqInLine.substring(posEndR-i*100);
+                    $($('.sequence-content')[i]).html(seqInLine);
+                    break;
+                }else if(posStartR<(i+1)*100&&posEndR>=(i+1)*100){//说明一部分R在第X行，另一部分在第X+1行
+                    var seqInLine1=$($('.sequence-content')[i]).text();
+                    var seqInLine2=$($('.sequence-content')[i+1]).text();
+                    var seqInColor1='<span style="background:#fa9632;color:#fff;">'+seqInLine1.substring(posStartR-i*100,(i+1)*100)+'</span>';
+                    var seqInColor2='<span style="background:#fa9632;color:#fff;">'+seqInLine2.substring(0,posEndR-(i+1)*100)+'</span>';
+                    seqInLine1=seqInLine1.substring(0,posStartR-i*100)+seqInColor1;
+                    seqInLine2=seqInColor2+seqInLine2.substring(posEndR-(i+1)*100);
+                    $($('.sequence-content')[i]).html(seqInLine1);
+                    $($('.sequence-content')[i+1]).html(seqInLine2);
+                    break;
+                }
             }
         },
         renderDesigned:function (param,primer3Map,primer3Index) {
@@ -344,6 +374,21 @@
                 var strAfter=str.substring(pos,str.length);
                 var string=strBefore+subStr+strAfter;
                 return string;
+            },
+            seqInvert:function (seqFragment) {
+                var seqArr=seqFragment.split("");
+                for(var i=0;i<seqArr.length;i++){
+                    if(seqArr[i].toUpperCase()=='A'){
+                        seqArr[i]='T';
+                    }else if (seqArr[i].toUpperCase()=='C'){
+                        seqArr[i]='G';
+                    }else if (seqArr[i].toUpperCase()=='T'){
+                        seqArr[i]='A';
+                    }else if (seqArr[i].toUpperCase()=='G'){
+                        seqArr[i]='C';
+                    }
+                }
+                return seqArr.join("");
             }
         }
     }

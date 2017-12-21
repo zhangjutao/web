@@ -187,10 +187,10 @@
         errorMessageMap:{
             primerSizeMin:"Primer size不能低于15",
             primerSizeMax:"Primer size不能高于30",
-            primerTmMin:"Primer Tm不能低于55",
-            primerTmMax:"Primer Tm不能高于80",
-            primerGCMin:"Primer GC不能低于20",
-            primerGCMax:"Primer GC不能高于80",
+            primerTmMin:"Primer Tm不能低于55℃",
+            primerTmMax:"Primer Tm不能高于80℃",
+            primerGCMin:"Primer GC不能低于20%",
+            primerGCMax:"Primer GC不能高于80%",
             productSizeMin:"Product size不能小于0",
             productSizeMax:"Product size不能大于序列长度",
             errorScope: "Max必须大于Min"
