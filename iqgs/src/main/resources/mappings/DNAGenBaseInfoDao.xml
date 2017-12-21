@@ -23,10 +23,23 @@
     </select>
 
     <select id="findByGeneId"
-            resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
+            resultMap="dnaGenBaseInfoMap">
         SELECT a.*, b.functions from gens_baseinfo a JOIN mrna_gens b on a.gene_id = b.gene
         WHERE a.gene_id = #{geneId}
     </select>
+
+    <resultMap type="com.gooalgene.iqgs.entity.DNAGenBaseInfo" id="dnaGenBaseInfoMap">
+        <id property="geneId" column="gene_id"/>
+        <result property="geneOldId" column="gene_id_old"/>
+        <result property="geneName" column="gene_name"/>
+        <result property="geneType" column="gene_type"/>
+        <result property="locus" column="locus"/>
+        <result property="length" column="length"/>
+        <result property="species" column="species"/>
+        <result property="functions" column="functions"/>
+        <result property="description" column="description"/>
+        <result property="familyId" column="family_id"/>
+    </resultMap>
 
     <select id="findGenSequenceByGeneId"
             resultType="com.gooalgene.iqgs.entity.DNAGenSequence">

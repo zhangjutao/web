@@ -6,6 +6,7 @@ import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.mrna.entity.ExpressionStudy;
 import com.gooalgene.mrna.service.StudyService;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.mrna.vo.GenResult;
@@ -489,59 +490,84 @@ public class DNAGenBaseInfoController {
     }
 
     /**
-     * 按基因搜索差异变异数据
+     * 按基因搜索差异变异数据,按照value倒叙排列
+     *
      *
      * @api {post} /iqgs/queryExpressionByGene
      * @apiGroup detail
      * @apiName queryExpressionByGene
-     * @apiParam {String} gen_id
+     * @apiParam {String} gene
      * @apiSuccessExample [
      * {
-     * "expressionValue": 0,
-     * "study": "A new strategy to identify the long-distance mobile peptides from xylem sap",
-     * "treat": "grown under 16-h light/8-h dark cycles at 24℃ without inoculation of rhizobia",
-     * "isExpression": 0,
-     * "scientificName": "Glycine max",
-     * "tissue": "stem internode",
-     * "instrument": "Illumina Genome Analyzer IIx",
-     * "tissueForClassification": "stem internode",
-     * "insertSize": "",
-     * "submissionTime": "2015/8/26",
-     * "sampleName": "stem internode",
-     * "reference": "Okamoto S, Suzuki T, Kawaguchi M, et al. A comprehensive strategy for identifying long‐distance mobile peptides in xylem sap[J]. Plant Journal, 2015, 84(3):611-620.",
+     * "total": 531,
+     * "data": [
+     * {
+     * "id": "59cc4d41921d173eab533743",
+     * "isNewRecord": false,
+     * "gene": "Glyma.01G004900",
+     * "samplerun": {
+     * "name": "SRR352327",
+     * "type": "leaf",
+     * "study": "SRP008837",
+     * "value": 10.1823
+     * },
+     * "study": {
+     * "id": "314",
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": "2017-09-27 16:14:05",
+     * "updateDate": null,
+     * "sraStudy": "SRP008837",
+     * "study": "Transcriptome analysis of Williams 82 Glycine max (Soybean) 10 days after infection (dai) v.s. 0 dai (control)",
+     * "sampleName": "W82_10dai_MS06-1",
+     * "isExpression": 1,
+     * "sampleRun": "SRR352327",
+     * "tissue": "leaf",
+     * "tissueForClassification": "leaf",
      * "preservation": "",
-     * "institution": "ERATO Higashiyama Live-Holonics Project",
-     * "experiment": "DRX026629",
-     * "geneId": "Glyma.01G004900",
-     * "sampleRun": "DRR029571",
-     * "ccultivar": "Enrei",
-     * "links": "https://trace.ncbi.nlm.nih.gov/Traces/sra?study=DRP002726",
-     * "id": 1,
-     * "ecoType": "",
-     * "libraryStrategy": "RNA-Seq",
-     * "coordinates": "",
-     * "geoLoc": "",
-     * "librarySource": "TRANSCRIPTOMIC",
-     * "collectionDate": "",
-     * "libraryLayout": "SINGLE",
-     * "pedigree": "",
+     * "treat": "inoculated with a Mississippi isolate of Phakopsora pachyrhizi (MS06-1)",
+     * "stage": "three-weeks-old",
+     * "geneType": "",
      * "phenoType": "",
      * "environment": "",
-     * "stage": "18 day-after-germination",
+     * "geoLoc": "",
+     * "ecoType": "",
+     * "collectionDate": "",
+     * "coordinates": "",
+     * "ccultivar": "Williams 82",
+     * "scientificName": "Glycine max",
+     * "pedigree": "",
+     * "reference": "",
+     * "institution": "USDA, Parsa Hosseini",
+     * "submissionTime": "2013/5/20",
+     * "instrument": "Illumina Genome Analyzer IIx",
+     * "libraryStrategy": "RNA-Seq",
+     * "librarySource": "TRANSCRIPTOMIC",
+     * "libraryLayout": "SINGLE",
+     * "insertSize": "",
      * "readLength": "",
-     * "geneType": "",
-     * "createTime": "2017-09-28 00:14:05",
-     * "spots": 12346873,
-     * "sraStudy": "DRP002726"
+     * "spots": 3510311,
+     * "experiment": "SRX100853",
+     * "links": "https://trace.ncbi.nlm.nih.gov/Traces/sra?study=SRP008837",
+     * "keywords": null,
+     * "tissueKeywords": null,
+     * "tissues": null
+     * }
      * },
      * {…}.
      * ]
      */
     @RequestMapping("/queryExpressionByGene")
     @ResponseBody
-    public JSONArray queryExpressionByGene(HttpServletRequest request, HttpServletResponse response) {
-        String gene = request.getParameter("gene");
-        return studyService.queryStudyByGene(gene);
+    public Map queryExpressionByGene(HttpServletRequest req, HttpServletResponse resp) {
+        String gene = req.getParameter("gene");
+        logger.info(gene + "Expression");
+        Map rs = new HashMap();
+        Page<ExpressionStudy> page = new Page<ExpressionStudy>(req, resp);
+        List<ExpressionStudy> gens = studyService.getStudyByGene(gene,page);
+        rs.put("total", page.getCount());
+        rs.put("data", gens);
+        return rs;
     }
 
     @Autowired
@@ -668,6 +694,9 @@ public class DNAGenBaseInfoController {
         String type = request.getParameter("type");//区分snp和indel数据
         String gene = request.getParameter("gene");//具体的gene
         String ctype = request.getParameter("ctype");
+        if (ctype.startsWith("_")) {
+            ctype = ctype.substring(1);
+        }
         logger.info("queryBy " + type + "and ctype" + ctype + " with gene:" + gene);
         String[] ctypeList = ctype.split(",");
         Page<DNAGens> page = new Page<DNAGens>(request, response);
