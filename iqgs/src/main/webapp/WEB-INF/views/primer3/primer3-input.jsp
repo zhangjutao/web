@@ -50,7 +50,7 @@
     </style>
 </head>
 <body>
-<iqgs:iqgs-header />
+<iqgs:primer3-header />
 <!--header-->
 <div class="container primer3-content js-nav-ac">
     <%--<%@ include file="/WEB-INF/views/include/sidebar.jsp" %>--%>
@@ -415,10 +415,12 @@
                     result=JSON.stringify(result);
                     localStorage.setItem('primer3List',result);
                     localStorage.setItem('param',JSON.stringify(data));
+
                     window.location=ctxRoot+"/primer3out";
                 },
                 function (error) {
                     console.log(error);
+                    alert("序列输入错误！(￣ε(#￣)")
                 }
             );
         });
