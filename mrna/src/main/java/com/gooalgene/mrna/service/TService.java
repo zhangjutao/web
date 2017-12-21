@@ -34,10 +34,8 @@ public class TService {
         try {
             //定义所有sum个数集合
             Map<String, Map<String, Object>> sumcountMaps = new HashMap<String, Map<String, Object>>();
-
             //定义所有value值集合
             Map<String, Map<String, Object>> valuesMaps = new HashMap<String, Map<String, Object>>();
-//			System.out.println("time1:" + System.currentTimeMillis());
             //循坏取出所有基因的sumcount与value的值
             for (String gen : gens) {
                 Map<String, Map<String, Object>> allMap = gensData(gen);
@@ -46,33 +44,27 @@ public class TService {
                 sumcountMaps.put(gen, sumcountMap);
                 valuesMaps.put(gen, valueMap);
             }
-//			System.out.println("time2:" + System.currentTimeMillis());
             //获取所有分类，分类存在多级子嵌套
             List<Classifys> all = mongoTemplate.findAll(Classifys.class);
-//			System.out.println("time3:" + System.currentTimeMillis());
             //临时存放所有基因的对应的分类数据
             List<GVo> gvos = new ArrayList<GVo>();
-
-
             //循坏基因，取出对应分类值
             for (String gen : gens) {
-                //所有样本type的集合
+                //所有样本type-->count的集合
                 Map<String, Object> sumMaps = sumcountMaps.get(gen);
-
                 //所有样本FPKM总值的集合
                 Map<String, Object> valueMaps = valuesMaps.get(gen);
-//				System.out.println("time4:" + System.currentTimeMillis());
-                //Map<String, Map<String, Object>> tempMaps = new HashMap<String, Map<String,Object>>();
+                //获取每一个大组织在该基因中的总个数与总FPKM值
                 for (Classifys c : all) {
                     //临时存储一种分类的基因
                     Map<String, GenVo> genvosMap = new HashMap<String, GenVo>();
                     int level = 0;
                     String name = c.getName();
-					logger.info("name:" + name);
                     String chinese = (c.getChinese() == null ? "" : c.getChinese());
                     String countTemp = "";
                     String valueTemp = "";
                     // todo 这里Classifys中存的都包含_all后缀，而all_gens_fpkm中搜索出来的type不包含该后缀
+                    //先跟一级root组织比,找到该组织个数与总的FPKM值
                     if (null == sumMaps.get(name)) {
                         countTemp = "0";
                     } else {
@@ -86,25 +78,21 @@ public class TService {
                     }
                     double count = Double.parseDouble(countTemp);
                     double value = Double.parseDouble(valueTemp);
-
                     GenVo vo = new GenVo();
-                    vo.setCount(count);
-                    vo.setValue(value);
+                    vo.setCount(count); //设置该种组织总个数
+                    vo.setValue(value); //设置该种组织总FPKM值
                     vo.setName(name);
-                    vo.setLevel(level);
+                    vo.setLevel(level); //一级组织(root)
                     vo.setGen(gen);
                     vo.setPname("");
                     vo.setChinese(chinese);
-
+                    //基因名+组织名+层级
                     genvosMap.put(gen + name + level, vo);
-
-                    // 获取一个组织分类下的小组织
+                    // 获取root组织分类下的小组织
                     List<Map<String, Object>> childs = c.getChildren();
                     if (childs.size() > 0) {
                         childsGenerateGen(sumMaps, valueMaps, genvosMap, level, childs, gen, name);
                     }
-
-//                    System.out.println("name: " + name + ",json:" + JsonUtils.Bean2Json(genvosMap));
                     for (Map.Entry<String, GenVo> entry : genvosMap.entrySet()) {
                         GenVo genvo = entry.getValue();
                         GVo gvo = new GVo();
@@ -123,22 +111,15 @@ public class TService {
                         gvos.add(gvo);
                     }
                 }
-//				System.out.println("time5:" + System.currentTimeMillis());
             }
-//			System.out.println("time6:" + System.currentTimeMillis());
+            //TODO: 12/21/17 接着往下看  
             Map<String, List<Double>> dataMap = new HashMap<String, List<Double>>();
             Map<String, String> name_chinese = new HashMap<String, String>();
             List<Double> list = null;
             for (GVo gvo : gvos) {
-//				System.out.println("gen:" + gvo.getGen() + ",name:" + gvo.getName()
-//						+ ", pname:" + gvo.getPname() + ",level:" + gvo.getLevel()
-//						+ ",value:" + gvo.getValue());
                 String n = gvo.getName();
-
                 int ev = gvo.getLevel();
-
                 String pname = gvo.getPname();
-
                 Double value = gvo.getValue();
                 String chinese = gvo.getChinese();
                 String key = "";
@@ -156,7 +137,6 @@ public class TService {
                 list.add(value);
                 dataMap.put(key, list);
             }
-//			System.out.println("time7:" + System.currentTimeMillis());
             //生成策略
             List<GResultVo> grvos = new ArrayList<GResultVo>();
             for (Map.Entry<String, List<Double>> entry : dataMap.entrySet()) {
@@ -179,33 +159,31 @@ public class TService {
 
             genResult.setCate(grvos);
             genResult.setGens(gens);
-
-//			    System.out.println("time8:" + System.currentTimeMillis());
-
         } catch (Exception e) {
             e.printStackTrace();
         }
-
         return genResult;
 
     }
 
     /**
-     * @param sumMaps   sumcount数的集合
-     * @param valueMaps value值的结合
-     * @param genvosMap 临时存放的集合
+     * @param sumMaps   samplerun对应总数集合
+     * @param valueMaps samplerun对应FPKM值的集合
+     * @param genvosMap 临时存放的集合(基因名+组织+层级与GenVo之间关系集合)
      * @param level     当前级别
-     * @param childs    需要处理的子集合
+     * @param childs    Classify中需要处理的子集合
+     * @param gen 基因ID
+     * @param classifyName 组织名字
      */
-    public void childsGenerateGen(Map<String, Object> sumMaps, Map<String, Object> valueMaps, Map<String, GenVo> genvosMap, int level, List<Map<String, Object>> childs, String gen, String xxname) {
-        level++;
+    public void childsGenerateGen(Map<String, Object> sumMaps, Map<String, Object> valueMaps, Map<String, GenVo> genvosMap, int level, List<Map<String, Object>> childs, String gen, String classifyName) {
+        level++; //组织层级增加
         for (int i = 0; i < childs.size(); i++) {
             Map<String, Object> map = childs.get(i);
-            String name = map.get("name").toString();
-//            System.out.println("child:" + name);
-            String chinese = map.get("chinese").toString();
+            String name = map.get("name").toString(); //小组织名
+            String chinese = map.get("chinese").toString(); //小组织对应中文名
             String countTemp = "";
             String valueTemp = "";
+            //获取小组织在该基因查询结果集中的type个数和FPKM总值
             if (null == sumMaps.get(name)) {
                 countTemp = "0";
             } else {
@@ -213,17 +191,15 @@ public class TService {
             }
             if (null == valueMaps.get(name)) {
                 valueTemp = "0";
-
             } else {
                 valueTemp = String.valueOf(valueMaps.get(name));
             }
             double count = Double.parseDouble(countTemp);
             double value = Double.parseDouble(valueTemp);
-
             //父的信息
             int pnum = level - 1;
-            String parentKey = gen + xxname + pnum;
-            //System.out.println("parentKey:" + parentKey);
+            //该key对应genvosMap中的key,拼接方法也一样
+            String parentKey = gen + classifyName + pnum;
             GenVo parentVo = genvosMap.get(parentKey);
             parentVo.setCount(parentVo.getCount() + count);
             parentVo.setValue(parentVo.getValue() + value);
@@ -282,7 +258,6 @@ public class TService {
             String key = String.valueOf(map.get("_id"));
             Object count = map.get("count");  //该种样本的总数
             Object value = map.get("value");  //该种样本FPKM总值
-            logger.info("key: " + key +", count: " + count+", value: " + value );
 
             countMap.put(key, count);
             valueMap.put(key, value);
