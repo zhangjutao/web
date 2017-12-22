@@ -241,12 +241,16 @@
                 }
                 $('.data-primer3-'+i+'').data('primer3',primer3Map[i]);
                 $('.data-primer3-'+i+'').on('click',function () {
+                    $('.primer3-link').removeClass('tr-color-white');
                     primer3Out.makeColorOnSeq($(this).data('primer3'));
                     $(this).siblings('tr').removeClass('tr-highlighted');  // 删除其他兄弟元素的样式
                     $(this).addClass('tr-highlighted');
+
                     if($(this).index()%2==0){
+                        $(this).find('.primer3-link').addClass('tr-color-white');
                         $(this).next().addClass('tr-highlighted');
                     }else {
+                        $(this).prev().find('.primer3-link').addClass('tr-color-white');
                         $(this).prev().addClass('tr-highlighted');
                     }
                     primer3Out.renderDesigned($(this).data('primer3'));
@@ -255,7 +259,6 @@
         },
         formatParam:function (param) {
             var paramStr='';
-            //paramStr+='Primer F:、 ';
             if(param){
                 if(param.primerSizeMin&&param.primerSizeMax){
                     paramStr+='Primer Size:'+param.primerSizeMin+'-'+param.primerSizeMax+'nt、';
@@ -295,7 +298,6 @@
                     '            </div><ul></ul>'
                 );
                 var line=Math.ceil(primer3Out.sequence.length/100);
-                console.log("line: "+line);
                 for(var i=0;i<line;i++){
                     var seqFragment=primer3Out.sequence.substring(i*100,(i+1)*100);
                     console.log("seqFragment: "+seqFragment);
@@ -313,12 +315,10 @@
             }
         },
         makeColorOnSeq:function (primer3Item) {
+            var line=Math.ceil(primer3Out.sequence.length/100);
             //将F涂上颜色
             var posStartF=parseInt(primer3Item[0].position);
             var posEndF=posStartF+primer3Item[0].sequence.length;
-
-            var line=Math.ceil(primer3Out.sequence.length/100);
-
             for(var i=0;i<line;i++){
                 if(posStartF<(i+1)*100&&posEndF<=(i+1)*100){//说明整个F在第X行
                     $('.sequence-content>span').removeClass('seq-f-in-color');
@@ -366,7 +366,6 @@
             }
         },
         renderDesigned:function (primer3Item) {
-            debugger
             var primer3F=primer3Item[0];
             var primer3R=primer3Item[1];
             $('.primer3-designed-item-f>span').text(primer3F.sequence);

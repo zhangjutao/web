@@ -84,6 +84,7 @@
                         <input type="number" class="input-content input-item-common" name="primerSizeMax" value="23"/>
                         <div class="clear-fix"></div>
                     </div>
+                    <div class="error-message">Primer size不能低于15</div>
                     <div class="peimer3-input-item primer-GC">
                         <div class="peimer3-input-item-title input-item-common">Primer GC(%)</div>
                         <div class="input-min input-item-common">Min</div>
@@ -191,7 +192,7 @@
             primerTmMax:"Primer Tm不能高于80℃",
             primerGCMin:"Primer GC不能低于20%",
             primerGCMax:"Primer GC不能高于80%",
-            productSizeMin:"Product size不能小于0",
+            productSizeMin:"Product size不能小于序列长度减200",
             productSizeMax:"Product size不能大于序列长度",
             errorScope: "Max必须大于Min"
 
@@ -203,8 +204,8 @@
             primerTmMax: 62,
             primerGCMin: 30,
             primerGCMax: 70,
-            primerFMin:0,
-            primerFMax:0.1,
+            /*primerFMin:0,
+            primerFMax:0.1,*/
         },
         valueScope: {
             primerSizeMin: 15,
@@ -215,15 +216,15 @@
             primerGCMax: 80,
             productSizeMin: 0.8,
             productSizeMax: 1,
-            primerFMin:0,
-            primerFMax:0.5,
+            /*primerFMin:0,
+            primerFMax:0.5,*/
         },
         changeLengthAndProductSize:function () {
             //clearTimeout(primer3.time);
             //primer3.time = setTimeout("primer3.changeLength()", 500);
             primer3.changeLength();
             var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
-            $('input[name="productSizeMin"]').val(parseInt(length*0.8));
+            $('input[name="productSizeMin"]').val(length-200);
             $('input[name="productSizeMax"]').val(length);
         },
         changeLength: function () {
@@ -283,11 +284,11 @@
             var productSizeMin=$('.primer3-input  .product-size>input[name="productSizeMin"]').val();
             var productSizeMax=$('.primer3-input  .product-size>input[name="productSizeMax"]').val();
             if(productSizeMin==''){
-                productSizeMin=parseInt(parseInt(length)*0.8);
+                productSizeMin=parseInt(length)-200;
                 console.log('productSizeMin: '+productSizeMin)
             }else {
                 productSizeMin=parseInt(productSizeMin);
-                if(productSizeMin<0){
+                if(productSizeMin<length-200){
                     primer3.errorTip(null,'productSizeMin');
                     return false;
                 }
@@ -343,7 +344,7 @@
         $('.sequence-block').on({
             keyup:primer3.changeLengthAndProductSize,
             change:primer3.changeLengthAndProductSize
-        })
+        });
 
         //重置用户输入
         $('.reset-btn').click(function () {
@@ -355,7 +356,7 @@
             $('.primer3-input  .primer-Tm>input[name="primerTmMax"]').val(primer3.defaultValue.primerTmMax);
             var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
             if(length>0){
-                $('input[name="productSizeMin"]').val(parseInt(length*0.8));
+                $('input[name="productSizeMin"]').val(length-200);
                 $('input[name="productSizeMax"]').val(length);
             }
         });
@@ -390,7 +391,6 @@
                 sequence:$('.sequence-block').val().toUpperCase(),
                 seqLength:$('.sequence-block').val().replace(/[\r\n]/g, "").length
             };
-            //alert("data: "+JSON.stringify(data))
             var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
             promise.then(
                 function (result) {
@@ -408,10 +408,8 @@
                 }
             );
         });
-    })
-
+    });
 
 </script>
-<%--<script src="${ctxStatic}/js/primer3.js"></script>--%>
 </body>
 </html>
