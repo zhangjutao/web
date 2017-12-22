@@ -467,23 +467,23 @@
             var primerTmMax=parseInt($('input[name="primerTmMax"]').val());
             var primerTmOpt=parseInt($('input[name="primerTmOpt"]').val());
             if(primerSizeMin>=primerSizeMax){
-                primer3.errorTip($('input[name="primerSizeMin"]'),primer3.errorMessageMap['errorScope']);
+                primer3.errorTip($('input[name="primerSizeMin"]'),'primerSize的Max必须大于Min');
                 return false;
             }
             if(primerGCMin>=primerGCMax){
-                primer3.errorTip($('input[name="primerGCMin"]'),'errorScope');
+                primer3.errorTip($('input[name="primerGCMin"]'),'primerGC的Max必须大于Min');
                 return false;
             }
             if(primerTmMin>=primerTmMax){
-                primer3.errorTip($('input[name="primerTmMin"]'),'errorScope');
+                primer3.errorTip($('input[name="primerTmMin"]'),'primerTm的Max必须大于Min');
                 return false;
             }
             if(primerSizeMin<15){
-                primer3.errorTip($('input[name="primerSizeMin"]'),'primerSizeMin');
+                primer3.errorTip($('input[name="primerSizeMin"]'),'primerSize的Min必须大于等于15');
                 return false;
             }
             if(primerSizeMax>30){
-                primer3.errorTip($('input[name="primerSizeMax"]'),'primerSizeMax');
+                primer3.errorTip($('input[name="primerSizeMax"]'),'primerSize的Max必须小于等于15');
                 return false;
             }
             if(primerSizeOpt>primerSizeMax||primerSizeOpt<primerSizeMin){
@@ -491,11 +491,11 @@
                 return false;
             }
             if(primerGCMin<20){
-                primer3.errorTip($('input[name="primerGCMin"]'),'primerGCMin');
+                primer3.errorTip($('input[name="primerGCMin"]'),'primerGC的Min必须大于等于20');
                 return false;
             }
             if(primerGCMax>80){
-                primer3.errorTip($('input[name="primerGCMax"]'),'primerGCMax');
+                primer3.errorTip($('input[name="primerGCMax"]'),'primerGC的Max必须小于等于80');
                 return false;
             }
             if(primerGCOpt>primerGCMax||primerGCOpt<primerGCMin){
@@ -503,11 +503,11 @@
                 return false;
             }
             if(primerTmMin<55){
-                primer3.errorTip($('input[name="primerTmMin"]'),'primerTmMin');
+                primer3.errorTip($('input[name="primerTmMin"]'),'primerTm的Min必须大于等于55');
                 return false;
             }
             if(primerTmMax>80){
-                primer3.errorTip($('input[name="primerTmMax"]'),'primerTmMax');
+                primer3.errorTip($('input[name="primerTmMax"]'),'primerTm的Max必须小于等于80');
                 return false;
             }
             if(primerTmOpt>primerTmMax||primerTmOpt<primerTmMin){
