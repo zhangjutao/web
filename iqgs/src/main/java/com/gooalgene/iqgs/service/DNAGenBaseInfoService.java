@@ -8,6 +8,9 @@ import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
+import com.gooalgene.mrna.service.TService;
+import com.gooalgene.mrna.vo.GResultVo;
+import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -29,6 +32,9 @@ public class DNAGenBaseInfoService {
 
     @Autowired
     private AssociatedgenesDao associatedgenesDao;
+
+    @Autowired
+    private TService tService;
 
     @Autowired
     private DNAMongoService dnaMongoService;
@@ -61,7 +67,9 @@ public class DNAGenBaseInfoService {
             List<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
             String geneId = gene.getGeneId();
             Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
+            List<String> rootTissues = getFPKMLargerThanThirty(geneId); //获取所有FPKM大于30的root组织
             dnaGeneSearchResult = new DNAGeneSearchResult();
+            dnaGeneSearchResult.setRootTissues(rootTissues); //将根组织设值到搜索结果中
             BeanUtils.copyProperties(gene, dnaGeneSearchResult); //将从MySQL中查询到的数据全部拷贝到返回值结果bean上
             dnaGeneSearchResult.setAssociateQTLs(associatedQTLs); //将查询出来的AssociateQTL关联到搜索结果上
             boolean exists = allConsequenceType.contains(EXONIC_NONSYNONYMOUSE);
@@ -71,6 +79,26 @@ public class DNAGenBaseInfoService {
             searchResultWithSNP.add(dnaGeneSearchResult);
         }
         return searchResultWithSNP;
+    }
+
+    /**
+     * 传入基因ID找到FPKM大于30的一级组织
+     * @param geneId 基因ID
+     * @return 大于30的组织集合
+     */
+    private List<String> getFPKMLargerThanThirty(String geneId){
+        List<String> rootTissues = new ArrayList<>();
+        String[] genes = new String[]{ geneId };
+        GenResult genResult = tService.generateData(genes);
+        List<GResultVo> cate = genResult.getCate();
+        for (Iterator<GResultVo> iterator = cate.listIterator(); iterator.hasNext();){
+            GResultVo gene = iterator.next();
+            List<Double> fpkm = gene.getValues();
+            if (gene.getLevel() == 0 && fpkm.get(0) > 30){
+                rootTissues.add(gene.getChinese());
+            }
+        }
+        return rootTissues;
     }
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFunc(String func, Page<DNAGenBaseInfo> page) {

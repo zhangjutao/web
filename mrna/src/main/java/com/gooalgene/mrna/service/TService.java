@@ -72,7 +72,6 @@ public class TService {
                     }
                     if (null == valueMaps.get(name)) {
                         valueTemp = "0";
-
                     } else {
                         valueTemp = String.valueOf(valueMaps.get(name));
                     }
@@ -81,7 +80,7 @@ public class TService {
                     GenVo vo = new GenVo();
                     vo.setCount(count); //设置该种组织总个数
                     vo.setValue(value); //设置该种组织总FPKM值
-                    vo.setName(name);
+                    vo.setName(name); //所属组织
                     vo.setLevel(level); //一级组织(root)
                     vo.setGen(gen);
                     vo.setPname("");
@@ -91,6 +90,7 @@ public class TService {
                     // 获取root组织分类下的小组织
                     List<Map<String, Object>> childs = c.getChildren();
                     if (childs.size() > 0) {
+                        //拿到该大组织下所有小组织的FPKM等相关信息
                         childsGenerateGen(sumMaps, valueMaps, genvosMap, level, childs, gen, name);
                     }
                     for (Map.Entry<String, GenVo> entry : genvosMap.entrySet()) {
@@ -105,15 +105,16 @@ public class TService {
                         gvo.setLevel(genvo.getLevel());
                         gvo.setName(genvo.getName());
                         gvo.setPname(genvo.getPname());
-                        gvo.setState("close");  // 增加该基因状态
+                        gvo.setState("close");  // 修改基因状态为close
                         gvo.setGen(genvo.getGen());
                         gvo.setChinese(genvo.getChinese());
+                        //将已经计算出FPKM结果的GenVO对象放入到这里临时集合中
                         gvos.add(gvo);
                     }
                 }
             }
-            //TODO: 12/21/17 接着往下看  
             Map<String, List<Double>> dataMap = new HashMap<String, List<Double>>();
+            //基因名-->中文名
             Map<String, String> name_chinese = new HashMap<String, String>();
             List<Double> list = null;
             for (GVo gvo : gvos) {
@@ -167,6 +168,7 @@ public class TService {
     }
 
     /**
+     * 将子类组织信息也放入到genvosMap中
      * @param sumMaps   samplerun对应总数集合
      * @param valueMaps samplerun对应FPKM值的集合
      * @param genvosMap 临时存放的集合(基因名+组织+层级与GenVo之间关系集合)
@@ -204,7 +206,7 @@ public class TService {
             parentVo.setCount(parentVo.getCount() + count);
             parentVo.setValue(parentVo.getValue() + value);
             genvosMap.put(parentKey, parentVo);
-            String nowPname = parentVo.getPname();
+            String nowPname = parentVo.getPname(); //获取父组织名字
 
             for (int j = 0; j < pnum; j++) {
                 if (StringUtils.isNotBlank(nowPname)) {
@@ -216,18 +218,17 @@ public class TService {
                     break;
                 }
             }
-
-
             GenVo vo = new GenVo();
             vo.setCount(count);
             vo.setValue(value);
             vo.setName(name);
             vo.setLevel(level);
             vo.setGen(gen);
-            vo.setPname(parentVo.getName());
+            vo.setPname(parentVo.getName()); //重新设置父组织名字
             vo.setChinese(chinese);
+            //把子类也放到该临时基因集合中，父类子类key命名约束也相同
             genvosMap.put(gen + name + level, vo);
-
+            //如果存在子类的子类，则进行递归操作
             List<Map<String, Object>> alls = (List<Map<String, Object>>) map.get("children");
             int size = alls.size();
             if (size > 0) {
@@ -246,11 +247,9 @@ public class TService {
         // 获取某一个基因下有多少个样本类型和某一个样本类型所对应的相应组织的FPKM
         Aggregation aggregation = Aggregation.newAggregation(
                 Aggregation.match(c),
-//              Aggregation.unwind("$samplerun"),
                 Aggregation.group("$samplerun.type").count().as("count").sum("$samplerun.value").as("value")
         );
         AggregationResults<Map> aggRes = mongoTemplate.aggregate(aggregation, "all_gens_fpkm", Map.class);
-
         List<Map> listRes = aggRes.getMappedResults();
         Map<String, Object> countMap = new HashMap<String, Object>(); //组织-->group个数
         Map<String, Object> valueMap = new HashMap<String, Object>(); //组织-->FPKM总值
@@ -262,7 +261,6 @@ public class TService {
             countMap.put(key, count);
             valueMap.put(key, value);
         }
-
         //将组织-->个数与组织-->FPKM总值对应关系汇总，存入Map中
         Map<String, Map<String, Object>> allMap = new HashMap<String, Map<String, Object>>();
         allMap.put("count", countMap);

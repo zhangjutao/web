@@ -434,54 +434,179 @@ public class AdvanceSearchController {
      * @api {post} /advance-search/confirm 选中几个qtl点击确认
      * @apiName clickConfirm
      * @apiGroup Search
-     * @apiParam {String} chosenQtl 以选中的qtl字符串拼接，如"Al tolerance 1-2&Asian Soybean Rust 2-1",使用&符号拼接
+     * @apiParam {int[]} chosenQtl 以选中的QTL ID数组，如chosen:[1001, 1005]
      * @apiParam {int} pageNo 页码
      * @apiParam {int} pageSize 每页数量
-     * @apisamplerequest http://localhost:8080/iqgs/advance-search/confirm
-     * @apidescription 用户经过初步筛选后选中几个qtl后，后台将会返回所有符合该qtl的基因
+     * @apisamplerequest http://localhost:8081/iqgs/advance-search/confirm?choseQTL[]=1003&pageNo=1&pageSize=10
+     * @apidescription 用户经过初步筛选后选中几个qtl后，后台将会返回所有符合该qtl的基因，详情数据可以参见build/clickConfirm.json文件
      * @apiSuccessExample Success-Response:
+     * [
      * {
-     * pageNum:1,
-     * pageSize:100,
-     * total:1,
-     * geneResult:
-     * [{
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.02G218700",
-     * "geneName" : "GLY1,SFD1",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr02:40667610bp-40671395bp:+",
-     * "length" : "3785bp",
-     * "species" : "Glycine max",
-     * "functions" : "glycerol-3-phosphate dehydrogenase [NAD(+)] 2, chloroplastic",
-     * "description" : "NAD-dependent glycerol-3-phosphate dehydrogenase family protein",
-     * "familyId" : null
-     * }, {
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.02G220100",
-     * "geneName" : "GLX2-2,GLY2",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr02:40797403bp-40800820bp:+",
-     * "length" : "3417bp",
-     * "species" : "Glycine max",
-     * "functions" : "glyoxalase GLYII-1",
-     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
-     * "familyId" : null
-     * }, {
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.04G224100",
-     * "geneName" : "GLX2-2,GLY2",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr04:49456049bp-49460172bp:+",
-     * "length" : "4123bp",
-     * "species" : "Glycine max",
-     * "functions" : null,
-     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
-     * "familyId" : null
-     * } ]
+     * "geneId": "Glyma.18G141100",
+     * "geneOldId": null,
+     * "geneName": "ATHST,HST,PDS2",
+     * "geneType": "Protein_coding",
+     * "locus": "Chr18:21768218bp-21777484bp:+",
+     * "length": "9266bp",
+     * "species": "Glycine max",
+     * "functions": null,
+     * "description": "homogentisate prenyltransferase",
+     * "familyId": null,
+     * "id": 48833,
+     * "existsSNP": true,
+     * "associateQTLs": [
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "cqSeed weight-001",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Flower number 1-8",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Phytoph 14-3",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "SCN 17-4",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "SCN 18-5",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "SCN 19-4",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "SCN 29-3",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Seed length 3-2",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Seed oil 42-34",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Seed protein 36-25",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Seed weight per plant 6-6",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "shoot weight, dry 1-2",
+     * "version": null,
+     * "associatedGenes": null
+     * },
+     * {
+     * "id": null,
+     * "isNewRecord": false,
+     * "remarks": null,
+     * "createTime": null,
+     * "updateDate": null,
+     * "qtlName": "Somatic emb per explant 2-3",
+     * "version": null,
+     * "associatedGenes": null
+     * }
+     * ],
+     * "rootTissues": []
      * }
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
