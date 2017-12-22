@@ -67,6 +67,7 @@
         <div class="primer3-middle">
             <textarea class="sequence-block"></textarea>
         </div>
+        <div class="error-message"></div>
         <div class="primer3-bottom">
             <div class="primer3-bottom-top">
                 <div class="setting-title">Genaral Primer Condition Settings</div>
@@ -80,40 +81,62 @@
                         <div class="input-min input-item-common">Min</div>
                         <input type="number" class="input-content input-item-common" name="primerSizeMin" value="18"/>
                         <div class="input-item-common">-</div>
+                        <div class="input-opt input-item-common">Opt</div>
+                        <input type="number" class="input-content input-item-common" name="primerSizeOpt" value="20"/>
+                        <div class="input-item-common">-</div>
                         <div class="input-max input-item-common">Max</div>
                         <input type="number" class="input-content input-item-common" name="primerSizeMax" value="23"/>
                         <div class="clear-fix"></div>
                     </div>
-                    <div class="error-message">Primer size不能低于15</div>
+                    <div class="error-message"></div>
                     <div class="peimer3-input-item primer-GC">
                         <div class="peimer3-input-item-title input-item-common">Primer GC(%)</div>
                         <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerGCMin" value="30"/>
+                        <input type="number" class="input-content input-item-common" name="primerGCMin" value="30.0"/>
+                        <div class="input-item-common">-</div>
+                        <div class="input-opt input-item-common">Opt</div>
+                        <input type="number" class="input-content input-item-common" name="primerGCOpt" value="50.0"/>
                         <div class="input-item-common">-</div>
                         <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerGCMax" value="70"/>
+                        <input type="number" class="input-content input-item-common" name="primerGCMax" value="70.0"/>
                         <div class="clear-fix"></div>
                     </div>
-                    <div class="peimer3-input-item"><%----%>
-                        <div class="peimer3-input-item-title input-item-common">Primer F(bp)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input class="input-content input-item-common"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input class="input-content input-item-common"/>
-                        <div class="clear-fix"></div>
-                    </div>
-                </div>
-                <div class="primer3-input-right">
+                    <div class="error-message"></div>
                     <div class="peimer3-input-item primer-Tm"><%--Primer3 Tm--%>
                         <div class="peimer3-input-item-title input-item-common">Primer Tm(℃)</div>
                         <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerTmMin" value="57"/>
+                        <input type="number" class="input-content input-item-common" name="primerTmMin" value="57.0"/>
+                        <div class="input-item-common">-</div>
+                        <div class="input-opt input-item-common">Opt</div>
+                        <input type="number" class="input-content input-item-common" name="primerTmOpt" value="59.0"/>
                         <div class="input-item-common">-</div>
                         <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerTmMax" value="62"/>
+                        <input type="number" class="input-content input-item-common" name="primerTmMax" value="62.0"/>
                         <div class="clear-fix"></div>
                     </div>
+                    <div class="error-message"></div>
+                </div>
+                <div class="primer3-input-right">
+                    <div class="peimer3-input-item primer-f"><%----%>
+                        <div class="peimer3-input-item-title input-item-common">Primer F(bp)</div>
+                        <div class="input-min input-item-common">Start(5')</div>
+                        <input type="number" name="primerFStart" class="input-content input-item-common"/>
+                        <div class="input-item-common">-</div>
+                        <div class="input-max input-item-common">Length</div>
+                        <input type="number" name="primerFLength" class="input-content input-item-common"/>
+                        <div class="clear-fix"></div>
+                    </div>
+                    <div class="error-message"></div>
+                    <div class="peimer3-input-item primer-r"><%--Primer3 R--%>
+                        <div class="peimer3-input-item-title input-item-common">Primer R(bp)</div>
+                        <div class="input-min input-item-common">Start(5')</div>
+                        <input type="number" name="primerRStart" class="input-content input-item-common"/>
+                        <div class="input-item-common">-</div>
+                        <div class="input-max input-item-common">Length</div>
+                        <input type="number" name="primerRLength" class="input-content input-item-common"/>
+                        <div class="clear-fix"></div>
+                    </div>
+                    <div class="error-message"></div>
                     <div class="peimer3-input-item product-size"><%--Product Size--%>
                         <div class="peimer3-input-item-title input-item-common">Product Size(bp)</div>
                         <div class="input-min input-item-common">Min</div>
@@ -123,15 +146,7 @@
                         <input type="number" type="text" class="input-content input-item-common" name="productSizeMax"/>
                         <div class="clear-fix"></div>
                     </div>
-                    <div class="peimer3-input-item"><%--Primer3 R--%>
-                        <div class="peimer3-input-item-title input-item-common">Primer R(bp)</div>
-                        <div class="input-min input-item-common">Min</div>
-                        <input type="text" name="primer-r-min" class="input-content input-item-common"/>
-                        <div class="input-item-common">-</div>
-                        <div class="input-max input-item-common">Max</div>
-                        <input type="text" name="primer-r-max" class="input-content input-item-common"/>
-                        <div class="clear-fix"></div>
-                    </div>
+                    <div class="error-message"></div>
                     <div class="primer3-submit-btn">Search</div>
                 </div>
                 <div class="clear-fix"></div>
@@ -185,6 +200,7 @@
 <script>
     var ctxRoot = '${ctxroot}';
     var primer3 = {
+        seqLength:0,
         errorMessageMap:{
             primerSizeMin:"Primer size不能低于15",
             primerSizeMax:"Primer size不能高于30",
@@ -195,17 +211,19 @@
             productSizeMin:"Product size不能小于序列长度减200",
             productSizeMax:"Product size不能大于序列长度",
             errorScope: "Max必须大于Min"
-
         },
         defaultValue: {
             primerSizeMin: 18,
             primerSizeMax: 23,
-            primerTmMin: 57,
-            primerTmMax: 62,
-            primerGCMin: 30,
-            primerGCMax: 70,
-            /*primerFMin:0,
-            primerFMax:0.1,*/
+            primerSizeOpt:20,
+            primerTmMin: 57.0,
+            primerTmMax: 62.0,
+            primerTmOpt:59.0,
+            primerGCMin: 30.0,
+            primerGCMax: 70.0,
+            primerGCOpt:50.0,
+            /*primerFStart:0,
+            primerFLength:0.1,*/
         },
         valueScope: {
             primerSizeMin: 15,
@@ -216,27 +234,227 @@
             primerGCMax: 80,
             productSizeMin: 0.8,
             productSizeMax: 1,
-            /*primerFMin:0,
-            primerFMax:0.5,*/
+            /*primerFStart:0,
+            primerFLength:0.5,*/
         },
         changeLengthAndProductSize:function () {
             //clearTimeout(primer3.time);
             //primer3.time = setTimeout("primer3.changeLength()", 500);
+            $('.sequence-block').removeClass('red-border');
+            $('.sequence-block').parent().next().hide();
             primer3.changeLength();
-            var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
-            $('input[name="productSizeMin"]').val(length-200);
-            $('input[name="productSizeMax"]').val(length);
+            /*if($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()==''
+                &&$('input[name="primerRStart"]').val()==''&&$('input[name="primerRLength"]').val()==''){
+                var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
+                if(length>200){
+                    $('input[name="productSizeMin"]').val(length-200);
+                }else {
+                    $('input[name="productSizeMin"]').val(0);
+                }
+                $('input[name="productSizeMax"]').val(length);
+            }*/
         },
         changeLength: function () {
             var val = $('.sequence-block').val();
             var seqLength = val.replace(/[\r\n]/g, "").length;
+            primer3.seqLength=seqLength;
             $('.length-value').html(seqLength);
         },
-        errorTip:function (ele,key) {
-            if(ele!=null){
-                $(ele).addClass('red-border');
+        /*checkProductSizeWhenSeqLt200:function () {
+            if(!primer3.checkPrimerFAndRAndProdSuctize()){
+                var length=parseInt($('.length-value').text());
+                if(length==0&&$('.sequence-block').val()!=''){
+                    length=primer3.seqLength;
+                }
+                //检查并获取primerFStart和primerFLength值
+                if($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()==''){
+                    var primerFStart=0;
+                    var primerFLength=parseInt(0.25*parseInt(length));
+                }else {
+                    var primerFStart=parseInt($('input[name="primerFStart"]').val());
+                    var primerFLength=parseInt($('input[name="primerFLength"]').val());
+                }
+                //检查并获取primerRStart和primerRLength值
+                if($('input[name="primerRStart"]').val()==''&&$('input[name="primerRLength"]').val()==''){
+                    var primerRStart=parseInt(3/4*length);
+                    var primerRLength=parseInt(0.25*parseInt(length));
+                }else {
+                    var primerRStart=parseInt($('input[name="primerRStart"]').val());
+                    var primerRLength=parseInt($('input[name="primerRLength"]').val());
+                }
+                if(primerFStart+primerFLength>primerRStart){
+                    primer3.errorTip($('input[name="primerFStart"]'),'Primer F的Start加Length必须小于等于Primer R的Start');
+                    return false;
+                }
+                if(primerRStart+primerRLength>length){
+                    primer3.errorTip($('input[name="primerRStart"]'),'Primer R的Start加Length必须小于等于序列的长度');
+                    return false;
+                }
+                if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
+                    var productSizeMin=parseInt(0.5*length);
+                    var productSizeMax=length;
+                }else {
+                    var productSizeMin=parseInt($('input[name="productSizeMin"]').val());
+                    var productSizeMax=parseInt($('input[name="productSizeMax"]').val());
+                }
+                if(productSizeMax>length){
+                    primer3.errorTip($('input[name="productSizeMax"]'),'Product Size必须小于序列的长度');
+                    return false;
+                }else {
+                    if((productSizeMin<=primerRStart-(primerFStart+primerFLength)&&productSizeMax>=primerRStart+primerRLength-primerFStart)||
+                        (productSizeMin<=primerRStart-(primerFStart+primerFLength)&&productSizeMax>=(2*primerRStart-2*primerFStart-primerFLength+primerRLength))||
+                        (productSizeMin<=(2*primerRStart-2*primerFStart-primerFLength+primerRLength)&&productSizeMax>primerRStart+primerRLength-primerFStart)||
+                        (productSizeMin>primerRStart-primerFStart-primerFLength&&productSizeMax<primerRStart+primerRLength-primerFStart&&max)){
+
+                    }
+                }
             }
-            alert(primer3.errorMessageMap[key]);
+            return false;
+        },*/
+        /*checkProductSizeWhenSeqGe200:function () {
+            if(!primer3.checkPrimerFAndRAndProdSuctize()){
+                if($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()==''){
+                    var primerFStart=0;
+                    var primerFLength=
+                }
+            }
+            return false;
+        },*/
+        checkPrimerFAndRAndProdSuctizeInput:function () {
+            debugger
+            if(($('input[name="primerFStart"]').val()!=''&&$('input[name="primerFLength"]').val()=='')||
+                ($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()!='')){
+                primer3.errorTip($('input[name="primerFStart"]'),"Primer F和Primer R需要全输入或全不输入");
+                return false;
+            }
+            if(($('input[name="primerRStart"]').val()!=''&&$('input[name="primerRLength"]').val()=='')||
+                ($('input[name="primerRStart"]').val()==''&&$('input[name="primerRLength"]').val()!='')){
+                primer3.errorTip($('input[name="primerRStart"]'),"Primer R和Primer F需要全输入或全不输入");
+                return false;
+            }
+            if(($('input[name="primerFStart"]').val()!=''&&$('input[name="primerFLength"]').val()!='')){
+                if($('input[name="primerRStart"]').val()==''||$('input[name="primerRLength"]').val()==''){
+                    primer3.errorTip($('input[name="primerRStart"]'),"Primer R和Primer F需要全输入或全不输入");
+                    return false;
+                }
+            }
+            if(($('input[name="primerRStart"]').val()!=''&&$('input[name="primerRLength"]').val()!='')){
+                if($('input[name="primerFStart"]').val()==''||$('input[name="primerFLength"]').val()==''){
+                    primer3.errorTip($('input[name="primerFStart"]'),"Primer F和Primer R需要全输入或全不输入");
+                    return false;
+                }
+            }
+            if(($('input[name="productSizeMin"]').val()!=''&&$('input[name="productSizeMax"]').val()=='')||
+                ($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()!='')){
+                primer3.errorTip($('input[name="productSizeMin"]'),"Product Size需要全输入或全不输入");
+                return false;
+            }
+            return true;
+        },
+        checkProductSizeAndPrimer:function () {
+            if(!primer3.checkPrimerFAndRAndProdSuctizeInput()){
+                var length=parseInt($('.length-value').text());
+                if(length==0&&$('.sequence-block').val()!=''){
+                    length=primer3.seqLength;
+                }
+                //检查并获取productSize的值
+                if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
+                    var productSizeMin=parseInt(0.5*length);
+                    var productSizeMax=length;
+                }else {
+                    var productSizeMin=parseInt($('input[name="productSizeMin"]').val());
+                    var productSizeMax=parseInt($('input[name="productSizeMax"]').val());
+                }
+                if(productSizeMax>length){  //todo
+                    primer3.errorTip($('input[name="productSizeMax"]'),'Product Size必须小于序列的长度');
+                    return false;
+                }else {
+                    if(productSizeMin<2*parseInt($('input[name="primerSizeMin"]').val())){
+                        primer3.errorTip($('input[name="productSizeMin"]'),'Product Size必须大于等于2倍Primer Size Min长度');
+                        return false;
+                    }
+                }
+
+                //检查并获取primerFStart和primerFLength值
+                if($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()==''){
+                    var primerFStart='';
+                    var primerFLength='';
+                }else {
+                    var primerFStart=parseInt($('input[name="primerFStart"]').val());
+                    var primerFLength=parseInt($('input[name="primerFLength"]').val());
+                    if(primerFLength<productSizeMin){
+                        primer3.errorTip($('input[name="primerFLength"]'),'Primer F的Length必须大于Product Size Min长度');
+                        return false;
+                    }
+                    if(primerFStart+primerFLength>length){
+                        primer3.errorTip($('input[name="primerFLength"]'),'Primer F的Start加Primer F的Length必须大于小于序列的长度');
+                        return false;
+                    }
+                }
+                //检查并获取primerRStart和primerRLength值
+                if($('input[name="primerRStart"]').val()==''&&$('input[name="primerRLength"]').val()==''){
+                    var primerRStart='';
+                    var primerRLength='';
+                }else {
+                    var primerRStart=parseInt($('input[name="primerRStart"]').val());
+                    var primerRLength=parseInt($('input[name="primerRLength"]').val());
+                    if(primerRLength<productSizeMin){
+                        primer3.errorTip($('input[name="primerRLength"]'),'Primer R的Length必须大于Product Size Min长度');
+                        return false;
+                    }
+                    if(primerRStart+primerRLength>length){
+                        primer3.errorTip($('input[name="primerRLength"]'),'Primer R的Start加Primer R的Length必须大于小于序列的长度');
+                        return false;
+                    }
+                }
+
+                //返回primer f、r和product size的值
+                return {
+                    productSizeMin:productSizeMin,
+                    productSizeMax:productSizeMax,
+                    primerFLength:primerFLength,
+                    primerFStart:primerFStart,
+                    primerRLength:primerRLength,
+                    primerRStart:primerRStart,
+                }
+
+            }
+
+            /*var productSizeMin=$('.primer3-input  .product-size>input[name="productSizeMin"]').val();
+            var productSizeMax=$('.primer3-input  .product-size>input[name="productSizeMax"]').val();
+            if(productSizeMin==''){
+                if(length>200){
+                    productSizeMin=parseInt(length)-200;
+                }
+                productSizeMin=0;
+            }else {
+                productSizeMin=parseInt(productSizeMin);
+                if(productSizeMin<length-200){
+                    //primer3.errorTip(null,'productSizeMin');
+                    return false;
+                }
+            }
+            if(productSizeMax==''){
+                productSizeMax=parseInt(length);
+            }else {
+                productSizeMax=parseInt(productSizeMax);
+                if(productSizeMax>length){
+                    //primer3.errorTip(null,'productSizeMax');
+                    return false;
+                }
+            }
+            if(productSizeMin>=productSizeMax){
+                //primer3.errorTip(null,'errorScope');
+                return false;
+            }
+            return [productSizeMin,productSizeMax];*/
+        },
+        errorTip:function (ele,errorMessage) {
+            $('.error-message').hide();
+            $('.peimer3-input-item>input').removeClass('red-border');
+            $(ele).addClass('red-border');
+            //$(ele).parent().next().html(primer3.errorMessageMap[key]).show()
+            $(ele).parent().next().html(errorMessage).show();
         },
         checkPrimer3:function () {
             var primerSizeMin=parseInt($('input[name="primerSizeMin"]').val());
@@ -245,8 +463,16 @@
             var primerGCMax=parseInt($('input[name="primerGCMax"]').val());
             var primerTmMin=parseInt($('input[name="primerTmMin"]').val());
             var primerTmMax=parseInt($('input[name="primerTmMax"]').val());
-            if(primerSizeMin>=primerSizeMax||primerGCMin>=primerGCMax||primerTmMin>=primerTmMax){
-                primer3.errorTip(null,'errorScope');
+            if(primerSizeMin>=primerSizeMax){
+                primer3.errorTip($('input[name="primerSizeMin"]'),'errorScope');
+                return false;
+            }
+            if(primerGCMin>=primerGCMax){
+                primer3.errorTip($('input[name="primerGCMin"]'),'errorScope');
+                return false;
+            }
+            if(primerTmMin>=primerTmMax){
+                primer3.errorTip($('input[name="primerTmMin"]'),'errorScope');
                 return false;
             }
             if(primerSizeMin<15){
@@ -275,42 +501,7 @@
             }
             return true;
         },
-        checkProductSize:function () {
-            var length=$('.length-value').text();
-            if(length==0&&$('.sequence-block').val()!=''){
-                length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
-                //alert(length);
-            }
-            var productSizeMin=$('.primer3-input  .product-size>input[name="productSizeMin"]').val();
-            var productSizeMax=$('.primer3-input  .product-size>input[name="productSizeMax"]').val();
-            if(productSizeMin==''){
-                productSizeMin=parseInt(length)-200;
-                console.log('productSizeMin: '+productSizeMin)
-            }else {
-                productSizeMin=parseInt(productSizeMin);
-                if(productSizeMin<length-200){
-                    primer3.errorTip(null,'productSizeMin');
-                    return false;
-                }
-                console.log('productSizeMin: '+productSizeMin)
-            }
-            if(productSizeMax==''){
-                productSizeMax=parseInt(length);
-                console.log('productSizeMax: '+productSizeMax)
-            }else {
-                productSizeMax=parseInt(productSizeMax);
-                if(productSizeMax>length){
-                    primer3.errorTip(null,'productSizeMax');
-                    return false;
-                }
-                console.log('productSizeMax: '+productSizeMax)
-            }
-            if(productSizeMin>=productSizeMax){
-                primer3.errorTip(null,'errorScope');
-                return;
-            }
-            return [productSizeMin,productSizeMax];
-        },
+
         time: '',
         utils: {
             sendAjaxRequest:function (method, url,data) {
@@ -340,6 +531,9 @@
     };
 
     $(function () {
+        $('.product-size>.input-min').css({'width':parseInt($('.primer-r>.input-min').css('width'))+'px'});
+        $('.product-size>.input-max').css({'width':parseInt($('.primer-r>.input-max').css('width'))+'px'});
+
         //记录用户输入序列的长度
         $('.sequence-block').on({
             keyup:primer3.changeLengthAndProductSize,
@@ -350,63 +544,78 @@
         $('.reset-btn').click(function () {
             $('.primer3-input  .primer-size>input[name="primerSizeMin"]').val(primer3.defaultValue.primerSizeMin);
             $('.primer3-input  .primer-size>input[name="primerSizeMax"]').val(primer3.defaultValue.primerSizeMax);
+            $('input[name="primerSizeOpt"]').val(primer3.defaultValue.primerSizeOpt);
             $('.primer3-input  .primer-GC>input[name="primerGCMin"]').val(primer3.defaultValue.primerGCMin);
             $('.primer3-input  .primer-GC>input[name="primerGCMax"]').val(primer3.defaultValue.primerGCMax);
+            $('input[name="primerGCOpt"]').val(primer3.defaultValue.primerGCOpt);
             $('.primer3-input  .primer-Tm>input[name="primerTmMin"]').val(primer3.defaultValue.primerTmMin);
             $('.primer3-input  .primer-Tm>input[name="primerTmMax"]').val(primer3.defaultValue.primerTmMax);
+            $('input[name="primerTmOpt"]').val(primer3.defaultValue.primerTmOpt);
             var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
             if(length>0){
                 $('input[name="productSizeMin"]').val(length-200);
                 $('input[name="productSizeMax"]').val(length);
+                if(length>100){
+                    $('input[name="primerRStart"]').val(length-100);
+                    $('input[name="primerRLength"]').val(100);
+                }
             }
+            $('input[name="primerFStart"]').val(0);
+            $('input[name="primerFLength"]').val(100);
         });
 
         $('.primer3-submit-btn').on('click', function () {
-            var flag=primer3.checkPrimer3();
-            if(!flag){
+            if(!primer3.checkPrimer3()){
                 return;
             }
-            var productSizes=primer3.checkProductSize();
-            if(!productSizes){
+            if(primer3.seqLength==0){
+                primer3.errorTip($('.sequence-block'),"未输入序列");
                 return;
-            }
-            var productSizeMin=productSizes[0];
-            var productSizeMax=productSizes[1];
-
-            var primerSizeMin=$('input[name="primerSizeMin"]').val();
-            var primerSizeMax=$('input[name="primerSizeMax"]').val();
-            var primerGCMin=$('input[name="primerGCMin"]').val();
-            var primerGCMax=$('input[name="primerGCMax"]').val();
-            var primerTmMin=$('input[name="primerTmMin"]').val();
-            var primerTmMax=$('input[name="primerTmMax"]').val();
-            var data={
-                primerSizeMin:primerSizeMin==''?primer3.defaultValue.primerSizeMin:primerSizeMin,
-                primerSizeMax:primerSizeMax==''?primer3.defaultValue.primerSizeMax:primerSizeMax,
-                primerGCMin:primerGCMin==''?primer3.defaultValue.primerGCMin:primerGCMin,
-                primerGCMax:primerGCMax==''?primer3.defaultValue.primerGCMax:primerGCMax,
-                primerTmMin:primerTmMin==''?primer3.defaultValue.primerTmMin:primerTmMin,
-                primerTmMax:primerTmMax==''?primer3.defaultValue.primerTmMax:primerTmMax,
-                productSizeMin:productSizeMin,
-                productSizeMax:productSizeMax,
-                sequence:$('.sequence-block').val().toUpperCase(),
-                seqLength:$('.sequence-block').val().replace(/[\r\n]/g, "").length
-            };
-            var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
-            promise.then(
-                function (result) {
-                    console.log(result);
-                    //result.param=data;
-                    result=JSON.stringify(result);
-                    localStorage.setItem('primer3List',result);
-                    localStorage.setItem('param',JSON.stringify(data));
-
-                    window.open(ctxRoot+"/primer3out");
-                },
-                function (error) {
-                    console.log(error);
-                    alert("序列输入错误！(￣ε(#￣)")
+            }else{
+                var obj=primer3.checkProductSizeAndPrimer();
+                if(!obj){
+                    return;
                 }
-            );
+
+                var primerSizeMin=$('input[name="primerSizeMin"]').val();
+                var primerSizeMax=$('input[name="primerSizeMax"]').val();
+                var primerGCMin=$('input[name="primerGCMin"]').val();
+                var primerGCMax=$('input[name="primerGCMax"]').val();
+                var primerTmMin=$('input[name="primerTmMin"]').val();
+                var primerTmMax=$('input[name="primerTmMax"]').val();
+                var data={
+                    primerSizeMin:primerSizeMin==''?primer3.defaultValue.primerSizeMin:primerSizeMin,
+                    primerSizeMax:primerSizeMax==''?primer3.defaultValue.primerSizeMax:primerSizeMax,
+                    primerGCMin:primerGCMin==''?primer3.defaultValue.primerGCMin:primerGCMin,
+                    primerGCMax:primerGCMax==''?primer3.defaultValue.primerGCMax:primerGCMax,
+                    primerTmMin:primerTmMin==''?primer3.defaultValue.primerTmMin:primerTmMin,
+                    primerTmMax:primerTmMax==''?primer3.defaultValue.primerTmMax:primerTmMax,
+                    productSizeMin:obj[productSizeMin],
+                    productSizeMax:obj[productSizeMax],
+                    primerFStart:obj[primerFStart],
+                    primerFLength:obj[primerFLength],
+                    primerRStart:obj[primerRStart],
+                    primerRLength:obj[primerRLength],
+                    sequence:$('.sequence-block').val().toUpperCase(),
+                    seqLength:primer3.seqLength
+                };
+                var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
+                promise.then(
+                    function (result) {
+                        console.log(result);
+                        //result.param=data;
+                        result=JSON.stringify(result);
+                        localStorage.setItem('primer3List',result);
+                        localStorage.setItem('param',JSON.stringify(data));
+
+                        window.open(ctxRoot+"/primer3out");
+                    },
+                    function (error) {
+                        console.log(error);
+                        alert("序列输入错误！(￣ε(#￣)")
+                    }
+                );
+            }
         });
     });
 

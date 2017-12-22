@@ -21,12 +21,11 @@ button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!importa
 .primer3-input-left{margin-right: 110px;}
 .peimer3-input-item{margin-bottom: 16px;}
 .peimer3-input-item-title{width: 124px;color: #666;font-size: 14px;}
-.input-min,.input-max{color: #999;font-size: 14px;margin-right: 10px;}
-.input-max{margin-left: 16px;}
-.input-content{background:none;outline:none;border: 1px solid #ccc;width: 100px;font-size: 14px; color: #333;text-align: center;margin-right: 16px;}
+.input-min,.input-max,.input-opt{color: #999;font-size: 14px;margin-right: 10px;}
+.input-max,.input-opt{margin-left: 16px;}
+.input-content{background:none;outline:none;border: 1px solid #ccc;width: 78px;font-size: 14px; color: #333;text-align: center;margin-right: 16px;}
 .primer3-submit-btn{width: 120px; font-size: 16px; color: #fff;background: #5c8ce6;height: 40px; text-align: center;border-radius: 2px; line-height: 40px;
 float: right;margin: 8px 16px 30px 0;cursor: pointer;}
 
-.error-message{display: block;color: red;margin-bottom: 16px;margin-top: -16px; }
-
+.error-message{display: none;color: red;margin-bottom: 16px;margin-top: -16px; }
 .red-border{border:1px solid red;}
