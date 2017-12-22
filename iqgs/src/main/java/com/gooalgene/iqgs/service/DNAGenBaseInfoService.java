@@ -1,6 +1,7 @@
 package com.gooalgene.iqgs.service;
 
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.service.DNAMongoService;
@@ -56,7 +57,7 @@ public class DNAGenBaseInfoService {
      * @param pageSize 页数
      * @return 搜索结果列表
      */
-    public List<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNum, int pageSize) {
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNum, int pageSize) {
         List<DNAGenBaseInfo> result = null;
         PageHelper.startPage(pageNum,pageSize);
         result = dnaGenBaseInfoDao.findGeneByQTLName(allQTLId);
@@ -78,7 +79,7 @@ public class DNAGenBaseInfoService {
             }
             searchResultWithSNP.add(dnaGeneSearchResult);
         }
-        return searchResultWithSNP;
+        return new PageInfo<>(searchResultWithSNP);
     }
 
     /**

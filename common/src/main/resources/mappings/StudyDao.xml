@@ -498,4 +498,8 @@ VALUES (
     <select id="findSampleruns" resultType="string">
         SELECT sampleRun FROM study
     </select>
+
+    <select id="findSampleRunByTissueForClassification" resultType="String">
+        SELECT * FROM study WHERE tissueForClassification = #{tissueForClassification}
+    </select>
 </mapper>

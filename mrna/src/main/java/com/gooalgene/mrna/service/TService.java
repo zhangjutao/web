@@ -28,7 +28,6 @@ public class TService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-
     public GenResult generateData(String[] gens) {
         GenResult genResult = new GenResult();
         try {
@@ -169,12 +168,13 @@ public class TService {
 
     /**
      * 将子类组织信息也放入到genvosMap中
-     * @param sumMaps   samplerun对应总数集合
-     * @param valueMaps samplerun对应FPKM值的集合
-     * @param genvosMap 临时存放的集合(基因名+组织+层级与GenVo之间关系集合)
-     * @param level     当前级别
-     * @param childs    Classify中需要处理的子集合
-     * @param gen 基因ID
+     *
+     * @param sumMaps      samplerun对应总数集合
+     * @param valueMaps    samplerun对应FPKM值的集合
+     * @param genvosMap    临时存放的集合(基因名+组织+层级与GenVo之间关系集合)
+     * @param level        当前级别
+     * @param childs       Classify中需要处理的子集合
+     * @param gen          基因ID
      * @param classifyName 组织名字
      */
     public void childsGenerateGen(Map<String, Object> sumMaps, Map<String, Object> valueMaps, Map<String, GenVo> genvosMap, int level, List<Map<String, Object>> childs, String gen, String classifyName) {
@@ -239,6 +239,7 @@ public class TService {
 
     /**
      * 获取某种基因对应的所有样本的总个数以及每种样本总FPKM
+     *
      * @param gen Gene ID
      * @return 该种基因对应的所有样本的总个数以及每种样本总FPKM
      */
@@ -280,31 +281,37 @@ public class TService {
 
     /**
      * 根据分类查询子分类
+     * 拿到每一个分类包括该分类下的所有name，有一个逐渐递减的关系
+     * first: root tissue name + second children name + third children name
+     * second: second children name + third children name
+     * mapAll为包含上面两个key-value的集合
      *
-     *
-     * @param father
-     * @return
+     * @param father 大组织名字(去all后缀)
+     * @return 某种组织下所包含的所有小组织名
+     * 如传入的时seed_All，则返回：
+     * seed_All
+     *      seed
+     *          seed coat
+     *          seed coat endothelium
+     *          ...
      */
     public List<String> queryClassifyByFather(String father) {
         Map<String, List<String>> mapAll = new HashMap<String, List<String>>();
-        List<Classifys> all = getClassifyTree();
+        List<Classifys> all = getClassifyTree(); //拿到所有大组织
         for (Classifys classifys : all) {
-            String name = classifys.getName();//第一级
+            String name = classifys.getName(); //第一级
             List<String> first = new ArrayList<String>();
             first.add(name);
-//            System.out.println("name:" + name);
             List<Map<String, Object>> children = classifys.getChildren();
             for (Map<String, Object> map : children) {
-                String name1 = (String) map.get("name");//第二级
+                String name1 = (String) map.get("name"); //第二级
                 first.add(name1);
-//                System.out.println("name1:" + name1);
                 List<String> second = new ArrayList<String>();
                 second.add(name1);
                 List<Map<String, Object>> child1 = (List<Map<String, Object>>) map.get("children");
                 if (child1 != null) {
                     for (Map<String, Object> map1 : child1) {
-                        String name2 = (String) map1.get("name");//第三级
-//                        System.out.println("name2:" + name2);
+                        String name2 = (String) map1.get("name"); //第三级
                         first.add(name2);
                         second.add(name2);
                     }

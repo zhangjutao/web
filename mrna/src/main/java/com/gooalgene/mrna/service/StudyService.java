@@ -422,12 +422,13 @@ public class StudyService {
     public Map queryStudyByCondition(String type, String keywords, String param, Page<Study> page) {
         Map result = new HashMap();
         result.put("type", type);
-        result.put("keywords", (keywords == null ? "" : (keywords.endsWith(".all") ? keywords.substring(0, keywords.lastIndexOf(".")) : keywords)));
+        result.put("keywords", (keywords == null ?
+                "" : (keywords.endsWith(".all") ? keywords.substring(0, keywords.lastIndexOf(".")) : keywords))); //拿到所属大组织
         result.put("condition", "{}");
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
         JSONArray data = new JSONArray();
-        Study study = getQuery(type, keywords, param);
+        Study study = getQuery(type, keywords, param); //查询参数封装到study对象中
         study.setPage(page);
         List<Map> list = null;
         List<Study> list1 = null;
@@ -435,16 +436,9 @@ public class StudyService {
         list1 = studyDao.findList(study);
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         for (Map m : list) {
-//            if (m.get("sampleRun") == null) {
-//
-//            }
-//            m.get("sampleName")==null;
-//            m.get("sraStudy")==null;
-//            m.get("study")==null;
             if (m.get("tissueForClassification") != null) {
                 m.put("tissue", m.get("tissueForClassification"));
             }
-//            m.get("tissue")==null;
             if (m.get("preservation") == null) {
                 m.put("preservation", "");
             }
@@ -454,7 +448,6 @@ public class StudyService {
             if (m.get("stage") == null) {
                 m.put("stage", "");
             }
-//            System.out.print(m.size());
             if (m.get("geneType") == null) {
                 m.put("geneType", "");
             }
@@ -553,7 +546,7 @@ public class StudyService {
         if ("all".equalsIgnoreCase(type)) {
             if (!StringUtils.isBlank(keywords)) {
                 study.setKeywords(keywords);
-            }//空白查询所有
+            }
         } else if ("Study".equalsIgnoreCase(type)) {
             if (!StringUtils.isBlank(keywords)) {
                 study.setStudy(keywords);
@@ -563,13 +556,9 @@ public class StudyService {
                 if (keywords.endsWith(".all")) {
                     study.setTissueKeywords(keywords.substring(0, keywords.lastIndexOf(".")));
                 } else {
-                    List<String> list = tService.queryClassifyByFather(keywords);
+                    List<String> list = tService.queryClassifyByFather(keywords); //查询子分类
                     if (list != null) {
-                        System.out.println("Keywords:" + keywords);
-                        for (String s : list) {
-                            System.out.println(s);
-                        }
-                        study.setTissues(list);
+                        study.setTissues(list); //设值该组织下所有子分类
                     }
                 }
             }
@@ -780,21 +769,13 @@ public class StudyService {
     }
 
     public JSONArray queryStudyByGene(String gene) {
-
-        List<String> run = studyDao.findSampleruns();//查询所有的run
+        List<String> run = studyDao.findSampleruns(); //查询所有的run
         //SRR129864456c 换成 SRR12986456c
         run.add("SRR12986456c");
         Query query = new Query();
         query.addCriteria(Criteria.where("gene").is(gene));
         query.addCriteria(Criteria.where("samplerun.name").in(run));
-        //query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "samplerun.value")));//降序
-//      query.limit(10);//取10条
-
-        System.out.println("Query count:" + query.toString());
-
         List<ExpressionVo> runs = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
-
-        System.out.println("Size:" + runs.size());
 
         Map<String, Double> run_value = new HashMap<String, Double>();
 

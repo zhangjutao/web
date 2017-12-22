@@ -341,46 +341,4 @@ public class Study extends DataEntity<Study> {
     public void setTissues(List<String> tissues) {
         this.tissues = tissues;
     }
-
-    @Override
-    public String toString() {
-        return "Study{" +
-                "sraStudy='" + sraStudy + '\'' +
-                ", study='" + study + '\'' +
-                ", sampleName='" + sampleName + '\'' +
-                ", isExpression=" + isExpression +
-                ", sampleRun='" + sampleRun + '\'' +
-                ", tissue='" + tissue + '\'' +
-                ", tissueForClassification='" + tissueForClassification + '\'' +
-                ", preservation='" + preservation + '\'' +
-                ", treat='" + treat + '\'' +
-                ", stage='" + stage + '\'' +
-                ", geneType='" + geneType + '\'' +
-                ", phenoType='" + phenoType + '\'' +
-                ", environment='" + environment + '\'' +
-                ", geoLoc='" + geoLoc + '\'' +
-                ", ecoType='" + ecoType + '\'' +
-                ", collectionDate='" + collectionDate + '\'' +
-                ", coordinates='" + coordinates + '\'' +
-                ", ccultivar='" + ccultivar + '\'' +
-                ", scientificName='" + scientificName + '\'' +
-                ", pedigree='" + pedigree + '\'' +
-                ", reference='" + reference + '\'' +
-                ", institution='" + institution + '\'' +
-                ", submissionTime='" + submissionTime + '\'' +
-                ", instrument='" + instrument + '\'' +
-                ", libraryStrategy='" + libraryStrategy + '\'' +
-                ", librarySource='" + librarySource + '\'' +
-                ", libraryLayout='" + libraryLayout + '\'' +
-                ", insertSize='" + insertSize + '\'' +
-                ", readLength='" + readLength + '\'' +
-                ", spots=" + spots +
-                ", experiment='" + experiment + '\'' +
-                ", links='" + links + '\'' +
-                ", createTime=" + createTime +
-                ", keywords='" + keywords + '\'' +
-                ", tissueKeywords='" + tissueKeywords + '\'' +
-                ", tissues=" + tissues +
-                '}';
-    }
 }

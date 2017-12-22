@@ -53,4 +53,12 @@ public class TServiceTest extends TestCase {
         genResult.setCate(cate);
         System.out.println(JsonUtils.Bean2Json(genResult));
     }
+
+    @Test
+    public void testQueryClassifyByFather(){
+        List<String> result = tService.queryClassifyByFather("seed_All");
+        for (String r : result){
+            System.out.println(r);
+        }
+    }
 }

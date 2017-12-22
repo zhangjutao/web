@@ -47,4 +47,6 @@ public interface StudyDao extends CrudDao<Study> {
     int insertBatch(List<Study> toInsert);
 
     List<String> findSampleruns();
+
+    List<String> findSampleRunByTissueForClassification(@Param("tissueForClassification") String tissueForClassification);
 }

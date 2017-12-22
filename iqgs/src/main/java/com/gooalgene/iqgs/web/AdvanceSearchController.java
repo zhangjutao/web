@@ -1,6 +1,9 @@
 package com.gooalgene.iqgs.web;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
@@ -13,6 +16,7 @@ import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
+import com.gooalgene.utils.ResultUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -677,11 +681,23 @@ public class AdvanceSearchController {
      */
     @RequestMapping(value = "/confirm", method = RequestMethod.POST)
     @ResponseBody
-    public List<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "choseQTL[]") Integer[] chosenQtl, HttpServletRequest request) {
+    public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "choseQTL[]") Integer[] chosenQtl, HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        List<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(Arrays.asList(chosenQtl), pageNo, pageSize);
-        return genes;
+        PageHelper.startPage(pageNo, pageSize, true);
+        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(Arrays.asList(chosenQtl), pageNo, pageSize);
+        return ResultUtil.success(genes);
+    }
+
+    @RequestMapping(value = "/gene-expression", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<DNAGeneSearchResult> advanceSearchByGeneExpression(
+            @RequestParam(value = "childTissues[]") String[] childTissues,
+            HttpServletRequest request){
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+
+        return null;
     }
 
     /**
