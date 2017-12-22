@@ -7,6 +7,7 @@ import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.QTLCondition;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
@@ -40,6 +41,9 @@ public class AdvanceSearchController {
 
     @Autowired
     private TService tService;
+
+    @Autowired
+    private SearchService searchService;
 
     @Autowired
     private TraitCategoryService traitCategoryService;
@@ -339,6 +343,68 @@ public class AdvanceSearchController {
     }
 
     /**
+     * @api {post} /advance-search/query-snp 获取所有SNP类型
+     * @apiName fetchALLSNPCheckbox
+     * @apiGroup Search
+     * @apisamplerequest http://localhost:8080/iqgs/advance-search/query-snp
+     * @apidescription 高级搜索页面加载时，获取所有SNP类型
+     * @apiSuccessExample Success-Response:
+     * [
+     * "UTR3",
+     * "UTR5",
+     * "UTR5;UTR3",
+     * "downstream",
+     * "exonic;splicing_nonsynonymous SNV",
+     * "exonic;splicing_synonymous SNV",
+     * "exonic_nonsynonymous SNV",
+     * "exonic_stopgain",
+     * "exonic_stoploss",
+     * "exonic_synonymous SNV",
+     * "intergenic",
+     * "intronic",
+     * "splicing",
+     * "upstream",
+     * "upstream;downstream"
+     * ]
+     */
+    @RequestMapping(value = "/query-snp", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> getAllSNPCheckbox() {
+        return searchService.findAllDistinctSNP();
+    }
+
+    /**
+     * @api {post} /advance-search/query-snp 获取所有INDEL类型
+     * @apiName fetchALLINDELCheckbox
+     * @apiGroup Search
+     * @apisamplerequest http://localhost:8080/iqgs/advance-search/query-indel
+     * @apidescription 高级搜索页面加载时，获取所有INDEL类型
+     * @apiSuccessExample Success-Response:
+     * [
+     * "UTR3",
+     * "UTR5",
+     * "downstream",
+     * "exonic;splicing_stopgain",
+     * "exonic_frameshift deletion",
+     * "exonic_frameshift insertion",
+     * "exonic_nonframeshift deletion",
+     * "exonic_nonframeshift insertion",
+     * "exonic_stopgain",
+     * "exonic_stoploss",
+     * "intergenic",
+     * "intronic",
+     * "splicing",
+     * "upstream",
+     * "upstream;downstream"
+     * ]
+     */
+    @RequestMapping(value = "/query-indel", method = RequestMethod.POST)
+    @ResponseBody
+    public List<String> getALLDistinctINDEL() {
+        return searchService.findAllDistinctINDEL();
+    }
+
+    /**
      * @api {get} /advance-search/fetch-qtl-smarty qtl搜索选项二级联动
      * @apiName fetchQtlSmartyData
      * @apiGroup Search
@@ -619,46 +685,6 @@ public class AdvanceSearchController {
     }
 
     /**
-     * @api {post} /advance-search/search 高级搜索查询接口
-     * @apiName advanceSearch
-     * @apiGroup Search
-     * @apiParam {Object[]} geneExpression 已选中的基因表达量对象集合
-     * @apiParamExample {json} Request-Example:
-     * {
-     * snpParams: "Downstream,Exonic;Splicing"
-     * indelParams: "Downstream,5UTR",
-     * pageNo: 1,
-     * pageSize: 10,
-     * geneExpression: {[
-     * {
-     * "organic": "Seed",
-     * "childOrganic": ["seed", "coat"],
-     * "FPKM": "2-20"
-     * },
-     * {
-     * "organic": "Seed",
-     * "childOrganic": ["seed", "coat"],
-     * "FPKM": "2-20"
-     * }
-     * ]}
-     * qtlParams: {[
-     * {
-     * "qtlName": "Seed About",
-     * "traitId": 10,
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "qtlName": "Seed About",
-     * "traitId": 10,
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * },
-     * {
-     * "qtlName": "Seed About",
-     * "traitId": 10,
-     * "includeQtlNames": ["Asian Soybean Rust 2-1", "Asian Soybean Rust 2-2"]
-     * }
-     * ]}
-     * }
      * @apiParam {String} snpParams 选中的SNP筛选条件，各个值之间使用","号分开
      * @apiParam {String} indelParams 选中的INDEL筛选条件，各个值之间使用","分开
      * @apiParam {Object[]} qtlParams 高级搜索中选中的qtl查询条件对象集合
