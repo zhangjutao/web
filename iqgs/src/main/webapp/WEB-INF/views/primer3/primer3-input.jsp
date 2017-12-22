@@ -321,7 +321,6 @@
             return false;
         },*/
         checkPrimerFAndRAndProdSuctizeInput:function () {
-            debugger
             if(($('input[name="primerFStart"]').val()!=''&&$('input[name="primerFLength"]').val()=='')||
                 ($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()!='')){
                 primer3.errorTip($('input[name="primerFStart"]'),"Primer F和Primer R需要全输入或全不输入");
@@ -352,11 +351,13 @@
             return true;
         },
         checkProductSizeAndPrimer:function () {
-            if(!primer3.checkPrimerFAndRAndProdSuctizeInput()){
+            if(primer3.checkPrimerFAndRAndProdSuctizeInput()){
+
                 var length=parseInt($('.length-value').text());
                 if(length==0&&$('.sequence-block').val()!=''){
                     length=primer3.seqLength;
                 }
+                alert("length:" +length)
                 //检查并获取productSize的值
                 if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
                     var productSizeMin=parseInt(0.5*length);
@@ -459,12 +460,15 @@
         checkPrimer3:function () {
             var primerSizeMin=parseInt($('input[name="primerSizeMin"]').val());
             var primerSizeMax=parseInt($('input[name="primerSizeMax"]').val());
+            var primerSizeOpt=parseInt($('input[name="primerSizeOpt"]').val());
             var primerGCMin=parseInt($('input[name="primerGCMin"]').val());
             var primerGCMax=parseInt($('input[name="primerGCMax"]').val());
+            var primerGCOpt=parseInt($('input[name="primerGCOpt"]').val());
             var primerTmMin=parseInt($('input[name="primerTmMin"]').val());
             var primerTmMax=parseInt($('input[name="primerTmMax"]').val());
+            var primerTmOpt=parseInt($('input[name="primerTmOpt"]').val());
             if(primerSizeMin>=primerSizeMax){
-                primer3.errorTip($('input[name="primerSizeMin"]'),'errorScope');
+                primer3.errorTip($('input[name="primerSizeMin"]'),primer3.errorMessageMap['errorScope']);
                 return false;
             }
             if(primerGCMin>=primerGCMax){
@@ -483,6 +487,10 @@
                 primer3.errorTip($('input[name="primerSizeMax"]'),'primerSizeMax');
                 return false;
             }
+            if(primerSizeOpt>primerSizeMax||primerSizeOpt<primerSizeMin){
+                primer3.errorTip($('input[name="primerSizeOpt"]'),'opt需在min到max之间');
+                return false;
+            }
             if(primerGCMin<20){
                 primer3.errorTip($('input[name="primerGCMin"]'),'primerGCMin');
                 return false;
@@ -491,12 +499,20 @@
                 primer3.errorTip($('input[name="primerGCMax"]'),'primerGCMax');
                 return false;
             }
+            if(primerGCOpt>primerGCMax||primerGCOpt<primerGCMin){
+                primer3.errorTip($('input[name="primerGCOpt"]'),'opt需在min到max之间');
+                return false;
+            }
             if(primerTmMin<55){
                 primer3.errorTip($('input[name="primerTmMin"]'),'primerTmMin');
                 return false;
             }
             if(primerTmMax>80){
                 primer3.errorTip($('input[name="primerTmMax"]'),'primerTmMax');
+                return false;
+            }
+            if(primerTmOpt>primerTmMax||primerTmOpt<primerTmMin){
+                primer3.errorTip($('input[name="primerTmOpt"]'),'opt需在min到max之间');
                 return false;
             }
             return true;
@@ -573,32 +589,41 @@
                 return;
             }else{
                 var obj=primer3.checkProductSizeAndPrimer();
+                alert("obj: "+JSON.stringify(obj));
                 if(!obj){
                     return;
                 }
 
                 var primerSizeMin=$('input[name="primerSizeMin"]').val();
                 var primerSizeMax=$('input[name="primerSizeMax"]').val();
+                var primerSizeOpt=$('input[name="primerSizeOpt"]').val();
                 var primerGCMin=$('input[name="primerGCMin"]').val();
                 var primerGCMax=$('input[name="primerGCMax"]').val();
+                var primerGCOpt=$('input[name="primerGCOpt"]').val();
                 var primerTmMin=$('input[name="primerTmMin"]').val();
                 var primerTmMax=$('input[name="primerTmMax"]').val();
+                var primerTmOpt=$('input[name="primerTmOpt"]').val();
                 var data={
                     primerSizeMin:primerSizeMin==''?primer3.defaultValue.primerSizeMin:primerSizeMin,
                     primerSizeMax:primerSizeMax==''?primer3.defaultValue.primerSizeMax:primerSizeMax,
+                    primerSizeOpt:primerSizeOpt==''?primer3.defaultValue.primerSizeOpt:primerSizeOpt,
                     primerGCMin:primerGCMin==''?primer3.defaultValue.primerGCMin:primerGCMin,
                     primerGCMax:primerGCMax==''?primer3.defaultValue.primerGCMax:primerGCMax,
+                    primerGCOpt:primerGCOpt==''?primer3.defaultValue.primerGCOpt:primerGCOpt,
                     primerTmMin:primerTmMin==''?primer3.defaultValue.primerTmMin:primerTmMin,
                     primerTmMax:primerTmMax==''?primer3.defaultValue.primerTmMax:primerTmMax,
-                    productSizeMin:obj[productSizeMin],
-                    productSizeMax:obj[productSizeMax],
-                    primerFStart:obj[primerFStart],
-                    primerFLength:obj[primerFLength],
-                    primerRStart:obj[primerRStart],
-                    primerRLength:obj[primerRLength],
+                    primerTmOpt:primerTmOpt==''?primer3.defaultValue.primerTmOpt:primerTmOpt,
+                    productSizeMin:obj['productSizeMin'],
+                    productSizeMax:obj['productSizeMax'],
+                    /*primerFStart:obj['primerFStart'],
+                    primerFLength:obj['primerFLength'],
+                    primerRStart:obj['primerRStart'],
+                    primerRLength:obj['primerRLength'],*/
                     sequence:$('.sequence-block').val().toUpperCase(),
-                    seqLength:primer3.seqLength
+                    seqLength:primer3.seqLength,
+                    primerPairOKRegionList:obj['primerFStart']+','+obj['primerFLength']+','+obj['primerRStart']+','+obj['primerRLength'],
                 };
+                debugger
                 var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
                 promise.then(
                     function (result) {
