@@ -24,6 +24,7 @@
             height: 210px;
             overflow-y: auto;
             text-align: left;
+            word-break: break-all;
         }
         .upstream2k,.peptide,.gDNA{    width: 573px;
             word-break: break-all;
@@ -77,10 +78,10 @@
         }
         .refseq_i4{background: #ffb902;
         }
-        .upstream2k_bg{background: #abbac3;}
-        .cds_bg{background: #0099bb;}
-        .five_p{background: #f87481;}
-        .three_p{background:#ffb902;}
+        .upstream2k_bg{background: #abbac3;color:#fff;}
+        .cds_bg{background: #0099bb;color:#fff;}
+        .five_p{background: #f87481;color:#fff;}
+        .three_p{background:#ffb902;color:#fff;}
 
     </style>
 </head>
@@ -182,26 +183,49 @@
             }
             $("#copyPeptideConter").html(peptideHtml);
         }
-
-        //CDS
         var str = $(".gDNA").text();
         for (var i = 0; i < data.length; i++) {
-            if (data[i].feature == "CDS") {
-                var reg = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
-                var reg_CDS="<span class='CDS cds_bg'>"+reg+"</span>"
-                str = str.replace(reg, reg_CDS);
-            }
-            //three_prime_UTR
-            if (data[i].feature == "three_prime_UTR") {
-                var reg = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
-                var reg_three_prime_UTR = "<span class='three_prime_UTR three_p'>" + reg + "</span>"
-                str = str.replace(reg, reg_three_prime_UTR);
-            }
-            //five_prime_UTR
-            if (data[i].feature == "five_prime_UTR") {
-                var reg2 = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
-                var reg_five_prime_UTR = "<span class='five_prime_UTR five_p'>" + reg2 + "</span>"
-                str= str.replace(reg2, reg_five_prime_UTR);
+            //gDNA按倒序方式匹配字符串
+            if(data[i].strand == "-"){
+             var sumlength=$(".gDNA").text().length;
+                //CDS
+                if (data[i].feature == "CDS") {
+                    var reg = str.replace(/<.*?>/ig,"").substring(sumlength-data[i].start+1, sumlength-data[i].end);
+                    var reg_CDS="<span class='CDS cds_bg'>"+reg+"</span>"
+                    str = str.replace(reg, reg_CDS);
+                }
+                //three_prime_UTR
+                if (data[i].feature == "three_prime_UTR") {
+                    var reg = str.replace(/<.*?>/ig,"").substring(sumlength-data[i].start+1,sumlength- data[i].end);
+                    var reg_three_prime_UTR = "<span class='three_prime_UTR three_p'>" + reg + "</span>"
+                    str = str.replace(reg, reg_three_prime_UTR);
+                }
+                //five_prime_UTR
+                if (data[i].feature == "five_prime_UTR") {
+                    var reg2 = str.replace(/<.*?>/ig,"").substring(sumlength-data[i].start+1, sumlength-data[i].end);
+                    var reg_five_prime_UTR = "<span class='five_prime_UTR five_p'>" + reg2 + "</span>"
+                    str= str.replace(reg2, reg_five_prime_UTR);
+                }
+            }else {
+                //gDNA按正序方式匹配字符串
+                //CDS
+                if (data[i].feature == "CDS") {
+                    var reg = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
+                    var reg_CDS="<span class='CDS cds_bg'>"+reg+"</span>"
+                    str = str.replace(reg, reg_CDS);
+                }
+                //three_prime_UTR
+                if (data[i].feature == "three_prime_UTR") {
+                    var reg = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
+                    var reg_three_prime_UTR = "<span class='three_prime_UTR three_p'>" + reg + "</span>"
+                    str = str.replace(reg, reg_three_prime_UTR);
+                }
+                //five_prime_UTR
+                if (data[i].feature == "five_prime_UTR") {
+                    var reg2 = str.replace(/<.*?>/ig,"").substring(data[i].start-1, data[i].end);
+                    var reg_five_prime_UTR = "<span class='five_prime_UTR five_p'>" + reg2 + "</span>"
+                    str= str.replace(reg2, reg_five_prime_UTR);
+                }
             }
         }
         $(".gDNA").html(str)

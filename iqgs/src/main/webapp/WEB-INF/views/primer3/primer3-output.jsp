@@ -193,13 +193,16 @@
     }
     var primer3Out={
         sequence:'',
-        /*trBind:function(i) {
+        trBind:function(i) {
             // 这儿出现了一个新的scope
             return function(){
-                alert(JSON.stringify($('.data-primer3-'+i+'').data('primer3')));
+                /*alert(JSON.stringify($('.data-primer3-'+i+'').data('primer3')));*/
+                $('.data-primer3-'+i+'').addClass('tr-highlighted');
+                primer3Out.makeColorOnSeq($('.data-primer3-'+i+'').data('primer3'));
             };
-        },*/
+        },
         drawTableAndDesigned:function (primer3Map,param) {
+            primer3Out.sequence=param.sequence;
             for(var i in primer3Map){
                 var primer3F=primer3Map[i][0];
                 var primer3TrF= '<tr class="data-primer3-'+i+'">\n' +
@@ -234,21 +237,28 @@
                 $('.primer3-table tbody').append(primer3TrR);
                 console.log("group: "+i)
                 if(i==0){
-                    /*$('.primer3-designed-item-f>span').text(primer3F.sequence);
-                    $('.primer3-designed-item-r>span').text(primer3R.sequence);
-                    $('.primer3-designed-item-sequence-size>span').text(param.seqLength);
-                    $('.primer3-designed-item-lnclude-region>span').text(parseInt(primer3R.position)-parseInt(primer3F.position)+1);*/
-                    primer3Out.renderDesigned(param,primer3Map,i);
+                    primer3Out.renderDesigned(primer3Map[0]);
                 }
                 $('.data-primer3-'+i+'').data('primer3',primer3Map[i]);
                 $('.data-primer3-'+i+'').on('click',function () {
-                    alert(JSON.stringify($(this).data('primer3')))
+                    $('.primer3-link').removeClass('tr-color-white');
+                    primer3Out.makeColorOnSeq($(this).data('primer3'));
+                    $(this).siblings('tr').removeClass('tr-highlighted');  // 删除其他兄弟元素的样式
+                    $(this).addClass('tr-highlighted');
+
+                    if($(this).index()%2==0){
+                        $(this).find('.primer3-link').addClass('tr-color-white');
+                        $(this).next().addClass('tr-highlighted');
+                    }else {
+                        $(this).prev().find('.primer3-link').addClass('tr-color-white');
+                        $(this).prev().addClass('tr-highlighted');
+                    }
+                    primer3Out.renderDesigned($(this).data('primer3'));
                 });
             }
         },
         formatParam:function (param) {
             var paramStr='';
-            //paramStr+='Primer F:、 ';
             if(param){
                 if(param.primerSizeMin&&param.primerSizeMax){
                     paramStr+='Primer Size:'+param.primerSizeMin+'-'+param.primerSizeMax+'nt、';
@@ -288,7 +298,6 @@
                     '            </div><ul></ul>'
                 );
                 var line=Math.ceil(primer3Out.sequence.length/100);
-                console.log("line: "+line);
                 for(var i=0;i<line;i++){
                     var seqFragment=primer3Out.sequence.substring(i*100,(i+1)*100);
                     console.log("seqFragment: "+seqFragment);
@@ -305,28 +314,25 @@
 
             }
         },
-        makeColorOnSeq:function (primer3Map,primer3Index) {
-            if(!primer3Index){
-                primer3Index=0;
-            }
-            //将F涂上颜色
-            var posStartF=parseInt(primer3Map[primer3Index][0].position);
-            var posEndF=posStartF+primer3Map[primer3Index][0].sequence.length;
-
+        makeColorOnSeq:function (primer3Item) {
             var line=Math.ceil(primer3Out.sequence.length/100);
-            //debugger
+            //将F涂上颜色
+            var posStartF=parseInt(primer3Item[0].position);
+            var posEndF=posStartF+primer3Item[0].sequence.length;
             for(var i=0;i<line;i++){
                 if(posStartF<(i+1)*100&&posEndF<=(i+1)*100){//说明整个F在第X行
+                    $('.sequence-content>span').removeClass('seq-f-in-color');
                     var seqInLine=$($('.sequence-content')[i]).text();
-                    var seqInColor='<span style="background:#4572d9;color:#fff;">'+seqInLine.substring(posStartF-i*100-1,posEndF-i*100-1)+'</span>';
+                    var seqInColor='<span class="seq-f-in-color" >'+seqInLine.substring(posStartF-i*100-1,posEndF-i*100-1)+'</span>';
                     seqInLine=seqInLine.substring(0,posStartF-i*100-1)+seqInColor+seqInLine.substring(posEndF-i*100-1);
                     $($('.sequence-content')[i]).html(seqInLine);
                     break;
                 }else if(posStartF<(i+1)*100&&posEndF>=(i+1)*100){//说明一部分F在第X行，另一部分在第X+1行
+                    $('.sequence-content>span').removeClass('seq-f-in-color');
                     var seqInLine1=$($('.sequence-content')[i]).text();
                     var seqInLine2=$($('.sequence-content')[i+1]).text();
-                    var seqInColor1='<span style="background:#4572d9;color:#fff;">'+seqInLine1.substring(posStartF-i*100-1,(i+1)*100)+'</span>';
-                    var seqInColor2='<span style="background:#4572d9;color:#fff;">'+seqInLine2.substring(0,posEndF-(i+1)*100-1)+'</span>';
+                    var seqInColor1='<span class="seq-f-in-color" >'+seqInLine1.substring(posStartF-i*100-1,(i+1)*100)+'</span>';
+                    var seqInColor2='<span class="seq-f-in-color" >'+seqInLine2.substring(0,posEndF-(i+1)*100-1)+'</span>';
                     seqInLine1=seqInLine1.substring(0,posStartF-i*100-1)+seqInColor1;
                     seqInLine2=seqInColor2+seqInLine2.substring(posEndF-(i+1)*100-1);
                     $($('.sequence-content')[i]).html(seqInLine1);
@@ -334,23 +340,23 @@
                     break;
                 }
             }
-
-            //debugger
             //将R涂上颜色
-            var posStartR=parseInt(primer3Map[primer3Index][1].position)-primer3Map[primer3Index][1].sequence.length;
-            var posEndR=parseInt(primer3Map[primer3Index][1].position);
+            var posStartR=parseInt(primer3Item[1].position)-primer3Item[1].sequence.length;
+            var posEndR=parseInt(primer3Item[1].position);
             for(var i=0;i<line;i++){
                 if(posStartR<(i+1)*100&&posEndR<=(i+1)*100){//说明整个R在第X行
+                    $('.sequence-content>span').removeClass('seq-r-in-color');
                     var seqInLine=$($('.sequence-content')[i]).text();
-                    var seqInColor='<span style="background:#fa9632;color:#fff;">'+seqInLine.substring(posStartR-i*100,posEndR-i*100)+'</span>';
+                    var seqInColor='<span class="seq-r-in-color">'+seqInLine.substring(posStartR-i*100,posEndR-i*100)+'</span>';
                     seqInLine=seqInLine.substring(0,posStartR-i*100)+seqInColor+seqInLine.substring(posEndR-i*100);
                     $($('.sequence-content')[i]).html(seqInLine);
                     break;
                 }else if(posStartR<(i+1)*100&&posEndR>=(i+1)*100){//说明一部分R在第X行，另一部分在第X+1行
+                    $('.sequence-content>span').removeClass('seq-r-in-color');
                     var seqInLine1=$($('.sequence-content')[i]).text();
                     var seqInLine2=$($('.sequence-content')[i+1]).text();
-                    var seqInColor1='<span style="background:#fa9632;color:#fff;">'+seqInLine1.substring(posStartR-i*100,(i+1)*100)+'</span>';
-                    var seqInColor2='<span style="background:#fa9632;color:#fff;">'+seqInLine2.substring(0,posEndR-(i+1)*100)+'</span>';
+                    var seqInColor1='<span class="seq-r-in-color" >'+seqInLine1.substring(posStartR-i*100,(i+1)*100)+'</span>';
+                    var seqInColor2='<span class="seq-r-in-color" >'+seqInLine2.substring(0,posEndR-(i+1)*100)+'</span>';
                     seqInLine1=seqInLine1.substring(0,posStartR-i*100)+seqInColor1;
                     seqInLine2=seqInColor2+seqInLine2.substring(posEndR-(i+1)*100);
                     $($('.sequence-content')[i]).html(seqInLine1);
@@ -359,17 +365,16 @@
                 }
             }
         },
-        renderDesigned:function (param,primer3Map,primer3Index) {
-            var primer3F=primer3Map[primer3Index][0];
-            var primer3R=primer3Map[primer3Index][1];
+        renderDesigned:function (primer3Item) {
+            var primer3F=primer3Item[0];
+            var primer3R=primer3Item[1];
             $('.primer3-designed-item-f>span').text(primer3F.sequence);
             $('.primer3-designed-item-r>span').text(primer3R.sequence);
-            $('.primer3-designed-item-sequence-size>span').text(param.seqLength);
+            $('.primer3-designed-item-sequence-size>span').text(primer3Out.sequence.length);
             $('.primer3-designed-item-lnclude-region>span').text(parseInt(primer3R.position)-parseInt(primer3F.position)+1);
         },
         utils:{
             seqMarke:function(str,subStr,pos){
-                //debugger
                 var strBefore=str.substring(0,pos);
                 var strAfter=str.substring(pos,str.length);
                 var string=strBefore+subStr+strAfter;
@@ -407,7 +412,7 @@
             primer3Out.drawTableAndDesigned(primer3Map,param);
             primer3Out.formatParam(param);
             primer3Out.renderSequence(primer3Map,param);
-            primer3Out.makeColorOnSeq(primer3Map);
+            primer3Out.makeColorOnSeq(primer3Map[0]);
         }
     })
 
