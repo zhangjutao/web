@@ -74,7 +74,7 @@
 			padding: 0 15px;
 			background-color: #f5f8ff;
 			border-bottom: none;
-			border-right: none;
+			/*border-right: none;*/
 		}
 		#expression-table tbody td {
 			padding: 0 10px;
