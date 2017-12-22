@@ -196,7 +196,6 @@
         trBind:function(i) {
             // 这儿出现了一个新的scope
             return function(){
-                /*alert(JSON.stringify($('.data-primer3-'+i+'').data('primer3')));*/
                 $('.data-primer3-'+i+'').addClass('tr-highlighted');
                 primer3Out.makeColorOnSeq($('.data-primer3-'+i+'').data('primer3'));
             };

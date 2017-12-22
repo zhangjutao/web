@@ -357,7 +357,6 @@
                 if(length==0&&$('.sequence-block').val()!=''){
                     length=primer3.seqLength;
                 }
-                alert("length:" +length)
                 //检查并获取productSize的值
                 if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
                     var productSizeMin=parseInt(0.5*length);
@@ -589,7 +588,7 @@
                 return;
             }else{
                 var obj=primer3.checkProductSizeAndPrimer();
-                alert("obj: "+JSON.stringify(obj));
+
                 if(!obj){
                     return;
                 }
@@ -621,9 +620,9 @@
                     primerRLength:obj['primerRLength'],*/
                     sequence:$('.sequence-block').val().toUpperCase(),
                     seqLength:primer3.seqLength,
-                    primerPairOKRegionList:obj['primerFStart']+','+obj['primerFLength']+','+obj['primerRStart']+','+obj['primerRLength'],
+                    primerPairOKRegionList:obj['primerFStart']+','+obj['primerFLength']+','+obj['primerRStart']+','+obj['primerRLength'],/**/
                 };
-                debugger
+
                 var promise = primer3.utils.sendAjaxRequest("POST", ctxRoot+"/primer/getPrimer", data);
                 promise.then(
                     function (result) {
@@ -632,7 +631,8 @@
                         result=JSON.stringify(result);
                         localStorage.setItem('primer3List',result);
                         localStorage.setItem('param',JSON.stringify(data));
-
+                        $('.error-message').hide();
+                        $('.peimer3-input-item>input').removeClass('red-border');
                         window.open(ctxRoot+"/primer3out");
                     },
                     function (error) {
