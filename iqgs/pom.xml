@@ -68,7 +68,6 @@
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <warName>iqgs</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
         </plugins>
