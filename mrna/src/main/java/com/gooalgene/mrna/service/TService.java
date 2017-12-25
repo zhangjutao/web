@@ -29,6 +29,7 @@ public class TService {
     private MongoTemplate mongoTemplate;
 
     public GenResult generateData(String[] gens) {
+        logger.info("正在计算：" + gens[0] + "的FPKM值");
         GenResult genResult = new GenResult();
         try {
             //定义所有sum个数集合

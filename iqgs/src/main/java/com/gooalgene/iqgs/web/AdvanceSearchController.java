@@ -681,11 +681,16 @@ public class AdvanceSearchController {
             List<String> classifyAndItsChildren = classifyService.findClassifyAndItsChildren(childTissues[i]);
             totalClassify.addAll(classifyAndItsChildren);
         }
-        List<String> allSampleRun = studyService.querySampleRunByTissueForClassification(totalClassify);
+        List<String> allSampleRun = studyService.querySampleRunByTissueForClassification(totalClassify);  //从MySQL中查询所有的sampleRun
+        List<String> properGene = new ArrayList<>();
+        for (int i = 0; i < allSampleRun.size(); i++) {
+            List<String> allProperGene = classifyService.findAllAssociateGeneThroughSampleRun(allSampleRun.get(i));
+            properGene.addAll(allProperGene);
+        }
         PageInfo<String> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(pageNo);
         pageInfo.setPageSize(pageSize);
-        pageInfo.setList(allSampleRun);
+        pageInfo.setList(properGene);
         return pageInfo;
     }
 

@@ -327,11 +327,25 @@ public class ClassifyService {
      * @return 所有匹配的基因名
      */
     public List<String> findAllAssociateGeneThroughSampleRun(String sampleRun){
-        Criteria criteria = new Criteria("sampleRun.name");
+        List<String> result = new ArrayList<>();  //存放结果的集合
+        Criteria criteria = new Criteria("samplerun.name");
         criteria.is(sampleRun);
         Query query = new Query(criteria);
+        query.fields().include("gene");
         List<String> allGenes = new ArrayList<>();
-        mongoTemplate.executeQuery(query, "all_gens_fpkm", new DocumentCallbackHandlerImpl<String>("consequencetype", allGenes));
-        return allGenes;
+        mongoTemplate.executeQuery(query, "all_gens_fpkm", new DocumentCallbackHandlerImpl<String>("gene", allGenes));
+        logger.debug("sampleRun：" + sampleRun + " ,基因个数：" + allGenes.size());
+        String[] singleGene = new String[1];
+        for (int i = 0; i < allGenes.size(); i++) {
+            singleGene[0] = allGenes.get(i);
+            GenResult genResult = tService.generateData(singleGene);  //计算它的FPKM值
+            Double fpkmValue = genResult.getCate().get(0).getValues().get(0);
+            logger.info("当前基因名： " + singleGene[0] + " ,FPKM值为：" + fpkmValue);
+            if (fpkmValue > 30){
+                result.add(singleGene[0]);
+            }
+        }
+        allGenes = null;  //显式回收大的list集合
+        return result;
     }
 }
