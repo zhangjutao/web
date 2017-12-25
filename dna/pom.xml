@@ -80,7 +80,6 @@
                     <warSourceDirectory>src/main/webapp</warSourceDirectory>
                     <warName>dna</warName>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
-                    <attachClasses>true</attachClasses>
                 </configuration>
             </plugin>
             <!-- 将当前class文件打包，exclude resouces下面文件 -->
