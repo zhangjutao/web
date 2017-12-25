@@ -80,7 +80,7 @@ public class Primer3Controller {
     @RequestMapping(value = "/getPrimer", method = RequestMethod.POST)
     public Map<Integer,List<Primer>> getPrimer(String sequence, @RequestParam("primerPairOKRegionList") String primerPairOkRegionList, String primerSizeMin, String primerSizeOpt, String primerSizeMax, String primerTmMin, String primerTmOpt, String primerTmMax, String primerGCMin, String primerGCOpt, String primerGCMax, String productSizeMin, String productSizeMax) {
         String param1 = "PRIMER_TASK=generic&PRIMER_MASK_KMERLIST_PREFIX=&PRIMER_MASK_FAILURE_RATE=0.1&PRIMER_MASK_5P_DIRECTION=1&PRIMER_MASK_3P_DIRECTION=1&PRIMER_MISPRIMING_LIBRARY=NONE&";
-        if (primerPairOkRegionList != "") {
+        if (primerPairOkRegionList != null || primerPairOkRegionList!="") {
             primerPairOkRegionList = "SEQUENCE_PRIMER_PAIR_OK_REGION_LIST=" + primerPairOkRegionList + "&";
         } else {
             primerPairOkRegionList = "SEQUENCE_PRIMER_PAIR_OK_REGION_LIST=&";
