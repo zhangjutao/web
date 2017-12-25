@@ -45,3 +45,6 @@ tr[class*="data-primer3"]{cursor: pointer;}
 .seq-f-in-color{background:#4572d9;color:#fff;}
 .seq-r-in-color{background:#fa9632;color:#fff;}
 .primer3-table tbody tr.tr-highlighted{background: #5d8ce6;color: #fff;}
+.tr-color-white{color: #fff;}
+
+.error-img{background: url("../images/primer3/primer-error-img.png") no-repeat;height:236px;width:306px;margin: 70px auto 0 auto;}
