@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -23,9 +24,13 @@ public class StudyServiceTest extends TestCase {
 
     @Test
     public void testFindSampleRunByTissueForClassification(){
-        List<String> sampleRuns = studyDao.findSampleRunByTissueForClassification("Pod");
+        List<String> classificationList = new ArrayList<>();
+        classificationList.add("Pod");
+        List<String> sampleRuns = studyDao.findSampleRunByTissueForClassification(classificationList);
         assertEquals(18, sampleRuns.size());
-        List<String> samples = studyDao.findSampleRunByTissueForClassification("5th trifoliate leaf");
+        classificationList.remove("Pod");
+        classificationList.add("5th trifoliate leaf");
+        List<String> samples = studyDao.findSampleRunByTissueForClassification(classificationList);
         assertEquals(16, samples.size());
 
     }

@@ -500,6 +500,9 @@ VALUES (
     </select>
 
     <select id="findSampleRunByTissueForClassification" resultType="String">
-        SELECT * FROM study WHERE tissueForClassification = #{tissueForClassification}
+        SELECT sampleRun FROM study WHERE tissueForClassification IN
+        <foreach collection="tissueForClassification" item="item" open="(" close=")" separator=",">
+          #{item}
+        </foreach>
     </select>
 </mapper>

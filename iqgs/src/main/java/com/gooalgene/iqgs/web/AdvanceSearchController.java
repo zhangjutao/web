@@ -12,6 +12,8 @@ import com.gooalgene.iqgs.entity.condition.QTLCondition;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
+import com.gooalgene.mrna.service.ClassifyService;
+import com.gooalgene.mrna.service.StudyService;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -47,6 +50,9 @@ public class AdvanceSearchController {
     private TService tService;
 
     @Autowired
+    private StudyService studyService;
+
+    @Autowired
     private SearchService searchService;
 
     @Autowired
@@ -54,6 +60,9 @@ public class AdvanceSearchController {
 
     @Autowired
     private DNAGenBaseInfoService dnaGenBaseInfoService;
+
+    @Autowired
+    private ClassifyService classifyService;
 
     /**
      * @api {get} /advance-search/query-by-qtl-name 主页qtl search
@@ -661,13 +670,23 @@ public class AdvanceSearchController {
 
     @RequestMapping(value = "/gene-expression", method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<DNAGeneSearchResult> advanceSearchByGeneExpression(
+//    public ResultVO<DNAGeneSearchResult> advanceSearchByGeneExpression(
+    public PageInfo<String> advanceSearchByGeneExpression(
             @RequestParam(value = "childTissues[]") String[] childTissues,
-            HttpServletRequest request){
+            HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-
-        return null;
+        List<String> totalClassify = new ArrayList<>(); //所有分类总类
+        for (int i = 0; i < childTissues.length; i++) {
+            List<String> classifyAndItsChildren = classifyService.findClassifyAndItsChildren(childTissues[i]);
+            totalClassify.addAll(classifyAndItsChildren);
+        }
+        List<String> allSampleRun = studyService.querySampleRunByTissueForClassification(totalClassify);
+        PageInfo<String> pageInfo = new PageInfo<>();
+        pageInfo.setPageNum(pageNo);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setList(allSampleRun);
+        return pageInfo;
     }
 
     /**

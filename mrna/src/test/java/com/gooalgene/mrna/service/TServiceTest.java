@@ -56,7 +56,7 @@ public class TServiceTest extends TestCase {
 
     @Test
     public void testQueryClassifyByFather(){
-        List<String> result = tService.queryClassifyByFather("seed_All");
+        List<String> result = tService.queryClassifyByFather("seed coat");
         for (String r : result){
             System.out.println(r);
         }

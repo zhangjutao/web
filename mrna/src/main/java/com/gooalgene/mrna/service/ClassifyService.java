@@ -1,5 +1,6 @@
 package com.gooalgene.mrna.service;
 
+import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.mrna.entity.Classifys;
 import com.gooalgene.mrna.vo.GResultVo;
 import com.gooalgene.mrna.vo.GVo;
@@ -32,6 +33,9 @@ public class ClassifyService {
     private final static Logger logger = LoggerFactory.getLogger(ClassifyService.class);
     @Autowired
     private MongoTemplate mongoTemplate;
+
+    @Autowired
+    private TService tService;
 
     public boolean insert(Classifys classifys) {
         mongoTemplate.insert(classifys);
@@ -306,5 +310,28 @@ public class ClassifyService {
         allMap.put("count", countMap);
         allMap.put("value", valueMap);
         return allMap;
+    }
+
+    /**
+     * 查找某一个组织及其下面的小组织名字
+     * @param classify 组织名称
+     * @return 组织分类集合
+     */
+    public List<String> findClassifyAndItsChildren(String classify){
+        return tService.queryClassifyByFather(classify);
+    }
+
+    /**
+     * 在all_gens_fpkm集合中根据sampleRun.name查询gene属性
+     * @param sampleRun 集合元素的sampleRun.name字段
+     * @return 所有匹配的基因名
+     */
+    public List<String> findAllAssociateGeneThroughSampleRun(String sampleRun){
+        Criteria criteria = new Criteria("sampleRun.name");
+        criteria.is(sampleRun);
+        Query query = new Query(criteria);
+        List<String> allGenes = new ArrayList<>();
+        mongoTemplate.executeQuery(query, "all_gens_fpkm", new DocumentCallbackHandlerImpl<String>("consequencetype", allGenes));
+        return allGenes;
     }
 }

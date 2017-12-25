@@ -46,6 +46,10 @@ public class StudyService {
         return studyDao.findBySampleRun(run);
     }
 
+    public List<String> querySampleRunByTissueForClassification(List<String> tissueForClassification){
+        return studyDao.findSampleRunByTissueForClassification(tissueForClassification);
+    }
+
     /**
      * 后台管理查询Study分页处理
      *

@@ -37,4 +37,14 @@ public class ClassifyServiceTest extends TestCase {
         String chineseName = classifyTree.get(0).getChinese();
         assertEquals("豆荚", chineseName);
     }
+
+    /**
+     * 测试指定一个SampleRun，查询所有关联基因
+     */
+    @Test
+    public void testFindAllAssociateGeneThroughSampleRun(){
+        String sampleRunName = "SRR037383";
+        List<String> allAssociateGene = classifyService.findAllAssociateGeneThroughSampleRun(sampleRunName);
+        System.out.println(allAssociateGene.get(0));
+    }
 }
