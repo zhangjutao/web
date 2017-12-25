@@ -398,14 +398,14 @@
     }
 
     $(function () {
+        var param=localStorage.getItem('param');
+        param=JSON.parse(param);
         var primer3Map = localStorage.getItem("primer3List");
         if(primer3Map=='{}'){
-            $('.primer3-box').html('<div style="margin: 0 auto;text-align: center; padding: 30px 100px;">你输入的条件有误! (￣ε(#￣)</div>');
+            $('.primer3-box').html('<div style="margin: 0 auto;text-align: center; padding: 30px 100px;">您的搜索条件有误! (￣ε(#￣)</div>');
+            primer3Out.formatParam(param);
         }else {
-            var param=localStorage.getItem('param');
             primer3Map = JSON.parse(primer3Map);
-            param=JSON.parse(param);
-
             console.log(param);
             console.log(primer3Map);
             primer3Out.drawTableAndDesigned(primer3Map,param);

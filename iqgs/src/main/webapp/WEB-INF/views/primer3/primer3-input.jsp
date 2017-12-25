@@ -240,18 +240,14 @@
         changeLengthAndProductSize:function () {
             //clearTimeout(primer3.time);
             //primer3.time = setTimeout("primer3.changeLength()", 500);
+            /*$('input[name="productSizeMin"]').val('');
+            $('input[name="productSizeMax"]').val('');*/
             $('.sequence-block').removeClass('red-border');
             $('.sequence-block').parent().next().hide();
             primer3.changeLength();
-            /*if($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()==''
-                &&$('input[name="primerRStart"]').val()==''&&$('input[name="primerRLength"]').val()==''){
-                var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
-                if(length>200){
-                    $('input[name="productSizeMin"]').val(length-200);
-                }else {
-                    $('input[name="productSizeMin"]').val(0);
-                }
-                $('input[name="productSizeMax"]').val(length);
+            /*if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
+                $('input[name="productSizeMin"]').val(parseInt(primer3.seqLength*0.5));
+                $('input[name="productSizeMax"]').val(primer3.seqLength);
             }*/
         },
         changeLength: function () {
@@ -260,66 +256,6 @@
             primer3.seqLength=seqLength;
             $('.length-value').html(seqLength);
         },
-        /*checkProductSizeWhenSeqLt200:function () {
-            if(!primer3.checkPrimerFAndRAndProdSuctize()){
-                var length=parseInt($('.length-value').text());
-                if(length==0&&$('.sequence-block').val()!=''){
-                    length=primer3.seqLength;
-                }
-                //检查并获取primerFStart和primerFLength值
-                if($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()==''){
-                    var primerFStart=0;
-                    var primerFLength=parseInt(0.25*parseInt(length));
-                }else {
-                    var primerFStart=parseInt($('input[name="primerFStart"]').val());
-                    var primerFLength=parseInt($('input[name="primerFLength"]').val());
-                }
-                //检查并获取primerRStart和primerRLength值
-                if($('input[name="primerRStart"]').val()==''&&$('input[name="primerRLength"]').val()==''){
-                    var primerRStart=parseInt(3/4*length);
-                    var primerRLength=parseInt(0.25*parseInt(length));
-                }else {
-                    var primerRStart=parseInt($('input[name="primerRStart"]').val());
-                    var primerRLength=parseInt($('input[name="primerRLength"]').val());
-                }
-                if(primerFStart+primerFLength>primerRStart){
-                    primer3.errorTip($('input[name="primerFStart"]'),'Primer F的Start加Length必须小于等于Primer R的Start');
-                    return false;
-                }
-                if(primerRStart+primerRLength>length){
-                    primer3.errorTip($('input[name="primerRStart"]'),'Primer R的Start加Length必须小于等于序列的长度');
-                    return false;
-                }
-                if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
-                    var productSizeMin=parseInt(0.5*length);
-                    var productSizeMax=length;
-                }else {
-                    var productSizeMin=parseInt($('input[name="productSizeMin"]').val());
-                    var productSizeMax=parseInt($('input[name="productSizeMax"]').val());
-                }
-                if(productSizeMax>length){
-                    primer3.errorTip($('input[name="productSizeMax"]'),'Product Size必须小于序列的长度');
-                    return false;
-                }else {
-                    if((productSizeMin<=primerRStart-(primerFStart+primerFLength)&&productSizeMax>=primerRStart+primerRLength-primerFStart)||
-                        (productSizeMin<=primerRStart-(primerFStart+primerFLength)&&productSizeMax>=(2*primerRStart-2*primerFStart-primerFLength+primerRLength))||
-                        (productSizeMin<=(2*primerRStart-2*primerFStart-primerFLength+primerRLength)&&productSizeMax>primerRStart+primerRLength-primerFStart)||
-                        (productSizeMin>primerRStart-primerFStart-primerFLength&&productSizeMax<primerRStart+primerRLength-primerFStart&&max)){
-
-                    }
-                }
-            }
-            return false;
-        },*/
-        /*checkProductSizeWhenSeqGe200:function () {
-            if(!primer3.checkPrimerFAndRAndProdSuctize()){
-                if($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()==''){
-                    var primerFStart=0;
-                    var primerFLength=
-                }
-            }
-            return false;
-        },*/
         checkPrimerFAndRAndProdSuctizeInput:function () {
             if(($('input[name="primerFStart"]').val()!=''&&$('input[name="primerFLength"]').val()=='')||
                 ($('input[name="primerFStart"]').val()==''&&$('input[name="primerFLength"]').val()!='')){
@@ -419,35 +355,6 @@
                 }
 
             }
-
-            /*var productSizeMin=$('.primer3-input  .product-size>input[name="productSizeMin"]').val();
-            var productSizeMax=$('.primer3-input  .product-size>input[name="productSizeMax"]').val();
-            if(productSizeMin==''){
-                if(length>200){
-                    productSizeMin=parseInt(length)-200;
-                }
-                productSizeMin=0;
-            }else {
-                productSizeMin=parseInt(productSizeMin);
-                if(productSizeMin<length-200){
-                    //primer3.errorTip(null,'productSizeMin');
-                    return false;
-                }
-            }
-            if(productSizeMax==''){
-                productSizeMax=parseInt(length);
-            }else {
-                productSizeMax=parseInt(productSizeMax);
-                if(productSizeMax>length){
-                    //primer3.errorTip(null,'productSizeMax');
-                    return false;
-                }
-            }
-            if(productSizeMin>=productSizeMax){
-                //primer3.errorTip(null,'errorScope');
-                return false;
-            }
-            return [productSizeMin,productSizeMax];*/
         },
         errorTip:function (ele,errorMessage) {
             $('.error-message').hide();
@@ -568,16 +475,15 @@
             $('input[name="primerTmOpt"]').val(primer3.defaultValue.primerTmOpt);
             var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
             if(length>0){
-                $('input[name="productSizeMin"]').val(length-200);
+                $('input[name="productSizeMin"]').val(parseInt(length*0.5));
                 $('input[name="productSizeMax"]').val(length);
-                if(length>100){
-                    $('input[name="primerRStart"]').val(length-100);
-                    $('input[name="primerRLength"]').val(100);
-                }
             }
-            $('input[name="primerFStart"]').val(0);
-            $('input[name="primerFLength"]').val(100);
+            $('input[name="primerRStart"]').val('');
+            $('input[name="primerRLength"]').val('');
+            $('input[name="primerFStart"]').val('');
+            $('input[name="primerFLength"]').val('');
         });
+
 
         $('.primer3-submit-btn').on('click', function () {
             if(!primer3.checkPrimer3()){
