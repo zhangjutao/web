@@ -166,31 +166,6 @@
 
 <script>
     var ctxRoot = '${ctxroot}';
-    var templet = {
-        primer3TrF: '<tr>\n' +
-            '<td>Primer F</td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td class="primer3-link" rowspan="2"><a href="www.baidu.com">可跳转的网址地址</a></td>\n' +
-            '</tr>\n',
-        primer3trR:'<tr>\n' +
-            '<td>Primer R</td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '</tr>'
-    }
     var primer3Out={
         sequence:'',
         trBind:function(i) {
@@ -217,9 +192,6 @@
                     '<td class="primer3-link" rowspan="2">可跳转的网址地址</td>\n' +
                     '</tr>\n';
                 $('.primer3-table tbody').append(primer3TrF);
-                $('.primer3-link').on('click',function () {
-                    window.location="http://"+primer3F.link;
-                });
 
                 var primer3R=primer3Map[i][1];
                 var primer3TrR='<tr class="data-primer3-'+i+'">\n' +
@@ -402,7 +374,7 @@
         param=JSON.parse(param);
         var primer3Map = localStorage.getItem("primer3List");
         if(primer3Map=='{}'){
-            $('.primer3-box').html('<div style="margin: 0 auto;text-align: center; padding: 30px 100px;">您的搜索条件有误! (￣ε(#￣)</div>');
+            $('.primer3-box').html('<div class="error-img"></div> <div style="margin: 0 auto;text-align: center;padding: 30px 0 110px 0;font-size: 20px;color: #5a5a5a;">您的搜索条件有误，无引物信息。</div>');
             primer3Out.formatParam(param);
         }else {
             primer3Map = JSON.parse(primer3Map);
@@ -412,6 +384,10 @@
             primer3Out.formatParam(param);
             primer3Out.renderSequence(primer3Map,param);
             primer3Out.makeColorOnSeq(primer3Map[0]);
+            $('.primer3-link').on('click',function () {
+                //window.location="http://"+primer3F.link;
+                window.open("http://"+$(this).parent().data('primer3')[0]['link']);
+            });
         }
     })
 

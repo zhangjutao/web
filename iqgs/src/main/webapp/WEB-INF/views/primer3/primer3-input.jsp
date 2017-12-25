@@ -79,39 +79,39 @@
                     <div class="peimer3-input-item primer-size">
                         <div class="peimer3-input-item-title input-item-common">Primer Size(nt)</div>
                         <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerSizeMin" value="18"/>
+                        <input type="number" class="input-content input-item-common" name="primerSizeMin" value="18" placeholder="18"/>
                         <div class="input-item-common">-</div>
                         <div class="input-opt input-item-common">Opt</div>
-                        <input type="number" class="input-content input-item-common" name="primerSizeOpt" value="20"/>
+                        <input type="number" class="input-content input-item-common" name="primerSizeOpt" value="20" placeholder="20"/>
                         <div class="input-item-common">-</div>
                         <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerSizeMax" value="23"/>
+                        <input type="number" class="input-content input-item-common" name="primerSizeMax" value="23" placeholder="23"/>
                         <div class="clear-fix"></div>
                     </div>
                     <div class="error-message"></div>
                     <div class="peimer3-input-item primer-GC">
                         <div class="peimer3-input-item-title input-item-common">Primer GC(%)</div>
                         <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerGCMin" value="30.0"/>
+                        <input type="number" class="input-content input-item-common" name="primerGCMin" value="30.0" placeholder="30.0"/>
                         <div class="input-item-common">-</div>
                         <div class="input-opt input-item-common">Opt</div>
-                        <input type="number" class="input-content input-item-common" name="primerGCOpt" value="50.0"/>
+                        <input type="number" class="input-content input-item-common" name="primerGCOpt" value="50.0" placeholder="50.0"/>
                         <div class="input-item-common">-</div>
                         <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerGCMax" value="70.0"/>
+                        <input type="number" class="input-content input-item-common" name="primerGCMax" value="70.0" placeholder="70.0"/>
                         <div class="clear-fix"></div>
                     </div>
                     <div class="error-message"></div>
                     <div class="peimer3-input-item primer-Tm"><%--Primer3 Tm--%>
                         <div class="peimer3-input-item-title input-item-common">Primer Tm(℃)</div>
                         <div class="input-min input-item-common">Min</div>
-                        <input type="number" class="input-content input-item-common" name="primerTmMin" value="57.0"/>
+                        <input type="number" class="input-content input-item-common" name="primerTmMin" value="57.0" placeholder="57.0"/>
                         <div class="input-item-common">-</div>
                         <div class="input-opt input-item-common">Opt</div>
-                        <input type="number" class="input-content input-item-common" name="primerTmOpt" value="59.0"/>
+                        <input type="number" class="input-content input-item-common" name="primerTmOpt" value="59.0" placeholder="59.0"/>
                         <div class="input-item-common">-</div>
                         <div class="input-max input-item-common">Max</div>
-                        <input type="number" class="input-content input-item-common" name="primerTmMax" value="62.0"/>
+                        <input type="number" class="input-content input-item-common" name="primerTmMax" value="62.0" placeholder="62.0"/>
                         <div class="clear-fix"></div>
                     </div>
                     <div class="error-message"></div>
@@ -305,6 +305,7 @@
                     primer3.errorTip($('input[name="productSizeMax"]'),'Product Size必须小于序列的长度');
                     return false;
                 }else {
+                    debugger
                     if(productSizeMin<2*parseInt($('input[name="primerSizeMin"]').val())){
                         primer3.errorTip($('input[name="productSizeMin"]'),'Product Size必须大于等于2倍Primer Size Min长度');
                         return false;
@@ -390,7 +391,7 @@
                 return false;
             }
             if(primerSizeMax>30){
-                primer3.errorTip($('input[name="primerSizeMax"]'),'primerSize的Max必须小于等于15');
+                primer3.errorTip($('input[name="primerSizeMax"]'),'primerSize的Max必须小于等于30');
                 return false;
             }
             if(primerSizeOpt>primerSizeMax||primerSizeOpt<primerSizeMin){
@@ -464,6 +465,8 @@
 
         //重置用户输入
         $('.reset-btn').click(function () {
+            $('.error-message').hide();
+            $('.peimer3-input-item>input').removeClass('red-border');
             $('.primer3-input  .primer-size>input[name="primerSizeMin"]').val(primer3.defaultValue.primerSizeMin);
             $('.primer3-input  .primer-size>input[name="primerSizeMax"]').val(primer3.defaultValue.primerSizeMax);
             $('input[name="primerSizeOpt"]').val(primer3.defaultValue.primerSizeOpt);
@@ -524,7 +527,7 @@
                     primerFLength:obj['primerFLength'],
                     primerRStart:obj['primerRStart'],
                     primerRLength:obj['primerRLength'],*/
-                    sequence:$('.sequence-block').val().toUpperCase(),
+                    sequence:$('.sequence-block').val().replace(/[\r\n]/g, "").toUpperCase(),
                     seqLength:primer3.seqLength,
                     primerPairOKRegionList:obj['primerFStart']+','+obj['primerFLength']+','+obj['primerRStart']+','+obj['primerRLength'],/**/
                 };
