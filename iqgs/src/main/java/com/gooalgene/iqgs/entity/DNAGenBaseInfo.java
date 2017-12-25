@@ -1,11 +1,12 @@
 package com.gooalgene.iqgs.entity;
 
 import com.gooalgene.common.BaseEntity;
+import com.gooalgene.common.Page;
 
 /**
  * Created by sauldong on 2017/10/12.
  */
-public class DNAGenBaseInfo extends BaseEntity<DNAGenBaseInfo> {
+public class DNAGenBaseInfo{
     private String geneId;
     private String geneOldId;
     private String geneName;
@@ -17,6 +18,15 @@ public class DNAGenBaseInfo extends BaseEntity<DNAGenBaseInfo> {
     private String description;
 	// 用于基因家族查询
 	private String familyId;
+    protected Page<DNAGenBaseInfo> page;
+
+    public Page<DNAGenBaseInfo> getPage() {
+        return page;
+    }
+
+    public void setPage(Page<DNAGenBaseInfo> page) {
+        this.page = page;
+    }
 
     public String getGeneId() {
         return geneId;
@@ -98,13 +108,4 @@ public class DNAGenBaseInfo extends BaseEntity<DNAGenBaseInfo> {
         this.geneOldId = geneOldId;
     }
 
-    @Override
-    public void preInsert() {
-
-    }
-
-    @Override
-    public void preUpdate() {
-
-    }
 }
