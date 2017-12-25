@@ -10,6 +10,12 @@ import java.util.List;
  * @author crabime
  */
 public class TraitCategoryWithinMultipleTraitList {
+
+    /**
+     * 组织类型ID(主键)
+     */
+    private Integer traitCategoryId;
+
     /**
      * qtl分类名
      */
@@ -29,6 +35,14 @@ public class TraitCategoryWithinMultipleTraitList {
      * 改trait category对应的trait_list集合
      */
     private List<TraitList> traitLists;
+
+    public Integer getTraitCategoryId() {
+        return traitCategoryId;
+    }
+
+    public void setTraitCategoryId(Integer traitCategoryId) {
+        this.traitCategoryId = traitCategoryId;
+    }
 
     public String getQtlName() {
         return qtlName;

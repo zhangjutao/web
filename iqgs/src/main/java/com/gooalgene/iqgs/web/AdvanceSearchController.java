@@ -417,11 +417,13 @@ public class AdvanceSearchController {
      * @apiSuccessExample Success-Response:
      * [
      * {
+     * "traitCategoryId": 23,
      * "qtlName": null,
      * "qtlDesc": "无机物耐性",
      * "qtlOthername": null,
      * "traitLists": [
      * {
+     * "traitListId": 112,
      * "qtlId": 23,
      * "traitName": "Aluminum Tolerance",
      * "qtls": [
@@ -432,38 +434,6 @@ public class AdvanceSearchController {
      * "createTime": null,
      * "updateDate": null,
      * "qtlName": "Al tolerance 1-2",
-     * "trait": null,
-     * "type": null,
-     * "chrlgId": null,
-     * "chr": null,
-     * "lg": null,
-     * "marker1": null,
-     * "marker2": null,
-     * "marker": null,
-     * "associatedGenesId": null,
-     * "version": null,
-     * "method": null,
-     * "genomeStart": null,
-     * "genomeStartType": null,
-     * "genomeEnd": null,
-     * "genomeEndType": null,
-     * "lod": null,
-     * "lodType": null,
-     * "parent1": null,
-     * "parent2": null,
-     * "parent": null,
-     * "ref": null,
-     * "author": null,
-     * "keywords": null,
-     * "createtime": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Al tolerance 1-3",
      * "trait": null,
      * "type": null,
      * "chrlgId": null,

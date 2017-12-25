@@ -3,9 +3,10 @@
 <mapper namespace="com.gooalgene.qtl.dao.TraitCategoryDao">
     
     <resultMap id="traitCategoryResultMap" type="com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList">
-        <id column="id" jdbcType="INTEGER" javaType="int" />
+        <id property="traitCategoryId" column="traitCategoryId" jdbcType="INTEGER" javaType="int" />
         <result property="qtlDesc" column="qtl_desc" javaType="String" jdbcType="VARCHAR"/>
         <collection property="traitLists" column="qtl_id" ofType="com.gooalgene.qtl.views.TraitListWithinMultipleQtlName">
+            <result property="traitListId" column="traitListId" javaType="int" />
             <result property="qtlId" column="qtl_id" javaType="int" jdbcType="INTEGER" />
             <result property="traitName" column="trait_name" javaType="String" jdbcType="VARCHAR" />
             <collection property="qtls" column="trait" ofType="com.gooalgene.entity.Qtl">
@@ -51,7 +52,7 @@
     </select>
 
     <select id="findAllTraitCategoryAndItsTraitList" resultMap="traitCategoryResultMap">
-        SELECT a.id,a.qtl_desc, b.qtl_id, b.trait_name, c.qtl_name
+        SELECT a.id as traitCategoryId, a.qtl_desc, b.id as traitListId, b.qtl_id, b.trait_name, c.qtl_name
         FROM trait_category a
           LEFT JOIN trait_list b
         ON a.id = b.qtl_id

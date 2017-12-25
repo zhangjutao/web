@@ -10,11 +10,25 @@ import java.util.List;
  * @author crabime
  */
 public class TraitListWithinMultipleQtlName {
+
+    /**
+     * 小组织ID(主键)
+     */
+    private Integer traitListId;
+
     private Integer qtlId;
 
     private String traitName;
 
     private List<Qtl> qtls;
+
+    public Integer getTraitListId() {
+        return traitListId;
+    }
+
+    public void setTraitListId(Integer traitListId) {
+        this.traitListId = traitListId;
+    }
 
     public Integer getQtlId() {
         return qtlId;
