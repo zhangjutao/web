@@ -374,7 +374,5 @@ public class ClassifyService {
                 }
             }
         }
-        allGenes = null;  //显式回收大的list集合
-        return result;
     }
 }
