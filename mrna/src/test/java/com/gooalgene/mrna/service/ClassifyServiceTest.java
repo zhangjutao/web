@@ -44,7 +44,17 @@ public class ClassifyServiceTest extends TestCase {
     @Test
     public void testFindAllAssociateGeneThroughSampleRun(){
         String sampleRunName = "SRR037383";
-        List<String> allAssociateGene = classifyService.findAllAssociateGeneThroughSampleRun(sampleRunName);
+        List<String> allAssociateGene = null;
+        try {
+            allAssociateGene = classifyService.findAllAssociateGeneThroughSampleRun(sampleRunName);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         System.out.println(allAssociateGene.get(0));
+        try {
+            Thread.sleep(30*1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 }

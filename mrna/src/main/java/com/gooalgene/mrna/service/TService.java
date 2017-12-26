@@ -28,7 +28,7 @@ public class TService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
-    public GenResult generateData(String[] gens) {
+    public synchronized GenResult generateData(String[] gens) {
         logger.info("正在计算：" + gens[0] + "的FPKM值");
         GenResult genResult = new GenResult();
         try {
