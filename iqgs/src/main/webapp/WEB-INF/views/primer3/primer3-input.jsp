@@ -200,6 +200,7 @@
 <script>
     var ctxRoot = '${ctxroot}';
     var primer3 = {
+        isFirefox:navigator.userAgent.toUpperCase().indexOf("FIREFOX")==-1?false:true,
         seqLength:0,
         errorMessageMap:{
             primerSizeMin:"Primer size不能低于15",
@@ -454,6 +455,15 @@
     };
 
     $(function () {
+        if(primer3.isFirefox){
+            $('input[name="primerRStart"]').val('');
+            $('input[name="primerRLength"]').val('');
+            $('input[name="primerFStart"]').val('');
+            $('input[name="primerFLength"]').val('');
+            $('.sequence-block').val('');
+            $('input[name="productSizeMin"]').val('');
+            $('input[name="productSizeMax"]').val('');
+        }
         $('.product-size>.input-min').css({'width':parseInt($('.primer-r>.input-min').css('width'))+'px'});
         $('.product-size>.input-max').css({'width':parseInt($('.primer-r>.input-max').css('width'))+'px'});
 
@@ -550,6 +560,8 @@
             }
         });
     });
+
+
 
 </script>
 </body>

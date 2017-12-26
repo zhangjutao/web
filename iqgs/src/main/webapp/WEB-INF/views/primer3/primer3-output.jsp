@@ -43,7 +43,7 @@
                 <div class="blue-result">结果</div>
                 <%--<img src="${ctxroot}/static/images/primer3/resultIcon2.png" style="vertical-align:text-bottom"/>--%>
                 <div class="result-title-icon2"></div>
-                <div class="primer3-conditions">搜索条件：<span></span></div>
+                <div class="primer3-conditions">搜索条件 : <span></span></div>
             </div>
             <div class="clear-fix"></div>
         </div>
