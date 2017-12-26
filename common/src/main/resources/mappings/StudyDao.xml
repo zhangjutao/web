@@ -499,6 +499,10 @@ VALUES (
         SELECT DISTINCT sampleRun FROM study
     </select>
 
+    <select id="findAllSampleRun" resultType="com.gooalgene.entity.Study">
+        SELECT id, sampleRun FROM study;
+    </select>
+
     <select id="findSampleRunByTissueForClassification" resultType="String">
         SELECT sampleRun FROM study WHERE tissueForClassification IN
         <foreach collection="tissueForClassification" item="item" open="(" close=")" separator=",">

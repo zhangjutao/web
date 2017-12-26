@@ -381,9 +381,6 @@ public class ClassifyService {
                 GenResult genResult = tService.generateData(singleGene);  //计算它的FPKM值
                 Double fpkmValue = genResult.getCate().get(0).getValues().get(0);
                 logger.info(this.getName() + ": 当前基因名： " + singleGene[0] + " ,FPKM值为：" + fpkmValue);
-                if (fpkmValue > 30){
-                    eligibilities.add(singleGene[0]);
-                }
             }
         }
 
