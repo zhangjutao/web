@@ -245,10 +245,10 @@
             $('.sequence-block').removeClass('red-border');
             $('.sequence-block').parent().next().hide();
             primer3.changeLength();
-            /*if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
+            if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
                 $('input[name="productSizeMin"]').val(parseInt(primer3.seqLength*0.5));
                 $('input[name="productSizeMax"]').val(primer3.seqLength);
-            }*/
+            }
         },
         changeLength: function () {
             var val = $('.sequence-block').val();
@@ -477,10 +477,8 @@
             $('.primer3-input  .primer-Tm>input[name="primerTmMax"]').val(primer3.defaultValue.primerTmMax);
             $('input[name="primerTmOpt"]').val(primer3.defaultValue.primerTmOpt);
             var length=$('.sequence-block').val().replace(/[\r\n]/g, "").length;
-            if(length>0){
-                $('input[name="productSizeMin"]').val(parseInt(length*0.5));
-                $('input[name="productSizeMax"]').val(length);
-            }
+            $('input[name="productSizeMin"]').val(parseInt(length*0.5));
+            $('input[name="productSizeMax"]').val(length);
             $('input[name="primerRStart"]').val('');
             $('input[name="primerRLength"]').val('');
             $('input[name="primerFStart"]').val('');
