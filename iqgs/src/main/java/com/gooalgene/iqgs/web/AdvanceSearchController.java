@@ -6,10 +6,12 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.RegularityNode;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.QTLCondition;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.iqgs.service.RegularityNetworkService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
 import com.gooalgene.mrna.service.ClassifyService;
@@ -63,6 +65,9 @@ public class AdvanceSearchController {
 
     @Autowired
     private ClassifyService classifyService;
+
+    @Autowired
+    private RegularityNetworkService regularityNetworkService;
 
     /**
      * @api {get} /advance-search/query-by-qtl-name 主页qtl search
@@ -149,18 +154,6 @@ public class AdvanceSearchController {
      * @apidescription 该方法在用户点击高级搜索时发起请求，所有的下拉组织、对应小组织都是动态的
      * @apiSuccessExample Success-Response:
      * [
-     * {
-     * "id": "59898cfc1d78c746c0df80cf",
-     * "name": "pod_All",
-     * "chinese": "豆荚",
-     * "children": [
-     * {
-     * "name": "pod",
-     * "chinese": "",
-     * "children": []
-     * }
-     * ]
-     * },
      * {
      * "id": "59898cfc1d78c746c0df80d0",
      * "name": "seed_All",
@@ -750,5 +743,30 @@ public class AdvanceSearchController {
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     public Page<DNAGenBaseInfo> advanceSearch(GeneExpressionCondition geneExpression, String snpParams, String indelParams, QTLCondition qtlParams) {
         return null;
+    }
+
+    /**
+     * @api {post} /advance-search/confirm 调空网络数据接口
+     * @apiName fetchAllRegularityNetworkGenes
+     * @apiGroup Search
+     * @apiParam {String} geneId 当前基因ID
+     * @apisamplerequest http://localhost:8080/iqgs/advance-search/fetch-network-genes
+     * @apidescription 调控网络数据接口,完整数据参见build/regularityNetwork.json文件
+     * @apiSuccessExample Success-Response:
+     * [
+     * {
+     * "source": "Glyma.04G131800",
+     * "target": "Glyma.11G109400"
+     * },
+     * {
+     * "source": "Glyma.04G131800",
+     * "target": "Glyma.12G015900"
+     * }
+     * ]
+     */
+    @RequestMapping(value = "/fetch-network-genes", method = RequestMethod.GET)
+    @ResponseBody
+    public List<RegularityNode> fetchAllRegularityNetworkGenes(@RequestParam("geneId") String geneId) {
+        return regularityNetworkService.findRelateGene(geneId);
     }
 }
