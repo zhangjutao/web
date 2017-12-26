@@ -306,7 +306,6 @@
                     primer3.errorTip($('input[name="productSizeMax"]'),'Product Size必须小于序列的长度');
                     return false;
                 }else {
-                    debugger
                     if(productSizeMin<2*parseInt($('input[name="primerSizeMin"]').val())){
                         primer3.errorTip($('input[name="productSizeMin"]'),'Product Size必须大于等于2倍Primer Size Min长度');
                         return false;
@@ -325,7 +324,7 @@
                         return false;
                     }
                     if(primerFStart+primerFLength>length){
-                        primer3.errorTip($('input[name="primerFLength"]'),'Primer F的Start加Primer F的Length必须大于小于序列的长度');
+                        primer3.errorTip($('input[name="primerFLength"]'),'Primer F的Start加Primer F的Length必须小于等于序列的长度');
                         return false;
                     }
                 }
@@ -341,7 +340,7 @@
                         return false;
                     }
                     if(primerRStart+primerRLength>length){
-                        primer3.errorTip($('input[name="primerRLength"]'),'Primer R的Start加Primer R的Length必须大于小于序列的长度');
+                        primer3.errorTip($('input[name="primerRLength"]'),'Primer R的Start加Primer R的Length必须小于等于序列的长度');
                         return false;
                     }
                 }

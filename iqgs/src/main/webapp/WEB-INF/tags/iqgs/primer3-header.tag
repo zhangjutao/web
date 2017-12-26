@@ -18,7 +18,7 @@
         <div class="logo">
             <a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
             <%--<a href="${ctxroot}/iqgs/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">Integrated Database</a>--%>
-            <a class="qtl-data" style="font-size: 24px;color: #666;padding-left: 20px;">Primer design</a>
+            <a href="${ctxroot}/primer3" class="qtl-data primer-index" style="font-size: 24px;color: #666;padding-left: 20px;cursor: pointer;">Primer design</a>
         </div>
         <div class="login-out">
             <c:choose>
@@ -59,4 +59,5 @@
             </c:choose>
         </div>
     </div>
+
 </header>

@@ -381,6 +381,10 @@
             console.log(param);
             console.log(primer3Map);
             primer3Out.drawTableAndDesigned(primer3Map,param);
+
+            $('.data-primer3-0').addClass('tr-highlighted');
+            $('.data-primer3-0 .primer3-link').addClass('tr-color-white');
+
             primer3Out.formatParam(param);
             primer3Out.renderSequence(primer3Map,param);
             primer3Out.makeColorOnSeq(primer3Map[0]);
