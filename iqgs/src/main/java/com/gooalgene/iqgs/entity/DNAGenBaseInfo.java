@@ -1,5 +1,8 @@
 package com.gooalgene.iqgs.entity;
 
+import com.gooalgene.common.BaseEntity;
+import com.gooalgene.common.Page;
+
 /**
  * Created by sauldong on 2017/10/12.
  */
@@ -16,6 +19,7 @@ public class DNAGenBaseInfo {
 	// 用于基因家族查询
 	private String familyId;
 	private Integer id;
+    protected Page<DNAGenBaseInfo> page;
 
     public Integer getId() {
         return id;
@@ -23,6 +27,14 @@ public class DNAGenBaseInfo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Page<DNAGenBaseInfo> getPage() {
+        return page;
+    }
+
+    public void setPage(Page<DNAGenBaseInfo> page) {
+        this.page = page;
     }
 
     public String getGeneId() {
