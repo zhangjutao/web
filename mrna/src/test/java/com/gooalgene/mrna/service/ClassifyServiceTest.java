@@ -51,10 +51,5 @@ public class ClassifyServiceTest extends TestCase {
             e.printStackTrace();
         }
         System.out.println(allAssociateGene.get(0));
-        try {
-            Thread.sleep(30*1000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 }

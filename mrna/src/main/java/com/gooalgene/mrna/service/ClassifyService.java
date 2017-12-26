@@ -11,6 +11,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
@@ -39,7 +42,9 @@ public class ClassifyService {
     @Autowired
     private TService tService;
 
-    private final static int TOTAL = 50; //线程总个数
+    private final static int TOTAL = 1000; //线程总个数
+
+    private final static String ALL_GENE_FPKM = "all_gens_fpkm";
 
     private CopyOnWriteArrayList<String> eligibilities = new CopyOnWriteArrayList<>();  //符合条件基因存放位置
 
@@ -333,19 +338,18 @@ public class ClassifyService {
      * @return 所有匹配的基因名
      */
     public List<String> findAllAssociateGeneThroughSampleRun(String sampleRun) throws InterruptedException {
-        List<String> result = new ArrayList<>();  //存放结果的集合
         Criteria criteria = new Criteria("samplerun.name");
         criteria.is(sampleRun);
         Query query = new Query(criteria);
         query.fields().include("gene");
-        query.limit(100);
-        List<String> allGenes = new ArrayList<>();
-        mongoTemplate.executeQuery(query, "all_gens_fpkm", new DocumentCallbackHandlerImpl<String>("gene", allGenes));
-        logger.debug("sampleRun：" + sampleRun + " ,基因个数：" + allGenes.size());
-        int singleThreadNum = allGenes.size() / 50;  //当个线程分配到的基因总数
+        long currentGeneTotal = mongoTemplate.count(query, ALL_GENE_FPKM);
+        int singlePageNum = (int) (currentGeneTotal / TOTAL + 1);
+        logger.info("当前基因总量为：" + currentGeneTotal);
         CaculateFPKMThread caculateThreads[] = new CaculateFPKMThread[TOTAL];
         for (int i = 0; i < TOTAL; i++){
-            caculateThreads[i] = new CaculateFPKMThread("线程" + i, allGenes.subList(i, singleThreadNum*(i+1)));
+            Pageable singleThreadPage = new PageRequest(i, singlePageNum);  //注意：这里使用的是mongodb pageable对象
+            query.with(singleThreadPage);
+            caculateThreads[i] = new CaculateFPKMThread(query, "线程" + i);
             caculateThreads[i].start();
             caculateThreads[i].join();
         }
@@ -354,18 +358,28 @@ public class ClassifyService {
 
     private class CaculateFPKMThread extends Thread{
         private final String name;
-        private final List<String> genes;  //每个线程分配的基因总数
-        public CaculateFPKMThread(String name, List<String> genes) {
+        private Query query;
+
+        /**
+         * 用于查询并计算每一个GENE的FPKM值线程
+         * @param query Spring data mongodb查询对象
+         * @param name 线程名字
+         */
+        public CaculateFPKMThread(Query query, String name) {
+            this.query = query;
             this.name = name;
-            Assert.notEmpty(genes, "线程" + this.name + "分配的基因总数不合理");
-            this.genes = genes;
         }
 
         @Override
         public void run() {
+            List<String> geneResult = execute();
+            if (geneResult.size() == 0){
+                logger.warn(this.name + "查询返回的基因总数为0");
+                return;
+            }
             String[] singleGene = new String[1];
-            for (int i = 0; i < this.genes.size(); i++) {
-                singleGene[0] = this.genes.get(i);
+            for (int i = 0; i < geneResult.size(); i++) {
+                singleGene[0] = geneResult.get(i);
                 GenResult genResult = tService.generateData(singleGene);  //计算它的FPKM值
                 Double fpkmValue = genResult.getCate().get(0).getValues().get(0);
                 logger.info(this.getName() + ": 当前基因名： " + singleGene[0] + " ,FPKM值为：" + fpkmValue);
@@ -373,6 +387,15 @@ public class ClassifyService {
                     eligibilities.add(singleGene[0]);
                 }
             }
+        }
+
+        /**
+         * 执行MongoDB查询
+         */
+        private List<String> execute(){
+            List<String> searchGeneResult = new ArrayList<>();
+            mongoTemplate.executeQuery(this.query, ALL_GENE_FPKM, new DocumentCallbackHandlerImpl<String>("gene", searchGeneResult));
+            return searchGeneResult;
         }
     }
 }
