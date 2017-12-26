@@ -18,11 +18,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.mongodb.core.query.Update;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by ShiYun on 2017/7/31 0031.
@@ -36,6 +38,8 @@ public class ClassifyService {
 
     @Autowired
     private TService tService;
+
+    private CopyOnWriteArrayList<String> eligibilities = new CopyOnWriteArrayList<>();  //符合条件基因存放位置
 
     public boolean insert(Classifys classifys) {
         mongoTemplate.insert(classifys);
@@ -335,17 +339,34 @@ public class ClassifyService {
         List<String> allGenes = new ArrayList<>();
         mongoTemplate.executeQuery(query, "all_gens_fpkm", new DocumentCallbackHandlerImpl<String>("gene", allGenes));
         logger.debug("sampleRun：" + sampleRun + " ,基因个数：" + allGenes.size());
-        String[] singleGene = new String[1];
-        for (int i = 0; i < allGenes.size(); i++) {
-            singleGene[0] = allGenes.get(i);
-            GenResult genResult = tService.generateData(singleGene);  //计算它的FPKM值
-            Double fpkmValue = genResult.getCate().get(0).getValues().get(0);
-            logger.info("当前基因名： " + singleGene[0] + " ,FPKM值为：" + fpkmValue);
-            if (fpkmValue > 30){
-                result.add(singleGene[0]);
+        int singleThreadNum = allGenes.size() / 50;  //当个线程分配到的基因总数
+        for (int i = 0; i < 50; i++){
+            new CaculateFPKMThread("线程" + i, allGenes.subList(i, singleThreadNum*(i+1))).start();
+        }
+        return eligibilities;
+    }
+
+    private class CaculateFPKMThread extends Thread{
+        private final String name;
+        private final List<String> genes;  //每个线程分配的基因总数
+        public CaculateFPKMThread(String name, List<String> genes) {
+            this.name = name;
+            Assert.notEmpty(genes, "线程" + this.name + "分配的基因总数不合理");
+            this.genes = genes;
+        }
+
+        @Override
+        public void run() {
+            String[] singleGene = new String[1];
+            for (int i = 0; i < this.genes.size(); i++) {
+                singleGene[0] = this.genes.get(i);
+                GenResult genResult = tService.generateData(singleGene);  //计算它的FPKM值
+                Double fpkmValue = genResult.getCate().get(0).getValues().get(0);
+                logger.info(this.getName() + ": 当前基因名： " + singleGene[0] + " ,FPKM值为：" + fpkmValue);
+                if (fpkmValue > 30){
+                    eligibilities.add(singleGene[0]);
+                }
             }
         }
-        allGenes = null;  //显式回收大的list集合
-        return result;
     }
 }
