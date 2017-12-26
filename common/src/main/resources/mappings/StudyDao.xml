@@ -496,7 +496,7 @@ VALUES (
     </select>
 
     <select id="findSampleruns" resultType="string">
-        SELECT sampleRun FROM study
+        SELECT DISTINCT sampleRun FROM study
     </select>
 
     <select id="findSampleRunByTissueForClassification" resultType="String">
