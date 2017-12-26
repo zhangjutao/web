@@ -48,5 +48,7 @@ public interface StudyDao extends CrudDao<Study> {
 
     List<String> findSampleruns();
 
+    List<Study> findAllSampleRun();
+
     List<String> findSampleRunByTissueForClassification(@Param("tissueForClassification") List<String> tissueForClassification);
 }
