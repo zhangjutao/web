@@ -673,7 +673,7 @@ public class AdvanceSearchController {
 //    public ResultVO<DNAGeneSearchResult> advanceSearchByGeneExpression(
     public PageInfo<String> advanceSearchByGeneExpression(
             @RequestParam(value = "childTissues[]") String[] childTissues,
-            HttpServletRequest request) {
+            HttpServletRequest request) throws InterruptedException {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         List<String> totalClassify = new ArrayList<>(); //所有分类总类
