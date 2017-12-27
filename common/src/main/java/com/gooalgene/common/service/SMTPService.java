@@ -17,6 +17,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import java.io.*;
+import java.security.Security;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,14 +49,19 @@ public class SMTPService {
      */
     public void send(String from, List<String> receivers, String subject, String sendMessage, boolean debug) throws MessagingException, UnsupportedEncodingException {
         Assert.isTrue(receivers != null && receivers.size() > 0, "邮件接收者为空");
+        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         Address[] addresses = new InternetAddress[receivers.size()];
         Properties properties = new Properties();
         if (debug){
             properties.setProperty("mail.debug", String.valueOf(debug));
         }
         properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
         properties.setProperty("mail.host", "smtp.exmail.qq.com");
         properties.setProperty("mail.transport.protocol", "smtp");
+        properties.setProperty("mail.smtp.port", "465");
+        properties.setProperty("mail.smtp.socketFactory.port", "465");
         properties.setProperty("mail.mime.charset", "UTF-8");
 
         Session session = Session.getInstance(properties);
@@ -86,14 +92,19 @@ public class SMTPService {
 
     public void send(String from, List<String> receivers, String subject, File template, boolean debug, String[] filePlaceHolder) throws MessagingException, IOException {
         Assert.isTrue(receivers != null && receivers.size() > 0, "邮件接收者为空");
+        Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
+        final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
         Address[] addresses = new InternetAddress[receivers.size()];
         Properties properties = new Properties();
         if (debug){
             properties.setProperty("mail.debug", String.valueOf(debug));
         }
         properties.setProperty("mail.smtp.auth", "true");
+        properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
         properties.setProperty("mail.host", "smtp.exmail.qq.com");
         properties.setProperty("mail.transport.protocol", "smtp");
+        properties.setProperty("mail.smtp.port", "465");
+        properties.setProperty("mail.smtp.socketFactory.port", "465");
         properties.setProperty("mail.mime.charset", "UTF-8");
 
         Session session = Session.getInstance(properties);
