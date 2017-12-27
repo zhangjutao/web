@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextHierarchy(@ContextConfiguration(locations = "classpath:spring-context.xml"))
+@ContextHierarchy(@ContextConfiguration(locations = "classpath:spring-context-test.xml"))
 public class SMTPMailTest extends TestCase {
 
     @Autowired
@@ -31,11 +31,11 @@ public class SMTPMailTest extends TestCase {
 
     @Test
     public void testSMTPTemplate() throws IOException, MessagingException {
-        Resource resource = new ClassPathResource("template.html");
+        Resource resource = new ClassPathResource("verifyPassword.html");
         File file = resource.getFile();
         List<String> list = new ArrayList<>();
         list.add("crabime@gmail.com");
-        smtpService.send("songsx@gooalgene.com", list, "使用文件模板发送邮件", file, true, new String[]{});
+        smtpService.send("gajy@gooalgene.com", list, "使用文件模板发送邮件", file, true, new String[]{});
     }
 
     @Test
