@@ -424,7 +424,15 @@
             }
             return true;
         },
-
+        checkSeq:function (seq) {
+            var seqs=seq.split('');
+            for(var i=0;i<seqs.length;i++){
+                if(seqs[i]!='A'&&seqs[i]!='T'&&seqs[i].toUpperCase()!='C'&&seqs[i]!='G'&&seqs[i]!='N'){
+                    return false;
+                }
+            }
+            return true;
+        },
         time: '',
         utils: {
             sendAjaxRequest:function (method, url,data) {
@@ -503,6 +511,11 @@
                 primer3.errorTip($('.sequence-block'),"未输入序列");
                 return;
             }else{
+                if(!primer3.checkSeq($('.sequence-block').val().replace(/[\r\n]/g, "").toUpperCase())){
+
+                    primer3.errorTip($('.sequence-block'),"序列错误");
+                    return;
+                }
                 var obj=primer3.checkProductSizeAndPrimer();
 
                 if(!obj){
