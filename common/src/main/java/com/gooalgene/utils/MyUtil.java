@@ -799,12 +799,6 @@ public class MyUtil {
 
 	/**
 	 * 判断某个数据是否在已知的List中存在的方法 存在则返回true否则返回faluse
-	 *
-	 * @param List
-	 *            已知的List集合
-	 * @param Strng
-	 *            已知的字符串
-	 * @return boolean true/false
 	 */
 
 	public static boolean theDateIsInThelist(List thelist, String thestring) {

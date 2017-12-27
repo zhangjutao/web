@@ -34,10 +34,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * DNAGenBaseInfoCtroller相关方法测试
@@ -198,9 +195,32 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
             /*System.out.println(expressionVo.getSamplerun().getValue());
             System.out.println(expressionVo.toString());*/
         }
-
-
     }
 
+    @Test
+    public void testCheckGeneExists(){
+        String geneId = "Glyma.28G267800";  //不存在情况
+        Integer result = dnaGenBaseInfoDao.checkGeneExists(geneId);
+        assertNull(result);
+        geneId = "Glyma.08G267800";
+        result = dnaGenBaseInfoDao.checkGeneExists(geneId);
+        assertEquals(21973, result.intValue());
+        geneId = "Glyma08G36030";
+        result = dnaGenBaseInfoDao.checkGeneExists(geneId);
+        assertEquals(21973, result.intValue());
+    }
 
+    @Test
+    public void testCheckGeneExistsInQtlList(){
+        int id = 21972;
+        List<Integer> qtlList = new ArrayList<>();
+        qtlList.add(1);
+        qtlList.add(2052);
+        qtlList.add(2312);
+        boolean exists = dnaGenBaseInfoDao.checkGeneExistsInQtlList(id, qtlList);
+        assertTrue(exists);
+        qtlList.remove(0);
+        exists = dnaGenBaseInfoDao.checkGeneExistsInQtlList(id, qtlList);
+        assertFalse(exists);
+    }
 }

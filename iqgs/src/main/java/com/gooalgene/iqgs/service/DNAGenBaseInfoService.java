@@ -286,4 +286,20 @@ public class DNAGenBaseInfoService {
     public String findSequenceByTranscriptId(String transcriptId) {
         return dnaGenBaseInfoDao.findSequenceByTranscriptId(transcriptId);
     }
+
+    /**
+     * 检查该基因是否位于筛选的QTL列表中
+     * @param geneId 基因ID
+     * @param qtlList 高级搜索中选中的QTL列表，这里是QTL ID的集合
+     * @return 如果存在其中某一种QTL则返回true，否则返回false
+     */
+    public boolean checkGeneHasQTL(String geneId, List<Integer> qtlList){
+        boolean result = false;
+        Integer genePrimaryKey = dnaGenBaseInfoDao.checkGeneExists(geneId);  //检查该基因是否存在，拿到基因ID
+        if (genePrimaryKey == null || qtlList == null || qtlList.size() == 0){
+            return result;
+        }
+        result = dnaGenBaseInfoDao.checkGeneExistsInQtlList(genePrimaryKey, qtlList);
+        return result;
+    }
 }

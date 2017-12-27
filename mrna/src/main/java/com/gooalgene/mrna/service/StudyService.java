@@ -46,7 +46,7 @@ public class StudyService {
         return studyDao.findBySampleRun(run);
     }
 
-    public List<String> querySampleRunByTissueForClassification(List<String> tissueForClassification){
+    public List<Study> querySampleRunByTissueForClassification(List<String> tissueForClassification){
         return studyDao.findSampleRunByTissueForClassification(tissueForClassification);
     }
 

@@ -16,8 +16,21 @@ public class CommonUtil {
     private static final String CNUMBER_PATTERN = "^[0-9]*$";// 判断数字的正则表达式
 
 
-    private static SimpleDateFormat bartDateFormat = new SimpleDateFormat(
-            "yyyy-MM-dd");
+    private static SimpleDateFormat bartDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+    /**
+     * 根据GeneID以及染色体类型，判断位于哪个染色体上
+     * @param geneId 基因ID,如：Glyma.17G187600
+     * @param type 染色体类型:{@value com.gooalgene.common.constant.CommonConstant#SNP},
+     *                      {@value com.gooalgene.common.constant.CommonConstant#INDEL}
+     * @return 该基因所在的染色体
+     */
+    public static String getChromosomeByGene(String geneId, String type){
+        int i = geneId.indexOf(".") + 1;
+        String chr = "Chr" + geneId.substring(i, i + 2);
+        String collectionName = type + "_" + chr;
+        return collectionName;
+    }
 
     public static int getYear(Date date) {
         try {

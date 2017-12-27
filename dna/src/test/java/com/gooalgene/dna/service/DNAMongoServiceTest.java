@@ -1,6 +1,7 @@
 package com.gooalgene.dna.service;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
 import junit.framework.TestCase;
@@ -82,5 +83,14 @@ public class DNAMongoServiceTest extends TestCase {
     public void testGetAllConsequenceTypeByGeneId(){
         Set<String> result = dnaMongoService.getAllConsequenceTypeByGeneId("Glyma.10G000100", "SNP");
         assertTrue(result.contains("exonic_nonsynonymous SNV"));
+    }
+
+    @Test
+    public void testCheckGeneConsequenceType(){
+        String geneId = "Glyma.01G000100";
+        String[] consequenceTypes = new String[3];
+        consequenceTypes[0] = "intergenic";
+        boolean result = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, consequenceTypes);
+        assertTrue(result);
     }
 }
