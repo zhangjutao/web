@@ -205,7 +205,7 @@ public class DNAGenBaseInfoService {
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFamilyId(String familyId, Page<DNAGenBaseInfo> page) {
         DNAGenBaseInfo dnaGenBaseInfo = new DNAGenBaseInfo();
         dnaGenBaseInfo.setFamilyId(familyId);
-//        dnaGenBaseInfo.setPage(page);
+        dnaGenBaseInfo.setPage(page);
         return dnaGenBaseInfoDao.findBaseInfoByFamilyId(dnaGenBaseInfo);
     }
 
