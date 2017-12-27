@@ -549,7 +549,13 @@
                         localStorage.setItem('param',JSON.stringify(data));
                         $('.error-message').hide();
                         $('.peimer3-input-item>input').removeClass('red-border');
-                        window.open(ctxRoot+"/primer3out");
+                        //window.open(ctxRoot+"/primer3out");
+                        var form = document.createElement('form');
+                        form.action = ctxRoot+"/primer3out";
+                        form.target = '_blank';
+                        form.method = 'GET';
+                        document.body.appendChild(form);
+                        form.submit();
                     },
                     function (error) {
                         console.log(error);
