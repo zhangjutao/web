@@ -1,7 +1,7 @@
 package com.gooalgene.iqgs;
 
 import com.gooalgene.iqgs.dao.RegularityNetworkDao;
-import com.gooalgene.iqgs.entity.RegularityNode;
+import com.gooalgene.iqgs.entity.RegularityLink;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -21,9 +21,9 @@ public class RegularityNetworkDaoTest extends TestCase {
     @Test
     public void testFindRelateGene(){
         String geneId = "Glyma.04G131800";
-        List<RegularityNode> relateGenes = regularityNetworkDao.findRelateGene(geneId, 1);
+        List<RegularityLink> relateGenes = regularityNetworkDao.findRelateGene(geneId, 1);
         assertEquals(100, relateGenes.size());
-        List<RegularityNode> relateGeneWithSecondHierarchy = regularityNetworkDao.findRelateGene(geneId, 2);
+        List<RegularityLink> relateGeneWithSecondHierarchy = regularityNetworkDao.findRelateGene(geneId, 2);
         assertEquals(10, relateGeneWithSecondHierarchy.size());
     }
 }

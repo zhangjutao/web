@@ -1,29 +1,38 @@
 package com.gooalgene.iqgs.entity;
 
+/**
+ * 调控网络nodes，由GeneID、Hierarchy组成
+ * @author crabime
+ */
 public class RegularityNode {
     /**
-     * 原始基因
+     * 基因ID
      */
-    private String source;
+    private String geneId;
 
     /**
-     * 指向基因
+     * node所处的层级
      */
-    private String target;
+    private int hierarchy;
 
-    public String getSource() {
-        return source;
+    public RegularityNode(String geneId, int hierarchy) {
+        this.geneId = geneId;
+        this.hierarchy = hierarchy;
     }
 
-    public void setSource(String source) {
-        this.source = source;
+    public String getGeneId() {
+        return geneId;
     }
 
-    public String getTarget() {
-        return target;
+    public void setGeneId(String geneId) {
+        this.geneId = geneId;
     }
 
-    public void setTarget(String target) {
-        this.target = target;
+    public int getHierarchy() {
+        return hierarchy;
+    }
+
+    public void setHierarchy(int hierarchy) {
+        this.hierarchy = hierarchy;
     }
 }

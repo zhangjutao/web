@@ -10,10 +10,12 @@ import com.gooalgene.entity.Qtl;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.GeneFPKM;
+import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.QTLCondition;
+import com.gooalgene.iqgs.entity.condition.RegularityResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.RegularityNetworkService;
@@ -34,10 +36,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 /**
  * 高级搜索相关接口层
@@ -699,29 +698,29 @@ public class AdvanceSearchController {
         }
         //对找到符合FPKM值要求的所有基因进行SNP筛选
         Iterator<GeneFPKM> iterator = properGene.iterator();
-        while (iterator.hasNext()){
+        while (iterator.hasNext()) {
             String geneId = iterator.next().getGeneId();
             // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
             boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, snpConsequenceType);
-            if (!geneExists){
+            if (!geneExists) {
                 iterator.remove();
             }
         }
         Iterator<GeneFPKM> indelIterator = properGene.iterator();
-        while (indelIterator.hasNext()){
+        while (indelIterator.hasNext()) {
             String geneId = indelIterator.next().getGeneId();
             // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
             boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.INDEL, indelConsequenceType);
-            if (!geneExists){
+            if (!geneExists) {
                 indelIterator.remove();
             }
         }
         // 最后筛选符合QTL条件的所有基因，判断该基因是否有QTL
         Iterator<GeneFPKM> qtlIterator = properGene.iterator();
-        while (qtlIterator.hasNext()){
+        while (qtlIterator.hasNext()) {
             String geneId = indelIterator.next().getGeneId();
             boolean insideQtl = dnaGenBaseInfoService.checkGeneHasQTL(geneId, Arrays.asList(qtlId));  //该基因是否位于该QTL集合中
-            if (!insideQtl){
+            if (!insideQtl) {
                 qtlIterator.remove();
             }
         }
@@ -791,14 +790,15 @@ public class AdvanceSearchController {
     }
 
     /**
-     * @api {post} /advance-search/confirm 调空网络数据接口
+     * @api {get} /advance-search/confirm 调控网络数据接口
      * @apiName fetchAllRegularityNetworkGenes
      * @apiGroup Search
      * @apiParam {String} geneId 当前基因ID
-     * @apisamplerequest http://localhost:8080/iqgs/advance-search/fetch-network-genes
-     * @apidescription 调控网络数据接口,完整数据参见build/regularityNetwork.json文件
+     * @apisamplerequest http://localhost:8081/iqgs/advance-search/fetch-network-genes?geneId=Glyma.04G131800
+     * @apidescription 调控网络数据接口, 完整数据参见build/regularityNetwork.json文件
      * @apiSuccessExample Success-Response:
-     * [
+     * {
+     * "links": [
      * {
      * "source": "Glyma.04G131800",
      * "target": "Glyma.11G109400"
@@ -807,11 +807,25 @@ public class AdvanceSearchController {
      * "source": "Glyma.04G131800",
      * "target": "Glyma.12G015900"
      * }
+     * ],
+     * "nodes": [
+     * {
+     * "geneId": "Glyma.04G131800",
+     * "hierarchy": 0
+     * },
+     * {
+     * "geneId": "Glyma.11G109400",
+     * "hierarchy": 1
+     * }
      * ]
+     * }
      */
     @RequestMapping(value = "/fetch-network-genes", method = RequestMethod.GET)
     @ResponseBody
-    public List<RegularityNode> fetchAllRegularityNetworkGenes(@RequestParam("geneId") String geneId) {
-        return regularityNetworkService.findRelateGene(geneId);
+    public RegularityResult fetchAllRegularityNetworkGenes(@RequestParam("geneId") String geneId) {
+        List<RegularityLink> links = regularityNetworkService.findRelateGene(geneId);  //拿到所有links
+        List<RegularityNode> nodes = regularityNetworkService.getAllDistinctGeneId(links, geneId);//拿到所有nodes
+        RegularityResult result = new RegularityResult(links, nodes);
+        return result;
     }
 }
