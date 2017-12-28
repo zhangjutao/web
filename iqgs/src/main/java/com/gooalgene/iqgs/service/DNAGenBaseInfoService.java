@@ -6,13 +6,16 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.service.DNAMongoService;
 import com.gooalgene.entity.Associatedgenes;
+import com.gooalgene.entity.MrnaGens;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
+import com.gooalgene.mrna.service.MrnaGensService;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.mrna.vo.GResultVo;
 import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
+import com.google.common.base.Optional;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
@@ -34,6 +37,9 @@ public class DNAGenBaseInfoService {
 
     @Autowired
     private AssociatedgenesDao associatedgenesDao;
+
+    @Autowired
+    private MrnaGensService mrnaGensService;
 
     @Autowired
     private TService tService;
@@ -65,12 +71,16 @@ public class DNAGenBaseInfoService {
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (DNAGenBaseInfo gene : result){
+            dnaGeneSearchResult = new DNAGeneSearchResult();
             int id = gene.getId(); //拿到基因查询结果，根据ID查询与之关联的SNP_NAME
             List<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
             String geneId = gene.getGeneId();
+            MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
+            MrnaGens optional = Optional.<MrnaGens>fromNullable(mrnaGene).or(new MrnaGens());
+            dnaGeneSearchResult.setGeneName(optional.getGeneName());
+            dnaGeneSearchResult.setFunction(optional.getFunctions());
             Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
             List<String> rootTissues = getFPKMLargerThanThirty(geneId); //获取所有FPKM大于30的root组织
-            dnaGeneSearchResult = new DNAGeneSearchResult();
             dnaGeneSearchResult.setRootTissues(rootTissues); //将根组织设值到搜索结果中
             BeanUtils.copyProperties(gene, dnaGeneSearchResult); //将从MySQL中查询到的数据全部拷贝到返回值结果bean上
             dnaGeneSearchResult.setAssociateQTLs(associatedQTLs); //将查询出来的AssociateQTL关联到搜索结果上

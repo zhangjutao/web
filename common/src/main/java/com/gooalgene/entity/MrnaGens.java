@@ -12,6 +12,14 @@ public class MrnaGens extends DataEntity<MrnaGens> {
 
     private String keywords;//当all查询时才存在
 
+    public MrnaGens() {
+    }
+
+    public MrnaGens(String geneName, String functions) {
+        this.geneName = geneName;
+        this.functions = functions;
+    }
+
     public String getGene() {
         return gene;
     }
