@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.*;
 
@@ -87,7 +88,7 @@ public class DNAGenBaseInfoService {
      * @param geneId 基因ID
      * @return 大于30的组织集合
      */
-    private List<String> getFPKMLargerThanThirty(String geneId){
+    public List<String> getFPKMLargerThanThirty(String geneId){
         List<String> rootTissues = new ArrayList<>();
         String[] genes = new String[]{ geneId };
         GenResult genResult = tService.generateData(genes);
@@ -100,6 +101,11 @@ public class DNAGenBaseInfoService {
             }
         }
         return rootTissues;
+    }
+
+    public List<Associatedgenes> findAllQTLNamesByGeneId(String geneId){
+        Assert.notNull(geneId, "传入的geneId为空");
+        return dnaGenBaseInfoDao.findAllAssociatedQTLByGeneId(geneId);
     }
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFunc(String func, Page<DNAGenBaseInfo> page) {
@@ -285,5 +291,21 @@ public class DNAGenBaseInfoService {
 
     public String findSequenceByTranscriptId(String transcriptId) {
         return dnaGenBaseInfoDao.findSequenceByTranscriptId(transcriptId);
+    }
+
+    /**
+     * 检查该基因是否位于筛选的QTL列表中
+     * @param geneId 基因ID
+     * @param qtlList 高级搜索中选中的QTL列表，这里是QTL ID的集合
+     * @return 如果存在其中某一种QTL则返回true，否则返回false
+     */
+    public boolean checkGeneHasQTL(String geneId, List<Integer> qtlList){
+        boolean result = false;
+        Integer genePrimaryKey = dnaGenBaseInfoDao.checkGeneExists(geneId);  //检查该基因是否存在，拿到基因ID
+        if (genePrimaryKey == null || qtlList == null || qtlList.size() == 0){
+            return result;
+        }
+        result = dnaGenBaseInfoDao.checkGeneExistsInQtlList(genePrimaryKey, qtlList);
+        return result;
     }
 }

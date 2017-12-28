@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.common.dao.MrnaGensDao">
+
+    <select id="findMRNAGeneByGeneId" resultType="com.gooalgene.entity.MrnaGens">
+        SELECT a.* FROM mrna_gens a
+            LEFT JOIN gens_baseinfo b ON a.gene = b.gene_id
+        <where>
+            <if test="geneId!=null">
+                b.gene_id LIKE CONCAT('%', #{geneId}, '%') OR b.gene_id_old LIKE CONCAT('%', #{geneId}, '%')
+            </if>
+        </where>
+    </select>
     <select id="findMrnaGensList" resultType="com.gooalgene.entity.MrnaGens">
         SELECT id,gene,geneName,functions FROM mrna_gens
         WHERE 1=1

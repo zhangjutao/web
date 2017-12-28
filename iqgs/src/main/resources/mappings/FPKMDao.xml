@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.iqgs.dao.FPKMDao">
+    <select id="findProperGeneUnderSampleRun" resultType="com.gooalgene.iqgs.entity.GeneFPKM">
+      SELECT gene_id, fpkm AS fpkmValue FROM fpkm WHERE samplerun_id = #{0} AND fpkm BETWEEN #{1} AND #{2}
+    </select>
+</mapper>

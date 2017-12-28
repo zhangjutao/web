@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.iqgs.dao.RegularityNetworkDao">
+    <select id="findRelateGene" resultType="com.gooalgene.iqgs.entity.RegularityLink">
+      SELECT gene_a AS source, gene_b AS target FROM gene_regularity_network WHERE gene_a = #{geneId}
+        <choose>
+            <when test="hierarchy==1">
+                ORDER BY lls DESC LIMIT 100
+            </when>
+            <when test="hierarchy==2">
+                ORDER BY lls DESC LIMIT 10
+            </when>
+        </choose>
+    </select>
+
+    <select id="findReverseRelateGene" resultType="com.gooalgene.iqgs.entity.RegularityLink">
+        SELECT gene_b AS source, gene_a AS target FROM gene_regularity_network WHERE gene_b = #{geneId}
+        <choose>
+            <when test="hierarchy==1">
+                ORDER BY lls DESC LIMIT 100
+            </when>
+            <when test="hierarchy==2">
+                ORDER BY lls DESC LIMIT 10
+            </when>
+        </choose>
+    </select>
+</mapper>

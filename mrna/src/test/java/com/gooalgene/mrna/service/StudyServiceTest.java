@@ -1,6 +1,7 @@
 package com.gooalgene.mrna.service;
 
 import com.gooalgene.common.dao.StudyDao;
+import com.gooalgene.entity.Study;
 import junit.framework.TestCase;
 import net.sf.json.JSONArray;
 import org.junit.Test;
@@ -26,11 +27,11 @@ public class StudyServiceTest extends TestCase {
     public void testFindSampleRunByTissueForClassification(){
         List<String> classificationList = new ArrayList<>();
         classificationList.add("Pod");
-        List<String> sampleRuns = studyDao.findSampleRunByTissueForClassification(classificationList);
+        List<Study> sampleRuns = studyDao.findSampleRunByTissueForClassification(classificationList);
         assertEquals(18, sampleRuns.size());
         classificationList.remove("Pod");
         classificationList.add("5th trifoliate leaf");
-        List<String> samples = studyDao.findSampleRunByTissueForClassification(classificationList);
+        List<Study> samples = studyDao.findSampleRunByTissueForClassification(classificationList);
         assertEquals(16, samples.size());
 
     }

@@ -3,22 +3,36 @@ package com.gooalgene.iqgs.web;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.service.DNAMongoService;
+import com.gooalgene.entity.Associatedgenes;
+import com.gooalgene.entity.MrnaGens;
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.GeneFPKM;
+import com.gooalgene.iqgs.entity.RegularityLink;
+import com.gooalgene.iqgs.entity.RegularityNode;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.QTLCondition;
+import com.gooalgene.iqgs.entity.condition.RegularityResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.iqgs.service.FPKMService;
+import com.gooalgene.iqgs.service.RegularityNetworkService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
 import com.gooalgene.mrna.service.ClassifyService;
+import com.gooalgene.mrna.service.MrnaGensService;
 import com.gooalgene.mrna.service.StudyService;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -27,10 +41,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
+
+import static com.gooalgene.common.constant.CommonConstant.EXONIC_NONSYNONYMOUSE;
 
 /**
  * 高级搜索相关接口层
@@ -42,6 +55,8 @@ import java.util.List;
 @Controller
 @RequestMapping("/advance-search")
 public class AdvanceSearchController {
+
+    private final static Logger logger = LoggerFactory.getLogger(AdvanceSearchController.class);
 
     @Autowired
     private QtlService qtlService;
@@ -56,6 +71,9 @@ public class AdvanceSearchController {
     private SearchService searchService;
 
     @Autowired
+    private FPKMService fpkmService;
+
+    @Autowired
     private TraitCategoryService traitCategoryService;
 
     @Autowired
@@ -63,6 +81,15 @@ public class AdvanceSearchController {
 
     @Autowired
     private ClassifyService classifyService;
+
+    @Autowired
+    private RegularityNetworkService regularityNetworkService;
+
+    @Autowired
+    private DNAMongoService dnaMongoService;
+
+    @Autowired
+    private MrnaGensService mrnaGensService;
 
     /**
      * @api {get} /advance-search/query-by-qtl-name 主页qtl search
@@ -149,18 +176,6 @@ public class AdvanceSearchController {
      * @apidescription 该方法在用户点击高级搜索时发起请求，所有的下拉组织、对应小组织都是动态的
      * @apiSuccessExample Success-Response:
      * [
-     * {
-     * "id": "59898cfc1d78c746c0df80cf",
-     * "name": "pod_All",
-     * "chinese": "豆荚",
-     * "children": [
-     * {
-     * "name": "pod",
-     * "chinese": "",
-     * "children": []
-     * }
-     * ]
-     * },
      * {
      * "id": "59898cfc1d78c746c0df80d0",
      * "name": "seed_All",
@@ -668,11 +683,32 @@ public class AdvanceSearchController {
         return ResultUtil.success(genes);
     }
 
-    @RequestMapping(value = "/gene-expression", method = RequestMethod.POST)
+    /**
+     * @api {post} advance-search/advanceSearch 高级搜索接口
+     * @apiName advanceSearch
+     * @apiGroup Search
+     * @apiParam {String[]} childTissues[] 子组织名字数组
+     * @apiParam {String[]} snpConsequenceType[] 选中的SNP序列类型名字集合
+     * @apiParam {String[]} indelConsequenceType[] 选中的INDEL序列类型名字集合
+     * @apiParam {int[]} qtlId[] 选中的所有QTL关联基因ID,对应fetch-qtl-smarty接口返回的associatedGenesId字段
+     * @apiParam {int} begin 基因表达量最小FPKM值
+     * @apiParam {int} end 基因表达量最大FPKM值
+     * @apiParam {int} pageNo 页码
+     * @apiParam {int} pageSize 每页数量
+     * @apisamplerequest
+     *  http://localhost:8081/iqgs/advance-search/advanceSearch?childTissues[]=stem internode&pageNo=1&pageSize=10&begin=5&snpConsequenceType[]=upstream,downstream&indelConsequenceType[]=downstream, upstream&qtlId[]=997,1952,33,39,186,195&end=10
+     * @apidescription 高级搜索查询接口，结果数据与初次点击确认按钮相同，只是这里会增加更多的筛选条件，我的测试请求返回结果参见build/advanceSearch.json文件
+     *  注意:该接口是post请求!
+     */
+    @RequestMapping(value = "/advanceSearch", method = RequestMethod.POST)
     @ResponseBody
-//    public ResultVO<DNAGeneSearchResult> advanceSearchByGeneExpression(
-    public PageInfo<String> advanceSearchByGeneExpression(
+    public PageInfo<DNAGeneSearchResult> advanceSearch(
             @RequestParam(value = "childTissues[]") String[] childTissues,
+            @RequestParam(value = "snpConsequenceType[]") String[] snpConsequenceType,
+            @RequestParam(value = "indelConsequenceType[]") String[] indelConsequenceType,
+            @RequestParam(value = "qtlId[]") Integer[] qtlId,
+            @RequestParam(value = "begin") int begin,
+            @RequestParam(value = "end") int end,
             HttpServletRequest request) throws InterruptedException {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
@@ -681,74 +717,117 @@ public class AdvanceSearchController {
             List<String> classifyAndItsChildren = classifyService.findClassifyAndItsChildren(childTissues[i]);
             totalClassify.addAll(classifyAndItsChildren);
         }
-        List<String> allSampleRun = studyService.querySampleRunByTissueForClassification(totalClassify);  //从MySQL中查询所有的sampleRun
-        List<String> properGene = new ArrayList<>();
+        List<Study> allSampleRun = studyService.querySampleRunByTissueForClassification(totalClassify);  //从MySQL中查询所有的sampleRun
+        List<GeneFPKM> properGene = new ArrayList<>();
         for (int i = 0; i < allSampleRun.size(); i++) {
-            List<String> allProperGene = classifyService.findAllAssociateGeneThroughSampleRun(allSampleRun.get(i));
+            //筛选出该sample下满足FPKM条件的基因
+            int sampleId = Integer.valueOf(allSampleRun.get(i).getId());
+            List<GeneFPKM> allProperGene = fpkmService.findProperGeneUnderSampleRun(sampleId, begin, end);
             properGene.addAll(allProperGene);
         }
-        PageInfo<String> pageInfo = new PageInfo<>();
+        properGene = properGene.subList(0, 20);
+        logger.info(Arrays.toString(properGene.toArray()));
+        //对找到符合FPKM值要求的所有基因进行SNP筛选
+        Iterator<GeneFPKM> iterator = properGene.iterator();
+        while (iterator.hasNext()) {
+            String geneId = iterator.next().getGeneId();
+            // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
+            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, Arrays.asList(snpConsequenceType));
+            if (!geneExists) {
+                iterator.remove();
+            }
+        }
+        Iterator<GeneFPKM> indelIterator = properGene.iterator();
+        while (indelIterator.hasNext()) {
+            String geneId = indelIterator.next().getGeneId();
+            // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
+            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.INDEL, Arrays.asList(indelConsequenceType));
+            if (!geneExists) {
+                indelIterator.remove();
+            }
+        }
+        // 最后筛选符合QTL条件的所有基因，判断该基因是否有QTL
+        Iterator<GeneFPKM> qtlIterator = properGene.iterator();
+        while (qtlIterator.hasNext()) {
+            String geneId = qtlIterator.next().getGeneId();
+            //根据基因ID找到associateGeneId,该associateGeneId对应QTL表中associateGene
+            //最初页面加载时QTL查询二级联动接口：traitCategoryService.findAllTraitCategoryAndItsTraitList已返回该字段
+            boolean insideQtl = dnaGenBaseInfoService.checkGeneHasQTL(geneId, Arrays.asList(qtlId));  //该基因是否位于该QTL集合中
+            if (!insideQtl) {
+                qtlIterator.remove();
+            }
+        }
+        //最后的loop，将GeneFPKM转换为想要的搜索结果
+        Iterator<GeneFPKM> convertIterator = properGene.iterator();
+        //存放所有搜索结果的集合
+        List<DNAGeneSearchResult> searchResultList = new ArrayList<>();
+        DNAGeneSearchResult searchResult = null;
+        //知道基因ID后，可以查询包含该基因的所有QTL
+        while (convertIterator.hasNext()){
+            searchResult = new DNAGeneSearchResult();
+            GeneFPKM geneFPKM = convertIterator.next();
+            String geneId = geneFPKM.getGeneId();
+            MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
+            searchResult.setGeneName(mrnaGene.getGeneName());
+            searchResult.setFunction(mrnaGene.getFunctions());
+            //allAssociateGenes中包含QTL_NAME
+            List<Associatedgenes> allAssociateGenes = dnaGenBaseInfoService.findAllQTLNamesByGeneId(geneId);
+            searchResult.setAssociateQTLs(allAssociateGenes);
+            //拿到该基因在SNP上所有consequenceType
+            Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
+            boolean exists = allConsequenceType.contains(EXONIC_NONSYNONYMOUSE);
+            if (exists){
+                searchResult.setExistsSNP(true);
+            }
+            //获取所有FPKM大于30的root组织
+            List<String> rootTissues = dnaGenBaseInfoService.getFPKMLargerThanThirty(geneId);
+            searchResult.setRootTissues(rootTissues);
+            searchResultList.add(searchResult);
+        }
+        PageInfo<DNAGeneSearchResult> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(pageNo);
         pageInfo.setPageSize(pageSize);
-        pageInfo.setList(properGene);
+        pageInfo.setList(searchResultList);
         return pageInfo;
     }
 
     /**
-     * @apiParam {String} snpParams 选中的SNP筛选条件，各个值之间使用","号分开
-     * @apiParam {String} indelParams 选中的INDEL筛选条件，各个值之间使用","分开
-     * @apiParam {Object[]} qtlParams 高级搜索中选中的qtl查询条件对象集合
-     * @apiParam {int} pageNo 页码
-     * @apiParam {int} pageSize 每页数量
-     * @apisamplerequest http://localhost:8080/iqgs/advance-search/search
-     * @apidescription 高级搜索查询接口，结果数据与初次点击确认按钮相同，只是这里会增加更多的筛选条件
+     * @api {get} /advance-search/confirm 调控网络数据接口
+     * @apiName fetchAllRegularityNetworkGenes
+     * @apiGroup Search
+     * @apiParam {String} geneId 当前基因ID
+     * @apisamplerequest http://localhost:8081/iqgs/advance-search/fetch-network-genes?geneId=Glyma.04G131800
+     * @apidescription 调控网络数据接口, 完整数据参见build/regularityNetwork.json文件
      * @apiSuccessExample Success-Response:
      * {
-     * pageNum:1,
-     * pageSize:100,
-     * total:1,
-     * geneResult:
-     * [{
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.02G218700",
-     * "geneName" : "GLY1,SFD1",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr02:40667610bp-40671395bp:+",
-     * "length" : "3785bp",
-     * "species" : "Glycine max",
-     * "functions" : "glycerol-3-phosphate dehydrogenase [NAD(+)] 2, chloroplastic",
-     * "description" : "NAD-dependent glycerol-3-phosphate dehydrogenase family protein",
-     * "familyId" : null
-     * }, {
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.02G220100",
-     * "geneName" : "GLX2-2,GLY2",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr02:40797403bp-40800820bp:+",
-     * "length" : "3417bp",
-     * "species" : "Glycine max",
-     * "functions" : "glyoxalase GLYII-1",
-     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
-     * "familyId" : null
-     * }, {
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.04G224100",
-     * "geneName" : "GLX2-2,GLY2",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr04:49456049bp-49460172bp:+",
-     * "length" : "4123bp",
-     * "species" : "Glycine max",
-     * "functions" : null,
-     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
-     * "familyId" : null
-     * } ]
+     * "links": [
+     * {
+     * "source": "Glyma.04G131800",
+     * "target": "Glyma.11G109400"
+     * },
+     * {
+     * "source": "Glyma.04G131800",
+     * "target": "Glyma.12G015900"
+     * }
+     * ],
+     * "nodes": [
+     * {
+     * "geneId": "Glyma.04G131800",
+     * "hierarchy": 0
+     * },
+     * {
+     * "geneId": "Glyma.11G109400",
+     * "hierarchy": 1
+     * }
+     * ]
      * }
      */
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public Page<DNAGenBaseInfo> advanceSearch(GeneExpressionCondition geneExpression, String snpParams, String indelParams, QTLCondition qtlParams) {
-        return null;
+    @RequestMapping(value = "/fetch-network-genes", method = RequestMethod.GET)
+    @ResponseBody
+    public RegularityResult fetchAllRegularityNetworkGenes(@RequestParam("geneId") String geneId) {
+        List<RegularityLink> links = regularityNetworkService.findRelateGene(geneId);  //拿到所有links
+        List<RegularityNode> nodes = regularityNetworkService.getAllDistinctGeneId(links, geneId);//拿到所有nodes
+        RegularityResult result = new RegularityResult(links, nodes);
+        return result;
     }
 }

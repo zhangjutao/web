@@ -4,6 +4,7 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.utils.CommonUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.apache.commons.io.FileUtils;
@@ -592,4 +593,24 @@ public class DNAMongoService {
         return allDistinctConsequenceType;
     }
 
+    /**
+     * 检查输入基因是否具有该种序列类型
+     * @param geneId 输入基因ID
+     * @param type {@value com.gooalgene.common.constant.CommonConstant#SNP}
+     *             {@value com.gooalgene.common.constant.CommonConstant#SNP}
+     * @param consequenceType 基因序列类型
+     * @return 该基因是否存在该种序列类型
+     */
+    public boolean checkGeneConsequenceType(String geneId, String type, List<String> consequenceType){
+        boolean result = false;
+        String chromosome = CommonUtil.getChromosomeByGene(geneId, type);  //拿到该基因所在染色体
+        if (mongoTemplate.collectionExists(chromosome)){
+            Criteria criteria = Criteria.where("consequencetype").in(consequenceType);
+            criteria.and("gene").is(geneId);
+            Query query = new Query();
+            query.addCriteria(criteria);
+            result = mongoTemplate.exists(query, chromosome);
+        }
+        return result;
+    }
 }

@@ -139,4 +139,22 @@ WHERE f.gene_id =o.gene_id AND f.gene_id = baseinfo.gene_id AND family_id = #{fa
         SELECT sequence FROM gens_transcript_seq WHERE transcript_id = #{transcriptId}
     </select>
 
+    <select id="checkGeneExists" resultType="int">
+        SELECT id FROM gens_baseinfo WHERE gene_id = #{0} OR gene_id_old = #{0}
+    </select>
+
+    <select id="checkGeneExistsInQtlList" resultType="boolean">
+        SELECT exists(SELECT 1 FROM qtl_gene WHERE 1 = 1 AND gene_info_id = #{0} AND qtl_id IN
+        <foreach collection="qtlList" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+        )
+    </select>
+
+    <select id="findAllAssociatedQTLByGeneId" resultType="com.gooalgene.entity.Associatedgenes">
+        SELECT a.qtl_name FROM associatedgenes a
+            LEFT JOIN qtl_gene b ON a.id = b.qtl_id
+            LEFT JOIN gens_baseinfo c ON b.gene_info_id = c.id
+        WHERE c.gene_id = #{geneId} OR c.gene_id_old = #{geneId}
+    </select>
 </mapper>

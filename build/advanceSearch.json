@@ -1,0 +1,663 @@
+{
+  "pageNum": 1,
+  "pageSize": 10,
+  "size": 0,
+  "orderBy": null,
+  "startRow": 0,
+  "endRow": 0,
+  "total": 0,
+  "pages": 0,
+  "list": [
+    {
+      "geneId": null,
+      "geneOldId": null,
+      "geneName": "LOC100780194",
+      "geneType": null,
+      "locus": null,
+      "length": null,
+      "species": null,
+      "functions": null,
+      "description": null,
+      "familyId": null,
+      "id": null,
+      "existsSNP": true,
+      "associateQTLs": [
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Phytoph 13-3",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed conglycinin, beta 2-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed glycinin 2-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed glycinin plus beta-conglycinin 1-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed protein 36-10",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight 15-2",
+          "version": null,
+          "associatedGenes": null
+        }
+      ],
+      "rootTissues": [
+        "叶 ",
+        "幼苗 ",
+        "豆荚",
+        "花"
+      ],
+      "function": "uncharacterized LOC100780194"
+    },
+    {
+      "geneId": null,
+      "geneOldId": null,
+      "geneName": "LOC100814659",
+      "geneType": null,
+      "locus": null,
+      "length": null,
+      "species": null,
+      "functions": null,
+      "description": null,
+      "familyId": null,
+      "id": null,
+      "existsSNP": true,
+      "associateQTLs": [
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Branching 1-3",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Branching 3-3",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Fe effic 9-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Flower number 1-5",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "mqPlant height-001",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Node number 3-5",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Node number 3-6",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Pod maturity 17-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Pod number 1-5",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Pod wall width 1-6",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Reproductive stage length 8-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Root area 1-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Root length, primary 1-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed height 1-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed oil 24-11",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed oil 4-5",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed protein 3-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight 20-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight 20-4",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight 25-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed yield 22-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Shoot weight 1-2",
+          "version": null,
+          "associatedGenes": null
+        }
+      ],
+      "rootTissues": [],
+      "function": "probable protein S-acyltransferase 19"
+    },
+    {
+      "geneId": null,
+      "geneOldId": null,
+      "geneName": "LOC100784426",
+      "geneType": null,
+      "locus": null,
+      "length": null,
+      "species": null,
+      "functions": null,
+      "description": null,
+      "familyId": null,
+      "id": null,
+      "existsSNP": true,
+      "associateQTLs": [
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "cqSeed oil-016",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "cqSeed protein-007",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "cqSeed protein-015",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "cqSeed weight-008",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "cqSeed weight-011",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "cqSeed weight-013",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Hypocotyl weight 1-3",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Pod maturity 26-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Sclero 7-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "SDS 13-14",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed coat cracking 3-4",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed daidzein 11-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed daidzein 13-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed length 4-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed length to width ratio 1-5",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed oil 30-5",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed oil 9-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed protein 30-5",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed thickness 1-4",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight 43-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight 45-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight per plant 5-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed weight per plant 6-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed width 4-4",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed width to thickness ratio 1-3",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed winter hardiness 2-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Seed yield 11-1",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Shoot fresh to dry weight ratio 1-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "shoot weight, fresh 1-2",
+          "version": null,
+          "associatedGenes": null
+        },
+        {
+          "id": null,
+          "isNewRecord": false,
+          "remarks": null,
+          "createTime": null,
+          "updateDate": null,
+          "qtlName": "Stem strength, main 1-7",
+          "version": null,
+          "associatedGenes": null
+        }
+      ],
+      "rootTissues": [],
+      "function": "GTP-binding protein At2g22870-like"
+    }
+  ],
+  "prePage": 0,
+  "nextPage": 0,
+  "isFirstPage": false,
+  "isLastPage": false,
+  "hasPreviousPage": false,
+  "hasNextPage": false,
+  "navigatePages": 0,
+  "navigatepageNums": null,
+  "navigateFirstPage": 0,
+  "navigateLastPage": 0,
+  "firstPage": 0,
+  "lastPage": 0
+}
