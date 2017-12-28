@@ -18,7 +18,7 @@
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
     <bean id="mapperScannerConfigurer" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
         <property name="basePackage"
-                  value="com.gooalgene.iqgs.dao;com.gooalgene.iqgs.dao;com.gooalgene.dna.dao;com.gooalgene.qtl.dao;com.gooalgene.common.dao"/>
+                  value="com.gooalgene.iqgs.dao;com.gooalgene.dna.dao;com.gooalgene.qtl.dao;com.gooalgene.common.dao"/>
         <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
         <property name="annotationClass" value="com.gooalgene.common.persistence.MyBatisDao"/>
     </bean>
