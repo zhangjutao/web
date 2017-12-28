@@ -89,7 +89,7 @@
                     <p class="search-title">Search By QTL</p>
                     <label>
                         <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
-                        <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
+                        <button id="QtlBtnNames" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
                     <div id="qtlErrorTip">
                         根据输入的关键字查询的结果为: 0 条
@@ -97,14 +97,14 @@
                     <div class="fuzzySearch">
                         <ul>
                             <%--<li>--%>
-                                <%--<label for="name1">--%>
-                                    <%--<span id ="name1" data-value="name11"></span>--%>
-                                    <%--Fusarium lesion length 1-1--%>
-                                <%--</label>--%>
+                            <%--<label for="name1">--%>
+                            <%--<span id ="name1" data-value="name11"></span>--%>
+                            <%--Fusarium lesion length 1-1--%>
+                            <%--</label>--%>
                             <%--</li>--%>
                         </ul>
                     </div>
-                    <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                    <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> Seed N at R5 1-1</a></p>
                     <div class="sureBtn">
                         <p>确定</p>
                     </div>

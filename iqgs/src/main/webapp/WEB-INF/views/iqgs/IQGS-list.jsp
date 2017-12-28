@@ -10,13 +10,61 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>IQGS list</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 
 </head>
+<style>
+    .AdvancedSearch{
+        background-color: #fff;
+        padding: 24px 50px;
+        margin-bottom: 17px;
+    }
+    .AdvancedSearch_div{
+        position: relative;
+        width: 100%;
+        height: 40px;
+    }
+    .AdvancedSearch_btn{
+        position: absolute;
+        right: 1px;
+        background: #5C8CE6;
+        color: #fff;
+        -webkit-border-radius: 3px;
+        -moz-border-radius: 3px;
+        border-radius: 3px;
+        font-size: 16px;
+        cursor: pointer;
+        border:none;
+        padding: 10px;
+    }
+    .SelectedEmpty{background: #f5f5f5; overflow: hidden; padding: 8px;}
+    .SelectedEmpty .selected{
+        float: left;
+    }
+    .SelectedEmpty .empty{
+        float: right;
+    }
+    .AdvancedSearch .fuzzySearch{
+        display: block;
+        width: 100%;
+        border: none;
+        height: auto;
+    }
+    .AdvancedSearch .fuzzySearch ul{width: auto; height: auto;}
+    .AdvancedSearch .fuzzySearch ul li{width: auto}
+    .AdvancedSearch .fuzzySearch li:nth-child(3n+1) {
+        margin-left: 0px;
+    }
+    .form_search{padding-top:12px;}
+    .snpSearch_div,.indelSearch_div{display: flex;}
 
+    .qtl_lab{border: 1px solid #e5e5e5; padding: 2px 6px;}
+    .qtl_sel{ padding: 2px 4px;}
+</style>
 <body>
 
 <iqgs:iqgs-header></iqgs:iqgs-header>
@@ -27,6 +75,7 @@
             <li class="active geneIdName"><a class="" >Search By Gene ID/Name</a></li>
             <li class=" geneFunction"><a class="" >Search By Gene Function</a></li>
             <li class="region" ><a class="">Search By Region</a></li>
+            <li class="qtl" ><a class="">Search By QTL</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
             <div id="GeneIdName" class="tab-pane tab-pane-ac">
@@ -79,6 +128,78 @@
                 </div>
                 <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
             </div>
+            <div id="qtlAdd" class="tab-pane">
+                <p class="search-title">Search By QTL</p>
+                <label>
+                    <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
+                    <button id="QtlBtnNames" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
+                </label>
+                <div id="qtlErrorTip">
+                    根据输入的关键字查询的结果为: 0 条
+                </div>
+                <div class="fuzzySearch">
+                    <ul>
+                        <%--<li>--%>
+                        <%--<label for="name1">--%>
+                        <%--<span id ="name1" data-value="name11"></span>--%>
+                        <%--Fusarium lesion length 1-1--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                    </ul>
+                    <div class="sureBtn">
+                        <p>确定</p>
+                    </div>
+                </div>
+                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> Seed N at R5 1-1</a></p>
+
+            </div>
+        </div>
+    </div>
+    <div class="AdvancedSearch">
+        <div class="AdvancedSearch_div"><button class="AdvancedSearch_btn">Advanced search</button></div>
+        <div class="SelectedEmpty">
+            <span class="selected">已选>&nbsp;</span>
+            <label class="geneExpression_lab">
+                <span class="geneExpression_name"></span><span class="geneExpression_select qtl_sel"></span><span class="geneExpression_del"></span>
+            </label>
+            <label class="snp_lab">
+                <span class="snp_name"></span><span class="snp_select qtl_sel"></span><span class="snp_del"></span>
+            </label>
+            <label class="indel_lab">
+                <span class="indel_name"></span><span class="indel_select qtl_sel"></span><span class="indel_del"></span>
+            </label>
+            <span class="empty">清空</span>
+        </div>
+        <%--基因表达量--%>
+        <form name="form1" class="form_search">
+            <label>基因表达量：</label>
+            <select name="geneName" id="geneName">
+                <option>请选择</option>
+            </select>
+            <div class="fuzzySearch">
+            <ul class="select_con" id="geneList">
+            </ul>
+            </div>
+        </form>
+        <%--SNP--%>
+        <div class="snpSearch_div">
+            <label>SNP：</label>
+            <div class="snpSearch fuzzySearch">
+                     <ul class="snpSearch_ul"></ul>
+            </div>
+        </div>
+        <%--INDEL--%>
+        <div class="indelSearch_div">
+            <label>INDEL：</label>
+            <div class="indelSearch fuzzySearch">
+                <ul class="indelSearch_ul"></ul>
+            </div>
+        </div>
+        <%--QTL--%>
+        <div class="qtlSearch_div">
+            <label>QTL：</label>
+            <div id="province" class="fuzzySearch">
+            </div>
         </div>
 
     </div>
@@ -92,7 +213,7 @@
 
             </div>
             <div class="pagination-backtop">
-                 <a id="goTopBtn" class="backtop" href="javascript:;">返回顶部</a>
+                <a id="goTopBtn" class="backtop" href="javascript:;">返回顶部</a>
                 <div class="ga-ctrl-footer">
                     <div id="pagination1" class="pagination"></div>
                     <div id="per-page-count1" class="per-page-count lay-per-page-count per-page-count">
@@ -110,6 +231,7 @@
             </div>
         </div>
     </div>
+
 </div>
 <!--container-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
@@ -118,6 +240,11 @@
 <script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/iqgs-list.js"></script>
+<script src="${ctxStatic}/js/mock/mock.js"></script>
+<script src="${ctxStatic}/js/newAddSearch.js"></script>
+<script src="${ctxStatic}/js/newQTL.js"></script>
+
+
 <script>
     window.DOMAIN = "${ctxroot}/iqgs";
     var searchType = '${searchType}';
@@ -129,11 +256,15 @@
         }else if (searchType == 2) {
             $("#key_func").val('${keyword}');
             $($("#myTabs li")[1]).trigger('click');
-        }else{
+        }else if (searchType == 3){
             $(".js-region").val('${chr}');
             $("#rg_begin").val('${rgBegin}');
             $("#rg_end").val('${rgEnd}');
             $($("#myTabs li")[2]).trigger('click');
+        }else{
+            <%--$("#qtlName").val('${keyword}');--%>
+            $("#qtlName").val('123');
+            $($("#myTabs li")[3]).trigger('click');
         }
     }
 
@@ -154,13 +285,21 @@
                 pageSize: page.pageSize || 10,
                 keyword : $("#key_func").val()
             }, resultCallback);
-        } else {
+        } else if (searchType == 3) {
             $.getJSON('${ctxroot}/iqgs/search/range', {
                 pageNo: page.curr || 1,
                 pageSize: page.pageSize || 10,
                 begin : $("#rg_begin").val(),
                 end : $("#rg_end").val(),
                 chr : $(".js-region").val()
+            }, resultCallback);
+        }else{
+            $("#QtlBtnNames").click()
+
+            $.getJSON('${ctxroot}/iqgs/search/func', {
+                pageNo: page.curr || 1,
+                pageSize: page.pageSize || 10,
+                keyword : $("#qtlName").val()
             }, resultCallback);
         }
     }
@@ -217,6 +356,22 @@
         initSearchTab();
         requestSearchData();
     });
+
+    //高级搜索基因表达量
+    $.getJSON('${ctxroot}/advance-search/query-all-organic', {
+    }, geneExpressionData);
+
+    //高级搜索SNP
+    $.post('${ctxroot}/advance-search/query-snp', {
+    }, searchSnpData);
+
+    //高级搜索INDEL
+    $.post('${ctxroot}/advance-search/query-indel', {
+    }, searchIndelData);
+
+    //高级搜索QTL
+    $.getJSON('${ctxroot}/advance-search/fetch-qtl-smarty', {
+    }, searchQtlData);
 </script>
 </body>
 </html>
