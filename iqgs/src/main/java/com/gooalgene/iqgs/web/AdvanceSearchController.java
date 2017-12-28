@@ -31,6 +31,7 @@ import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ResultUtil;
+import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -768,8 +769,10 @@ public class AdvanceSearchController {
             GeneFPKM geneFPKM = convertIterator.next();
             String geneId = geneFPKM.getGeneId();
             MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
-            searchResult.setGeneName(mrnaGene.getGeneName());
-            searchResult.setFunction(mrnaGene.getFunctions());
+            //使用Guava Optional防止空指针异常
+            MrnaGens optional = Optional.<MrnaGens>fromNullable(mrnaGene).or(new MrnaGens());
+            searchResult.setGeneName(optional.getGeneName());
+            searchResult.setFunction(optional.getFunctions());
             //allAssociateGenes中包含QTL_NAME
             List<Associatedgenes> allAssociateGenes = dnaGenBaseInfoService.findAllQTLNamesByGeneId(geneId);
             searchResult.setAssociateQTLs(allAssociateGenes);
@@ -792,7 +795,7 @@ public class AdvanceSearchController {
     }
 
     /**
-     * @api {get} /advance-search/confirm 调控网络数据接口
+     * @api {get} /advance-search/fetch-network-genes 调控网络数据接口
      * @apiName fetchAllRegularityNetworkGenes
      * @apiGroup Search
      * @apiParam {String} geneId 当前基因ID

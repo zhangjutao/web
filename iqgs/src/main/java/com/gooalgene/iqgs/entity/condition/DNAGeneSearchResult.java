@@ -26,24 +26,9 @@ public class DNAGeneSearchResult extends DNAGenBaseInfo {
     private List<String> rootTissues;
 
     /**
-     * 基因名字
-     */
-    private String geneName;
-
-    /**
      * 基因注释
      */
     private String function;
-
-    @Override
-    public String getGeneName() {
-        return geneName;
-    }
-
-    @Override
-    public void setGeneName(String geneName) {
-        this.geneName = geneName;
-    }
 
     public String getFunction() {
         return function;
