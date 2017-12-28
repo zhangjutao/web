@@ -18,6 +18,7 @@ import net.sf.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.Assert;
 
 import java.util.*;
 
@@ -87,7 +88,7 @@ public class DNAGenBaseInfoService {
      * @param geneId 基因ID
      * @return 大于30的组织集合
      */
-    private List<String> getFPKMLargerThanThirty(String geneId){
+    public List<String> getFPKMLargerThanThirty(String geneId){
         List<String> rootTissues = new ArrayList<>();
         String[] genes = new String[]{ geneId };
         GenResult genResult = tService.generateData(genes);
@@ -100,6 +101,11 @@ public class DNAGenBaseInfoService {
             }
         }
         return rootTissues;
+    }
+
+    public List<Associatedgenes> findAllQTLNamesByGeneId(String geneId){
+        Assert.notNull(geneId, "传入的geneId为空");
+        return dnaGenBaseInfoDao.findAllAssociatedQTLByGeneId(geneId);
     }
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFunc(String func, Page<DNAGenBaseInfo> page) {

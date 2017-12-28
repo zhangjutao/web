@@ -150,4 +150,11 @@ WHERE f.gene_id =o.gene_id AND f.gene_id = baseinfo.gene_id AND family_id = #{fa
         </foreach>
         )
     </select>
+
+    <select id="findAllAssociatedQTLByGeneId" resultType="com.gooalgene.entity.Associatedgenes">
+        SELECT a.qtl_name FROM associatedgenes a
+            LEFT JOIN qtl_gene b ON a.id = b.qtl_id
+            LEFT JOIN gens_baseinfo c ON b.gene_info_id = c.id
+        WHERE c.gene_id = #{geneId} OR c.gene_id_old = #{geneId}
+    </select>
 </mapper>

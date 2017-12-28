@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -87,10 +88,11 @@ public class DNAMongoServiceTest extends TestCase {
 
     @Test
     public void testCheckGeneConsequenceType(){
-        String geneId = "Glyma.01G000100";
-        String[] consequenceTypes = new String[3];
-        consequenceTypes[0] = "intergenic";
-        boolean result = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, consequenceTypes);
+        String geneId = "Glyma.01G182600";
+        List<String> consequenceTypeList = new ArrayList<>();
+        consequenceTypeList.add("upstream");
+        consequenceTypeList.add("downstream");
+        boolean result = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, consequenceTypeList);
         assertTrue(result);
     }
 }

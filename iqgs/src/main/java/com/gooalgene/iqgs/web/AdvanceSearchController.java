@@ -6,6 +6,7 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.service.DNAMongoService;
+import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
@@ -28,6 +29,8 @@ import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ResultUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,6 +40,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
+
+import static com.gooalgene.common.constant.CommonConstant.EXONIC_NONSYNONYMOUSE;
 
 /**
  * 高级搜索相关接口层
@@ -48,6 +53,8 @@ import java.util.*;
 @Controller
 @RequestMapping("/advance-search")
 public class AdvanceSearchController {
+
+    private final static Logger logger = LoggerFactory.getLogger(AdvanceSearchController.class);
 
     @Autowired
     private QtlService qtlService;
@@ -673,7 +680,7 @@ public class AdvanceSearchController {
 
     @RequestMapping(value = "/gene-expression", method = RequestMethod.POST)
     @ResponseBody
-    public PageInfo<GeneFPKM> advanceSearchByGeneExpression(
+    public PageInfo<DNAGeneSearchResult> advanceSearchByGeneExpression(
             @RequestParam(value = "childTissues[]") String[] childTissues,
             @RequestParam(value = "snpConsequenceType[]") String[] snpConsequenceType,
             @RequestParam(value = "indelConsequenceType[]") String[] indelConsequenceType,
@@ -696,12 +703,14 @@ public class AdvanceSearchController {
             List<GeneFPKM> allProperGene = fpkmService.findProperGeneUnderSampleRun(sampleId, begin, end);
             properGene.addAll(allProperGene);
         }
+        properGene = properGene.subList(0, 20);
+        logger.info(Arrays.toString(properGene.toArray()));
         //对找到符合FPKM值要求的所有基因进行SNP筛选
         Iterator<GeneFPKM> iterator = properGene.iterator();
         while (iterator.hasNext()) {
             String geneId = iterator.next().getGeneId();
             // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
-            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, snpConsequenceType);
+            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, Arrays.asList(snpConsequenceType));
             if (!geneExists) {
                 iterator.remove();
             }
@@ -710,7 +719,7 @@ public class AdvanceSearchController {
         while (indelIterator.hasNext()) {
             String geneId = indelIterator.next().getGeneId();
             // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
-            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.INDEL, indelConsequenceType);
+            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.INDEL, Arrays.asList(indelConsequenceType));
             if (!geneExists) {
                 indelIterator.remove();
             }
@@ -718,16 +727,42 @@ public class AdvanceSearchController {
         // 最后筛选符合QTL条件的所有基因，判断该基因是否有QTL
         Iterator<GeneFPKM> qtlIterator = properGene.iterator();
         while (qtlIterator.hasNext()) {
-            String geneId = indelIterator.next().getGeneId();
+            String geneId = qtlIterator.next().getGeneId();
+            //根据基因ID找到associateGeneId,该associateGeneId对应QTL表中associateGene
+            //最初页面加载时QTL查询二级联动接口：traitCategoryService.findAllTraitCategoryAndItsTraitList已返回该字段
             boolean insideQtl = dnaGenBaseInfoService.checkGeneHasQTL(geneId, Arrays.asList(qtlId));  //该基因是否位于该QTL集合中
             if (!insideQtl) {
                 qtlIterator.remove();
             }
         }
-        PageInfo<GeneFPKM> pageInfo = new PageInfo<>();
+        //最后的loop，将GeneFPKM转换为想要的搜索结果
+        Iterator<GeneFPKM> convertIterator = properGene.iterator();
+        //存放所有搜索结果的集合
+        List<DNAGeneSearchResult> searchResultList = new ArrayList<>();
+        DNAGeneSearchResult searchResult = null;
+        //知道基因ID后，可以查询包含该基因的所有QTL
+        while (convertIterator.hasNext()){
+            searchResult = new DNAGeneSearchResult();
+            GeneFPKM geneFPKM = convertIterator.next();
+            String geneId = geneFPKM.getGeneId();
+            //allAssociateGenes中包含QTL_NAME
+            List<Associatedgenes> allAssociateGenes = dnaGenBaseInfoService.findAllQTLNamesByGeneId(geneId);
+            searchResult.setAssociateQTLs(allAssociateGenes);
+            //拿到该基因在SNP上所有consequenceType
+            Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
+            boolean exists = allConsequenceType.contains(EXONIC_NONSYNONYMOUSE);
+            if (exists){
+                searchResult.setExistsSNP(true);
+            }
+            //获取所有FPKM大于30的root组织
+            List<String> rootTissues = dnaGenBaseInfoService.getFPKMLargerThanThirty(geneId);
+            searchResult.setRootTissues(rootTissues);
+            searchResultList.add(searchResult);
+        }
+        PageInfo<DNAGeneSearchResult> pageInfo = new PageInfo<>();
         pageInfo.setPageNum(pageNo);
         pageInfo.setPageSize(pageSize);
-        pageInfo.setList(properGene);
+        pageInfo.setList(searchResultList);
         return pageInfo;
     }
 

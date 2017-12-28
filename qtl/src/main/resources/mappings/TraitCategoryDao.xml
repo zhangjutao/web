@@ -12,6 +12,7 @@
             <collection property="qtls" column="trait" ofType="com.gooalgene.entity.Qtl">
                 <result property="id" column="qtl_primary_id" javaType="String" />
                 <result property="qtlName" column="qtl_name" javaType="String" jdbcType="VARCHAR" />
+                <result property="associatedGenesId" column="associatedGenes_id" javaType="int" />
             </collection>
         </collection>
     </resultMap>
@@ -54,7 +55,7 @@
 
     <select id="findAllTraitCategoryAndItsTraitList" resultMap="traitCategoryResultMap">
         SELECT a.id as traitCategoryId, a.qtl_desc, b.id as traitListId, b.qtl_id, b.trait_name,
-            c.qtl_name, c.id AS qtl_primary_id
+            c.qtl_name, c.id AS qtl_primary_id, c.associatedGenes_id
         FROM trait_category a
           LEFT JOIN trait_list b
         ON a.id = b.qtl_id

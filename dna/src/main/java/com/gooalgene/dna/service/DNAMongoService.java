@@ -601,13 +601,12 @@ public class DNAMongoService {
      * @param consequenceType 基因序列类型
      * @return 该基因是否存在该种序列类型
      */
-    public boolean checkGeneConsequenceType(String geneId, String type, String... consequenceType){
+    public boolean checkGeneConsequenceType(String geneId, String type, List<String> consequenceType){
         boolean result = false;
         String chromosome = CommonUtil.getChromosomeByGene(geneId, type);  //拿到该基因所在染色体
         if (mongoTemplate.collectionExists(chromosome)){
-            Criteria criteria = new Criteria();
+            Criteria criteria = Criteria.where("consequencetype").in(consequenceType);
             criteria.and("gene").is(geneId);
-            criteria.andOperator(Criteria.where("consequencetype").in(consequenceType));
             Query query = new Query();
             query.addCriteria(criteria);
             result = mongoTemplate.exists(query, chromosome);

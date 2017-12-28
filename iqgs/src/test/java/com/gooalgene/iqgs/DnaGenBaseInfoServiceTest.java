@@ -5,20 +5,15 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.dao.StudyDao;
+import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenSequence;
 import com.gooalgene.iqgs.entity.DNAGenStructure;
-import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionVo;
-import com.mongodb.BasicDBObject;
-import com.mongodb.DBCollection;
-import com.mongodb.DBCursor;
-import com.mongodb.DBObject;
-import com.mongodb.DB;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -222,5 +217,12 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         qtlList.remove(0);
         exists = dnaGenBaseInfoDao.checkGeneExistsInQtlList(id, qtlList);
         assertFalse(exists);
+    }
+
+    @Test
+    public void testFindAllQTLNamesByGeneId(){
+        String geneId = "Glyma08G36090";
+        List<Associatedgenes> allQTLNames = dnaGenBaseInfoDao.findAllAssociatedQTLByGeneId(geneId);
+        assertEquals(18, allQTLNames.size());
     }
 }

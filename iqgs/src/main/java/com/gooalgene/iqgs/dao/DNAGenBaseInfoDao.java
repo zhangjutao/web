@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.dao;
 import com.gooalgene.common.persistence.MyBatisDao;
+import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.entity.*;
 import org.apache.ibatis.annotations.Param;
 
@@ -34,6 +35,13 @@ public interface DNAGenBaseInfoDao {
      * @return 是否有满足条件的QTL基因
      */
     boolean checkGeneExistsInQtlList(Integer genePrimaryKey, @Param("qtlList") List<Integer> qtlList);
+
+    /**
+     * 查找所有该基因ID关联的QTL名字
+     * @param geneId 基因ID，需要从gene_id、gene_id_old两个字段中查询
+     * @return 所有包含该基因的QTL名字
+     */
+    List<Associatedgenes> findAllAssociatedQTLByGeneId(String geneId);
 
     DNAGenBaseInfo findByGeneId(DNAGenBaseInfo bean);
 
