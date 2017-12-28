@@ -11,7 +11,7 @@
     {
       "geneId": null,
       "geneOldId": null,
-      "geneName": null,
+      "geneName": "LOC100780194",
       "geneType": null,
       "locus": null,
       "length": null,
@@ -88,12 +88,13 @@
         "幼苗 ",
         "豆荚",
         "花"
-      ]
+      ],
+      "function": "uncharacterized LOC100780194"
     },
     {
       "geneId": null,
       "geneOldId": null,
-      "geneName": null,
+      "geneName": "LOC100814659",
       "geneType": null,
       "locus": null,
       "length": null,
@@ -325,12 +326,13 @@
           "associatedGenes": null
         }
       ],
-      "rootTissues": []
+      "rootTissues": [],
+      "function": "probable protein S-acyltransferase 19"
     },
     {
       "geneId": null,
       "geneOldId": null,
-      "geneName": null,
+      "geneName": "LOC100784426",
       "geneType": null,
       "locus": null,
       "length": null,
@@ -642,7 +644,8 @@
           "associatedGenes": null
         }
       ],
-      "rootTissues": []
+      "rootTissues": [],
+      "function": "GTP-binding protein At2g22870-like"
     }
   ],
   "prePage": 0,

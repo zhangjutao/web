@@ -7,6 +7,7 @@ import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.service.DNAMongoService;
 import com.gooalgene.entity.Associatedgenes;
+import com.gooalgene.entity.MrnaGens;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
@@ -23,6 +24,7 @@ import com.gooalgene.iqgs.service.RegularityNetworkService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
 import com.gooalgene.mrna.service.ClassifyService;
+import com.gooalgene.mrna.service.MrnaGensService;
 import com.gooalgene.mrna.service.StudyService;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
@@ -85,6 +87,9 @@ public class AdvanceSearchController {
 
     @Autowired
     private DNAMongoService dnaMongoService;
+
+    @Autowired
+    private MrnaGensService mrnaGensService;
 
     /**
      * @api {get} /advance-search/query-by-qtl-name 主页qtl search
@@ -678,9 +683,26 @@ public class AdvanceSearchController {
         return ResultUtil.success(genes);
     }
 
-    @RequestMapping(value = "/gene-expression", method = RequestMethod.POST)
+    /**
+     * @api {post} advance-search/advanceSearch 高级搜索接口
+     * @apiName advanceSearch
+     * @apiGroup Search
+     * @apiParam {String[]} childTissues[] 子组织名字数组
+     * @apiParam {String[]} snpConsequenceType[] 选中的SNP序列类型名字集合
+     * @apiParam {String[]} indelConsequenceType[] 选中的INDEL序列类型名字集合
+     * @apiParam {int[]} qtlId[] 选中的所有QTL关联基因ID,对应fetch-qtl-smarty接口返回的associatedGenesId字段
+     * @apiParam {int} begin 基因表达量最小FPKM值
+     * @apiParam {int} end 基因表达量最大FPKM值
+     * @apiParam {int} pageNo 页码
+     * @apiParam {int} pageSize 每页数量
+     * @apisamplerequest
+     *  http://localhost:8081/iqgs/advance-search/advanceSearch?childTissues[]=stem internode&pageNo=1&pageSize=10&begin=5&snpConsequenceType[]=upstream,downstream&indelConsequenceType[]=downstream, upstream&qtlId[]=997,1952,33,39,186,195&end=10
+     * @apidescription 高级搜索查询接口，结果数据与初次点击确认按钮相同，只是这里会增加更多的筛选条件，我的测试请求返回结果参见build/advanceSearch.json文件
+     *  注意:该接口是post请求!
+     */
+    @RequestMapping(value = "/advanceSearch", method = RequestMethod.POST)
     @ResponseBody
-    public PageInfo<DNAGeneSearchResult> advanceSearchByGeneExpression(
+    public PageInfo<DNAGeneSearchResult> advanceSearch(
             @RequestParam(value = "childTissues[]") String[] childTissues,
             @RequestParam(value = "snpConsequenceType[]") String[] snpConsequenceType,
             @RequestParam(value = "indelConsequenceType[]") String[] indelConsequenceType,
@@ -745,6 +767,9 @@ public class AdvanceSearchController {
             searchResult = new DNAGeneSearchResult();
             GeneFPKM geneFPKM = convertIterator.next();
             String geneId = geneFPKM.getGeneId();
+            MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
+            searchResult.setGeneName(mrnaGene.getGeneName());
+            searchResult.setFunction(mrnaGene.getFunctions());
             //allAssociateGenes中包含QTL_NAME
             List<Associatedgenes> allAssociateGenes = dnaGenBaseInfoService.findAllQTLNamesByGeneId(geneId);
             searchResult.setAssociateQTLs(allAssociateGenes);
@@ -764,64 +789,6 @@ public class AdvanceSearchController {
         pageInfo.setPageSize(pageSize);
         pageInfo.setList(searchResultList);
         return pageInfo;
-    }
-
-    /**
-     * @apiParam {String} snpParams 选中的SNP筛选条件，各个值之间使用","号分开
-     * @apiParam {String} indelParams 选中的INDEL筛选条件，各个值之间使用","分开
-     * @apiParam {Object[]} qtlParams 高级搜索中选中的qtl查询条件对象集合
-     * @apiParam {int} pageNo 页码
-     * @apiParam {int} pageSize 每页数量
-     * @apisamplerequest http://localhost:8080/iqgs/advance-search/search
-     * @apidescription 高级搜索查询接口，结果数据与初次点击确认按钮相同，只是这里会增加更多的筛选条件
-     * @apiSuccessExample Success-Response:
-     * {
-     * pageNum:1,
-     * pageSize:100,
-     * total:1,
-     * geneResult:
-     * [{
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.02G218700",
-     * "geneName" : "GLY1,SFD1",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr02:40667610bp-40671395bp:+",
-     * "length" : "3785bp",
-     * "species" : "Glycine max",
-     * "functions" : "glycerol-3-phosphate dehydrogenase [NAD(+)] 2, chloroplastic",
-     * "description" : "NAD-dependent glycerol-3-phosphate dehydrogenase family protein",
-     * "familyId" : null
-     * }, {
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.02G220100",
-     * "geneName" : "GLX2-2,GLY2",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr02:40797403bp-40800820bp:+",
-     * "length" : "3417bp",
-     * "species" : "Glycine max",
-     * "functions" : "glyoxalase GLYII-1",
-     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
-     * "familyId" : null
-     * }, {
-     * "id" : null,
-     * "isNewRecord" : false,
-     * "geneId" : "Glyma.04G224100",
-     * "geneName" : "GLX2-2,GLY2",
-     * "geneType" : "Protein_coding",
-     * "locus" : "Chr04:49456049bp-49460172bp:+",
-     * "length" : "4123bp",
-     * "species" : "Glycine max",
-     * "functions" : null,
-     * "description" : "Metallo-hydrolase/oxidoreductase superfamily protein",
-     * "familyId" : null
-     * } ]
-     * }
-     */
-    @RequestMapping(value = "/search", method = RequestMethod.POST)
-    public Page<DNAGenBaseInfo> advanceSearch(GeneExpressionCondition geneExpression, String snpParams, String indelParams, QTLCondition qtlParams) {
-        return null;
     }
 
     /**

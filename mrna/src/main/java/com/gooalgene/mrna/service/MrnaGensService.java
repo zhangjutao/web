@@ -21,6 +21,10 @@ public class MrnaGensService {
     @Autowired
     private MrnaGensDao mrnaGensDao;
 
+    public MrnaGens findMRNAGeneByGeneId(String geneId){
+        return mrnaGensDao.findMRNAGeneByGeneId(geneId);
+    }
+
     /**
      * 后台管理查询MrnaGens分页处理
      *
