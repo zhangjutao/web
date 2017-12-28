@@ -162,9 +162,7 @@ $(function(){
             alert("最多只能选择 5 个");
             return;
         }else {
-            // Mock.mock(/(confirm){1}\w*/,{data:[3,4,56,7]});
             var qtlVal = JSON.stringify(globleObject.selectedQtl);
-            console.log("type is: " + (typeof qtlVal));
             var data ={
                 chosenQtl:12329,
                 pageNo:1,
