@@ -164,14 +164,14 @@ $(function(){
         }else {
             // Mock.mock(/(confirm){1}\w*/,{data:[3,4,56,7]});
             var qtlVal = JSON.stringify(globleObject.selectedQtl);
-            console.log(qtlVal);
+            console.log("type is: " + (typeof qtlVal));
             var data ={
-                chosenQtl:qtlVal,
+                chosenQtl:12329,
                 pageNo:1,
                 pageSize:20
             };
             // 发送请求
-            var promise = SendAjaxRequest("POST","confirm",data);
+            var promise = SendAjaxRequest("POST","/iqgs/advance-search/confirm",data);
             promise.then(
                 function (result){
 
