@@ -27,18 +27,18 @@ $(function(){
     })
 
     $("#myTabs li").each(function(i){
-       $(this).click(function(){
-           $(this).addClass("active").siblings().removeClass("active");
-           var divs = $("#myTabContent>div");
-           for(var k=0;k<divs.length;k++){
-               if(k == i){
-                   $(divs[k]).addClass("tab-pane-ac")
-               }else {
-                   $(divs[k]).removeClass("tab-pane-ac");
-               }
-           }
-           // $("#myTabContent").find("div").eq(i).show().siblings().hide();
-       })
+        $(this).click(function(){
+            $(this).addClass("active").siblings().removeClass("active");
+            var divs = $("#myTabContent>div");
+            for(var k=0;k<divs.length;k++){
+                if(k == i){
+                    $(divs[k]).addClass("tab-pane-ac")
+                }else {
+                    $(divs[k]).removeClass("tab-pane-ac");
+                }
+            }
+            // $("#myTabContent").find("div").eq(i).show().siblings().hide();
+        })
     })
 
     /*2017 - 12 新增业务需求 add by jarry*/
@@ -86,12 +86,12 @@ $(function(){
             data:arr
         }
         Mock.mock(/(query-by-qtl-name){1}\w*/,obj);
-        debugger;
+        // debugger;
         var qtlSearchVal = $("#qtlName").val();
         var data ={
             qtlName:qtlSearchVal
         };
-        console.log(data)
+        // console.log(data)
         var promise = SendAjaxRequest("GET","query-by-qtl-name",data);
         promise.then(
             function (result){
@@ -132,9 +132,9 @@ $(function(){
             }
         )
     });
-     // 每个qtlname列表的点击选中事件
+    // 每个qtlname列表的点击选中事件
     var globleObject = {};
-        globleObject.selectedQtl = [];
+    globleObject.selectedQtl = [];
     $("#qtlAdd .fuzzySearch").on("click","li",function (){
         var list =  $("#qtlAdd .fuzzySearch li");
         if($(this).hasClass("checked")) {
@@ -150,7 +150,6 @@ $(function(){
             globleObject.selectedQtl.push($(this).find("span").attr("id"));
         }
     });
-
     // 根据选择的qtl 搜索 -- > sureBtn
     $("#qtlAdd .sureBtn").click(function (){
         var num = globleObject.selectedQtl.length;
@@ -166,7 +165,11 @@ $(function(){
             var promise = SendAjaxRequest("POST","confirm",data);
             promise.then(
                 function (result){
-                   console.warn(result);
+                    // console.warn(result);
+                    var key = $("#qtlName").val();
+                    if (key && !/^\s+$/.test(key)) {
+                        window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&searchType=4";
+                    }
                 },
                 function (error){
                     console.log(error);

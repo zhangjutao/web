@@ -97,14 +97,14 @@
                     <div class="fuzzySearch">
                         <ul>
                             <%--<li>--%>
-                                <%--<label for="name1">--%>
-                                    <%--<span id ="name1" data-value="name11"></span>--%>
-                                    <%--Fusarium lesion length 1-1--%>
-                                <%--</label>--%>
+                            <%--<label for="name1">--%>
+                            <%--<span id ="name1" data-value="name11"></span>--%>
+                            <%--Fusarium lesion length 1-1--%>
+                            <%--</label>--%>
                             <%--</li>--%>
                         </ul>
                     </div>
-                    <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                    <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> Seed N at R5 1-1</a></p>
                     <div class="sureBtn">
                         <p>确定</p>
                     </div>

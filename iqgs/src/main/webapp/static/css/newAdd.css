@@ -32,6 +32,10 @@
 #qtlAdd .fuzzySearch li.checked span{
     background-image: url("../images/contrast-ac.png");
 }
+
+.AdvancedSearch .fuzzySearch li.checked span{
+    background-image: url("../images/contrast-ac.png");
+}
 .fuzzySearch li span{
     width: 14px;
     height: 14px;
