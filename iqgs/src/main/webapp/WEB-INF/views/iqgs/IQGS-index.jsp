@@ -89,7 +89,7 @@
                     <p class="search-title">Search By QTL</p>
                     <label>
                         <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
-                        <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
+                        <button id="QtlBtnNames" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
                     <div id="qtlErrorTip">
                         根据输入的关键字查询的结果为: 0 条

@@ -78,13 +78,17 @@ $(".form_search .fuzzySearch").on("click","li",function (){
                 $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"))
                 if($('.geneExpression_select').text().length!==0){
                     var geneNameVal= $("#geneName ").val();
-                    $('.geneExpression_name').text("基因表达量:"+geneNameVal);
-                    $('.geneExpression_del').on('click',function(){
+                    $('.geneExpression_lab').addClass('qtl_lab');
+                    $('.geneExpression_del').text(' X')
+                    $('.geneExpression_name').text("基因表达量:");
+                        $('.geneExpression_del').on('click',function(){
                         $('.geneExpression_select,.geneExpression_name').text("");
+                        $('.geneExpression_lab').removeClass('qtl_lab');
+                            $('.geneExpression_del').text(' ')
                         geneExpression.selectedQtl = [];
                         $('#geneList').find("li").removeClass("checked");
-                console.log(geneExpression.selectedQtl)
-            })
+                    console.log(geneExpression.selectedQtl)
+                })
         }
     }
 
@@ -121,9 +125,11 @@ $(".snpSearch .snpSearch_ul").on("click","li",function (){
         $('.snp_select').html((globleObjectSnp.selectedQtl+ ",").replace(/[,]$/,""))
 
         if($('.snp_select').text().length!==0){
-            // var geneNameVal= $("#geneName ").val();
-            // $('.snp_name').text("基因表达量:"+geneNameVal);
+            $('.snp_lab').addClass('qtl_lab');
+            $('.snp_del').text(' X')
             $('.snp_del').on('click',function(){
+                $('.snp_lab').removeClass('qtl_lab');
+                $('.snp_del').text(' ')
                 $('.snp_select,.geneExpression_name').text("");
                 globleObjectSnp.selectedQtl = [];
                 $('.snpSearch_ul').find("li").removeClass("checked");
@@ -162,7 +168,11 @@ $(".indelSearch .indelSearch_ul").on("click","li",function (){
         $('.indel_select').html((globleObjectIndel.selectedQtl+ ",").replace(/[,]$/,""))
 
         if($('.indel_select').text().length!==0){
+            $('.indel_lab').addClass('qtl_lab');
+            $('.indel_del').text(' X')
             $('.indel_del').on('click',function(){
+                $('.indel_lab').removeClass('qtl_lab');
+                $('.indel_del').text('')
                 $('.indel_select,.geneExpression_name').text("");
                 globleObjectIndel.selectedQtl = [];
                 $('.indelSearch_ul').find("li").removeClass("checked");

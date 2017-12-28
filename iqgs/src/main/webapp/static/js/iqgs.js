@@ -67,87 +67,92 @@ $(function(){
     };
 
     // qtl 搜索 -- 》获取数据 -- >search
-    $("#QtlBtnName").click(function (){
-        //Mock 拦截请求
-        var number = Mock.mock({
-            "total|1-100": 100
-        });
-        var arr = [];
-        for (var i=0;i<number.total;i++){
-            var id = Mock.mock({ "number|1-100000": 100 });
-            var qtlName = Mock.Random.string("lower",7,7) +Mock.Random.string("lower",7,7) + Mock.Random.string("lower",7,7) ;
-            arr.push({
-                id:id.number,
-                qtlName:qtlName
-            });
-        }
-        var obj = {
-            status:200,
-            data:arr
-        }
-        Mock.mock(/(query-by-qtl-name){1}\w*/,obj);
-        // debugger;
-        var qtlSearchVal = $("#qtlName").val();
-        var data ={
-            qtlName:qtlSearchVal
-        };
-        // console.log(data)
-        var promise = SendAjaxRequest("GET","query-by-qtl-name",data);
-        promise.then(
-            function (result){
-                if(result.status!=200){
-                    if($("#qtlErrorTip").is(":hidden")){
-                        $("#qtlErrorTip").show();
-                        $("#qtlName").addClass("inputErrorColor")
-                    };
-                    if(!$("#qtlAdd .sureBtn").is(":hidden")){
-                        $("#qtlAdd .sureBtn").hide();
-                    }
-                }else {
-                    if( $("#qtlName").hasClass("inputErrorColor")){
-                        $("#qtlName").removeClass("inputErrorColor")
-                    };
-                    if($("#qtlAdd .fuzzySearch").is(":hidden")){
-                        $("#qtlAdd .fuzzySearch").show();
-                    };
-                    if(!$("#qtlErrorTip").is(":hidden")){
-                        $("#qtlErrorTip").hide();
-                    };
-                    if($("#qtlAdd .sureBtn").is(":hidden")){
-                        $("#qtlAdd .sureBtn").show();
-                    }
-                    // 动态生成qtlname列表
-                    var list = result.data;
-                    var $ul = $("#qtlAdd .fuzzySearch ul");
-                    $ul.empty();
-                    for (var i = 0; i < list.length; i++) {
-                        var name = list[i].qtlName;
-                        var li = "<li>" + "<label for='" + name + "'><span id ='" + name + "' data-value='" + name + "'></span>" + name + "</label></li>";
-                        $ul.append(li);
-                    }
-                }
-            },
-            function (error){
-                console.log(error);
-            }
-        )
-    });
+    // $("#QtlBtnName").click(function (){
+    //     //Mock 拦截请求
+    //     var number = Mock.mock({
+    //         "total|1-100": 100
+    //     });
+    //     var arr = [];
+    //     for (var i=0;i<number.total;i++){
+    //         var id = Mock.mock({ "number|1-100000": 100 });
+    //         var qtlName = Mock.Random.string("lower",7,7) +Mock.Random.string("lower",7,7) + Mock.Random.string("lower",7,7) ;
+    //         arr.push({
+    //             id:id.number,
+    //             qtlName:qtlName
+    //         });
+    //     }
+    //     var obj = {
+    //         status:200,
+    //         data:arr
+    //     }
+    //     Mock.mock(/(query-by-qtl-name){1}\w*/,obj);
+    //     // debugger;
+    //     var qtlSearchVal = $("#qtlName").val();
+    //     var data ={
+    //         qtlName:qtlSearchVal
+    //     };
+    //     // console.log(data)
+    //     var promise = SendAjaxRequest("GET","query-by-qtl-name",data);
+    //     promise.then(
+    //         function (result){
+    //             console.log(result)
+    //             if(result.status!=200){
+    //                 if($("#qtlErrorTip").is(":hidden")){
+    //                     $("#qtlErrorTip").show();
+    //                     $("#qtlName").addClass("inputErrorColor")
+    //                 };
+    //                 if(!$("#qtlAdd .sureBtn").is(":hidden")){
+    //                     $("#qtlAdd .sureBtn").hide();
+    //                 }
+    //             }else {
+    //                 if( $("#qtlName").hasClass("inputErrorColor")){
+    //                     $("#qtlName").removeClass("inputErrorColor")
+    //                 };
+    //                 if($("#qtlAdd .fuzzySearch").is(":hidden")){
+    //                     $("#qtlAdd .fuzzySearch").show();
+    //                 };
+    //                 if(!$("#qtlErrorTip").is(":hidden")){
+    //                     $("#qtlErrorTip").hide();
+    //                 };
+    //                 if($("#qtlAdd .sureBtn").is(":hidden")){
+    //                     $("#qtlAdd .sureBtn").show();
+    //                 }
+    //                 // 动态生成qtlname列表
+    //                 var list = result.data;
+    //                 var $ul = $("#qtlAdd .fuzzySearch ul");
+    //                 $ul.empty();
+    //                 for (var i = 0; i < list.length; i++) {
+    //                     var id = list[i].id;
+    //                     var name = list[i].qtlName;
+    //                     var li = "<li>" + "<label for='" + name + "'><span id ='" + id + "' data-value='" + name + "'></span>" + name + "</label></li>";
+    //                     $ul.append(li);
+    //                 }
+    //             }
+    //         },
+    //         function (error){
+    //             console.log(error);
+    //         }
+    //     )
+    // });
     // 每个qtlname列表的点击选中事件
     var globleObject = {};
     globleObject.selectedQtl = [];
+    console.log(globleObject.selectedQtl)
     $("#qtlAdd .fuzzySearch").on("click","li",function (){
-        var list =  $("#qtlAdd .fuzzySearch li");
+        // var list =  $("#qtlAdd .fuzzySearch li");
         if($(this).hasClass("checked")) {
             $(this).removeClass("checked");
             for(var i=0;i<globleObject.selectedQtl.length;i++){
                 if(globleObject.selectedQtl[i] == $(this).find("span").attr("id")){
                     globleObject.selectedQtl.splice(i,1);
+                    console.log(globleObject.selectedQtl)
                 }
             }
         }
         else {
             $(this).addClass("checked")
             globleObject.selectedQtl.push($(this).find("span").attr("id"));
+            console.log(globleObject.selectedQtl)
         }
     });
     // 根据选择的qtl 搜索 -- > sureBtn
@@ -157,18 +162,23 @@ $(function(){
             alert("最多只能选择 5 个");
             return;
         }else {
-            Mock.mock(/(confirm){1}\w*/,{data:[3,4,56,7]});
-            var qtlSearchVal = $("#qtlName").val();
-            var data = JSON.stringify(globleObject.selectedQtl);
-            // console.log(JSON.parse(data));
+            // Mock.mock(/(confirm){1}\w*/,{data:[3,4,56,7]});
+            var qtlVal = JSON.stringify(globleObject.selectedQtl);
+            console.log(qtlVal);
+            var data ={
+                chosenQtl:qtlVal,
+                pageNo:1,
+                pageSize:20
+            };
             // 发送请求
             var promise = SendAjaxRequest("POST","confirm",data);
             promise.then(
                 function (result){
+
                     // console.warn(result);
                     var key = $("#qtlName").val();
                     if (key && !/^\s+$/.test(key)) {
-                        window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&searchType=4";
+                        // window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&searchType=4";
                     }
                 },
                 function (error){
@@ -177,6 +187,40 @@ $(function(){
             )
         }
     })
+
+    $("#QtlBtnNames").click(function (){
+    var qtlSearchVal = $("#qtlName").val();
+    console.log(qtlSearchVal)
+    var data ={
+        qtlName:qtlSearchVal
+    };
+        $.ajax({
+            url: '/iqgs/advance-search/query-by-qtl-name',
+            data: data,
+            type: "get",
+            dataType: "json",
+            success: function(res) {
+                // console.log(res)
+                if(res.length==0){
+                alert('暂无数据')
+                }else{
+                    // 动态生成qtlname列表
+                    $('#qtlAdd .fuzzySearch').show();
+                    var $ul = $("#qtlAdd .fuzzySearch ul");
+                    $ul.empty();
+                    for (var i = 0; i < res.length; i++) {
+                        var id = res[i].id;
+                        var name = res[i].qtlName;
+                        var li = "<li>" + "<label for='" + name + "'><span id ='" + id + "' data-value='" + name + "'></span>" + name + "</label></li>";
+                        $ul.append(li);
+                    }
+                }
+
+            }
+        });
+    });
+
+
 })
 
 

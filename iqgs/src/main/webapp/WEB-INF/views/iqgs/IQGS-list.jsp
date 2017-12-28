@@ -132,7 +132,7 @@
                 <p class="search-title">Search By QTL</p>
                 <label>
                     <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
-                    <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
+                    <button id="QtlBtnNames" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <div id="qtlErrorTip">
                     根据输入的关键字查询的结果为: 0 条
@@ -146,11 +146,12 @@
                         <%--</label>--%>
                         <%--</li>--%>
                     </ul>
+                    <div class="sureBtn">
+                        <p>确定</p>
+                    </div>
                 </div>
                 <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> Seed N at R5 1-1</a></p>
-                <div class="sureBtn">
-                    <p>确定</p>
-                </div>
+
             </div>
         </div>
     </div>
@@ -158,14 +159,14 @@
         <div class="AdvancedSearch_div"><button class="AdvancedSearch_btn">Advanced search</button></div>
         <div class="SelectedEmpty">
             <span class="selected">已选>&nbsp;</span>
-            <label class="geneExpression_lab qtl_lab">
-                <span class="geneExpression_name"></span><span class="geneExpression_select qtl_sel"></span><span class="geneExpression_del">&nbsp;x</span>
+            <label class="geneExpression_lab">
+                <span class="geneExpression_name"></span><span class="geneExpression_select qtl_sel"></span><span class="geneExpression_del"></span>
             </label>
-            <label class="snp_lab qtl_lab">
-                <span class="snp_name"></span><span class="snp_select qtl_sel"></span><span class="snp_del">&nbsp;x</span>
+            <label class="snp_lab">
+                <span class="snp_name"></span><span class="snp_select qtl_sel"></span><span class="snp_del"></span>
             </label>
-            <label class="indel_lab qtl_lab">
-                <span class="indel_name"></span><span class="indel_select qtl_sel"></span><span class="indel_del">&nbsp;x</span>
+            <label class="indel_lab">
+                <span class="indel_name"></span><span class="indel_select qtl_sel"></span><span class="indel_del"></span>
             </label>
             <span class="empty">清空</span>
         </div>
@@ -293,7 +294,7 @@
                 chr : $(".js-region").val()
             }, resultCallback);
         }else{
-            $("#QtlBtnName").click()
+            $("#QtlBtnNames").click()
 
             $.getJSON('${ctxroot}/iqgs/search/func', {
                 pageNo: page.curr || 1,
@@ -371,8 +372,6 @@
     //高级搜索QTL
     $.getJSON('${ctxroot}/advance-search/fetch-qtl-smarty', {
     }, searchQtlData);
-
-
 </script>
 </body>
 </html>
