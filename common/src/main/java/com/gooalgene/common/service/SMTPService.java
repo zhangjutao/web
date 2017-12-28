@@ -46,6 +46,7 @@ public class SMTPService {
      * @param debug 是否使用debug模式
      * @throws MessagingException
      * @throws UnsupportedEncodingException
+     * @decription 由于生产环境布在阿里云上，阿里云封禁了25端口，故本方法采用ssl协议，指定使用465端口发送邮件
      */
     public void send(String from, List<String> receivers, String subject, String sendMessage, boolean debug) throws MessagingException, UnsupportedEncodingException {
         Assert.isTrue(receivers != null && receivers.size() > 0, "邮件接收者为空");
@@ -90,6 +91,17 @@ public class SMTPService {
         transport.close();
     }
 
+    /**
+     * @param from
+     * @param receivers
+     * @param subject
+     * @param template
+     * @param debug
+     * @param filePlaceHolder
+     * @throws MessagingException
+     * @throws IOException
+     * @decription 由于生产环境布在阿里云上，阿里云封禁了25端口，故本方法采用ssl协议，指定使用465端口发送邮件
+     */
     public void send(String from, List<String> receivers, String subject, File template, boolean debug, String[] filePlaceHolder) throws MessagingException, IOException {
         Assert.isTrue(receivers != null && receivers.size() > 0, "邮件接收者为空");
         Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
