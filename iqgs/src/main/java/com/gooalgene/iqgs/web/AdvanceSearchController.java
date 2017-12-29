@@ -36,10 +36,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
@@ -674,9 +671,9 @@ public class AdvanceSearchController {
      * "rootTissues": []
      * }
      */
-    @RequestMapping(value = "/confirm", method = RequestMethod.POST)
+    @RequestMapping(value = "/confirm", method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "choseQTL[]") Integer[] chosenQtl, HttpServletRequest request) {
+    public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl, HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         PageHelper.startPage(pageNo, pageSize, true);

@@ -50,8 +50,7 @@ $(function(){
                     method: method,
                     url: url,
                     data:data,
-                    dataType: "json",
-                    contentType: "application/json,charset=UTF-8;",
+                    contentType: "application/json;charset=UTF-8;",
                     success: function (result) {
                         resolve(result)
                     },
@@ -163,16 +162,16 @@ $(function(){
             return;
         }else {
             var qtlVal = JSON.stringify(globleObject.selectedQtl);
+            val = [1001, 1005];
             var data ={
-                chosenQtl:12329,
+                chosenQtl:val,
                 pageNo:1,
                 pageSize:20
             };
             // 发送请求
-            var promise = SendAjaxRequest("POST","/iqgs/advance-search/confirm",data);
+            var promise = SendAjaxRequest("GET","/iqgs/advance-search/confirm", data);
             promise.then(
                 function (result){
-
                     // console.warn(result);
                     var key = $("#qtlName").val();
                     if (key && !/^\s+$/.test(key)) {
