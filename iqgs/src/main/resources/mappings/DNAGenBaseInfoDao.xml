@@ -24,8 +24,8 @@
 
     <select id="findGeneByQTLName" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
         SELECT a.* FROM gens_baseinfo a
-        RIGHT JOIN qtl_gene b ON a.id = b.gene_info_id
-        RIGHT JOIN associatedgenes c ON b.qtl_id = c.id
+        LEFT JOIN qtl_gene b ON a.id = b.gene_info_id
+        LEFT JOIN associatedgenes c ON b.qtl_id = c.id
         WHERE c.id IN
         <foreach collection="list" item="item" open="(" separator="," close=")">
           #{item}
