@@ -47,62 +47,24 @@
 	$(function (){
         var CTXROOT = '${ctxroot}';
 	    <%--var id = "${requestScope.genId}";--%>
-//	    var id ="Glyma.04G131800";
-//        var dataset;
-//        getNetWordDatas(id);
+	    var id ="Glyma.04G131800";
+        var dataset;
+        getNetWordDatas(id);
 //			// 获取调控网络的数据
-//		function getNetWordDatas (id){
-//		    $.ajax({
-//				hierarchy:"GET",
-//				url:CTXROOT + "//advance-search/fetch-network-genes",
-//                async: false,
-//				data:{geneId:id},
-//				success:function (result){
-//					dataset = result;
-//				},
-//				error:function(error){
-//				    console.log(error);
-//				}
-//			})
-//		};
-		dataset = {
-            nodes: [
-                { geneID: "Glyma.06G317500", hierarchy: 1 },
-                // { geneID: "Glyma.15G272000", hierarchy: 1 },
-                { geneID: "Glyma.11G109400", hierarchy: 2 },
-                { geneID: "Glyma.12G015900", hierarchy: 2 },
-                { geneID: "Glyma.09G173500", hierarchy: 2 },
-                { geneID: "Glyma.12G207500", hierarchy: 2 },
-                { geneID: "Glyma.13G293600", hierarchy: 2 },
-                { geneID: "Glyma.13G064900", hierarchy: 2 },
-                { geneID: "Glyma.18G255700", hierarchy: 2 },
-                // { geneID: "Glyma.19G020100", hierarchy: 2 },
-                // { geneID: "Glyma.20G077000", hierarchy: 2 },
-                // { geneID: "Glyma.16G075400", hierarchy: 2 },
-                // { geneID: "Glyma.18G096900", hierarchy: 2 },
-                // { geneID: "Glyma.17G064100", hierarchy: 2 },
-                { geneID: "Glyma.18G125500", hierarchy: 3 },
-                // { geneID: "Glyma.18G157300", hierarchy: 3 },
-                // { geneID: "Glyma.16G157900", hierarchy: 3 },
-            ],
-            links: [
-                { source: "Glyma.06G317500", target: "Glyma.11G109400", HasArrow: true },
-                { source: "Glyma.06G317500", target: "Glyma.12G015900", HasArrow: true },
-                { source: "Glyma.06G317500", target: "Glyma.09G173500", HasArrow: true },
-                { source: "Glyma.06G317500", target: "Glyma.12G207500", HasArrow: true },
-                { source: "Glyma.06G317500", target: "Glyma.13G293600", HasArrow: false },
-                { source: "Glyma.06G317500", target: "Glyma.13G064900", HasArrow: false  },
-                { source: "Glyma.06G317500", target: "Glyma.18G255700", HasArrow: false  },
-                // { source: "Glyma.15G272000", target: "Glyma.19G020100", HasArrow: true },
-                // { source: "Glyma.15G272000", target: "Glyma.20G077000", HasArrow: true },
-                // { source: "Glyma.15G272000", target: "Glyma.16G075400", HasArrow: true },
-                // { source: "Glyma.15G272000", target: "Glyma.18G096900", HasArrow: true },
-                // { source: "Glyma.15G272000", target: "Glyma.17G064100", HasArrow: true },
-                { source: "Glyma.11G109400", target: "Glyma.18G125500", HasArrow: false },
-                // { source: "Glyma.17G064100", target: "Glyma.18G157300", HasArrow: false },
-                // { source: "Glyma.16G075400", target: "Glyma.16G157900", HasArrow: false },
-            ]
-        };
+		function getNetWordDatas (id){
+		    $.ajax({
+				hierarchy:"GET",
+				url:CTXROOT + "//advance-search/fetch-network-genes",
+                async: false,
+				data:{geneId:id},
+				success:function (result){
+					dataset = result;
+				},
+				error:function(error){
+				    console.log(error);
+				}
+			})
+		};
 		var svg = d3.select('#netPic02 svg').attr("width", $("#netPic02").width()).attr("height", 600)
 		svg.selectAll("g").remove()
 		var width = +svg.attr('width'),
@@ -113,13 +75,11 @@
 		hierarchy2Color = colorsArray[1];
 		hierarchy3Color = colorsArray[2];
         var highLight = "#cd0000";
-        var defaultColor = "#000";
+        var defaultColor = "#ff0000";
 		var simulation = d3.forceSimulation(dataset.nodes)
 				.force('charge', d3.forceManyBody().strength(-50))
 				.force("link", d3.forceLink().id(function (d) { return d.geneID; }).distance(function () { return 100 }))
-				.force('center', d3.forceCenter(width / 2, (height - legendHeight) / 2));
-
-
+				.force('center', d3.forceCenter(width / 2, (height - legendHeight-100) / 2));
         var colorVal;
         var colorF;
         var colorL;
@@ -231,13 +191,13 @@
 
 		hierarchy1Legend.append('circle').attr('r', 10).attr('fill', hierarchy1Color)
 		hierarchy1Legend.append('text').attr("transform", "translate(-5,5)").attr("font-size",12).style("cursor", "default ").text("G")
-		hierarchy1Legend.append('text').attr("transform", "translate(20,5)").text("hierarchy1文字描述")
+		hierarchy1Legend.append('text').attr("transform", "translate(20,5)").text("guide gene")
 
 		hierarchy2Legend.append('circle').attr('r', 10).attr('fill', hierarchy2Color)
-		hierarchy2Legend.append('text').attr("transform", "translate(20,5)").text("hierarchy2文字描述")
+		hierarchy2Legend.append('text').attr("transform", "translate(20,5)").text("candidate")
 
 		hierarchy3Legend.append('circle').attr('r', 10).attr('fill', hierarchy3Color)
-		hierarchy3Legend.append('text').attr("transform", "translate(20,5)").text("hierarchy3文字描述")
+		hierarchy3Legend.append('text').attr("transform", "translate(20,5)").text("Indirect")
 
 		function ticked() {
 			link
@@ -257,7 +217,7 @@
 		}
 
 		function dragstarted(d) {
-			if (!d3.event.active) simulation.alphaTarget(0.3).restart();
+			if (!d3.event.active) simulation.alphaTarget(0.06).restart();
 			d.fx = d.x;
 			d.fy = d.y;
 		}
@@ -268,7 +228,7 @@
 		}
 
 		function dragended(d) {
-			if (!d3.event.active) simulation.alphaTarget(0);
+			if (!d3.event.active) simulation.alphaTarget(0.06);
 			d.fx = null;
 			d.fy = null;
 		}
