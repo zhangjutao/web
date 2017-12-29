@@ -22,7 +22,7 @@
         </where>
     </select>
 
-    <select id="findGeneByQTLName" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
+    <select id="findGeneInQTLIds" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
         SELECT a.* FROM gens_baseinfo a
         LEFT JOIN qtl_gene b ON a.id = b.gene_info_id
         LEFT JOIN associatedgenes c ON b.qtl_id = c.id

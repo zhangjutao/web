@@ -113,7 +113,7 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     @Test
     public void testFindGeneByQTLName(){
         Integer[] ids = {1003, 1005, 1008};
-        List<DNAGenBaseInfo> all = dnaGenBaseInfoDao.findGeneByQTLName(Arrays.asList(ids));
+        List<DNAGenBaseInfo> all = dnaGenBaseInfoDao.findGeneInQTLIds(Arrays.asList(ids));
         assertNotNull(all);
         assertEquals(532, all.size());
     }

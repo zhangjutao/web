@@ -19,7 +19,7 @@ public interface DNAGenBaseInfoDao {
      * @param inputQTLId QTL集合
      * @return QTL所包含的基因集合
      */
-    List<DNAGenBaseInfo> findGeneByQTLName(List<Integer> inputQTLId);
+    List<DNAGenBaseInfo> findGeneInQTLIds(List<Integer> inputQTLId);
 
     /**
      * 检查输入基因是否存在
