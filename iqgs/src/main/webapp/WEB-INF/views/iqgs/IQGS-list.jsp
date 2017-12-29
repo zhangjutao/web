@@ -15,7 +15,6 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
-
 </head>
 <style>
     .AdvancedSearch{
@@ -54,6 +53,7 @@
         border: none;
         height: auto;
     }
+    .form_search .fuzzySearch{display: flex;}
     .AdvancedSearch .fuzzySearch ul{width: auto; height: auto;}
     .AdvancedSearch .fuzzySearch ul li{width: auto}
     .AdvancedSearch .fuzzySearch li:nth-child(3n+1) {
@@ -62,8 +62,26 @@
     .form_search{padding-top:12px;}
     .snpSearch_div,.indelSearch_div{display: flex;}
 
-    .qtl_lab{border: 1px solid #e5e5e5; padding: 2px 6px;}
+    .qtl_lab{border: 1px solid #e5e5e5; padding: 2px 6px; margin-right: 5px;}
     .qtl_sel{ padding: 2px 4px;}
+    .fpkm-input{
+        width: 50px;
+        /*height: 20px;*/
+        /*float: left;*/
+        border: 1px solid #e6e6e6;
+        padding:5px;
+    }
+    .fpkm_btn{
+        background: #5C8CE6;
+        color: #fff;
+        font-size: 12px;
+        cursor: pointer;
+        border-radius: 3px;
+        text-align: center;
+        padding: 5px 18px;
+    }
+   .AdvancedSearch .select_con{overflow-y: auto;}
+    .geneExpression_del,.snp_del,indel_del{cursor: pointer;}
 </style>
 <body>
 
@@ -179,6 +197,10 @@
             <div class="fuzzySearch">
             <ul class="select_con" id="geneList">
             </ul>
+                <div>FPKM:<input class="fpkm-input"  type="text" name="search" placeholder="">-
+                    <input class="fpkm-input"  type="text" name="search" placeholder="">(min=0,max=100)
+                    <botton class="fpkm_btn">确定</botton>
+                </div>
             </div>
         </form>
         <%--SNP--%>
@@ -246,6 +268,26 @@
 
 
 <script>
+    //获取URL参数
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]); return null;
+        }
+    })(jQuery);
+    var keyword = $.getUrlParam('keyword');
+    var chosenQtl= $.getUrlParam('chosenQtl');
+    var chosenQtlCurr= chosenQtl.split(",");
+
+    var vals =$('#qtlAdd .fuzzySearch span ').attr( "id" );
+
+//    for(var i=0;i<chosenQtlCurr.length;i++){
+//
+//
+//    }
+
+
     window.DOMAIN = "${ctxroot}/iqgs";
     var searchType = '${searchType}';
     var page = {curr: 1, pageSize:10};
@@ -262,8 +304,7 @@
             $("#rg_end").val('${rgEnd}');
             $($("#myTabs li")[2]).trigger('click');
         }else{
-            <%--$("#qtlName").val('${keyword}');--%>
-            $("#qtlName").val('123');
+            $("#qtlName").val(keyword);
             $($("#myTabs li")[3]).trigger('click');
         }
     }
@@ -296,11 +337,24 @@
         }else{
             $("#QtlBtnNames").click()
 
-            $.getJSON('${ctxroot}/iqgs/search/func', {
-                pageNo: page.curr || 1,
-                pageSize: page.pageSize || 10,
-                keyword : $("#qtlName").val()
+            <%--$.getJSON('${ctxroot}/iqgs/search/func', {--%>
+                <%--pageNo: page.curr || 1,--%>
+                <%--pageSize: page.pageSize || 10,--%>
+                <%--keyword : $("#qtlName").val()--%>
+            <%--}, resultCallback);--%>
+            // val = [1001, 1005];
+//            var data ={
+//                chosenQtl:qtlVal,
+//                pageNo:1,
+//                pageSize:20
+//            };
+            $.getJSON('${ctxroot}/advance-search/confirm', {
+            pageNo:1,
+            pageSize:10,
+            chosenQtl :chosenQtlCurr
             }, resultCallback);
+
+
         }
     }
 
@@ -335,12 +389,12 @@
             var html = [];
             $.each(listdata, function(i, item){
                 html.push('<div class="list">');
-                html.push('    <div class="tab-index">' + (page.pageSize * (page.curr-1) + i+1) + '.</div>');
-                html.push('    <div class="list-content">');
-                html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
-                html.push('        <p class="h-tips">基因名:<span>' + item.geneName + '</span></p>');
-                html.push('        <p class="content-b">基因注释:<span>' + item.description + '</span></p>');
-                html.push('    </div>');
+                html.push('<div class="tab-index">' + (page.pageSize * (page.curr-1) + i+1) + '.</div>');
+                html.push('<div class="list-content">');
+                html.push('<p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
+                html.push('<p class="h-tips">基因名:<span>' + item.geneName + '</span></p>');
+                html.push('<p class="content-b">基因注释:<span>' + item.description + '</span></p>');
+                html.push('</div>');
                 html.push('</div>');
             });
             $(".search-result-b .tab-list").html(html.join('\n'));
