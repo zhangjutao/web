@@ -3,6 +3,7 @@
 .idea/
 guaoqtl.iml
 out/
+output/
 
 logs/
 *.log

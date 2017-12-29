@@ -4403,4804 +4403,2252 @@
   ],
   "nodes": [
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.04G236300"
     },
     {
-      "geneId": "Glyma.11G109400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G116700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.07G259200"
     },
     {
-      "geneId": "Glyma.12G015900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.08G232000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.19G171700"
     },
     {
-      "geneId": "Glyma.12G207500",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G044500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.06G173200"
     },
     {
-      "geneId": "Glyma.09G173500",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.13G153500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.04G200700"
     },
     {
-      "geneId": "Glyma.13G293600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G142300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G296300"
     },
     {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.01G228400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.09G281600"
     },
     {
-      "geneId": "Glyma.18G255700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.19G128300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.07G046700"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G026900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G059800"
     },
     {
-      "geneId": "Glyma.19G020100",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.12G063000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.12G225000"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G123500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.06G272500"
     },
     {
-      "geneId": "Glyma.18G125500",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.12G063000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.05G239000"
     },
     {
-      "geneId": "Glyma.12G061200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.19G261800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.08G146500"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.08G141700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.04G221400"
     },
     {
-      "geneId": "Glyma.12G061400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G134900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.08G336000"
     },
     {
-      "geneId": "Glyma.11G137700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G038000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.03G162800"
     },
     {
-      "geneId": "Glyma.20G149400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.18G125500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.03G189300"
     },
     {
-      "geneId": "Glyma.11G048200",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.18G125500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.17G069400"
     },
     {
-      "geneId": "Glyma.20G097700",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.04G198900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.11G004300"
     },
     {
-      "geneId": "Glyma.10G147200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G090000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.04G198900"
     },
     {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.01G147300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.06G007400"
     },
     {
-      "geneId": "Glyma.10G245200",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.18G255700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.08G033300"
     },
     {
-      "geneId": "Glyma.06G170900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.12G017200"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.18G255700"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.13G367100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.07G103600"
     },
     {
-      "geneId": "Glyma.06G166600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G165500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G273300"
     },
     {
-      "geneId": "Glyma.07G121000",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.01G168000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.19G233300"
     },
     {
-      "geneId": "Glyma.15G271300",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G202900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.05G241100"
     },
     {
-      "geneId": "Glyma.05G202400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G241100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.18G151800"
     },
     {
-      "geneId": "Glyma.11G006600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G235800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.14G020200"
     },
     {
-      "geneId": "Glyma.14G088800",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.12G075500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.04G231500"
     },
     {
-      "geneId": "Glyma.14G004700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G120300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.11G011200"
     },
     {
-      "geneId": "Glyma.18G216400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G011100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.15G071900"
     },
     {
-      "geneId": "Glyma.09G091600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G138700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G185300"
     },
     {
-      "geneId": "Glyma.15G198100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.17G089100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G157800"
     },
     {
-      "geneId": "Glyma.11G103700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G030800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.07G137100"
     },
     {
-      "geneId": "Glyma.04G226400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.14G005200"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.20G236500"
     },
     {
-      "geneId": "Glyma.06G065600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.07G137100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.17G028100"
     },
     {
-      "geneId": "Glyma.04G195100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G029400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.12G205400"
     },
     {
-      "geneId": "Glyma.15G071900",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.07G121000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.13G090900"
     },
     {
-      "geneId": "Glyma.06G138500",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.20G097700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.03G086400"
     },
     {
-      "geneId": "Glyma.13G241500",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G011000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.05G202400"
     },
     {
-      "geneId": "Glyma.19G175900",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.13G090900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.05G202400"
     },
     {
-      "geneId": "Glyma.17G069400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.08G292800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.13G203400"
     },
     {
-      "geneId": "Glyma.13G090900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G159600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.07G219000"
     },
     {
-      "geneId": "Glyma.04G192600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G290600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.09G213800"
     },
     {
-      "geneId": "Glyma.06G173200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.11G020100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.11G237200"
     },
     {
-      "geneId": "Glyma.15G006400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.10G133100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.20G197100"
     },
     {
-      "geneId": "Glyma.13G367000",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G055500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.17G105900"
     },
     {
-      "geneId": "Glyma.13G339700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G107400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.03G261000"
     },
     {
-      "geneId": "Glyma.15G034700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G208200"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G026800"
     },
     {
-      "geneId": "Glyma.08G054900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G002300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.13G339700"
     },
     {
-      "geneId": "Glyma.11G139400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G223500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.08G181800"
     },
     {
-      "geneId": "Glyma.12G063000",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.08G343800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.12G171400"
     },
     {
-      "geneId": "Glyma.13G318800",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.02G308500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.07G028400"
     },
     {
-      "geneId": "Glyma.06G164800",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G219600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.08G054900"
     },
     {
-      "geneId": "Glyma.09G242000",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.08G152100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.06G138600"
     },
     {
-      "geneId": "Glyma.17G064100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.02G288400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G124300"
     },
     {
-      "geneId": "Glyma.04G165900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G185800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.10G219900"
     },
     {
-      "geneId": "Glyma.05G246700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.12G026400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.08G135100"
     },
     {
-      "geneId": "Glyma.18G253600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G052600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G207800"
     },
     {
-      "geneId": "Glyma.16G081400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.09G007300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.07G012300"
     },
     {
-      "geneId": "Glyma.09G272700",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.11G137700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.13G318800"
     },
     {
-      "geneId": "Glyma.10G193200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.11G137700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G015000"
     },
     {
-      "geneId": "Glyma.08G075500",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G141000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.05G046100"
     },
     {
-      "geneId": "Glyma.13G126400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G242800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.12G015900"
     },
     {
-      "geneId": "Glyma.05G236100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.13G262200"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.04G243000"
     },
     {
-      "geneId": "Glyma.13G096000",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.01G149700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.06G170900"
     },
     {
-      "geneId": "Glyma.10G076400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.12G015900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.09G214300"
     },
     {
-      "geneId": "Glyma.06G196600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G205600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.03G034100"
     },
     {
-      "geneId": "Glyma.11G114300",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.02G011800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.05G046100"
     },
     {
-      "geneId": "Glyma.19G153200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.10G043000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.08G054900"
     },
     {
-      "geneId": "Glyma.20G197100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G061900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.09G013900"
     },
     {
-      "geneId": "Glyma.13G268600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G075300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.10G245200"
     },
     {
-      "geneId": "Glyma.12G230900",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.06G075300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.10G133800"
     },
     {
-      "geneId": "Glyma.12G156800",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.10G018500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.10G245200"
     },
     {
-      "geneId": "Glyma.06G227200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G210700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G207800"
     },
     {
-      "geneId": "Glyma.08G286700",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.03G107700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G006500"
     },
     {
-      "geneId": "Glyma.07G137100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G219800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.04G029400"
     },
     {
-      "geneId": "Glyma.11G237200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G213100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.16G015500"
     },
     {
-      "geneId": "Glyma.12G075500",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.12G230900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G038000"
     },
     {
-      "geneId": "Glyma.10G127800",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G106100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.06G045000"
     },
     {
-      "geneId": "Glyma.10G004300",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G162600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.16G083100"
     },
     {
-      "geneId": "Glyma.19G238600",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.08G308700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.07G110200"
     },
     {
-      "geneId": "Glyma.07G184300",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.08G075500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.06G065600"
     },
     {
-      "geneId": "Glyma.17G028100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G065600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G112400"
     },
     {
-      "geneId": "Glyma.07G245900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.01G236600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.09G086200"
     },
     {
-      "geneId": "Glyma.09G040100",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.05G146800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.08G346500"
     },
     {
-      "geneId": "Glyma.07G259200",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.01G197500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.03G069600"
     },
     {
-      "geneId": "Glyma.13G254900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.01G140600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.03G214900"
     },
     {
-      "geneId": "Glyma.15G059900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.14G186900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.19G153200"
     },
     {
-      "geneId": "Glyma.16G004400",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.10G128100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G264000"
     },
     {
-      "geneId": "Glyma.07G035000",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.20G017200"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.15G261900"
     },
     {
-      "geneId": "Glyma.05G046300",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.06G164800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.05G177100"
     },
     {
-      "geneId": "Glyma.05G046100",
-      "hierarchy": 1
+      "hierarchy": 1,
+      "geneId": "Glyma.06G164800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.07G130200"
     },
     {
-      "geneId": "Glyma.06G075300",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G226900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.12G207500"
     },
     {
-      "geneId": "Glyma.07G214900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.02G137100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.05G246700"
     },
     {
-      "geneId": "Glyma.10G018500",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.12G028500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 1,
+      "geneId": "Glyma.05G246700"
     },
     {
-      "geneId": "Glyma.19G233300",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G179100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.02G258800"
     },
     {
-      "geneId": "Glyma.20G236500",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.11G100300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.01G196300"
     },
     {
-      "geneId": "Glyma.10G151900",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.07G118300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 0
+      "hierarchy": 2,
+      "geneId": "Glyma.10G012800"
     },
     {
-      "geneId": "Glyma.08G311000",
-      "hierarchy": 1
+      "hierarchy": 2,
+      "geneId": "Glyma.04G199200"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G126400"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G126400"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G241000"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G205600"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G050200"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G227600"
     },
     {
-      "geneId": "Glyma.09G013900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G058100"
     },
     {
-      "geneId": "Glyma.02G275500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G093200"
     },
     {
-      "geneId": "Glyma.04G213100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G157300"
     },
     {
-      "geneId": "Glyma.08G308700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G235000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G134800"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G241500"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.18G007500"
     },
     {
-      "geneId": "Glyma.11G137700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G088500"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G241500"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G228500"
     },
     {
-      "geneId": "Glyma.09G013900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G094400"
     },
     {
-      "geneId": "Glyma.02G275500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G367000"
     },
     {
-      "geneId": "Glyma.04G213100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G152200"
     },
     {
-      "geneId": "Glyma.08G308700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G367000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G229400"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G182800"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G258900"
     },
     {
-      "geneId": "Glyma.12G061200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G076000"
     },
     {
-      "geneId": "Glyma.12G061400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G133400"
     },
     {
-      "geneId": "Glyma.11G137700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G122200"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G018200"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G276400"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G344100"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.11G114300"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G275500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G114300"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G064900"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G064900"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G001800"
     },
     {
-      "geneId": "Glyma.09G013900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G029600"
     },
     {
-      "geneId": "Glyma.02G275500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G103700"
     },
     {
-      "geneId": "Glyma.04G213100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G227200"
     },
     {
-      "geneId": "Glyma.08G308700",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.11G103700"
     },
     {
-      "geneId": "Glyma.02G035000",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.06G227200"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G050100"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G198600"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G066500"
     },
     {
-      "geneId": "Glyma.12G061200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G120300"
     },
     {
-      "geneId": "Glyma.12G061400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G211200"
     },
     {
-      "geneId": "Glyma.11G137700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G096300"
     },
     {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.09G242000"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.09G242000"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G234900"
     },
     {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G171100"
     },
     {
-      "geneId": "Glyma.11G048200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G170000"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G255500"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G138100"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G109400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G156800"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G003300"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G061200"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G245300"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.11G109400"
     },
     {
-      "geneId": "Glyma.10G245200",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.12G061200"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G210200"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G255500"
     },
     {
-      "geneId": "Glyma.11G048200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G050300"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.16G062100"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G065100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G131700"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G155800"
     },
     {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G111700"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G103200"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G127400"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.09G173500"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.09G173500"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G243100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G185600"
     },
     {
-      "geneId": "Glyma.09G234100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G006900"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G225200"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G207900"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G180000"
     },
     {
-      "geneId": "Glyma.07G124500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G322000"
     },
     {
-      "geneId": "Glyma.08G033300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G091800"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G251000"
     },
     {
-      "geneId": "Glyma.11G048200",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.20G149400"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G047800"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G236100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.05G236100"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G209700"
     },
     {
-      "geneId": "Glyma.18G255700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G014900"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G291100"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G189200"
     },
     {
-      "geneId": "Glyma.18G125500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G260500"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.09G234100"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.14G004700"
     },
     {
-      "geneId": "Glyma.02G264000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G052300"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G134400"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G046200"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.15G271300"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G016800"
     },
     {
-      "geneId": "Glyma.06G065600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G245900"
     },
     {
-      "geneId": "Glyma.01G029600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.07G245900"
     },
     {
-      "geneId": "Glyma.02G059800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G127800"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.10G127800"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.14G017400"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G274200"
     },
     {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G003600"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G317500"
     },
     {
-      "geneId": "Glyma.02G264000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G260100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G204800"
     },
     {
-      "geneId": "Glyma.14G057500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G262800"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G001200"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G292200"
     },
     {
-      "geneId": "Glyma.11G109400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G193700"
     },
     {
-      "geneId": "Glyma.12G015900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G178100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G131800"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 0,
+      "geneId": "Glyma.04G131800"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.18G291900"
     },
     {
-      "geneId": "Glyma.09G173500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G142900"
     },
     {
-      "geneId": "Glyma.11G137700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G022500"
     },
     {
-      "geneId": "Glyma.01G062200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G005500"
     },
     {
-      "geneId": "Glyma.02G120400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G250100"
     },
     {
-      "geneId": "Glyma.10G151900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G003700"
     },
     {
-      "geneId": "Glyma.02G264000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G021600"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G150900"
     },
     {
-      "geneId": "Glyma.05G079100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G332900"
     },
     {
-      "geneId": "Glyma.05G116700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G080800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.14G026600"
     },
     {
-      "geneId": "Glyma.01G119400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G091200"
     },
     {
-      "geneId": "Glyma.05G029700",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.16G004400"
     },
     {
-      "geneId": "Glyma.04G226400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G150200"
     },
     {
-      "geneId": "Glyma.03G055500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.18G216400"
     },
     {
-      "geneId": "Glyma.01G240000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G146200"
     },
     {
-      "geneId": "Glyma.11G109400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.18G107900"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G089000"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G039900"
     },
     {
-      "geneId": "Glyma.12G015900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G107100"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G196500"
     },
     {
-      "geneId": "Glyma.09G173500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G059900"
     },
     {
-      "geneId": "Glyma.12G061200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G367400"
     },
     {
-      "geneId": "Glyma.11G137700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G208700"
     },
     {
-      "geneId": "Glyma.01G062200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G059500"
     },
     {
-      "geneId": "Glyma.02G120400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.18G290800"
     },
     {
-      "geneId": "Glyma.11G109400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G060000"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G223700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G018400"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G116600"
     },
     {
-      "geneId": "Glyma.09G173500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G193200"
     },
     {
-      "geneId": "Glyma.01G062200",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.10G193200"
     },
     {
-      "geneId": "Glyma.02G120400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G003800"
     },
     {
-      "geneId": "Glyma.10G220400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G043800"
     },
     {
-      "geneId": "Glyma.10G151900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G144300"
     },
     {
-      "geneId": "Glyma.02G207800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G082000"
     },
     {
-      "geneId": "Glyma.18G151800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.14G057500"
     },
     {
-      "geneId": "Glyma.06G274200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G294500"
     },
     {
-      "geneId": "Glyma.04G111500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.17G018600"
     },
     {
-      "geneId": "Glyma.15G227600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G065900"
     },
     {
-      "geneId": "Glyma.06G323000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G176900"
     },
     {
-      "geneId": "Glyma.04G122700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G061400"
     },
     {
-      "geneId": "Glyma.11G003600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G010900"
     },
     {
-      "geneId": "Glyma.03G086400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G110200"
     },
     {
-      "geneId": "Glyma.03G189300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G030700"
     },
     {
-      "geneId": "Glyma.18G007500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.12G061400"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G117900"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G050600"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G012400"
     },
     {
-      "geneId": "Glyma.02G264000",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.04G192600"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G088000"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G193700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.09G075400"
     },
     {
-      "geneId": "Glyma.08G022500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G184300"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.07G184300"
     },
     {
-      "geneId": "Glyma.08G240300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G255100"
     },
     {
-      "geneId": "Glyma.11G100300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G075000"
     },
     {
-      "geneId": "Glyma.12G026400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G099500"
     },
     {
-      "geneId": "Glyma.10G012300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G219200"
     },
     {
-      "geneId": "Glyma.02G091200",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.11G048200"
     },
     {
-      "geneId": "Glyma.01G149700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G062200"
     },
     {
-      "geneId": "Glyma.18G291900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G242700"
     },
     {
-      "geneId": "Glyma.02G011800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.15G034700"
     },
     {
-      "geneId": "Glyma.09G213800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G048200"
     },
     {
-      "geneId": "Glyma.05G065900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.14G164600"
     },
     {
-      "geneId": "Glyma.03G235800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.07G214900"
     },
     {
-      "geneId": "Glyma.10G012300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G109500"
     },
     {
-      "geneId": "Glyma.02G091200",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.09G040100"
     },
     {
-      "geneId": "Glyma.01G149700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G122700"
     },
     {
-      "geneId": "Glyma.02G011800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.19G172200"
     },
     {
-      "geneId": "Glyma.09G213800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G002300"
     },
     {
-      "geneId": "Glyma.05G065900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G165400"
     },
     {
-      "geneId": "Glyma.03G235800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G095000"
     },
     {
-      "geneId": "Glyma.05G114900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G125400"
     },
     {
-      "geneId": "Glyma.05G089000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G035000"
     },
     {
-      "geneId": "Glyma.10G058100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G002400"
     },
     {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G154900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G057800"
     },
     {
-      "geneId": "Glyma.02G018200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G020000"
     },
     {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G239200"
     },
     {
-      "geneId": "Glyma.03G082300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G256700"
     },
     {
-      "geneId": "Glyma.04G075000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G171400"
     },
     {
-      "geneId": "Glyma.03G150900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G090100"
     },
     {
-      "geneId": "Glyma.04G117900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G191600"
     },
     {
-      "geneId": "Glyma.03G014900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G307900"
     },
     {
-      "geneId": "Glyma.01G196300",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G096000"
     },
     {
-      "geneId": "Glyma.01G240000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G225400"
     },
     {
-      "geneId": "Glyma.04G122700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G262100"
     },
     {
-      "geneId": "Glyma.04G226900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G119400"
     },
     {
-      "geneId": "Glyma.08G151900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G013500"
     },
     {
-      "geneId": "Glyma.06G274200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G167300"
     },
     {
-      "geneId": "Glyma.03G207500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G213900"
     },
     {
-      "geneId": "Glyma.04G111500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G195700"
     },
     {
-      "geneId": "Glyma.06G138700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G241100"
     },
     {
-      "geneId": "Glyma.06G272500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G024700"
     },
     {
-      "geneId": "Glyma.03G189300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G323000"
     },
     {
-      "geneId": "Glyma.05G089000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G296700"
     },
     {
-      "geneId": "Glyma.05G114900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G032600"
     },
     {
-      "geneId": "Glyma.02G085300",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G293600"
     },
     {
-      "geneId": "Glyma.01G236600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.08G296700"
     },
     {
-      "geneId": "Glyma.02G167900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G125800"
     },
     {
-      "geneId": "Glyma.05G239000",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.09G240600"
     },
     {
-      "geneId": "Glyma.02G002800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.09G240600"
     },
     {
-      "geneId": "Glyma.01G240000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G160800"
     },
     {
-      "geneId": "Glyma.02G017800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.08G286700"
     },
     {
-      "geneId": "Glyma.04G231500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G170600"
     },
     {
-      "geneId": "Glyma.02G264000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G133600"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.06G166600"
     },
     {
-      "geneId": "Glyma.05G079100",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.11G139400"
     },
     {
-      "geneId": "Glyma.05G116700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G231500"
     },
     {
-      "geneId": "Glyma.06G065600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G139400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G166600"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G218300"
     },
     {
-      "geneId": "Glyma.05G029700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G085300"
     },
     {
-      "geneId": "Glyma.04G226400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G049300"
     },
     {
-      "geneId": "Glyma.06G138500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G290200"
     },
     {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G302500"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G251600"
     },
     {
-      "geneId": "Glyma.02G018200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G204300"
     },
     {
-      "geneId": "Glyma.05G016800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.08G311000"
     },
     {
-      "geneId": "Glyma.03G164500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.09G272700"
     },
     {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G311000"
     },
     {
-      "geneId": "Glyma.02G107100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G292500"
     },
     {
-      "geneId": "Glyma.05G046100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G081400"
     },
     {
-      "geneId": "Glyma.05G046300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G295500"
     },
     {
-      "geneId": "Glyma.03G082300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G126800"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G268600"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.15G198100"
     },
     {
-      "geneId": "Glyma.06G223700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G186000"
     },
     {
-      "geneId": "Glyma.03G153100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G366300"
     },
     {
-      "geneId": "Glyma.04G157300",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.07G035000"
     },
     {
-      "geneId": "Glyma.06G001800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G046300"
     },
     {
-      "geneId": "Glyma.04G002300",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.05G046300"
     },
     {
-      "geneId": "Glyma.01G185300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G241300"
     },
     {
-      "geneId": "Glyma.01G189200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G146300"
     },
     {
-      "geneId": "Glyma.01G096300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G203700"
     },
     {
-      "geneId": "Glyma.11G249700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G182900"
     },
     {
-      "geneId": "Glyma.10G245200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G029700"
     },
     {
-      "geneId": "Glyma.05G146800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G002800"
     },
     {
-      "geneId": "Glyma.11G019500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G054000"
     },
     {
-      "geneId": "Glyma.11G020100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G138500"
     },
     {
-      "geneId": "Glyma.12G028500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.06G138500"
     },
     {
-      "geneId": "Glyma.06G274200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G175600"
     },
     {
-      "geneId": "Glyma.11G103700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G289400"
     },
     {
-      "geneId": "Glyma.12G184900",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.15G059900"
     },
     {
-      "geneId": "Glyma.13G126400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G059900"
     },
     {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G254900"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.13G254900"
     },
     {
-      "geneId": "Glyma.03G082300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G124500"
     },
     {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G007500"
     },
     {
-      "geneId": "Glyma.02G018200",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.16G081400"
     },
     {
-      "geneId": "Glyma.05G046100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G103900"
     },
     {
-      "geneId": "Glyma.05G046300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G066500"
     },
     {
-      "geneId": "Glyma.04G075000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G079100"
     },
     {
-      "geneId": "Glyma.04G117900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G111500"
     },
     {
-      "geneId": "Glyma.03G014900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G017800"
     },
     {
-      "geneId": "Glyma.08G151900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G140500"
     },
     {
-      "geneId": "Glyma.07G198600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G166700"
     },
     {
-      "geneId": "Glyma.08G343800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G279500"
     },
     {
-      "geneId": "Glyma.04G111500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G151600"
     },
     {
-      "geneId": "Glyma.06G138400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G165500"
     },
     {
-      "geneId": "Glyma.06G138600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G213400"
     },
     {
-      "geneId": "Glyma.08G141700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G220400"
     },
     {
-      "geneId": "Glyma.04G122700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G151900"
     },
     {
-      "geneId": "Glyma.10G066500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G249700"
     },
     {
-      "geneId": "Glyma.02G085300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G226900"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G130400"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G225500"
     },
     {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G308200"
     },
     {
-      "geneId": "Glyma.02G264000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G120400"
     },
     {
-      "geneId": "Glyma.14G057500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G150600"
     },
     {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G308400"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.17G064100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.04G226400"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.19G020100"
     },
     {
-      "geneId": "Glyma.12G045400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G167900"
     },
     {
-      "geneId": "Glyma.11G139400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G240300"
     },
     {
-      "geneId": "Glyma.12G063000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.01G240000"
     },
     {
-      "geneId": "Glyma.03G082300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G165200"
     },
     {
-      "geneId": "Glyma.09G223900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G116300"
     },
     {
-      "geneId": "Glyma.12G017200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G226400"
     },
     {
-      "geneId": "Glyma.12G205400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G019500"
     },
     {
-      "geneId": "Glyma.12G116300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G207500"
     },
     {
-      "geneId": "Glyma.06G290600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G144400"
     },
     {
-      "geneId": "Glyma.13G203400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G045400"
     },
     {
-      "geneId": "Glyma.13G295500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.15G006400"
     },
     {
-      "geneId": "Glyma.05G038000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G150800"
     },
     {
-      "geneId": "Glyma.17G089100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G238000"
     },
     {
-      "geneId": "Glyma.13G262200",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.15G006400"
     },
     {
-      "geneId": "Glyma.15G243100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G012300"
     },
     {
-      "geneId": "Glyma.14G026600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.19G238600"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G057400"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.14G088800"
     },
     {
-      "geneId": "Glyma.02G288400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G190500"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G032800"
     },
     {
-      "geneId": "Glyma.05G219800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G263200"
     },
     {
-      "geneId": "Glyma.08G054900",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.10G004300"
     },
     {
-      "geneId": "Glyma.05G246700",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.10G147200"
     },
     {
-      "geneId": "Glyma.04G226400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G031500"
     },
     {
-      "geneId": "Glyma.06G065600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G359600"
     },
     {
-      "geneId": "Glyma.06G138500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G164500"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G214400"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G055600"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G232900"
     },
     {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G235200"
     },
     {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G138400"
     },
     {
-      "geneId": "Glyma.08G054900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G018100"
     },
     {
-      "geneId": "Glyma.05G246700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.13G362900"
     },
     {
-      "geneId": "Glyma.04G226400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G196500"
     },
     {
-      "geneId": "Glyma.06G065600",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.12G156800"
     },
     {
-      "geneId": "Glyma.06G138500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G112000"
     },
     {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G151900"
     },
     {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G052400"
     },
     {
-      "geneId": "Glyma.13G090900",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.10G151900"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G082300"
     },
     {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.09G091600"
     },
     {
-      "geneId": "Glyma.02G049300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.18G109100"
     },
     {
-      "geneId": "Glyma.11G076000",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.03G153100"
     },
     {
-      "geneId": "Glyma.01G167300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G064000"
     },
     {
-      "geneId": "Glyma.10G245200",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G184300"
     },
     {
-      "geneId": "Glyma.06G138600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G088700"
     },
     {
-      "geneId": "Glyma.06G138700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.06G051400"
     },
     {
-      "geneId": "Glyma.06G138400",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.10G076400"
     },
     {
-      "geneId": "Glyma.04G226900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.08G048100"
     },
     {
-      "geneId": "Glyma.07G059900",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G046400"
     },
     {
-      "geneId": "Glyma.06G323000",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.08G048100"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.06G196600"
     },
     {
-      "geneId": "Glyma.02G057400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G076400"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.10G049400"
     },
     {
-      "geneId": "Glyma.03G260500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G294600"
     },
     {
-      "geneId": "Glyma.02G302500",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.11G006600"
     },
     {
-      "geneId": "Glyma.01G175600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.11G214800"
     },
     {
-      "geneId": "Glyma.02G208700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.09G223900"
     },
     {
-      "geneId": "Glyma.02G013500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G168500"
     },
     {
-      "geneId": "Glyma.04G205600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G196900"
     },
     {
-      "geneId": "Glyma.04G075000",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.18G253600"
     },
     {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.12G184900"
     },
     {
-      "geneId": "Glyma.05G246700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G092000"
     },
     {
-      "geneId": "Glyma.04G226400",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G114900"
     },
     {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.02G239700"
     },
     {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.04G165900"
     },
     {
-      "geneId": "Glyma.02G126800",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G073300"
     },
     {
-      "geneId": "Glyma.01G151600",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.14G043500"
     },
     {
-      "geneId": "Glyma.02G088700",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.04G195100"
     },
     {
-      "geneId": "Glyma.02G260100",
-      "hierarchy": 2
+      "hierarchy": 1,
+      "geneId": "Glyma.19G175900"
     },
     {
-      "geneId": "Glyma.02G308500",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.04G074200"
     },
     {
-      "geneId": "Glyma.02G085300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.05G074400"
     },
     {
-      "geneId": "Glyma.01G236600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G002800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G235000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G255500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G203700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G165500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G226900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G054000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G112400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G367000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G005500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G003300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G006400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G050600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G051400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G214800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G128100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G179100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G011200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G065600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G246700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G057400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G260500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G219600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G302500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G175600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G005500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G003300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G050600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G214800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G051400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G179100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G128100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G011200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G228400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G185600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G160800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.18G107900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G213100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G308700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G204800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G156800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G191600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G308200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.18G109100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G367100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G074400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.16G062100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G209700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G032800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G010900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G362900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G032600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G012800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G153500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G074400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G209700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G032800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G032600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G195700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G066500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G012400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G138100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G137100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G147300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G014900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G001200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G290200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G107700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G103900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G018100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G044500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G147300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G014900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G107700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G103900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G016800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G018100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G018400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G137100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G045000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G241500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G051400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G005500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G003300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G050600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G214800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G236100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G127400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G179100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G091800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G241500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G051400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G005500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G050600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G003300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G127400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G214800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G236100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G179100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G091800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G139400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G063000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G082300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G223900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G017200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G290600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G205400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G116300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G203400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G295500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G139400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G063000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G082300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G223900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G017200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G205400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G203400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G116300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G290600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G295500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G227200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G065600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G186000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G180000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G182800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G228500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G026900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G140600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G289400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G046200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G223900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G166600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G367400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G290600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G202400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G066500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G223900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G017200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G166600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G290600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G202400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G066500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G088000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G154900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G133600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G057800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G184300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G081400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G002300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G196900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G213900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G122200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G176900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G086200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G200700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G119400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G003800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G251600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G047800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G234900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G075300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G074200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G196500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G273300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G159600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G178100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G135100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G214300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G150200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G110200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G116600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G109500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G048200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G245200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G045400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G024700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G144300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G190500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G207900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G015000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G276400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G196500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G069600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G112000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G155800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G186000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G182800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G228500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G026900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G140600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G218300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G226400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G157800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G061900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.14G043500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G281600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G196500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G273300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G242000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G159600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.14G164600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G135100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G178100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G214300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G165400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G262100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G261900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G165500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G144300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G208200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G146200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G059500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G185800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G138100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G038000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G288400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G219800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G028400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G214400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G311000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G162800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G125800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G219000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G184300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G171100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G205600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G065100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G170000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G093200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G332900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G229400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G059900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G060000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G241100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G122700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G241300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G142300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G138700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G238000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G166700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G099500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G003600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G274200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G019500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G085300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G020100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G323000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G060000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G107100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G059900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G003700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G003300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G050600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G179100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G228400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G074400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G106100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G057400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G175600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G264000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G030800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G064900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G240600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G048100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G241100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G048200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G193700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G296700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G045400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G024700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G120300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G039900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G166700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G189300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G085300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G239000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G245300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G144400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G239700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G221400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G066500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G144300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G190500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G207900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G015000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G276400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G196500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G069600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G112000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G155800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G102600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G176900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G214900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G052600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G052400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G052300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G238000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G263200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G050300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G007300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G274200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G111500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G227600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G323000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G225000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G111700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G003600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G165200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.17G018600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.19G128300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G125800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G219000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.20G017200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G059900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G254900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G064000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.19G172200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G184300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G140500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G168500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G171400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G034100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G133400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G075400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G045400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G336000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G120300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G168500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G171400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G034100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G133400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G075400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G045400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G336000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G120300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G133400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G034100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.09G075400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G227200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.12G045400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G336000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G120300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G054900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G258800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G034100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G133400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G246700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G225500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G202900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G255100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G162600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G026900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G142900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G090100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G130200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G030700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G204300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G134900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G050600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G030800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G228400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G051400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G251600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G291100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G251000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G164800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G200700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G031500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G074200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G144400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G020000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G095000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G114300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G003800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G102600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G031500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G016800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G137100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G076400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G359600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G176900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G060000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G002400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G146300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G066500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G059900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G150800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G133100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G133800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G039900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G019500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G125800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G219000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G184300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G065100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G171100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G205600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G170000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G093200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G137100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G200700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G207500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G151900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G255500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G011100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G059900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G011000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G049300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G346500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G166700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G124300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G165200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.18G151800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G003600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.17G105900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.17G018600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G003700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G255500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G240000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G049400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G274200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G177100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G294600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G103600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G107400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G125800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G116600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G110200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G171100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G093200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G205600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G225200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G250100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G004300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G239200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G018200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G166600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G225200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G239200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G018200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G166600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G137100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G092000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G152200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G193700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G235200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G103200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G242800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G074400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G118300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G223500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G094400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G219800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G207800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G050200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G007400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G168000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G007500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G059800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G219200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G131700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G182900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G134400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G177100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G241000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G322000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G213400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G193200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G127800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G152100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G294600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G107400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.15G006900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G134400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G177100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G152100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G193200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.11G241000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G322000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G213400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G366300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G294600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G294500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G026800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.14G020200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.14G186900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G292800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G038000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G232900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G256700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G279500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G125400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G026800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G294500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G038000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G243000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G120300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G231500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G074400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G141000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G261000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G292500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G150600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G153100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G157300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G002300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G018200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G199200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G006500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G150600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G153100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G157300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G002300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G018200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G199200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G006500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G003800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G171400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G088500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G123500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G292200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G210700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G200700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G197500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G110200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G146800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G011000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G060000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G059900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G274200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G111500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G323000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G272500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G011100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G043800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G245900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G225400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G046100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G166600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G198900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G308400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G181800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G232000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G317500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G219900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G090000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.16G083100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G344100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G307900",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.14G005200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.14G017400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G296300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.18G290800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G146500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G043000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.13G130400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.19G171700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.19G261800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G012300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G170600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.16G015500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G262800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G046700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G289400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.10G043000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G012300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G170600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.03G262800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G082000",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G046700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G029400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G021600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G029400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.06G289400",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G302500",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G080800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.01G211200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.02G134800",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.07G210200",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G055600",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.08G050100",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G242700",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.04G236300",
-      "hierarchy": 2
-    },
-    {
-      "geneId": "Glyma.05G073300",
-      "hierarchy": 2
+      "hierarchy": 2,
+      "geneId": "Glyma.07G102600"
     }
   ]
 }

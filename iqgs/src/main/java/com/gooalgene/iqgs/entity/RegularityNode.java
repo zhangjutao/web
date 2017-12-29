@@ -8,7 +8,7 @@ public class RegularityNode {
     /**
      * 基因ID
      */
-    private String geneId;
+    private String geneID;
 
     /**
      * node所处的层级
@@ -16,16 +16,16 @@ public class RegularityNode {
     private int hierarchy;
 
     public RegularityNode(String geneId, int hierarchy) {
-        this.geneId = geneId;
+        this.geneID = geneId;
         this.hierarchy = hierarchy;
     }
 
-    public String getGeneId() {
-        return geneId;
+    public String getGeneID() {
+        return geneID;
     }
 
-    public void setGeneId(String geneId) {
-        this.geneId = geneId;
+    public void setGeneID(String geneID) {
+        this.geneID = geneID;
     }
 
     public int getHierarchy() {
@@ -34,5 +34,23 @@ public class RegularityNode {
 
     public void setHierarchy(int hierarchy) {
         this.hierarchy = hierarchy;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof RegularityNode)){
+            return false;
+        }
+        RegularityNode node = (RegularityNode) obj;
+        return node.getGeneID().equals(this.geneID) && (node.getHierarchy() == this.hierarchy);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + geneID.hashCode();
+        result = 31 * result + hierarchy;
+        return result;
     }
 }
