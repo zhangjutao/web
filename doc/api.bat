@@ -7,5 +7,5 @@ md "d:\core-database-doc"
 cd %cd%
 SET cur=%cd%
 @echo "execute apidoc"
-apidoc -i src/main/java/com/gooalgene/iqgs/web -o D:/core-database-doc
+apidoc -i docs -o D:/core-database-doc
 pause;
