@@ -6,10 +6,10 @@
       SELECT gene_a AS source, gene_b AS target FROM gene_regularity_network WHERE gene_a = #{geneId}
         <choose>
             <when test="hierarchy==1">
-                ORDER BY lls DESC LIMIT 100
+                ORDER BY lls DESC LIMIT 50
             </when>
             <when test="hierarchy==2">
-                ORDER BY lls DESC LIMIT 10
+                ORDER BY lls DESC LIMIT 5
             </when>
         </choose>
     </select>
@@ -18,10 +18,10 @@
         SELECT gene_b AS source, gene_a AS target FROM gene_regularity_network WHERE gene_b = #{geneId}
         <choose>
             <when test="hierarchy==1">
-                ORDER BY lls DESC LIMIT 100
+                ORDER BY lls DESC LIMIT 50
             </when>
             <when test="hierarchy==2">
-                ORDER BY lls DESC LIMIT 10
+                ORDER BY lls DESC LIMIT 5
             </when>
         </choose>
     </select>
