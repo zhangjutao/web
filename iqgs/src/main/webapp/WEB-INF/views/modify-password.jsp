@@ -57,7 +57,8 @@
         <div class="waiting-h"><img src="${ctxStatic}/images/i-forget2.png"></div>
         <div class="waiting-b">
             <div class="waiting-txt">密码修改成功</div>
-            <a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>
+            <%--<a class="btn b-index" href="${ctxroot}/dna/index">返回首页</a>--%>
+            <a class="btn b-index" href="${ctxroot}/iqgs/index">返回首页</a>
         </div>
     </div>
 </c:if>
