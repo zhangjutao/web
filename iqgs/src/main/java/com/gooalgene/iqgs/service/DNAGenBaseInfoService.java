@@ -67,7 +67,7 @@ public class DNAGenBaseInfoService {
     public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNum, int pageSize) {
         List<DNAGenBaseInfo> result = null;
         PageHelper.startPage(pageNum,pageSize);
-        result = dnaGenBaseInfoDao.findGeneByQTLName(allQTLId);
+        result = dnaGenBaseInfoDao.findGeneInQTLIds(allQTLId);
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (DNAGenBaseInfo gene : result){
