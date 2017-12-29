@@ -15,6 +15,21 @@
 	<!--jquery-1.11.0-->
 	<script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 	<script src="${ctxStatic}/js/d3.js"></script>
+	<style type="text/css">
+		#netPic02 .nodata{
+			width:880px;
+			height:600px;
+			line-height:600px;
+			text-align:center;
+			position:relative;
+			display:none;
+		}
+		#netPic02 .nodata img{
+			position: absolute;
+			top: 160px;
+			left: 270px;
+		}
+	</style>
 </head>
 
 <body>
@@ -34,6 +49,9 @@
                 </div>
                 <div id="netPic02">
                     <svg xmlns="http://www.w3.org/2000/svg"></svg>
+					<%--<div class="nodata" >--%>
+						<%--<img src="${ctxStatic}/images/nodata.png" alt="nodataLog">--%>
+					<%--</div>--%>
                 </div>
             </div>
         </div>
@@ -46,8 +64,7 @@
 <script>
 	$(function (){
         var CTXROOT = '${ctxroot}';
-	    <%--var id = "${requestScope.genId}";--%>
-	    var id ="Glyma.04G131800";
+	    var id = "${requestScope.genId}";
         var dataset;
         getNetWordDatas(id);
 //			// 获取调控网络的数据
@@ -58,6 +75,7 @@
                 async: false,
 				data:{geneId:id},
 				success:function (result){
+//				    if(result){}
 					dataset = result;
 				},
 				error:function(error){
@@ -189,15 +207,16 @@
 		var hierarchy2Legend = legend.append("g").attr("class", "hierarchy2Legend").attr("transform", "translate(300,0)")
 		var hierarchy3Legend = legend.append("g").attr("class", "hierarchy3Legend").attr("transform", "translate(600,0)")
 
-		hierarchy1Legend.append('circle').attr('r', 10).attr('fill', hierarchy1Color)
-		hierarchy1Legend.append('text').attr("transform", "translate(-5,5)").attr("font-size",12).style("cursor", "default ").text("G")
-		hierarchy1Legend.append('text').attr("transform", "translate(20,5)").text("guide gene")
+		hierarchy1Legend.append('circle').attr('r', 10).attr('fill', defaultColor)
+//		hierarchy1Legend.append('text').attr("transform", "translate(-5,5)").attr("font-size",12).style("cursor", "default ").text("G")
+		hierarchy1Legend.append('text').attr("transform", "translate(-5,5)").attr("font-size",12).style("cursor", "default ")
+		hierarchy1Legend.append('text').attr("transform", "translate(20,5)").text("Guide gene")
 
-		hierarchy2Legend.append('circle').attr('r', 10).attr('fill', hierarchy2Color)
-		hierarchy2Legend.append('text').attr("transform", "translate(20,5)").text("candidate")
+		hierarchy2Legend.append('circle').attr('r', 10).attr('fill', hierarchy1Color)
+		hierarchy2Legend.append('text').attr("transform", "translate(20,5)").text("Candidate pathway gene")
 
 		hierarchy3Legend.append('circle').attr('r', 10).attr('fill', hierarchy3Color)
-		hierarchy3Legend.append('text').attr("transform", "translate(20,5)").text("Indirect")
+		hierarchy3Legend.append('text').attr("transform", "translate(20,5)").text("Indirect pathway gene")
 
 		function ticked() {
 			link
