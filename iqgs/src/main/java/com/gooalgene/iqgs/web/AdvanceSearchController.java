@@ -95,7 +95,7 @@ public class AdvanceSearchController {
         return qtlService.findQtlsByName(qtlName);
     }
 
-    @RequestMapping(value = "/query-all-organic")
+    @RequestMapping(value = "/query-all-organic", method = RequestMethod.GET)
     @ResponseBody
     public List<Classifys> getAllOrganicAndChildren() {
         List<Classifys> classify = tService.getClassifyTree();
@@ -228,7 +228,7 @@ public class AdvanceSearchController {
     @ResponseBody
     public RegularityResult fetchAllRegularityNetworkGenes(@RequestParam("geneId") String geneId) {
         List<RegularityLink> links = regularityNetworkService.findRelateGene(geneId);  //拿到所有links
-        List<RegularityNode> nodes = regularityNetworkService.getAllDistinctGeneId(links, geneId);//拿到所有nodes
+        Set<RegularityNode> nodes = regularityNetworkService.getAllDistinctGeneId(links, geneId);//拿到所有nodes
         RegularityResult result = new RegularityResult(links, nodes);
         return result;
     }

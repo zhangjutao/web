@@ -4,6 +4,7 @@ import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 调控网络输出结果
@@ -18,9 +19,9 @@ public class RegularityResult {
     /**
      * 所有点
      */
-    private List<RegularityNode> nodes;
+    private Set<RegularityNode> nodes;
 
-    public RegularityResult(List<RegularityLink> links, List<RegularityNode> nodes) {
+    public RegularityResult(List<RegularityLink> links, Set<RegularityNode> nodes) {
         this.links = links;
         this.nodes = nodes;
     }
@@ -33,11 +34,11 @@ public class RegularityResult {
         this.links = links;
     }
 
-    public List<RegularityNode> getNodes() {
+    public Set<RegularityNode> getNodes() {
         return nodes;
     }
 
-    public void setNodes(List<RegularityNode> nodes) {
+    public void setNodes(Set<RegularityNode> nodes) {
         this.nodes = nodes;
     }
 }
