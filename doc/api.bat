@@ -1,11 +1,19 @@
 @echo OFF
-@echo "check core-database-doc exists"
-IF NOT EXIST D:\core-database-doc GOTO NODIRECTORY
-:NODIRECTORY
-@echo "CREATING core-database-doc"
-md "d:\core-database-doc"
+
+setlocal
+
 cd %cd%
-SET cur=%cd%
+SET "CUR=%cd%"
+IF EXIST "%CUR%\output" GOTO execute
 @echo "execute apidoc"
-apidoc -i docs -o D:/core-database-doc
+apidoc -i docs -o "%CUR%\output"
+goto end
+:execute
+
+IF NOT EXIST "%CUR\output%" GOTO NODIRECTORY
+@echo "create output folder in current directory"
+md "%CUR%\output"
+goto end
+:NODIRECTORY
+
 pause;
