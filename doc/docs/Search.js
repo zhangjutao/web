@@ -71,7 +71,7 @@
  */
 
 /**
- * @api {get} /advance-search/query-all-organic 查询所有组织及二级组织
+ * @api {get} advance-search/query-all-organic 查询所有组织及二级组织
  * @apiName getAllOrganicAndChildren
  * @apiGroup Search
  * @apisamplerequest http://localhost:8080/iqgs/advance-search/query-by-qtl-name
@@ -372,186 +372,2241 @@
      * ]
      * }
      * ]
-     */
+     * }
+ * ]
+ */
 
 /**
- * @api {post} /advance-search/confirm 选中几个qtl点击确认
+ * @api {get} advance-search/confirm 选中几个qtl点击确认
  * @apiName clickConfirm
  * @apiGroup Search
- * @apiParam {int[]} chosenQtl 以选中的QTL ID数组，如chosen:[1001, 1005]
+ * @apiParam {int[]} chosenQtl 以选中的QTL ID数组，chosenQtl:[1001, 1005]
  * @apiParam {int} pageNo 页码
  * @apiParam {int} pageSize 每页数量
- * @apisamplerequest http://localhost:8081/iqgs/advance-search/confirm?choseQTL[]=1003&pageNo=1&pageSize=10
+ * @apiSamplerequest http://localhost:8081/iqgs/advance-search/confirm?choseQTL[]=1003&pageNo=1&pageSize=10
  * @apidescription 用户经过初步筛选后选中几个qtl后，后台将会返回所有符合该qtl的基因，详情数据可以参见build/clickConfirm.json文件
  * @apiSuccessExample Success-Response:
- * [
  * {
-     * "geneId": "Glyma.18G141100",
-     * "geneOldId": null,
-     * "geneName": "ATHST,HST,PDS2",
-     * "geneType": "Protein_coding",
-     * "locus": "Chr18:21768218bp-21777484bp:+",
-     * "length": "9266bp",
-     * "species": "Glycine max",
-     * "functions": null,
-     * "description": "homogentisate prenyltransferase",
-     * "familyId": null,
-     * "id": 48833,
-     * "existsSNP": true,
-     * "associateQTLs": [
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "cqSeed weight-001",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Flower number 1-8",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Phytoph 14-3",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "SCN 17-4",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "SCN 18-5",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "SCN 19-4",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "SCN 29-3",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Seed length 3-2",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Seed oil 42-34",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Seed protein 36-25",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Seed weight per plant 6-6",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "shoot weight, dry 1-2",
-     * "version": null,
-     * "associatedGenes": null
-     * },
-     * {
-     * "id": null,
-     * "isNewRecord": false,
-     * "remarks": null,
-     * "createTime": null,
-     * "updateDate": null,
-     * "qtlName": "Somatic emb per explant 2-3",
-     * "version": null,
-     * "associatedGenes": null
-     * }
-     * ],
-     * "rootTissues": []
-     * }
+  "msg": "成功",
+  "code": 0,
+  "status": null,
+  "data": {
+    "pageNum": 1,
+    "pageSize": 10,
+    "size": 10,
+    "orderBy": null,
+    "startRow": 0,
+    "endRow": 9,
+    "total": 10,
+    "pages": 1,
+    "list": [
+      {
+        "geneId": "Glyma.18G141100",
+        "geneOldId": null,
+        "geneName": "ATHST,HST,PDS2",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:21768218bp-21777484bp:+",
+        "length": "9266bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "homogentisate prenyltransferase",
+        "familyId": null,
+        "id": 48833,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Flower number 1-8",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed length 3-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": null
+      },
+      {
+        "geneId": "Glyma.18G141200",
+        "geneOldId": null,
+        "geneName": "KNAT6,KNAT6L,KNAT6S",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:21901016bp-21913843bp:+",
+        "length": "12827bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "KNOTTED1-like homeobox gene 6",
+        "familyId": null,
+        "id": 48834,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": null
+      },
+      {
+        "geneId": "Glyma.18G141300",
+        "geneOldId": null,
+        "geneName": "",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:21903989bp-21904174bp:-",
+        "length": "185bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "",
+        "familyId": null,
+        "id": 48835,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Flower number 1-8",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed length 3-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": null
+      },
+      {
+        "geneId": "Glyma.18G141400",
+        "geneOldId": null,
+        "geneName": "",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:21906249bp-21909563bp:-",
+        "length": "3314bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "",
+        "familyId": null,
+        "id": 48836,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet area 2-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight 27-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed width 3-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": "uncharacterized LOC102663265"
+      },
+      {
+        "geneId": "Glyma.18G141500",
+        "geneOldId": null,
+        "geneName": "CRK2",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:21917438bp-21922118bp:-",
+        "length": "4680bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "cysteine-rich RLK (RECEPTOR-like protein kinase) 2",
+        "familyId": null,
+        "id": 48837,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet area 2-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight 27-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed width 3-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": "cysteine-rich receptor-like protein kinase 2"
+      },
+      {
+        "geneId": "Glyma.18G141600",
+        "geneOldId": null,
+        "geneName": "",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:22021723bp-22022700bp:-",
+        "length": "977bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "",
+        "familyId": null,
+        "id": 48838,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet area 2-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight 27-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed width 3-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": "uncharacterized LOC102664078"
+      },
+      {
+        "geneId": "Glyma.18G141700",
+        "geneOldId": null,
+        "geneName": "CRK3",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:22029730bp-22033939bp:-",
+        "length": "4209bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "cysteine-rich RLK (RECEPTOR-like protein kinase) 3",
+        "familyId": null,
+        "id": 48839,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet area 2-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight 27-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed width 3-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": "cysteine-rich receptor-like protein kinase 3"
+      },
+      {
+        "geneId": "Glyma.18G141800",
+        "geneOldId": null,
+        "geneName": "",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:22036546bp-22036837bp:+",
+        "length": "291bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "",
+        "familyId": null,
+        "id": 48840,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet area 2-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight 27-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed width 3-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": null
+      },
+      {
+        "geneId": "Glyma.18G141900",
+        "geneOldId": null,
+        "geneName": "ATNRT2.5,NRT2.5",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:22053882bp-22057005bp:-",
+        "length": "3123bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "nitrate transporter2.5",
+        "familyId": null,
+        "id": 48841,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet area 2-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight 27-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed width 3-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": "high affinity nitrate transporter 2.5-like"
+      },
+      {
+        "geneId": "Glyma.18G142000",
+        "geneOldId": null,
+        "geneName": "",
+        "geneType": "Protein_coding",
+        "locus": "Chr18:22213209bp-22215641bp:-",
+        "length": "2432bp",
+        "species": "Glycine max",
+        "functions": null,
+        "description": "hAT transposon superfamily",
+        "familyId": null,
+        "id": 48842,
+        "existsSNP": true,
+        "associateQTLs": [
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "cqSeed weight-001",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Foxglove aphid, primary damage, no choice 1-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Internode length 1-9",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet area 2-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Leaflet ash 1-11",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Phytoph 14-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 17-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 18-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 19-4",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "SCN 29-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed glycinin to beta-conglycinin ratio 1-5",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed hardness 2-10",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-33",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed oil 42-34",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed protein 36-25",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight 27-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed weight per plant 6-6",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Seed width 3-3",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "shoot weight, dry 1-2",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-1",
+            "version": null,
+            "associatedGenes": null
+          },
+          {
+            "id": null,
+            "isNewRecord": false,
+            "remarks": null,
+            "createTime": null,
+            "updateDate": null,
+            "qtlName": "Somatic emb per explant 2-3",
+            "version": null,
+            "associatedGenes": null
+          }
+        ],
+        "rootTissues": [],
+        "function": "uncharacterized LOC102669844"
+      }
+    ],
+    "prePage": 0,
+    "nextPage": 0,
+    "isFirstPage": true,
+    "isLastPage": true,
+    "hasPreviousPage": false,
+    "hasNextPage": false,
+    "navigatePages": 8,
+    "navigatepageNums": [
+      1
+    ],
+    "navigateFirstPage": 1,
+    "navigateLastPage": 1,
+    "lastPage": 1,
+    "firstPage": 1
+  }
+}
  */
 
 /**

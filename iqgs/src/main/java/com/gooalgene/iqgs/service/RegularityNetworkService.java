@@ -61,9 +61,8 @@ public class RegularityNetworkService {
      * @param origin 原点基因
      * @return 所有基因ID组成的node
      */
-    public List<RegularityNode> getAllDistinctGeneId(List<RegularityLink> links, String origin){
-        List<RegularityNode> nodeList = new ArrayList<>();
-        List<String> distinctGeneList = new ArrayList<>();  //存在不重复的基因ID
+    public Set<RegularityNode> getAllDistinctGeneId(List<RegularityLink> links, String origin){
+        Set<RegularityNode> nodeList = new HashSet<>();
         RegularityNode sourceNode = null;
         RegularityNode targetNode = null;
         if (links == null || links.size() == 0){
@@ -77,17 +76,11 @@ public class RegularityNetworkService {
             if (source.equals(origin)){
                 sourceNode = new RegularityNode(source, ZERO);
                 nodeList.add(sourceNode);
-                distinctGeneList.add(source);
                 targetNode = new RegularityNode(target, FIRST);
                 nodeList.add(targetNode);
-                distinctGeneList.add(target);
-            }else {
-                boolean containsSuchTarget = nodeList.contains(target);  //如果存在该种target
-                if (!containsSuchTarget){
-                    targetNode = new RegularityNode(target, SECOND);
-                    nodeList.add(targetNode);
-                    distinctGeneList.add(target);
-                }
+            }else {  //source不为origin的肯定hierarchy为1，target为2
+                targetNode = new RegularityNode(target, SECOND);
+                nodeList.add(targetNode);
             }
         }
         return nodeList;
