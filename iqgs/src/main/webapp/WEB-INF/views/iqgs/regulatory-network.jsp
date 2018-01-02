@@ -29,6 +29,17 @@
 			top: 160px;
 			left: 270px;
 		}
+		#netPic02 .txtDes{
+			font-size:14px;
+			color:#ccc;
+			width:880px;
+			height:30px;
+			text-align:center;
+			position: absolute;
+			top: 135px;
+			left:-30px;
+		}
+
 	</style>
 </head>
 
@@ -48,10 +59,11 @@
                     <p>调控网络</p>
                 </div>
                 <div id="netPic02">
-                    <svg xmlns="http://www.w3.org/2000/svg"></svg>
-					<%--<div class="nodata" >--%>
-						<%--<img src="${ctxStatic}/images/nodata.png" alt="nodataLog">--%>
-					<%--</div>--%>
+                    <svg xmlns="http://www.w3.org/2000/svg" id="svgEle"></svg>
+					<div class="nodata" >
+						<img src="${ctxStatic}/images/nodata.png" alt="nodataLog">
+						<p class="txtDes">暂无数据</p>
+					</div>
                 </div>
             </div>
         </div>
@@ -65,6 +77,7 @@
 	$(function (){
         var CTXROOT = '${ctxroot}';
 	    var id = "${requestScope.genId}";
+	    var id = "Glyma.04G131800";
         var dataset;
         getNetWordDatas(id);
 //			// 获取调控网络的数据
@@ -75,8 +88,14 @@
                 async: false,
 				data:{geneId:id},
 				success:function (result){
-//				    if(result){}
-					dataset = result;
+//				    result.code = 500;
+				    if(result.code == 0){
+                        dataset = result.data;
+					}else {
+						$("#svgEle").hide();
+						$("#netPic02 .nodata").show();
+						return;
+					}
 				},
 				error:function(error){
 				    console.log(error);

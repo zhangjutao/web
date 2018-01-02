@@ -136,7 +136,6 @@ $(function(){
     // 每个qtlname列表的点击选中事件
     var globleObject = {};
     globleObject.selectedQtl = [];
-    console.log(globleObject.selectedQtl)
     $("#qtlAdd .fuzzySearch").on("click","li",function (){
         // var list =  $("#qtlAdd .fuzzySearch li");
         if($(this).hasClass("checked")) {
@@ -144,14 +143,12 @@ $(function(){
             for(var i=0;i<globleObject.selectedQtl.length;i++){
                 if(globleObject.selectedQtl[i] == $(this).find("span").attr("id")){
                     globleObject.selectedQtl.splice(i,1);
-                    console.log(globleObject.selectedQtl)
                 }
             }
         }
         else {
             $(this).addClass("checked")
             globleObject.selectedQtl.push($(this).find("span").attr("id"));
-            console.log(globleObject.selectedQtl)
         }
     });
     // 根据选择的qtl 搜索 -- > sureBtn
@@ -161,10 +158,10 @@ $(function(){
             alert("最多只能选择 5 个");
             return;
         }else {
-            var qtlVal = JSON.stringify(globleObject.selectedQtl);
-            val = [1001, 1005];
+           var qtlVal =globleObject.selectedQtl;
+            // val = [1001, 1005];
             var data ={
-                chosenQtl:val,
+                chosenQtl:qtlVal,
                 pageNo:1,
                 pageSize:20
             };
@@ -174,8 +171,9 @@ $(function(){
                 function (result){
                     // console.warn(result);
                     var key = $("#qtlName").val();
+                    var chosenQtl=globleObject.selectedQtl;
                     if (key && !/^\s+$/.test(key)) {
-                        // window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&searchType=4";
+                        window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&chosenQtl=" + encodeURI(chosenQtl) + "&qtlVal&searchType=4";
                     }
                 },
                 function (error){
@@ -187,7 +185,6 @@ $(function(){
 
     $("#QtlBtnNames").click(function (){
     var qtlSearchVal = $("#qtlName").val();
-    console.log(qtlSearchVal)
     var data ={
         qtlName:qtlSearchVal
     };
@@ -197,7 +194,6 @@ $(function(){
             type: "get",
             dataType: "json",
             success: function(res) {
-                // console.log(res)
                 if(res.length==0){
                 alert('暂无数据')
                 }else{
@@ -206,7 +202,7 @@ $(function(){
                     var $ul = $("#qtlAdd .fuzzySearch ul");
                     $ul.empty();
                     for (var i = 0; i < res.length; i++) {
-                        var id = res[i].id;
+                        var id = res[i].associatedGenesId;
                         var name = res[i].qtlName;
                         var li = "<li>" + "<label for='" + name + "'><span id ='" + id + "' data-value='" + name + "'></span>" + name + "</label></li>";
                         $ul.append(li);

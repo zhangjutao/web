@@ -50,9 +50,10 @@
             $.each(GC[index1 - 1][0], function (index, data) {
                 for (var i = 0; i < data.length; i++) {
                     // $sel3.append("<li value='" + data[i] + "'>" + data[i] + "</li>")
-                    $sel3.append("<li>" + "<label for='" + data[i] + "'><span id ='" + data[i] + "' data-value='" + data[i] + "'></span>" + data[i] + "</label></li>");
+                    $sel3.append("<li>" + "<label for='" + data[i] + "'>222<span id ='" + data[i] + "' data-value='" + data[i] + "'></span>" + data[i] + "</label></li>");
                 }
-                
+                console.log(data)
+
             })
         }
     }).change();
@@ -65,7 +66,7 @@
         index2 = this.selectedIndex;
         $.each(GC[index1 - 1][index2], function (index, data) {
             for (var i = 0; i < data.length; i++) {
-                $sel3.append("<li>" + "<label for='" + data[i] + "'><span id ='" + data[i] + "' data-value='" + data[i] + "'></span>" + data[i] + "</label></li>");
+                $sel3.append("<li>" + "<label for='" + data[i] + "'>111<span id ='" + data[i] + "' data-value='" + data[i] + "'></span>" + data[i] + "</label></li>");
             }
         })
     });
