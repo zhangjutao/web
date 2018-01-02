@@ -41,6 +41,7 @@ function init(arr_geneName) {
     geneName.selectedIndex = index;
 }
 
+
 function changeSelect(index, arr_geneList) {
     $('.select_con li').remove();
     //选择对象
@@ -53,31 +54,58 @@ function changeSelect(index, arr_geneList) {
       $(".select_con").append("<li>" + "<label for='" + arr_geneList[index][j] + "'><span id ='" + arr_geneList[index][j] + "' data-value='" + arr_geneList[index][j] + "'></span>" + arr_geneList[index][j] + "</label></li>");
     }
     $('.form_search .fuzzySearch li').addClass("checked")
-
     var geneExpression = {};
     geneExpression.selectedQtl = [];
+
     $("#geneList li span").each(function(){
         geneExpression.selectedQtl.push($(this).attr("id"));
+        // console.log(geneExpression.selectedQtl)
+        // $('.snp_select').append((geneExpression.selectedQtl+ ",").replace(/[,]$/,""));
     })
 
-    console.log(geneExpression.selectedQtl )
-$(".form_search #geneList").on("click","li",function (){
-    if($(this).hasClass("checked")) {
-        $(this).removeClass("checked");
-        for(var i=0;i<geneExpression.selectedQtl.length;i++){
-            if(geneExpression.selectedQtl[i] == $(this).find("span").attr("id")){
-                geneExpression.selectedQtl.splice(i,1);
-                console.log(geneExpression.selectedQtl)
-                // $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"));
+    $(".form_search .fuzzySearch li").on("click",function (){
+        console.log(1)
+        if($(this).hasClass("checked")) {
+            $(this).removeClass("checked");
+            for(var i=0;i<geneExpression.selectedQtl.length;i++){
+                if(geneExpression.selectedQtl[i] == $(this).find("span").attr("id")){
+                    geneExpression.selectedQtl.splice(i,1);
+                    console.log(geneExpression.selectedQtl)
+                    $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,""))
+                }
             }
         }
+        else {
+            $(this).addClass("checked")
+            geneExpression.selectedQtl.push($(this).find("span").attr("id"));
+            console.log(geneExpression.selectedQtl)
+            $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,""))
+
+        }
+    });
+
+    $('.fpkm_btn').on('click',function(){
+    $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"))
+    console.log(geneExpression.selectedQtl)
+    if($('.geneExpression_select').text().length!==0){
+        var geneNameVal= $("#geneName ").val();
+        $('.geneExpression_lab').addClass('qtl_lab');
+        $('.geneExpression_del').text(' X')
+        $('.geneExpression_name').text("基因表达量:");
+
+        //删除所有选择基因表达量
+        $('.geneExpression_del').on('click',function(){
+            $('.geneExpression_select,.geneExpression_name').text("");
+            $('.geneExpression_lab').removeClass('qtl_lab');
+            $('.geneExpression_del').text(' ')
+            geneExpression.selectedQtl = [];
+            $('#geneList').find("li").removeClass("checked");
+            console.log(geneExpression.selectedQtl)
+        })
     }
-    else {
-        $(this).addClass("checked")
-        geneExpression.selectedQtl.push($(this).find("span").attr("id"));
-        console.log(geneExpression.selectedQtl)
-    }
-});
+
+})
+
 }
 
 
@@ -106,9 +134,9 @@ $(".form_search #geneList").on("click","li",function (){
 //     }
 // });
 
-$('.fpkm_btn').on('click',function(){
-    $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"))
-    console.log(geneExpression.selectedQtl)
+// $('.fpkm_btn').on('click',function(){
+//     $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"))
+//     console.log(geneExpression.selectedQtl)
     // if($('.geneExpression_select').text().length!==0){
     //     var geneNameVal= $("#geneName ").val();
     //     $('.geneExpression_lab').addClass('qtl_lab');
@@ -129,7 +157,7 @@ $('.fpkm_btn').on('click',function(){
     //
     // }
 
-})
+// })
 
 /////***************************************//////
 //SNP数据处理
@@ -163,19 +191,20 @@ $(".snpSearch .snpSearch_ul").on("click","li",function (){
         if($('.snp_select').text().length!==0){
             $('.snp_lab').addClass('qtl_lab');
             $('.snp_del').text(' X')
-            $('.snp_del').on('click',function(){
-                $('.snp_lab').removeClass('qtl_lab');
-                $('.snp_del').text(' ')
-                $('.snp_select,.geneExpression_name').text("");
-                globleObjectSnp.selectedQtl = [];
-                $('.snpSearch_ul').find("li").removeClass("checked");
-                console.log(globleObjectSnp.selectedQtl)
-            })
+
         }
 
     }
 });
 
+$('.snp_del').on('click',function(){
+    $('.snp_lab').removeClass('qtl_lab');
+    $('.snp_del').text(' ')
+    $('.snp_select,.geneExpression_name').text("");
+    globleObjectSnp.selectedQtl = [];
+    $('.snpSearch_ul').find("li").removeClass("checked");
+    console.log(globleObjectSnp.selectedQtl)
+})
 /////***************************************//////
 //INDEL数据处理
 function searchIndelData(jsonStr) {
@@ -206,16 +235,17 @@ $(".indelSearch .indelSearch_ul").on("click","li",function (){
         if($('.indel_select').text().length!==0){
             $('.indel_lab').addClass('qtl_lab');
             $('.indel_del').text(' X')
-            $('.indel_del').on('click',function(){
-                $('.indel_lab').removeClass('qtl_lab');
-                $('.indel_del').text('')
-                $('.indel_select,.geneExpression_name').text("");
-                globleObjectIndel.selectedQtl = [];
-                $('.indelSearch_ul').find("li").removeClass("checked");
-            })
+
         }
     }
 });
+$('.indel_del').on('click',function(){
+    $('.indel_lab').removeClass('qtl_lab');
+    $('.indel_del').text('')
+    $('.indel_select,.geneExpression_name').text("");
+    globleObjectIndel.selectedQtl = [];
+    $('.indelSearch_ul').find("li").removeClass("checked");
+})
 
 /////***************************************//////
 //QTL两级联动

@@ -197,8 +197,8 @@
             <div class="fuzzySearch">
             <ul class="select_con" id="geneList">
             </ul>
-                <div>FPKM:<input class="fpkm-input"  type="text" name="search" placeholder="">-
-                    <input class="fpkm-input"  type="text" name="search" placeholder="">(min=0,max=100)
+                <div>FPKM:<input class="fpkm-input fpkm_star"  type="text" name="search" placeholder="">-
+                    <input class="fpkm-input fpkm_end"   type="text" name="search" placeholder="">(min=0,max=100)
                     <botton class="fpkm_btn">确定</botton>
                 </div>
             </div>
