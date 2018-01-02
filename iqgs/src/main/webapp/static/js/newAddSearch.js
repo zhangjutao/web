@@ -19,7 +19,7 @@ function geneExpressionData(jsonStr) {
 
     //选择单个基因表达量触发
     $("#geneName").change(function () {
-        changeSelect(this.selectedIndex, arr_geneList)
+        changeSelect(this.selectedIndex, arr_geneList);
     })
 }
 //网页加载完成，初始化菜单
@@ -61,9 +61,48 @@ function changeSelect(index, arr_geneList) {
         geneExpression.selectedQtl.push($(this).attr("id"));
         // console.log(geneExpression.selectedQtl)
         // $('.snp_select').append((geneExpression.selectedQtl+ ",").replace(/[,]$/,""));
+
     })
 
-    $(".form_search .fuzzySearch li").on("click",function (){
+    $('.fpkm_div input').val('');
+    $('.fpkm_btn').off('click').on('click',function(){
+        var fpkm_star=$('.fpkm_star').val();
+        var fpkm_end=$('.fpkm_end').val();
+        if($('.fpkm_star').val()!==""||$('.fpkm_end').val()!==""){
+            var geneNameVal= $("#geneName").val();
+            $("#geneName option").each(function(index){
+                console.log(geneNameVal)
+                if($(this).val()==geneNameVal){
+                    $('#geneName option').eq(index).attr("disabled","disabled")
+                }
+            })
+
+            $('.geneExpression_lab').addClass('qtl_lab');
+            $('.geneExpression_del').text(' X');
+            $('.geneExpression_name').text("基因表达量:");
+            // $('.geneExpression_select').append((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"))
+            $('.geneExpression_select').append("<label><span id ='"+ geneNameVal +" '>"+geneNameVal+"</span><span class='fpkmVal'><b class='fpkm_star_text'>"+fpkm_star+"</b>-<b class='fpkm_end_text'>"+fpkm_end+"</b></span><span>" +(geneExpression.selectedQtl+ ",").replace(/[,]$/,";")+ "</span></label>");
+
+        }else {
+            alert("FPKM不能为空")
+        }
+
+        //删除所有选择基因表达量
+        $('.geneExpression_del').on('click',function(){
+            $('#geneName option').removeAttr("disabled");
+            $('.geneExpression_select,.geneExpression_name').text("");
+            $('.geneExpression_lab').removeClass('qtl_lab');
+            $('.fpkmVal .fpkm_star_text,.fpkmVal .fpkm_end_text').text("");
+            $('.geneExpression_del').text(' ')
+            geneExpression.selectedQtl = [];
+            $('#geneList').find("li").removeClass("checked");
+            console.log(geneExpression.selectedQtl)
+        })
+
+
+    })
+
+    $(".form_search .fuzzySearch li").off('click').on("click",function (){
         console.log(1)
         if($(this).hasClass("checked")) {
             $(this).removeClass("checked");
@@ -71,7 +110,7 @@ function changeSelect(index, arr_geneList) {
                 if(geneExpression.selectedQtl[i] == $(this).find("span").attr("id")){
                     geneExpression.selectedQtl.splice(i,1);
                     console.log(geneExpression.selectedQtl)
-                    $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,""))
+                    // $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,""))
                 }
             }
         }
@@ -79,85 +118,15 @@ function changeSelect(index, arr_geneList) {
             $(this).addClass("checked")
             geneExpression.selectedQtl.push($(this).find("span").attr("id"));
             console.log(geneExpression.selectedQtl)
-            $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,""))
+            // $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,""))
 
         }
     });
 
-    $('.fpkm_btn').on('click',function(){
-    $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"))
-    console.log(geneExpression.selectedQtl)
-    if($('.geneExpression_select').text().length!==0){
-        var geneNameVal= $("#geneName ").val();
-        $('.geneExpression_lab').addClass('qtl_lab');
-        $('.geneExpression_del').text(' X')
-        $('.geneExpression_name').text("基因表达量:");
 
-        //删除所有选择基因表达量
-        $('.geneExpression_del').on('click',function(){
-            $('.geneExpression_select,.geneExpression_name').text("");
-            $('.geneExpression_lab').removeClass('qtl_lab');
-            $('.geneExpression_del').text(' ')
-            geneExpression.selectedQtl = [];
-            $('#geneList').find("li").removeClass("checked");
-            console.log(geneExpression.selectedQtl)
-        })
-    }
-
-})
 
 }
 
-
-
-
-// 每个基因表达量列表的点击选中事件
-// var geneExpression = {};
-// geneExpression.selectedQtl = [];
-// $(".form_search .fuzzySearch").on("click","li",function (){
-//     geneExpression.selectedQtl.push($(this).find("span").attr("id"));
-//     if($(this).hasClass("checked")) {
-//         $(this).removeClass("checked");
-//         geneExpression.selectedQtl.push($(this).find("span").attr("id"));
-//         console.log(geneExpression.selectedQtl)
-//     }
-//     else {
-//         $(this).addClass("checked")
-//         console.log(geneExpression.selectedQtl)
-//         for(var i=0;i<geneExpression.selectedQtl.length;i++){
-//             if(geneExpression.selectedQtl[i] == $(this).find("span").attr("id")){
-//                 geneExpression.selectedQtl.splice(i,1);
-//                 console.log(geneExpression.selectedQtl)
-//                 // $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"));
-//             }
-//         }
-//     }
-// });
-
-// $('.fpkm_btn').on('click',function(){
-//     $('.geneExpression_select').html((geneExpression.selectedQtl+ ",").replace(/[,]$/,";"))
-//     console.log(geneExpression.selectedQtl)
-    // if($('.geneExpression_select').text().length!==0){
-    //     var geneNameVal= $("#geneName ").val();
-    //     $('.geneExpression_lab').addClass('qtl_lab');
-    //     $('.geneExpression_del').text(' X')
-    //     $('.geneExpression_name').text("基因表达量:");
-    //
-    //     //删除所有选择基因表达量
-    //     $('.geneExpression_del').on('click',function(){
-    //         $('.geneExpression_select,.geneExpression_name').text("");
-    //         $('.geneExpression_lab').removeClass('qtl_lab');
-    //         $('.geneExpression_del').text(' ')
-    //         geneExpression.selectedQtl = [];
-    //         $('#geneList').find("li").removeClass("checked");
-    //         console.log(geneExpression.selectedQtl)
-    //     })
-    //
-    //
-    //
-    // }
-
-// })
 
 /////***************************************//////
 //SNP数据处理
@@ -279,7 +248,7 @@ function searchQtlData(jsonStr) {
     // 每个QTL列表的点击选中事件
     var globleObjectQTL = {};
     globleObjectQTL.selectedQtl = [];
-    $("#province .qtlList").on("click","li",function (){
+    $("#province .qtlList").off('click').on("click","li",function (){
         var list =  $(".fuzzySearch .qtlList li");
         if($(this).hasClass("checked")) {
             $(this).removeClass("checked");

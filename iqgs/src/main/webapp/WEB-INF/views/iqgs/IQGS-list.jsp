@@ -178,7 +178,9 @@
         <div class="SelectedEmpty">
             <span class="selected">已选>&nbsp;</span>
             <label class="geneExpression_lab">
-                <span class="geneExpression_name"></span><span class="geneExpression_select qtl_sel"></span><span class="geneExpression_del"></span>
+                <span class="geneExpression_name"></span>
+                <%--<span class="fpkmVal"><b class="fpkm_star_text"></b>-<b class="fpkm_end_text"></b></span>--%>
+                <span class="geneExpression_select qtl_sel"></span><span class="geneExpression_del"></span>
             </label>
             <label class="snp_lab">
                 <span class="snp_name"></span><span class="snp_select qtl_sel"></span><span class="snp_del"></span>
@@ -197,8 +199,8 @@
             <div class="fuzzySearch">
             <ul class="select_con" id="geneList">
             </ul>
-                <div>FPKM:<input class="fpkm-input fpkm_star"  type="text" name="search" placeholder="">-
-                    <input class="fpkm-input fpkm_end"   type="text" name="search" placeholder="">(min=0,max=100)
+                <div class="fpkm_div">FPKM:<input class="fpkm-input fpkm_star"  type="text" name="search" placeholder="" value="">-
+                    <input class="fpkm-input fpkm_end"   type="text" name="search" placeholder="" value="">(min=0,max=100)
                     <botton class="fpkm_btn">确定</botton>
                 </div>
             </div>

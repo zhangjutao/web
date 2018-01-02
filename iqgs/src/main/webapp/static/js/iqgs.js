@@ -202,7 +202,7 @@ $(function(){
                     var $ul = $("#qtlAdd .fuzzySearch ul");
                     $ul.empty();
                     for (var i = 0; i < res.length; i++) {
-                        var id = res[i].id;
+                        var id = res[i].associatedGenesId;
                         var name = res[i].qtlName;
                         var li = "<li>" + "<label for='" + name + "'><span id ='" + id + "' data-value='" + name + "'></span>" + name + "</label></li>";
                         $ul.append(li);
