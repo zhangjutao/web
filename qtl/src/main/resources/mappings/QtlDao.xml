@@ -25,7 +25,7 @@
     </select>
 
     <select id="findQtlsByName" parameterType="string" resultType="com.gooalgene.entity.Qtl">
-        SELECT id, qtl_name FROM qtl WHERE qtl_name LIKE concat('%', #{qtlName},'%')
+        SELECT id, associatedGenes_id, qtl_name FROM qtl WHERE qtl_name LIKE concat('%', #{qtlName},'%')
     </select>
 
     <select id="findQTLMap" resultType="Map">

@@ -226,10 +226,13 @@ public class AdvanceSearchController {
 
     @RequestMapping(value = "/fetch-network-genes", method = RequestMethod.GET)
     @ResponseBody
-    public RegularityResult fetchAllRegularityNetworkGenes(@RequestParam("geneId") String geneId) {
+    public ResultVO<RegularityResult> fetchAllRegularityNetworkGenes(@RequestParam("geneId") String geneId) {
         List<RegularityLink> links = regularityNetworkService.findRelateGene(geneId);  //拿到所有links
         Set<RegularityNode> nodes = regularityNetworkService.getAllDistinctGeneId(links, geneId);//拿到所有nodes
         RegularityResult result = new RegularityResult(links, nodes);
-        return result;
+        if (links.isEmpty()){
+            ResultUtil.error(500, "无可调控基因");
+        }
+        return ResultUtil.success(result);
     }
 }
