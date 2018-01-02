@@ -11,4 +11,5 @@ public interface CommonConstant {
     String FIRSTSNPCHROMOSOME = "SNP_Chr01"; //第一条SNP染色体
     String FIRSTINDELCHROMOSOME = "INDEL_Chr01"; //第一条INDEL染色体
     String CONSEQUENCETYPE = "consequencetype"; //序列类型
+    String CLASSIFY = "classifys";  //组织分类集合
 }

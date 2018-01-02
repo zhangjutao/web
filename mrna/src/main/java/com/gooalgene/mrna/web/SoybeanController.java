@@ -133,7 +133,7 @@ public class SoybeanController {
             long end = System.currentTimeMillis();
             DecimalFormat df = new DecimalFormat("######0.00");
             Map<String, String> runAndclassify = studyService.queryRunsAndTissueForClassify();//run对应的分类
-            Map<String, String> classifyAndFirst = tService.queryChildAndFisrt();//所有分类对应第一级关系
+            Map<String, String> classifyAndFirst = tService.queryChildAndFirst();//所有分类对应第一级关系
             Map<String, String> classifyAndChinese = tService.queryClassifyAndChinese();//所有分类对应中文名
             Map<String, String> firstAndChinese = tService.queryFirstAndChinese();//第一级分类和对应中文
             logger.info("Query:" + aggregation.toString() + ",cost " + (end - start) / 1000 + "s.");

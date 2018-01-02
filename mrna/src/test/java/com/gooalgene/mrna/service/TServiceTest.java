@@ -13,6 +13,8 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
@@ -59,6 +61,15 @@ public class TServiceTest extends TestCase {
         List<String> result = tService.queryClassifyByFather("seed coat");
         for (String r : result){
             System.out.println(r);
+        }
+    }
+
+    @Test
+    public void testQueryChildAndFirst(){
+        List<String> results = tService.queryRootAndFirstClassifyName();
+        System.out.println(results.size());
+        for (String s : results){
+            System.out.println(s);
         }
     }
 }

@@ -1,24 +1,30 @@
 package com.gooalgene.mrna.service;
 
+import com.gooalgene.common.constant.CommonConstant;
+import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.mrna.entity.Classifys;
 import com.gooalgene.mrna.vo.GResultVo;
 import com.gooalgene.mrna.vo.GVo;
 import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.mrna.vo.GenVo;
+import com.mongodb.BasicDBList;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.data.mongodb.core.DocumentCallbackHandler;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
 import org.springframework.data.mongodb.core.aggregation.AggregationResults;
 import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class TService {
@@ -83,7 +89,7 @@ public class TService {
                     vo.setName(name); //所属组织
                     vo.setLevel(level); //一级组织(root)
                     vo.setGen(gen);
-                    vo.setPname("");
+                    vo.setPname("");  //顶级组织是不存在父类的
                     vo.setChinese(chinese);
                     //基因名+组织名+层级
                     genvosMap.put(gen + name + level, vo);
@@ -176,9 +182,10 @@ public class TService {
      * @param level        当前级别
      * @param childs       Classify中需要处理的子集合
      * @param gen          基因ID
-     * @param classifyName 组织名字
+     * @param classifyName 一级组织名字
      */
-    public void childsGenerateGen(Map<String, Object> sumMaps, Map<String, Object> valueMaps, Map<String, GenVo> genvosMap, int level, List<Map<String, Object>> childs, String gen, String classifyName) {
+    public void childsGenerateGen(Map<String, Object> sumMaps, Map<String, Object> valueMaps, Map<String, GenVo> genvosMap,
+                                  int level, List<Map<String, Object>> childs, String gen, String classifyName) {
         level++; //组织层级增加
         for (int i = 0; i < childs.size(); i++) {
             Map<String, Object> map = childs.get(i);
@@ -199,7 +206,7 @@ public class TService {
             }
             double count = Double.parseDouble(countTemp);
             double value = Double.parseDouble(valueTemp);
-            //父的信息
+            //父信息
             int pnum = level - 1;
             //该key对应genvosMap中的key,拼接方法也一样
             String parentKey = gen + classifyName + pnum;
@@ -329,7 +336,7 @@ public class TService {
      *
      * @return
      */
-    public Map<String, String> queryChildAndFisrt() {
+    public Map<String, String> queryChildAndFirst() {
         Map<String, String> mapAll = new HashMap<String, String>();
         List<Classifys> all = getClassifyTree();
         for (Classifys classifys : all) {
@@ -389,11 +396,37 @@ public class TService {
         Map<String, String> mapAll = new HashMap<String, String>();
         List<Classifys> all = getClassifyTree();
         for (Classifys classifys : all) {
-            String name = classifys.getName();//第一级--包含后缀_all
+            String name = classifys.getName();  //第一级--包含后缀_all
             String chinese = classifys.getChinese();
             mapAll.put(name, chinese);
         }
         return mapAll;
+    }
+
+    /**
+     * 查询root及二级组织名
+     * @return 所有组织名的集合
+     */
+    public List<String> queryRootAndFirstClassifyName(){
+        Query query = new Query();
+        query.fields().include("children");
+        final List<String> secondHierarchyCollection = new ArrayList<>();
+        mongoTemplate.executeQuery(query, CommonConstant.CLASSIFY,
+                new DocumentCallbackHandler() {
+                    @Override
+                    public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                        BasicDBObject basicDBObject = (BasicDBObject) dbObject;  //先强转为BasicDBObject
+                        BasicDBList children = (BasicDBList) basicDBObject.get("children");  //获取第一层级的所有children
+                        int childrenSize = children.size();
+                        String childName = null;
+                        for (int i = 0; i < childrenSize; i++){
+                            BasicDBObject childElement = (BasicDBObject) children.get(i);
+                            childName = (String) childElement.get("name");
+                            secondHierarchyCollection.add(childName);
+                        }
+                    }
+                });
+        return secondHierarchyCollection;
     }
 
 }
