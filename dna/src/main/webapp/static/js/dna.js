@@ -1250,6 +1250,12 @@ $(function () {
             _form.submit();
         } else {
             var _form = $("#exportRegionForm");
+            if(isPop == 1){
+                _form.find(".model").val("GENE");
+                _form.find(".gene").val($("#GlyIds .GlyColor").text());
+            }else {
+                _form.find(".model").val("REGION");
+            }
             var params = GetPanelParams.getRegionParams();
             // params.total = total;
             _form.find(".chromosome").val(params.chromosome);
@@ -1307,16 +1313,26 @@ $(function () {
         var totalLength;
         if(geneLength >svgTotal*10){
             var svg = d3.select("#" +id).append("svg").attr("width",parseInt(geneLength/10) + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[Math.ceil(geneLength/10),220]];
-            var topLineData = [[20,1],[Math.ceil(geneLength/10),1]];
-            var centerLineData = [[20,90],[Math.ceil(geneLength/10),90]]
-            totalLength = Math.ceil(geneLength/10);
+            // var acrossLineData = [[20,220],[Math.ceil(geneLength/10),220]];
+            // var topLineData = [[20,1],[Math.ceil(geneLength/10),1]];
+            // var centerLineData = [[20,90],[Math.ceil(geneLength/10),90]]
+            // totalLength = Math.ceil(geneLength/10);
+            var acrossLineData = [[20,220],[Math.ceil(geneLength/10)+100,220]];
+            var topLineData = [[20,1],[Math.ceil(geneLength/10)+100,1]];
+            var centerLineData = [[20,90],[Math.ceil(geneLength/10)+100,90]]
+            totalLength = Math.ceil(geneLength/10)+100;
         }else {
             var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[svgTotal,220]];
-            var topLineData = [[20,1],[svgTotal,1]];
-            var centerLineData = [[20,90],[svgTotal,90]]
-            totalLength = svgTotal;
+            // var acrossLineData = [[20,220],[svgTotal,220]];
+            // var topLineData = [[20,1],[svgTotal,1]];
+            // var centerLineData = [[20,90],[svgTotal,90]]
+            // totalLength = svgTotal;
+
+            var acrossLineData = [[20,220],[svgTotal+133,220]];
+            var topLineData = [[20,1],[svgTotal+133,1]];
+            var centerLineData = [[20,90],[svgTotal+133,90]]
+            totalLength = svgTotal+133;
+
         }
         // 创建一个直线生成器
         var line = d3.line()
@@ -1366,16 +1382,21 @@ $(function () {
             intervalLineData.push(intervalElement2);
             intervalLineData.push(faultElement);
                 if(svgLength>885){
-                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
+                    // svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
                 }
                 // else {
                 //     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
                 // }
 
                 else if(svgLength<=885&&geneLength>100){
-                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+                    // svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
+
                 }else{
-                    svg.append("text").text(parseInt(i*svgLength/90)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*(svgLength/10) +",250)");
+                    // svg.append("text").text(parseInt(i*svgLength/90)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*(svgLength/10) +",250)");
+                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
+
                 }
         }
         // 利用defined 把一条路径切割成一段一段的多条路径
