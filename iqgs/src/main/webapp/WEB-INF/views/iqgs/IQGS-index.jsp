@@ -15,6 +15,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
 </head>
 
 <body>
@@ -26,7 +27,7 @@
         <div class="plant-pic">
             <img src="${ctxStatic}/images/banner-soybean.png">
         </div>
-        <div class=" tabs">
+        <div class=" tabs" style="margin-bottom:0px;">
             <ul id="myTabs"  class="searchNav nav-tabs">
                 <li class="active geneIdName"><a class="" >Search By Gene ID/Name</a></li>
                 <li class=" geneFunction"><a class="" >Search By Gene Function</a></li>
@@ -41,7 +42,7 @@
                         <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                         <button id="btn_name" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
-                    <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> LOC778160</a></p>
+                    <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900"> LOC778160</a></p>
                 </div>
                 <div id="GeneFunction" class="tab-pane">
                     <p class="search-title">Search By Gene Function</p>
@@ -50,7 +51,7 @@
                         <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                         <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
-                    <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1">transcription factor MYBJ6</a></p>
+                    <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">transcription factor MYBJ6</a></p>
                 </div>
                 <div id="Region" class="tab-pane">
                     <p class="search-title">Search By Region</p>
@@ -89,7 +90,7 @@
                     <p class="search-title">Search By QTL</p>
                     <label>
                         <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
-                        <button id="QtlBtnNames" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
+                        <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
                     <div id="qtlErrorTip">
                         根据输入的关键字查询的结果为: 0 条
@@ -97,27 +98,184 @@
                     <div class="fuzzySearch">
                         <ul>
                             <%--<li>--%>
-                            <%--<label for="name1">--%>
-                            <%--<span id ="name1" data-value="name11"></span>--%>
-                            <%--Fusarium lesion length 1-1--%>
-                            <%--</label>--%>
+                                <%--<label for="name1">--%>
+                                    <%--<span id ="name1" data-value="name11"></span>--%>
+                                    <%--Fusarium lesion length 1-1--%>
+                                <%--</label>--%>
                             <%--</li>--%>
                         </ul>
                     </div>
-                    <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> Seed N at R5 1-1</a></p>
+                    <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
                     <div class="sureBtn">
                         <p>确定</p>
                     </div>
                 </div>
             </div>
         </div>
+        <%--// 高级搜索  按钮--%>
+        <%--<div id="advancedSearch">--%>
+            <%--<div class="advanceBtn">--%>
+                <%--<p>Advanced search--%>
+                    <%--<img src="${ctxStatic}/images/downtou.png" alt="down" ></p>--%>
+            <%--</div>--%>
+        <%--</div>--%>
     </div>
-    <div id="advancedSearch">
-        <div class="advanceBtn">
-            <p>Advanced search</p>
-            <img src="${ctxStatic}/images/downtou.png" alt="down" >
-        </div>
-    </div>
+    <%--// 高级搜索  内容筛选区--%>
+    <%--<div id="advanceSelect">--%>
+        <%--<div class="showSelected">--%>
+            <%--<p class="showTitle">已选&gt</p>--%>
+            <%--<div class="showContainer">--%>
+               <%--<div id="expreDetail">--%>
+                   <%--&lt;%&ndash;<span class="expreSigle">基因表达量:种子23-45,seed,fjkldjfs</span><span class="deleteIconP">X</span>&ndash;%&gt;--%>
+               <%--</div>--%>
+                <%--&lt;%&ndash;<div id="snpDetail">&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<div id="indelDetail">&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                <%--&lt;%&ndash;<div id="qtlDetail">&ndash;%&gt;--%>
+                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+            <%--</div>--%>
+            <%--<p class="showClear">清空</p>--%>
+        <%--</div>--%>
+        <%--<div class="selectContainer">--%>
+            <%--<div class="geneExpression">--%>
+                <%--<p>基因表达量:&emsp;</p>--%>
+                <%--<div id="expreKinds">--%>
+                   <%--<div class="inputBox">--%>
+                       <%--<input type="text" placeholder="请选择">--%>
+                       <%--<img src="${ctxStatic}/images/todown.png" alt="^">--%>
+                       <%--<img src="${ctxStatic}/images/totop.png" alt="^" class="imgChange">--%>
+                   <%--</div>--%>
+                   <%--<div class="expreList">--%>
+                       <%--<ul>--%>
+                            <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;花&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                           <%--<--%>
+                       <%--</ul>--%>
+                   <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="selectedKinds" id="selectedKinds">--%>
+                    <%--<ul class="lists">--%>
+                        <%--&lt;%&ndash;<li class="checked">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<label for="name1">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<span id ="name1"></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;seed&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                    <%--</ul>--%>
+                    <%--<div class="expreRegin">--%>
+                        <%--<p class="fromTO">FPKM:&nbsp;&nbsp;--%>
+                            <%--<input type="number" id="expreStart"  min="0">--%>
+                            <%-----%>
+                            <%--<input type="number" id="expreEnd" min="0">--%>
+                        <%--</p>--%>
+                        <%--<p class="expreTip">(min=0,max=100)</p>--%>
+                        <%--<p class="expreConfirm">确定</p>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="geneSnp" style="height:53px;">--%>
+                <%--<p class="titleStyle">SNP:&nbsp;&nbsp;</p>--%>
+                <%--<div class="snpList">--%>
+                    <%--<ul>--%>
+                        <%--<li>--%>
+                            <%--&lt;%&ndash;<label for="snp1">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="snp1" data-value=""></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;Downstream&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--</li>--%>
+                    <%--</ul>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="geneIndel">--%>
+                <%--<p class="titleStyle">INDEL:&nbsp;&nbsp;</p>--%>
+                <%--<div class="indelList" style="margin-left: 42px;">--%>
+                    <%--<ul>--%>
+                        <%--<li>--%>
+                            <%--&lt;%&ndash;<label for="indel1">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="indel1" data-value=""></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;indel3&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--</li>--%>
+                    <%--</ul>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div class="geneQtl" style="min-height:50px;position:relative;">--%>
+                <%--<p class="titleStyle">QTL:&nbsp;&nbsp;</p>--%>
+                <%--<div class="qtlInput1" id="qtlKinds">--%>
+                    <%--<div class="inputBox">--%>
+                        <%--<input type="text" id="qtlBox1" placeholder="请选择">--%>
+                        <%--<img src="${ctxStatic}/images/todown.png" alt="^">--%>
+                        <%--<img src="${ctxStatic}/images/totop.png" alt="^" class="imgChange">--%>
+                    <%--</div>--%>
+                    <%--<div class="qtlList imgChange">--%>
+                        <%--<ul>--%>
+                            <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                           <%--&lt;%&ndash;种子相关&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</li> &ndash;%&gt;--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="qtlInput2" id="qtlKinds2">--%>
+                    <%--<div class="inputBox">--%>
+                        <%--<input type="text" id="qtlBox2" placeholder="请选择">--%>
+                        <%--<img src="${ctxStatic}/images/todown.png" alt="^">--%>
+                        <%--<img src="${ctxStatic}/images/totop.png" alt="^" class="imgChange">--%>
+                    <%--</div>--%>
+                    <%--<div class="qtlList" style="width:410px;">--%>
+                        <%--<ul>--%>
+                        <%--</ul>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="qtlSelectList">--%>
+                    <%--<ul>--%>
+                        <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<label for="qtl1">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="qtl1"></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;Seed N at R5 1-1&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<label for="qtl2">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="qtl2" data-value=""></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;Seed N at R5 1-2&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<label for="qtl3">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="qtl3" data-value=""></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;Seed N at R5 1-3&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<label for="qtl4">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="qtl4" data-value=""></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;Seed N at R5 1-4&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<label for="qtl5">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="qtl5" data-value=""></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;Seed N at R5 1-4&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<li>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<label for="qtl6">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<span id ="qtl6" data-value=""></span>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;Seed N at R5 1-4&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</label>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</li>&ndash;%&gt;--%>
+                    <%--</ul>--%>
+                <%--</div>--%>
+            <%--</div>--%>
+            <%--<div id="iqgsSearch">--%>
+                <%--<p>搜索</p>--%>
+            <%--</div>--%>
+        <%--</div>--%>
+
+    <%--</div>--%>
+
     <div class="database-link">
         <div class="qlt-link">
             <a target="_blank" href="${ctxroot}/search/index">
@@ -164,10 +322,14 @@
 <!--footer-->
 <script type="text/javascript">
     window.DOMAIN = "${ctxroot}/iqgs";
+    window.ctxROOT = "${ctxroot}";
+    window.ctxStatic = "${ctxStatic}"
+
 </script>
 
 <script src="${ctxStatic}/js/mock/mock.js"></script>
-<script src="${ctxStatic}/js/iqgs.js"></script>
+<%--<script src="${ctxStatic}/js/iqgs.js"></script>--%>
 <script src="${ctxStatic}/js/newAddNeed.js"></script>
+<script src="${ctxStatic}/js/iqgs.js"></script>
 </body>
 </html>

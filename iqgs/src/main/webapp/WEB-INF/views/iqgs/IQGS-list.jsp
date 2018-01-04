@@ -10,79 +10,14 @@
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
     <title>IQGS list</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
-    <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
+    <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
-</head>
-<style>
-    .AdvancedSearch{
-        background-color: #fff;
-        padding: 24px 50px;
-        margin-bottom: 17px;
-    }
-    .AdvancedSearch_div{
-        position: relative;
-        width: 100%;
-        height: 40px;
-    }
-    .AdvancedSearch_btn{
-        position: absolute;
-        right: 1px;
-        background: #5C8CE6;
-        color: #fff;
-        -webkit-border-radius: 3px;
-        -moz-border-radius: 3px;
-        border-radius: 3px;
-        font-size: 16px;
-        cursor: pointer;
-        border:none;
-        padding: 10px;
-    }
-    .SelectedEmpty{background: #f5f5f5; overflow: hidden; padding: 8px;}
-    .SelectedEmpty .selected{
-        float: left;
-    }
-    .SelectedEmpty .empty{
-        float: right;
-    }
-    .AdvancedSearch .fuzzySearch{
-        display: block;
-        width: 100%;
-        border: none;
-        height: auto;
-    }
-    .form_search .fuzzySearch{display: flex;}
-    .AdvancedSearch .fuzzySearch ul{width: auto; height: auto;}
-    .AdvancedSearch .fuzzySearch ul li{width: auto}
-    .AdvancedSearch .fuzzySearch li:nth-child(3n+1) {
-        margin-left: 0px;
-    }
-    .form_search{padding-top:12px;}
-    .snpSearch_div,.indelSearch_div{display: flex;}
 
-    .qtl_lab{border: 1px solid #e5e5e5; padding: 2px 6px; margin-right: 5px;}
-    .qtl_sel{ padding: 2px 4px;}
-    .fpkm-input{
-        width: 50px;
-        /*height: 20px;*/
-        /*float: left;*/
-        border: 1px solid #e6e6e6;
-        padding:5px;
-    }
-    .fpkm_btn{
-        background: #5C8CE6;
-        color: #fff;
-        font-size: 12px;
-        cursor: pointer;
-        border-radius: 3px;
-        text-align: center;
-        padding: 5px 18px;
-    }
-   .AdvancedSearch .select_con{overflow-y: auto;}
-    .geneExpression_del,.snp_del,indel_del{cursor: pointer;}
-</style>
+</head>
+
 <body>
 
 <iqgs:iqgs-header></iqgs:iqgs-header>
@@ -103,7 +38,7 @@
                     <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_name" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
-                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> LOC778160</a></p>
+                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900"> LOC778160</a></p>
             </div>
             <div id="GeneFunction" class="tab-pane">
                 <p class="search-title">Search By Gene Function</p>
@@ -112,7 +47,7 @@
                     <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
-                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1">transcription factor MYBJ6</a></p>
+                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">transcription factor MYBJ6</a></p>
             </div>
             <div id="Region" class="tab-pane">
                 <p class="search-title">Search By Region</p>
@@ -146,11 +81,12 @@
                 </div>
                 <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
             </div>
+            <%--modify by jarry --%>
             <div id="qtlAdd" class="tab-pane">
                 <p class="search-title">Search By QTL</p>
                 <label>
                     <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
-                    <button id="QtlBtnNames" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
+                    <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <div id="qtlErrorTip">
                     根据输入的关键字查询的结果为: 0 条
@@ -164,69 +100,180 @@
                         <%--</label>--%>
                         <%--</li>--%>
                     </ul>
-                    <div class="sureBtn">
-                        <p>确定</p>
+                </div>
+                <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                <div class="sureBtn">
+                    <p>确定</p>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <%--modify by jarry at 2018-01-04--%>
+    <%--// 高级搜索  按钮--%>
+    <div id="advancedSearch">
+        <div class="advanceBtn">
+            <p>Advanced search
+                <img src="${ctxStatic}/images/downtou.png" alt="down" ></p>
+        </div>
+    </div>
+
+    <%--// 高级搜索  内容筛选区--%>
+    <div id="advanceSelect">
+        <div class="showSelected">
+            <p class="showTitle">已选&gt</p>
+            <div class="showContainer">
+                <div id="expreDetail">
+                    <%--<span class="expreSigle">基因表达量:种子23-45,seed,fjkldjfs</span><span class="deleteIconP">X</span>--%>
+                </div>
+                <%--<div id="snpDetail">--%>
+                <%--</div>--%>
+                <%--<div id="indelDetail">--%>
+                <%--</div>--%>
+                <%--<div id="qtlDetail">--%>
+                <%--</div>--%>
+            </div>
+            <p class="showClear">清空</p>
+        </div>
+        <div class="selectContainer">
+            <div class="geneExpression">
+                <p>基因表达量:&emsp;</p>
+                <div id="expreKinds">
+                    <div class="inputBox">
+                        <input type="text" placeholder="请选择">
+                        <img src="${ctxStatic}/images/todown.png" alt="^">
+                        <img src="${ctxStatic}/images/totop.png" alt="^" class="imgChange">
+                    </div>
+                    <div class="expreList">
+                        <ul>
+                            <%--<li>--%>
+                            <%--花--%>
+                            <%--</li>--%>
+                            <
+                        </ul>
                     </div>
                 </div>
-                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/search/list?keyword=Glyma.01G004900&searchType=1"> Seed N at R5 1-1</a></p>
-
-            </div>
-        </div>
-    </div>
-    <div class="AdvancedSearch">
-        <div class="AdvancedSearch_div"><button class="AdvancedSearch_btn">Advanced search</button></div>
-        <div class="SelectedEmpty">
-            <span class="selected">已选>&nbsp;</span>
-            <label class="geneExpression_lab">
-                <span class="geneExpression_name"></span>
-                <%--<span class="fpkmVal"><b class="fpkm_star_text"></b>-<b class="fpkm_end_text"></b></span>--%>
-                <span class="geneExpression_select qtl_sel"></span><span class="geneExpression_del"></span>
-            </label>
-            <label class="snp_lab">
-                <span class="snp_name"></span><span class="snp_select qtl_sel"></span><span class="snp_del"></span>
-            </label>
-            <label class="indel_lab">
-                <span class="indel_name"></span><span class="indel_select qtl_sel"></span><span class="indel_del"></span>
-            </label>
-            <span class="empty">清空</span>
-        </div>
-        <%--基因表达量--%>
-        <form name="form1" class="form_search">
-            <label>基因表达量：</label>
-            <select name="geneName" id="geneName">
-                <option>请选择</option>
-            </select>
-            <div class="fuzzySearch">
-            <ul class="select_con" id="geneList">
-            </ul>
-                <div class="fpkm_div">FPKM:<input class="fpkm-input fpkm_star"  type="text" name="search" placeholder="" value="">-
-                    <input class="fpkm-input fpkm_end"   type="text" name="search" placeholder="" value="">(min=0,max=100)
-                    <botton class="fpkm_btn">确定</botton>
+                <div class="selectedKinds" id="selectedKinds">
+                    <ul class="lists">
+                        <%--<li class="checked">--%>
+                        <%--<label for="name1">--%>
+                        <%--<span id ="name1"></span>--%>
+                        <%--seed--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                    </ul>
+                    <div class="expreRegin">
+                        <p class="fromTO">FPKM:&nbsp;&nbsp;
+                            <input type="number" id="expreStart" min="0">
+                            -
+                            <input type="number" id="expreEnd" min="0">
+                        </p>
+                        <%--<p class="expreTip">(min=0,max=100)</p>--%>
+                        <p class="expreConfirm backColorBtn" >确定</p>
+                    </div>
                 </div>
             </div>
-        </form>
-        <%--SNP--%>
-        <div class="snpSearch_div">
-            <label>SNP：</label>
-            <div class="snpSearch fuzzySearch">
-                     <ul class="snpSearch_ul"></ul>
+            <div class="geneSnp" style="height:83px;">
+                <p class="titleStyle">SNP:&nbsp;&nbsp;</p>
+                <div class="snpList">
+                    <ul>
+                        <li>
+                            <%--<label for="snp1">--%>
+                            <%--<span id ="snp1" data-value=""></span>--%>
+                            <%--Downstream--%>
+                            <%--</label>--%>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <%--INDEL--%>
-        <div class="indelSearch_div">
-            <label>INDEL：</label>
-            <div class="indelSearch fuzzySearch">
-                <ul class="indelSearch_ul"></ul>
+            <div class="geneIndel">
+                <p class="titleStyle">INDEL:&nbsp;&nbsp;</p>
+                <div class="indelList" style="margin-left: 42px;">
+                    <ul>
+                        <li>
+                            <%--<label for="indel1">--%>
+                            <%--<span id ="indel1" data-value=""></span>--%>
+                            <%--indel3--%>
+                            <%--</label>--%>
+                        </li>
+                    </ul>
+                </div>
             </div>
-        </div>
-        <%--QTL--%>
-        <div class="qtlSearch_div">
-            <label>QTL：</label>
-            <div id="province" class="fuzzySearch">
+            <div class="geneQtl" style="min-height:50px;position:relative;">
+                <p class="titleStyle">QTL:&nbsp;&nbsp;</p>
+                <div class="qtlInput1" id="qtlKinds">
+                    <div class="inputBox">
+                        <input type="text" id="qtlBox1" placeholder="请选择">
+                        <img src="${ctxStatic}/images/todown.png" alt="^">
+                        <img src="${ctxStatic}/images/totop.png" alt="^" class="imgChange">
+                    </div>
+                    <div class="qtlList imgChange">
+                        <ul>
+                            <%--<li>--%>
+                            <%--种子相关--%>
+                            <%--</li> --%>
+                        </ul>
+                    </div>
+                </div>
+                <div class="qtlInput2" id="qtlKinds2">
+                    <div class="inputBox">
+                        <input type="text" id="qtlBox2" placeholder="请选择">
+                        <img src="${ctxStatic}/images/todown.png" alt="^">
+                        <img src="${ctxStatic}/images/totop.png" alt="^" class="imgChange">
+                    </div>
+                    <div class="qtlList" style="width:410px;">
+                        <ul>
+                        </ul>
+                    </div>
+                </div>
+                <div class="qtlSelectList">
+                    <ul>
+                        <%--<li>--%>
+                        <%--<label for="qtl1">--%>
+                        <%--<span id ="qtl1"></span>--%>
+                        <%--Seed N at R5 1-1--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                        <%--<label for="qtl2">--%>
+                        <%--<span id ="qtl2" data-value=""></span>--%>
+                        <%--Seed N at R5 1-2--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                        <%--<label for="qtl3">--%>
+                        <%--<span id ="qtl3" data-value=""></span>--%>
+                        <%--Seed N at R5 1-3--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                        <%--<label for="qtl4">--%>
+                        <%--<span id ="qtl4" data-value=""></span>--%>
+                        <%--Seed N at R5 1-4--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                        <%--<label for="qtl5">--%>
+                        <%--<span id ="qtl5" data-value=""></span>--%>
+                        <%--Seed N at R5 1-4--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                        <%--<li>--%>
+                        <%--<label for="qtl6">--%>
+                        <%--<span id ="qtl6" data-value=""></span>--%>
+                        <%--Seed N at R5 1-4--%>
+                        <%--</label>--%>
+                        <%--</li>--%>
+                    </ul>
+                </div>
+            </div>
+            <div id="iqgsSearch">
+                <p>搜索</p>
             </div>
         </div>
 
     </div>
+
     <div class="search-result">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
@@ -237,7 +284,7 @@
 
             </div>
             <div class="pagination-backtop">
-                <a id="goTopBtn" class="backtop" href="javascript:;">返回顶部</a>
+                 <a id="goTopBtn" class="backtop" href="javascript:;">返回顶部</a>
                 <div class="ga-ctrl-footer">
                     <div id="pagination1" class="pagination"></div>
                     <div id="per-page-count1" class="per-page-count lay-per-page-count per-page-count">
@@ -255,43 +302,39 @@
             </div>
         </div>
     </div>
-
 </div>
 <!--container-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
+<script>
+    window.DOMAIN = "${ctxroot}/iqgs";
+    window.ctxROOT = "${ctxroot}";
+    window.ctxStatic = "${ctxStatic}"
+</script>
+<script src="${ctxStatic}/js/mock/mock.js"></script>
+<script src="${ctxStatic}/js/newAddNeed.js"></script>
 <script src="${ctxStatic}/js/iqgs.js"></script>
 <script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/iqgs-list.js"></script>
-<script src="${ctxStatic}/js/mock/mock.js"></script>
-<script src="${ctxStatic}/js/newAddSearch.js"></script>
-<script src="${ctxStatic}/js/newQTL.js"></script>
-
-
 <script>
-    //获取URL参数
-    (function ($) {
-        $.getUrlParam = function (name) {
-            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
-            var r = window.location.search.substr(1).match(reg);
-            if (r != null) return unescape(r[2]); return null;
-        }
-    })(jQuery);
-    var keyword = $.getUrlParam('keyword');
-    var chosenQtl= $.getUrlParam('chosenQtl');
-    var chosenQtlCurr= chosenQtl.split(",");
-
-    var vals =$('#qtlAdd .fuzzySearch span ').attr( "id" );
-
-//    for(var i=0;i<chosenQtlCurr.length;i++){
-//
-//
-//    }
-
-
+    // sessionStorage
+    if(window.sessionStorage){
+        var storage = window.sessionStorage;
+    }else{
+        alert('This browser does NOT support localStorage');
+    };
     window.DOMAIN = "${ctxroot}/iqgs";
     var searchType = '${searchType}';
+    var param = window.location.search;
+    var currParam = param.split("&")[0].split("=")[1].split("*");
+        // 把字符串转换为数字
+    var nums = [];
+    for(var i=0;i<currParam.length;i++){
+        nums.push(Number(currParam[i]));
+    };
+    console.log(nums);
+    var qtlSearchNames = JSON.parse(storage.getItem("qtlSearchNames"));
     var page = {curr: 1, pageSize:10};
     function initSearchTab() {
         if (searchType == 1) {
@@ -300,14 +343,14 @@
         }else if (searchType == 2) {
             $("#key_func").val('${keyword}');
             $($("#myTabs li")[1]).trigger('click');
-        }else if (searchType == 3){
+        }else if(searchType == 3){
             $(".js-region").val('${chr}');
             $("#rg_begin").val('${rgBegin}');
             $("#rg_end").val('${rgEnd}');
             $($("#myTabs li")[2]).trigger('click');
-        }else{
-            $("#qtlName").val(keyword);
+        }else {
             $($("#myTabs li")[3]).trigger('click');
+            $("#qtlName").val(qtlSearchNames.join(","));
         }
     }
 
@@ -328,7 +371,7 @@
                 pageSize: page.pageSize || 10,
                 keyword : $("#key_func").val()
             }, resultCallback);
-        } else if (searchType == 3) {
+        } else if(searchType == 3){
             $.getJSON('${ctxroot}/iqgs/search/range', {
                 pageNo: page.curr || 1,
                 pageSize: page.pageSize || 10,
@@ -336,30 +379,42 @@
                 end : $("#rg_end").val(),
                 chr : $(".js-region").val()
             }, resultCallback);
-        }else{
-            $("#QtlBtnNames").click()
-
-            <%--$.getJSON('${ctxroot}/iqgs/search/func', {--%>
+        }else {
+            getQtlNameData();
+            <%--$.getJSON('${ctxroot}/advance-search/confirm', {--%>
                 <%--pageNo: page.curr || 1,--%>
                 <%--pageSize: page.pageSize || 10,--%>
-                <%--keyword : $("#qtlName").val()--%>
+                <%--chosenQtl : nums--%>
             <%--}, resultCallback);--%>
-            // val = [1001, 1005];
-//            var data ={
-//                chosenQtl:qtlVal,
-//                pageNo:1,
-//                pageSize:20
-//            };
-            $.getJSON('${ctxroot}/advance-search/confirm', {
-            pageNo:1,
-            pageSize:10,
-            chosenQtl :chosenQtlCurr
-            }, resultCallback);
-
 
         }
     }
+    // 根据qtlName 获取数据
+    function getQtlNameData(){
+        $.ajax({
+            type:"GET",
+            url:"${ctxroot}/advance-search/confirm",
+            data:{
+                pageNo: page.curr || 1,
+                pageSize: page.pageSize || 10,
+                chosenQtl : nums
+            },
+            success:function (result){
+                var data = result.data.list;
+                var total = result.total;
+                var res = {};
+                    res.data = data;
+                    res.total = total;
+                if(result.code == 0 && data.length!=0){
+                    resultCallback(res)
+                }
+            },
+            error:function (error){
+                console.log(error);
+            }
 
+        })
+    }
     function resultCallback(res) {
         $("span.js-search-total").text(res.total);
         $("#total-page-count1 span").text(res.total);
@@ -384,19 +439,25 @@
                 }
             }
         });
-    }
+    };
 
     function renderList(listdata) {
         if (listdata && listdata.length > 0) {
             var html = [];
             $.each(listdata, function(i, item){
                 html.push('<div class="list">');
-                html.push('<div class="tab-index">' + (page.pageSize * (page.curr-1) + i+1) + '.</div>');
-                html.push('<div class="list-content">');
-                html.push('<p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
-                html.push('<p class="h-tips">基因名:<span>' + item.geneName + '</span></p>');
-                html.push('<p class="content-b">基因注释:<span>' + item.description + '</span></p>');
-                html.push('</div>');
+                html.push('    <div class="tab-index">' + (page.pageSize * (page.curr-1) + i+1) + '.</div>');
+                html.push('    <div class="list-content">');
+                html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
+                html.push('        <p class="h-tips">基因名:<span>' + item.geneName + '</span></p>');
+//                modify by jarry
+                if(searchType == 4){
+                    html.push('        <p class="h-snp">QTL:<span>' + item.qtl + '</span></p>');
+                    html.push('        <p class="h-qtl">SNP:<span>' + item.snp + '</span></p>');
+                    html.push('        <p class="h-qtl">基因表达量(FPKM>30):<span>' + item.geneExpression + '</span></p>');
+                };
+                html.push('        <p class="content-b">基因注释:<span>' + item.description + '</span></p>');
+                html.push('    </div>');
                 html.push('</div>');
             });
             $(".search-result-b .tab-list").html(html.join('\n'));
@@ -412,22 +473,6 @@
         initSearchTab();
         requestSearchData();
     });
-
-    //高级搜索基因表达量
-    $.getJSON('${ctxroot}/advance-search/query-all-organic', {
-    }, geneExpressionData);
-
-    //高级搜索SNP
-    $.post('${ctxroot}/advance-search/query-snp', {
-    }, searchSnpData);
-
-    //高级搜索INDEL
-    $.post('${ctxroot}/advance-search/query-indel', {
-    }, searchIndelData);
-
-    //高级搜索QTL
-    $.getJSON('${ctxroot}/advance-search/fetch-qtl-smarty', {
-    }, searchQtlData);
 </script>
 </body>
 </html>
