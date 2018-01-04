@@ -229,8 +229,8 @@ $(function (){
         // 拦截请求
         // Mock.mock(/(query-all-indel){1}\w*/,obj);
         var data = "";
-        // var promise = SendAjaxRequest("GET","query-all-snp",data);
-        var promise = SendAjaxRequest("GET",window.ctxROOT + "/advance-search/query-indel");
+        // var promise = SendAjaxRequest("GET","query-all-indel",data);
+        var promise = SendAjaxRequest("POST",window.ctxROOT + "/advance-search/query-indel");
         promise.then(
             function (result){
                 if(result.length != 0){
@@ -251,10 +251,6 @@ $(function (){
     };
     // 获取qtl 数据
     function getQtlData(){
-        // Forged data
-        // var qtlDatas = ["真菌抗性","抗虫性","线虫抗性",
-        //     "油相关","种子相关","豆荚生长相关","蛋白质含量及组成","无机物耐性","混合性状"
-        //     ,"生殖周期相关","根相关","茎和叶相关","整个植物发育相关","产量相关","病毒相关"];
         var qtlDatas = [
             {
                 "qtlName": "Fujkll redfance QTL33",
@@ -409,12 +405,12 @@ $(function (){
             data: qtlDatas
         };
         // 拦截请求
-        Mock.mock(/(query-all-qtl){1}\w*/,obj);
+        // Mock.mock(/(query-all-qtl){1}\w*/,obj);
         var data = "";
-        var promise = SendAjaxRequest("GET","query-all-qtl",data);
+        var promise = SendAjaxRequest("GET", window.ctxROOT + "/advance-search/fetch-qtl-smarty");
         promise.then(
             function (result){
-                if(result.status == 200){
+                if(result.length !=0){
                     globalObj.qtlDatas = result;  // 基因表达量的所有数据
                 }else {
                     console.log("无数据/系统异常");
@@ -474,8 +470,9 @@ $(function (){
                $(snps).after(" <span class='expreSigle snpSigle " +id +  "'>" + val + "</span><span class='deleteIconP deleteIconPsnp'>X</span>")
             }
         };
+         console.log(globalObj.SleSnpDatas);
     });
-
+    // indel 每个li的点击事件
     $("#advanceSelect .geneIndel ul").on("click","li",function (){
         var list = $("#advanceSelect .geneIndel ul li");
         var val = $(this).find("label").text().trim();
@@ -515,6 +512,7 @@ $(function (){
                 $(snps).after(" <span class='expreSigle indelSigle " +id +  "'>" + val + "</span><span class='deleteIconP deleteIconPindel'>X</span>")
             }
         };
+        console.log(globalObj.SleIndelDatas);
     });
 
     // QTL  品种选择
@@ -671,11 +669,11 @@ $(function (){
             cntClick("qtlKinds","qtlList");
         };
         // 向一级输入框填充数据
-        var list = globalObj.qtlDatas.data;
+        var list = globalObj.qtlDatas;
         var $ul = $("#qtlKinds .qtlList ul");
         $ul.empty();
         for(var i=0;i<list.length;i++){
-            var li = "<li id='qtl" +list[i].id+ "'data-name='" +list[i].qtlName +  "'>" + list[i].qtlDesc +"</li>";
+            var li = "<li id='qtl" +list[i].traitCategoryId+ "'data-name='" +list[i].qtlDesc +  "'>" + list[i].qtlDesc +"</li>";
             $ul.append(li);
         };
     });
@@ -687,26 +685,27 @@ $(function (){
         var $ul = $("#qtlKinds2 .qtlList ul");
         $ul.empty();
         $("#qtlBox2").val("请选择");
-        var list = globalObj.qtlDatas.data;
+        var list = globalObj.qtlDatas;
         var box2list ;
         var qtlN;
         for (var i=0;i<list.length;i++){
-            if(parseInt($(this).attr("id").substring(3)) == list[i].id){
+            if(parseInt($(this).attr("id").substring(3)) == list[i].traitCategoryId){
                 box2list = list[i].traitLists;
-                qtlN = list[i].qtlName;
+                // qtlN = list[i].qtlName;
+                qtlN = list[i].qtlDesc;
             }
         };
         for(var k=0;k<box2list.length;k++){
-            var li = "<li id='qtlt" +box2list[k].qtlId + "'data-name='" + qtlN +"'>" + box2list[k].traitName + "</li>";
+            var li = "<li id='qtlt" +box2list[k].traitListId + "'data-name='" + qtlN +"'>" + box2list[k].traitName + "</li>";
             // $(li).data("qtlt"+box2list[k].qtlId,box2list[k].qtls);
 
             $ul.append(li);
-            $("#qtlt" + box2list[k].qtlId).data("qtlt"+box2list[k].qtlId,box2list[k].qtls);
-            $("#qtlt" + box2list[k].qtlId).data("qtlName",qtlN);
+            $("#qtlt" + box2list[k].traitListId).data("qtlt"+box2list[k].traitListId,box2list[k].qtls);
+            $("#qtlt" + box2list[k].traitListId).data("qtlName",qtlN);
            // var data = $("#qtlt" + box2list[k].qtlId).data("qtlt"+box2list[k].qtlId);
         }
     });
-    // qtl 下拉框 第二个
+    // qtl 下拉框 第二个  -- 样式
     $("#qtlKinds2 .inputBox").click(function (){
         if($(this).find("input").hasClass("borderWt")){
             $(this).find("input").removeClass("borderWt");
@@ -725,6 +724,9 @@ $(function (){
     });
     // qtl  二级下拉框的点击事件
     $("#qtlKinds2 ul").on("click","li",function (){
+        if($(".geneQtl .qtlSelectList").is(":hidden")){
+            $(".geneQtl .qtlSelectList").show();
+        };
         var that = this;
         liClick("qtlKinds2","qtlList",that);
         // 展示所有品种
@@ -738,7 +740,7 @@ $(function (){
             var li = " <li data-name='" +qtlName+ "'>\n" +
                 "                            <label for='" +getName + m+ "'>\n" +
                 "                                <span id='"+getName + m+"'></span>\n" +
-                datas[m]+
+                datas[m].qtlName+
                 "                            </label>\n" +
                 "                        </li>";
             $ul.append(li);
@@ -754,8 +756,6 @@ $(function (){
                 }
             }
         }
-
-
     });
     var flagStart = 0;
     var flagEnd = 0;

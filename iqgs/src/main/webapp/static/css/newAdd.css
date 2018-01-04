@@ -385,6 +385,8 @@
 }
 #iqgsSearch{
     overflow: hidden;
+    float: left;
+    width: 1200px;
 }
 #iqgsSearch p{
     float:right;
@@ -431,16 +433,22 @@
 .qtlSelectList{
     float:left;
     padding:12px 30px;
-    position: absolute;
-    top: 42px;
+    /*position: absolute;*/
+    /*top: 32px;*/
+    display:none;
+    width:1109px;
+    border-bottom:1px dashed #EEEEEE;
 }
 .qtlSelectList ul{
-    overflow:hidden;
+    width:1068px;
+    max-height:79px;
+    overflow-y:scroll;
     padding-left: 72px;
 }
 .qtlSelectList ul li{
     float:left;
     margin-right:30px;
+    margin-top: 8px;
 }
 .noClick{
     color:#ccc!important;

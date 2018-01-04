@@ -173,7 +173,7 @@
                     </div>
                 </div>
             </div>
-            <div class="geneSnp" style="height:83px;">
+            <div class="geneSnp" style="min-height:83px;">
                 <p class="titleStyle">SNP:&nbsp;&nbsp;</p>
                 <div class="snpList">
                     <ul>
@@ -186,7 +186,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="geneIndel">
+            <div class="geneIndel" style="min-height:83px;">
                 <p class="titleStyle">INDEL:&nbsp;&nbsp;</p>
                 <div class="indelList" style="margin-left: 42px;">
                     <ul>
@@ -199,7 +199,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="geneQtl" style="min-height:50px;position:relative;">
+            <div class="geneQtl" style="min-height:56px;position:relative;border-bottom: 1px dashed #ffffff;">
                 <p class="titleStyle">QTL:&nbsp;&nbsp;</p>
                 <div class="qtlInput1" id="qtlKinds">
                     <div class="inputBox">
@@ -270,6 +270,7 @@
             <div id="iqgsSearch">
                 <p>搜索</p>
             </div>
+            <div style="clear:both;"></div>
         </div>
 
     </div>
