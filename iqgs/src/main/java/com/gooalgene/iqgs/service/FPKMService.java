@@ -14,6 +14,6 @@ public class FPKMService {
     private FPKMDao fpkmDao;
 
     public List<GeneFPKM> findProperGeneUnderSampleRun(int sampleRunId, double begin, double end){
-        return fpkmDao.findProperGeneUnderSampleRun(sampleRunId, begin, end);
+        return null;
     }
 }

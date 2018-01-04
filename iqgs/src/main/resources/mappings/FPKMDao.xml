@@ -1,7 +1,96 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.iqgs.dao.FPKMDao">
-    <select id="findProperGeneUnderSampleRun" resultType="com.gooalgene.iqgs.entity.GeneFPKM">
-      SELECT gene_id, fpkm AS fpkmValue FROM fpkm WHERE samplerun_id = #{0} AND fpkm BETWEEN #{1} AND #{2}
+
+    <select id="findGeneThroughGeneExpressionCondition"
+            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity" resultType="string">
+        SELECT gene_id FROM fpkm
+        WHERE 1=1
+        <foreach collection="list" index="index" item="item">
+            <if test="item.tissue.pod != null">
+                AND pod BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.endosperm != null">
+                AND endosperm BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.seed != null">
+                AND seed BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.embryo != null">
+                AND embryo BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.axis != null">
+                AND axis BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.cotyledon != null">
+                AND cotyledon BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.seedCoat != null">
+                AND seed_coat BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.nodule != null">
+                AND nodule BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.rootHair != null">
+                AND root_hair BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.root != null">
+                AND root BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.rootTip != null">
+                AND root_tip BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.shoot != null">
+                AND shoot BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.shootTip != null">
+                AND shoot_tip BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.shootApicalMeristem != null">
+                AND shoot_apical_meristem BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.shootMeristem != null">
+                AND shoot_meristem BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.primaryleaf != null">
+                AND primaryleaf BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.petiole != null">
+                AND petiole BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.leaf != null">
+                AND leaf BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.trifoliate != null">
+                AND trifoliate BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.leafbud != null">
+                AND leafbud BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.leaflet != null">
+                AND leaflet BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.cotyledonsOfSeedling != null">
+                AND cotyledons_of_seedling BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.seedling != null">
+                AND seedling BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.flowerBud != null">
+                AND flower_bud BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.flower != null">
+                AND flower BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.stem != null">
+                AND stem BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.stemInternode != null">
+                AND stem_internode BETWEEN #{begin} AND #{end}
+            </if>
+            <if test="item.tissue.hypocotyl != null">
+                AND hypocotyl BETWEEN #{begin} AND #{end}
+            </if>
+        </foreach>
     </select>
 </mapper>

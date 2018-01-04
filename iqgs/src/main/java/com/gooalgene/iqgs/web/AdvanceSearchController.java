@@ -134,28 +134,21 @@ public class AdvanceSearchController {
     @RequestMapping(value = "/advanceSearch", method = RequestMethod.POST)
     @ResponseBody
     public PageInfo<DNAGeneSearchResult> advanceSearch(
-            @RequestParam(value = "childTissues[]") String[] childTissues,
+            @RequestParam(value = "childTissues") GeneExpressionCondition geneExpressionCondition,
             @RequestParam(value = "snpConsequenceType[]") String[] snpConsequenceType,
             @RequestParam(value = "indelConsequenceType[]") String[] indelConsequenceType,
             @RequestParam(value = "qtlId[]") Integer[] qtlId,
-            @RequestParam(value = "begin") int begin,
-            @RequestParam(value = "end") int end,
             HttpServletRequest request) throws InterruptedException {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        List<String> totalClassify = new ArrayList<>(); //所有分类总类
-        for (int i = 0; i < childTissues.length; i++) {
-            List<String> classifyAndItsChildren = classifyService.findClassifyAndItsChildren(childTissues[i]);
-            totalClassify.addAll(classifyAndItsChildren);
-        }
-        List<Study> allSampleRun = studyService.querySampleRunByTissueForClassification(totalClassify);  //从MySQL中查询所有的sampleRun
         List<GeneFPKM> properGene = new ArrayList<>();
-        for (int i = 0; i < allSampleRun.size(); i++) {
-            //筛选出该sample下满足FPKM条件的基因
-            int sampleId = Integer.valueOf(allSampleRun.get(i).getId());
-            List<GeneFPKM> allProperGene = fpkmService.findProperGeneUnderSampleRun(sampleId, begin, end);
-            properGene.addAll(allProperGene);
-        }
+        // todo 根据前台传入的geneExpressionCondition查找所有满足条件的基因，可以考虑使用Set
+//        for (int i = 0; i < allSampleRun.size(); i++) {
+//            //筛选出该sample下满足FPKM条件的基因
+//            int sampleId = Integer.valueOf(allSampleRun.get(i).getId());
+//            List<GeneFPKM> allProperGene = fpkmService.findProperGeneUnderSampleRun(sampleId, begin, end);
+//            properGene.addAll(allProperGene);
+//        }
         properGene = properGene.subList(0, 20);
         logger.info(Arrays.toString(properGene.toArray()));
         //对找到符合FPKM值要求的所有基因进行SNP筛选
