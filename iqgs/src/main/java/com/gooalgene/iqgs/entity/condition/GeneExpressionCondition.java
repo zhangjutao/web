@@ -15,6 +15,10 @@ public class GeneExpressionCondition {
 
     private List<Integer> qtlId;
 
+    private Integer pageNo;
+
+    private Integer pageSize;
+
     public List<GeneExpressionConditionEntity> getGeneExpressionConditionEntities() {
         return geneExpressionConditionEntities;
     }
@@ -45,5 +49,21 @@ public class GeneExpressionCondition {
 
     public void setQtlId(List<Integer> qtlId) {
         this.qtlId = qtlId;
+    }
+
+    public Integer getPageNo() {
+        return pageNo;
+    }
+
+    public void setPageNo(Integer pageNo) {
+        this.pageNo = pageNo;
+    }
+
+    public Integer getPageSize() {
+        return pageSize;
+    }
+
+    public void setPageSize(Integer pageSize) {
+        this.pageSize = pageSize;
     }
 }
