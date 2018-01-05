@@ -66,7 +66,7 @@ $(function (){
                     $ul.empty();
                     for (var i = 0; i < list.length; i++) {
                         var name = list[i].qtlName;
-                        var id = list[i].id;
+                        var id = list[i].associatedGenesId;
                         var li = "<li>" + "<label for='" + name + "'><span id ='" + name + "' data-value='" + id + "'></span>" + name + "</label></li>";
                         $ul.append(li);
                     }

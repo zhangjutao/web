@@ -453,9 +453,16 @@
                 html.push('        <p class="h-tips">基因名:<span>' + item.geneName + '</span></p>');
 //                modify by jarry
                 if(searchType == 4){
-                    html.push('        <p class="h-snp">QTL:<span>' + item.qtl + '</span></p>');
-                    html.push('        <p class="h-qtl">SNP:<span>' + item.snp + '</span></p>');
-                    html.push('        <p class="h-qtl">基因表达量(FPKM>30):<span>' + item.geneExpression + '</span></p>');
+                    var qtls= item.associateQTLs;
+                    var qtlNames = "";
+                    for(var k=0;k<qtls.length;k++){
+                        qtlNames +=qtls[k].qtlName +" ";
+                    };
+                    var snp = item.existsSNP?"存在Exonic_nonsynonymouse SNV":"";
+                    var expreTissues = item.rootTissues.join(",");
+                    html.push('        <p class="h-snp qltlistSty">QTL:<span>' + item.associateQTLs.length + '个 （' + qtlNames +')</span></p>');
+                    html.push('        <p class="h-qtl qltlistSty">SNP:<span>' + snp + '</span></p>');
+                    html.push('        <p class="h-qtl qltlistSty">基因表达量(FPKM>30):<span>' + expreTissues + '</span></p>');
                 };
                 html.push('        <p class="content-b">基因注释:<span>' + item.description + '</span></p>');
                 html.push('    </div>');
