@@ -23,7 +23,9 @@
             geneExpressionConditionEntities:geneExpressions,
             snpConsequenceType:['5UTR', '3UTR'],
             indelConsequenceType:['5UTR'],
-            qtlId:[1003, 1005]
+            qtlId:[1003, 1005],
+            pageNo: 1,
+            pageSize: 10
         };
         console.log(JSON.stringify(condition));
         $.ajax({

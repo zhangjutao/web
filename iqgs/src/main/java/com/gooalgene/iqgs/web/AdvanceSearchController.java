@@ -131,10 +131,9 @@ public class AdvanceSearchController {
     @RequestMapping(value = "/advanceSearch", method = RequestMethod.POST)
     @ResponseBody
     public PageInfo<DNAGeneSearchResult> advanceSearch(
-            @RequestBody GeneExpressionCondition geneExpressionCondition,
-            HttpServletRequest request) throws InterruptedException {
-        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
-        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+            @RequestBody GeneExpressionCondition geneExpressionCondition) throws InterruptedException {
+        int pageNo = geneExpressionCondition.getPageNo();
+        int pageSize = geneExpressionCondition.getPageSize();
         List<GeneExpressionConditionEntity> entities = geneExpressionCondition.getGeneExpressionConditionEntities();
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
         List<String> properGene = fpkmService.findProperGeneUnderSampleRun(entities);
