@@ -135,8 +135,10 @@ public class AdvanceSearchController {
         int pageNo = geneExpressionCondition.getPageNo();
         int pageSize = geneExpressionCondition.getPageSize();
         List<GeneExpressionConditionEntity> entities = geneExpressionCondition.getGeneExpressionConditionEntities();
+        List<String> selectSnpConsequenceType = geneExpressionCondition.getSnpConsequenceType();  //已选SNP集合
+        List<String> selectIndelConsequenceType = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
-        List<String> properGene = fpkmService.findProperGeneUnderSampleRun(entities);
+        List<String> properGene = fpkmService.findProperGeneUnderSampleRun(entities, selectSnpConsequenceType, selectIndelConsequenceType);
         logger.debug("Gene Expression筛选出来基因总量为:" + properGene.size());
         //对找到符合FPKM值要求的所有基因进行SNP筛选
         Iterator<String> iterator = properGene.iterator();

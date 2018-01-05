@@ -14,7 +14,15 @@ public class FPKMService {
     @Autowired
     private FPKMDao fpkmDao;
 
-    public List<String> findProperGeneUnderSampleRun(List<GeneExpressionConditionEntity> condition){
-        return fpkmDao.findGeneThroughGeneExpressionCondition(condition);
+    /**
+     * 根据用户选择的基因表达量、SNP、INDEL，筛选出对应基因
+     * @param condition 基因表达量
+     * @param selectSnp 选择的SNP name集合
+     * @param selectIndel 选择的INDEL name集合
+     * @return 符合条件基因ID集合
+     */
+    public List<String> findProperGeneUnderSampleRun(List<GeneExpressionConditionEntity> condition,
+                                                     List<String> selectSnp, List<String> selectIndel){
+        return fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel);
     }
 }

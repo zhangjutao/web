@@ -15,5 +15,7 @@ public interface FPKMDao {
      * @param condition 基因表达量筛选条件,每一大组织对应一个GeneExpressionConditionEntity
      * @return 所有关联基因ID
      */
-    List<String> findGeneThroughGeneExpressionCondition(List<GeneExpressionConditionEntity> condition);
+    // todo 增加SNP、INDEL做关联查询
+    List<String> findGeneThroughGeneExpressionCondition(List<GeneExpressionConditionEntity> condition,
+                                                        List<String> selectSnp, List<String> selectIndel);
 }
