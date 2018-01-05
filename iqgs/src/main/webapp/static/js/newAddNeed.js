@@ -15,7 +15,7 @@ $(function (){
                     url: url,
                     data:data,
                     dataType: "json",
-                    contentType: "application/json,charset=UTF-8;",
+                    contentType: "application/json;charset=UTF-8",
                     success: function (result) {
                         resolve(result)
                     },
@@ -66,7 +66,7 @@ $(function (){
                     $ul.empty();
                     for (var i = 0; i < list.length; i++) {
                         var name = list[i].qtlName;
-                        var id = list[i].id;
+                        var id = list[i].associatedGenesId;
                         var li = "<li>" + "<label for='" + name + "'><span id ='" + name + "' data-value='" + id + "'></span>" + name + "</label></li>";
                         $ul.append(li);
                     }
@@ -521,6 +521,7 @@ $(function (){
         var box1 = $("#qtlBox1").val().trim();
         var currVal = $(this).find("label").text().trim();
         var currKn = $(this).find("span").attr("id").trim();
+        var currKns = $(this).attr("data-id").trim();
         var currNm = $(this).attr("data-name").trim();
         var list = $("#expreDetail span.qtlSigle");
         if($(this).hasClass("checked")) {
@@ -558,12 +559,12 @@ $(function (){
                     }
                 };
                 if(flag == 0){
-                    qtlShowDatas(list,box1,currKn,currVal,list.length,currNm);
+                    qtlShowDatas(list,box1,currKns,currVal,list.length,currNm);
                 }
             }else {
                 // 删除qtl头
                     $("#expreDetail span.qtlSigleTitle").remove();
-                var span = " <span class='expreSigle qtlSigle " +currKn +  "'data-name='" +currNm + "'data-value='"+currVal+"'>QTL:" +box1 + currVal+  "</span><span class='deleteIconP deleteIconPqtl'>X</span>";
+                var span = " <span class='expreSigle qtlSigle " +currKns +  "'data-name='" +currNm + "'data-value='"+currVal+"'>QTL:" +box1 + currVal+  "</span><span class='deleteIconP deleteIconPqtl'>X</span>";
                 $("#expreDetail").append(span);
             }
         };
@@ -737,7 +738,7 @@ $(function (){
         var qtlName = $(this).data("qtlName");
        // 展示详细品展信息
         for(var m=0;m<datas.length;m++){
-            var li = " <li data-name='" +qtlName+ "'>\n" +
+            var li = " <li data-name='" +qtlName+ "'data-id='qtlt" + datas[m].associatedGenesId+"'>\n" +
                 "                            <label for='" +getName + m+ "'>\n" +
                 "                                <span id='"+getName + m+"'></span>\n" +
                 datas[m].qtlName+
@@ -1026,19 +1027,19 @@ $(function (){
         };
     };
     // 递归函数
-    function qtlShowDatas (arr,box1,currKn,currVal,i,name){
+    function qtlShowDatas (arr,box1,currKns,currVal,i,name){
         if ($(arr[i-1]).text().trim().substring(0,3) == "QTL" && $(arr[i-1]).text().trim().split(":")[1].substring(0, 2) == box1.substring(0, 2)) {
-            var span = " <span class='expreSigle qtlSigle " + currKn + "'data-name='"+name+"'data-value='" +currVal+"'>" + currVal + "</span><span class='deleteIconP deleteIconPqtl'>X</span>";
+            var span = " <span class='expreSigle qtlSigle " + currKns + "'data-name='"+name+"'data-value='" +currVal+"'>" + currVal + "</span><span class='deleteIconP deleteIconPqtl'>X</span>";
             $(arr[i-1]).next().after(span);
         } else {
             i--;
             if(i==0){
-                var span = " <span class='expreSigle qtlSigle " +currKn +  "'data-name='"+name+"'data-value='"+currVal +"'>QTL:" +box1 + currVal+  "</span><span class='deleteIconP deleteIconPqtl'>X</span>";
+                var span = " <span class='expreSigle qtlSigle " +currKns +  "'data-name='"+name+"'data-value='"+currVal +"'>QTL:" +box1 + currVal+  "</span><span class='deleteIconP deleteIconPqtl'>X</span>";
                 $("#expreDetail").append(span);
                 return ;
             }else {
 
-                qtlShowDatas(arr,box1,currKn,currVal,i,name);
+                qtlShowDatas(arr,box1,currKns,currVal,i,name);
             }
         }
     };
@@ -1076,5 +1077,80 @@ $(function (){
     $("#advanceSelect .showSelected .showClear").click(function (){
 
 
-    })
+    });
+    // 定义首字符大写的原型方法
+    function firstUpperCase(str) {
+        return str.toLowerCase().replace(/\b[a-z]/g,function(s){return s.toUpperCase();});
+    }
+    // 去掉空格的方法封装
+    function deleteSpace (str){
+        if(str.indexOf(" ") == -1){
+            return str;
+        }else {
+            var arr = str.split(" ");
+            var newStr = arr[0];
+            for (var i=1;i<arr.length;i++){
+                newStr +=firstUpperCase(arr[i]);
+            };
+            return newStr;
+        }
+    };
+
+    // 高级搜索
+    $("#iqgsSearch p").click(function (){
+        // 1,获取 基因表达量的参数；
+        var datas = globalObj.SleExpreDatas;
+        var geneExpressionConditionEntities = [];
+        var obj = {};
+        for (var i=0;i<datas.length;i++){
+            obj.begin = Number(datas[i].FPKM.split("-")[0]);
+            obj.end = Number(datas[i].FPKM.split("-")[1]);
+            var childers = datas[i].selected;
+            var newStr = "";
+            for (var m=0;m<childers.length;m++){
+                newStr +=deleteSpace(childers[m]) + ":";
+            };
+            console.log(newStr);
+            var newstrs = newStr.substring(0,newStr.length-1);
+            var tissue = {};
+            var newArr = newstrs.split(":");
+            for (var k=0;k<newArr.length;k++){
+                    tissue[newArr[k]] =Math.random();
+            };
+            obj.tissue = tissue;
+            geneExpressionConditionEntities.push(obj);
+            console.log(geneExpressionConditionEntities);
+        }
+        // 2.获取基因表达量的参数
+        var snpConsequenceType = globalObj.SleSnpDatas;
+        var indelConsequenceType = globalObj.SleIndelDatas;
+        console.log(snpConsequenceType);
+        console.log(indelConsequenceType);
+        console.log( globalObj.qtlParams);
+        var qtlSigles = $("#expreDetail span.qtlSigle");
+        var qtlId = [];
+        for (var n=0;n<qtlSigles.length;n++){
+            var id = $(qtlSigles[n]).attr("class").split(" ")[2].substring(4);
+            qtlId.push(Number(id));
+        }
+        var data = {};
+        data.geneExpressionConditionEntities = geneExpressionConditionEntities;
+        data.snpConsequenceType = snpConsequenceType;
+        data.indelConsequenceType = indelConsequenceType;
+        data.qtlId = qtlId;
+        data.pageNo = 1;
+        data.pageSize = 10;
+        console.log(data);
+        var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(data));
+        promise.then(
+            function (result){
+                debugger;
+                 console.log(result);
+
+            },function (error){
+                console.log(error);
+            }
+        )
+
+    });
 })
