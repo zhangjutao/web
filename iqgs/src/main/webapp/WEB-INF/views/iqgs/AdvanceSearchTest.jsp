@@ -25,10 +25,11 @@
             indelConsequenceType:['5UTR'],
             qtlId:[1003, 1005]
         };
+        console.log(JSON.stringify(condition));
         $.ajax({
             type: "POST",
             url: '${ctxroot}/advance-search/advanceSearch',
-            data: condition,
+            data: JSON.stringify(condition),
             contentType: "application/json;charset=UTF-8;",
             success: function (result) {
                 console.log(请求成功)
