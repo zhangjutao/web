@@ -35,13 +35,14 @@ public class FPKMDaoTest extends TestCase {
         condition.setEnd(20.0);
         list.add(condition);
         GeneExpressionConditionEntity condition1 = new GeneExpressionConditionEntity();
-        tissue.setPod(null);  //只设置embryo值
-        tissue.setEmbryo(0.0);
+        Tissue embryo = new Tissue();
+        embryo.setEmbryo(0.0);
         condition1.setBegin(40.0);
         condition1.setEnd(50.0);
+        condition1.setTissue(embryo);  //这只新的查询条件为胚芽(embryo)
         list.add(condition1);
         List<String> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list);
-        assertEquals(5384, geneResult.size());
+        assertEquals(47, geneResult.size());
     }
 
 }
