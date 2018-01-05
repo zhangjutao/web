@@ -32,8 +32,19 @@
 #qtlAdd .fuzzySearch li.checked span{
     background-image: url("../images/contrast-ac.png");
 }
-
-.AdvancedSearch .fuzzySearch li.checked span{
+.qtlSelectList li.checked span{
+    background-image: url("../images/contrast-ac.png");
+}
+#advanceSelect .selectContainer .geneQtl .qtlList li.checked span{
+    background-image: url("../images/contrast-ac.png");
+}
+#advanceSelect .selectedKinds li.checked span{
+    background-image: url("../images/contrast-ac.png");
+}
+#advanceSelect .geneSnp li.checked span{
+    background-image: url("../images/contrast-ac.png");
+}
+#advanceSelect .geneIndel li.checked span{
     background-image: url("../images/contrast-ac.png");
 }
 .fuzzySearch li span{
@@ -49,6 +60,7 @@
     width:745px;
     overflow: hidden;
     margin:12px 0;
+    display:none;
 }
 #qtlAdd .sureBtn P{
     position:absolute;
@@ -77,11 +89,428 @@
 .inputErrorColor{
     border:1px solid #cd0000;
 }
+#advancedSearch {
+    text-align:right;
+    overflow: hidden;
+    padding:12px 0;
+    background: #fff;
+    border-top:1px solid #E9E9E9;
+}
+
 #advancedSearch .advanceBtn img{
     width:15px;
     vertical-align: middle;
     margin-left: 5px;
 }
 #advancedSearch .advanceBtn{
-    /*width:*/
+    color:#ffffff;
+    cursor:pointer;
+    float:right;
+     width:150px;
+    height:40px;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 3px;
+    background: #5C8CE6;
+    margin-right:30px;
+}
+#advanceSelect{
+    padding:12px 0;
+    background:#f5f5f5;
+    height:464px;
+    display:none;
+}
+#advanceSelect .showSelected{
+    width:1140px;
+    /*min-height:40px;*/
+    margin:0 30px;
+    overflow: hidden;
+    /*padding-top:15px;*/
+}
+
+#advanceSelect .showSelected p.showTitle{
+    float:left;
+    font-family:"Microsoft YaHei";
+    font-size:14px;
+    color:#333;
+}
+#advanceSelect .showSelected p.showClear{
+    float:right;
+    border:1px solid #5c8ce6;
+    font-size:12px;
+    height:20px;
+    line-height:20px;
+    width:40px;
+    text-align:center;
+    cursor:pointer;
+}
+#advanceSelect .showContainer{
+    float:left;
+    width:1038px;
+    margin:0 10px;
+    width:1030px;
+}
+#expreKinds{
+    width:160px;
+    height:30px;
+    position:relative;
+    float:left;
+    margin-left: 4px;
+}
+#expreKinds img{
+    position:absolute;
+    top:12px;
+    left:140px;
+}
+.imgChange{
+    display:none;
+}
+#expreKinds input,#qtlBox1,#qtlBox2{
+    width:146px;
+    height:25px;
+    font-size: 14px;
+    color: #333;
+    padding-left:10px;
+    text-align:left;
+}
+#expreKinds div.expreList,#qtlKinds .qtlList,#qtlKinds2 .qtlList{
+    display:none;
+    background:#fff;
+}
+#selectedKinds{
+    display:none;
+    margin-top: 30px;
+    margin-bottom: 8px;
+}
+#expreKinds div.expreList ul li{
+    padding:3px 15px;
+    height:24px;
+    line-height:24px;
+    font-size:14px;
+    color:#333;
+    cursor:pointer;
+}
+#expreKinds div.expreList ul li:hover,.geneQtl .qtlList ul li:hover{
+    background: #e5edff;
+}
+#advancedSelect .selectedKinds{
+    float:left;
+}
+#advanceSelect div.geneExpression>p{
+    float:left;
+}
+#expreKinds .expreList{
+    position:absolute;
+    top:27px;
+    left:0px;
+    width:156px;
+    border:2px solid #A5C0F1;
+    z-index:1000;
+}
+#expreKinds .expreList ul{
+    padding:12px 0px;
+}
+#advanceSelect .geneExpression{
+    min-height:44px;
+    font-size:16px;
+    color:#333;
+    padding-top:12px;
+    border-bottom:1px dashed #EEEEEE;
+    padding-left:30px;
+}
+#advanceSelect .selectContainer{
+    background:#fff;
+    pading:0 30px;
+}
+#expreKinds{
+    font-size:14px;
+    color:#333;
+}
+.selectedKinds{
+    padding-left:103px;
+     overflow:hidden;
+    height:40px;
+}
+.selectedKinds ul{
+    overflow:hidden;
+    height:50px;
+    float:left;
+    margin-top:12px;
+}
+.selectedKinds ul li{
+    /*width:103px;*/
+    float:left;
+    text-align:center;
+    margin-right:30px;
+}
+.selectedKinds ul li span{
+    width: 14px;
+    height: 14px;
+    background-image: url(../images/contrast.png);
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    display: inline-block;
+}
+.selectedKinds .expreRegin{
+    width:380px;
+    float:left;
+    height:50px;
+}
+.selectedKinds .expreRegin{
+    overflow:hidden;
+    height:50px;
+    margin-top: 12px;
+    margin-left:20px;
+}
+
+.selectedKinds .expreRegin p{
+    float:left;
+}
+.selectedKinds .expreRegin .fromTo{
+    font-size:16px;
+    color: #666;
+    margin-left:20px;
+}
+#expreStart,#expreEnd{
+    width:60px;
+    height:24px;
+    text-align:center;
+}
+.selectedKinds .expreRegin .expreTip{
+    height:24px;
+    line-height:24px;
+    font-size:12px;
+    font-family:Arial;
+    color:#808080;
+    margin-left:6px;
+}
+.selectedKinds .expreRegin .expreConfirm{
+    width:48px;
+    height:24px;
+    line-height:24px;
+    text-align:center;
+    cursor: pointer;
+    margin-left:12px;
+    background:#4B80E3;
+    color:#fff;
+    font-size:12px;
+}
+#advanceSelect .geneSnp ul,#advanceSelect .geneIndel ul{
+    overflow:hidden;
+}
+#advanceSelect .geneSnp ul li,#advanceSelect .geneIndel ul li{
+    float: left;
+    text-align: center;
+    margin-right: 30px;
+    font-size:14px;
+    color:#666;
+    margin-bottom:12px;
+}
+#advanceSelect .geneSnp ul li span,#advanceSelect .geneIndel ul li span,#advanceSelect .selectContainer .geneQtl .qtlList ul li span,.qtlSelectList ul li span{
+    width: 14px;
+    height: 14px;
+    background-image: url(../images/contrast.png);
+    background-repeat: no-repeat;
+    vertical-align: middle;
+    display: inline-block;
+}
+#advanceSelect .selectContainer .geneSnp,#advanceSelect .selectContainer .geneIndel,#advanceSelect .selectContainer .geneQtl{
+     padding:12px 30px;
+    border-bottom:1px dashed #EEEEEE;
+    min-height:50px;
+    /*overflow:hidden;*/
+    padding-right:0px;
+}
+#advanceSelect .selectContainer .geneSnp>p,#advanceSelect .selectContainer .geneSnp div.snpList,#advanceSelect .selectContainer .geneIndel>p,#advanceSelect .selectContainer .geneIndel div.indelList{
+    float:left;
+}
+#advanceSelect .selectContainer .geneSnp div.snpList,#advanceSelect .selectContainer .geneIndel div.indelList{
+    margin-left: 58px;
+    width:1050px;
+}
+.titleStyle{
+    font-size:16px;
+    color:#333;
+    font-family:"Microsoft YaHei";
+}
+#advanceSelect .selectContainer .geneQtl div.qtlInput1,#advanceSelect .selectContainer .geneQtl div.qtlInput2{
+    float:left;
+}
+
+#advanceSelect .selectContainer .geneQtl>p{
+    float:left;
+}
+#advanceSelect .selectContainer .geneQtl div.qtlInput1{
+    margin-left: 59px;
+    position:relative;
+}
+#advanceSelect .selectContainer .geneQtl div.qtlInput1 img{
+    position:absolute;
+    top: 12px;
+    left: 140px;
+}
+#qtlKinds .qtlList,#qtlKinds2 .qtlList{
+    width:156px;
+    overflow: hidden;
+    border: 2px solid #A5C0F1;
+    z-index: 1000;
+    position: absolute;
+    top: 27px;
+    left: 0px;
+    cursor: pointer;
+}
+#qtlKinds .qtlList li,#qtlKinds2 .qtlList li{
+    float:left;
+    width:123px;
+    padding: 3px 0px 3px 15px;
+    height: 24px;
+    line-height: 24px;
+    font-size: 14px;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+
+}
+#qtlKinds2 .qtlList li{
+    width:365px;
+}
+#qtlKinds{
+    position:relative;
+}
+#qtlKinds .qtlList ul,#qtlKinds2 .qtlList ul{
+    padding: 12px 0px;
+    max-height:240px;
+    overflow-y: scroll;
+}
+#iqgsSearch{
+    overflow: hidden;
+    float: left;
+    width: 1200px;
+}
+#iqgsSearch p{
+    float:right;
+    width: 70px;
+    height:30px;
+    line-height:30px;
+    background:#5C8CE6;
+    text-align:center;
+    font-size:12px;
+    color:#fff;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+    margin:12px 0;
+    margin-right:28px;
+    cursor:pointer;
+}
+#advanceSelect .changed{
+    color:#ccc;
+}
+.borderWt{
+    border:2px solid #A5C0F1;
+}
+#qtlBox1{
+    width:146px;
+}
+#qtlBox2{
+    width:400px;
+    height: 25px;
+    font-size: 14px;
+    color: #333;
+    padding-left: 10px;
+    text-align: left;
+}
+#qtlKinds2{
+    margin-left:10px;
+    position:relative;
+}
+#qtlKinds2 img{
+    position: absolute;
+    top: 12px;
+    left: 394px;
+}
+.qtlSelectList{
+    float:left;
+    padding:12px 30px;
+    /*position: absolute;*/
+    /*top: 32px;*/
+    display:none;
+    width:1109px;
+    border-bottom:1px dashed #EEEEEE;
+}
+.qtlSelectList ul{
+    width:1068px;
+    max-height:79px;
+    overflow-y:scroll;
+    padding-left: 72px;
+}
+.qtlSelectList ul li{
+    float:left;
+    margin-right:30px;
+    margin-top: 8px;
+}
+.noClick{
+    color:#ccc!important;
+    cursor:default;
+}
+.textClass{
+    color:#ccc!important;
+    cursor:default;
+}
+#expreDetail{
+    width:1030px;
+    min-height:30px;
+    padding-right: 20px;
+    position:relative;
+    background: #F5F5F5;
+}
+#expreDetail>.deleteIcon{
+    position:absolute;
+    top:0px;
+    left:166px;
+    font-size: 16px;
+}
+#expreDetail .expreSigle{
+    overflow: hidden;
+    text-overflow:ellipsis;
+    white-space: nowrap;
+    display:inline-block;
+    max-width:180px;
+    height:20px;
+    padding-right:15px;
+    line-height:20px;
+    background:#eff3fa;
+    font-size:14px;
+    color:#666;
+}
+#expreDetail .deleteIconP,#expreDetail .deleteIconPsnp,#expreDetail .deleteIconPindel,#expreDetail .deleteIconPqtl{
+    display:inline-block;
+    height:20px;
+    line-height:20px;
+    margin-right:6px;
+    /*background:#eff3fa;*/
+    padding-left:4px;
+    font-size:16px;
+    cursor:pointer;
+    color:#666;
+    position:relative;
+    bottom:3px;
+    left:-14px;
+}
+#snpDetail,#indelDetail,#qtlDetail{
+    display:inline-block;
+    min-height:30px;
+}
+#exprePopTip{
+    max-width:900px;
+    overflow:hidden;
+    color:#000;
+    font-size:14px;
+}
+.borderColorInput{
+    border:1px solid #ff0000;
+}
+.backColorBtn{
+    background:#ccc!important;
 }
