@@ -7,13 +7,43 @@ import java.util.List;
  * @author crabime
  */
 public class GeneExpressionCondition {
-    private List<GeneExpressionConditionEntity> entities;
+    private List<GeneExpressionConditionEntity> geneExpressionConditionEntities;
 
-    public List<GeneExpressionConditionEntity> getEntities() {
-        return entities;
+    private List<String> snpConsequenceType;
+
+    private List<String> indelConsequenceType;
+
+    private List<Integer> qtlId;
+
+    public List<GeneExpressionConditionEntity> getGeneExpressionConditionEntities() {
+        return geneExpressionConditionEntities;
     }
 
-    public void setEntities(List<GeneExpressionConditionEntity> entities) {
-        this.entities = entities;
+    public void setGeneExpressionConditionEntities(List<GeneExpressionConditionEntity> geneExpressionConditionEntities) {
+        this.geneExpressionConditionEntities = geneExpressionConditionEntities;
+    }
+
+    public List<String> getSnpConsequenceType() {
+        return snpConsequenceType;
+    }
+
+    public void setSnpConsequenceType(List<String> snpConsequenceType) {
+        this.snpConsequenceType = snpConsequenceType;
+    }
+
+    public List<String> getIndelConsequenceType() {
+        return indelConsequenceType;
+    }
+
+    public void setIndelConsequenceType(List<String> indelConsequenceType) {
+        this.indelConsequenceType = indelConsequenceType;
+    }
+
+    public List<Integer> getQtlId() {
+        return qtlId;
+    }
+
+    public void setQtlId(List<Integer> qtlId) {
+        this.qtlId = qtlId;
     }
 }

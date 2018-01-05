@@ -14,10 +14,7 @@ import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
-import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
-import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
-import com.gooalgene.iqgs.entity.condition.QTLCondition;
-import com.gooalgene.iqgs.entity.condition.RegularityResult;
+import com.gooalgene.iqgs.entity.condition.*;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.RegularityNetworkService;
@@ -134,63 +131,53 @@ public class AdvanceSearchController {
     @RequestMapping(value = "/advanceSearch", method = RequestMethod.POST)
     @ResponseBody
     public PageInfo<DNAGeneSearchResult> advanceSearch(
-            @RequestParam(value = "childTissues") GeneExpressionCondition geneExpressionCondition,
-            @RequestParam(value = "snpConsequenceType[]") String[] snpConsequenceType,
-            @RequestParam(value = "indelConsequenceType[]") String[] indelConsequenceType,
-            @RequestParam(value = "qtlId[]") Integer[] qtlId,
+            @RequestBody GeneExpressionCondition geneExpressionCondition,
             HttpServletRequest request) throws InterruptedException {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        List<GeneFPKM> properGene = new ArrayList<>();
-        // todo 根据前台传入的geneExpressionCondition查找所有满足条件的基因，可以考虑使用Set
-//        for (int i = 0; i < allSampleRun.size(); i++) {
-//            //筛选出该sample下满足FPKM条件的基因
-//            int sampleId = Integer.valueOf(allSampleRun.get(i).getId());
-//            List<GeneFPKM> allProperGene = fpkmService.findProperGeneUnderSampleRun(sampleId, begin, end);
-//            properGene.addAll(allProperGene);
-//        }
-        properGene = properGene.subList(0, 20);
-        logger.info(Arrays.toString(properGene.toArray()));
+        List<GeneExpressionConditionEntity> entities = geneExpressionCondition.getGeneExpressionConditionEntities();
+        // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
+        List<String> properGene = fpkmService.findProperGeneUnderSampleRun(entities);
+        logger.debug("Gene Expression筛选出来基因总量为:" + properGene.size());
         //对找到符合FPKM值要求的所有基因进行SNP筛选
-        Iterator<GeneFPKM> iterator = properGene.iterator();
+        Iterator<String> iterator = properGene.iterator();
         while (iterator.hasNext()) {
-            String geneId = iterator.next().getGeneId();
-            // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
-            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, Arrays.asList(snpConsequenceType));
+            String geneId = iterator.next();
+            // todo 如果用户不选择SNP,对以上集合不修改
+            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, geneExpressionCondition.getSnpConsequenceType());
             if (!geneExists) {
                 iterator.remove();
             }
         }
-        Iterator<GeneFPKM> indelIterator = properGene.iterator();
+        Iterator<String> indelIterator = properGene.iterator();
         while (indelIterator.hasNext()) {
-            String geneId = indelIterator.next().getGeneId();
-            // todo 如果用户不选择SNP、INDEL该怎么办（后面增加该段逻辑）
-            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.INDEL, Arrays.asList(indelConsequenceType));
+            String geneId = indelIterator.next();
+            // todo 如果用户不选择INDEL该怎么办,对以上集合不修改
+            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.INDEL, geneExpressionCondition.getIndelConsequenceType());
             if (!geneExists) {
                 indelIterator.remove();
             }
         }
         // 最后筛选符合QTL条件的所有基因，判断该基因是否有QTL
-        Iterator<GeneFPKM> qtlIterator = properGene.iterator();
+        Iterator<String> qtlIterator = properGene.iterator();
         while (qtlIterator.hasNext()) {
-            String geneId = qtlIterator.next().getGeneId();
+            String geneId = qtlIterator.next();
             //根据基因ID找到associateGeneId,该associateGeneId对应QTL表中associateGene
             //最初页面加载时QTL查询二级联动接口：traitCategoryService.findAllTraitCategoryAndItsTraitList已返回该字段
-            boolean insideQtl = dnaGenBaseInfoService.checkGeneHasQTL(geneId, Arrays.asList(qtlId));  //该基因是否位于该QTL集合中
+            boolean insideQtl = dnaGenBaseInfoService.checkGeneHasQTL(geneId, geneExpressionCondition.getQtlId());  //该基因是否位于该QTL集合中
             if (!insideQtl) {
                 qtlIterator.remove();
             }
         }
         //最后的loop，将GeneFPKM转换为想要的搜索结果
-        Iterator<GeneFPKM> convertIterator = properGene.iterator();
+        Iterator<String> convertIterator = properGene.iterator();
         //存放所有搜索结果的集合
         List<DNAGeneSearchResult> searchResultList = new ArrayList<>();
         DNAGeneSearchResult searchResult = null;
         //知道基因ID后，可以查询包含该基因的所有QTL
         while (convertIterator.hasNext()){
             searchResult = new DNAGeneSearchResult();
-            GeneFPKM geneFPKM = convertIterator.next();
-            String geneId = geneFPKM.getGeneId();
+            String geneId = convertIterator.next();
             MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
             //使用Guava Optional防止空指针异常
             MrnaGens optional = Optional.<MrnaGens>fromNullable(mrnaGene).or(new MrnaGens());
@@ -227,5 +214,10 @@ public class AdvanceSearchController {
             ResultUtil.error(500, "无可调控基因");
         }
         return ResultUtil.success(result);
+    }
+
+    @RequestMapping(value = "/jumpTest", method = RequestMethod.GET)
+    public String jumpTest(){
+        return "iqgs/AdvanceSearchTest";
     }
 }
