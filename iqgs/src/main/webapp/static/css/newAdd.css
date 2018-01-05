@@ -400,7 +400,8 @@
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     border-radius: 3px;
-    margin:12px 0;
+    /*margin:12px 0;*/
+    margin-bottom:12px;
     margin-right:28px;
     cursor:pointer;
 }

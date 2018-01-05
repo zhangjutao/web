@@ -780,10 +780,10 @@ $(function (){
             flagStart = 1;
             if($("#expreStart").hasClass("borderColorInput")){
                 $("#expreStart").removeClass("borderColorInput");
-                if(flagStart == 1 && flagEnd == 1){
-                    $(".expreConfirm").removeClass("backColorBtn");
-                }
             };
+            if(flagStart == 1 && flagEnd == 1){
+                $(".expreConfirm").removeClass("backColorBtn");
+            }
         }
     });
     // FPKM值为必填项，如果没填，就弹框提示并框框变红
@@ -803,16 +803,25 @@ $(function (){
             flagEnd = 1;
             if($("#expreEnd").hasClass("borderColorInput")){
                 $("#expreEnd").removeClass("borderColorInput");
-                if(flagStart == 1 && flagEnd == 1){
-                    $(".expreConfirm").removeClass("backColorBtn");
-                }
             };
+            if(flagStart == 1 && flagEnd == 1){
+                $(".expreConfirm").removeClass("backColorBtn");
+            }
         }
     });
     // 基因表达量 --》 确定
     $("#selectedKinds .expreConfirm").click(function (){
             // 当前列表置灰
-        if(flagStart!=1 || flagEnd!=1 || expreStart>expreEnd){
+        var beginVal =  Number($("#expreStart").val());
+        var endVal =  Number($("#expreEnd").val());
+        if(flagStart!=1 || flagEnd!=1 || beginVal>endVal){
+            if(!$("#expreStart").hasClass("borderColorInput")){
+                $("#expreStart").addClass("borderColorInput");
+            };
+            if(!$("#expreEnd").hasClass("borderColorInput")){
+                $("#expreEnd").addClass("borderColorInput");
+            };
+            $(".expreConfirm").addClass("backColorBtn");
             return;
         }
         var name = $("#expreKinds div.inputBox input").val().trim();
@@ -1062,4 +1071,10 @@ $(function (){
         };
         globalObj.qtlParams = arr.concat(newArr);
     };
+
+    // 清空上面的显示框
+    $("#advanceSelect .showSelected .showClear").click(function (){
+
+
+    })
 })
