@@ -536,10 +536,11 @@ $(function (){
                         $(list[i]).remove();
                     }else if ($(list[i]).attr("class").split(" ")[2] == currKns && $(list[i]).text().indexOf("QTL")!=-1){
                         $(list[i]).next().remove();
-                        $(list[i]).removeClass(currKn).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
+                        $(list[i]).removeClass(currKns).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
                     }
                 }
-            }
+            };
+
         }
         else {
             $(this).addClass("checked");
@@ -975,6 +976,9 @@ $(function (){
         var id = $(this).prev().attr("class").split(" ")[2].trim();
         var txt = $(this).prev().text().trim();
         var list = $(".geneQtl .qtlSelectList ul li");
+        // ============
+        var box1Size = $("#qtlBox1").val().trim();
+        //=========
         for(var i=0;i<list.length;i++){
             // if($(list[i]).find("span").attr("id") == id){
             if($(list[i]).attr("data-id") == id){
@@ -982,15 +986,19 @@ $(function (){
             }
         };
         var qtlNum = $("#expreDetail .qtlSigle");
-
+        // debugger;
         if(txt.indexOf('QTL')!=-1 && qtlNum.length > 1){
-            $(this).prev().removeClass(id).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
+            // $(this).prev().removeClass(id).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
+                var nextTxt = $(this).next().text();
+                $(this).next().text("QTL:" + box1Size + nextTxt);
+                $(this).prev().remove()
             $(this).remove();
         }else if(qtlNum.length == 1){
-            $(this).prev().prev().remove();
+            // $(this).prev().prev().remove();
             $(this).prev().remove();
             $(this).remove();
-        }else {
+        }
+        else {
             $(this).prev().remove();
             $(this).remove();
         };
