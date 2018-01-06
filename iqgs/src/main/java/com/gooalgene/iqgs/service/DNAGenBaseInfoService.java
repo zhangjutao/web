@@ -1,32 +1,20 @@
 package com.gooalgene.iqgs.service;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
-import com.gooalgene.common.constant.CommonConstant;
-import com.gooalgene.dna.service.DNAMongoService;
 import com.gooalgene.entity.Associatedgenes;
-import com.gooalgene.entity.MrnaGens;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
-import com.gooalgene.mrna.service.MrnaGensService;
-import com.gooalgene.mrna.service.TService;
-import com.gooalgene.mrna.vo.GResultVo;
-import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
-import com.google.common.base.Optional;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import java.util.*;
-
-import static com.gooalgene.common.constant.CommonConstant.EXONIC_NONSYNONYMOUSE;
 
 /**
  * Created by sauldong on 2017/10/12.

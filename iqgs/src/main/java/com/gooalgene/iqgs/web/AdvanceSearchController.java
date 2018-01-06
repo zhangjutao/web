@@ -1,17 +1,9 @@
 package com.gooalgene.iqgs.web;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.gooalgene.common.Page;
-import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
-import com.gooalgene.dna.service.DNAMongoService;
 import com.gooalgene.entity.Associatedgenes;
-import com.gooalgene.entity.MrnaGens;
 import com.gooalgene.entity.Qtl;
-import com.gooalgene.entity.Study;
-import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
 import com.gooalgene.iqgs.entity.condition.*;
@@ -20,15 +12,11 @@ import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.RegularityNetworkService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
-import com.gooalgene.mrna.service.ClassifyService;
-import com.gooalgene.mrna.service.MrnaGensService;
-import com.gooalgene.mrna.service.StudyService;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ResultUtil;
-import com.google.common.base.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,8 +25,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.*;
-
-import static com.gooalgene.common.constant.CommonConstant.EXONIC_NONSYNONYMOUSE;
 
 /**
  * 高级搜索相关接口层
