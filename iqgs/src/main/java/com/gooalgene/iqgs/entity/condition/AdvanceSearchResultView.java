@@ -1,0 +1,83 @@
+package com.gooalgene.iqgs.entity.condition;
+
+import com.gooalgene.iqgs.entity.GeneFPKM;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static com.gooalgene.common.constant.CommonConstant.EXONIC_NONSYNONYMOUSE;
+
+/**
+ * 高级搜索数据表中查询结果临时视图
+ * @author Crabime
+ */
+public class AdvanceSearchResultView extends GeneFPKM {
+    /**
+     * V1版基因ID
+     */
+    private String geneOldId;
+
+    /**
+     * 包含的SNP集合
+     */
+    private List<String> snpCollection;
+
+    /**
+     * 大于30的组织
+     */
+    private List<String> largerThanThirtyTissue = new ArrayList<>();
+    
+    private final static int STANDARD = 30;
+
+    public String getGeneOldId() {
+        return geneOldId;
+    }
+
+    public void setGeneOldId(String geneOldId) {
+        this.geneOldId = geneOldId;
+    }
+
+    public List<String> getSnpCollection() {
+        return snpCollection;
+    }
+
+    public void setSnpCollection(List<String> snpCollection) {
+        this.snpCollection = snpCollection;
+    }
+
+    public List<String> getLargerThanThirtyTissue() {
+        if (super.getPodAll() != null && super.getPodAll() > STANDARD){
+            largerThanThirtyTissue.add("豆荚");
+        }
+        if (super.getSeedAll() != null && super.getSeedAll() > STANDARD){
+            largerThanThirtyTissue.add("种子");
+        }
+        if (super.getRootAll() != null && super.getRootAll() > STANDARD){
+            largerThanThirtyTissue.add("根");
+        }
+        if (super.getShootAll() != null && super.getShootAll() > STANDARD){
+            largerThanThirtyTissue.add("芽");
+        }
+        if (super.getLeafAll() != null && super.getLeafAll() > STANDARD){
+            largerThanThirtyTissue.add("叶");
+        }
+        if (super.getSeedlingAll() != null && super.getSeedlingAll() > STANDARD){
+            largerThanThirtyTissue.add("幼苗");
+        }
+        if (super.getFlowerAll() != null && super.getFlowerAll() > STANDARD){
+            largerThanThirtyTissue.add("花");
+        }
+        if (super.getStemAll() != null && super.getStemAll() > STANDARD){
+            largerThanThirtyTissue.add("茎");
+        }
+        return largerThanThirtyTissue;
+    }
+
+    /**
+     * 是否存在SNP
+     * @return
+     */
+    public boolean existSNP(){
+        return snpCollection.contains(EXONIC_NONSYNONYMOUSE);
+    }
+}

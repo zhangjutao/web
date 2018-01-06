@@ -139,17 +139,22 @@ public class AdvanceSearchController {
         List<String> selectIndelConsequenceType = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
         List<Integer> associateGeneIdArray = geneExpressionCondition.getQtlId();  //已选qtl集合
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
-        List<String> properGene = fpkmService.findProperGeneUnderSampleRun(entities, selectSnpConsequenceType, selectIndelConsequenceType, associateGeneIdArray);
-        logger.debug("Gene Expression筛选出来基因总量为:" + properGene.size());
+        PageInfo<AdvanceSearchResultView> properGene =
+                fpkmService.findProperGeneUnderSampleRun(entities, selectSnpConsequenceType, selectIndelConsequenceType, associateGeneIdArray, pageNo, pageSize);
+        logger.debug("Gene Expression筛选出来基因总量为:" + properGene.getList().size());
         //最后的loop，将GeneFPKM转换为想要的搜索结果
-        Iterator<String> convertIterator = properGene.iterator();
+        Iterator<AdvanceSearchResultView> convertIterator = properGene.getList().iterator();
         //存放所有搜索结果的集合
         List<DNAGeneSearchResult> searchResultList = new ArrayList<>();
         DNAGeneSearchResult searchResult = null;
+        AdvanceSearchResultView advanceSearchResultView = null;
         //知道基因ID后，可以查询包含该基因的所有QTL
         while (convertIterator.hasNext()){
             searchResult = new DNAGeneSearchResult();
-            String geneId = convertIterator.next();
+            advanceSearchResultView = convertIterator.next();
+            String geneId = advanceSearchResultView.getGeneId();
+            searchResult.setGeneId(geneId);
+            searchResult.setGeneOldId(advanceSearchResultView.getGeneOldId());
             MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
             //使用Guava Optional防止空指针异常
             MrnaGens optional = Optional.<MrnaGens>fromNullable(mrnaGene).or(new MrnaGens());
@@ -158,22 +163,13 @@ public class AdvanceSearchController {
             //allAssociateGenes中包含QTL_NAME
             List<Associatedgenes> allAssociateGenes = dnaGenBaseInfoService.findAllQTLNamesByGeneId(geneId);
             searchResult.setAssociateQTLs(allAssociateGenes);
-            //拿到该基因在SNP上所有consequenceType
-            Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
-            boolean exists = allConsequenceType.contains(EXONIC_NONSYNONYMOUSE);
-            if (exists){
-                searchResult.setExistsSNP(true);
-            }
-            //获取所有FPKM大于30的root组织
-            List<String> rootTissues = dnaGenBaseInfoService.getFPKMLargerThanThirty(geneId);
-            searchResult.setRootTissues(rootTissues);
+            //判断该基因是否存在SNP(直接从查询结果中拿)
+            searchResult.setExistsSNP(advanceSearchResultView.existSNP());
+            //获取所有FPKM大于30的root组织(直接从查询结果中拿)
+            searchResult.setRootTissues(advanceSearchResultView.getLargerThanThirtyTissue());
             searchResultList.add(searchResult);
         }
-        PageInfo<DNAGeneSearchResult> pageInfo = new PageInfo<>();
-        pageInfo.setPageNum(pageNo);
-        pageInfo.setPageSize(pageSize);
-        pageInfo.setList(searchResultList);
-        return ResultUtil.success(pageInfo);
+        return ResultUtil.success(searchResultList);
     }
 
     @RequestMapping(value = "/fetch-network-genes", method = RequestMethod.GET)

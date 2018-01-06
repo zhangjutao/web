@@ -3,6 +3,7 @@ package com.gooalgene.iqgs;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.Tissue;
+import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import junit.framework.TestCase;
@@ -42,7 +43,7 @@ public class FPKMDaoTest extends TestCase {
         condition1.setEnd(50.0);
         condition1.setTissue(embryo);  //这只新的查询条件为胚芽(embryo)
         list.add(condition1);
-        List<String> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, null, null, null);
+        List<AdvanceSearchResultView> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, null, null, null);
         assertEquals(47, geneResult.size());
         //如果有SNP、INDEL筛选情况下
         List<String> snpConsequenceList = new ArrayList<>();
@@ -56,6 +57,17 @@ public class FPKMDaoTest extends TestCase {
         Integer[] associateGeneIdArray = new Integer[]{1453, 1941, 2089};
         geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, Arrays.asList(associateGeneIdArray));
         assertEquals(2, geneResult.size());
+    }
+
+    @Test
+    public void testDoubleNullCompare(){
+        Double a = null;
+        try {
+            assertFalse("a不大于十", a > 10);
+            fail();
+        }catch (NullPointerException e){
+
+        }
     }
 
 }
