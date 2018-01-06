@@ -22,7 +22,9 @@ public class FPKMService {
      * @return 符合条件基因ID集合
      */
     public List<String> findProperGeneUnderSampleRun(List<GeneExpressionConditionEntity> condition,
-                                                     List<String> selectSnp, List<String> selectIndel){
-        return fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel);
+                                                     List<String> selectSnp,
+                                                     List<String> selectIndel,
+                                                     List<Integer> selectQTL){
+        return fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, selectQTL);
     }
 }

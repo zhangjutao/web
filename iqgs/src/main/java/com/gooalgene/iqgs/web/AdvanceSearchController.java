@@ -137,39 +137,10 @@ public class AdvanceSearchController {
         List<GeneExpressionConditionEntity> entities = geneExpressionCondition.getGeneExpressionConditionEntities();
         List<String> selectSnpConsequenceType = geneExpressionCondition.getSnpConsequenceType();  //已选SNP集合
         List<String> selectIndelConsequenceType = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
+        List<Integer> associateGeneIdArray = geneExpressionCondition.getQtlId();  //已选qtl集合
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
-        List<String> properGene = fpkmService.findProperGeneUnderSampleRun(entities, selectSnpConsequenceType, selectIndelConsequenceType);
+        List<String> properGene = fpkmService.findProperGeneUnderSampleRun(entities, selectSnpConsequenceType, selectIndelConsequenceType, associateGeneIdArray);
         logger.debug("Gene Expression筛选出来基因总量为:" + properGene.size());
-        //对找到符合FPKM值要求的所有基因进行SNP筛选
-        Iterator<String> iterator = properGene.iterator();
-        while (iterator.hasNext()) {
-            String geneId = iterator.next();
-            // todo 如果用户不选择SNP,对以上集合不修改
-            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.SNP, geneExpressionCondition.getSnpConsequenceType());
-            if (!geneExists) {
-                iterator.remove();
-            }
-        }
-        Iterator<String> indelIterator = properGene.iterator();
-        while (indelIterator.hasNext()) {
-            String geneId = indelIterator.next();
-            // todo 如果用户不选择INDEL该怎么办,对以上集合不修改
-            boolean geneExists = dnaMongoService.checkGeneConsequenceType(geneId, CommonConstant.INDEL, geneExpressionCondition.getIndelConsequenceType());
-            if (!geneExists) {
-                indelIterator.remove();
-            }
-        }
-        // 最后筛选符合QTL条件的所有基因，判断该基因是否有QTL
-        Iterator<String> qtlIterator = properGene.iterator();
-        while (qtlIterator.hasNext()) {
-            String geneId = qtlIterator.next();
-            //根据基因ID找到associateGeneId,该associateGeneId对应QTL表中associateGene
-            //最初页面加载时QTL查询二级联动接口：traitCategoryService.findAllTraitCategoryAndItsTraitList已返回该字段
-            boolean insideQtl = dnaGenBaseInfoService.checkGeneHasQTL(geneId, geneExpressionCondition.getQtlId());  //该基因是否位于该QTL集合中
-            if (!insideQtl) {
-                qtlIterator.remove();
-            }
-        }
         //最后的loop，将GeneFPKM转换为想要的搜索结果
         Iterator<String> convertIterator = properGene.iterator();
         //存放所有搜索结果的集合

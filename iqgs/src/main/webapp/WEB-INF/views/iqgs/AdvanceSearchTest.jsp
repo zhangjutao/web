@@ -13,17 +13,24 @@
         var singleGeneExpression = {
             tissue: {
                 pod:0.0,
-                endosperm:0.0
             },
-            begin:5.0,
-            end:10.0
+            begin:10.0,
+            end:20.0
+        };
+        geneExpressions.push(singleGeneExpression);
+        singleGeneExpression = {
+            tissue: {
+                embryo:0.0,
+            },
+            begin:40.0,
+            end:50.0
         };
         geneExpressions.push(singleGeneExpression);
         var condition = {
             geneExpressionConditionEntities:geneExpressions,
-            snpConsequenceType:['5UTR', '3UTR'],
-            indelConsequenceType:['5UTR'],
-            qtlId:[1003, 1005],
+            snpConsequenceType:['upstream;downstream', 'UTR5'],
+            indelConsequenceType:['exonic_frameshift deletion', 'splicing'],
+            qtlId:[1453, 1941, 2089],
             pageNo: 1,
             pageSize: 10
         };
@@ -34,7 +41,7 @@
             data: JSON.stringify(condition),
             contentType: "application/json;charset=UTF-8;",
             success: function (result) {
-                console.log(请求成功)
+                console.log(result)
             },
             error: function (error) {
                 console.log(error)

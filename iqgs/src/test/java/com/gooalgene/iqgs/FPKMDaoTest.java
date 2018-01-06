@@ -15,6 +15,7 @@ import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -41,8 +42,20 @@ public class FPKMDaoTest extends TestCase {
         condition1.setEnd(50.0);
         condition1.setTissue(embryo);  //这只新的查询条件为胚芽(embryo)
         list.add(condition1);
-        List<String> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list);
+        List<String> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, null, null, null);
         assertEquals(47, geneResult.size());
+        //如果有SNP、INDEL筛选情况下
+        List<String> snpConsequenceList = new ArrayList<>();
+        snpConsequenceList.add("upstream;downstream");
+        snpConsequenceList.add("UTR5");
+        List<String> indelConsequenceList = new ArrayList<>();
+        indelConsequenceList.add("exonic_frameshift deletion");
+        indelConsequenceList.add("splicing");
+        geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, null);
+        assertEquals(20, geneResult.size());
+        Integer[] associateGeneIdArray = new Integer[]{1453, 1941, 2089};
+        geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, Arrays.asList(associateGeneIdArray));
+        assertEquals(2, geneResult.size());
     }
 
 }

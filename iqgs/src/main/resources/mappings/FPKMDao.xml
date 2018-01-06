@@ -4,93 +4,119 @@
 
     <select id="findGeneThroughGeneExpressionCondition"
             parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity" resultType="string">
-        SELECT gene_id FROM fpkm
-        WHERE 1=1
-        <foreach collection="list" index="index" item="item">
+        SELECT a.gene_id FROM fpkm a
+            LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
+            LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
+            LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
+            LEFT JOIN indel_consequencetype e ON e.id = d.indel_id
+            LEFT JOIN gens_baseinfo f ON a.gene_id = f.gene_id
+            LEFT JOIN qtl_gene g ON f.id = g.gene_info_id
+            LEFT JOIN associatedgenes h ON h.id = g.qtl_id
+            WHERE 1=1
+        <foreach collection="geneExpression" index="index" item="item">
             <if test="item.tissue.pod != null">
-                AND pod BETWEEN #{item.begin} AND #{item.end}
+                AND a.pod BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.endosperm != null">
-                AND endosperm BETWEEN #{item.begin} AND #{item.end}
+                AND a.endosperm BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.seed != null">
-                AND seed BETWEEN #{item.begin} AND #{item.end}
+                AND a.seed BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.embryo != null">
-                AND embryo BETWEEN #{item.begin} AND #{item.end}
+                AND a.embryo BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.axis != null">
-                AND axis BETWEEN #{item.begin} AND #{item.end}
+                AND a.axis BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.cotyledon != null">
-                AND cotyledon BETWEEN #{item.begin} AND #{item.end}
+                AND a.cotyledon BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.seedCoat != null">
-                AND seed_coat BETWEEN #{item.begin} AND #{item.end}
+                AND a.seed_coat BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.nodule != null">
-                AND nodule BETWEEN #{item.begin} AND #{item.end}
+                AND a.nodule BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.rootHair != null">
-                AND root_hair BETWEEN #{item.begin} AND #{item.end}
+                AND a.root_hair BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.root != null">
-                AND root BETWEEN #{item.begin} AND #{item.end}
+                AND a.root BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.rootTip != null">
-                AND root_tip BETWEEN #{item.begin} AND #{item.end}
+                AND a.root_tip BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.shoot != null">
-                AND shoot BETWEEN #{item.begin} AND #{item.end}
+                AND a.shoot BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.shootTip != null">
-                AND shoot_tip BETWEEN #{item.begin} AND #{item.end}
+                AND a.shoot_tip BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.shootApicalMeristem != null">
-                AND shoot_apical_meristem BETWEEN #{item.begin} AND #{item.end}
+                AND a.shoot_apical_meristem BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.shootMeristem != null">
-                AND shoot_meristem BETWEEN #{item.begin} AND #{item.end}
+                AND a.shoot_meristem BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.primaryleaf != null">
-                AND primaryleaf BETWEEN #{item.begin} AND #{item.end}
+                AND a.primaryleaf BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.petiole != null">
-                AND petiole BETWEEN #{item.begin} AND #{item.end}
+                AND a.petiole BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.leaf != null">
-                AND leaf BETWEEN #{item.begin} AND #{item.end}
+                AND a.leaf BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.trifoliate != null">
-                AND trifoliate BETWEEN #{item.begin} AND #{item.end}
+                AND a.trifoliate BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.leafbud != null">
-                AND leafbud BETWEEN #{item.begin} AND #{item.end}
+                AND a.leafbud BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.leaflet != null">
-                AND leaflet BETWEEN #{item.begin} AND #{item.end}
+                AND a.leaflet BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.cotyledonsOfSeedling != null">
-                AND cotyledons_of_seedling BETWEEN #{item.begin} AND #{item.end}
+                AND a.cotyledons_of_seedling BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.seedling != null">
-                AND seedling BETWEEN #{item.begin} AND #{item.end}
+                AND a.seedling BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.flowerBud != null">
-                AND flower_bud BETWEEN #{item.begin} AND #{item.end}
+                AND a.flower_bud BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.flower != null">
-                AND flower BETWEEN #{item.begin} AND #{item.end}
+                AND a.flower BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.stem != null">
-                AND stem BETWEEN #{item.begin} AND #{item.end}
+                AND a.stem BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.stemInternode != null">
-                AND stem_internode BETWEEN #{item.begin} AND #{item.end}
+                AND a.stem_internode BETWEEN #{item.begin} AND #{item.end}
             </if>
             <if test="item.tissue.hypocotyl != null">
-                AND hypocotyl BETWEEN #{item.begin} AND #{item.end}
+                AND a.hypocotyl BETWEEN #{item.begin} AND #{item.end}
             </if>
         </foreach>
+        <if test="snp != null and snp.size() >= 0">
+            AND c.consequencetype IN
+            <foreach collection="snp" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="indel != null and indel.size() > 0">
+            AND e.consequencetype IN
+            <foreach collection="indel" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="qtl != null and qtl.size() > 0">
+            AND h.id IN
+            <foreach collection="qtl" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        GROUP BY a.gene_id
     </select>
 </mapper>
