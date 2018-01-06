@@ -130,7 +130,7 @@ public class AdvanceSearchController {
 
     @RequestMapping(value = "/advanceSearch", method = RequestMethod.POST)
     @ResponseBody
-    public PageInfo<DNAGeneSearchResult> advanceSearch(
+    public ResultVO<DNAGeneSearchResult> advanceSearch(
             @RequestBody GeneExpressionCondition geneExpressionCondition) throws InterruptedException {
         int pageNo = geneExpressionCondition.getPageNo();
         int pageSize = geneExpressionCondition.getPageSize();
@@ -173,7 +173,7 @@ public class AdvanceSearchController {
         pageInfo.setPageNum(pageNo);
         pageInfo.setPageSize(pageSize);
         pageInfo.setList(searchResultList);
-        return pageInfo;
+        return ResultUtil.success(pageInfo);
     }
 
     @RequestMapping(value = "/fetch-network-genes", method = RequestMethod.GET)
