@@ -123,7 +123,6 @@ public class AdvanceSearchController {
     public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl, HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        PageHelper.startPage(pageNo, pageSize, true);
         PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(Arrays.asList(chosenQtl), pageNo, pageSize);
         return ResultUtil.success(genes);
     }
@@ -169,7 +168,11 @@ public class AdvanceSearchController {
             searchResult.setRootTissues(advanceSearchResultView.getLargerThanThirtyTissue());
             searchResultList.add(searchResult);
         }
-        return ResultUtil.success(searchResultList);
+        PageInfo<DNAGeneSearchResult> resultPageInfo = new PageInfo<>(searchResultList);
+        resultPageInfo.setPageNum(properGene.getPageNum());
+        resultPageInfo.setPageSize(properGene.getPageSize());
+        resultPageInfo.setTotal(properGene.getTotal());
+        return ResultUtil.success(resultPageInfo);
     }
 
     @RequestMapping(value = "/fetch-network-genes", method = RequestMethod.GET)
