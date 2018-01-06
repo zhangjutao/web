@@ -314,7 +314,7 @@
 </script>
 <script src="${ctxStatic}/js/mock/mock.js"></script>
 <script src="${ctxStatic}/js/newAddNeed.js"></script>
-<script src="${ctxStatic}/js/iqgs.js"></script>
+<%--<script src="${ctxStatic}/js/iqgs.js"></script>--%>
 <script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/iqgs-list.js"></script>
@@ -401,14 +401,14 @@
                 chosenQtl : nums
             },
             success:function (result){
-                var data = result.data.list;
-                var total = result.total;
-                var res = {};
+                    var data = result.data.list;
+                    var total = result.total;
+                    var res = {};
                     res.data = data;
                     res.total = total;
-                if(result.code == 0 && data.length!=0){
-                    resultCallback(res)
-                }
+                    if(result.code == 0 && data.length!=0){
+                        resultCallback(res)
+                    }
             },
             error:function (error){
                 console.log(error);
@@ -460,6 +460,7 @@
                     };
                     var snp = item.existsSNP?"存在Exonic_nonsynonymouse SNV":"";
                     var expreTissues = item.rootTissues.join(",");
+                    var description = !item.description?"":item.description;
                     html.push('        <p class="h-snp qltlistSty">QTL:<span>' + item.associateQTLs.length + '个 （' + qtlNames +')</span></p>');
                     html.push('        <p class="h-qtl qltlistSty">SNP:<span>' + snp + '</span></p>');
                     html.push('        <p class="h-qtl qltlistSty">基因表达量(FPKM>30):<span>' + expreTissues + '</span></p>');
@@ -482,5 +483,6 @@
         requestSearchData();
     });
 </script>
+<script src="${ctxStatic}/js/iqgs.js"></script>
 </body>
 </html>
