@@ -168,7 +168,8 @@ public class AdvanceSearchController {
             searchResult.setRootTissues(advanceSearchResultView.getLargerThanThirtyTissue());
             searchResultList.add(searchResult);
         }
-        PageInfo<DNAGeneSearchResult> resultPageInfo = new PageInfo<>(searchResultList);
+        PageInfo<DNAGeneSearchResult> resultPageInfo = new PageInfo<>();
+        resultPageInfo.setList(searchResultList);
         resultPageInfo.setPageNum(properGene.getPageNum());
         resultPageInfo.setPageSize(properGene.getPageSize());
         resultPageInfo.setTotal(properGene.getTotal());

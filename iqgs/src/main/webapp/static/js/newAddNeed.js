@@ -532,10 +532,10 @@ $(function (){
                 $("#expreDetail span.qtlSigleTitle").remove();
             }else {
                 for(var i=0;i<list.length;i++){
-                    if($(list[i]).attr("class").split(" ")[2] == currKn && $(list[i]).text().indexOf("QTL")==-1){
+                    if($(list[i]).attr("class").split(" ")[2] == currKns && $(list[i]).text().indexOf("QTL")==-1){
                         $(list[i]).next().remove();
                         $(list[i]).remove();
-                    }else if ($(list[i]).attr("class").split(" ")[2] == currKn && $(list[i]).text().indexOf("QTL")!=-1){
+                    }else if ($(list[i]).attr("class").split(" ")[2] == currKns && $(list[i]).text().indexOf("QTL")!=-1){
                         $(list[i]).next().remove();
                         $(list[i]).removeClass(currKn).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
                     }
@@ -976,7 +976,8 @@ $(function (){
         var txt = $(this).prev().text().trim();
         var list = $(".geneQtl .qtlSelectList ul li");
         for(var i=0;i<list.length;i++){
-            if($(list[i]).find("span").attr("id") == id){
+            // if($(list[i]).find("span").attr("id") == id){
+            if($(list[i]).attr("data-id") == id){
                 $(list[i]).removeClass("checked");
             }
         };
@@ -1075,6 +1076,17 @@ $(function (){
 
     // 清空上面的显示框
     $("#advanceSelect .showSelected .showClear").click(function (){
+        // 清空基因表达量的相关数据
+        var expreList = $("#expreDetail span.deleteIconPexp");
+        debugger;
+        for (var i=0;i<expreList.length;i++){
+            var $that = (function (i){
+                return i;
+            })(i)
+            console.log(i);
+          $(expreList[i]).trigger("click");
+        }
+
 
 
     });
@@ -1121,31 +1133,42 @@ $(function (){
             geneExpressionConditionEntities.push(obj);
             console.log(geneExpressionConditionEntities);
         }
-        // 2.获取基因表达量的参数
+        // 2.获取snp参数
         var snpConsequenceType = globalObj.SleSnpDatas;
+        // 2.获取indel参数
         var indelConsequenceType = globalObj.SleIndelDatas;
+
         console.log(snpConsequenceType);
         console.log(indelConsequenceType);
         console.log( globalObj.qtlParams);
+        // debugger;
         var qtlSigles = $("#expreDetail span.qtlSigle");
         var qtlId = [];
         for (var n=0;n<qtlSigles.length;n++){
             var id = $(qtlSigles[n]).attr("class").split(" ")[2].substring(4);
             qtlId.push(Number(id));
         }
+        var qtlIds = qtlId.concat(nums);
+        console.log(qtlIds);
         var data = {};
         data.geneExpressionConditionEntities = geneExpressionConditionEntities;
         data.snpConsequenceType = snpConsequenceType;
         data.indelConsequenceType = indelConsequenceType;
-        data.qtlId = qtlId;
+        data.qtlId = qtlIds;
         data.pageNo = 1;
         data.pageSize = 10;
-        console.log(data);
         var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(data));
         promise.then(
             function (result){
-                debugger;
                  console.log(result);
+                var data = result.data.list;
+                var total = result.total;
+                var res = {};
+                res.data = data;
+                res.total = total;
+                if(result.code == 0 && data.length!=0){
+                    resultCallback(res)
+                }
 
             },function (error){
                 console.log(error);
