@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,16 @@ public class QtlService {
     }
 
     public List<Qtl> findQtlsByName(String qtlName){
-        return qtlDao.findQtlsByName(qtlName);
+        if (StringUtils.isBlank(qtlName)){
+            return null;
+        }
+        //针对前台在一次搜索出几个QTL选中后，回显到输入框，重新查询以Al tolerance 1-2,Al tolerance 1-3方式进行拆分
+        if (qtlName.contains(",")){
+            String[] allQtl = qtlName.split(",");
+            return qtlDao.findQTLsInArray(Arrays.asList(allQtl));
+        }else {
+            return qtlDao.findQtlsByName(qtlName);
+        }
     }
 
     /**

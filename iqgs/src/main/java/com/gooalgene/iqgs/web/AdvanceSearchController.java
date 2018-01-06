@@ -60,9 +60,6 @@ public class AdvanceSearchController {
     private TService tService;
 
     @Autowired
-    private StudyService studyService;
-
-    @Autowired
     private SearchService searchService;
 
     @Autowired
@@ -75,16 +72,7 @@ public class AdvanceSearchController {
     private DNAGenBaseInfoService dnaGenBaseInfoService;
 
     @Autowired
-    private ClassifyService classifyService;
-
-    @Autowired
     private RegularityNetworkService regularityNetworkService;
-
-    @Autowired
-    private DNAMongoService dnaMongoService;
-
-    @Autowired
-    private MrnaGensService mrnaGensService;
 
     @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
@@ -154,11 +142,8 @@ public class AdvanceSearchController {
             String geneId = advanceSearchResultView.getGeneId();
             searchResult.setGeneId(geneId);
             searchResult.setGeneOldId(advanceSearchResultView.getGeneOldId());
-            MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
-            //使用Guava Optional防止空指针异常
-            MrnaGens optional = Optional.<MrnaGens>fromNullable(mrnaGene).or(new MrnaGens());
-            searchResult.setGeneName(optional.getGeneName());
-            searchResult.setFunction(optional.getFunctions());
+            searchResult.setGeneName(advanceSearchResultView.getGeneName());
+            searchResult.setFunction(advanceSearchResultView.getFunctions());
             //allAssociateGenes中包含QTL_NAME
             List<Associatedgenes> allAssociateGenes = dnaGenBaseInfoService.findAllQTLNamesByGeneId(geneId);
             searchResult.setAssociateQTLs(allAssociateGenes);

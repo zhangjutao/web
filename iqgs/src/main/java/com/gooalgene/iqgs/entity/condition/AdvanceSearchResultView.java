@@ -18,6 +18,16 @@ public class AdvanceSearchResultView extends GeneFPKM {
     private String geneOldId;
 
     /**
+     * 基因名字
+     */
+    private String geneName;
+
+    /**
+     * 基因功能
+     */
+    private String functions;
+
+    /**
      * 包含的SNP集合
      */
     private List<String> snpCollection;
@@ -43,6 +53,22 @@ public class AdvanceSearchResultView extends GeneFPKM {
 
     public void setSnpCollection(List<String> snpCollection) {
         this.snpCollection = snpCollection;
+    }
+
+    public String getGeneName() {
+        return geneName;
+    }
+
+    public void setGeneName(String geneName) {
+        this.geneName = geneName;
+    }
+
+    public String getFunctions() {
+        return functions;
+    }
+
+    public void setFunctions(String functions) {
+        this.functions = functions;
     }
 
     public List<String> getLargerThanThirtyTissue() {

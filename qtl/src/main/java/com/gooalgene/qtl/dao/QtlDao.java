@@ -85,6 +85,12 @@ public interface QtlDao extends CrudDao<Qtl> {
     List<Qtl> findQtlsByName(String qtlName);
 
     /**
+     * 获取QTL Name在该QTL集合中的所有QTL,这里必须为精准查询
+     * @param qtlArray QTL Name集合
+     */
+    List<Qtl> findQTLsInArray(List<String> qtlArray);
+
+    /**
      * 根据基因查询对应的QTL数据
      *
      * @param map

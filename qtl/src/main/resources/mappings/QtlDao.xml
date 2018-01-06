@@ -28,6 +28,14 @@
         SELECT id, associatedGenes_id, qtl_name FROM qtl WHERE qtl_name LIKE concat('%', #{qtlName},'%')
     </select>
 
+    <select id="findQTLsInArray" parameterType="String" resultType="com.gooalgene.entity.Qtl">
+        SELECT id, associatedGenes_id, qtl_name FROM qtl
+          WHERE 1 = 1 AND qtl_name IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
     <select id="findQTLMap" resultType="Map">
         SELECT a.id,a.`qtl_name` AS
         qtlName,trait,type,marker1,marker2,b.lg,b.chr,method,lod,parent1,parent2,genome_start AS

@@ -60,6 +60,13 @@ public class FPKMDaoTest extends TestCase {
     }
 
     @Test
+    public void testNullGeneExpression(){
+        Integer[] associateGeneIdArray = new Integer[]{4453, 5941, 1089};
+        List<AdvanceSearchResultView> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(null, null, null, Arrays.asList(associateGeneIdArray));
+        assertNotNull(geneResult);
+    }
+
+    @Test
     public void testDoubleNullCompare(){
         Double a = null;
         try {

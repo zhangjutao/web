@@ -9,6 +9,7 @@ import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.MrnaGens;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
+import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.mrna.service.MrnaGensService;
 import com.gooalgene.mrna.service.TService;
@@ -39,13 +40,7 @@ public class DNAGenBaseInfoService {
     private AssociatedgenesDao associatedgenesDao;
 
     @Autowired
-    private MrnaGensService mrnaGensService;
-
-    @Autowired
-    private TService tService;
-
-    @Autowired
-    private DNAMongoService dnaMongoService;
+    private FPKMService fpkmService;
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
         List<DNAGenBaseInfo> result = null;
@@ -60,57 +55,28 @@ public class DNAGenBaseInfoService {
     /**
      * QTL输入框搜索结果对应的查询服务
      * @param allQTLId 所有的QTL ID
-     * @param pageNum 页码
+     * @param pageNo 页码
      * @param pageSize 页数
      * @return 搜索结果列表
      */
-    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNum, int pageSize) {
-        List<DNAGenBaseInfo> result = null;
-        PageHelper.startPage(pageNum,pageSize);
-        result = dnaGenBaseInfoDao.findGeneInQTLIds(allQTLId);
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNo, int pageSize) {
+        PageInfo<AdvanceSearchResultView> properGene = fpkmService.findProperGeneUnderSampleRun(null, null, null, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
-        for (DNAGenBaseInfo gene : result){
+        for (AdvanceSearchResultView geneView : properGene.getList()){
             dnaGeneSearchResult = new DNAGeneSearchResult();
-            int id = gene.getId(); //拿到基因查询结果，根据ID查询与之关联的SNP_NAME
+            int id = geneView.getId(); //拿到基因查询结果，根据ID查询与之关联的SNP_NAME
             List<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
-            String geneId = gene.getGeneId();
-            MrnaGens mrnaGene = mrnaGensService.findMRNAGeneByGeneId(geneId);
-            MrnaGens optional = Optional.<MrnaGens>fromNullable(mrnaGene).or(new MrnaGens());
-            dnaGeneSearchResult.setGeneName(optional.getGeneName());
-            dnaGeneSearchResult.setFunction(optional.getFunctions());
-            Set<String> allConsequenceType = dnaMongoService.getAllConsequenceTypeByGeneId(geneId, CommonConstant.SNP);
-            List<String> rootTissues = getFPKMLargerThanThirty(geneId); //获取所有FPKM大于30的root组织
-            dnaGeneSearchResult.setRootTissues(rootTissues); //将根组织设值到搜索结果中
-            BeanUtils.copyProperties(gene, dnaGeneSearchResult); //将从MySQL中查询到的数据全部拷贝到返回值结果bean上
+            dnaGeneSearchResult.setGeneId(geneView.getGeneId());
+            dnaGeneSearchResult.setGeneOldId(geneView.getGeneOldId());
+            dnaGeneSearchResult.setGeneName(geneView.getGeneName());
+            dnaGeneSearchResult.setFunction(geneView.getFunctions());
+            dnaGeneSearchResult.setExistsSNP(geneView.existSNP());
+            dnaGeneSearchResult.setRootTissues(geneView.getLargerThanThirtyTissue());
             dnaGeneSearchResult.setAssociateQTLs(associatedQTLs); //将查询出来的AssociateQTL关联到搜索结果上
-            boolean exists = allConsequenceType.contains(EXONIC_NONSYNONYMOUSE);
-            if (exists){
-                dnaGeneSearchResult.setExistsSNP(true);
-            }
             searchResultWithSNP.add(dnaGeneSearchResult);
         }
         return new PageInfo<>(searchResultWithSNP);
-    }
-
-    /**
-     * 传入基因ID找到FPKM大于30的一级组织
-     * @param geneId 基因ID
-     * @return 大于30的组织集合
-     */
-    public List<String> getFPKMLargerThanThirty(String geneId){
-        List<String> rootTissues = new ArrayList<>();
-        String[] genes = new String[]{ geneId };
-        GenResult genResult = tService.generateData(genes);
-        List<GResultVo> cate = genResult.getCate();
-        for (Iterator<GResultVo> iterator = cate.listIterator(); iterator.hasNext();){
-            GResultVo gene = iterator.next();
-            List<Double> fpkm = gene.getValues();
-            if (gene.getLevel() == 0 && fpkm.get(0) > 30){
-                rootTissues.add(gene.getChinese());
-            }
-        }
-        return rootTissues;
     }
 
     public List<Associatedgenes> findAllQTLNamesByGeneId(String geneId){
