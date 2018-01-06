@@ -123,7 +123,7 @@
                 </if>
             </foreach>
         </if>
-        <if test="snp != null and snp.size() >= 0">
+        <if test="snp != null and snp.size() > 0">
             AND c.consequencetype IN
             <foreach collection="snp" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
