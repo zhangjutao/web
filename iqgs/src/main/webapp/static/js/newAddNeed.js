@@ -6,6 +6,8 @@ $(function (){
         globalObj.SleSnpDatas = [];// 选中的snp 信息
         globalObj.SleIndelDatas = [];// 选中的indel 信息
         globalObj.qtlParams = [];  // 存放qtl 信息
+    // 存放高级搜索最后的参数集合
+    var dataParam;
     // ajax 请求的代码封装
     function SendAjaxRequest(method, url,data) {
         if (window.Promise) {//检查浏览器是否支持Promise
@@ -106,7 +108,6 @@ $(function (){
     };
     // 根据选择的qtl 搜索 -- > sureBtn
     $("#qtlAdd .sureBtn").click(function (){
-        console.log(globleObject);
         storage.setItem("qtlSearchNames", JSON.stringify(globleObject.selectedQtlNames));
         var num = globleObject.selectedQtl.length;
         var qtlNameArr = globleObject.selectedQtl;
@@ -470,7 +471,6 @@ $(function (){
                $(snps).after(" <span class='expreSigle snpSigle " +id +  "'>" + val + "</span><span class='deleteIconP deleteIconPsnp'>X</span>")
             }
         };
-         console.log(globalObj.SleSnpDatas);
     });
     // indel 每个li的点击事件
     $("#advanceSelect .geneIndel ul").on("click","li",function (){
@@ -512,7 +512,6 @@ $(function (){
                 $(snps).after(" <span class='expreSigle indelSigle " +id +  "'>" + val + "</span><span class='deleteIconP deleteIconPindel'>X</span>")
             }
         };
-        console.log(globalObj.SleIndelDatas);
     });
 
     // QTL  品种选择
@@ -752,7 +751,8 @@ $(function (){
         for(var i=0;i<qtlList.length;i++){
             var id = $(qtlList[i]).attr("class").split(" ")[2];
             for (var k=0;k<qtlShowList.length;k++){
-                if(id == $(qtlShowList[k]).find("span").attr("id")){
+                // if(id == $(qtlShowList[k]).find("span").attr("id")){
+                if(id == $(qtlShowList[k]).attr("data-id")){
                     $(qtlShowList[k]).addClass("checked");
                 }
             }
@@ -869,8 +869,8 @@ $(function (){
         var span = " <span class='expreSigle expreSigle1 " +currkn +  "'>基因表达量:" + kindObj.name + kindObj.FPKM + "," + secondStrs + "</span><span class='deleteIconP deleteIconPexp'>X</span>";
         $("#expreDetail").append(span);
         globalObj.SleExpreDatas.push(kindObj);
-        console.log("基因表达量的相关数据如下一行所示：");
-        console.log(globalObj.SleExpreDatas);
+        // console.log("基因表达量的相关数据如下一行所示：");
+        // console.log(globalObj.SleExpreDatas);
     });
     // 去除所有的基因表达量 -->
     var tip;
@@ -1076,19 +1076,47 @@ $(function (){
 
     // 清空上面的显示框
     $("#advanceSelect .showSelected .showClear").click(function (){
-        // 清空基因表达量的相关数据
-        var expreList = $("#expreDetail span.deleteIconPexp");
-        debugger;
-        for (var i=0;i<expreList.length;i++){
-            var $that = (function (i){
-                return i;
-            })(i)
-            console.log(i);
-          $(expreList[i]).trigger("click");
-        }
-
-
-
+       //既然不让用闭包，那就简单粗暴一些吧
+        $("#expreDetail").empty();
+        // 1.清空基因表达量的相关数据
+        var expreList = $("#expreKinds ul li");
+        // 1.1 清空下拉框列表
+        for(var i=0;i<expreList.length;i++){
+            if($(expreList[i]).hasClass("noClick")){
+                $(expreList[i]).removeClass("testClass noClick");
+            }
+        };
+        // 1.2 清空保存的数据
+        globalObj.SleExpreDatas = [];
+        // 2.1  清空snp 所有选中的数据
+        var snpList = $(".geneSnp .snpList ul li");
+        for(var i=0;i<snpList.length;i++){
+            if($(snpList[i]).hasClass("checked")){
+                $(snpList[i]).removeClass("checked");
+            }
+        };
+        // 2.2 清空所有保存的数据
+        globalObj.SleSnpDatas = [];
+        // 3.1 清空indel 所有选中的数据
+        var  indelList = $(".geneIndel .indelList ul li");
+        for(var i=0;i<indelList.length;i++){
+            if($(indelList[i]).hasClass("checked")){
+                $(indelList[i]).removeClass("checked");
+            }
+        };
+        // 3.2 清空所有保存的数据
+        globalObj.SleIndelDatas = [];
+        // 4.1清空所有选中的qtl 数据
+        var qtlList = $(".geneQtl .qtlSelectList ul li");
+        for(var i=0;i<qtlList.length;i++){
+            if($(qtlList[i]).hasClass("checked")){
+                $(qtlList[i]).removeClass("checked");
+            }
+        };
+        // 4.2 清空所有所存的数据
+        if(dataParam){
+            dataParam.qtlId = [];
+        };
     });
     // 定义首字符大写的原型方法
     function firstUpperCase(str) {
@@ -1122,7 +1150,6 @@ $(function (){
             for (var m=0;m<childers.length;m++){
                 newStr +=deleteSpace(childers[m]) + ":";
             };
-            console.log(newStr);
             var newstrs = newStr.substring(0,newStr.length-1);
             var tissue = {};
             var newArr = newstrs.split(":");
@@ -1131,17 +1158,11 @@ $(function (){
             };
             obj.tissue = tissue;
             geneExpressionConditionEntities.push(obj);
-            console.log(geneExpressionConditionEntities);
         }
         // 2.获取snp参数
         var snpConsequenceType = globalObj.SleSnpDatas;
         // 2.获取indel参数
         var indelConsequenceType = globalObj.SleIndelDatas;
-
-        console.log(snpConsequenceType);
-        console.log(indelConsequenceType);
-        console.log( globalObj.qtlParams);
-        // debugger;
         var qtlSigles = $("#expreDetail span.qtlSigle");
         var qtlId = [];
         for (var n=0;n<qtlSigles.length;n++){
@@ -1149,18 +1170,16 @@ $(function (){
             qtlId.push(Number(id));
         }
         var qtlIds = qtlId.concat(nums);
-        console.log(qtlIds);
-        var data = {};
-        data.geneExpressionConditionEntities = geneExpressionConditionEntities;
-        data.snpConsequenceType = snpConsequenceType;
-        data.indelConsequenceType = indelConsequenceType;
-        data.qtlId = qtlIds;
-        data.pageNo = 1;
-        data.pageSize = 10;
-        var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(data));
+        dataParam = {};
+        dataParam.geneExpressionConditionEntities = geneExpressionConditionEntities;
+        dataParam.snpConsequenceType = snpConsequenceType;
+        dataParam.indelConsequenceType = indelConsequenceType;
+        dataParam.qtlId = qtlIds;
+        dataParam.pageNo = 1;
+        dataParam.pageSize = 10;
+        var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
         promise.then(
             function (result){
-                 console.log(result);
                 var data = result.data.list;
                 var total = result.total;
                 var res = {};
@@ -1174,6 +1193,5 @@ $(function (){
                 console.log(error);
             }
         )
-
     });
 })
