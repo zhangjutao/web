@@ -134,6 +134,7 @@
     font-family:"Microsoft YaHei";
     font-size:14px;
     color:#333;
+    margin-bottom: 12px;
 }
 #advanceSelect .showSelected p.showClear{
     float:right;
@@ -463,7 +464,7 @@
 }
 #expreDetail{
     width:1030px;
-    min-height:30px;
+    /*min-height:30px;*/
     padding-right: 20px;
     position:relative;
     background: #F5F5F5;
