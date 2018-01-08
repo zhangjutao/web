@@ -12,12 +12,13 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
+    <%--<link rel="stylesheet" href="${ctxStatic}/css/laypage.css">--%>
+    <link rel="stylesheet" href="${ctxStatic}/js/laypage/skin/laypage.css">
+
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
-
 </head>
-
 <body>
 
 <iqgs:iqgs-header></iqgs:iqgs-header>
@@ -268,6 +269,7 @@
                         <%--</li>--%>
                     </ul>
                 </div>
+
             </div>
             <div id="iqgsSearch">
                 <p>搜索</p>
@@ -277,7 +279,7 @@
 
     </div>
 
-    <div class="search-result">
+    <div class="search-result" style="margin-top:66px;">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
             <p class="result-text">您的搜索条件为:<span> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息</p>
@@ -289,7 +291,7 @@
             <div class="pagination-backtop">
                  <a id="goTopBtn" class="backtop" href="javascript:;">返回顶部</a>
                 <div class="ga-ctrl-footer">
-                    <div id="pagination1" class="pagination"></div>
+                    <div id="paginationCnt" class="pagination"></div>
                     <div id="per-page-count1" class="per-page-count lay-per-page-count per-page-count">
                         <span>展示数量</span>
                         <select name="" class="lay-per-page-count-select">
@@ -314,11 +316,11 @@
     window.ctxROOT = "${ctxroot}";
     window.ctxStatic = "${ctxStatic}"
 </script>
-<script src="${ctxStatic}/js/mock/mock.js"></script>
-<script src="${ctxStatic}/js/newAddNeed.js"></script>
-<%--<script src="${ctxStatic}/js/iqgs.js"></script>--%>
-<script src="${ctxStatic}/js/layer/layer.js"></script>
+<%--<script src="${ctxStatic}/js/mock/mock.js"></script>--%>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+<%--<script src="${ctxStatic}/js/newAddNeed.js"></script>--%>
+<script src="${ctxStatic}/js/layer/layer.js"></script>
+<%--<script src="${ctxStatic}/js/laypage/laypage.js"></script>--%>
 <script src="${ctxStatic}/js/iqgs-list.js"></script>
 <script>
     // sessionStorage
@@ -340,9 +342,7 @@
     }else {
         nums.push(Number(param.split("&")[0].split("=")[1]));
     }
-    console.log(nums);
     var qtlSearchNames = JSON.parse(storage.getItem("qtlSearchNames"));
-     console.log(qtlSearchNames)
     var page = {curr: 1, pageSize:10};
     function initSearchTab() {
         if (searchType == 1) {
@@ -367,6 +367,7 @@
                 $("#qtlName").val(qtlSearchNames[0])
             };
             activeItem(searchType);
+            $("#advancedSearch").show();
         }
     }
     // 切换到列表页之后searchtype 为多少就默认显示到第几个
@@ -412,7 +413,7 @@
                 chr : $(".js-region").val()
             }, resultCallback);
         }else {
-            getQtlNameData();
+            getQtlNameData(page.curr,page.pageSize);
             $(".result-text>span:first").text(qtlSearchNames.join(","));
             <%--$.getJSON('${ctxroot}/advance-search/confirm', {--%>
                 <%--pageNo: page.curr || 1,--%>
@@ -423,16 +424,19 @@
         }
     }
     // 根据qtlName 获取数据
-    function getQtlNameData(){
+    function getQtlNameData(curr,pageSize){
+        var data = {
+            pageNo: curr || 1,
+            pageSize: pageSize || 10,
+            chosenQtl : nums
+        };
         $.ajax({
             type:"GET",
             url:"${ctxroot}/advance-search/confirm",
-            data:{
-                pageNo: page.curr || 1,
-                pageSize: page.pageSize || 10,
-                chosenQtl : nums
-            },
+            data:data,
             success:function (result){
+                // 关闭遮罩层
+                layer.closeAll();
                     var data = result.data.list;
                     var total = result.data.total;
                     var res = {};
@@ -451,12 +455,12 @@
     function resultCallback(res) {
         $("span.js-search-total").text(res.total);
         $("#total-page-count1 span").text(res.total);
-        // 关闭遮罩层
-        layer.closeAll();
+
         renderList(res.data);
         laypage({
-            cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-            pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
+            cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+            pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+//            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
             curr: page.curr || 1, //当前页
             skin: '#5c8de5',
             skip: true,
@@ -475,14 +479,18 @@
     };
 
     function renderList(listdata) {
+        // 关闭遮罩层
+        layer.closeAll();
         if (listdata && listdata.length > 0) {
             var html = [];
             $.each(listdata, function(i, item){
+                var geneName = item.geneName?item.geneName:"-";
+                var description =  item.description?item.description:"-";
                 html.push('<div class="list">');
                 html.push('    <div class="tab-index">' + (page.pageSize * (page.curr-1) + i+1) + '.</div>');
                 html.push('    <div class="list-content">');
                 html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
-                html.push('        <p class="h-tips">基因名:<span>' + item.geneName + '</span></p>');
+                html.push('        <p class="h-tips">基因名:<span>' + geneName + '</span></p>');
 //                modify by jarry
                 if(searchType == 4){
                     var qtls= item.associateQTLs;
@@ -490,20 +498,55 @@
                     for(var k=0;k<qtls.length;k++){
                         qtlNames +=qtls[k].qtlName +" ";
                     };
-                    var snp = item.existsSNP?"存在Exonic_nonsynonymouse SNV":"";
-                    var expreTissues = item.rootTissues.join(",");
-                    var description = !item.description?"":item.description;
+                    var snp = item.existsSNP?"存在Exonic_nonsynonymouse SNV":"-";
+                    var expreTissues = item.rootTissues.length?item.rootTissues.join(","):"-";
+                    var description = item.description?item.description:"-";
                     html.push('        <p class="h-snp qltlistSty">QTL:<span>' + item.associateQTLs.length + '个 （' + qtlNames +')</span></p>');
                     html.push('        <p class="h-qtl qltlistSty">SNP:<span>' + snp + '</span></p>');
                     html.push('        <p class="h-qtl qltlistSty">基因表达量(FPKM>30):<span>' + expreTissues + '</span></p>');
                 };
-                html.push('        <p class="content-b">基因注释:<span>' + item.description + '</span></p>');
+                html.push('        <p class="content-b">基因注释:<span>' + description + '</span></p>');
                 html.push('    </div>');
                 html.push('</div>');
             });
             $(".search-result-b .tab-list").html(html.join('\n'));
         }
     }
+    // 修改每页显示条数
+    $("#per-page-count1").on("change", ".lay-per-page-count-select", function() {
+        // 开户遮罩层
+        layer.msg('数据加载中!', {
+            shade: [0.5, '#393D49']
+        });
+        page.pageSize = Number($(this).val());
+        getQtlNameData(page.curr,page.pageSize);
+    });
+
+    // 分页跳转
+    $("#paginationCnt").on("focus", ".laypage_total .laypage_skip", function() {
+        $(this).addClass("isFocus");
+    });
+    $("#paginationCnt").on("blur", ".laypage_total .laypage_skip", function() {
+        $(this).removeClass("isFocus");
+    });
+    // 注册 enter 事件的元素
+    document.onkeydown = function(e) {
+        var _page_skip = $('#paginationCnt .laypage_skip');
+        if(e && e.keyCode==13){ // enter 键
+            // 开户遮罩层
+            layer.msg('数据加载中!', {
+                shade: [0.5, '#393D49']
+            });
+            if( _page_skip.hasClass("isFocus") ) {
+
+                if(_page_skip.val() * 1 >Math.ceil( $("#total-page-count1 span").text() / page.pageSize)) {
+                    return alert("输入页码不能大于总页数");
+                }
+              page.curr = _page_skip.val();
+                getQtlNameData(page.curr,page.pageSize);
+            }
+        }
+    };
 
     function viewBaseInfo(geneId) {
         var url = '${ctxroot}/iqgs/detail/basic?gen_id=' + geneId;
@@ -516,5 +559,6 @@
     });
 </script>
 <script src="${ctxStatic}/js/iqgs.js"></script>
+<script src="${ctxStatic}/js/newAddNeed.js"></script>
 </body>
 </html>

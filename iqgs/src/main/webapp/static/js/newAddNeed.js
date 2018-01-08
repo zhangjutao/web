@@ -259,162 +259,6 @@ $(function (){
     };
     // 获取qtl 数据
     function getQtlData(){
-        var qtlDatas = [
-            {
-                "qtlName": "Fujkll redfance QTL33",
-                "qtlDesc": "抗战型",
-                "id": 90,
-                "qtlOthername": "QTL_fungal",
-                "traitLists": [
-                    {
-                        "traitName": "Reaction to Phakopsora pachyrhizi infection1155",
-                        "qtlId":343,
-                        "qtls": [
-                            "Asian Soybean Rust 2-111155",
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Phialophora gregata infection1155",
-                        "qtlId":353,
-                        "qtls": [
-                            "Asian Soybean Rust 2-122366",
-                            "Asian Soybean Rust 2-222466" , "Asian Soybean Rust 2-1223","Asian Soybean Rust 2-122366",
-                            "Asian Soybean Rust 2-22246666" , "Asian Soybean Rust 2-122366",
-                            "Asian Soybean Rust 2-222466"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Fusarium infection111111555",
-                        "qtlId":365,
-                        "qtls": [
-                            "Asian Soybean Rust 2-133455",
-                            "Asian Soybean Rust 2-233555"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection11155",
-                        "qtlId":375,
-                        "qtls": [
-                            "Asian Soybean Rust 2-144555",
-                            "Asian Soybean Rust 2-244655"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Diaporthe longicolla Infection155",
-                        "qtlId":385,
-                        "qtls": [
-                            "Asian Soybean Rust 2-155655",
-                            "Asian Soybean Rust 2-255755"
-                        ]
-                    }
-                ]
-            }, {
-                "qtlName": "Fungal resistance QTL",
-                "qtlDesc": "真菌抗性",
-                "id": 16,
-                "qtlOthername": "QTL_fungal",
-                "traitLists": [
-                    {
-                        "traitName": "Reaction to Phakopsora pachyrhizi infection11",
-                        "qtlId":34,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1111",
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Phialophora gregata infection11",
-                        "qtlId":35,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1223",
-                            "Asian Soybean Rust 2-2224" , "Asian Soybean Rust 2-1223","Asian Soybean Rust 2-1223",
-                            "Asian Soybean Rust 2-2224" , "Asian Soybean Rust 2-1223",
-                            "Asian Soybean Rust 2-2224"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Fusarium infection111111",
-                        "qtlId":36,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1334",
-                            "Asian Soybean Rust 2-2335"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection111",
-                        "qtlId":37,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1445",
-                            "Asian Soybean Rust 2-2446"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Diaporthe longicolla Infection1",
-                        "qtlId":38,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1556",
-                            "Asian Soybean Rust 2-2557"
-                        ]
-                    }
-                ]
-            },
-            {
-                "qtlName": "Insect resistance QTL22",
-                "qtlDesc": "抗虫性",
-                "id": 17,
-                "qtlOthername": "QTL_insectv",
-                "traitLists": [
-                    {
-                        "traitName": "Reaction to Aulacorthum solani, choice2222",
-                        "qtlId":54,
-                        "qlts": [
-                            "Asian Soybean Rust 2-1991",
-                            "Asian Soybean Rust 2-2992"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Aulacorthum solani, no choice22",
-                        "qtlId":55,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1881",
-                            "Asian Soybean Rust 2-2882"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Fusarium infection222222",
-                        "qtlId":56,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1773",
-                            "Asian Soybean Rust 2-2773",
-                            "Asian Soybean Rust 2-2773"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Diaporthe phaseolorum var sojae Infection33",
-                        "qtlId":57,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1664",
-                            "Asian Soybean Rust 2-2664", "Asian Soybean Rust 2-2664" ,"Asian Soybean Rust 2-2664"
-                        ]
-                    },
-                    {
-                        "traitName": "Reaction to Diaporthe longicolla Infection6343242",
-                        "qtlId":58,
-                        "qtls": [
-                            "Asian Soybean Rust 2-1567",
-                            "Asian Soybean Rust 2-2765"
-                        ]
-                    }
-                ]
-            }
-        ];
-        var obj = {
-            name:"qtl",
-            status:200,
-            data: qtlDatas
-        };
-        // 拦截请求
-        // Mock.mock(/(query-all-qtl){1}\w*/,obj);
-        var data = "";
         var promise = SendAjaxRequest("GET", window.ctxROOT + "/advance-search/fetch-qtl-smarty");
         promise.then(
             function (result){
@@ -877,8 +721,6 @@ $(function (){
         var span = " <span class='expreSigle expreSigle1 " +currkn +  "'>基因表达量:" + kindObj.name + kindObj.FPKM + "," + secondStrs + "</span><span class='deleteIconP deleteIconPexp'>X</span>";
         $("#expreDetail").append(span);
         globalObj.SleExpreDatas.push(kindObj);
-        // console.log("基因表达量的相关数据如下一行所示：");
-        // console.log(globalObj.SleExpreDatas);
     });
     // 去除所有的基因表达量 -->
     var tip;
@@ -993,7 +835,6 @@ $(function (){
             }
         };
         var qtlNum = $("#expreDetail .qtlSigle");
-        // debugger;
         if(txt.indexOf('QTL')!=-1 && qtlNum.length > 1){
             // $(this).prev().removeClass(id).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
                 var nextTxt = $(this).next().text();
@@ -1130,7 +971,8 @@ $(function (){
         };
         // 4.2 清空所有所存的数据
         if(dataParam){
-            dataParam.qtlId = [];
+            dataParam.qtlId = [].concat.apply(nums);
+            console.log(dataParam.qtlId);
         };
     });
     // 定义首字符大写的原型方法
@@ -1153,6 +995,12 @@ $(function (){
 
     // 高级搜索
     $("#iqgsSearch p").click(function (){
+        // 开户遮罩层
+        layer.msg('数据加载中!', {
+            shade: [0.5, '#393D49']
+        });
+        // 先清空一级搜索的所有列表
+        $(".search-result .tab-list").empty();
         // 1,获取 基因表达量的参数；
         var datas = globalObj.SleExpreDatas;
         var geneExpressionConditionEntities = [];
@@ -1195,8 +1043,10 @@ $(function (){
         var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
         promise.then(
             function (result){
+                // 关闭遮罩层
+                layer.closeAll();
                 var data = result.data.list;
-                var total = result.total;
+                var total = result.data.total;
                 var res = {};
                 res.data = data;
                 res.total = total;

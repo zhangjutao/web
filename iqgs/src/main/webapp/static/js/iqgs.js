@@ -25,25 +25,14 @@ $(function(){
             window.location = DOMAIN + "/search/list?chr=" + encodeURI(serial) + "&begin="  + encodeURI(rg_begin) + "&end="  + encodeURI(rg_end) + "&searchType=3";
         }
     });
-        // modify by jarry at 2017-12-18  qtl 确认搜索
-    // $("#qtlAdd .sureBtn").on('click', function(){
-    //     var qtlNameArr = globleObject.selectedQtl;
-    //     var num = qtlNameArr.length;
-    //     if(num>5){
-    //         alert("最多只能选择 5 个");
-    //         return;
-    //     }else {
-    //         var qtlName;
-    //         $.each(qtlNameArr,function (i,item){
-    //             qtlName += item + "&";
-    //     });
-    //    var qtlNames = qtlName.substring(0,qtlName.length-1);
-    //         window.location = DOMAIN + "/search/list?keyword=" + qtlNames + "&searchType=4";
-    //     }
-    // })
 
     $("#myTabs li").each(function(i){
        $(this).click(function(){
+           if($(this).hasClass("qtl")){
+               $("#advancedSearch").show();
+           }else {
+               $("#advancedSearch").hide();
+           }
            $(this).addClass("active").siblings().removeClass("active");
            var divs = $("#myTabContent>div");
            for(var k=0;k<divs.length;k++){

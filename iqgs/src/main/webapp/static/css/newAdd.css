@@ -95,6 +95,7 @@
     padding:12px 0;
     background: #fff;
     border-top:1px solid #E9E9E9;
+    display:none;
 }
 
 #advancedSearch .advanceBtn img{
@@ -389,6 +390,7 @@
     width: 1200px;
 }
 #iqgsSearch p{
+    margin-top:12px;
     float:right;
     width: 70px;
     height:30px;
@@ -465,6 +467,8 @@
     padding-right: 20px;
     position:relative;
     background: #F5F5F5;
+    max-height: 50px;
+    overflow-y: scroll;
 }
 #expreDetail>.deleteIcon{
     position:absolute;
