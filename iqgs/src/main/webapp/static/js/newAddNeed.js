@@ -123,7 +123,14 @@ $(function (){
             window.location = DOMAIN + "/search/list?keyword=" + encodeURI(qtlNames)+ "&searchType=4" ;
         }
     })
-
+    // qtl 实例搜索
+    $("#qtlAdd .qtlExample").click(function (){
+        var qtlNames = $(this).text();
+        var qtlNameArr = [];
+        qtlNameArr.push(qtlNames)
+        storage.setItem("qtlSearchNames",JSON.stringify(qtlNameArr));
+        window.location = DOMAIN + "/search/list?keyword=" +6340+ "&searchType=4" ;
+    })
     // 高级搜索
     $("#advancedSearch p").click(function(){
         getExpreData();

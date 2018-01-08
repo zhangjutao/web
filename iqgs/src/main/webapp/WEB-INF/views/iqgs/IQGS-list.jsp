@@ -25,10 +25,10 @@
 <div class="container">
     <div class=" tabs">
         <ul id="myTabs"  class="searchNav nav-tabs">
-            <li class="active geneIdName"><a class="" >Search By Gene ID/Name</a></li>
-            <li class=" geneFunction"><a class="" >Search By Gene Function</a></li>
+            <li class="geneIdName"><a class="" >Search By Gene ID/Name</a></li>
+            <li class="geneFunction"><a class="" >Search By Gene Function</a></li>
             <li class="region" ><a class="">Search By Region</a></li>
-            <li class="qtl" ><a class="">Search By QTL</a></li>
+            <li class="qtl active" ><a class="">Search By QTL</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
             <div id="GeneIdName" class="tab-pane tab-pane-ac">
@@ -101,7 +101,9 @@
                         <%--</li>--%>
                     </ul>
                 </div>
-                <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                <%--<p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>--%>
+                <p class="search-tips">示例: <a class="qtlExample" href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                <%--<p class="search-tips">示例: <a href="${ctxroot}/search/list?keyword=Seed N at R5 1-1&searchType=4">Seed N at R5 1-1</a>--%>
                 <div class="sureBtn">
                     <p>确定</p>
                 </div>
@@ -328,33 +330,62 @@
     window.DOMAIN = "${ctxroot}/iqgs";
     var searchType = '${searchType}';
     var param = window.location.search;
-    var currParam = param.split("&")[0].split("=")[1].split("*");
-        // 把字符串转换为数字
     var nums = [];
-    for(var i=0;i<currParam.length;i++){
-        nums.push(Number(currParam[i]));
-    };
+    if(param.split("&")[0].split("=")[1].indexOf("*") !=-1){
+        var currParam = param.split("&")[0].split("=")[1].split("*");
+        // 把字符串转换为数字
+        for(var i=0;i<currParam.length;i++){
+            nums.push(Number(currParam[i]));
+        };
+    }else {
+        nums.push(Number(param.split("&")[0].split("=")[1]));
+    }
     console.log(nums);
     var qtlSearchNames = JSON.parse(storage.getItem("qtlSearchNames"));
+     console.log(qtlSearchNames)
     var page = {curr: 1, pageSize:10};
     function initSearchTab() {
         if (searchType == 1) {
             $("#key_name").val('${keyword}');
             $($("#myTabs li")[0]).trigger('click');
+            activeItem(searchType);
         }else if (searchType == 2) {
             $("#key_func").val('${keyword}');
             $($("#myTabs li")[1]).trigger('click');
+            activeItem(searchType);
         }else if(searchType == 3){
             $(".js-region").val('${chr}');
             $("#rg_begin").val('${rgBegin}');
             $("#rg_end").val('${rgEnd}');
             $($("#myTabs li")[2]).trigger('click');
+            activeItem(searchType);
         }else {
             $($("#myTabs li")[3]).trigger('click');
-            $("#qtlName").val(qtlSearchNames.join(","));
+            if(qtlSearchNames.length!=1){
+                $("#qtlName").val(qtlSearchNames.join(","));
+            }else{
+                $("#qtlName").val(qtlSearchNames[0])
+            };
+            activeItem(searchType);
         }
     }
-
+    // 切换到列表页之后searchtype 为多少就默认显示到第几个
+    function activeItem(searchtype){
+        var list = $("#myTabs li");
+        for (var i=0;i<list.length;i++){
+            if($(list[i]).hasClass("active")){
+                $(list[i]).removeClass("active");
+            }
+        };
+        $(list[searchtype-1]).addClass("active");
+        var cntList = $("#myTabContent>div");
+        for(var i=0;i<cntList.length;i++){
+            if($(cntList[i]).hasClass("tab-pane-ac")){
+                $(cntList[i]).removeClass("tab-pane-ac")
+            }
+        };
+        $(cntList[searchtype-1]).addClass("tab-pane-ac");
+    };
     function requestSearchData(){
         // 开户遮罩层
         layer.msg('数据加载中!', {
@@ -382,6 +413,7 @@
             }, resultCallback);
         }else {
             getQtlNameData();
+            $(".result-text>span:first").text(qtlSearchNames.join(","));
             <%--$.getJSON('${ctxroot}/advance-search/confirm', {--%>
                 <%--pageNo: page.curr || 1,--%>
                 <%--pageSize: page.pageSize || 10,--%>
@@ -402,7 +434,7 @@
             },
             success:function (result){
                     var data = result.data.list;
-                    var total = result.total;
+                    var total = result.data.total;
                     var res = {};
                     res.data = data;
                     res.total = total;

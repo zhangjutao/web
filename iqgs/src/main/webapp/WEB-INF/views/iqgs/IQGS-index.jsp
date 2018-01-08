@@ -16,6 +16,9 @@
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <script src="${ctxStatic}/js/layer/layer.js"></script>
+    <script>
+            window.DOMAIN = "${ctxroot}/iqgs";
+    </script>
 </head>
 
 <body>
@@ -105,7 +108,9 @@
                             <%--</li>--%>
                         </ul>
                     </div>
-                    <p class="search-tips">示例: <a href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                    <p class="search-tips">示例: <a class="qtlExample" href="javascript:void(0);">Seed N at R5 1-1</a></p>
+                    <%--<p class="search-tips">示例: <span class="qtlExample">Seed N at R5 1-1</span>--%>
+                    <%--<p class="search-tips">示例: <a href="'javascript:window.location=' + DOMAIN + '/search/list?keyword=Seed N at R5 1-1&searchType=4'">Seed N at R5 1-1</a></p>--%>
                     <div class="sureBtn">
                         <p>确定</p>
                     </div>
