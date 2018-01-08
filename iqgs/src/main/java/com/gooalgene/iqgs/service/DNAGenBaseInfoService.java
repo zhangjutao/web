@@ -36,6 +36,7 @@ public class DNAGenBaseInfoService {
         bean.setGeneId(keyword);
         bean.setGeneOldId(keyword);
         bean.setGeneName(keyword);
+        bean.setPage(page);
         result = dnaGenBaseInfoDao.findByConditions(bean);
         return result;
     }
