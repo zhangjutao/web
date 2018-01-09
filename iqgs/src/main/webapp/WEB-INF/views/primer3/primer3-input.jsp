@@ -246,15 +246,16 @@
             $('.sequence-block').removeClass('red-border');
             $('.sequence-block').parent().next().hide();
             primer3.changeLength();
-            if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
+            //if($('input[name="productSizeMin"]').val()==''&&$('input[name="productSizeMax"]').val()==''){
                 $('input[name="productSizeMin"]').val(parseInt(primer3.seqLength*0.5));
                 $('input[name="productSizeMax"]').val(primer3.seqLength);
-            }
+            //}
         },
         changeLength: function () {
             var val = $('.sequence-block').val();
             var seqLength = val.replace(/[\r\n]/g, "").length;
             primer3.seqLength=seqLength;
+            console.log("primer3.seqLength: "+primer3.seqLength);
             $('.length-value').html(seqLength);
         },
         checkPrimerFAndRAndProdSuctizeInput:function () {
