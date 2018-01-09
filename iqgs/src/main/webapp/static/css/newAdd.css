@@ -95,7 +95,7 @@
     padding:12px 0;
     background: #fff;
     border-top:1px solid #E9E9E9;
-    display:none;
+    /*display:none;*/
 }
 
 #advancedSearch .advanceBtn img{

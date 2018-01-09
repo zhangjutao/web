@@ -367,7 +367,7 @@
                 $("#qtlName").val(qtlSearchNames[0])
             };
             activeItem(searchType);
-            $("#advancedSearch").show();
+//            $("#advancedSearch").show();
         }
     }
     // 切换到列表页之后searchtype 为多少就默认显示到第几个
@@ -490,22 +490,28 @@
                 html.push('    <div class="tab-index">' + (page.pageSize * (page.curr-1) + i+1) + '.</div>');
                 html.push('    <div class="list-content">');
                 html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
-                html.push('        <p class="h-tips">基因名:<span>' + geneName + '</span></p>');
+                html.push('        <p class="h-tips">基因名:<span>' + ' '+geneName + '</span></p>');
 //                modify by jarry
                 if(searchType == 4){
                     var qtls= item.associateQTLs;
                     var qtlNames = "";
                     for(var k=0;k<qtls.length;k++){
-                        qtlNames +=qtls[k].qtlName +" ";
+                        qtlNames +=qtls[k].qtlName +", ";
                     };
+                    var qtlNames = qtlNames.substring(0,qtlNames.length-2);
+                    console.log(qtlNames);
                     var snp = item.existsSNP?"存在Exonic_nonsynonymouse SNV":"-";
                     var expreTissues = item.rootTissues.length?item.rootTissues.join(","):"-";
                     var description = item.description?item.description:"-";
-                    html.push('        <p class="h-snp qltlistSty">QTL:<span>' + item.associateQTLs.length + '个 （' + qtlNames +')</span></p>');
-                    html.push('        <p class="h-qtl qltlistSty">SNP:<span>' + snp + '</span></p>');
-                    html.push('        <p class="h-qtl qltlistSty">基因表达量(FPKM>30):<span>' + expreTissues + '</span></p>');
+                    if(item.associateQTLs.length==0){
+                        html.push('        <p class="h-snp qltlistSty">QTL:<span>' + ' ' +item.associateQTLs.length + '个</span></p>');
+                    }else {
+                        html.push('        <p class="h-snp qltlistSty">QTL:<span>' + ' ' +item.associateQTLs.length + '个 （' + qtlNames +' )</span></p>');
+                    }
+                    html.push('        <p class="h-qtl qltlistSty">SNP:<span>' + ' ' +snp + '</span></p>');
+                    html.push('        <p class="h-qtl qltlistSty">基因表达量(FPKM>30):<span>' + ' ' + expreTissues + '</span></p>');
                 };
-                html.push('        <p class="content-b">基因注释:<span>' + description + '</span></p>');
+                html.push('        <p class="content-b">基因注释:<span>' + ' ' + description + '</span></p>');
                 html.push('    </div>');
                 html.push('</div>');
             });

@@ -28,11 +28,11 @@ $(function(){
 
     $("#myTabs li").each(function(i){
        $(this).click(function(){
-           if($(this).hasClass("qtl")){
-               $("#advancedSearch").show();
-           }else {
-               $("#advancedSearch").hide();
-           }
+           // if($(this).hasClass("qtl")){
+           //     $("#advancedSearch").show();
+           // }else {
+           //     $("#advancedSearch").hide();
+           // }
            $(this).addClass("active").siblings().removeClass("active");
            var divs = $("#myTabContent>div");
            for(var k=0;k<divs.length;k++){
