@@ -414,7 +414,6 @@ public class DNAGenBaseInfoController {
         }
 
         model.addAttribute("genId", genId);
-        System.out.println(model);
         return "iqgs/gene-family";
     }
 

@@ -40,8 +40,14 @@ button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!importa
 .sequence-list-cover-left{background:#f5f8ff;border-right:1px solid #ddd;height: 34.8px;width: 80px;float: left; }
 .sequence-list-cover-right{height: 34.8px;float: left;}
 .line-number{border-right:1px solid #ddd; background: #f5f8ff;width: 80px;text-align: center;height: 48.8px;float: left;}
-.sequence-content{float: left;height: 48.8px;margin-left: 20px;/*font-family: Consolas;font-size: 20px;*/}
+.sequence-content{float: left;height: 48.8px;margin-left: 20px;font-family: Courier New;font-size: 16px;}
+/*.sequence-content::selection{color:#fff;background:#4572d9;}*/
+.sequence-content::-moz-selection{color:#fff;background:#4572d9;}
+
 tr[class*="data-primer3"]{cursor: pointer;}
 .seq-f-in-color{background:#4572d9;color:#fff;}
 .seq-r-in-color{background:#fa9632;color:#fff;}
 .primer3-table tbody tr.tr-highlighted{background: #5d8ce6;color: #fff;}
+.tr-color-white{color: #fff;}
+
+.error-img{background: url("../images/primer3/primer-error-img.png") no-repeat;height:236px;width:306px;margin: 70px auto 0 auto;}
