@@ -1,6 +1,5 @@
 package com.gooalgene.iqgs.entity;
 
-import com.gooalgene.common.BaseEntity;
 import com.gooalgene.common.Page;
 
 /**
@@ -20,14 +19,6 @@ public class DNAGenBaseInfo {
 	private String familyId;
 	private Integer id;
     protected Page<DNAGenBaseInfo> page;
-
-    public Page getPage() {
-        return page;
-    }
-
-    public void setPage(Page page) {
-        this.page = page;
-    }
 
     public Integer getId() {
         return id;
