@@ -16,16 +16,21 @@
     height:60px;
     overflow-y: scroll;
 }
+.fuzzySearch li.onLine{
+    width:650px!important;
+}
 .fuzzySearch li{
     float:left;
-    width:212px;
+    /*width:212px;*/
+    width:317px;
     height:28px;
     line-height:28px;
-    margin-right:18px;
-}
-.fuzzySearch li:nth-child(3n+1){
+    margin-right:17px;
     margin-left:25px;
 }
+/*.fuzzySearch li:nth-child(3n+1){*/
+    /*margin-left:25px;*/
+/*}*/
 /*.checked{*/
     /*!*background-image: url("../images/contrast-ac.png");*!*/
 /*}*/

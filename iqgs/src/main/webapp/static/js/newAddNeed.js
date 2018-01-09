@@ -69,7 +69,12 @@ $(function (){
                     for (var i = 0; i < list.length; i++) {
                         var name = list[i].qtlName;
                         var id = list[i].associatedGenesId;
-                        var li = "<li>" + "<label for='" + name + "'><span id ='" + name + "' data-value='" + id + "'></span>" + name + "</label></li>";
+                        // 判断：如果qltName的长度大于36的话，就单独一行显示
+                        if(name.length>36){
+                            var li = "<li class='onLine'>" + "<label for='" + name + "'><span id ='" + name + "' data-value='" + id + "'></span>" + name + "</label></li>";
+                        }else {
+                            var li = "<li>" + "<label for='" + name + "'><span id ='" + name + "' data-value='" + id + "'></span>" + name + "</label></li>";
+                        }
                         $ul.append(li);
                     }
                 }
