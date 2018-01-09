@@ -88,7 +88,6 @@
                 <configuration>
                     <excludes>
                         <exclude>com/gooalgene/primer/listener/**</exclude>
-                        <exclude>com/gooalgene/primer/interfaces/impl/**</exclude>
                     </excludes>
                 </configuration>
             </plugin>

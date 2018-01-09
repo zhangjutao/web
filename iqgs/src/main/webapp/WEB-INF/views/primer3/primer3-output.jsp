@@ -43,7 +43,7 @@
                 <div class="blue-result">结果</div>
                 <%--<img src="${ctxroot}/static/images/primer3/resultIcon2.png" style="vertical-align:text-bottom"/>--%>
                 <div class="result-title-icon2"></div>
-                <div class="primer3-conditions">搜索条件：<span></span></div>
+                <div class="primer3-conditions">搜索条件 : <span></span></div>
             </div>
             <div class="clear-fix"></div>
         </div>
@@ -166,37 +166,11 @@
 
 <script>
     var ctxRoot = '${ctxroot}';
-    var templet = {
-        primer3TrF: '<tr>\n' +
-            '<td>Primer F</td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td class="primer3-link" rowspan="2"><a href="www.baidu.com">可跳转的网址地址</a></td>\n' +
-            '</tr>\n',
-        primer3trR:'<tr>\n' +
-            '<td>Primer R</td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '<td></td>\n' +
-            '</tr>'
-    }
     var primer3Out={
         sequence:'',
         trBind:function(i) {
             // 这儿出现了一个新的scope
             return function(){
-                /*alert(JSON.stringify($('.data-primer3-'+i+'').data('primer3')));*/
                 $('.data-primer3-'+i+'').addClass('tr-highlighted');
                 primer3Out.makeColorOnSeq($('.data-primer3-'+i+'').data('primer3'));
             };
@@ -218,9 +192,6 @@
                     '<td class="primer3-link" rowspan="2">可跳转的网址地址</td>\n' +
                     '</tr>\n';
                 $('.primer3-table tbody').append(primer3TrF);
-                $('.primer3-link').on('click',function () {
-                    window.location="http://"+primer3F.link;
-                });
 
                 var primer3R=primer3Map[i][1];
                 var primer3TrR='<tr class="data-primer3-'+i+'">\n' +
@@ -241,12 +212,16 @@
                 }
                 $('.data-primer3-'+i+'').data('primer3',primer3Map[i]);
                 $('.data-primer3-'+i+'').on('click',function () {
+                    $('.primer3-link').removeClass('tr-color-white');
                     primer3Out.makeColorOnSeq($(this).data('primer3'));
                     $(this).siblings('tr').removeClass('tr-highlighted');  // 删除其他兄弟元素的样式
                     $(this).addClass('tr-highlighted');
+
                     if($(this).index()%2==0){
+                        $(this).find('.primer3-link').addClass('tr-color-white');
                         $(this).next().addClass('tr-highlighted');
                     }else {
+                        $(this).prev().find('.primer3-link').addClass('tr-color-white');
                         $(this).prev().addClass('tr-highlighted');
                     }
                     primer3Out.renderDesigned($(this).data('primer3'));
@@ -255,7 +230,6 @@
         },
         formatParam:function (param) {
             var paramStr='';
-            //paramStr+='Primer F:、 ';
             if(param){
                 if(param.primerSizeMin&&param.primerSizeMax){
                     paramStr+='Primer Size:'+param.primerSizeMin+'-'+param.primerSizeMax+'nt、';
@@ -295,7 +269,6 @@
                     '            </div><ul></ul>'
                 );
                 var line=Math.ceil(primer3Out.sequence.length/100);
-                console.log("line: "+line);
                 for(var i=0;i<line;i++){
                     var seqFragment=primer3Out.sequence.substring(i*100,(i+1)*100);
                     console.log("seqFragment: "+seqFragment);
@@ -313,12 +286,10 @@
             }
         },
         makeColorOnSeq:function (primer3Item) {
+            var line=Math.ceil(primer3Out.sequence.length/100);
             //将F涂上颜色
             var posStartF=parseInt(primer3Item[0].position);
             var posEndF=posStartF+primer3Item[0].sequence.length;
-
-            var line=Math.ceil(primer3Out.sequence.length/100);
-
             for(var i=0;i<line;i++){
                 if(posStartF<(i+1)*100&&posEndF<=(i+1)*100){//说明整个F在第X行
                     $('.sequence-content>span').removeClass('seq-f-in-color');
@@ -366,7 +337,6 @@
             }
         },
         renderDesigned:function (primer3Item) {
-            debugger
             var primer3F=primer3Item[0];
             var primer3R=primer3Item[1];
             $('.primer3-designed-item-f>span').text(primer3F.sequence);
@@ -400,20 +370,28 @@
     }
 
     $(function () {
+        var param=localStorage.getItem('param');
+        param=JSON.parse(param);
         var primer3Map = localStorage.getItem("primer3List");
         if(primer3Map=='{}'){
-            $('.primer3-box').html('<div style="margin: 0 auto;text-align: center; padding: 30px 100px;">你输入的条件有误! (￣ε(#￣)</div>');
+            $('.primer3-box').html('<div class="error-img"></div> <div style="margin: 0 auto;text-align: center;padding: 30px 0 110px 0;font-size: 20px;color: #5a5a5a;">您的搜索条件有误，无引物信息。</div>');
+            primer3Out.formatParam(param);
         }else {
-            var param=localStorage.getItem('param');
             primer3Map = JSON.parse(primer3Map);
-            param=JSON.parse(param);
-
             console.log(param);
             console.log(primer3Map);
             primer3Out.drawTableAndDesigned(primer3Map,param);
+
+            $('.data-primer3-0').addClass('tr-highlighted');
+            $('.data-primer3-0 .primer3-link').addClass('tr-color-white');
+
             primer3Out.formatParam(param);
             primer3Out.renderSequence(primer3Map,param);
             primer3Out.makeColorOnSeq(primer3Map[0]);
+            $('.primer3-link').on('click',function () {
+                //window.location="http://"+primer3F.link;
+                window.open("http://"+$(this).parent().data('primer3')[0]['link']);
+            });
         }
     })
 

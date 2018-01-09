@@ -18,15 +18,7 @@ public class DNAGenBaseInfo {
 	// 用于基因家族查询
 	private String familyId;
 	private Integer id;
-    private Page page;
-
-    public Page getPage() {
-        return page;
-    }
-
-    public void setPage(Page page) {
-        this.page = page;
-    }
+    protected Page<DNAGenBaseInfo> page;
 
     public Integer getId() {
         return id;
@@ -34,6 +26,14 @@ public class DNAGenBaseInfo {
 
     public void setId(Integer id) {
         this.id = id;
+    }
+
+    public Page<DNAGenBaseInfo> getPage() {
+        return page;
+    }
+
+    public void setPage(Page<DNAGenBaseInfo> page) {
+        this.page = page;
     }
 
     public String getGeneId() {

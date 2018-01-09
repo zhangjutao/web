@@ -14,7 +14,7 @@
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 </head>
 <body onload='document.loginForm.username.focus();'>
-<dna:dna-header />
+<iqgs:iqgs-header />
 <div class="container">
     <div class="loginC">
         <div class="login-h">
