@@ -1,5 +1,9 @@
 package com.gooalgene.iqgs;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.Tissue;
@@ -61,9 +65,21 @@ public class FPKMDaoTest extends TestCase {
 
     @Test
     public void testNullGeneExpression(){
-        Integer[] associateGeneIdArray = new Integer[]{4453, 5941, 1089};
+        Integer[] associateGeneIdArray = new Integer[]{3861, 3862, 3866};
+        PageHelper.startPage(1, 10);
         List<AdvanceSearchResultView> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(null, null, null, Arrays.asList(associateGeneIdArray));
-        assertNotNull(geneResult);
+        assertEquals(10, geneResult.size());
+        assertEquals(1, ((Page)geneResult).getPageNum());
+        assertEquals(188, ((Page)geneResult).getTotal());
+        PageInfo<AdvanceSearchResultView> pageInfo = new PageInfo<>(geneResult);
+        assertEquals(188, pageInfo.getTotal());
+        assertEquals(10, pageInfo.getPageSize());
+    }
+
+    @Test
+    public void testCheckExistSNP(){
+        boolean result = fpkmDao.checkExistSNP(5, CommonConstant.EXONIC_NONSYNONYMOUSE);
+        assertTrue(result);
     }
 
     @Test

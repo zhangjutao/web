@@ -24,4 +24,22 @@ public interface FPKMDao {
                                                                          @Param("snp") List<String> selectSnp,
                                                                          @Param("indel") List<String> selectIndel,
                                                                          @Param("qtl") List<Integer> associateGeneId);
+
+    /**
+     * 计算高级搜索查询出基因总数
+     * @param condition 基因表达量筛选条件,每一大组织对应一个GeneExpressionConditionEntity
+     * @param selectSnp 已选SNP值
+     * @param selectIndel 已选INDEL值
+     * @param associateGeneId 已选QTL associateGeneId
+     * @return 查询出基因总数
+     */
+    int countGeneThroughGeneExpressionCondition(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                @Param("snp") List<String> selectSnp,
+                                                @Param("indel") List<String> selectIndel,
+                                                @Param("qtl") List<Integer> associateGeneId);
+
+    /**
+     * 检查某一基因对应consequencetype中是否存在SNP
+     */
+    boolean checkExistSNP(int fpkmId, String snpConsequenceType);
 }

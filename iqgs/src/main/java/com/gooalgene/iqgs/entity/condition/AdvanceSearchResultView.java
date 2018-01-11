@@ -28,11 +28,6 @@ public class AdvanceSearchResultView extends GeneFPKM {
     private String functions;
 
     /**
-     * 包含的SNP集合
-     */
-    private List<String> snpCollection;
-
-    /**
      * 大于30的组织
      */
     private List<String> largerThanThirtyTissue = new ArrayList<>();
@@ -45,14 +40,6 @@ public class AdvanceSearchResultView extends GeneFPKM {
 
     public void setGeneOldId(String geneOldId) {
         this.geneOldId = geneOldId;
-    }
-
-    public List<String> getSnpCollection() {
-        return snpCollection;
-    }
-
-    public void setSnpCollection(List<String> snpCollection) {
-        this.snpCollection = snpCollection;
     }
 
     public String getGeneName() {
@@ -99,11 +86,4 @@ public class AdvanceSearchResultView extends GeneFPKM {
         return largerThanThirtyTissue;
     }
 
-    /**
-     * 是否存在SNP
-     * @return
-     */
-    public boolean existSNP(){
-        return snpCollection.contains(EXONIC_NONSYNONYMOUSE);
-    }
 }

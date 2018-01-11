@@ -3,7 +3,6 @@ package com.gooalgene.iqgs.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.iqgs.dao.FPKMDao;
-import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,8 +31,12 @@ public class FPKMService {
                                                                       List<Integer> selectQTL,
                                                                       int pageNo,
                                                                       int pageSize){
-        PageHelper.startPage(pageNo, pageSize, true);
+        PageHelper.startPage(pageNo, pageSize);
         List<AdvanceSearchResultView> searchResult = fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, selectQTL);
-        return new PageInfo<AdvanceSearchResultView>(searchResult);
+        return new PageInfo<>(searchResult);
+    }
+
+    public boolean checkExistSNP(int fpkmId, String snpConsequenceType){
+        return fpkmDao.checkExistSNP(fpkmId, snpConsequenceType);
     }
 }
