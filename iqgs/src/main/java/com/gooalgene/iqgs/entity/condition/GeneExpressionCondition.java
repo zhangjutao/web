@@ -7,6 +7,12 @@ import java.util.List;
  * @author crabime
  */
 public class GeneExpressionCondition {
+
+    /**
+     * 一级搜索选中的QTL ID集合
+     */
+    private List<Integer> firstHierarchyQtlId;
+
     private List<GeneExpressionConditionEntity> geneExpressionConditionEntities;
 
     private List<String> snpConsequenceType;
@@ -18,6 +24,14 @@ public class GeneExpressionCondition {
     private Integer pageNo;
 
     private Integer pageSize;
+
+    public List<Integer> getFirstHierarchyQtlId() {
+        return firstHierarchyQtlId;
+    }
+
+    public void setFirstHierarchyQtlId(List<Integer> firstHierarchyQtlId) {
+        this.firstHierarchyQtlId = firstHierarchyQtlId;
+    }
 
     public List<GeneExpressionConditionEntity> getGeneExpressionConditionEntities() {
         return geneExpressionConditionEntities;

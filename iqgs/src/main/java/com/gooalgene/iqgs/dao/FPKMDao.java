@@ -23,6 +23,7 @@ public interface FPKMDao {
     List<AdvanceSearchResultView> findGeneThroughGeneExpressionCondition(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
                                                                          @Param("snp") List<String> selectSnp,
                                                                          @Param("indel") List<String> selectIndel,
+                                                                         @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
                                                                          @Param("qtl") List<Integer> associateGeneId);
 
     /**

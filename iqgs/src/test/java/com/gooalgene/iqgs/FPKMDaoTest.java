@@ -47,7 +47,7 @@ public class FPKMDaoTest extends TestCase {
         condition1.setEnd(50.0);
         condition1.setTissue(embryo);  //这只新的查询条件为胚芽(embryo)
         list.add(condition1);
-        List<AdvanceSearchResultView> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, null, null, null);
+        List<AdvanceSearchResultView> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, null, null, null, null);
         assertEquals(47, geneResult.size());
         //如果有SNP、INDEL筛选情况下
         List<String> snpConsequenceList = new ArrayList<>();
@@ -56,10 +56,15 @@ public class FPKMDaoTest extends TestCase {
         List<String> indelConsequenceList = new ArrayList<>();
         indelConsequenceList.add("exonic_frameshift deletion");
         indelConsequenceList.add("splicing");
-        geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, null);
+        geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, null, null);
         assertEquals(20, geneResult.size());
+        //测试传入高级搜索中QTL ID
         Integer[] associateGeneIdArray = new Integer[]{1453, 1941, 2089};
-        geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, Arrays.asList(associateGeneIdArray));
+        geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, null, Arrays.asList(associateGeneIdArray));
+        assertEquals(2, geneResult.size());
+        //测试通过一级搜索筛选出一部分基因，从该基因进行高级搜索进一步筛选
+        Integer[] firstHierarchyQtlId = new Integer[]{1926, 2089, 3864};
+        geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(list, snpConsequenceList, indelConsequenceList, Arrays.asList(firstHierarchyQtlId), Arrays.asList(associateGeneIdArray));
         assertEquals(2, geneResult.size());
     }
 
@@ -67,7 +72,7 @@ public class FPKMDaoTest extends TestCase {
     public void testNullGeneExpression(){
         Integer[] associateGeneIdArray = new Integer[]{3861, 3862, 3866};
         PageHelper.startPage(1, 10);
-        List<AdvanceSearchResultView> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(null, null, null, Arrays.asList(associateGeneIdArray));
+        List<AdvanceSearchResultView> geneResult = fpkmDao.findGeneThroughGeneExpressionCondition(null, null, null, null, Arrays.asList(associateGeneIdArray));
         assertEquals(10, geneResult.size());
         assertEquals(1, ((Page)geneResult).getPageNum());
         assertEquals(188, ((Page)geneResult).getTotal());

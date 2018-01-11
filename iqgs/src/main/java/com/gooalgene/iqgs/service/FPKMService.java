@@ -28,11 +28,12 @@ public class FPKMService {
     public PageInfo<AdvanceSearchResultView> findProperGeneUnderSampleRun(List<GeneExpressionConditionEntity> condition,
                                                                       List<String> selectSnp,
                                                                       List<String> selectIndel,
+                                                                      List<Integer> firstHierarchyQtlId,
                                                                       List<Integer> selectQTL,
                                                                       int pageNo,
                                                                       int pageSize){
         PageHelper.startPage(pageNo, pageSize);
-        List<AdvanceSearchResultView> searchResult = fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, selectQTL);
+        List<AdvanceSearchResultView> searchResult = fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL);
         return new PageInfo<>(searchResult);
     }
 

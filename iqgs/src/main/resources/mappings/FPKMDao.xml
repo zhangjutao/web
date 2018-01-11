@@ -137,6 +137,17 @@
                 #{item}
             </foreach>
         </if>
+        <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
+            AND a.gene_id IN
+            (SELECT a.gene_id FROM gens_baseinfo a
+            LEFT JOIN qtl_gene b ON a.id = b.gene_info_id
+            LEFT JOIN associatedgenes c ON c.id = b.qtl_id
+            WHERE c.id in
+            <foreach collection="firstHierarchyQtlId" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
         GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
         a.stem_All, f.gene_id_old, f.gene_name, f.description
     </select>

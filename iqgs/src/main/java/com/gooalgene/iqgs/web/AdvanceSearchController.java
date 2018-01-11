@@ -98,7 +98,7 @@ public class AdvanceSearchController {
     public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl, HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(null, null, null, Arrays.asList(chosenQtl), pageNo, pageSize);
+        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(null, null, null, null, Arrays.asList(chosenQtl), pageNo, pageSize);
         return ResultUtil.success(genes);
     }
 
@@ -112,9 +112,11 @@ public class AdvanceSearchController {
         List<String> selectSnpConsequenceType = geneExpressionCondition.getSnpConsequenceType();  //已选SNP集合
         List<String> selectIndelConsequenceType = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
         List<Integer> associateGeneIdArray = geneExpressionCondition.getQtlId();  //已选qtl集合
+        List<Integer> firstHierarchyQtlId = geneExpressionCondition.getFirstHierarchyQtlId();  //一级搜索选中的QTL ID集合
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
         PageInfo<DNAGeneSearchResult> properGene =
-                dnaGenBaseInfoService.queryDNAGenBaseInfos(entities, selectSnpConsequenceType, selectIndelConsequenceType, associateGeneIdArray, pageNo, pageSize);
+                dnaGenBaseInfoService.queryDNAGenBaseInfos(entities, selectSnpConsequenceType,
+                        selectIndelConsequenceType, firstHierarchyQtlId, associateGeneIdArray, pageNo, pageSize);
         return ResultUtil.success(properGene);
     }
 

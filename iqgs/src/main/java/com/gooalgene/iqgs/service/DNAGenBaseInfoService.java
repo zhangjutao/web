@@ -48,6 +48,7 @@ public class DNAGenBaseInfoService {
     /**
      * QTL输入框搜索结果对应的查询服务
      * @param allQTLId 所有的QTL ID
+     * @param firstHierarchyQtlId 一级搜索选中的QTL ID
      * @param pageNo 页码
      * @param pageSize 页数
      * @return 搜索结果列表
@@ -55,8 +56,9 @@ public class DNAGenBaseInfoService {
     public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<GeneExpressionConditionEntity> condition,
                                                               List<String> selectSnp,
                                                               List<String> selectIndel,
+                                                              List<Integer> firstHierarchyQtlId,
                                                               List<Integer> allQTLId, int pageNo, int pageSize) {
-        PageInfo<AdvanceSearchResultView> properGene = fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
+        PageInfo<AdvanceSearchResultView> properGene = fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (AdvanceSearchResultView geneView : properGene.getList()){
