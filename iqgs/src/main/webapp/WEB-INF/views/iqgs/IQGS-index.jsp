@@ -31,7 +31,7 @@
         <div class="plant-pic">
             <img src="${ctxStatic}/images/banner-soybean.png">
         </div>
-        <div class=" tabs" style="margin-bottom:0px;">
+        <div class=" tabs" style="margin-bottom:18px;">
             <ul id="myTabs"  class="searchNav nav-tabs">
                 <li class="active geneIdName"><a class="" >Search By Gene ID/Name</a></li>
                 <li class=" geneFunction"><a class="" >Search By Gene Function</a></li>
