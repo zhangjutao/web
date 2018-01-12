@@ -1029,7 +1029,7 @@ $(function (){
         }
         // 2.获取snp参数
         var snpConsequenceType = globalObj.SleSnpDatas;
-        // 2.获取indel参数
+        // 3.获取indel参数
         var indelConsequenceType = globalObj.SleIndelDatas;
         var qtlSigles = $("#expreDetail span.qtlSigle");
         var qtlId = [];
@@ -1037,7 +1037,7 @@ $(function (){
             var id = $(qtlSigles[n]).attr("class").split(" ")[2].substring(4);
             qtlId.push(Number(id));
         }
-        var qtlIds = qtlId.concat(nums);
+        // var qtlIds = qtlId.concat(nums);
         dataParam = {};
         dataParam.geneExpressionConditionEntities = geneExpressionConditionEntities;
         dataParam.snpConsequenceType = snpConsequenceType;
