@@ -9,6 +9,7 @@ logs/
 *.log
 **/target/
 classes/
+**/output/
 
 # eclipse setting
 .settings
