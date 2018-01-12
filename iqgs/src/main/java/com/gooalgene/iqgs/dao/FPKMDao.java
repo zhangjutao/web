@@ -23,5 +23,11 @@ public interface FPKMDao {
     List<AdvanceSearchResultView> findGeneThroughGeneExpressionCondition(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
                                                                          @Param("snp") List<String> selectSnp,
                                                                          @Param("indel") List<String> selectIndel,
+                                                                         @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
                                                                          @Param("qtl") List<Integer> associateGeneId);
+
+    /**
+     * 检查某一基因对应consequencetype中是否存在SNP
+     */
+    boolean checkExistSNP(int fpkmId, String snpConsequenceType);
 }

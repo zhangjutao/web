@@ -25,19 +25,6 @@ public class DNAGeneSearchResult extends DNAGenBaseInfo {
      */
     private List<String> rootTissues;
 
-    /**
-     * 基因注释
-     */
-    private String function;
-
-    public String getFunction() {
-        return function;
-    }
-
-    public void setFunction(String function) {
-        this.function = function;
-    }
-
     public boolean isExistsSNP() {
         return existsSNP;
     }

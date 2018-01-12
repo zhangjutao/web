@@ -31,6 +31,7 @@
             snpConsequenceType:['upstream;downstream', 'UTR5'],
             indelConsequenceType:['exonic_frameshift deletion', 'splicing'],
             qtlId:[1453, 1941, 2089],
+            firstHierarchyQtlId:[1926, 2089, 3864],
             pageNo: 1,
             pageSize: 10
         };

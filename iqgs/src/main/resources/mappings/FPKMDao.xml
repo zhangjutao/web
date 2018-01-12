@@ -13,19 +13,16 @@
         <result property="seedlingAll" column="seedling_All" javaType="double" jdbcType="DOUBLE"/>
         <result property="flowerAll" column="flower_All" javaType="double" jdbcType="DOUBLE"/>
         <result property="stemAll" column="stem_All" javaType="double" jdbcType="DOUBLE"/>
-        <result property="geneName" column="geneName" javaType="String" jdbcType="VARCHAR" />
-        <result property="functions" column="functions" javaType="String" jdbcType="VARCHAR" />
-        <collection property="snpCollection" ofType="String" javaType="java.util.List">
-            <result column="consequencetype" javaType="String" jdbcType="VARCHAR"/>
-        </collection>
+        <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR" />
+        <result property="functions" column="description" javaType="String" jdbcType="VARCHAR" />
     </resultMap>
 
     <select id="findGeneThroughGeneExpressionCondition"
             parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
             resultMap="advanceSearchResult">
         SELECT a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
-        a.flower_All, a.stem_All, i.geneName, i.functions,
-        f.gene_id_old, c.consequencetype FROM fpkm a
+        a.flower_All, a.stem_All, f.gene_name, f.description,
+        f.gene_id_old FROM fpkm a
         LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
         LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
         LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
@@ -33,7 +30,6 @@
         LEFT JOIN gens_baseinfo f ON a.gene_id = f.gene_id
         LEFT JOIN qtl_gene g ON f.id = g.gene_info_id
         LEFT JOIN associatedgenes h ON h.id = g.qtl_id
-        LEFT JOIN mrna_gens i ON i.gene = a.gene_id
         WHERE 1=1
         <if test="geneExpression != null and geneExpression.size() > 0">
             <foreach collection="geneExpression" index="index" item="item">
@@ -141,7 +137,26 @@
                 #{item}
             </foreach>
         </if>
+        <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
+            AND a.gene_id IN
+            (SELECT a.gene_id FROM gens_baseinfo a
+            LEFT JOIN qtl_gene b ON a.id = b.gene_info_id
+            LEFT JOIN associatedgenes c ON c.id = b.qtl_id
+            WHERE c.id in
+            <foreach collection="firstHierarchyQtlId" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+            )
+        </if>
         GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
-        a.stem_All, f.gene_id_old, c.consequencetype, i.geneName, i.functions
+        a.stem_All, f.gene_id_old, f.gene_name, f.description
     </select>
+
+    <select id="checkExistSNP" resultType="boolean">
+        SELECT exists(SELECT c.consequencetype FROM fpkm a
+          LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
+          LEFT JOIN snp_consequencetype c ON c.id = b.snp_id
+          WHERE a.id = #{0} AND c.consequencetype = #{1}) as result;
+    </select>
+
 </mapper>

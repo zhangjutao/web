@@ -754,7 +754,7 @@ public class StudyService {
             result = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
             for (int i = 0; i < result.size(); i++) {
                 Study study=null;
-                ExpressionVo expressionVo =  result.get(i);
+                ExpressionVo expressionVo = result.get(i);
                 String samplerunName=expressionVo.getSamplerun().getName();
                 study=studyDao.findBySampleRun(samplerunName);
                 ExpressionStudy expressionStudy=new ExpressionStudy();

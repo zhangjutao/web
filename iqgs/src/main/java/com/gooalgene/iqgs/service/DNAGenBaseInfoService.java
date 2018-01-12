@@ -2,18 +2,22 @@ package com.gooalgene.iqgs.service;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
+import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -44,12 +48,18 @@ public class DNAGenBaseInfoService {
     /**
      * QTL输入框搜索结果对应的查询服务
      * @param allQTLId 所有的QTL ID
+     * @param firstHierarchyQtlId 一级搜索选中的QTL ID
      * @param pageNo 页码
      * @param pageSize 页数
      * @return 搜索结果列表
      */
-    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNo, int pageSize) {
-        PageInfo<AdvanceSearchResultView> properGene = fpkmService.findProperGeneUnderSampleRun(null, null, null, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<GeneExpressionConditionEntity> condition,
+                                                              List<String> selectSnp,
+                                                              List<String> selectIndel,
+                                                              List<Integer> firstHierarchyQtlId,
+                                                              List<Integer> allQTLId, int pageNo, int pageSize) {
+        PageInfo<AdvanceSearchResultView> properGene =
+                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (AdvanceSearchResultView geneView : properGene.getList()){
@@ -59,13 +69,23 @@ public class DNAGenBaseInfoService {
             dnaGeneSearchResult.setGeneId(geneView.getGeneId());
             dnaGeneSearchResult.setGeneOldId(geneView.getGeneOldId());
             dnaGeneSearchResult.setGeneName(geneView.getGeneName());
-            dnaGeneSearchResult.setFunction(geneView.getFunctions());
-            dnaGeneSearchResult.setExistsSNP(geneView.existSNP());
+            dnaGeneSearchResult.setDescription(geneView.getFunctions());
+            dnaGeneSearchResult.setExistsSNP(fpkmService.checkExistSNP(geneView.getId(), CommonConstant.EXONIC_NONSYNONYMOUSE));
             dnaGeneSearchResult.setRootTissues(geneView.getLargerThanThirtyTissue());
             dnaGeneSearchResult.setAssociateQTLs(associatedQTLs); //将查询出来的AssociateQTL关联到搜索结果上
             searchResultWithSNP.add(dnaGeneSearchResult);
         }
-        return new PageInfo<>(searchResultWithSNP);
+        PageInfo<DNAGeneSearchResult> resultPageInfo = new PageInfo<>();
+        try {
+            //将使用PageHelper查询的结果设值到DNAGeneSearchResult这个PageInfo中
+            BeanUtils.copyProperties(resultPageInfo, properGene);
+            resultPageInfo.setList(searchResultWithSNP);
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InvocationTargetException e) {
+            e.printStackTrace();
+        }
+        return resultPageInfo;
     }
 
     public List<Associatedgenes> findAllQTLNamesByGeneId(String geneId){
