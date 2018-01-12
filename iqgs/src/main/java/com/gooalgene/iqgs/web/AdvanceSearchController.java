@@ -50,9 +50,6 @@ public class AdvanceSearchController {
     private SearchService searchService;
 
     @Autowired
-    private FPKMService fpkmService;
-
-    @Autowired
     private TraitCategoryService traitCategoryService;
 
     @Autowired
@@ -113,6 +110,8 @@ public class AdvanceSearchController {
         List<String> selectIndelConsequenceType = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
         List<Integer> associateGeneIdArray = geneExpressionCondition.getQtlId();  //已选qtl集合
         List<Integer> firstHierarchyQtlId = geneExpressionCondition.getFirstHierarchyQtlId();  //一级搜索选中的QTL ID集合
+        String geneNameOrId = geneExpressionCondition.getGeneName();  //高级搜索中根据基因名字查询传入的基因名或ID
+        // todo 增加根据Name/ID、Function、Region查询逻辑
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
         PageInfo<DNAGeneSearchResult> properGene =
                 dnaGenBaseInfoService.queryDNAGenBaseInfos(entities, selectSnpConsequenceType,

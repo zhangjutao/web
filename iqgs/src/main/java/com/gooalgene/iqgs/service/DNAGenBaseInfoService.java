@@ -58,7 +58,8 @@ public class DNAGenBaseInfoService {
                                                               List<String> selectIndel,
                                                               List<Integer> firstHierarchyQtlId,
                                                               List<Integer> allQTLId, int pageNo, int pageSize) {
-        PageInfo<AdvanceSearchResultView> properGene = fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
+        PageInfo<AdvanceSearchResultView> properGene =
+                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (AdvanceSearchResultView geneView : properGene.getList()){

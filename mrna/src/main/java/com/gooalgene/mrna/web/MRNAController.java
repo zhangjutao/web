@@ -364,7 +364,7 @@ public class MRNAController {
         //T14---Expression
         //T15---Comparison
         String sraStudy = request.getParameter("sraStudy");
-        String mode = request.getParameter("mode");//insert/update/delete
+        String mode = request.getParameter("mode");  // insert/update/delete
         String mes = "";
         String suffix = file.getOriginalFilename();
         suffix = suffix.substring(suffix.lastIndexOf("."));
