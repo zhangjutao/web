@@ -976,8 +976,8 @@ $(function (){
         };
         // 4.2 清空所有所存的数据
         if(dataParam){
-            dataParam.qtlId = [].concat.apply(nums);
-            console.log(dataParam.qtlId);
+            dataParam.firstHierarchyQtlId = [].concat.apply(nums);
+            dataParam.qtlId = [];
         };
     });
     // 定义首字符大写的原型方法
@@ -1042,7 +1042,8 @@ $(function (){
         dataParam.geneExpressionConditionEntities = geneExpressionConditionEntities;
         dataParam.snpConsequenceType = snpConsequenceType;
         dataParam.indelConsequenceType = indelConsequenceType;
-        dataParam.qtlId = qtlIds;
+        dataParam.qtlId = qtlId;
+        dataParam.firstHierarchyQtlId = nums;
         dataParam.pageNo = 1;
         dataParam.pageSize = 10;
         var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
