@@ -976,8 +976,8 @@ $(function (){
         };
         // 4.2 清空所有所存的数据
         if(dataParam){
-            dataParam.qtlId = [].concat.apply(nums);
-            console.log(dataParam.qtlId);
+            dataParam.firstHierarchyQtlId = [].concat.apply(nums);
+            dataParam.qtlId = [];
         };
     });
     // 定义首字符大写的原型方法
@@ -1029,7 +1029,7 @@ $(function (){
         }
         // 2.获取snp参数
         var snpConsequenceType = globalObj.SleSnpDatas;
-        // 2.获取indel参数
+        // 3.获取indel参数
         var indelConsequenceType = globalObj.SleIndelDatas;
         var qtlSigles = $("#expreDetail span.qtlSigle");
         var qtlId = [];
@@ -1037,12 +1037,13 @@ $(function (){
             var id = $(qtlSigles[n]).attr("class").split(" ")[2].substring(4);
             qtlId.push(Number(id));
         }
-        var qtlIds = qtlId.concat(nums);
+        // var qtlIds = qtlId.concat(nums);
         dataParam = {};
         dataParam.geneExpressionConditionEntities = geneExpressionConditionEntities;
         dataParam.snpConsequenceType = snpConsequenceType;
         dataParam.indelConsequenceType = indelConsequenceType;
-        dataParam.qtlId = qtlIds;
+        dataParam.qtlId = qtlId;
+        dataParam.firstHierarchyQtlId = nums;
         dataParam.pageNo = 1;
         dataParam.pageSize = 10;
         var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
@@ -1055,8 +1056,30 @@ $(function (){
                 var res = {};
                 res.data = data;
                 res.total = total;
-                if(result.code == 0 && data.length!=0){
+                if(result.code == 0 && res.data.length!=0){
                     resultCallback(res)
+                }else {
+                    laypage({
+                        cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+//            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+                        curr: page.curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                page.curr = obj.curr;
+                                requestSearchData();
+                            }
+                        }
+                    });
+                    $("#total-page-count1 span").text(res.total);
+                    $(".js-search-total").text(res.total);
                 }
 
             },function (error){
