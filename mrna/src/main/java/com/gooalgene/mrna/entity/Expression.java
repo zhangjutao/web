@@ -18,6 +18,15 @@ public class Expression {
 
     private List<SampleRun> samplerun;
 
+    public Expression(String id, String gene, List<SampleRun> samplerun) {
+        this.id = id;
+        this.gene = gene;
+        this.samplerun = samplerun;
+    }
+
+    public Expression() {
+    }
+
     public String getId() {
         return id;
     }
