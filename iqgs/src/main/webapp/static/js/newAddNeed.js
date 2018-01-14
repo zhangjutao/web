@@ -1004,6 +1004,17 @@ $(function (){
         layer.msg('数据加载中!', {
             shade: [0.5, '#393D49']
         });
+        var geneInfo = {
+            geneId:null,
+            functions:null
+        };
+         //  根据范围查询
+        var geneStructure = {
+            chromosome: "",
+            start: 0,
+            end: 0
+        };
+
         // 先清空一级搜索的所有列表
         $(".search-result .tab-list").empty();
         // 1,获取 基因表达量的参数；
@@ -1046,6 +1057,25 @@ $(function (){
         dataParam.firstHierarchyQtlId = nums;
         dataParam.pageNo = 1;
         dataParam.pageSize = 10;
+        switch (Number(searchType)){
+            case 1:
+                geneInfo.geneId = $("#key_name").val().trim();
+                dataParam.firstHierarchyQtlId = [];
+                break;
+            case 2:
+                geneInfo.functions = $("#key_func").val().trim();
+                dataParam.firstHierarchyQtlId = [];
+                break;
+            case 3:
+                geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
+                geneStructure.start = Number($("#rg_begin").val().trim());
+                geneStructure.end = Number($("#rg_end").val().trim());
+                dataParam.geneStructure = geneStructure;
+                dataParam.firstHierarchyQtlId = [];
+                break;
+        };
+        dataParam.geneInfo = geneInfo;
+        console.log(dataParam);
         var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
         promise.then(
             function (result){
