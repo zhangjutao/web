@@ -1081,23 +1081,23 @@ $(function (){
             function (result){
                 // 关闭遮罩层
                 layer.closeAll();
-                var data = result.data.list;
-                var total = result.data.total;
-                var res = {};
-                res.data = data;
-                res.total = total;
-                if(result.code == 0 && res.data.length!=0){
-                    resultCallback(res)
+                // var data = result.data.list;
+                // var total = result.data.total;
+                // var res = {};
+                // res.data = data;
+                // res.total = total;
+                if(result.code == 0 && result.data.list.length!=0){
+                    resultCallback(result)
                 }else {
                     laypage({
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+                        pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
 //            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
                         curr: page.curr || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        last: Math.ceil(result.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                         prev: '<',
                         next: '>',
                         groups: 3, //连续显示分页数
@@ -1108,8 +1108,8 @@ $(function (){
                             }
                         }
                     });
-                    $("#total-page-count1 span").text(res.total);
-                    $(".js-search-total").text(res.total);
+                    $("#total-page-count1 span").text(result.data.total);
+                    $(".js-search-total").text(result.data.total);
                 }
 
             },function (error){
