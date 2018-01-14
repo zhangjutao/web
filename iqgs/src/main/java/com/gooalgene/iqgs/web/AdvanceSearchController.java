@@ -5,6 +5,8 @@ import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
 import com.gooalgene.iqgs.entity.condition.*;
@@ -95,7 +97,7 @@ public class AdvanceSearchController {
     public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl, HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(null, null, null, null, Arrays.asList(chosenQtl), pageNo, pageSize);
+        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(null, null, null, null, Arrays.asList(chosenQtl), null, null, pageNo, pageSize);
         return ResultUtil.success(genes);
     }
 
@@ -110,12 +112,12 @@ public class AdvanceSearchController {
         List<String> selectIndelConsequenceType = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
         List<Integer> associateGeneIdArray = geneExpressionCondition.getQtlId();  //已选qtl集合
         List<Integer> firstHierarchyQtlId = geneExpressionCondition.getFirstHierarchyQtlId();  //一级搜索选中的QTL ID集合
-        String geneNameOrId = geneExpressionCondition.getGeneName();  //高级搜索中根据基因名字查询传入的基因名或ID
-        // todo 增加根据Name/ID、Function、Region查询逻辑
+        DNAGenBaseInfo baseInfo = geneExpressionCondition.getGeneInfo();  //高级搜索中根据基因名字查询传入的基因名或ID
+        DNAGenStructure geneStructure = geneExpressionCondition.getGeneStructure();  //高级搜索中根据基因结构搜索相应基因
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
         PageInfo<DNAGeneSearchResult> properGene =
                 dnaGenBaseInfoService.queryDNAGenBaseInfos(entities, selectSnpConsequenceType,
-                        selectIndelConsequenceType, firstHierarchyQtlId, associateGeneIdArray, pageNo, pageSize);
+                        selectIndelConsequenceType, firstHierarchyQtlId, associateGeneIdArray, baseInfo, geneStructure, pageNo, pageSize);
         return ResultUtil.success(properGene);
     }
 

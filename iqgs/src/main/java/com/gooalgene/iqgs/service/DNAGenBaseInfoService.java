@@ -36,10 +36,18 @@ public class DNAGenBaseInfoService {
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
         List<DNAGenBaseInfo> result = null;
+        boolean isGeneId = GeneRegexpService.isGeneId(keyword);
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        bean.setGeneId(keyword);
-        bean.setGeneOldId(keyword);
-        bean.setGeneName(keyword);
+        if (isGeneId){
+            List<String> matchedGene = GeneRegexpService.interpretGeneInput(keyword);  //基因匹配结果
+            if (matchedGene != null && matchedGene.size() > 0) {
+                //先取第一个匹配到的值
+                bean.setGeneId(matchedGene.get(0));
+                bean.setGeneOldId(matchedGene.get(0));
+            }
+        }else {
+            bean.setGeneName(keyword);
+        }
         bean.setPage(page);
         result = dnaGenBaseInfoDao.findByConditions(bean);
         return result;
@@ -57,9 +65,12 @@ public class DNAGenBaseInfoService {
                                                               List<String> selectSnp,
                                                               List<String> selectIndel,
                                                               List<Integer> firstHierarchyQtlId,
-                                                              List<Integer> allQTLId, int pageNo, int pageSize) {
+                                                              List<Integer> allQTLId,
+                                                              DNAGenBaseInfo baseInfo,
+                                                              DNAGenStructure structure,
+                                                              int pageNo, int pageSize) {
         PageInfo<AdvanceSearchResultView> properGene =
-                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
+                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, baseInfo, structure, pageNo, pageSize);  //通过高级搜索接口查询
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (AdvanceSearchResultView geneView : properGene.getList()){

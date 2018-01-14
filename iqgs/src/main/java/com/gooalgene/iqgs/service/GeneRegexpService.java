@@ -39,7 +39,7 @@ public class GeneRegexpService {
      */
     public static List<String> interpretGeneInput(String userInput){
         //去除开头或结尾的特殊字符,针对中间出现的一些特殊字符(如;,\t\n等)予以保留
-        String regex = "(^[^a-zA-Z0-9]*)([A-Za-z\\d\\s;,]+)([^a-zA-Z0-9]*$)";
+        String regex = "(^[^a-zA-Z0-9]*)([A-Za-z\\d\\s;,.]+)([^a-zA-Z0-9]*$)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(userInput);
         String result = "";
@@ -69,7 +69,7 @@ public class GeneRegexpService {
     private static String interpretSingleGeneId(String geneId){
         String result = "";
         //前面有字母或者点好,后面为数字加G的或者前面为空,后面数字加G的格式,直接取后面数字加G部分匹配
-        String regex = "((?<=[a-zA-Z.])[0-9Gg]+|(?<![a-zA-Z.])[0-9G]+$)";
+        String regex = "((?<=[a-zA-Z.])[0-9Gg]+|(?<![a-zA-Z.])[0-9Gg]+$)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(geneId);
         if (matcher.find()){

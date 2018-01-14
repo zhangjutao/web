@@ -1,6 +1,8 @@
 package com.gooalgene.iqgs.dao;
 
 import com.gooalgene.common.persistence.MyBatisDao;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
@@ -24,7 +26,9 @@ public interface FPKMDao {
                                                                          @Param("snp") List<String> selectSnp,
                                                                          @Param("indel") List<String> selectIndel,
                                                                          @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
-                                                                         @Param("qtl") List<Integer> associateGeneId);
+                                                                         @Param("qtl") List<Integer> associateGeneId,
+                                                                         @Param("searchById") DNAGenBaseInfo searchedGene,
+                                                                         @Param("structure") DNAGenStructure geneStructure);
 
     /**
      * 检查某一基因对应consequencetype中是否存在SNP

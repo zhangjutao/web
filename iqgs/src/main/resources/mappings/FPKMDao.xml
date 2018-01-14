@@ -30,6 +30,7 @@
         LEFT JOIN gens_baseinfo f ON a.gene_id = f.gene_id
         LEFT JOIN qtl_gene g ON f.id = g.gene_info_id
         LEFT JOIN associatedgenes h ON h.id = g.qtl_id
+        LEFT JOIN gens_structure i ON i.gene_id = a.gene_id
         WHERE 1=1
         <if test="geneExpression != null and geneExpression.size() > 0">
             <foreach collection="geneExpression" index="index" item="item">
@@ -146,6 +147,26 @@
             <foreach collection="firstHierarchyQtlId" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
             </foreach>
+            )
+        </if>
+        <if test="searchById != null">
+            <if test="searchById.geneId != null">
+                AND f.gene_id LIKE CONCAT('%', #{searchById.geneId}, '%') OR f.gene_id_old LIKE CONCAT('%', #{searchById.geneId}, '%')
+            </if>
+            <if test="searchById.geneName != null">
+                AND f.gene_name LIKE CONCAT('%', #{searchById.geneName}, '%')
+            </if>
+            <if test="searchById.functions != null">
+                AND f.description LIKE CONCAT('%', #{searchById.functions}, '%')
+            </if>
+        </if>
+        <if test="structure != null">
+            AND i.chromosome = #{structure.chromosome} AND (
+            (i.start &gt;#{structure.start} AND i.start &lt;#{structure.end})
+            OR
+            (i.end &gt;#{structure.start} AND i.end &lt;#{structure.end})
+            OR
+            (i.start &lt;#{structure.start} AND i.end &gt;#{structure.start})
             )
         </if>
         GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,

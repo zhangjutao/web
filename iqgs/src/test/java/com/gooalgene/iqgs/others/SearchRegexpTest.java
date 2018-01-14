@@ -21,7 +21,7 @@ public class SearchRegexpTest extends TestCase {
     @Test
     public void testRemoveNonNum(){
         //去除开头或结尾的特殊字符,针对中间出现的一些特殊字符(如;,\t\n等)予以保留
-        String regex = "(^[^a-zA-Z0-9]*)([A-Za-z\\d\\s;,]+)([^a-zA-Z0-9]*$)";
+        String regex = "(^[^a-zA-Z0-9]*)([A-Za-z\\d\\s;,.]+)([^a-zA-Z0-9]*$)";
         String str = "  .01G0049000;01G0049000 ,01G0049000 ";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(str);
@@ -33,6 +33,13 @@ public class SearchRegexpTest extends TestCase {
             Iterable<String> iterable = Splitter.onPattern("[\\s,;]").omitEmptyStrings().split(result);
             System.out.println(Iterables.toString(iterable));
         }
+        str = "ha.01G001200";
+        matcher = pattern.matcher(str);
+        result = "";
+        if (matcher.find()) {
+            result = matcher.group(2);
+            System.out.println(result);
+        }
     }
 
     @Test
@@ -41,13 +48,23 @@ public class SearchRegexpTest extends TestCase {
         //使用多个零宽度正先行断言作用会重叠,没能达到想要的作用
         String regex = "[([0-9]*(?<=G)[0-9]*)|((?=[0-9])*G(?<=[0-9]))]";
         //前面有字母或者点好,后面为数字加G的或者前面为空,后面数字加G的格式,直接取后面数字加G部分匹配
-        String regex2 = "((?<=[a-zA-Z.])[0-9Gg]+|(?<![a-zA-Z.])[0-9G]+$)";
+        String regex2 = "((?<=[a-zA-Z.])[0-9Gg]+|(?<![a-zA-Z.])[0-9Gg]+$)";
         Pattern pattern = Pattern.compile(regex2);
         Matcher matcher = pattern.matcher(deviation);
         if (matcher.find()){
             System.out.println(matcher.group());
         }
         deviation = "01G00100";
+        matcher = pattern.matcher(deviation);
+        if (matcher.find()){
+            System.out.println(matcher.group());
+        }
+        deviation = "01g00100";
+        matcher = pattern.matcher(deviation);
+        if (matcher.find()){
+            System.out.println(matcher.group());
+        }
+        deviation = "ha.01G001200";
         matcher = pattern.matcher(deviation);
         if (matcher.find()){
             System.out.println(matcher.group());

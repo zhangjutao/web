@@ -3,6 +3,8 @@ package com.gooalgene.iqgs.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.iqgs.dao.FPKMDao;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,10 +32,13 @@ public class FPKMService {
                                                                       List<String> selectIndel,
                                                                       List<Integer> firstHierarchyQtlId,
                                                                       List<Integer> selectQTL,
+                                                                      DNAGenBaseInfo baseInfo,
+                                                                      DNAGenStructure genStructure,
                                                                       int pageNo,
                                                                       int pageSize){
         PageHelper.startPage(pageNo, pageSize);
-        List<AdvanceSearchResultView> searchResult = fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL);
+        List<AdvanceSearchResultView> searchResult =
+                fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, genStructure);
         return new PageInfo<>(searchResult);
     }
 
