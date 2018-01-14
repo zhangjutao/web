@@ -93,23 +93,6 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         System.out.println(result);
     }
 
-    /**
-     * 测试iqgs中根据id和name模糊查询gene
-     * 要求支持oldid的搜索
-     */
-    @Test
-    public void testqueryDNAGenBaseInfosByIdorName() {
-        DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        Page<DNAGenBaseInfo> page = new Page<>(1, 10);
-//        bean.setPage(page);
-        String keyWord="G00805";
-        List<DNAGenBaseInfo> geneResult = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(keyWord,page);
-        for (int i = 0; i < geneResult.size(); i++) {
-            DNAGenBaseInfo dnaGenBaseInfo =  geneResult.get(i);
-            System.out.println(dnaGenBaseInfo.toString());
-        }
-    }
-
     @Test
     public void testFindGeneByQTLName(){
         Integer[] ids = {1003, 1005, 1008};

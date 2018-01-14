@@ -34,23 +34,16 @@ public class DNAGenBaseInfoService {
     @Autowired
     private FPKMService fpkmService;
 
-    public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
-        List<DNAGenBaseInfo> result = null;
-        boolean isGeneId = GeneRegexpService.isGeneId(keyword);
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfosByIdorName(String keyword, int pageNo, int pageSize) {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        if (isGeneId){
-            List<String> matchedGene = GeneRegexpService.interpretGeneInput(keyword);  //基因匹配结果
-            if (matchedGene != null && matchedGene.size() > 0) {
-                //先取第一个匹配到的值
-                bean.setGeneId(matchedGene.get(0));
-                bean.setGeneOldId(matchedGene.get(0));
-            }
-        }else {
-            bean.setGeneName(keyword);
-        }
-        bean.setPage(page);
-        result = dnaGenBaseInfoDao.findByConditions(bean);
-        return result;
+        bean.setGeneId(keyword);
+        return queryDNAGenBaseInfos(null, null, null, null, null, bean, null, pageNo, pageSize);
+    }
+
+    public PageInfo<DNAGeneSearchResult> queryDNAGeneByFunction(String func, int pageNo, int pageSize){
+        DNAGenBaseInfo bean = new DNAGenBaseInfo();
+        bean.setFunctions(func);
+        return queryDNAGenBaseInfos(null, null, null, null, null, bean, null, pageNo, pageSize);
     }
 
     /**
@@ -204,27 +197,12 @@ public class DNAGenBaseInfoService {
         return rs;
     }
 
-    public List<DNAGenBaseInfo> queryDNAGenBaseInfosByRange(String chr, String start, String end, Page<DNAGenBaseInfo> page) {
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfosByRange(String chr, String start, String end, int pageNo, int pageSize) {
         DNAGenStructure dnaGenStructure = new DNAGenStructure();
         dnaGenStructure.setChromosome(chr);
         dnaGenStructure.setStart(Long.valueOf(start));
         dnaGenStructure.setEnd(Long.valueOf(end));
-        Page<DNAGenStructure> page1 = new Page<DNAGenStructure>();
-        page1.setPageSize(page.getPageSize());
-        page1.setPageNo(page.getPageNo());
-        dnaGenStructure.setPage(page1);
-        List<DNAGenStructure> dnaGenBaseInfoList = dnaGenBaseInfoDao.findGenByChr(dnaGenStructure);
-        List<DNAGenBaseInfo> result = new ArrayList<DNAGenBaseInfo>();
-        for (DNAGenStructure dnaGenStructure1 : dnaGenBaseInfoList) {
-            DNAGenBaseInfo dnaGenBaseInfo1 = new DNAGenBaseInfo();
-            dnaGenBaseInfo1.setGeneId(dnaGenStructure1.getGeneId());
-            DNAGenBaseInfo dnaGenBaseInfo2 = dnaGenBaseInfoDao.findByGeneId(dnaGenBaseInfo1);
-            result.add(dnaGenBaseInfo2);
-        }
-//        System.out.println(page1.getMaxResults() + "," + page1.getCount());
-        page.setCount(page1.getCount());
-        page.setList(result);
-        return result;
+        return queryDNAGenBaseInfos(null, null, null, null, null, null, dnaGenStructure, pageNo, pageSize);
     }
 
     public List<DNAGenHomologous> getGenHomologousByGeneId(String genId) {

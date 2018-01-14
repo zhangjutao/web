@@ -1,10 +1,13 @@
 package com.gooalgene.iqgs.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.*;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionStudy;
 import com.gooalgene.mrna.service.StudyService;
@@ -12,6 +15,7 @@ import com.gooalgene.mrna.service.TService;
 import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.service.QueryService;
 import com.gooalgene.utils.JsonUtils;
+import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.StringUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -85,15 +89,12 @@ public class DNAGenBaseInfoController {
      */
     @RequestMapping("/search/gene-id-name")
     @ResponseBody
-    public Map searchForIdORName(HttpServletRequest req, HttpServletResponse resp) {
-        Map rs = new HashMap();
+    public ResultVO<DNAGeneSearchResult> searchForIdORName(HttpServletRequest req) {
         String idOrName = req.getParameter("keyword");
-        // TODO: 这里要根据输入的数据判断是id还是name
-        Page<DNAGenBaseInfo> page = new Page<DNAGenBaseInfo>(req, resp);
-        List<DNAGenBaseInfo> gens = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(idOrName, page);
-        rs.put("total", page.getCount());
-        rs.put("data", gens);
-        return rs;
+        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(idOrName, pageNo, pageSize);
+        return ResultUtil.success(resultPageInfo);
     }
 
     /**
@@ -102,28 +103,24 @@ public class DNAGenBaseInfoController {
      */
     @RequestMapping("/search/func")
     @ResponseBody
-    public Map searchForFunction(HttpServletRequest req, HttpServletResponse resp) {
-        Map rs = new HashMap();
+    public ResultVO<DNAGeneSearchResult> searchForFunction(HttpServletRequest req) {
         String func = req.getParameter("keyword");
-        Page<DNAGenBaseInfo> page = new Page<DNAGenBaseInfo>(req, resp);
-        List<DNAGenBaseInfo> gens = dnaGenBaseInfoService.queryDNAGenBaseInfosByFunc(func, page);
-        rs.put("total", page.getCount());
-        rs.put("data", gens);
-        return rs;
+        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGeneByFunction(func, pageNo, pageSize);
+        return ResultUtil.success(resultPageInfo);
     }
 
     @RequestMapping("/search/range")
     @ResponseBody
-    public Map searchForRange(HttpServletRequest req, HttpServletResponse resp) {
-        Map rs = new HashMap();
+    public ResultVO<DNAGeneSearchResult> searchForRange(HttpServletRequest req, HttpServletResponse resp) {
         String start = req.getParameter("begin");
         String end = req.getParameter("end");
         String chr = req.getParameter("chr");
-        Page<DNAGenBaseInfo> page = new Page<DNAGenBaseInfo>(req, resp);
-        List<DNAGenBaseInfo> gens = dnaGenBaseInfoService.queryDNAGenBaseInfosByRange(chr, start, end, page);
-        rs.put("total", page.getCount());
-        rs.put("data", gens);
-        return rs;
+        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseInfosByRange(chr, start, end, pageNo, pageSize);
+        return ResultUtil.success(resultPageInfo);
     }
 
     @RequestMapping("/detail/basic")
