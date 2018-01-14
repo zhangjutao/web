@@ -82,15 +82,13 @@ public class DNAGenBaseInfoController {
     /**
      * 根据基因id或者name进行模糊查询
      *
-     * @param req
-     * @param resp
-     * @return
      */
     @RequestMapping("/search/gene-id-name")
     @ResponseBody
     public Map searchForIdORName(HttpServletRequest req, HttpServletResponse resp) {
         Map rs = new HashMap();
         String idOrName = req.getParameter("keyword");
+        // TODO: 这里要根据输入的数据判断是id还是name
         Page<DNAGenBaseInfo> page = new Page<DNAGenBaseInfo>(req, resp);
         List<DNAGenBaseInfo> gens = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(idOrName, page);
         rs.put("total", page.getCount());

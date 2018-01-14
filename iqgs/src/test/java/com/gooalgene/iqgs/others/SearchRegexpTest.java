@@ -1,11 +1,13 @@
 package com.gooalgene.iqgs.others;
 
+import com.gooalgene.iqgs.service.GeneRegexpService;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import junit.framework.TestCase;
 import org.junit.Test;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,5 +57,37 @@ public class SearchRegexpTest extends TestCase {
         if (matcher.find()){
             System.out.println(matcher.group());
         }
+    }
+
+    /**
+     * 判断为geneName还是geneId
+     */
+    @Test
+    public void testIsGeneIdOrName(){
+        String regex = "(gly)|(ma)|(?<![a-zA-Z.])[0-9Gg]+$";
+        String geneName = "ACT1";
+        String geneId = "Glyma.01G00100";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(geneId.toLowerCase());
+        while (matcher.find()){
+            System.out.println(matcher.group());
+        }
+        matcher = pattern.matcher(geneName);
+        assertFalse(matcher.matches());
+    }
+
+    @Test
+    public void testIsGeneId(){
+        String geneId = "Glyma.01G00100";
+        assertTrue(GeneRegexpService.isGeneId(geneId));
+        String geneName = "ACT1";
+        assertFalse(GeneRegexpService.isGeneId(geneName));
+    }
+
+    @Test
+    public void testInterpretGene(){
+        String userInput = "  .01G0049000;01G0049000 ,01G0049000 ";
+        List<String> list = GeneRegexpService.interpretGeneInput(userInput);
+        assertEquals("01G0049000", list.get(2));
     }
 }
