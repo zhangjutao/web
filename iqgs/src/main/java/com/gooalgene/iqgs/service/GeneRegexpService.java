@@ -62,6 +62,19 @@ public class GeneRegexpService {
     }
 
     /**
+     * 匹配是否是通用基因ID或者通用基因name
+     */
+    public static boolean isCommonGeneIdOrName(String userInput){
+        String regex = "[Gglyma]+|0{2,}";
+        Pattern compile = Pattern.compile(regex);
+        Matcher matcher = compile.matcher(userInput);
+        if (matcher.matches()){
+            return true;
+        }
+        return false;
+    }
+
+    /**
      * 解析当个基因ID
      * @param geneId 基因ID
      * @return 解析后更容易被数据库所识别的格式

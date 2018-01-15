@@ -22,6 +22,11 @@ public interface DNAGenBaseInfoDao {
     List<DNAGenBaseInfo> findGeneInQTLIds(List<Integer> inputQTLId);
 
     /**
+     * 拿到前一百个基因对应ID字段
+     */
+    List<Integer> getFrontHundredGene();
+
+    /**
      * 检查输入基因是否存在
      * @param geneId 基因ID，需要检索两个字段：gene_id、gene_id_old
      * @return 存在：true， 不存在：false

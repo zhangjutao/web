@@ -83,6 +83,30 @@ public class SearchRegexpTest extends TestCase {
         }
     }
 
+    @Test
+    public void testMatchCommonString(){
+        String regex = "([Gglyma]+)|(0010)+";
+        String str = "gm";
+        Pattern compile = Pattern.compile(regex);
+        Matcher matcher = compile.matcher(str);
+        if (matcher.find()){
+            System.out.println(matcher.group());
+        }
+        str = "0010";
+        matcher = compile.matcher(str);
+        if (matcher.find()){
+            System.out.println(matcher.group());
+        }
+        str = "01G0010";
+        matcher = compile.matcher(str);
+        if (matcher.find()){
+            System.out.println(matcher.group());
+        }
+        assertTrue(GeneRegexpService.isCommonGeneIdOrName("0000"));
+        assertFalse(GeneRegexpService.isCommonGeneIdOrName("ma0010"));
+        assertTrue(GeneRegexpService.isCommonGeneIdOrName("ma"));
+    }
+
     /**
      * 判断为geneName还是geneId
      */

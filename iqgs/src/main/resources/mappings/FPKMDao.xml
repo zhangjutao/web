@@ -17,20 +17,18 @@
         <result property="functions" column="description" javaType="String" jdbcType="VARCHAR" />
     </resultMap>
 
-    <select id="findGeneThroughGeneExpressionCondition"
-            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
-            resultMap="advanceSearchResult">
+    <sql id="advanceSearchSQL">
         SELECT a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
-        a.flower_All, a.stem_All, f.gene_name, f.description,
-        f.gene_id_old FROM fpkm a
-        LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
-        LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
-        LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
-        LEFT JOIN indel_consequencetype e ON e.id = d.indel_id
-        LEFT JOIN gens_baseinfo f ON a.gene_id = f.gene_id
-        LEFT JOIN qtl_gene g ON f.id = g.gene_info_id
-        LEFT JOIN associatedgenes h ON h.id = g.qtl_id
-        LEFT JOIN gens_structure i ON i.gene_id = a.gene_id
+            a.flower_All, a.stem_All, f.gene_name, f.description,
+            f.gene_id_old FROM fpkm a
+            LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
+            LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
+            LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
+            LEFT JOIN indel_consequencetype e ON e.id = d.indel_id
+            LEFT JOIN gens_baseinfo f ON a.gene_id = f.gene_id
+            LEFT JOIN qtl_gene g ON f.id = g.gene_info_id
+            LEFT JOIN associatedgenes h ON h.id = g.qtl_id
+            LEFT JOIN gens_structure i ON i.gene_id = a.gene_id
         WHERE 1=1
         <if test="geneExpression != null and geneExpression.size() > 0">
             <foreach collection="geneExpression" index="index" item="item">
@@ -138,6 +136,16 @@
                 #{item}
             </foreach>
         </if>
+    </sql>
+    <sql id="groupBySQL">
+        GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
+        a.stem_All, f.gene_id_old, f.gene_name, f.description
+    </sql>
+
+    <select id="findGeneThroughGeneExpressionCondition"
+            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
+            resultMap="advanceSearchResult">
+        <include refid="advanceSearchSQL" />
         <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
             AND a.gene_id IN
             (SELECT a.gene_id FROM gens_baseinfo a
@@ -169,8 +177,20 @@
             (i.start &lt;#{structure.start} AND i.end &gt;#{structure.start})
             )
         </if>
-        GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
-        a.stem_All, f.gene_id_old, f.gene_name, f.description
+        <include refid="groupBySQL" />
+    </select>
+
+    <select id="fetchFirstHundredGene"
+            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
+            resultMap="advanceSearchResult">
+        <include refid="advanceSearchSQL" />
+        <if test="geneId != null and geneId.size() > 0">
+            AND f.id IN
+            <foreach collection="geneId" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <include refid="groupBySQL" />
     </select>
 
     <select id="checkExistSNP" resultType="boolean">

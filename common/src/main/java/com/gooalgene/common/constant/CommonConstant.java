@@ -12,4 +12,10 @@ public interface CommonConstant {
     String FIRSTINDELCHROMOSOME = "INDEL_Chr01"; //第一条INDEL染色体
     String CONSEQUENCETYPE = "consequencetype"; //序列类型
     String CLASSIFY = "classifys";  //组织分类集合
+
+
+    /**
+     * 缓存中的KEY
+     */
+    String DEFAULTRESULTVIEW = "defaultResultView";
 }

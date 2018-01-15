@@ -208,4 +208,9 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         List<Associatedgenes> allQTLNames = dnaGenBaseInfoDao.findAllAssociatedQTLByGeneId(geneId);
         assertEquals(18, allQTLNames.size());
     }
+
+    @Test
+    public void testGetFrontHundredGene(){
+        assertEquals(100, dnaGenBaseInfoDao.getFrontHundredGene().size());
+    }
 }

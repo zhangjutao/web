@@ -157,4 +157,8 @@ WHERE f.gene_id =o.gene_id AND f.gene_id = baseinfo.gene_id AND family_id = #{fa
             LEFT JOIN gens_baseinfo c ON b.gene_info_id = c.id
         WHERE c.gene_id = #{geneId} OR c.gene_id_old = #{geneId}
     </select>
+
+    <select id="getFrontHundredGene" resultType="int">
+        SELECT id FROM gens_baseinfo LIMIT 0, 100;
+    </select>
 </mapper>
