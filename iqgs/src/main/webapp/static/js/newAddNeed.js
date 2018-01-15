@@ -128,14 +128,26 @@ $(function (){
             window.location = DOMAIN + "/search/list?keyword=" + encodeURI(qtlNames)+ "&searchType=4" ;
         }
     })
-    // qtl 实例搜索
+    // qtl 示例搜索
     $("#qtlAdd .qtlExample").click(function (){
         var qtlNames = $(this).text();
         var qtlNameArr = [];
         qtlNameArr.push(qtlNames)
         storage.setItem("qtlSearchNames",JSON.stringify(qtlNameArr));
         window.location = DOMAIN + "/search/list?keyword=" +6340+ "&searchType=4" ;
-    })
+    });
+
+    // geneID/name 示例搜索
+    $("#GeneIdName .geneExampleId,#GeneIdName .geneExampleName").click(function (){
+        var qtlId = "Glyma.01G004900";
+        window.location = DOMAIN + "/search/list?keyword=" +encodeURI(qtlId)+ "&searchType=1" ;
+    });
+    // function 示例搜索
+    $("#GeneFunction .funcExample").click(function (){
+        var func = "cycloartenol synthase";
+        window.location = DOMAIN + "/search/list?keyword=" + encodeURI(func) + "&searchType=2";
+    });
+
     // 高级搜索
     $("#advancedSearch p").click(function(){
         getExpreData();
@@ -154,25 +166,6 @@ $(function (){
 
     // 获取基因表达量的组织以及小组织
     function getExpreData (){
-      // Forged data
-        var expreKinds = [
-            {name:"豆荚",detail:["pod"]},
-            {name:"种子",detail:["seed","seed coat","embryo","cotyledon","axis","endosperm"]},
-            {name:"根",detail:["root","root hair","root tip","nodule"]},
-            {name:"芽",detail:["shoot","shoot meristem","shoot tip","shoot apical meristem"]} ,
-            {name:"叶",detail:["leaf","leafbud","trifoliate","primaryleaf","petiole","leaflet"]},
-            {name:"幼苗",detail:["seedling","cotyledons of seedling"]} ,
-            {name:"花",detail:["flower","flower bud"]},
-            {name:"茎",detail:["stem","stem internode","hypocotyl(stem)"]}
-          ];
-        var obj = {
-            status:200,
-            data:expreKinds
-        }
-        // 拦截请求
-        // Mock.mock(/(query-all-organic){1}\w*/,obj);
-        var data = "";
-        // var promise = SendAjaxRequest("GET",  window.ctxROOT + "/advance-search/query-all-organic",data);
         var promise = SendAjaxRequest("GET",  window.ctxROOT + "/advance-search/query-all-organic");
         promise.then(
             function (result){
@@ -195,19 +188,6 @@ $(function (){
     };
     // 获取snp 数据
     function getSnpData(){
-        // Forged data
-        var snpDatas = ["Downstream","Exonic;Splicing","Exonic_nonsynonymous SNV",
-            "Exonic_stopgain","Exonic_stoploss","Exonic_synonymous SNV","Intergenic","Intronic"," Splicing"
-            ,"Upstream","Upstream;Downstream","3´UTR","5´UTR","5´UTR;3´UTR" ];
-
-        var obj = {
-            name:"snp",
-            status:200,
-            data:snpDatas
-        };
-        // 拦截请求
-        // Mock.mock(/(query-all-snp){1}\w*/,obj);
-        var data = "";
         var promise = SendAjaxRequest("POST",window.ctxROOT + "/advance-search/query-snp");
         promise.then(
             function (result){
