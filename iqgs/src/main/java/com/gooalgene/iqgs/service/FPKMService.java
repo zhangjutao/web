@@ -7,6 +7,7 @@ import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -38,16 +39,18 @@ public class FPKMService {
                                                                       int pageSize){
         if (baseInfo != null) {
             String geneIdOrName = baseInfo.getGeneId();  //用户输入的geneId，这里需要调正则匹配服务
-            boolean isGeneId = GeneRegexpService.isGeneId(geneIdOrName);
-            if (isGeneId) {
-                List<String> matchedGene = GeneRegexpService.interpretGeneInput(geneIdOrName);  //基因匹配结果
-                if (matchedGene != null && matchedGene.size() > 0) {
-                    //先取第一个匹配到的值
-                    baseInfo.setGeneId(matchedGene.get(0));
-                    baseInfo.setGeneOldId(matchedGene.get(0));
+            if (geneIdOrName != null && !geneIdOrName.trim().equals("")){  //如果用户输入为geneFunction，这里不存在geneId
+                boolean isGeneId = GeneRegexpService.isGeneId(geneIdOrName);
+                if (isGeneId) {
+                    List<String> matchedGene = GeneRegexpService.interpretGeneInput(geneIdOrName);  //基因匹配结果
+                    if (matchedGene != null && matchedGene.size() > 0) {
+                        //先取第一个匹配到的值
+                        baseInfo.setGeneId(matchedGene.get(0));
+                        baseInfo.setGeneOldId(matchedGene.get(0));
+                    }
+                } else {
+                    baseInfo.setGeneName(geneIdOrName);
                 }
-            } else {
-                baseInfo.setGeneName(geneIdOrName);
             }
         }
         PageHelper.startPage(pageNo, pageSize);
