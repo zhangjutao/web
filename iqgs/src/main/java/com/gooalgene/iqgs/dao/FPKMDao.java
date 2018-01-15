@@ -40,6 +40,15 @@ public interface FPKMDao {
                                                         @Param("geneId") List<Integer> firstHundredGeneId);
 
     /**
+     * 拿到前一百个基因对应的高级搜索信息，这里根据基因结构ID来进行IN查询
+     */
+    List<AdvanceSearchResultView> fetchFirstHundredGeneInGeneStructure(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                                       @Param("snp") List<String> selectSnp,
+                                                                       @Param("indel") List<String> selectIndel,
+                                                                       @Param("qtl") List<Integer> associateGeneId,
+                                                                       @Param("structureId") List<Integer> firstHundredStructureId);
+
+    /**
      * 检查某一基因对应consequencetype中是否存在SNP
      */
     boolean checkExistSNP(int fpkmId, String snpConsequenceType);

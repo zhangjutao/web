@@ -159,7 +159,7 @@
         </if>
         <if test="searchById != null">
             <if test="searchById.geneId != null">
-                AND f.gene_id LIKE CONCAT('%', #{searchById.geneId}, '%') OR f.gene_id_old LIKE CONCAT('%', #{searchById.geneId}, '%')
+                AND (f.gene_id LIKE CONCAT('%', #{searchById.geneId}, '%') OR f.gene_id_old LIKE CONCAT('%', #{searchById.geneId}, '%'))
             </if>
             <if test="searchById.geneName != null">
                 AND f.gene_name LIKE CONCAT('%', #{searchById.geneName}, '%')
@@ -187,6 +187,19 @@
         <if test="geneId != null and geneId.size() > 0">
             AND f.id IN
             <foreach collection="geneId" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <include refid="groupBySQL" />
+    </select>
+
+    <select id="fetchFirstHundredGeneInGeneStructure"
+            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
+            resultMap="advanceSearchResult">
+        <include refid="advanceSearchSQL" />
+        <if test="structureId != null and structureId.size() > 0">
+            AND i.id IN
+            <foreach collection="structureId" index="index" item="item" separator="," open="(" close=")">
                 #{item}
             </foreach>
         </if>

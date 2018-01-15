@@ -27,6 +27,13 @@ public interface DNAGenBaseInfoDao {
     List<Integer> getFrontHundredGene();
 
     /**
+     * 查找到符合条件的所有基因ID
+     * @param geneInfo 基因查询条件
+     * @return 符合条件的所有基因ID集合
+     */
+    List<Integer> findProperGeneId(DNAGenBaseInfo geneInfo);
+
+    /**
      * 检查输入基因是否存在
      * @param geneId 基因ID，需要检索两个字段：gene_id、gene_id_old
      * @return 存在：true， 不存在：false

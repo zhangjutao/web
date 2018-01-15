@@ -34,4 +34,9 @@ public class DNAGensServiceTest extends TestCase {
         List<DNAGenStructureDto> structureResult = dnaGenStructureService.getByGeneId(geneId);
         assertEquals(5, structureResult.size());
     }
+
+    @Test
+    public void testGetGeneStructureId(){
+        assertEquals(5505, dnaGenStructureService.getGeneStructureId("Chr01", 40000000L, 50000000L).size());
+    }
 }

@@ -210,6 +210,16 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
     }
 
     @Test
+    public void testFindProperGeneId(){
+        DNAGenBaseInfo info = new DNAGenBaseInfo();
+        info.setGeneId("a");
+        assertEquals(56044, dnaGenBaseInfoDao.findProperGeneId(info).size());
+        info.setGeneId(null);
+        info.setFunctions("sequence");
+        assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
+    }
+
+    @Test
     public void testGetFrontHundredGene(){
         assertEquals(100, dnaGenBaseInfoDao.getFrontHundredGene().size());
     }
