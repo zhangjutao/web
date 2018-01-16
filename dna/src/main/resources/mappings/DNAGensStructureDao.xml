@@ -11,6 +11,7 @@
         <result column="length" property="length" jdbcType="INTEGER"/>
         <result column="strand" property="strand" jdbcType="VARCHAR"/>
     </resultMap>
+
     <sql id="Base_Column_List">
         chromosome, gene_id, transcript_id, feature, start, end, length, strand
     </sql>
@@ -128,5 +129,13 @@
                   OR
                   (start &lt; #{start} AND end &gt; #{start})
               )
+    </select>
+
+    <select id="fetchAllChromosomeAndID" resultType="java.lang.Integer">
+        SELECT id FROM gens_structure WHERE chromosome = #{0}
+    </select>
+
+    <select id="fetchAllChromosome" resultType="String">
+        SELECT chromosome FROM gens_structure GROUP BY chromosome
     </select>
 </mapper>

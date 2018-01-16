@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml","classpath:spring-mongodb.xml"}))
@@ -38,5 +39,11 @@ public class DNAGensServiceTest extends TestCase {
     @Test
     public void testGetGeneStructureId(){
         assertEquals(5505, dnaGenStructureService.getGeneStructureId("Chr01", 40000000L, 50000000L).size());
+    }
+
+    @Test
+    public void testFetchAllChromosomeAndID(){
+        Map<String, List<Integer>> map = dnaGenStructureService.fetchAllChromosomeAndID();
+        assertEquals(29, map.size());
     }
 }
