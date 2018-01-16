@@ -92,7 +92,7 @@ public class DNAGenBaseInfoController {
         String idOrName = req.getParameter("keyword");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
         int pageSize = Integer.parseInt(req.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(idOrName, pageNo, pageSize);
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseSearchResult(SearchConditionEnum.ID, idOrName, pageNo, pageSize);
         return ResultUtil.success(resultPageInfo);
     }
 
@@ -106,7 +106,7 @@ public class DNAGenBaseInfoController {
         String func = req.getParameter("keyword");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
         int pageSize = Integer.parseInt(req.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGeneByFunction(func, pageNo, pageSize);
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseSearchResult(SearchConditionEnum.FUNCTION, func, pageNo, pageSize);
         return ResultUtil.success(resultPageInfo);
     }
 
@@ -118,7 +118,7 @@ public class DNAGenBaseInfoController {
         String chr = req.getParameter("chr");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
         int pageSize = Integer.parseInt(req.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseInfosByRange(chr, start, end, pageNo, pageSize);
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenByRange(chr, start, end, pageNo, pageSize);
         return ResultUtil.success(resultPageInfo);
     }
 

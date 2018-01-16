@@ -20,6 +20,8 @@ import org.springframework.util.Assert;
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
+import static com.google.common.base.Preconditions.checkNotNull;
+
 /**
  * Created by sauldong on 2017/10/12.
  */
@@ -34,16 +36,37 @@ public class DNAGenBaseInfoService {
     @Autowired
     private FPKMService fpkmService;
 
-    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfosByIdorName(String keyword, int pageNo, int pageSize) {
+    /**
+     * controller层调用的服务层接口，用于查询单个搜索返回结果
+     * @param conditionEnum 查询类型
+     * @param keyword 输入框中用户输入的关键字
+     */
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseSearchResult(SearchConditionEnum conditionEnum, String keyword, int pageNo, int pageSize) {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        bean.setGeneId(keyword);
-        return queryDNAGenBaseInfos(null, null, null, null, null, bean, null, pageNo, pageSize);
+        if (conditionEnum.equals(SearchConditionEnum.ID)) {
+            bean.setGeneId(keyword);
+        }else if (conditionEnum.equals(SearchConditionEnum.FUNCTION)){
+            bean.setFunctions(keyword);
+        }
+        //调用fpkm中针对基因功能、ID、NAME查询接口，获取到初步查询结果
+        PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.searchByIdOrFunction(bean, pageNo, pageSize);
+        return convertSearchResultToSearchView(advanceSearchResultPage);
     }
 
-    public PageInfo<DNAGeneSearchResult> queryDNAGeneByFunction(String func, int pageNo, int pageSize){
-        DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        bean.setFunctions(func);
-        return queryDNAGenBaseInfos(null, null, null, null, null, bean, null, pageNo, pageSize);
+
+    /**
+     * 根据落在染色体上范围查询基因
+     * @param chr 染色体类型
+     * @param start 起始位置
+     * @param end 终点位置
+     */
+    public PageInfo<DNAGeneSearchResult> queryDNAGenByRange(String chr, String start, String end, int pageNo, int pageSize) {
+        DNAGenStructure dnaGenStructure = new DNAGenStructure();
+        dnaGenStructure.setChromosome(chr);
+        dnaGenStructure.setStart(Long.valueOf(start));
+        dnaGenStructure.setEnd(Long.valueOf(end));
+        PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.searchByRegion(dnaGenStructure, pageNo, pageSize);
+        return convertSearchResultToSearchView(advanceSearchResultPage);
     }
 
     /**
@@ -63,7 +86,18 @@ public class DNAGenBaseInfoService {
                                                               DNAGenStructure structure,
                                                               int pageNo, int pageSize) {
         PageInfo<AdvanceSearchResultView> properGene =
-                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, baseInfo, structure, pageNo, pageSize);  //通过高级搜索接口查询
+                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
+        return convertSearchResultToSearchView(properGene);
+    }
+
+    /**
+     * 统一转换层
+     * 将从数据库中搜索处理的结果转换为前台搜索结果列表
+     * @param properGene DAO层搜索结果
+     * @return 高级搜索搜索列表分页显示
+     */
+    private PageInfo<DNAGeneSearchResult> convertSearchResultToSearchView(PageInfo<AdvanceSearchResultView> properGene){
+        checkNotNull(properGene);
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (AdvanceSearchResultView geneView : properGene.getList()){
@@ -195,14 +229,6 @@ public class DNAGenBaseInfoService {
             rs.put("data", data);
         }
         return rs;
-    }
-
-    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfosByRange(String chr, String start, String end, int pageNo, int pageSize) {
-        DNAGenStructure dnaGenStructure = new DNAGenStructure();
-        dnaGenStructure.setChromosome(chr);
-        dnaGenStructure.setStart(Long.valueOf(start));
-        dnaGenStructure.setEnd(Long.valueOf(end));
-        return queryDNAGenBaseInfos(null, null, null, null, null, null, dnaGenStructure, pageNo, pageSize);
     }
 
     public List<DNAGenHomologous> getGenHomologousByGeneId(String genId) {
