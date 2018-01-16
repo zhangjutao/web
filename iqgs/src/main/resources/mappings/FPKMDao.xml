@@ -15,13 +15,12 @@
         <result property="stemAll" column="stem_All" javaType="double" jdbcType="DOUBLE"/>
         <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR" />
         <result property="functions" column="description" javaType="String" jdbcType="VARCHAR" />
-        <result property="structureId" column="structure_id" javaType="int" jdbcType="INTEGER" />
     </resultMap>
 
     <sql id="advanceSearchSQL">
-        SELECT a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
-            a.flower_All, a.stem_All, f.gene_name, f.description,
-            f.gene_id_old, i.id AS structure_id FROM fpkm a
+        SELECT a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
+            a.flower_All, a.stem_All, f.id, f.gene_name, f.description,
+            f.gene_id_old FROM fpkm a
             LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
             LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
             LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
@@ -140,7 +139,7 @@
     </sql>
     <sql id="groupBySQL">
         GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
-        a.stem_All, f.gene_id_old, f.gene_name, f.description, i.id
+        a.stem_All, f.id, f.gene_id_old, f.gene_name, f.description
     </sql>
 
     <select id="findGeneThroughGeneExpressionCondition"
@@ -195,13 +194,12 @@
     </select>
 
     <select id="fetchFirstHundredGeneInGeneStructure"
-            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
             resultMap="advanceSearchResult">
         <include refid="advanceSearchSQL" />
         <if test="structureId != null and structureId.size() > 0">
-            AND i.id IN
+            AND i.gene_id IN
             <foreach collection="structureId" index="index" item="item" separator="," open="(" close=")">
-                #{item}
+                #{item.geneId}
             </foreach>
         </if>
         <include refid="groupBySQL" />

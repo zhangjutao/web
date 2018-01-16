@@ -1,7 +1,7 @@
 package com.gooalgene.iqgs.entity.condition;
 
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.DNAGenStructure;
 
 import java.util.List;
 

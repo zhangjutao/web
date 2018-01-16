@@ -3,6 +3,7 @@ package com.gooalgene.iqgs.service;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
@@ -86,7 +87,7 @@ public class DNAGenBaseInfoService {
                                                               DNAGenStructure structure,
                                                               int pageNo, int pageSize) {
         PageInfo<AdvanceSearchResultView> properGene =
-                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
+                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, baseInfo, structure, pageNo, pageSize);  //通过高级搜索接口查询
         return convertSearchResultToSearchView(properGene);
     }
 
@@ -103,7 +104,7 @@ public class DNAGenBaseInfoService {
         for (AdvanceSearchResultView geneView : properGene.getList()){
             dnaGeneSearchResult = new DNAGeneSearchResult();
             int id = geneView.getId(); //拿到基因查询结果，根据ID查询与之关联的SNP_NAME
-            List<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
+            Set<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
             dnaGeneSearchResult.setGeneId(geneView.getGeneId());
             dnaGeneSearchResult.setGeneOldId(geneView.getGeneOldId());
             dnaGeneSearchResult.setGeneName(geneView.getGeneName());

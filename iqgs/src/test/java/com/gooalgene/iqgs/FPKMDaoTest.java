@@ -4,19 +4,17 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.constant.CommonConstant;
+import com.gooalgene.dna.entity.DNAGenStructure;
+import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.DNAGenStructure;
-import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
-import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
@@ -105,30 +103,14 @@ public class FPKMDaoTest extends TestCase {
 
     @Test
     public void testFetchFirstHundredGene(){
-        List<Integer> frontHundredGene = dnaGenBaseInfoDao.getFrontHundredGene();
-        List<GeneExpressionConditionEntity> list = new ArrayList<>();
-        GeneExpressionConditionEntity condition = new GeneExpressionConditionEntity();
-        Tissue tissue = new Tissue();
-        tissue.setPod(0.0);
-        condition.setTissue(tissue);
-        condition.setBegin(10.0);
-        condition.setEnd(20.0);
-        list.add(condition);
-        GeneExpressionConditionEntity condition1 = new GeneExpressionConditionEntity();
-        Tissue embryo = new Tissue();
-        embryo.setEmbryo(0.0);
-        condition1.setBegin(40.0);
-        condition1.setEnd(50.0);
-        condition1.setTissue(embryo);  //这只新的查询条件为胚芽(embryo)
-        list.add(condition1);
-        //如果有SNP、INDEL筛选情况下
-        List<String> snpConsequenceList = new ArrayList<>();
-        snpConsequenceList.add("upstream;downstream");
-        snpConsequenceList.add("UTR5");
-        List<String> indelConsequenceList = new ArrayList<>();
-        indelConsequenceList.add("exonic_frameshift deletion");
-        indelConsequenceList.add("splicing");
-        List<AdvanceSearchResultView> advanceSearchResultViews = fpkmDao.fetchFirstHundredGene(list, snpConsequenceList, indelConsequenceList, null, frontHundredGene);
+        List<DNAGenStructure> list = new ArrayList<>();
+        DNAGenStructure gene1 = new DNAGenStructure();
+        gene1.setGeneId("Glyma.01G000100");
+        list.add(gene1);
+        gene1 = new DNAGenStructure();
+        gene1.setGeneId("Glyma.01G000300");
+        list.add(gene1);
+        List<AdvanceSearchResultView> advanceSearchResultViews = fpkmDao.fetchFirstHundredGeneInGeneStructure(null, null, null, null, list);
         assertNotNull(advanceSearchResultViews);
     }
 

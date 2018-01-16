@@ -113,7 +113,7 @@ public class SearchRegexpTest extends TestCase {
     @Test
     public void testIsGeneIdOrName(){
         String regex = "(gly)|(ma)|(?<![a-zA-Z.])[0-9Gg]+$";
-        String geneName = "ACT1";
+        String geneName = "ATMYB68";
         String geneId = "Glyma.01G00100";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(geneId.toLowerCase());
@@ -121,14 +121,16 @@ public class SearchRegexpTest extends TestCase {
             System.out.println(matcher.group());
         }
         matcher = pattern.matcher(geneName);
-        assertFalse(matcher.matches());
+        while (matcher.find()){
+            System.out.println(matcher.group());
+        }
     }
 
     @Test
     public void testIsGeneId(){
         String geneId = "Glyma.01G00100";
         assertTrue(GeneRegexpService.isGeneId(geneId));
-        String geneName = "ACT1";
+        String geneName = "ATMYB68";
         assertFalse(GeneRegexpService.isGeneId(geneName));
     }
 

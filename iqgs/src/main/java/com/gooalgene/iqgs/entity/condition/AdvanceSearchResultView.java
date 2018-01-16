@@ -28,24 +28,11 @@ public class AdvanceSearchResultView extends GeneFPKM {
     private String functions;
 
     /**
-     * 基因结构ID
-     */
-    private Integer structureId;
-
-    /**
      * 大于30的组织
      */
     private List<String> largerThanThirtyTissue = new ArrayList<>();
     
     private final static int STANDARD = 30;
-
-    public Integer getStructureId() {
-        return structureId;
-    }
-
-    public void setStructureId(Integer structureId) {
-        this.structureId = structureId;
-    }
 
     public String getGeneOldId() {
         return geneOldId;

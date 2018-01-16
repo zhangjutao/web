@@ -1,17 +1,17 @@
 package com.gooalgene.iqgs.web;
 
 import com.github.pagehelper.PageInfo;
-import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
-import com.gooalgene.entity.Associatedgenes;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
-import com.gooalgene.iqgs.entity.condition.*;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.condition.RegularityResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
-import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.RegularityNetworkService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
@@ -27,7 +27,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 高级搜索相关接口层

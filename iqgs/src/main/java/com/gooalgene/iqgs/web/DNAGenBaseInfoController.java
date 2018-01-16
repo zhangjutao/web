@@ -3,6 +3,7 @@ package com.gooalgene.iqgs.web;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.entity.Qtl;

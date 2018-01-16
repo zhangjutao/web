@@ -1,6 +1,7 @@
 package com.gooalgene.dna.service;
 
 import com.gooalgene.dna.dto.DNAGenStructureDto;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -43,7 +44,7 @@ public class DNAGensServiceTest extends TestCase {
 
     @Test
     public void testFetchAllChromosomeAndID(){
-        Map<String, List<Integer>> map = dnaGenStructureService.fetchAllChromosomeAndID();
+        Map<String, List<DNAGenStructure>> map = dnaGenStructureService.fetchAllChromosomeAndID();
         assertEquals(29, map.size());
     }
 }

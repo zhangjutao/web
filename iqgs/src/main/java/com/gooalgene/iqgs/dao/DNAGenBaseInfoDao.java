@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.dao;
 import com.gooalgene.common.persistence.MyBatisDao;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.entity.*;
 import org.apache.ibatis.annotations.Param;

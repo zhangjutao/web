@@ -96,4 +96,20 @@ public class DNAGenStructure extends DataEntity<DNAGenStructure> {
     public void setOffset(long offset) {
         this.offset = offset;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (!(obj instanceof DNAGenStructure)) return false;
+        DNAGenStructure structure = (DNAGenStructure) obj;
+        if (structure.getGeneId() == null) return false;
+        return structure.getGeneId().equals(this.geneId);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + this.geneId.hashCode();
+        return result;
+    }
 }

@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by crabime on 12/17/17.
@@ -27,8 +28,17 @@ public class AssociatedGenesDaoTest extends TestCase {
     }
 
     @Test
+    public void testAssociatedGeneEquals(){
+        Associatedgenes gene1 = new Associatedgenes();
+        gene1.setQtlName("GENE1");
+        Associatedgenes gene2 = new Associatedgenes();
+        gene2.setQtlName("GENE1");
+        assertTrue(gene1.equals(gene2));
+    }
+
+    @Test
     public void testFindAssociatedGeneByGeneId(){
-        List<Associatedgenes> associatedGenes = associatedgenesDao.findAssociatedGeneByGeneId(224);
-        assertEquals(3, associatedGenes.size());
+        Set<Associatedgenes> associatedGenes = associatedgenesDao.findAssociatedGeneByGeneId(22758);
+        assertEquals(5, associatedGenes.size());
     }
 }

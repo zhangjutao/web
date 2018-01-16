@@ -5,13 +5,13 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.dao.StudyDao;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenSequence;
-import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionVo;
 import junit.framework.TestCase;
@@ -217,10 +217,5 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         info.setGeneId(null);
         info.setFunctions("sequence");
         assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
-    }
-
-    @Test
-    public void testGetFrontHundredGene(){
-        assertEquals(100, dnaGenBaseInfoDao.getFrontHundredGene().size());
     }
 }

@@ -3,17 +3,15 @@ package com.gooalgene.iqgs.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.service.DNAGenStructureService;
-import com.gooalgene.entity.Configuration;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
-import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -21,14 +19,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.context.ApplicationListener;
-import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.concurrent.*;
 
-import static com.gooalgene.common.constant.CommonConstant.DEFAULTRESULTVIEW;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
@@ -69,13 +64,13 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     private void initDataToCache(){
         //将基因机构数据加载到缓存中
-        Map<String, List<Integer>> allChromosomeAndId = dnaGenStructureService.fetchAllChromosomeAndID();
-        Set<Map.Entry<String, List<Integer>>> entries = allChromosomeAndId.entrySet();
-        Iterator<Map.Entry<String, List<Integer>>> iterator = entries.iterator();
+        Map<String, List<DNAGenStructure>> allChromosomeAndId = dnaGenStructureService.fetchAllChromosomeAndID();
+        Set<Map.Entry<String, List<DNAGenStructure>>> entries = allChromosomeAndId.entrySet();
+        Iterator<Map.Entry<String, List<DNAGenStructure>>> iterator = entries.iterator();
         while (iterator.hasNext()){
-            Map.Entry<String, List<Integer>> next = iterator.next();
+            Map.Entry<String, List<DNAGenStructure>> next = iterator.next();
             final String chromosome = next.getKey();
-            final List<Integer> includeGeneId = next.getValue();
+            final List<DNAGenStructure> includeGeneId = next.getValue();
             final List<AdvanceSearchResultView> advanceSearchResultViews = new ArrayList<>();
             LoadThreadCallable callable = new LoadThreadCallable(includeGeneId);
             logger.debug("执行" + chromosome + "写入缓存");
@@ -107,9 +102,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
     }
 
     private class LoadThreadCallable implements Callable<List<AdvanceSearchResultView>>{
-        private List<Integer> includeGeneId;
+        private List<DNAGenStructure> includeGeneId;
 
-        public LoadThreadCallable(List<Integer> includeGeneId) {
+        public LoadThreadCallable(List<DNAGenStructure> includeGeneId) {
             this.includeGeneId = includeGeneId;
         }
 
@@ -135,11 +130,11 @@ public class FPKMService implements InitializingBean, DisposableBean {
             return result;
         }
 
-        public List<Integer> getIncludeGeneId() {
+        public List<DNAGenStructure> getIncludeGeneId() {
             return includeGeneId;
         }
 
-        public void setIncludeGeneId(List<Integer> includeGeneId) {
+        public void setIncludeGeneId(List<DNAGenStructure> includeGeneId) {
             this.includeGeneId = includeGeneId;
         }
     }
@@ -174,6 +169,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
         page.setTotal(total);
         int end = pageNo * pageSize;
         end = end < total ? end : total;  //防止数组越界
+        // todo 这里也可以根据ID来做IN查询，目前使用name，但速度过慢
         List<AdvanceSearchResultView> advanceSearchResultViews =
                 fpkmDao.fetchFirstHundredGene(null, null, null, null, properGeneIdList.subList((pageNo - 1) * pageSize, end));
         page.addAll(advanceSearchResultViews);
@@ -189,7 +185,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
         Page<AdvanceSearchResultView> page = new Page<>(pageNo, pageSize, false);
         String chromosome = genStructure.getChromosome();
         //先从基因结构表中查找符合该种查询条件的基因总个数，返回基因结构ID，然后通过结构ID到高级搜索中搜索
-        final List<Integer> properGeneStructureIdList = dnaGenStructureService.getGeneStructureId(genStructure.getChromosome(), genStructure.getStart(), genStructure.getEnd());
+        final List<DNAGenStructure> properGeneStructureIdList = dnaGenStructureService.getGeneStructureId(genStructure.getChromosome(), genStructure.getStart(), genStructure.getEnd());
         List<AdvanceSearchResultView> advanceSearchResultViews = new ArrayList<>();
         Cache.ValueWrapper valueWrapper = cache.get(chromosome);
         if (valueWrapper == null){
@@ -205,8 +201,11 @@ public class FPKMService implements InitializingBean, DisposableBean {
             Collection<AdvanceSearchResultView> searchResult = Collections2.filter(wholeChromosomeSearchResultView, new Predicate<AdvanceSearchResultView>() {
                 @Override
                 public boolean apply(AdvanceSearchResultView input) {
-                    Integer structureId = input.getStructureId();
-                    return properGeneStructureIdList.contains(structureId);
+                    //通过重写DNAGenStructure类hashCode与equals方法判断该对象是否在搜索集合中
+                    String geneId = input.getGeneId();
+                    DNAGenStructure structure = new DNAGenStructure();
+                    structure.setGeneId(geneId);
+                    return properGeneStructureIdList.contains(structure);
                 }
             });
             advanceSearchResultViews.addAll(searchResult);
@@ -232,11 +231,14 @@ public class FPKMService implements InitializingBean, DisposableBean {
                                                                       List<String> selectIndel,
                                                                       List<Integer> firstHierarchyQtlId,
                                                                       List<Integer> selectQTL,
+                                                                      DNAGenBaseInfo baseInfo,
+                                                                      DNAGenStructure structure,
                                                                       int pageNo,
                                                                       int pageSize){
+        PageHelper.startPage(pageNo, pageSize, true);
         //QTL查询高级搜索
         List<AdvanceSearchResultView> searchResult =
-                fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, null, null);
+                fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
         return new PageInfo<>(searchResult);
     }
 
