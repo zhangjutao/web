@@ -27,7 +27,15 @@ $(function(){
     });
 
     $("#myTabs li").each(function(i){
+
        $(this).click(function(){
+           debugger;
+
+           // 高级搜索收起并清空所有的历史记录
+           var $btn = $("#advancedSearch p");
+           if($btn.hasClass("flag")){
+               $btn.removeClass("flag");
+           };
            // if($(this).hasClass("qtl")){
            //     $("#advancedSearch").show();
            // }else {
