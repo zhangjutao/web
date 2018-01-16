@@ -155,15 +155,28 @@ $(function (){
         getIndelData();
         getQtlData();
         // toggle img
-        if($(this).find("img").attr("src").indexOf("downtou") !=-1){
-            $(this).find("img").attr("src",ctxStatic + "/images/uptou.png");
+        // if($(this).find("img").attr("src").indexOf("downtou") !=-1){
+        //     $(this).find("img").attr("src",ctxStatic + "/images/uptou.png");
+        //     $("#advanceSelect").show();
+        // }else {
+        //     $(this).find("img").attr("src",ctxStatic + "/images/downtou.png");
+        //     $("#advanceSelect").hide();
+        // };
+        toggleShow();
+    });
+    // 高级搜索页面显示/隐藏切换
+    function toggleShow(){
+        var $btn = $("#advancedSearch p");
+        if($btn.find("img").attr("src").indexOf("downtou") !=-1){
+            $btn.find("img").attr("src",ctxStatic + "/images/uptou.png");
+            $btn.addClass("flag")
             $("#advanceSelect").show();
         }else {
-            $(this).find("img").attr("src",ctxStatic + "/images/downtou.png");
+            $btn.find("img").attr("src",ctxStatic + "/images/downtou.png");
+            $btn.removeClass("flag")
             $("#advanceSelect").hide();
         };
-    });
-
+    }
     // 获取基因表达量的组织以及小组织
     function getExpreData (){
         var promise = SendAjaxRequest("GET",  window.ctxROOT + "/advance-search/query-all-organic");
