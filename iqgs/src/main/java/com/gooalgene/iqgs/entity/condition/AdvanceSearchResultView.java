@@ -3,7 +3,9 @@ package com.gooalgene.iqgs.entity.condition;
 import com.gooalgene.iqgs.entity.GeneFPKM;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static com.gooalgene.common.constant.CommonConstant.EXONIC_NONSYNONYMOUSE;
 
@@ -30,7 +32,7 @@ public class AdvanceSearchResultView extends GeneFPKM {
     /**
      * 大于30的组织
      */
-    private List<String> largerThanThirtyTissue = new ArrayList<>();
+    private Set<String> largerThanThirtyTissue = new HashSet<>();
     
     private final static int STANDARD = 30;
 
@@ -58,7 +60,7 @@ public class AdvanceSearchResultView extends GeneFPKM {
         this.functions = functions;
     }
 
-    public List<String> getLargerThanThirtyTissue() {
+    public Set<String> getLargerThanThirtyTissue() {
         if (super.getPodAll() != null && super.getPodAll() > STANDARD){
             largerThanThirtyTissue.add("豆荚");
         }

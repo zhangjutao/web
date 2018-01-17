@@ -1,6 +1,7 @@
 package com.gooalgene.iqgs.web;
 
 import com.github.pagehelper.PageInfo;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Qtl;
@@ -22,11 +23,15 @@ import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Set;
@@ -40,9 +45,14 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping("/advance-search")
-public class AdvanceSearchController {
+public class AdvanceSearchController implements InitializingBean {
 
     private final static Logger logger = LoggerFactory.getLogger(AdvanceSearchController.class);
+
+    @Autowired
+    private CacheManager manager;
+
+    private Cache cache;
 
     @Autowired
     private QtlService qtlService;
@@ -62,6 +72,11 @@ public class AdvanceSearchController {
     @Autowired
     private RegularityNetworkService regularityNetworkService;
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        cache = manager.getCache("advanceSearch");
+    }
+
     @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<Qtl> queryByQTLName(String qtlName) {
@@ -71,26 +86,56 @@ public class AdvanceSearchController {
     @RequestMapping(value = "/query-all-organic", method = RequestMethod.GET)
     @ResponseBody
     public List<Classifys> getAllOrganicAndChildren() {
-        List<Classifys> classify = tService.getClassifyTree();
+        List<Classifys> classify = new ArrayList<>();
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHORGANIC);
+        if (valueWrapper != null){
+            classify = (List<Classifys>) valueWrapper.get();
+        } else {
+            classify = tService.getClassifyTree();
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHORGANIC, classify);
+        }
         return classify;
     }
 
     @RequestMapping(value = "/query-snp", method = RequestMethod.POST)
     @ResponseBody
     public List<String> getAllSNPCheckbox() {
-        return searchService.findAllDistinctSNP();
+        List<String> snp = new ArrayList<>();
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHSNP);
+        if (valueWrapper != null){
+            snp = (List<String>) valueWrapper.get();
+        } else {
+            snp = searchService.findAllDistinctSNP();
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHSNP, snp);
+        }
+        return snp;
     }
 
     @RequestMapping(value = "/query-indel", method = RequestMethod.POST)
     @ResponseBody
     public List<String> getALLDistinctINDEL() {
-        return searchService.findAllDistinctINDEL();
+        List<String> indel = new ArrayList<>();
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHINDEL);
+        if (valueWrapper != null){
+            indel = (List<String>) valueWrapper.get();
+        } else {
+            indel = searchService.findAllDistinctINDEL();
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHINDEL, indel);
+        }
+        return indel;
     }
 
     @RequestMapping(value = "/fetch-qtl-smarty")
     @ResponseBody
     public List<TraitCategoryWithinMultipleTraitList> fetchQtlSmartyData() {
-        List<TraitCategoryWithinMultipleTraitList> allTraitCategoryAndItsTraitList = traitCategoryService.findAllTraitCategoryAndItsTraitList();
+        List<TraitCategoryWithinMultipleTraitList> allTraitCategoryAndItsTraitList = new ArrayList<>();
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHQTL);
+        if (valueWrapper != null){
+            allTraitCategoryAndItsTraitList = (List<TraitCategoryWithinMultipleTraitList>) valueWrapper.get();
+        } else {
+            allTraitCategoryAndItsTraitList = traitCategoryService.findAllTraitCategoryAndItsTraitList();
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHQTL, allTraitCategoryAndItsTraitList);
+        }
         return allTraitCategoryAndItsTraitList;
     }
 

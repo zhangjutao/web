@@ -24,7 +24,7 @@ public class DNAGeneSearchResult extends DNAGenBaseInfo {
     /**
      * 符合条件的根组织中文名
      */
-    private List<String> rootTissues;
+    private Set<String> rootTissues;
 
     public boolean isExistsSNP() {
         return existsSNP;
@@ -42,11 +42,11 @@ public class DNAGeneSearchResult extends DNAGenBaseInfo {
         this.associateQTLs = associateQTLs;
     }
 
-    public List<String> getRootTissues() {
+    public Set<String> getRootTissues() {
         return rootTissues;
     }
 
-    public void setRootTissues(List<String> rootTissues) {
+    public void setRootTissues(Set<String> rootTissues) {
         this.rootTissues = rootTissues;
     }
 }
