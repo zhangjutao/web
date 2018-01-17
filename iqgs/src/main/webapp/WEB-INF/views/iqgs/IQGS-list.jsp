@@ -26,8 +26,8 @@
 <div class="container">
     <div class=" tabs">
         <ul id="myTabs"  class="searchNav nav-tabs">
-            <li class="geneIdName"><a class="" >Search By Gene ID/Name</a></li>
-            <li class="geneFunction"><a class="" >Search By Gene Function</a></li>
+            <li class="geneIdName"><a class="" >Search By Gene ID</a></li>
+            <li class="geneFunction"><a class="" style="font-size:8px;">Search By Gene Function/Name</a></li>
             <li class="region" ><a class="">Search By Region</a></li>
             <li class="qtl active" ><a class="">Search By QTL</a></li>
         </ul>
@@ -40,7 +40,8 @@
                     <button id="btn_name" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900"> LOC778160</a></p>--%>
-                <p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">LOC778160</a></p>
+                <%--<p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">LOC778160</a></p>--%>
+                <p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a></p>
 
             </div>
             <div id="GeneFunction" class="tab-pane">
@@ -51,7 +52,7 @@
                     <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">transcription factor MYBJ6</a></p>--%>
-                <p class="search-tips">示例: <a class="funcExample" href="javascript:void(0);">cycloartenol synthase</a></p>
+                <p class="search-tips">示例: <a class="funcExample" href="javascript:void(0);">cycloartenol synthase</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">LOC778160</a></p>
             </div>
             <div id="Region" class="tab-pane">
                 <p class="search-title">Search By Region</p>
