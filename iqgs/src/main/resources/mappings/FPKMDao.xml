@@ -209,7 +209,7 @@
         SELECT exists(SELECT c.consequencetype FROM fpkm a
           LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
           LEFT JOIN snp_consequencetype c ON c.id = b.snp_id
-          WHERE a.id = #{0} AND c.consequencetype = #{1}) as result;
+          WHERE a.gene_id = #{0} AND c.consequencetype = #{1}) as result;
     </select>
 
 </mapper>

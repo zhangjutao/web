@@ -116,7 +116,7 @@ public class DNAGenBaseInfoService {
             dnaGeneSearchResult.setGeneOldId(geneView.getGeneOldId());
             dnaGeneSearchResult.setGeneName(geneView.getGeneName());
             dnaGeneSearchResult.setDescription(geneView.getFunctions());
-            dnaGeneSearchResult.setExistsSNP(fpkmService.checkExistSNP(geneView.getId(), CommonConstant.EXONIC_NONSYNONYMOUSE));
+            dnaGeneSearchResult.setExistsSNP(fpkmService.checkExistSNP(geneView.getGeneId(), CommonConstant.EXONIC_NONSYNONYMOUSE));
             dnaGeneSearchResult.setRootTissues(geneView.getLargerThanThirtyTissue());
             dnaGeneSearchResult.setAssociateQTLs(associatedQTLs); //将查询出来的AssociateQTL关联到搜索结果上
             searchResultWithSNP.add(dnaGeneSearchResult);

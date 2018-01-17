@@ -236,7 +236,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
         return new PageInfo<>(searchResult);
     }
 
-    public boolean checkExistSNP(int fpkmId, String snpConsequenceType){
-        return fpkmDao.checkExistSNP(fpkmId, snpConsequenceType);
+    public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){
+        return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
     }
 }
