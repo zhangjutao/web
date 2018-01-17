@@ -34,12 +34,12 @@
         <div class=" tabs" style="margin-bottom:18px;">
             <ul id="myTabs"  class="searchNav nav-tabs">
                 <li class="active geneIdName"><a class="" >Search By Gene ID</a></li>
-                <li class=" geneFunction"><a class="" style="font-size:8px;">Search By Gene Function/Name</a></li>
+                <li class=" geneFunction"><a class="">Search By Gene Function/Name</a></li>
                 <li class="region" ><a class="">Search By Region</a></li>
                 <li class="qtl" ><a class="">Search By QTL</a></li>
             </ul>
             <div id="myTabContent" class="tab-content">
-                <div id="GeneIdName" class="tab-pane tab-pane-ac">
+                <div id="GeneIdName" class="tab-pane tab-pane-ac" style="margin-left:20px;">
                     <p class="search-title">Search By Gene ID/Name</p>
                     <label>
                         <input class="search-input" id="key_name" type="text" name="search" placeholder="输入您要查找的关键字">
@@ -50,7 +50,7 @@
                     <%--<p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">LOC778160</a></p>--%>
                     <p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a></p>
                 </div>
-                <div id="GeneFunction" class="tab-pane">
+                <div id="GeneFunction" class="tab-pane" style="margin-left:20px;">
                     <p class="search-title">Search By Gene Function</p>
                     <label>
                         <input id="key_func" class="search-input" type="text" name="search" placeholder="输入您要查找的关键字">
@@ -58,9 +58,9 @@
                         <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
                     <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">transcription factor MYBJ6</a></p>--%>
-                    <p class="search-tips">示例: <a class="funcExample" href="javascript:void(0);">cycloartenol synthase</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">LOC778160</a></p>
+                    <p class="search-tips">示例: <a class="funcExample" href="javascript:void(0);">cycloartenol synthase</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">ALF4</a></p>
                 </div>
-                <div id="Region" class="tab-pane">
+                <div id="Region" class="tab-pane" style="margin-left:20px;">
                     <p class="search-title">Search By Region</p>
                     <select class="js-region">
                         <option value="Chr01" data-max="">Chr01</option>
@@ -93,7 +93,7 @@
                     <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
                 </div>
 
-                <div id="qtlAdd" class="tab-pane">
+                <div id="qtlAdd" class="tab-pane" style="margin-left:20px;">
                     <p class="search-title">Search By QTL</p>
                     <label>
                         <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">

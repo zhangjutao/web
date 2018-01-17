@@ -332,7 +332,8 @@
     </div>
 
     <div id="gene" style="overflow: hidden;">
-        <iframe name="geneFrame" id="geneFrame" src="${ctxroot}/innerGene" onload="initSearch()" frameborder="0" height="1840" width="1200" scrolling="no"></iframe>
+        <%--<iframe name="geneFrame" id="geneFrame" src="${ctxroot}/innerGene" onload="initSearch()" frameborder="0" height="1840" width="1200" scrolling="no"></iframe>--%>
+        <iframe name="geneFrame" id="geneFrame" src="${ctxroot}/innerGene" frameborder="0" height="1840" width="1200" scrolling="no"></iframe>
     </div>
 
 </section>
@@ -377,6 +378,9 @@
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
     /*拖动弹框*/
+    $(function (){
+
+
     $(".tab-detail").draggable({ containment: "body" });
     function getUrlParam(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
@@ -490,8 +494,9 @@
 //                $("#btn-search").trigger("click");
 //            }
 //        },2800);
-    }
+    };
 
+    })
 </script>
 
 </body>
