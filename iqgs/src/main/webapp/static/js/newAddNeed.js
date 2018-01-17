@@ -1003,6 +1003,7 @@ $(function (){
     $("#iqgsSearch p").click(function (){
         // 开户遮罩层
         layer.msg('数据加载中!', {
+            time: 10000,
             shade: [0.5, '#393D49']
         });
         var geneInfo = {
