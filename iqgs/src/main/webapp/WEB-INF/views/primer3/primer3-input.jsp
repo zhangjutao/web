@@ -139,7 +139,7 @@
                     <div class="error-message"></div>
                     <div class="peimer3-input-item product-size"><%--Product Size--%>
                         <div class="peimer3-input-item-title input-item-common">Product Size(bp)</div>
-                        <div class="input-min input-item-common">Min</div>
+                        <div class="input-min input-item-common">Min</div> <%--todo 加入placeholder--%>
                         <input type="number" class="input-content input-item-common" name="productSizeMin"/>
                         <div class="input-item-common">-</div>
                         <div class="input-max input-item-common">Max</div>
