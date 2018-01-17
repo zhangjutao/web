@@ -73,12 +73,12 @@ public class FPKMService implements InitializingBean, DisposableBean {
             final List<DNAGenStructure> includeGeneId = next.getValue();
             final List<AdvanceSearchResultView> advanceSearchResultViews = new ArrayList<>();
             LoadThreadCallable callable = new LoadThreadCallable(includeGeneId);
-            logger.debug("执行" + chromosome + "写入缓存");
+            logger.warn("执行" + chromosome + "写入缓存");
             Future<List<AdvanceSearchResultView>> futureResult = threadPool.submit(callable);
             try {
                 List<AdvanceSearchResultView> executeResult = futureResult.get();
                 advanceSearchResultViews.addAll(executeResult);
-                logger.debug(chromosome + "完成写入缓存");
+                logger.warn(chromosome + "完成写入缓存");
             } catch (InterruptedException e) {
                 e.printStackTrace();
             } catch (ExecutionException e) {
