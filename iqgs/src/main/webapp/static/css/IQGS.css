@@ -15,7 +15,7 @@
 }
 .searchNav li:last-child{margin-bottom: 0}
 .searchNav  li a{
-    width: 200px;
+    width: 232px;
     height: 44px;
     display: block;
     color: #fff;
@@ -40,7 +40,7 @@
     content: "";display: block;
     position: absolute;
     top: 15px;
-    right: -2px;
+    right: -34px;
     width: 0;
     height: 0;
     border-top: 10px solid transparent;
