@@ -1,11 +1,9 @@
 package com.gooalgene.dna.entity;
 
-import com.gooalgene.common.DataEntity;
-
 /**
  * Created by Administrator on 2017-10-16.
  */
-public class DNAGenStructure extends DataEntity<DNAGenStructure> {
+public class DNAGenStructure {
     private String chromosome;
     private String geneId;
     private String transcriptId;
@@ -16,6 +14,15 @@ public class DNAGenStructure extends DataEntity<DNAGenStructure> {
     private String strand;
     private long maxLength;
     private long offset;
+    private int id;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     public String getChromosome() {
         return chromosome;

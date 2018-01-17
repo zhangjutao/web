@@ -197,9 +197,9 @@
             resultMap="advanceSearchResult">
         <include refid="advanceSearchSQL" />
         <if test="structureId != null and structureId.size() > 0">
-            AND i.gene_id IN
+            AND i.id IN
             <foreach collection="structureId" index="index" item="item" separator="," open="(" close=")">
-                #{item.geneId}
+                #{item.id}
             </foreach>
         </if>
         <include refid="groupBySQL" />

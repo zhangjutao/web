@@ -19,6 +19,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,6 +31,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
 public class FPKMService implements InitializingBean, DisposableBean {
     private final static Logger logger = LoggerFactory.getLogger(FPKMService.class);
 
+    @Autowired
+    private ApplicationContext context;
 
     @Autowired
     private FPKMDao fpkmDao;
@@ -51,15 +54,17 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        cache = manager.getCache("advanceSearch");
-        threadPool = Executors.newFixedThreadPool(10);
-        initDataThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                initDataToCache();
-            }
-        });
-        initDataThread.start();
+        if (context.getParent() != null) {
+            cache = manager.getCache("advanceSearch");
+            threadPool = Executors.newFixedThreadPool(10);
+            initDataThread = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    initDataToCache();
+                }
+            });
+            initDataThread.start();
+        }
     }
 
     private void initDataToCache(){
@@ -187,9 +192,11 @@ public class FPKMService implements InitializingBean, DisposableBean {
             if (!initDataThread.isAlive()){
                 initDataThread.start();
             }
-            //保持当前主线程进行数据搜索
-            advanceSearchResultViews =
-                    fpkmDao.fetchFirstHundredGeneInGeneStructure(null, null, null, null, properGeneStructureIdList);
+            if (properGeneStructureIdList.size() > 0) {
+                //保持当前主线程进行数据搜索，如果传入的基因结构集合为空，不进行查询
+                advanceSearchResultViews =
+                        fpkmDao.fetchFirstHundredGeneInGeneStructure(null, null, null, null, properGeneStructureIdList);
+            }
         }else {
             List<AdvanceSearchResultView> wholeChromosomeSearchResultView = (List<AdvanceSearchResultView>) valueWrapper.get();  //当前染色体查询总量
             Collection<AdvanceSearchResultView> searchResult = Collections2.filter(wholeChromosomeSearchResultView, new Predicate<AdvanceSearchResultView>() {
