@@ -144,7 +144,7 @@ $(function (){
     });
     // name 示例搜索
     $("#GeneFunction .geneExampleName").click(function (){
-        var qtlId = "LOC778160";
+        var qtlId = "ALF4";
         window.location = DOMAIN + "/search/list?keyword=" +encodeURI(qtlId)+ "&searchType=2" ;
     });
     // function 示例搜索
@@ -1082,11 +1082,6 @@ $(function (){
             function (result){
                 // 关闭遮罩层
                 layer.closeAll();
-                // var data = result.data.list;
-                // var total = result.data.total;
-                // var res = {};
-                // res.data = data;
-                // res.total = total;
                 if(result.code == 0 && result.data.list.length!=0){
                     resultCallback(result)
                 }else {

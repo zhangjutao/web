@@ -52,7 +52,7 @@
                     <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">transcription factor MYBJ6</a></p>--%>
-                <p class="search-tips">示例: <a class="funcExample" href="javascript:void(0);">cycloartenol synthase</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">LOC778160</a></p>
+                <p class="search-tips">示例: <a class="funcExample" href="javascript:void(0);">cycloartenol synthase</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">ALF4</a></p>
             </div>
             <div id="Region" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By Region</p>
