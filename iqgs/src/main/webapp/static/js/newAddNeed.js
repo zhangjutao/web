@@ -137,10 +137,15 @@ $(function (){
         window.location = DOMAIN + "/search/list?keyword=" +6340+ "&searchType=4" ;
     });
 
-    // geneID/name 示例搜索
+    // geneID 示例搜索
     $("#GeneIdName .geneExampleId,#GeneIdName .geneExampleName").click(function (){
         var qtlId = "Glyma.01G004900";
         window.location = DOMAIN + "/search/list?keyword=" +encodeURI(qtlId)+ "&searchType=1" ;
+    });
+    // name 示例搜索
+    $("#GeneFunction .geneExampleName").click(function (){
+        var qtlId = "LOC778160";
+        window.location = DOMAIN + "/search/list?keyword=" +encodeURI(qtlId)+ "&searchType=2" ;
     });
     // function 示例搜索
     $("#GeneFunction .funcExample").click(function (){
@@ -977,6 +982,7 @@ $(function (){
     function firstUpperCase(str) {
         return str.toLowerCase().replace(/\b[a-z]/g,function(s){return s.toUpperCase();});
     }
+
     // 去掉空格的方法封装
     function deleteSpace (str){
         if(str.indexOf(" ") == -1){
@@ -985,7 +991,9 @@ $(function (){
             var arr = str.split(" ");
             var newStr = arr[0];
             for (var i=1;i<arr.length;i++){
-                newStr +=firstUpperCase(arr[i]);
+                if(arr[i].indexOf("(")==-1){
+                    newStr +=firstUpperCase(arr[i]);
+                }
             };
             return newStr;
         }
