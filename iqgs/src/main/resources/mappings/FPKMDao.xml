@@ -147,8 +147,8 @@
             resultMap="advanceSearchResult">
         <include refid="advanceSearchSQL" />
         <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
-            AND a.gene_id IN
-            (SELECT a.gene_id FROM gens_baseinfo a
+            AND f.id IN
+            (SELECT a.id FROM gens_baseinfo a
             LEFT JOIN qtl_gene b ON a.id = b.gene_info_id
             LEFT JOIN associatedgenes c ON c.id = b.qtl_id
             WHERE c.id in

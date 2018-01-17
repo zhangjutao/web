@@ -11,6 +11,7 @@ import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
+import com.gooalgene.utils.ConsequenceTypeUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
@@ -86,6 +87,12 @@ public class DNAGenBaseInfoService {
                                                               DNAGenBaseInfo baseInfo,
                                                               DNAGenStructure structure,
                                                               int pageNo, int pageSize) {
+        if (selectSnp != null && selectSnp.size() > 0){
+            selectSnp = ConsequenceTypeUtils.reverseReadableListValue(selectSnp);  //转换为数据库可读的序列类型
+        }
+        if (selectIndel != null && selectIndel.size() > 0){
+            selectIndel = ConsequenceTypeUtils.reverseReadableListValue(selectIndel);
+        }
         PageInfo<AdvanceSearchResultView> properGene =
                 fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, baseInfo, structure, pageNo, pageSize);  //通过高级搜索接口查询
         return convertSearchResultToSearchView(properGene);

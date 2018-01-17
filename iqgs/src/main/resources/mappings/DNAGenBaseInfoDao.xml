@@ -28,7 +28,7 @@
                 AND gene_id LIKE CONCAT('%', #{geneId}, '%') OR gene_id_old LIKE CONCAT('%', #{geneOldId}, '%')
             </if>
             <if test="functions!=null">
-                AND description LIKE CONCAT('%', #{functions}, '%')
+                AND description LIKE CONCAT('%', #{functions}, '%') OR gene_name LIKE CONCAT('%', #{functions}, '%')
             </if>
     </select>
 

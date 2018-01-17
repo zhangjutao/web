@@ -1,6 +1,7 @@
 package com.gooalgene.iqgs.others;
 
 import com.gooalgene.iqgs.service.GeneRegexpService;
+import com.gooalgene.utils.StringUtils;
 import com.google.common.base.Splitter;
 import com.google.common.collect.Iterables;
 import junit.framework.TestCase;
@@ -124,6 +125,75 @@ public class SearchRegexpTest extends TestCase {
         while (matcher.find()){
             System.out.println(matcher.group());
         }
+    }
+
+    @Test
+    public void testMatchConsequenceType(){
+        String str = "exonic;splicing_nonsynonymous SNV";
+        str = "UTR5;UTR3";
+        str = "upstream;downstream";
+        StringBuilder resultStr = new StringBuilder();
+        if (str.contains(";")){
+            String[] result = str.split(";");
+            for (int i = 0; i < result.length; i++){
+                resultStr.append(reverseNumber(result[i]));
+                if (i != result.length - 1){
+                    resultStr.append(";");
+                }
+            }
+        }else {
+            resultStr.append(reverseNumber(str));
+        }
+        System.out.println(resultStr.toString());
+    }
+
+    @Test
+    public void testReverseMatchSequenceType(){
+        String str = "5'UTR;3'UTR";
+        str = "Exonic;Splicing_nonsynonymous SNV";
+        str = "5'UTR";
+        str = "Downstream";
+        StringBuilder builder = new StringBuilder();
+        if (str.contains(";")){
+            String[] split = str.split(";");
+            for (int i = 0; i < split.length; i++){
+                builder.append(resetNumber(split[i]));
+                if (i != split.length - 1){
+                    builder.append(";");
+                }
+            }
+        }else {
+            builder.append(resetNumber(str));
+        }
+        System.out.println(builder.toString());
+    }
+
+    /**
+     * 数字复位
+     */
+    private String resetNumber(String str){
+        String regex = "'{1}";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+        if (matcher.find()){
+            int start = matcher.start();
+            str = str.substring(start+1) + str.substring(0, start);
+        } else {
+            str = StringUtils.uncapitalize(str);
+        }
+        return str;
+    }
+
+    private String reverseNumber(String str){
+        str = StringUtils.capitalize(str);
+        String regex = "[0-9]";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(str);
+        if (matcher.find()){
+            int start = matcher.start();
+            str = str.substring(start) + "'" + str.substring(0, start);
+        }
+        return str;
     }
 
     @Test

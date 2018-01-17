@@ -20,6 +20,7 @@ import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
+import com.gooalgene.utils.ConsequenceTypeUtils;
 import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,29 +101,34 @@ public class AdvanceSearchController implements InitializingBean {
     @RequestMapping(value = "/query-snp", method = RequestMethod.POST)
     @ResponseBody
     public List<String> getAllSNPCheckbox() {
-        List<String> snp = new ArrayList<>();
+        List<String> snp = null;
+        List<String> result = null;
         Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHSNP);
         if (valueWrapper != null){
-            snp = (List<String>) valueWrapper.get();
+            result = (List<String>) valueWrapper.get();
         } else {
             snp = searchService.findAllDistinctSNP();
-            cache.putIfAbsent(CommonConstant.ADVANCESEARCHSNP, snp);
+            //先将数据库中取出来的序列值转换为前端可识别的值
+            result = ConsequenceTypeUtils.convertReadableListValue(snp);
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHSNP, result);
         }
-        return snp;
+        return result;
     }
 
     @RequestMapping(value = "/query-indel", method = RequestMethod.POST)
     @ResponseBody
     public List<String> getALLDistinctINDEL() {
-        List<String> indel = new ArrayList<>();
+        List<String> indel = null;
+        List<String> result = null;
         Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHINDEL);
         if (valueWrapper != null){
-            indel = (List<String>) valueWrapper.get();
+            result = (List<String>) valueWrapper.get();
         } else {
             indel = searchService.findAllDistinctINDEL();
-            cache.putIfAbsent(CommonConstant.ADVANCESEARCHINDEL, indel);
+            result = ConsequenceTypeUtils.convertReadableListValue(indel);
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHINDEL, result);
         }
-        return indel;
+        return result;
     }
 
     @RequestMapping(value = "/fetch-qtl-smarty")
