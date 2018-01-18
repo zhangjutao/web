@@ -4,6 +4,7 @@
 $(function(){
 
     $("#btn_name").on('click', function(){
+        flag = 0;
         var key = $("#key_name").val();
         if (key && !/^\s+$/.test(key)) {
             window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&searchType=1";
@@ -11,6 +12,7 @@ $(function(){
     });
 
     $("#btn_func").on('click', function(){
+        flag = 0;
         var key = $("#key_func").val();
         if (key && !/^\s+$/.test(key)) {
             window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&searchType=2";
@@ -18,6 +20,7 @@ $(function(){
     });
 
     $("#btn_range").on('click', function(){
+        flag = 0;
         var serial = $(".js-region").val();
         var rg_begin = $("#rg_begin").val();
         var rg_end = $("#rg_end").val();

@@ -78,6 +78,7 @@ public class DNAGenBaseInfoController {
             model.addAttribute("chr", chr);
             model.addAttribute("rgBegin", begin);
             model.addAttribute("rgEnd", end);
+            model.addAttribute("keyword",chr+","+begin +"bp-"+ end + "bp");
         }
         model.addAttribute("searchType", searchType);
         return "iqgs/IQGS-list";
