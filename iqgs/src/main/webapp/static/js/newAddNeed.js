@@ -598,7 +598,7 @@
     // 基因表达量 input 输入框的失焦事件
     var expreEnd;
     var expreStart;
-    $("#expreStart").on("blur",function (){
+    $("#expreStart").on("blur change",function (){
         expreStart = $("#expreStart").val();
         if(!expreStart){
             if(!$("#expreStart").hasClass("borderColorInput")){
@@ -623,7 +623,7 @@
         }
     });
     // FPKM值为必填项，如果没填，就弹框提示并框框变红
-    $("#expreEnd").on("blur",function (){
+    $("#expreEnd").on("blur change",function (){
         expreEnd = $("#expreEnd").val();
         if(!expreEnd){
             if(!$("#expreEnd").hasClass("borderColorInput")){
@@ -663,8 +663,11 @@
         var name = $("#expreKinds div.inputBox input").val().trim();
        var list = $("#expreKinds .expreList ul li");
        $.each(list,function (i,item){
-           if($(item).hasClass("testClass") && $(item).text().trim() == name){
-               $(item).addClass("noClick");
+           // if($(item).hasClass("testClass") && $(item).text().trim() == name){
+           //     $(item).addClass("noClick");
+           // }
+           if($(item).text().trim() == name){
+               $(item).addClass("noClick").addClass("testClass");
            }
        });
        liClick("expreKinds","expreList");
