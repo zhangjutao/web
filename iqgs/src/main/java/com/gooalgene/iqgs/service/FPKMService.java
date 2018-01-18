@@ -103,7 +103,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     @Override
     public void destroy() throws Exception {
-        threadPool.shutdown();
+        if (threadPool != null && !threadPool.isShutdown()) {
+            threadPool.shutdown();
+        }
     }
 
     private class LoadThreadCallable implements Callable<List<AdvanceSearchResultView>>{
