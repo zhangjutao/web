@@ -85,7 +85,7 @@ public class DNAGenBaseInfoController {
     }
 
     /**
-     * 根据基因id或者name进行模糊查询
+     * 根据基因id进行模糊查询
      *
      */
     @RequestMapping("/search/gene-id-name")
@@ -99,7 +99,7 @@ public class DNAGenBaseInfoController {
     }
 
     /**
-     * 根据基因function字段进行模糊查询
+     * 根据基因function或者name字段进行模糊查询
      * @return 搜索出来的总条数, data:搜索出来的数据,data中包含哪些数据...
      */
     @RequestMapping("/search/func")

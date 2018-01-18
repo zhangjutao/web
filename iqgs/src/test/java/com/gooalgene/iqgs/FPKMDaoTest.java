@@ -130,7 +130,7 @@ public class FPKMDaoTest extends TestCase {
 
     @Test
     public void testCheckExistSNP(){
-        boolean result = fpkmDao.checkExistSNP(5, CommonConstant.EXONIC_NONSYNONYMOUSE);
+        boolean result = fpkmDao.checkExistSNP("Glyma.01G007200", CommonConstant.EXONIC_NONSYNONYMOUSE);
         assertTrue(result);
     }
 
