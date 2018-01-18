@@ -1,13 +1,7 @@
 /*2017 - 12 新增业务需求 add by jarry*/
-$(function (){
-    // 定义全局变量
-    var globalObj = {}
-        globalObj.SleExpreDatas = [];  // 选中的大组织以及小组织
-        globalObj.SleSnpDatas = [];// 选中的snp 信息
-        globalObj.SleIndelDatas = [];// 选中的indel 信息
-        globalObj.qtlParams = [];  // 存放qtl 信息
-    // 存放高级搜索最后的参数集合
-    var dataParam;
+// $(function (){
+
+
     // ajax 请求的代码封装
     function SendAjaxRequest(method, url,data) {
         if (window.Promise) {//检查浏览器是否支持Promise
@@ -31,7 +25,6 @@ $(function (){
             alert("sorry,你的浏览器不支持Promise 对象")
         };
     };
-
     // qtl 搜索 -- 》获取数据 -- >search
     $("#QtlBtnName").click(function (){
         var qtlSearchVal = $("#qtlName").val().trim();
@@ -113,6 +106,7 @@ $(function (){
     };
     // 根据选择的qtl 搜索 -- > sureBtn
     $("#qtlAdd .sureBtn").click(function (){
+        flag = 0;
         storage.setItem("qtlSearchNames", JSON.stringify(globleObject.selectedQtlNames));
         var num = globleObject.selectedQtl.length;
         var qtlNameArr = globleObject.selectedQtl;
@@ -227,20 +221,6 @@ $(function (){
     };
     // 获取indel 数据
     function getIndelData(){
-        // Forged data
-        var indelDatas = ["indel3","Exonic;Splicing"," Exonic_frameshift deletion",
-            "Exonic_frameshift insertion","Exonic_nonframeshift deletion","Exonic_nonframeshift insertion","Exonic_stopgain","Exonic_stoploss","Intergenic"
-            ," Intronic"," Splicing","Upstream","Upstream;Downstream","3´UTR","5´UTR","5´UTR;3´UTR"];
-
-        var obj = {
-            name:"indel",
-            status:200,
-            data: indelDatas
-        };
-        // 拦截请求
-        // Mock.mock(/(query-all-indel){1}\w*/,obj);
-        var data = "";
-        // var promise = SendAjaxRequest("GET","query-all-indel",data);
         var promise = SendAjaxRequest("POST",window.ctxROOT + "/advance-search/query-indel");
         promise.then(
             function (result){
@@ -1001,117 +981,13 @@ $(function (){
 
     // 高级搜索
     $("#iqgsSearch p").click(function (){
-        // 开户遮罩层
-        layer.msg('数据加载中!', {
-            time: 10000,
-            shade: [0.5, '#393D49']
-        });
-        var geneInfo = {
-            geneId:null,
-            functions:null
-        };
-         //  根据范围查询
-        var geneStructure = {
-            chromosome: "",
-            start: 0,
-            end: 0
-        };
-
-        // 先清空一级搜索的所有列表
-        $(".search-result .tab-list").empty();
-        // 1,获取 基因表达量的参数；
-        var datas = globalObj.SleExpreDatas;
-        var geneExpressionConditionEntities = [];
-        var obj = {};
-        for (var i=0;i<datas.length;i++){
-            obj.begin = Number(datas[i].FPKM.split("-")[0]);
-            obj.end = Number(datas[i].FPKM.split("-")[1]);
-            var childers = datas[i].selected;
-            var newStr = "";
-            for (var m=0;m<childers.length;m++){
-                newStr +=deleteSpace(childers[m]) + ":";
-            };
-            var newstrs = newStr.substring(0,newStr.length-1);
-            var tissue = {};
-            var newArr = newstrs.split(":");
-            for (var k=0;k<newArr.length;k++){
-                    tissue[newArr[k]] =Math.random();
-            };
-            obj.tissue = tissue;
-            geneExpressionConditionEntities.push(obj);
-        }
-        // 2.获取snp参数
-        var snpConsequenceType = globalObj.SleSnpDatas;
-        // 3.获取indel参数
-        var indelConsequenceType = globalObj.SleIndelDatas;
-        var qtlSigles = $("#expreDetail span.qtlSigle");
-        var qtlId = [];
-        for (var n=0;n<qtlSigles.length;n++){
-            var id = $(qtlSigles[n]).attr("class").split(" ")[2].substring(4);
-            qtlId.push(Number(id));
-        }
-        // var qtlIds = qtlId.concat(nums);
-        dataParam = {};
-        dataParam.geneExpressionConditionEntities = geneExpressionConditionEntities;
-        dataParam.snpConsequenceType = snpConsequenceType;
-        dataParam.indelConsequenceType = indelConsequenceType;
-        dataParam.qtlId = qtlId;
-        dataParam.firstHierarchyQtlId = nums;
-        dataParam.pageNo = 1;
-        dataParam.pageSize = 10;
-        switch (Number(searchType)){
-            case 1:
-                geneInfo.geneId = $("#key_name").val().trim();
-                dataParam.firstHierarchyQtlId = [];
-                break;
-            case 2:
-                geneInfo.functions = $("#key_func").val().trim();
-                dataParam.firstHierarchyQtlId = [];
-                break;
-            case 3:
-                geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
-                geneStructure.start = Number($("#rg_begin").val().trim());
-                geneStructure.end = Number($("#rg_end").val().trim());
-                dataParam.geneStructure = geneStructure;
-                dataParam.firstHierarchyQtlId = [];
-                break;
-        };
-        dataParam.geneInfo = geneInfo;
-        console.log(dataParam);
-        var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
-        promise.then(
-            function (result){
-                // 关闭遮罩层
-                layer.closeAll();
-                if(result.code == 0 && result.data.list.length!=0){
-                    resultCallback(result)
-                }else {
-                    laypage({
-                        cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-//            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-                        curr: page.curr || 1, //当前页
-                        skin: '#5c8de5',
-                        skip: true,
-                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(result.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
-                        prev: '<',
-                        next: '>',
-                        groups: 3, //连续显示分页数
-                        jump: function (obj, first) { //触发分页后的回调
-                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                page.curr = obj.curr;
-                                requestSearchData();
-                            }
-                        }
-                    });
-                    $("#total-page-count1 span").text(result.data.total);
-                    $(".js-search-total").text(result.data.total);
-                }
-
-            },function (error){
-                console.log(error);
-            }
-        )
+        flag = 1;
+        var dataParam = getParams();
+        advanceSearchFn(dataParam);
     });
-})
+
+
+
+
+
+// })
