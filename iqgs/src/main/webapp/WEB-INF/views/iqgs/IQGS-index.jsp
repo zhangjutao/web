@@ -41,7 +41,7 @@
             </ul>
             <div id="myTabContent" class="tab-content">
                 <div id="GeneIdName" class="tab-pane tab-pane-ac" style="margin-left:20px;">
-                    <p class="search-title">Search By Gene ID/Name</p>
+                    <p class="search-title">Search By Gene ID</p>
                     <label>
                         <input class="search-input" id="key_name" type="text" name="search" placeholder="输入您要查找的关键字">
                         <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
@@ -52,7 +52,7 @@
                     <p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a></p>
                 </div>
                 <div id="GeneFunction" class="tab-pane" style="margin-left:20px;">
-                    <p class="search-title">Search By Gene Function</p>
+                    <p class="search-title">Search By Gene Function/Name</p>
                     <label>
                         <input id="key_func" class="search-input" type="text" name="search" placeholder="输入您要查找的关键字">
                         <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
