@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>SNP INDEL database</title>
+    <title>Primer3</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <%--<link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">--%>
     <%--<link rel="stylesheet" href="${ctxStatic}/css/primer3.css">--%>
@@ -154,45 +154,6 @@
         </div>
     </div>
 
-    <%--<div class="contant page-circle" id="systreeContainer">
-        <div class="box-shadow">
-            <div class="item-header">
-                <div class="icon-left"><img src="${ctxStatic}/images/tag-name.png"> 树形图</div>
-            </div>
-            <div class="tab-item">
-                &lt;%&ndash;<ul class="item">&ndash;%&gt;
-                    &lt;%&ndash;<li class="item-ac">标签1</li>&ndash;%&gt;
-                    &lt;%&ndash;<!--<li>标签2</li>-->&ndash;%&gt;
-                &lt;%&ndash;</ul>&ndash;%&gt;
-                <div class="tab">
-                    <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
-                        <img src="${ctxStatic}/images/dnatree.png">
-                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">群体信息</a></p>
-                            &lt;%&ndash;<%@ include file="/WEB-INF/views/include/dna.jsp" %>&ndash;%&gt;
-                            &lt;%&ndash;<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>&ndash;%&gt;
-                    </div>
-                    <div class="tab-txt tree-explain">
-                        <div class="txt-title explain-title">
-                            <img src="${ctxStatic}/images/tree-img.png">
-                            树形图说明
-                        </div>
-                        <div class="txt-content explain-text">
-                            上图利用大豆群体近1000个样本的SNP信息，使用structure软件计算种群内的亚群结构，将群体分为10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而亚群与亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群；同时，采用邻接法（neighbor-joining）计算种群之间的距离，构建系统进化树（phylogenetic tree，又称evolutionary tree）展示了本数据库中大豆样本之间的进化历程和亲缘关系。
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="database-overview box-shadow">
-            <div class="explain-title">
-                <img src="${ctxStatic}/images/explain.png">数据库概况
-            </div>
-            <div class="explain-text">
-                SNP/INDEL数据库提供了大豆相关的21,657,613条SNPs及2,329,103条InDels变异信息。这些变异信息由收集NCBI公共网站上近1000个大豆重测序数据，与Glycine max Wm82.a2.v1基因组进行比对后获得。该数据库收录了丰富的样本变异信息，用户可以根据属性自定义组合群体，查询SNP、INDEL变异在不同群体中的出现频率。同时，亦可以根据基因及感兴趣位点对特定区域上的变异位点进行查看。通过该变异数据库，快速、直观地了解群体中变异发生比例，辅助群体遗传变异研究。
-            </div>
-        </div>
-    </div>--%>
-
 </div>
 <!--footer-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
@@ -250,6 +211,8 @@
                 $('input[name="productSizeMin"]').val(parseInt(primer3.seqLength*0.5));
                 $('input[name="productSizeMax"]').val(primer3.seqLength);
             //}
+            $('input[name="productSizeMin"]').prop('placeholder',parseInt(primer3.seqLength*0.5));
+            $('input[name="productSizeMax"]').prop('placeholder',primer3.seqLength);
         },
         changeLength: function () {
             var val = $('.sequence-block').val();
