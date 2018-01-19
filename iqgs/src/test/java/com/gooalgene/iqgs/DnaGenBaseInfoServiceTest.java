@@ -5,13 +5,13 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.dao.StudyDao;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenSequence;
-import com.gooalgene.iqgs.entity.DNAGenStructure;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionVo;
 import junit.framework.TestCase;
@@ -91,23 +91,6 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         List<DNAGenBaseInfo> firstThree = geneResult.subList(0, 3);
         String result = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(firstThree);
         System.out.println(result);
-    }
-
-    /**
-     * 测试iqgs中根据id和name模糊查询gene
-     * 要求支持oldid的搜索
-     */
-    @Test
-    public void testqueryDNAGenBaseInfosByIdorName() {
-        DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        Page<DNAGenBaseInfo> page = new Page<>(1, 10);
-//        bean.setPage(page);
-        String keyWord="G00805";
-        List<DNAGenBaseInfo> geneResult = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(keyWord,page);
-        for (int i = 0; i < geneResult.size(); i++) {
-            DNAGenBaseInfo dnaGenBaseInfo =  geneResult.get(i);
-            System.out.println(dnaGenBaseInfo.toString());
-        }
     }
 
     @Test
@@ -224,5 +207,15 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         String geneId = "Glyma08G36090";
         List<Associatedgenes> allQTLNames = dnaGenBaseInfoDao.findAllAssociatedQTLByGeneId(geneId);
         assertEquals(18, allQTLNames.size());
+    }
+
+    @Test
+    public void testFindProperGeneId(){
+        DNAGenBaseInfo info = new DNAGenBaseInfo();
+        info.setGeneId("a");
+        assertEquals(56044, dnaGenBaseInfoDao.findProperGeneId(info).size());
+        info.setGeneId(null);
+        info.setFunctions("sequence");
+        assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
     }
 }

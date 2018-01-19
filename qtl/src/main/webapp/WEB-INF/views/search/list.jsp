@@ -20,10 +20,10 @@
             position: relative;
         }
         .nav .second-text a {
-            float: left;
-            padding: 5px;
             display: block;
             margin-right: 15px;;
+            float: left;
+            padding: 5px;
         }
 
         .nav .second-text a:hover {

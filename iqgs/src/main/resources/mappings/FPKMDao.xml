@@ -13,15 +13,13 @@
         <result property="seedlingAll" column="seedling_All" javaType="double" jdbcType="DOUBLE"/>
         <result property="flowerAll" column="flower_All" javaType="double" jdbcType="DOUBLE"/>
         <result property="stemAll" column="stem_All" javaType="double" jdbcType="DOUBLE"/>
-        <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR" />
-        <result property="functions" column="description" javaType="String" jdbcType="VARCHAR" />
+        <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="functions" column="description" javaType="String" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <select id="findGeneThroughGeneExpressionCondition"
-            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
-            resultMap="advanceSearchResult">
-        SELECT a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
-        a.flower_All, a.stem_All, f.gene_name, f.description,
+    <sql id="advanceSearchSQL">
+        SELECT a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
+        a.flower_All, a.stem_All, f.id, f.gene_name, f.description,
         f.gene_id_old FROM fpkm a
         LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
         LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
@@ -30,94 +28,99 @@
         LEFT JOIN gens_baseinfo f ON a.gene_id = f.gene_id
         LEFT JOIN qtl_gene g ON f.id = g.gene_info_id
         LEFT JOIN associatedgenes h ON h.id = g.qtl_id
+        LEFT JOIN gens_structure i ON i.gene_id = a.gene_id
         WHERE 1=1
         <if test="geneExpression != null and geneExpression.size() > 0">
-            <foreach collection="geneExpression" index="index" item="item">
-                <if test="item.tissue.pod != null">
-                    AND a.pod BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.endosperm != null">
-                    AND a.endosperm BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.seed != null">
-                    AND a.seed BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.embryo != null">
-                    AND a.embryo BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.axis != null">
-                    AND a.axis BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.cotyledon != null">
-                    AND a.cotyledon BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.seedCoat != null">
-                    AND a.seed_coat BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.nodule != null">
-                    AND a.nodule BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.rootHair != null">
-                    AND a.root_hair BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.root != null">
-                    AND a.root BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.rootTip != null">
-                    AND a.root_tip BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.shoot != null">
-                    AND a.shoot BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.shootTip != null">
-                    AND a.shoot_tip BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.shootApicalMeristem != null">
-                    AND a.shoot_apical_meristem BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.shootMeristem != null">
-                    AND a.shoot_meristem BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.primaryleaf != null">
-                    AND a.primaryleaf BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.petiole != null">
-                    AND a.petiole BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.leaf != null">
-                    AND a.leaf BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.trifoliate != null">
-                    AND a.trifoliate BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.leafbud != null">
-                    AND a.leafbud BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.leaflet != null">
-                    AND a.leaflet BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.cotyledonsOfSeedling != null">
-                    AND a.cotyledons_of_seedling BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.seedling != null">
-                    AND a.seedling BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.flowerBud != null">
-                    AND a.flower_bud BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.flower != null">
-                    AND a.flower BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.stem != null">
-                    AND a.stem BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.stemInternode != null">
-                    AND a.stem_internode BETWEEN #{item.begin} AND #{item.end}
-                </if>
-                <if test="item.tissue.hypocotyl != null">
-                    AND a.hypocotyl BETWEEN #{item.begin} AND #{item.end}
-                </if>
-            </foreach>
+            AND (
+            <trim suffixOverrides="OR">
+                <foreach collection="geneExpression" index="index" item="item">
+                    <if test="item.tissue.pod != null">
+                        a.pod BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.endosperm != null">
+                        a.endosperm BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.seed != null">
+                        a.seed BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.embryo != null">
+                        a.embryo BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.axis != null">
+                        a.axis BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.cotyledon != null">
+                        a.cotyledon BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.seedCoat != null">
+                        a.seed_coat BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.nodule != null">
+                        a.nodule BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.rootHair != null">
+                        a.root_hair BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.root != null">
+                        a.root BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.rootTip != null">
+                        a.root_tip BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.shoot != null">
+                        a.shoot BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.shootTip != null">
+                        a.shoot_tip BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.shootApicalMeristem != null">
+                        a.shoot_apical_meristem BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.shootMeristem != null">
+                        a.shoot_meristem BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.primaryleaf != null">
+                        a.primaryleaf BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.petiole != null">
+                        a.petiole BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.leaf != null">
+                        a.leaf BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.trifoliate != null">
+                        a.trifoliate BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.leafbud != null">
+                        a.leafbud BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.leaflet != null">
+                        a.leaflet BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.cotyledonsOfSeedling != null">
+                        a.cotyledons_of_seedling BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.seedling != null">
+                        a.seedling BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.flowerBud != null">
+                        a.flower_bud BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.flower != null">
+                        a.flower BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.stem != null">
+                        a.stem BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.stemInternode != null">
+                        a.stem_internode BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                    <if test="item.tissue.hypocotyl != null">
+                        a.hypocotyl BETWEEN #{item.begin} AND #{item.end} OR
+                    </if>
+                </foreach>
+            </trim>
+            )
         </if>
         <if test="snp != null and snp.size() > 0">
             AND c.consequencetype IN
@@ -137,9 +140,19 @@
                 #{item}
             </foreach>
         </if>
+    </sql>
+    <sql id="groupBySQL">
+        GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
+        a.stem_All, f.id, f.gene_id_old, f.gene_name, f.description
+    </sql>
+
+    <select id="findGeneThroughGeneExpressionCondition"
+            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
+            resultMap="advanceSearchResult">
+        <include refid="advanceSearchSQL"/>
         <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
-            AND a.gene_id IN
-            (SELECT a.gene_id FROM gens_baseinfo a
+            AND f.id IN
+            (SELECT a.id FROM gens_baseinfo a
             LEFT JOIN qtl_gene b ON a.id = b.gene_info_id
             LEFT JOIN associatedgenes c ON c.id = b.qtl_id
             WHERE c.id in
@@ -148,15 +161,61 @@
             </foreach>
             )
         </if>
-        GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
-        a.stem_All, f.gene_id_old, f.gene_name, f.description
+        <if test="searchById != null">
+            <if test="searchById.geneId != null">
+                AND (f.gene_id LIKE CONCAT('%', #{searchById.geneId}, '%') OR f.gene_id_old LIKE CONCAT('%',
+                #{searchById.geneId}, '%'))
+            </if>
+            <if test="searchById.geneName != null">
+                AND f.gene_name LIKE CONCAT('%', #{searchById.geneName}, '%')
+            </if>
+            <if test="searchById.functions != null">
+                AND f.description LIKE CONCAT('%', #{searchById.functions}, '%')
+            </if>
+        </if>
+        <if test="structure != null">
+            AND i.chromosome = #{structure.chromosome} AND (
+            (i.start &gt;#{structure.start} AND i.start &lt;#{structure.end})
+            OR
+            (i.end &gt;#{structure.start} AND i.end &lt;#{structure.end})
+            OR
+            (i.start &lt;#{structure.start} AND i.end &gt;#{structure.start})
+            )
+        </if>
+        <include refid="groupBySQL"/>
+    </select>
+
+    <select id="fetchFirstHundredGene"
+            parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
+            resultMap="advanceSearchResult">
+        <include refid="advanceSearchSQL"/>
+        <if test="geneId != null and geneId.size() > 0">
+            AND f.id IN
+            <foreach collection="geneId" index="index" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        <include refid="groupBySQL"/>
+    </select>
+
+    <select id="fetchFirstHundredGeneInGeneStructure"
+            resultMap="advanceSearchResult">
+        <include refid="advanceSearchSQL"/>
+        <if test="structureId != null and structureId.size() > 0">
+            AND i.id IN
+            <foreach collection="structureId" index="index" item="item" separator="," open="(" close=")">
+                #{item.id}
+            </foreach>
+        </if>
+        <include refid="groupBySQL"/>
     </select>
 
     <select id="checkExistSNP" resultType="boolean">
-        SELECT exists(SELECT c.consequencetype FROM fpkm a
-          LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
-          LEFT JOIN snp_consequencetype c ON c.id = b.snp_id
-          WHERE a.id = #{0} AND c.consequencetype = #{1}) as result;
+        SELECT exists(SELECT c.consequencetype
+                      FROM fpkm a
+                          LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
+                          LEFT JOIN snp_consequencetype c ON c.id = b.snp_id
+                      WHERE a.gene_id = #{0} AND c.consequencetype = #{1}) AS result;
     </select>
 
 </mapper>

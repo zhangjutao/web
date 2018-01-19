@@ -1,10 +1,14 @@
 package com.gooalgene.iqgs.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.*;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionStudy;
 import com.gooalgene.mrna.service.StudyService;
@@ -12,11 +16,14 @@ import com.gooalgene.mrna.service.TService;
 import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.service.QueryService;
 import com.gooalgene.utils.JsonUtils;
+import com.gooalgene.utils.PropertiesLoader;
+import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.StringUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -29,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +49,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/iqgs")
-public class DNAGenBaseInfoController {
+public class DNAGenBaseInfoController implements InitializingBean {
 
     Logger logger = LoggerFactory.getLogger(DNAGenBaseInfoController.class);
 
@@ -56,9 +62,23 @@ public class DNAGenBaseInfoController {
     @Autowired
     private QueryService queryService;
 
+    private PropertiesLoader loader;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        loader = new PropertiesLoader("classpath:qtldb.properties");
+    }
+
     @RequestMapping("/index")
-    public String toIndexPage() {
-        return "iqgs/IQGS-index";
+    public ModelAndView toIndexPage() {
+        ModelAndView modelAndView = new ModelAndView("iqgs/IQGS-index");
+        String mrnaIndex = loader.getProperty("mrna.index");
+        String dnaIndex = loader.getProperty("dna.index");
+        String qtlIndex = loader.getProperty("qtl.index");
+        modelAndView.addObject("mrnaIndex", mrnaIndex);
+        modelAndView.addObject("dnaIndex", dnaIndex);
+        modelAndView.addObject("qtlIndex", qtlIndex);
+        return modelAndView;
     }
 
     @RequestMapping("/search/list")
@@ -74,61 +94,50 @@ public class DNAGenBaseInfoController {
             model.addAttribute("chr", chr);
             model.addAttribute("rgBegin", begin);
             model.addAttribute("rgEnd", end);
+            model.addAttribute("keyword",chr+","+begin +"bp-"+ end + "bp");
         }
         model.addAttribute("searchType", searchType);
         return "iqgs/IQGS-list";
     }
 
     /**
-     * 根据基因id或者name进行模糊查询
+     * 根据基因id进行模糊查询
      *
-     * @param req
-     * @param resp
-     * @return
      */
     @RequestMapping("/search/gene-id-name")
     @ResponseBody
-    public Map searchForIdORName(HttpServletRequest req, HttpServletResponse resp) {
-        Map rs = new HashMap();
+    public ResultVO<DNAGeneSearchResult> searchForIdORName(HttpServletRequest req) {
         String idOrName = req.getParameter("keyword");
-        Page<DNAGenBaseInfo> page = new Page<DNAGenBaseInfo>(req, resp);
-        List<DNAGenBaseInfo> gens = dnaGenBaseInfoService.queryDNAGenBaseInfosByIdorName(idOrName, page);
-        rs.put("total", page.getCount());
-        rs.put("data", gens);
-        return rs;
+        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseSearchResult(SearchConditionEnum.ID, idOrName, pageNo, pageSize);
+        return ResultUtil.success(resultPageInfo);
     }
 
     /**
-     * 根据基因function字段进行模糊查询 <br>
-     * 请求方式: GET OR POST
-     * @param req  http请求
-     * @param resp http响应
-     * @return total:搜索出来的总条数, data:搜索出来的数据,data中包含哪些数据...
+     * 根据基因function或者name字段进行模糊查询
+     * @return 搜索出来的总条数, data:搜索出来的数据,data中包含哪些数据...
      */
     @RequestMapping("/search/func")
     @ResponseBody
-    public Map searchForFunction(HttpServletRequest req, HttpServletResponse resp) {
-        Map rs = new HashMap();
+    public ResultVO<DNAGeneSearchResult> searchForFunction(HttpServletRequest req) {
         String func = req.getParameter("keyword");
-        Page<DNAGenBaseInfo> page = new Page<DNAGenBaseInfo>(req, resp);
-        List<DNAGenBaseInfo> gens = dnaGenBaseInfoService.queryDNAGenBaseInfosByFunc(func, page);
-        rs.put("total", page.getCount());
-        rs.put("data", gens);
-        return rs;
+        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseSearchResult(SearchConditionEnum.FUNCTION, func, pageNo, pageSize);
+        return ResultUtil.success(resultPageInfo);
     }
 
     @RequestMapping("/search/range")
     @ResponseBody
-    public Map searchForRange(HttpServletRequest req, HttpServletResponse resp) {
-        Map rs = new HashMap();
+    public ResultVO<DNAGeneSearchResult> searchForRange(HttpServletRequest req, HttpServletResponse resp) {
         String start = req.getParameter("begin");
         String end = req.getParameter("end");
         String chr = req.getParameter("chr");
-        Page<DNAGenBaseInfo> page = new Page<DNAGenBaseInfo>(req, resp);
-        List<DNAGenBaseInfo> gens = dnaGenBaseInfoService.queryDNAGenBaseInfosByRange(chr, start, end, page);
-        rs.put("total", page.getCount());
-        rs.put("data", gens);
-        return rs;
+        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenByRange(chr, start, end, pageNo, pageSize);
+        return ResultUtil.success(resultPageInfo);
     }
 
     @RequestMapping("/detail/basic")
@@ -169,30 +178,6 @@ public class DNAGenBaseInfoController {
         }
     }
 
-    /**
-     * @api {get} /iqgs/detail/sequence
-     * @apiName detailForSequence
-     * @apiGroup detail
-     * @apiDescription 前端采用 ${data} 接收数据
-     * @apiParam {String} gen_id
-     * @apiSuccessExample {json}Example data on success:
-     * data：
-     * [{"type":"CDS","sequence":"ATGGAGTCTGGAGCCCTAGTGTCGTCCGAGAAAGAAGGGCAGCAAGGAGCCTCGTATACGTACTGGGTTAGGAAAATAACGGAAGATGCAGCGCCTTTGCCTGTGCCTCGTAAGCTCAACCCAGAAGATGTTCCCCCTTGTCATTCTCAATCTCAATCTCGGTCTGCCACGCTTGGCTCAGCTTGGAATCGCGCTGGGACATGGGAGGAGAAAAGTCTAAACAATTGGGCAACTCCGAGAATTAAGGAGTTGCTTATCTCATTAGGCTCCATACAGTTCTCCTTTGGCAGAGCAGAAGTAGAAGATGTAACAAAATGTGTTGGCGATGCATTCATGGTGATAGTTCGGAACAAGAAACGTGTTGGTTACACATATGAGTTGAGCTTAAAAGTCAAAGGGGAATGGATCATACAAGGAGAGAAGAAGTTCGTTGGGGGTCATATAGATGTCCCAGAATTCTCATTTGGTGAACTAGATGAATTGCAGGTTGAAGTGAGACTGAGTGAAGCAAGGGATATCTTGCATCAAGACAAGACACAGATTTGCAACGACTTGAAGCTATTTTTACAGCCTGTTCGGGAAAAGTTGCTTCAATTTGAACAGGAACTCAAAGATAGATAG"},
-     * {"type":"peptide","sequence":"MESGALVSSEKEGQQGASYTYWVRKITEDAAPLPVPRKLNPEDVPPCHSQSQSRSATLGSAWNRAGTWEEKSLNNWATPRIKELLISLGSIQFSFGRAEVEDVTKCVGDAFMVIVRNKKRVGYTYELSLKVKGEWIIQGEKKFVGGHIDVPEFSFGELDELQVEVRLSEARDILHQDKTQICNDLKLFLQPVREKLLQFEQELKDR*"},
-     * {"type":"gDNA","sequence":"GACTTTGGACATTTTGAGTTTCCAATTCCTTCTTCTTCGATCTACGGGAAACTTCCGGAAGACCAATTATTAATTGCATCCCGCTGTCCATTGTTTTGTCAGTTGAAGGGCTTTTGTTTCTATTCCCCTGCGGTTGGCTGCTGACGAATCTCTTATCTGCGTCCTTAAATGTGAGTTCATTTTTGTTTTAATTTGATGGTGCAACTTAAAATTTTGTTTTCTTTGAAATTGAAAATCTGTTATTTGCTGGGAGAAGTAGTAAAATGGAGTCTGGAGCCCTAGTGTCGTCCGAGAAAGAAGGGCAGCAAGGAGCCTCGTATACGTACTGGGTTAGGAAAATAACGGAAGATGCAGCGCCTTTGCCTGTGCCTCGTAAGCTCAACCCAGAAGATGTTCCCCCTTGTCATTCTCAATCTCAATCTCGGTCTGCCACGCTTGGCTCAGCTTGGAATCGCGTAAGTATGACCTTACTTGTTGCTCCCTCTCTTTTGAAAAGAAAAATCAGTGATTTGGAATCGCGTATGTATTTTTTCTAATATACCCATTAATAACAATTTTGGTTATTTTATTCCTGGGAATCTAATTATATCCCTTGAAACAAACACCACCCAAAGGCTAAAGGGCTGTTGTTTTTTTCTTGTATCAACGAATCTGAATGGTGCAAAATTAATACAGGCTGGGACATGGGAGGAGAAAAGTCTAAACAATTGGGCAACTCCGAGAATTAAGGTTTGTATCTCATATCCATTTTGTCTTTTTTCTTCTTCCCTTTATGTTTGTCTTTGTGTATCTATGTCTATGTTGTGAATCTTGTATGTGATTGTGTTCAACTATTAGATTAGTAGAGTAGAATTACTCTTTTTTTATTATTATTTCGCACAGTTAGCAATTATAGTTAACTCAACTAATCTTGGGTTAGTTGACAGTTGTAATGGCAGCTGTGTACAGCTGTCCTGACTCTAGTATAAAACTAGAGTTATAACTGTTTTTCATTTGGGTTGAAGTTATCAACTTCTTCAATTTCTGTTCAGAGTTTTCTCTCTTTCGTTTATACAAAGCTTTTATCAACTATCTTAGAAAATGTCTGATTTCATCTCGCAATCTTACATAAAATGTCATTAACTTGTTGCAGCTAATCATATTTAATTTGTTTGTTTCTTGAAGCTGTGGTTAGTTATTCCTTGCATTTTTTTCAGGAGTTGCTTATCTCATTAGGCTCCATACAGTTCTCCTTTGGCAGAGCAGAAGTAGAAGATGTAACAAAATGTGTTGGCGATGTGAGTGTATTATATTTATATGATTTACTTTTAACTTTGTCTATTCCTGTATTACAGGACATTCACATATAAAGCTTTGGGTCAGTTTGGTGGCCCCTTTGAAAATAAGAGTGAAAAATTATGGGATGAATTGTATATGAAAACATTATCTTTGAAGCTTTTATCCCCAATTTTACTAGCATCCAAACAGACTACTAGAGCTTCCAATTTAAGTCTTGGATTGGATGATTTAATTTTTTTTAATAGAATTTTCTTATCCAATGATTGAATGTATGTTTATATTGCCATTCATCTATTTTTTAATGTTAATGATGCGCTTCAAATTGGTGGAGTCTAGAGAATCAAGTTTTCTTTCAGCTAAATTTTTTCAAGGTACTAGTTAGGTTCAGCTTTATAGGAAAATGTTGTAAGTCTCACATTGGTTGCATTTATAATTATTGTTACTCGTGTAGATTATGAGTTACCGAAGCTTTAGCTTTAGTTTGGACAAAATTATTTAGTTTTGTATATTTTAATGTTGTGCACAGTTTCTATCATTCAGAAATAGTATCAAAGCTCTTGATCTGGGAGACATTGCTTCTGCAAATCACTGTTGGACAGCTGCCTCCGTTGCTTTTTTTTTTTCCTTTTCCTTTTTGCACTTTCATATTGCTCAATTCTCTTTGTGGAAATCAAGGTCACCACTGCTTTTATGATTGGAGATATCATTAAGCAAACCACCATCCAATGTTAGGCCAAACCACTTGCAACCTATCTCTGGCAACCTGCTTATGCATTGGTGAACCCCTGCATGTATCAGTATACACCCCCCCCCCCCCCTCTTCTGACTGCCTGGGGCAGTGTGTCTGGCCACTATTCATCCCACTGCCAGTCCCAGTTGTCTCATCTCTGACTCCTCTACCAGTTTCTGTCCTCAGACTCACCTTGTACAATTGGTACCAACCTGCTAGCCATCCTTCTAAGCATAACCATTTTACTATCTGACTCGGTCTCTACCACCTTGTCTAATACAATCAACCATGACTCAACCACCACCGAATGTACCTTGCTGGAAATGAGACTTTTACTTATTGGGAATTGCTGTGTTAAAGTTTAGGATATATGAATGTTCAGATTTGTGCATAGTACGTATCTTGAGTACTTAGGGAATTGCATTTATAAATATATGGCTAATTTGATCTCTATTCAATTTAGTACCTTTATTTTTAAAAAGATCAATTTGGTCCCATAATTTTCAAAACTGATGCAATGTTATCCTTTGCGTTAGCTCTATGACGGAAGTGTCCTACACGACAACTACATGTCTTTTTTTATTGTGTCACGTACACAATAGTGTCGTTTCTCACAATTGGAAAGAAAAGGAAACATTGCATCAATTTTGAAAATTGTGGGATCAAATTGAACTAGTTAACAATAGAGGGACCAAATTGAACCAATTAAATAAATAAAAAGACCAAATTATTAATTTAGCCACTTTTAGTCATGATGAGGGATTAATAATGCTTTGTTATTGTTTAATGTAAGCACTAAAAACAAATAAAATTTAAATGGGGACCAAAACTTACAAATCATCAGATTTTAAAGACCAAAAATATATTTAAACTTTCATTTTTAATGTGCTCTTCCTTTTTACTTACCAAAGTTATATATATATATATATATATATATATATATATGAACTTCTTCAATAACAAATTTTAATAATTTGCGCTCTCCCCCTATTTGTGGTGAGTTACATACTTGATACATGTGATTCACTTGAGTTTATATTTCAAAGAAGAAACAAAAGGAAAGGAAAATTTTGAATATTGTTGCCCAAAATAGTTATATATATTTACGATGGACTAATATTTCTTGATTGTACATTTCTTAGGCATTCATGGTGATAGTTCGGAACAAGAAACGTGTTGGTTACACATATGAGTTGAGCTTAAAAGTCAAAGGTGAGGTACTATCAACCATTCTTTTTAACGATTTCAATCTAGCTGTTCTTTATTCTTTTTTATTTGTTTCAATCTAATTACTTTATAAGCCATGCTGATTTGCAAAGGGATGTAGGGGAATGGATCATACAAGGAGAGAAGAAGTTCGTTGGGGGTCATATAGATGTCCCAGAATTCTCATTTGGTGAACTAGATGAATTGCAGGTACCTCTTAATGTTGATTTTGATTTAAACACTTTTGAGCTACTAAAAAATTGAGAAGGGTCATAAGCTGTTTGGAAAAGTGCATGGTCAGAAGAGTTGACTTTAATTATCCACAATTGAGGAAGTAGAGACAATGCTATAAAAATGTGTAGGAATTTGATGGATGCGCCCTTACTCTCCTTCACAGTATTAGTAAAATAATGTGCATATGTACCATCTTCCACTAGTTTTTGTTAAATTTCATCTTAAAACTAATTGGCATTAAGTGAAGTTGTTCAAGAGATATATTCGCATCCCAAGAATTAAGGCAGGGGATGTGAGACCTTCCAGCACCCGTGTTCCACAGATGCCTGTCAGAACAGGCTAACTTATCAGAATAGGCAATTTACCAAGATGGATTATAGGCTTTGATACCATGTTAGCTTTCATCTTAAAACCAATTGGTGTTAAGTAAAATTGATCAACAAATACCCCAAGAATTGAGGCTAGCAATGTGGTACCTTCCAACAGTTTTGTGGGAAGCTCCACAATCGACCAATACCACAACCTTTCTGCCTGCTATGGATCTTCAAACCTTAAATGATTTCTTTGTATCCTCTTTGATTAATTGGCCTTTCCTACTCTCATTTCTTTCCCAACCTCCCCTAAAACCATTACTTAGTATTGTTTATTCTTACAAACATGACCTAGACCATACTTTTTCACTTTGTGTGCTGTTAGAAAATTTTGATATAGCCCAATCATGTTTGATCAATTTAGCTGACCTCACCTTGTACAATAAAGTGCGATTGTCATTTGTTTGTGTGATTATCTTGTTGCTGTATACAATACAGCAAGCCTAGGATCTTGACTTGGCTGGAATAGCTGATCAATACCTAAAGCTTGAGCTAAGAACCAGTTTTGCATATGAAGGGCATTTACTCATACGGGCAGCTGGAAGTGTTGGATTTGTGCTTCCTGTGATAAATTATATGATGCATATTTTGTTCTTTTTAGCTACTAGTCAGTTATTTCTAATTTTCTATTTTCTTCATACCTGACTGCTCTTAGACATCATTAGCAGTTTATACCGTCACAATCAAAGTGGTATTAATCTTGCAGTTTTCCTGAGAACCCATCCAACCATGTACTAATCCCACAACCATATCTCACCAATTGACCCTTTCAAACACATTATCTTAATTTTAAACCCCTTAAAATCCATAATCTGCCTAATACAAGACAACTTTAAGTCTTACTTCTGGAACACTTACCCTTTTGATGTCCTACGTCACTGTTCTTGATTTAAGATGTAATTTTTAAACCCACGTGCATAAGCATTTACCTTTTTTTCTTCGGAAGAGTCATTGCAATGCTGACTGCTCTCAGTAAATGTAGAATATCTGCTCTTGTTTAAGCATTGGGTTTGCGGGTGTTCCTTGATCCTGGGAATGGATTCTCTACTGGTTGCATTGCTCCTCACTAGAAAAGTGGTGAGCATCTATAAAAGGCACTTTGCCCTAGTTAGTGGATGTCCAAAGTGGAAGGAATACCCCATCTACTATCTAGTATGTGTATGTGGCTATGTGCTGCCTCTGCTTACGTGTGTCCTCTCTTTGTACGGCTACGTGGGTGAGAACACACTCATTTTCTTAGTACAATTGTTAATACCCATATAACTAGTTTTGGCATTATAGGCTTAGGCACGGTAATGCGTGTGCTTCTAGGAAGTATATGTTGTGGGACCCGCAGCGAGAGACCTATAACCTATTGGTTTGCATATATAAACCTCGCTGCTTCGATTAAATGACTAGCTATTTGCTTATATGGTTTGTTTGCTTCTTCCGGCAAAAAAATTTCAACAGGTTGAAGTGAGACTGAGTGAAGCAAGGGATATCTTGCATCAAGACAAGACACAGATTTGCAACGACTTGAAGCTATTTTTACAGCCTGTTCGGGAAAAGTTGCTTCAATTTGAACAGGAACTCAAAGATAGATAGATAGAAAGAGGTAGTTTTCGTATTTGTGACAAAAACCATGCAGTTTTTGTAATTTGAGTCGGTACTTGTATTTCTAGTACAATCTCTTCCCGAAATAAAGTTATGTTAATGTCTGGACCAAAACTACAAATATGGAAGTTCTCTTGGGTAAATTCGAACATGAGGCCTAAGCATTTCAATCATCATACATTAAATTAAATTAAATATAATATATGGCGTGGTTTTGCTCCTGAATCT"},
-     * {"type":"upstream2k","sequence":"ATTTAACTTCATGGATTAGATATTCATCTAAACTGGTCAAAATCAGTAAAATAGACTTTAAATCGGTTAAATCCGGTTCATTTGATTGTTGTCTAACCGGTTTTTTATCCTTTGTCACTCACTTTTTCCCATCGATTCTACAACTTTTGGGTGGTCCCCATAGGCCCTATCCTTTACCATGGTCTAGTTATCTAGCCATTCAAGGGGTCCCTTGAGTTGATCCTATGAAGGTAGTGTGATTTTATCGAAGTTAGACAAATATGGGTAATGACTTATCTCTGTAAGGTTTGCATGGCCTTAGATCTATAGGATTCCACTCGCTCATCTAGTTTATATGTCCATTCTCGTTGGACACCACGAATACACCCAACACTAGGTTGAGAGCCCACCAAATGCTCTTAACTTACATGCCTATCCATATGCATATGACATGTATATGCAAACCAAACATGTTTTACGACTCCATTCCCATTCATAACATATACTTAGGAATCCATCTAGCAATTCCATAAGCTCAACAACACCATGATAATTGTACAAAATAAAATCATAGATCAAACCGCGCATTATGAATATACATCACTCTTCATTTCCTACTATACGTCTATGACCTTAATGACTTATAAACATGATAATTAGAGCTATACTAACACAATTAAGTTTATTCTTGTCTCATTTGAAATATAAGAAGATTATCTTCAACTTTACCCCAATACCTAGTTTTGAATTATATTGTGTCTAAAATTACAGTCTATATCAAGACTTTACTTATTACTGACAAGTTGACCTTTATTCACTAATTTGATCATTTCTAGAGTTATACGCAATATTTTTAAGTAAGATCGAAGTCATTAGTTAGCTAACATTCAGGTCTACAACTTTCATGAGGATCACTTTTCCTAACTCGGTCATCTAAGTCACCTACAGAATCTTTCAATTCGCTAAGCGAGTTCTGCTCACCCAGCGAGTAAAACTCTTTTTTCTCTCTCTTAGAATTATCTCGAGGCAGTGAGGTTTGTTCGCCCAACGAGACGGTAGAATTCTACGATTCACGATTTTGCCTCAAAATAGAACATCCCAACCCCCAAATCCGTACCAAACCAAATTTTGATCAATTCAACATATATATTCGTCATTCAACAACCAAAAGTCACAAAATAAACATCAAAACTCAGCACCCACAATAATTTTCACATTAAAAGTTTCTCTTACCTAAATAGGACCTTAGGTTTTCAACCTTTTGAAGAAGGATGAAGCAAAGAGGAACTTAGTGAATTTCTAAGTGAACTTCCTCCACTTGTGATCTCTAACAGGGTAGTAGACCTTAAGCCAACATCAAAACAACTTCAAGCTAGGTTTTACCACCAAATTCATTCAAGAGCTCATGCAAGAAAAATAGGAATTGAGCTTAAGAAAAATAAGAGAAGAAGGAATTATTGTTTACCAATGAAATCAAGAAATGAACTAAGGAACCAAGATGTCTTTGGATAGTTTCATCATGTAAGCTCTCAAGAAAAAGAGATTTTGAGCACAAACTGGGGAATGGAGAGAAAACGTGGAAGGGGTTGAAATTTTACAAGCTTAGAAATGGATTTGTGTATCCAACAAATTTCTAATTGATTACTTGATTTCTTCTATTTTCACTCTTCATCAACATATTTTTGTGATAAGATATTTGGACCCAACAATATCTAAGTCTATTAAAACTCATAGACCACTCAAGCAATCATATAAATATAAAGTCAACTACTACATCAATAACAAAATAACAGTCAAATTTTCATCTTACAAAATAAAATAAATTGAATGTTTGATAACATCAAAGAATAAAGTAAATAAGCATGATATTATAATATGCAACTTTCAAGCTAAATTTATTTTAAAACTAATCATATTTTAAAATTAATTTTAAATTTTTTTAAAGTTAAAACTAAAAACTAATTATTATTTTTAAAATTTTCGAAATTCAACCCTAAAAATTACCGAGACCTAAAATAGTT"},
-     * {"strand":"+","start":1,"end":170,"length":170,"feature":"five_prime_UTR"},
-     * {"strand":"+","start":257,"end":263,"length":7,"feature":"five_prime_UTR"},
-     * {"strand":"+","start":264,"end":455,"length":192,"feature":"CDS"},
-     * {"strand":"+","start":676,"end":729,"length":54,"feature":"CDS"},
-     * {"strand":"+","start":1197,"end":1277,"length":81,"feature":"CDS"},
-     * {"strand":"+","start":3151,"end":3220,"length":70,"feature":"CDS"},
-     * {"strand":"+","start":3336,"end":3424,"length":89,"feature":"CDS"},
-     * {"strand":"+","start":5269,"end":5403,"length":135,"feature":"CDS"},
-     * {"strand":"+","start":5404,"end":5640,"length":237,"feature":"three_prime_UTR"}]
-     * @apiErrorExample {json} Error-Response:
-     * {"error": "no data"}
-     */
     @RequestMapping("/detail/sequence")
     public String detailForSequence(HttpServletRequest req, HttpServletResponse resp, Model model) {
         String genId = req.getParameter("gen_id");
@@ -258,27 +243,6 @@ public class DNAGenBaseInfoController {
         return "iqgs/gene-annotation";
     }
 
-    /**
-     * @api {get} /iqgs/detail/origin 基因的同源基因信息获取
-     * @apiName detailForOrigin
-     * @apiGroup DNAGeneBaseInfo
-     * @apiParam {String} gen_id 基因详情页对应的基因id
-     * @apidescription 返回页面转发（到homologous-gene.jsp），通过EL表达式取到后台查询的值。
-     * @apiSuccessExample model structure:
-     * {
-     * "geneId": "Glyma.01G004900",
-     * "homologous": [
-     * {
-     * "isNewRecord": false,
-     * "orthologSpecies": "Arabidopsis thaliana",
-     * "geneId": "Glyma.01G004900",
-     * "orthologGeneId": "AT5G65790.1",
-     * "orthologGeneDescription": "myb domain protein 68",
-     * "relationship":"many-to-one"
-     * }
-     * ]
-     * }
-     */
     @RequestMapping("/detail/origin")
     public String detailForOrigin(HttpServletRequest req, HttpServletResponse resp, Model model) {
         String genId = req.getParameter("gen_id");
@@ -288,101 +252,6 @@ public class DNAGenBaseInfoController {
         return "iqgs/homologous-gene";
     }
 
-    /**
-     * @api {get} /iqgs/detail/family 基因的基因家族信息获取
-     * @apiName detailForFamily
-     * @apiGroup DNAGeneBaseInfo
-     * @apiParam {String} gen_id 基因详情页对应的基因id
-     * @apidescription 返回页面转发（到gene-family.jsp），通过EL表达式取到后台查询的值。
-     * @apiSuccessExample success model structure:
-     * {
-     * "hasFamilyFlg":true,
-     * "dnaGenFamilyRels":{"geneId":"Glyma.04G202000","familyId":"LFY"},
-     * "familyId":"LFY",
-     * "dnaGenFamily":{
-     * "isNewRecord":false,
-     * "familyId":"LFY",
-     * "treeJson": {
-     * "b_value": 0,
-     * "branch": "0.0186335",
-     * "children": [
-     * {
-     * "branch": "0.0186335",
-     * "name": "Glyma.04G202000",
-     * "node_id": 1
-     * },
-     * {
-     * "branch": "0.0186335",
-     * "name": "Glyma.06G163600",
-     * "node_id": 2
-     * }
-     * ],
-     * "name": "TN3",
-     * "node_id": 3
-     * }
-     * },
-     * "structureData":{
-     * "max_length": 3078,
-     * "data": [
-     * {
-     * "geneName": "LFY,LFY3",
-     * "geneID": "Glyma.04G202000",
-     * "length": 3079,
-     * "structure": [
-     * {
-     * "type": "three_prime_UTR",
-     * "start": 0,
-     * "end": 141
-     * },
-     * {
-     * "type": "CDS",
-     * "start": 142,
-     * "end": 504
-     * },
-     * {
-     * "type": "CDS",
-     * "start": 1392,
-     * "end": 1522
-     * },
-     * {
-     * "type": "CDS",
-     * "start": 2601,
-     * "end": 3078
-     * }
-     * ]
-     * },
-     * {
-     * "geneName": "LFY,LFY3",
-     * "geneID": "Glyma.06G163600",
-     * "length": 2931,
-     * "structure": [
-     * {
-     * "type": "CDS",
-     * "start": 0,
-     * "end": 477
-     * },
-     * {
-     * "type": "CDS",
-     * "start": 976,
-     * "end": 1364
-     * },
-     * {
-     * "type": "CDS",
-     * "start": 2334,
-     * "end": 2696
-     * },
-     * {
-     * "type": "three_prime_UTR",
-     * "start": 2697,
-     * "end": 2930
-     * }
-     * ]
-     * }
-     * ]
-     * },
-     * "geneId":"Glyma.04G202000"
-     * }
-     */
     @RequestMapping("/detail/family")
     public String detailForFamily(HttpServletRequest req, HttpServletResponse resp, Model model) {
         String genId = req.getParameter("gen_id");
@@ -417,10 +286,6 @@ public class DNAGenBaseInfoController {
 
     /**
      * 根据基因家族id查询基因列表
-     *
-     * @param req
-     * @param resp
-     * @return
      */
     @RequestMapping("/detail/family/page")
     @ResponseBody
@@ -437,11 +302,6 @@ public class DNAGenBaseInfoController {
 
     /**
      * 表达数据
-     *
-     * @param req
-     * @param resp
-     * @param model
-     * @return
      */
     @RequestMapping("/detail/expression")
     public String detailForExpresssion(HttpServletRequest req, HttpServletResponse resp, Model model) {

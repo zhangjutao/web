@@ -18,6 +18,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/iqgsCommon.js"></script>
 </head>
 <body>
 
@@ -26,31 +27,35 @@
 <div class="container">
     <div class=" tabs">
         <ul id="myTabs"  class="searchNav nav-tabs">
-            <li class="geneIdName"><a class="" >Search By Gene ID/Name</a></li>
-            <li class="geneFunction"><a class="" >Search By Gene Function</a></li>
+            <li class="geneIdName"><a class="" >Search By Gene ID</a></li>
+            <li class="geneFunction"><a class="">Search By Gene Function/Name</a></li>
             <li class="region" ><a class="">Search By Region</a></li>
             <li class="qtl active" ><a class="">Search By QTL</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
-            <div id="GeneIdName" class="tab-pane tab-pane-ac">
-                <p class="search-title">Search By Gene ID/Name</p>
+            <div id="GeneIdName" class="tab-pane tab-pane-ac" style="margin-left:20px;">
+                <p class="search-title">Search By Gene ID</p>
                 <label>
                     <input class="search-input" id="key_name" type="text" name="search" placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_name" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
-                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900"> LOC778160</a></p>
+                <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900"> LOC778160</a></p>--%>
+                <%--<p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">LOC778160</a></p>--%>
+                <p class="search-tips">示例: <a class="geneExampleId" href="javascript:void(0);">Glyma.01G004900</a></p>
+
             </div>
-            <div id="GeneFunction" class="tab-pane">
-                <p class="search-title">Search By Gene Function</p>
+            <div id="GeneFunction" class="tab-pane" style="margin-left:20px;">
+                <p class="search-title">Search By Gene Function/Name</p>
                 <label>
                     <input id="key_func" class="search-input" type="text" name="search" placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
-                <p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">transcription factor MYBJ6</a></p>
+                <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">transcription factor MYBJ6</a></p>--%>
+                <p class="search-tips">示例: <a class="funcExample" href="javascript:void(0);">cycloartenol synthase</a><b>;</b> <a class="geneExampleName" href="javascript:void(0);">ALF4</a></p>
             </div>
-            <div id="Region" class="tab-pane">
+            <div id="Region" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By Region</p>
                 <select class="js-region">
                     <option value="Chr01" data-max="">Chr01</option>
@@ -83,7 +88,7 @@
                 <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
             </div>
             <%--modify by jarry --%>
-            <div id="qtlAdd" class="tab-pane">
+            <div id="qtlAdd" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By QTL</p>
                 <label>
                     <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
@@ -312,9 +317,14 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
 <script>
-    window.DOMAIN = "${ctxroot}/iqgs";
-    window.ctxROOT = "${ctxroot}";
-    window.ctxStatic = "${ctxStatic}"
+    $(function (){
+        window.DOMAIN = "${ctxroot}/iqgs";
+        window.ctxROOT = "${ctxroot}";
+        window.ctxStatic = "${ctxStatic}"
+
+
+    })
+
 </script>
 <%--<script src="${ctxStatic}/js/mock/mock.js"></script>--%>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
@@ -323,6 +333,8 @@
 <%--<script src="${ctxStatic}/js/laypage/laypage.js"></script>--%>
 <script src="${ctxStatic}/js/iqgs-list.js"></script>
 <script>
+//    $(function (){
+
     // sessionStorage
     if(window.sessionStorage){
         var storage = window.sessionStorage;
@@ -344,6 +356,127 @@
     }
     var qtlSearchNames = JSON.parse(storage.getItem("qtlSearchNames"));
     var page = {curr: 1, pageSize:10};
+    // 获取高级搜索参数
+    function getParams(){
+    // 开户遮罩层
+    layer.msg('数据加载中!', {
+        time: 10000,
+        shade: [0.5, '#393D49']
+    });
+    var geneInfo = {
+        geneId:null,
+        functions:null
+    };
+    //  根据范围查询
+    var geneStructure = {
+        chromosome: "",
+        start: 0,
+        end: 0
+    };
+
+    // 先清空一级搜索的所有列表
+    $(".search-result .tab-list").empty();
+    // 1,获取 基因表达量的参数；
+    var datas = globalObj.SleExpreDatas;
+    var geneExpressionConditionEntities = [];
+    var obj = {};
+    for (var i=0;i<datas.length;i++){
+        obj.begin = Number(datas[i].FPKM.split("-")[0]);
+        obj.end = Number(datas[i].FPKM.split("-")[1]);
+        var childers = datas[i].selected;
+        var newStr = "";
+        for (var m=0;m<childers.length;m++){
+            newStr +=deleteSpace(childers[m]) + ":";
+        };
+        var newstrs = newStr.substring(0,newStr.length-1);
+        var tissue = {};
+        var newArr = newstrs.split(":");
+        for (var k=0;k<newArr.length;k++){
+            tissue[newArr[k]] =Math.random();
+        };
+        obj.tissue = tissue;
+        geneExpressionConditionEntities.push(obj);
+    }
+    // 2.获取snp参数
+    var snpConsequenceType = globalObj.SleSnpDatas;
+    // 3.获取indel参数
+    var indelConsequenceType = globalObj.SleIndelDatas;
+    var qtlSigles = $("#expreDetail span.qtlSigle");
+    var qtlId = [];
+    for (var n=0;n<qtlSigles.length;n++){
+        var id = $(qtlSigles[n]).attr("class").split(" ")[2].substring(4);
+        qtlId.push(Number(id));
+    }
+    // var qtlIds = qtlId.concat(nums);
+    dataParam = {};
+    dataParam.geneExpressionConditionEntities = geneExpressionConditionEntities;
+    dataParam.snpConsequenceType = snpConsequenceType;
+    dataParam.indelConsequenceType = indelConsequenceType;
+    dataParam.qtlId = qtlId;
+    dataParam.firstHierarchyQtlId = nums;
+    dataParam.pageNo = 1;
+    dataParam.pageSize = 10;
+    switch (Number(searchType)){
+        case 1:
+            geneInfo.geneId = $("#key_name").val().trim();
+            dataParam.firstHierarchyQtlId = [];
+            break;
+        case 2:
+            geneInfo.functions = $("#key_func").val().trim();
+            dataParam.firstHierarchyQtlId = [];
+            break;
+        case 3:
+            geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
+            geneStructure.start = Number($("#rg_begin").val().trim());
+            geneStructure.end = Number($("#rg_end").val().trim());
+            dataParam.geneStructure = geneStructure;
+            dataParam.firstHierarchyQtlId = [];
+            break;
+    };
+    dataParam.geneInfo = geneInfo;
+    return dataParam;
+
+    };
+
+    // 高级搜索 --》代码封装
+
+    function advanceSearchFn(dataParam){
+        var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
+        promise.then(
+            function (result){
+                // 关闭遮罩层
+                layer.closeAll();
+                if(result.code == 0 && result.data.list.length!=0){
+                    resultCallback(result)
+                }else {
+                    laypage({
+                        cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+//            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+                        curr: page.curr || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(result.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                page.curr = obj.curr;
+                                requestSearchData();
+                            }
+                        }
+                    });
+                    $("#total-page-count1 span").text(result.data.total);
+                    $(".js-search-total").text(result.data.total);
+                }
+
+            },function (error){
+                console.log(error);
+            }
+        )
+    }
     function initSearchTab() {
         if (searchType == 1) {
             $("#key_name").val('${keyword}');
@@ -393,34 +526,56 @@
             shade: [0.5, '#393D49']
         });
         if (searchType == 1) {
-            $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
-                pageNo: page.curr || 1,
-                pageSize: page.pageSize || 10,
-                keyword : $("#key_name").val()
-            }, resultCallback);
-        } else if (searchType == 2) {
-            $.getJSON('${ctxroot}/iqgs/search/func', {
-                pageNo: page.curr || 1,
-                pageSize: page.pageSize || 10,
-                keyword : $("#key_func").val()
-            }, resultCallback);
-        } else if(searchType == 3){
-            $.getJSON('${ctxroot}/iqgs/search/range', {
-                pageNo: page.curr || 1,
-                pageSize: page.pageSize || 10,
-                begin : $("#rg_begin").val(),
-                end : $("#rg_end").val(),
-                chr : $(".js-region").val()
-            }, resultCallback);
-        }else {
-            getQtlNameData(page.curr,page.pageSize);
-            $(".result-text>span:first").text(qtlSearchNames.join(","));
-            <%--$.getJSON('${ctxroot}/advance-search/confirm', {--%>
-                <%--pageNo: page.curr || 1,--%>
-                <%--pageSize: page.pageSize || 10,--%>
-                <%--chosenQtl : nums--%>
-            <%--}, resultCallback);--%>
+            if(flag == 0){
+//                根据一级搜索来分页
+                $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
+                    pageNo: page.curr || 1,
+                    pageSize: page.pageSize || 10,
+                    keyword : $("#key_name").val()
+                }, resultCallback);
+            }else {
+                // 根据高级搜索来分页
+                var dataParam = getParams();
+                advanceSearchFn(dataParam);
+            }
 
+        } else if (searchType == 2) {
+            if(flag == 0){
+                $.getJSON('${ctxroot}/iqgs/search/func', {
+                    pageNo: page.curr || 1,
+                    pageSize: page.pageSize || 10,
+                    keyword : $("#key_func").val()
+                }, resultCallback);
+            }else {
+                // 根据高级搜索来分页
+                var dataParam = getParams();
+                advanceSearchFn(dataParam);
+            }
+
+        } else if(searchType == 3){
+            if(flag == 0){
+                $.getJSON('${ctxroot}/iqgs/search/range', {
+                    pageNo: page.curr || 1,
+                    pageSize: page.pageSize || 10,
+                    begin : $("#rg_begin").val(),
+                    end : $("#rg_end").val(),
+                    chr : $(".js-region").val()
+                }, resultCallback);
+            }else {
+                // 根据高级搜索来分页
+                var dataParam = getParams();
+                advanceSearchFn(dataParam);
+            }
+
+        }else if(searchType == 4){
+            if(flag == 0){
+                getQtlNameData(page.curr,page.pageSize);
+                $(".result-text>span:first").text(qtlSearchNames.join(","));
+            }else {
+                // 根据高级搜索来分页
+                var dataParam = getParams();
+                advanceSearchFn(dataParam);
+            }
         }
     }
     // 根据qtlName 获取数据
@@ -437,13 +592,8 @@
             success:function (result){
                 // 关闭遮罩层
                 layer.closeAll();
-                    var data = result.data.list;
-                    var total = result.data.total;
-                    var res = {};
-                    res.data = data;
-                    res.total = total;
                     if(result.code == 0 && data.length!=0){
-                        resultCallback(res)
+                        resultCallback(result)
                     }
             },
             error:function (error){
@@ -453,26 +603,31 @@
         })
     }
     function resultCallback(res) {
-        $("span.js-search-total").text(res.total);
-        $("#total-page-count1 span").text(res.total);
-
-        renderList(res.data);
+        $("span.js-search-total").text(res.data.total);
+        $("#total-page-count1 span").text(res.data.total);
+        renderList(res.data.list);
         laypage({
             cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-            pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+            pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
 //            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
             curr: page.curr || 1, //当前页
             skin: '#5c8de5',
             skip: true,
             first: 1, //将首页显示为数字1,。若不显示，设置false即可
-            last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+            last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
             prev: '<',
             next: '>',
             groups: 3, //连续显示分页数
             jump: function (obj, first) { //触发分页后的回调
-                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                if (!first && flag == 0) { //点击跳页触发函数自身，并传递当前页：obj.curr
                     page.curr = obj.curr;
                     requestSearchData();
+                }else if(!first && flag == 1){
+                    page.curr = obj.curr;
+                    var dataParam = getParams();
+                    dataParam.pageNo = page.curr;
+                    dataParam.pageSize = page.pageSize;
+                    advanceSearchFn(dataParam);
                 }
             }
         });
@@ -492,14 +647,13 @@
                 html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
                 html.push('        <p class="h-tips">基因名:<span>' + ' '+geneName + '</span></p>');
 //                modify by jarry
-                if(searchType == 4){
+//                if(searchType == 4){
                     var qtls= item.associateQTLs;
                     var qtlNames = "";
                     for(var k=0;k<qtls.length;k++){
                         qtlNames +=qtls[k].qtlName +", ";
                     };
                     var qtlNames = qtlNames.substring(0,qtlNames.length-2);
-                    console.log(qtlNames);
                     var snp = item.existsSNP?"存在Exonic_nonsynonymouse SNV":"-";
                     var expreTissues = item.rootTissues.length?item.rootTissues.join(","):"-";
                     var description = item.description?item.description:"-";
@@ -510,7 +664,7 @@
                     }
                     html.push('        <p class="h-qtl qltlistSty">SNP:<span>' + ' ' +snp + '</span></p>');
                     html.push('        <p class="h-qtl qltlistSty">基因表达量(FPKM>30):<span>' + ' ' + expreTissues + '</span></p>');
-                };
+//                };
                 html.push('        <p class="content-b">基因注释:<span>' + ' ' + description + '</span></p>');
                 html.push('    </div>');
                 html.push('</div>');
@@ -525,7 +679,14 @@
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
-        getQtlNameData(page.curr,page.pageSize);
+        if(flag == 0){
+            getQtlNameData(page.curr,page.pageSize);
+        }else {
+            var dataParam = getParams();
+            dataParam.pageNo = page.curr;
+            dataParam.pageSize = page.pageSize;
+            advanceSearchFn(dataParam);
+        }
     });
 
     // 分页跳转
@@ -548,8 +709,16 @@
                 if(_page_skip.val() * 1 >Math.ceil( $("#total-page-count1 span").text() / page.pageSize)) {
                     return alert("输入页码不能大于总页数");
                 }
-              page.curr = _page_skip.val();
+              page.curr = Number(_page_skip.val());
+                if(flag == 0){
+
                 getQtlNameData(page.curr,page.pageSize);
+                }else {
+                    var dataParam = getParams();
+                    dataParam.pageNo = page.curr;
+                    advanceSearchFn(dataParam);
+                }
+
             }
         }
     };
@@ -563,6 +732,7 @@
         initSearchTab();
         requestSearchData();
     });
+//    })
 </script>
 <script src="${ctxStatic}/js/iqgs.js"></script>
 <script src="${ctxStatic}/js/newAddNeed.js"></script>

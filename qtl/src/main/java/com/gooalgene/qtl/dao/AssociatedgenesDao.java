@@ -6,6 +6,7 @@ import com.gooalgene.entity.Associatedgenes;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by ShiYun on 2017/7/10 0010.
@@ -46,7 +47,7 @@ public interface AssociatedgenesDao extends CrudDao<Associatedgenes> {
      * @param geneId 基因ID
      * @return 包含该基因的QTL
      */
-    List<Associatedgenes> findAssociatedGeneByGeneId(@Param("geneId") int geneId);
+    Set<Associatedgenes> findAssociatedGeneByGeneId(@Param("geneId") int geneId);
 
     boolean updateAssociatedgenes(Associatedgenes associatedgenes);
 

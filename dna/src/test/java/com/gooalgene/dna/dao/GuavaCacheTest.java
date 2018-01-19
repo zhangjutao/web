@@ -22,5 +22,7 @@ public class GuavaCacheTest extends TestCase {
         cache.putIfAbsent("hello", "helloValue");
         cache.putIfAbsent("world", "world");
         assertEquals("helloValue", cache.get("hello").get());
+        Cache.ValueWrapper absent = cache.get("absent");
+        assertNull(absent);
     }
 }

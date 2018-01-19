@@ -1,9 +1,9 @@
 package com.gooalgene.iqgs.dao;
 
 import com.gooalgene.common.persistence.MyBatisDao;
-import com.gooalgene.iqgs.entity.GeneFPKM;
+import com.gooalgene.dna.entity.DNAGenStructure;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
-import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import org.apache.ibatis.annotations.Param;
 
@@ -24,10 +24,30 @@ public interface FPKMDao {
                                                                          @Param("snp") List<String> selectSnp,
                                                                          @Param("indel") List<String> selectIndel,
                                                                          @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
-                                                                         @Param("qtl") List<Integer> associateGeneId);
+                                                                         @Param("qtl") List<Integer> associateGeneId,
+                                                                         @Param("searchById") DNAGenBaseInfo searchedGene,
+                                                                         @Param("structure") DNAGenStructure geneStructure);
+
+    /**
+     * 拿到前一百个基因对应的高级搜索信息
+     */
+    List<AdvanceSearchResultView> fetchFirstHundredGene(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                        @Param("snp") List<String> selectSnp,
+                                                        @Param("indel") List<String> selectIndel,
+                                                        @Param("qtl") List<Integer> associateGeneId,
+                                                        @Param("geneId") List<Integer> firstHundredGeneId);
+
+    /**
+     * 拿到前一百个基因对应的高级搜索信息，这里根据基因结构ID来进行IN查询
+     */
+    List<AdvanceSearchResultView> fetchFirstHundredGeneInGeneStructure(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                                       @Param("snp") List<String> selectSnp,
+                                                                       @Param("indel") List<String> selectIndel,
+                                                                       @Param("qtl") List<Integer> associateGeneId,
+                                                                       @Param("structureId") List<DNAGenStructure> firstHundredStructureId);
 
     /**
      * 检查某一基因对应consequencetype中是否存在SNP
      */
-    boolean checkExistSNP(int fpkmId, String snpConsequenceType);
+    boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType);
 }

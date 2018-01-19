@@ -1,5 +1,8 @@
 package com.gooalgene.iqgs.entity.condition;
 
+import com.gooalgene.dna.entity.DNAGenStructure;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+
 import java.util.List;
 
 /**
@@ -22,14 +25,14 @@ public class GeneExpressionCondition {
     private List<Integer> qtlId;
 
     /**
-     * 高级搜索联动Search By Gene Name/ID中传入的参数
+     * 高级搜索联动Search By Gene Name/ID以及Search By Function中传入的参数
      */
-    private String geneName;
+    private DNAGenBaseInfo geneInfo;
 
     /**
-     * 高级搜索联动Search By Gene Function中传入的参数
+     * 高级搜索联动Search By Region中传入的参数
      */
-    private String geneFunction;
+    private DNAGenStructure geneStructure;
 
     private Integer pageNo;
 
@@ -43,20 +46,20 @@ public class GeneExpressionCondition {
         this.firstHierarchyQtlId = firstHierarchyQtlId;
     }
 
-    public String getGeneName() {
-        return geneName;
+    public DNAGenBaseInfo getGeneInfo() {
+        return geneInfo;
     }
 
-    public void setGeneName(String geneName) {
-        this.geneName = geneName;
+    public void setGeneInfo(DNAGenBaseInfo geneInfo) {
+        this.geneInfo = geneInfo;
     }
 
-    public String getGeneFunction() {
-        return geneFunction;
+    public DNAGenStructure getGeneStructure() {
+        return geneStructure;
     }
 
-    public void setGeneFunction(String geneFunction) {
-        this.geneFunction = geneFunction;
+    public void setGeneStructure(DNAGenStructure geneStructure) {
+        this.geneStructure = geneStructure;
     }
 
     public List<GeneExpressionConditionEntity> getGeneExpressionConditionEntities() {

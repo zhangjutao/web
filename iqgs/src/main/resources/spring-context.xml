@@ -76,6 +76,7 @@
         <property name="cacheNames">
             <list>
                 <value>config</value>
+                <value>advanceSearch</value>
             </list>
         </property>
         <property name="allowNullValues" value="false" />

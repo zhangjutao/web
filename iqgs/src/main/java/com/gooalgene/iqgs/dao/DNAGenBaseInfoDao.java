@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.dao;
 import com.gooalgene.common.persistence.MyBatisDao;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.entity.*;
 import org.apache.ibatis.annotations.Param;
@@ -20,6 +21,18 @@ public interface DNAGenBaseInfoDao {
      * @return QTL所包含的基因集合
      */
     List<DNAGenBaseInfo> findGeneInQTLIds(List<Integer> inputQTLId);
+
+    /**
+     * 拿到前一百个基因对应ID字段
+     */
+    List<Integer> getFrontHundredGene();
+
+    /**
+     * 查找到符合条件的所有基因ID
+     * @param geneInfo 基因查询条件
+     * @return 符合条件的所有基因ID集合
+     */
+    List<Integer> findProperGeneId(DNAGenBaseInfo geneInfo);
 
     /**
      * 检查输入基因是否存在

@@ -25,6 +25,21 @@
             begin:40.0,
             end:50.0
         };
+        //search by id or name request parameter
+        var geneInfo = {
+            geneId: 'Glyma.02G274900',
+            functions: null
+        };
+        //search by function request parameter
+        geneInfo = {
+            geneId: null,
+            functions: 'protein'
+        };
+        var geneStructure = {
+            chromosome: 'Chr02',
+            start: 40000000,
+            end: 50000000
+        };
         geneExpressions.push(singleGeneExpression);
         var condition = {
             geneExpressionConditionEntities:geneExpressions,
@@ -32,6 +47,8 @@
             indelConsequenceType:['exonic_frameshift deletion', 'splicing'],
             qtlId:[1453, 1941, 2089],
             firstHierarchyQtlId:[1926, 2089, 3864],
+            geneInfo:geneInfo,
+            geneStructure:geneStructure,
             pageNo: 1,
             pageSize: 10
         };

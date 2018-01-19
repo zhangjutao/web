@@ -3,13 +3,16 @@ package com.gooalgene.iqgs.web;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
-import com.gooalgene.entity.Associatedgenes;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
-import com.gooalgene.iqgs.entity.condition.*;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.condition.RegularityResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
-import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.RegularityNetworkService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
@@ -17,15 +20,22 @@ import com.gooalgene.mrna.service.TService;
 import com.gooalgene.qtl.service.QtlService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
+import com.gooalgene.utils.ConsequenceTypeUtils;
 import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Set;
 
 /**
  * 高级搜索相关接口层
@@ -36,9 +46,14 @@ import java.util.*;
  */
 @Controller
 @RequestMapping("/advance-search")
-public class AdvanceSearchController {
+public class AdvanceSearchController implements InitializingBean {
 
     private final static Logger logger = LoggerFactory.getLogger(AdvanceSearchController.class);
+
+    @Autowired
+    private CacheManager manager;
+
+    private Cache cache;
 
     @Autowired
     private QtlService qtlService;
@@ -58,6 +73,11 @@ public class AdvanceSearchController {
     @Autowired
     private RegularityNetworkService regularityNetworkService;
 
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        cache = manager.getCache("advanceSearch");
+    }
+
     @RequestMapping(value = "/query-by-qtl-name", method = RequestMethod.GET, produces = "application/json; charset=UTF-8")
     @ResponseBody
     public List<Qtl> queryByQTLName(String qtlName) {
@@ -67,26 +87,61 @@ public class AdvanceSearchController {
     @RequestMapping(value = "/query-all-organic", method = RequestMethod.GET)
     @ResponseBody
     public List<Classifys> getAllOrganicAndChildren() {
-        List<Classifys> classify = tService.getClassifyTree();
+        List<Classifys> classify = new ArrayList<>();
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHORGANIC);
+        if (valueWrapper != null){
+            classify = (List<Classifys>) valueWrapper.get();
+        } else {
+            classify = tService.getClassifyTree();
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHORGANIC, classify);
+        }
         return classify;
     }
 
     @RequestMapping(value = "/query-snp", method = RequestMethod.POST)
     @ResponseBody
     public List<String> getAllSNPCheckbox() {
-        return searchService.findAllDistinctSNP();
+        List<String> snp = null;
+        List<String> result = null;
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHSNP);
+        if (valueWrapper != null){
+            result = (List<String>) valueWrapper.get();
+        } else {
+            snp = searchService.findAllDistinctSNP();
+            //先将数据库中取出来的序列值转换为前端可识别的值
+            result = ConsequenceTypeUtils.convertReadableListValue(snp);
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHSNP, result);
+        }
+        return result;
     }
 
     @RequestMapping(value = "/query-indel", method = RequestMethod.POST)
     @ResponseBody
     public List<String> getALLDistinctINDEL() {
-        return searchService.findAllDistinctINDEL();
+        List<String> indel = null;
+        List<String> result = null;
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHINDEL);
+        if (valueWrapper != null){
+            result = (List<String>) valueWrapper.get();
+        } else {
+            indel = searchService.findAllDistinctINDEL();
+            result = ConsequenceTypeUtils.convertReadableListValue(indel);
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHINDEL, result);
+        }
+        return result;
     }
 
     @RequestMapping(value = "/fetch-qtl-smarty")
     @ResponseBody
     public List<TraitCategoryWithinMultipleTraitList> fetchQtlSmartyData() {
-        List<TraitCategoryWithinMultipleTraitList> allTraitCategoryAndItsTraitList = traitCategoryService.findAllTraitCategoryAndItsTraitList();
+        List<TraitCategoryWithinMultipleTraitList> allTraitCategoryAndItsTraitList = new ArrayList<>();
+        Cache.ValueWrapper valueWrapper = cache.get(CommonConstant.ADVANCESEARCHQTL);
+        if (valueWrapper != null){
+            allTraitCategoryAndItsTraitList = (List<TraitCategoryWithinMultipleTraitList>) valueWrapper.get();
+        } else {
+            allTraitCategoryAndItsTraitList = traitCategoryService.findAllTraitCategoryAndItsTraitList();
+            cache.putIfAbsent(CommonConstant.ADVANCESEARCHQTL, allTraitCategoryAndItsTraitList);
+        }
         return allTraitCategoryAndItsTraitList;
     }
 
@@ -95,7 +150,7 @@ public class AdvanceSearchController {
     public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl, HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(null, null, null, null, Arrays.asList(chosenQtl), pageNo, pageSize);
+        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(null, null, null, null, Arrays.asList(chosenQtl), null, null, pageNo, pageSize);
         return ResultUtil.success(genes);
     }
 
@@ -110,12 +165,12 @@ public class AdvanceSearchController {
         List<String> selectIndelConsequenceType = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
         List<Integer> associateGeneIdArray = geneExpressionCondition.getQtlId();  //已选qtl集合
         List<Integer> firstHierarchyQtlId = geneExpressionCondition.getFirstHierarchyQtlId();  //一级搜索选中的QTL ID集合
-        String geneNameOrId = geneExpressionCondition.getGeneName();  //高级搜索中根据基因名字查询传入的基因名或ID
-        // todo 增加根据Name/ID、Function、Region查询逻辑
+        DNAGenBaseInfo baseInfo = geneExpressionCondition.getGeneInfo();  //高级搜索中根据基因名字查询传入的基因名或ID
+        DNAGenStructure geneStructure = geneExpressionCondition.getGeneStructure();  //高级搜索中根据基因结构搜索相应基因
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
         PageInfo<DNAGeneSearchResult> properGene =
                 dnaGenBaseInfoService.queryDNAGenBaseInfos(entities, selectSnpConsequenceType,
-                        selectIndelConsequenceType, firstHierarchyQtlId, associateGeneIdArray, pageNo, pageSize);
+                        selectIndelConsequenceType, firstHierarchyQtlId, associateGeneIdArray, baseInfo, geneStructure, pageNo, pageSize);
         return ResultUtil.success(properGene);
     }
 

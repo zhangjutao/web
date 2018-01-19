@@ -38,4 +38,22 @@ public class Associatedgenes extends DataEntity<Associatedgenes> {
     public void setAssociatedGenes(String associatedGenes) {
         this.associatedGenes = associatedGenes;
     }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null){
+            return false;
+        }
+        if (!(obj instanceof Associatedgenes)) {
+            return false;
+        }
+        return ((Associatedgenes) obj).getQtlName().equals(this.getQtlName());
+    }
+
+    @Override
+    public int hashCode() {
+        int result = 17;
+        result = 31 * result + qtlName.hashCode();
+        return result;
+    }
 }

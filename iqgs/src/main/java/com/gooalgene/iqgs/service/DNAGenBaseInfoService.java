@@ -3,6 +3,7 @@ package com.gooalgene.iqgs.service;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.entity.*;
@@ -10,6 +11,7 @@ import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
+import com.gooalgene.utils.ConsequenceTypeUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
@@ -19,6 +21,8 @@ import org.springframework.util.Assert;
 
 import java.lang.reflect.InvocationTargetException;
 import java.util.*;
+
+import static com.google.common.base.Preconditions.checkNotNull;
 
 /**
  * Created by sauldong on 2017/10/12.
@@ -34,15 +38,37 @@ public class DNAGenBaseInfoService {
     @Autowired
     private FPKMService fpkmService;
 
-    public List<DNAGenBaseInfo> queryDNAGenBaseInfosByIdorName(String keyword, Page<DNAGenBaseInfo> page) {
-        List<DNAGenBaseInfo> result = null;
+    /**
+     * controller层调用的服务层接口，用于查询单个搜索返回结果
+     * @param conditionEnum 查询类型
+     * @param keyword 输入框中用户输入的关键字
+     */
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseSearchResult(SearchConditionEnum conditionEnum, String keyword, int pageNo, int pageSize) {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
-        bean.setGeneId(keyword);
-        bean.setGeneOldId(keyword);
-        bean.setGeneName(keyword);
-        bean.setPage(page);
-        result = dnaGenBaseInfoDao.findByConditions(bean);
-        return result;
+        if (conditionEnum.equals(SearchConditionEnum.ID)) {
+            bean.setGeneId(keyword);
+        }else if (conditionEnum.equals(SearchConditionEnum.FUNCTION)){
+            bean.setFunctions(keyword);
+        }
+        //调用fpkm中针对基因功能、ID、NAME查询接口，获取到初步查询结果
+        PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.searchByIdOrFunction(bean, pageNo, pageSize);
+        return convertSearchResultToSearchView(advanceSearchResultPage);
+    }
+
+
+    /**
+     * 根据落在染色体上范围查询基因
+     * @param chr 染色体类型
+     * @param start 起始位置
+     * @param end 终点位置
+     */
+    public PageInfo<DNAGeneSearchResult> queryDNAGenByRange(String chr, String start, String end, int pageNo, int pageSize) {
+        DNAGenStructure dnaGenStructure = new DNAGenStructure();
+        dnaGenStructure.setChromosome(chr);
+        dnaGenStructure.setStart(Long.valueOf(start));
+        dnaGenStructure.setEnd(Long.valueOf(end));
+        PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.searchByRegion(dnaGenStructure, pageNo, pageSize);
+        return convertSearchResultToSearchView(advanceSearchResultPage);
     }
 
     /**
@@ -57,20 +83,40 @@ public class DNAGenBaseInfoService {
                                                               List<String> selectSnp,
                                                               List<String> selectIndel,
                                                               List<Integer> firstHierarchyQtlId,
-                                                              List<Integer> allQTLId, int pageNo, int pageSize) {
+                                                              List<Integer> allQTLId,
+                                                              DNAGenBaseInfo baseInfo,
+                                                              DNAGenStructure structure,
+                                                              int pageNo, int pageSize) {
+        if (selectSnp != null && selectSnp.size() > 0){
+            selectSnp = ConsequenceTypeUtils.reverseReadableListValue(selectSnp);  //转换为数据库可读的序列类型
+        }
+        if (selectIndel != null && selectIndel.size() > 0){
+            selectIndel = ConsequenceTypeUtils.reverseReadableListValue(selectIndel);
+        }
         PageInfo<AdvanceSearchResultView> properGene =
-                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, pageNo, pageSize);  //通过高级搜索接口查询
+                fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, baseInfo, structure, pageNo, pageSize);  //通过高级搜索接口查询
+        return convertSearchResultToSearchView(properGene);
+    }
+
+    /**
+     * 统一转换层
+     * 将从数据库中搜索处理的结果转换为前台搜索结果列表
+     * @param properGene DAO层搜索结果
+     * @return 高级搜索搜索列表分页显示
+     */
+    private PageInfo<DNAGeneSearchResult> convertSearchResultToSearchView(PageInfo<AdvanceSearchResultView> properGene){
+        checkNotNull(properGene);
         List<DNAGeneSearchResult> searchResultWithSNP = new ArrayList<>();
         DNAGeneSearchResult dnaGeneSearchResult = null;
         for (AdvanceSearchResultView geneView : properGene.getList()){
             dnaGeneSearchResult = new DNAGeneSearchResult();
             int id = geneView.getId(); //拿到基因查询结果，根据ID查询与之关联的SNP_NAME
-            List<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
+            Set<Associatedgenes> associatedQTLs = associatedgenesDao.findAssociatedGeneByGeneId(id);
             dnaGeneSearchResult.setGeneId(geneView.getGeneId());
             dnaGeneSearchResult.setGeneOldId(geneView.getGeneOldId());
             dnaGeneSearchResult.setGeneName(geneView.getGeneName());
             dnaGeneSearchResult.setDescription(geneView.getFunctions());
-            dnaGeneSearchResult.setExistsSNP(fpkmService.checkExistSNP(geneView.getId(), CommonConstant.EXONIC_NONSYNONYMOUSE));
+            dnaGeneSearchResult.setExistsSNP(fpkmService.checkExistSNP(geneView.getGeneId(), CommonConstant.EXONIC_NONSYNONYMOUSE));
             dnaGeneSearchResult.setRootTissues(geneView.getLargerThanThirtyTissue());
             dnaGeneSearchResult.setAssociateQTLs(associatedQTLs); //将查询出来的AssociateQTL关联到搜索结果上
             searchResultWithSNP.add(dnaGeneSearchResult);
@@ -191,29 +237,6 @@ public class DNAGenBaseInfoService {
             rs.put("data", data);
         }
         return rs;
-    }
-
-    public List<DNAGenBaseInfo> queryDNAGenBaseInfosByRange(String chr, String start, String end, Page<DNAGenBaseInfo> page) {
-        DNAGenStructure dnaGenStructure = new DNAGenStructure();
-        dnaGenStructure.setChromosome(chr);
-        dnaGenStructure.setStart(Long.valueOf(start));
-        dnaGenStructure.setEnd(Long.valueOf(end));
-        Page<DNAGenStructure> page1 = new Page<DNAGenStructure>();
-        page1.setPageSize(page.getPageSize());
-        page1.setPageNo(page.getPageNo());
-        dnaGenStructure.setPage(page1);
-        List<DNAGenStructure> dnaGenBaseInfoList = dnaGenBaseInfoDao.findGenByChr(dnaGenStructure);
-        List<DNAGenBaseInfo> result = new ArrayList<DNAGenBaseInfo>();
-        for (DNAGenStructure dnaGenStructure1 : dnaGenBaseInfoList) {
-            DNAGenBaseInfo dnaGenBaseInfo1 = new DNAGenBaseInfo();
-            dnaGenBaseInfo1.setGeneId(dnaGenStructure1.getGeneId());
-            DNAGenBaseInfo dnaGenBaseInfo2 = dnaGenBaseInfoDao.findByGeneId(dnaGenBaseInfo1);
-            result.add(dnaGenBaseInfo2);
-        }
-//        System.out.println(page1.getMaxResults() + "," + page1.getCount());
-        page.setCount(page1.getCount());
-        page.setList(result);
-        return result;
     }
 
     public List<DNAGenHomologous> getGenHomologousByGeneId(String genId) {

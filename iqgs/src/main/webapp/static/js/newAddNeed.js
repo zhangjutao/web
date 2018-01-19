@@ -1,13 +1,7 @@
 /*2017 - 12 新增业务需求 add by jarry*/
-$(function (){
-    // 定义全局变量
-    var globalObj = {}
-        globalObj.SleExpreDatas = [];  // 选中的大组织以及小组织
-        globalObj.SleSnpDatas = [];// 选中的snp 信息
-        globalObj.SleIndelDatas = [];// 选中的indel 信息
-        globalObj.qtlParams = [];  // 存放qtl 信息
-    // 存放高级搜索最后的参数集合
-    var dataParam;
+// $(function (){
+
+
     // ajax 请求的代码封装
     function SendAjaxRequest(method, url,data) {
         if (window.Promise) {//检查浏览器是否支持Promise
@@ -31,7 +25,6 @@ $(function (){
             alert("sorry,你的浏览器不支持Promise 对象")
         };
     };
-
     // qtl 搜索 -- 》获取数据 -- >search
     $("#QtlBtnName").click(function (){
         var qtlSearchVal = $("#qtlName").val().trim();
@@ -113,6 +106,7 @@ $(function (){
     };
     // 根据选择的qtl 搜索 -- > sureBtn
     $("#qtlAdd .sureBtn").click(function (){
+        flag = 0;
         storage.setItem("qtlSearchNames", JSON.stringify(globleObject.selectedQtlNames));
         var num = globleObject.selectedQtl.length;
         var qtlNameArr = globleObject.selectedQtl;
@@ -128,14 +122,31 @@ $(function (){
             window.location = DOMAIN + "/search/list?keyword=" + encodeURI(qtlNames)+ "&searchType=4" ;
         }
     })
-    // qtl 实例搜索
+    // qtl 示例搜索
     $("#qtlAdd .qtlExample").click(function (){
         var qtlNames = $(this).text();
         var qtlNameArr = [];
         qtlNameArr.push(qtlNames)
         storage.setItem("qtlSearchNames",JSON.stringify(qtlNameArr));
         window.location = DOMAIN + "/search/list?keyword=" +6340+ "&searchType=4" ;
-    })
+    });
+
+    // geneID 示例搜索
+    $("#GeneIdName .geneExampleId,#GeneIdName .geneExampleName").click(function (){
+        var qtlId = "Glyma.01G004900";
+        window.location = DOMAIN + "/search/list?keyword=" +encodeURI(qtlId)+ "&searchType=1" ;
+    });
+    // name 示例搜索
+    $("#GeneFunction .geneExampleName").click(function (){
+        var qtlId = "ALF4";
+        window.location = DOMAIN + "/search/list?keyword=" +encodeURI(qtlId)+ "&searchType=2" ;
+    });
+    // function 示例搜索
+    $("#GeneFunction .funcExample").click(function (){
+        var func = "cycloartenol synthase";
+        window.location = DOMAIN + "/search/list?keyword=" + encodeURI(func) + "&searchType=2";
+    });
+
     // 高级搜索
     $("#advancedSearch p").click(function(){
         getExpreData();
@@ -143,36 +154,30 @@ $(function (){
         getIndelData();
         getQtlData();
         // toggle img
-        if($(this).find("img").attr("src").indexOf("downtou") !=-1){
-            $(this).find("img").attr("src",ctxStatic + "/images/uptou.png");
+        // if($(this).find("img").attr("src").indexOf("downtou") !=-1){
+        //     $(this).find("img").attr("src",ctxStatic + "/images/uptou.png");
+        //     $("#advanceSelect").show();
+        // }else {
+        //     $(this).find("img").attr("src",ctxStatic + "/images/downtou.png");
+        //     $("#advanceSelect").hide();
+        // };
+        toggleShow();
+    });
+    // 高级搜索页面显示/隐藏切换
+    function toggleShow(){
+        var $btn = $("#advancedSearch p");
+        if($btn.find("img").attr("src").indexOf("downtou") !=-1){
+            $btn.find("img").attr("src",ctxStatic + "/images/uptou.png");
+            $btn.addClass("flag")
             $("#advanceSelect").show();
         }else {
-            $(this).find("img").attr("src",ctxStatic + "/images/downtou.png");
+            $btn.find("img").attr("src",ctxStatic + "/images/downtou.png");
+            $btn.removeClass("flag")
             $("#advanceSelect").hide();
         };
-    });
-
+    }
     // 获取基因表达量的组织以及小组织
     function getExpreData (){
-      // Forged data
-        var expreKinds = [
-            {name:"豆荚",detail:["pod"]},
-            {name:"种子",detail:["seed","seed coat","embryo","cotyledon","axis","endosperm"]},
-            {name:"根",detail:["root","root hair","root tip","nodule"]},
-            {name:"芽",detail:["shoot","shoot meristem","shoot tip","shoot apical meristem"]} ,
-            {name:"叶",detail:["leaf","leafbud","trifoliate","primaryleaf","petiole","leaflet"]},
-            {name:"幼苗",detail:["seedling","cotyledons of seedling"]} ,
-            {name:"花",detail:["flower","flower bud"]},
-            {name:"茎",detail:["stem","stem internode","hypocotyl(stem)"]}
-          ];
-        var obj = {
-            status:200,
-            data:expreKinds
-        }
-        // 拦截请求
-        // Mock.mock(/(query-all-organic){1}\w*/,obj);
-        var data = "";
-        // var promise = SendAjaxRequest("GET",  window.ctxROOT + "/advance-search/query-all-organic",data);
         var promise = SendAjaxRequest("GET",  window.ctxROOT + "/advance-search/query-all-organic");
         promise.then(
             function (result){
@@ -195,19 +200,6 @@ $(function (){
     };
     // 获取snp 数据
     function getSnpData(){
-        // Forged data
-        var snpDatas = ["Downstream","Exonic;Splicing","Exonic_nonsynonymous SNV",
-            "Exonic_stopgain","Exonic_stoploss","Exonic_synonymous SNV","Intergenic","Intronic"," Splicing"
-            ,"Upstream","Upstream;Downstream","3´UTR","5´UTR","5´UTR;3´UTR" ];
-
-        var obj = {
-            name:"snp",
-            status:200,
-            data:snpDatas
-        };
-        // 拦截请求
-        // Mock.mock(/(query-all-snp){1}\w*/,obj);
-        var data = "";
         var promise = SendAjaxRequest("POST",window.ctxROOT + "/advance-search/query-snp");
         promise.then(
             function (result){
@@ -229,20 +221,6 @@ $(function (){
     };
     // 获取indel 数据
     function getIndelData(){
-        // Forged data
-        var indelDatas = ["indel3","Exonic;Splicing"," Exonic_frameshift deletion",
-            "Exonic_frameshift insertion","Exonic_nonframeshift deletion","Exonic_nonframeshift insertion","Exonic_stopgain","Exonic_stoploss","Intergenic"
-            ," Intronic"," Splicing","Upstream","Upstream;Downstream","3´UTR","5´UTR","5´UTR;3´UTR"];
-
-        var obj = {
-            name:"indel",
-            status:200,
-            data: indelDatas
-        };
-        // 拦截请求
-        // Mock.mock(/(query-all-indel){1}\w*/,obj);
-        var data = "";
-        // var promise = SendAjaxRequest("GET","query-all-indel",data);
         var promise = SendAjaxRequest("POST",window.ctxROOT + "/advance-search/query-indel");
         promise.then(
             function (result){
@@ -620,7 +598,7 @@ $(function (){
     // 基因表达量 input 输入框的失焦事件
     var expreEnd;
     var expreStart;
-    $("#expreStart").on("blur",function (){
+    $("#expreStart").on("blur change",function (){
         expreStart = $("#expreStart").val();
         if(!expreStart){
             if(!$("#expreStart").hasClass("borderColorInput")){
@@ -645,7 +623,7 @@ $(function (){
         }
     });
     // FPKM值为必填项，如果没填，就弹框提示并框框变红
-    $("#expreEnd").on("blur",function (){
+    $("#expreEnd").on("blur change",function (){
         expreEnd = $("#expreEnd").val();
         if(!expreEnd){
             if(!$("#expreEnd").hasClass("borderColorInput")){
@@ -685,8 +663,11 @@ $(function (){
         var name = $("#expreKinds div.inputBox input").val().trim();
        var list = $("#expreKinds .expreList ul li");
        $.each(list,function (i,item){
-           if($(item).hasClass("testClass") && $(item).text().trim() == name){
-               $(item).addClass("noClick");
+           // if($(item).hasClass("testClass") && $(item).text().trim() == name){
+           //     $(item).addClass("noClick");
+           // }
+           if($(item).text().trim() == name){
+               $(item).addClass("noClick").addClass("testClass");
            }
        });
        liClick("expreKinds","expreList");
@@ -984,6 +965,7 @@ $(function (){
     function firstUpperCase(str) {
         return str.toLowerCase().replace(/\b[a-z]/g,function(s){return s.toUpperCase();});
     }
+
     // 去掉空格的方法封装
     function deleteSpace (str){
         if(str.indexOf(" ") == -1){
@@ -992,7 +974,9 @@ $(function (){
             var arr = str.split(" ");
             var newStr = arr[0];
             for (var i=1;i<arr.length;i++){
-                newStr +=firstUpperCase(arr[i]);
+                if(arr[i].indexOf("(")==-1){
+                    newStr +=firstUpperCase(arr[i]);
+                }
             };
             return newStr;
         }
@@ -1000,91 +984,13 @@ $(function (){
 
     // 高级搜索
     $("#iqgsSearch p").click(function (){
-        // 开户遮罩层
-        layer.msg('数据加载中!', {
-            shade: [0.5, '#393D49']
-        });
-        // 先清空一级搜索的所有列表
-        $(".search-result .tab-list").empty();
-        // 1,获取 基因表达量的参数；
-        var datas = globalObj.SleExpreDatas;
-        var geneExpressionConditionEntities = [];
-        var obj = {};
-        for (var i=0;i<datas.length;i++){
-            obj.begin = Number(datas[i].FPKM.split("-")[0]);
-            obj.end = Number(datas[i].FPKM.split("-")[1]);
-            var childers = datas[i].selected;
-            var newStr = "";
-            for (var m=0;m<childers.length;m++){
-                newStr +=deleteSpace(childers[m]) + ":";
-            };
-            var newstrs = newStr.substring(0,newStr.length-1);
-            var tissue = {};
-            var newArr = newstrs.split(":");
-            for (var k=0;k<newArr.length;k++){
-                    tissue[newArr[k]] =Math.random();
-            };
-            obj.tissue = tissue;
-            geneExpressionConditionEntities.push(obj);
-        }
-        // 2.获取snp参数
-        var snpConsequenceType = globalObj.SleSnpDatas;
-        // 3.获取indel参数
-        var indelConsequenceType = globalObj.SleIndelDatas;
-        var qtlSigles = $("#expreDetail span.qtlSigle");
-        var qtlId = [];
-        for (var n=0;n<qtlSigles.length;n++){
-            var id = $(qtlSigles[n]).attr("class").split(" ")[2].substring(4);
-            qtlId.push(Number(id));
-        }
-        // var qtlIds = qtlId.concat(nums);
-        dataParam = {};
-        dataParam.geneExpressionConditionEntities = geneExpressionConditionEntities;
-        dataParam.snpConsequenceType = snpConsequenceType;
-        dataParam.indelConsequenceType = indelConsequenceType;
-        dataParam.qtlId = qtlId;
-        dataParam.firstHierarchyQtlId = nums;
-        dataParam.pageNo = 1;
-        dataParam.pageSize = 10;
-        var promise = SendAjaxRequest("POST",window.ctxROOT +  "/advance-search/advanceSearch",JSON.stringify(dataParam));
-        promise.then(
-            function (result){
-                // 关闭遮罩层
-                layer.closeAll();
-                var data = result.data.list;
-                var total = result.data.total;
-                var res = {};
-                res.data = data;
-                res.total = total;
-                if(result.code == 0 && res.data.length!=0){
-                    resultCallback(res)
-                }else {
-                    laypage({
-                        cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-//            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-                        curr: page.curr || 1, //当前页
-                        skin: '#5c8de5',
-                        skip: true,
-                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
-                        prev: '<',
-                        next: '>',
-                        groups: 3, //连续显示分页数
-                        jump: function (obj, first) { //触发分页后的回调
-                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                page.curr = obj.curr;
-                                requestSearchData();
-                            }
-                        }
-                    });
-                    $("#total-page-count1 span").text(res.total);
-                    $(".js-search-total").text(res.total);
-                }
-
-            },function (error){
-                console.log(error);
-            }
-        )
+        flag = 1;
+        var dataParam = getParams();
+        advanceSearchFn(dataParam);
     });
-})
+
+
+
+
+
+// })

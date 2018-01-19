@@ -22,6 +22,16 @@
         </where>
     </select>
 
+    <select id="findProperGeneId" resultType="int">
+        SELECT id FROM gens_baseinfo WHERE 1=1
+            <if test="geneId!=null">
+                AND gene_id LIKE CONCAT('%', #{geneId}, '%') OR gene_id_old LIKE CONCAT('%', #{geneOldId}, '%')
+            </if>
+            <if test="functions!=null">
+                AND description LIKE CONCAT('%', #{functions}, '%') OR gene_name LIKE CONCAT('%', #{functions}, '%')
+            </if>
+    </select>
+
     <select id="findGeneInQTLIds" resultType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
         SELECT a.* FROM gens_baseinfo a
         LEFT JOIN qtl_gene b ON a.id = b.gene_info_id
@@ -57,7 +67,7 @@
     </select>
 
     <select id="findGenStructureByTranscriptId"
-            resultType="com.gooalgene.iqgs.entity.DNAGenStructure">
+            resultType="com.gooalgene.dna.entity.DNAGenStructure">
         SELECT a.*, b.length AS maxLength, b.offset FROM gens_structure a LEFT JOIN gens_offset b  ON a.gene_id = b.gene_id
         WHERE a.transcript_id = #{transcriptId};
     </select>
@@ -78,14 +88,14 @@
     </select>
 
     <select id="findGenStructureByGeneId"
-            resultType="com.gooalgene.iqgs.entity.DNAGenStructure">
+            resultType="com.gooalgene.dna.entity.DNAGenStructure">
         SELECT a.*, b.length AS maxLength, b.offset FROM gens_structure a LEFT JOIN gens_offset b  ON a.gene_id = b.gene_id
         WHERE a.gene_id = #{geneId};
     </select>
 
     <select id="findGenByChr"
-            parameterType="com.gooalgene.iqgs.entity.DNAGenStructure"
-            resultType="com.gooalgene.iqgs.entity.DNAGenStructure">
+            parameterType="com.gooalgene.dna.entity.DNAGenStructure"
+            resultType="com.gooalgene.dna.entity.DNAGenStructure">
         SELECT DISTINCT gene_id FROM gens_structure
         WHERE chromosome = #{chromosome}
         AND (
@@ -156,5 +166,9 @@ WHERE f.gene_id =o.gene_id AND f.gene_id = baseinfo.gene_id AND family_id = #{fa
             LEFT JOIN qtl_gene b ON a.id = b.qtl_id
             LEFT JOIN gens_baseinfo c ON b.gene_info_id = c.id
         WHERE c.gene_id = #{geneId} OR c.gene_id_old = #{geneId}
+    </select>
+
+    <select id="getFrontHundredGene" resultType="int">
+        SELECT id FROM gens_baseinfo LIMIT 0, 100;
     </select>
 </mapper>

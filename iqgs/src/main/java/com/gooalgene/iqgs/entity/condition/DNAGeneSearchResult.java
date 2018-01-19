@@ -4,6 +4,7 @@ import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * iqgs查询返回列表对应实体类
@@ -18,12 +19,12 @@ public class DNAGeneSearchResult extends DNAGenBaseInfo {
     /**
      * 关联的所有QTL
      */
-    private List<Associatedgenes> associateQTLs;
+    private Set<Associatedgenes> associateQTLs;
 
     /**
      * 符合条件的根组织中文名
      */
-    private List<String> rootTissues;
+    private Set<String> rootTissues;
 
     public boolean isExistsSNP() {
         return existsSNP;
@@ -33,19 +34,19 @@ public class DNAGeneSearchResult extends DNAGenBaseInfo {
         this.existsSNP = existsSNP;
     }
 
-    public List<Associatedgenes> getAssociateQTLs() {
+    public Set<Associatedgenes> getAssociateQTLs() {
         return associateQTLs;
     }
 
-    public void setAssociateQTLs(List<Associatedgenes> associateQTLs) {
+    public void setAssociateQTLs(Set<Associatedgenes> associateQTLs) {
         this.associateQTLs = associateQTLs;
     }
 
-    public List<String> getRootTissues() {
+    public Set<String> getRootTissues() {
         return rootTissues;
     }
 
-    public void setRootTissues(List<String> rootTissues) {
+    public void setRootTissues(Set<String> rootTissues) {
         this.rootTissues = rootTissues;
     }
 }
