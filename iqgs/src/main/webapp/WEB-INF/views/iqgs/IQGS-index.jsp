@@ -118,7 +118,7 @@
 
     <div class="database-link">
         <div class="qlt-link">
-            <a target="_blank" href="${ctxroot}/search/index">
+            <a target="_blank" href="${qtlIndex}">
                 <div class="line-h">
                     <p>大豆QTL数据库</p>
                 </div>
@@ -128,7 +128,7 @@
             </a>
         </div>
         <div class="mrna-link">
-            <a  target="_blank" href="${ctxroot}/mrna/index">
+            <a  target="_blank" href="${mrnaIndex}">
                 <div class="line-h">
                     <p>大豆基因表达量数据库</p>
                 </div>
@@ -138,7 +138,7 @@
             </a>
         </div>
         <div class="snp-link">
-            <a target="_blank"  href="${ctxroot}/dna/index">
+            <a target="_blank"  href="${dnaIndex}">
                 <div class="line-h">
                     <p>大豆SNP/INDEL数据库</p>
                 </div>

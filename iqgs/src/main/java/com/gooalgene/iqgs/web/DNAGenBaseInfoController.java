@@ -16,12 +16,14 @@ import com.gooalgene.mrna.service.TService;
 import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.service.QueryService;
 import com.gooalgene.utils.JsonUtils;
+import com.gooalgene.utils.PropertiesLoader;
 import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.StringUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -47,7 +49,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/iqgs")
-public class DNAGenBaseInfoController {
+public class DNAGenBaseInfoController implements InitializingBean {
 
     Logger logger = LoggerFactory.getLogger(DNAGenBaseInfoController.class);
 
@@ -60,9 +62,23 @@ public class DNAGenBaseInfoController {
     @Autowired
     private QueryService queryService;
 
+    private PropertiesLoader loader;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        loader = new PropertiesLoader("classpath:qtldb.properties");
+    }
+
     @RequestMapping("/index")
-    public String toIndexPage() {
-        return "iqgs/IQGS-index";
+    public ModelAndView toIndexPage() {
+        ModelAndView modelAndView = new ModelAndView("iqgs/IQGS-index");
+        String mrnaIndex = loader.getProperty("mrna.index");
+        String dnaIndex = loader.getProperty("dna.index");
+        String qtlIndex = loader.getProperty("qtl.index");
+        modelAndView.addObject("mrnaIndex", mrnaIndex);
+        modelAndView.addObject("dnaIndex", dnaIndex);
+        modelAndView.addObject("qtlIndex", qtlIndex);
+        return modelAndView;
     }
 
     @RequestMapping("/search/list")
