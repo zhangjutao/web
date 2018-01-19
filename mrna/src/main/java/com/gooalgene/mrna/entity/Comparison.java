@@ -1,6 +1,7 @@
 package com.gooalgene.mrna.entity;
 
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
 import javax.persistence.Id;
 import java.util.List;
@@ -15,6 +16,15 @@ public class Comparison {
     private String id;
 
     private String gene;
+
+    public Comparison(String id, String gene, List<Diff> diffs) {
+        this.id = id;
+        this.gene = gene;
+        this.diffs = diffs;
+    }
+
+    public Comparison() {
+    }
 
     private List<String> diffs_list;
 

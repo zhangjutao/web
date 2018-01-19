@@ -45,6 +45,16 @@ public class Diff {
         this.q_value = q_value;
     }
 
+    public Diff(String name, Double log_value, Double p_value, Double q_value) {
+        this.name = name;
+        this.log_value = log_value;
+        this.p_value = p_value;
+        this.q_value = q_value;
+    }
+
+    public Diff() {
+    }
+
     @Override
     public String toString() {
         return "Diff{" +
