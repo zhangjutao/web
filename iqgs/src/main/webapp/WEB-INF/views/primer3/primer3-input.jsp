@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>Primer3</title>
+    <title>IQGS PRIMER3</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <%--<link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">--%>
     <%--<link rel="stylesheet" href="${ctxStatic}/css/primer3.css">--%>
@@ -153,6 +153,7 @@
             </div>
         </div>
     </div>
+
 
 </div>
 <!--footer-->
@@ -527,12 +528,16 @@
                         $('.error-message').hide();
                         $('.peimer3-input-item>input').removeClass('red-border');
                         //window.open(ctxRoot+"/primer3out");
-                        var form = document.createElement('form');
+                        var a = $('<a href="${ctxroot}/primer3out" class="to-primer3-out" target="_blank">Welcome</a>').get(0);
+                        var e = document.createEvent('MouseEvents');
+                        e.initEvent('click', true, true);
+                        a.dispatchEvent(e);
+                        /*var form = document.createElement('form');
                         form.action = ctxRoot+"/primer3out";
                         form.target = '_blank';
                         form.method = 'GET';
                         document.body.appendChild(form);
-                        form.submit();
+                        form.submit();*/
                     },
                     function (error) {
                         console.log(error);
