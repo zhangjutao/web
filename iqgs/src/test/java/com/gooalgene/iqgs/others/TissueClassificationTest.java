@@ -26,11 +26,15 @@ import java.util.*;
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
 public class TissueClassificationTest {
 
-    private Map<String, Set<String>> category;
-
-    private Set<String> podSet = new HashSet<>();
-
-    private Set<String> seedSet = new HashSet<>();
+    private Stack<String> podSet;
+    private Stack<String> seedSet;
+    private Stack<String> rootSet;
+    private Stack<String> shootSet;
+    private Stack<String> leafSet;
+    private Stack<String> seedlingSet;
+    private Stack<String> flowerSet;
+    private Stack<String> stemSet;
+    private Set<String> filterRootSet;  //过滤后应该要拿一级组织FPKM值的集合
 
     private Tissue tissue;
 
@@ -41,6 +45,7 @@ public class TissueClassificationTest {
 
     @Before
     public void setUp(){
+        filterRootSet = new HashSet<>();
         List<Classifys> classifyCollection = mongoTemplate.findAll(Classifys.class, "classifys");
         try {
             String result = mapper.writerWithDefaultPrettyPrinter().writeValueAsString(classifyCollection);
@@ -50,19 +55,45 @@ public class TissueClassificationTest {
                 String firstHierarchyName = allHierarchyName.get(0);
                 switch (firstHierarchyName){
                     case "pod_All":
-                        podSet = new HashSet<>();
+                        podSet = new Stack<>();
+                        podSet.addAll(allHierarchyName);
+                        break;
+                    case "seed_All":
+                        seedSet = new Stack<>();
+                        seedSet.addAll(allHierarchyName);
+                        break;
+                    case "root_All":
+                        rootSet = new Stack<>();
+                        rootSet.addAll(allHierarchyName);
+                        break;
+                    case "shoot_All":
+                        shootSet = new Stack<>();
+                        shootSet.addAll(allHierarchyName);
+                        break;
+                    case "leaf_All":
+                        leafSet = new Stack<>();
+                        leafSet.addAll(allHierarchyName);
+                        break;
+                    case "seedling_All":
+                        seedlingSet = new Stack<>();
+                        seedlingSet.addAll(allHierarchyName);
+                        break;
+                    case "flower_All":
+                        flowerSet = new Stack<>();
+                        flowerSet.addAll(allHierarchyName);
+                        break;
+                    case "stem_All":
+                        stemSet = new Stack<>();
+                        stemSet.addAll(allHierarchyName);
+                        break;
+                    default:
+                        System.out.println("无法匹配");
                         break;
                 }
             }
-//            List<String> rootName = JsonPath.read(result, "$[*].children[*].name");
-//            for (int i = 0; i < rootName.size(); i++){
-//                System.out.println(rootName.get(i));
-//            }
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
-        podSet.add("pod");
-        //todo 使用jayway去读取classify中组织信息,分别放入set中
         tissue = new Tissue();
         tissue.setPod(31d);
         tissue.setAxis(28d);
@@ -74,7 +105,6 @@ public class TissueClassificationTest {
         Field[] tissueClassFields = tissueClass.getDeclaredFields();  //拿到所有tissue的property
         for (int i = 0; i < tissueClassFields.length; i++){
             String fieldName = tissueClassFields[i].getName();
-//            Class<?> fieldType = tissueClassFields[i].getType();
             try {
                 Field field = tissueClass.getDeclaredField(fieldName);
                 field.setAccessible(true);
@@ -83,14 +113,59 @@ public class TissueClassificationTest {
                     if (podSet.contains(fieldName)){
                         podSet.remove(fieldName);  //当该set最后只剩下一个root组织时,该组织的一级组织就要求fpkm值了
                     }
+                    if (seedSet.contains(fieldName)){
+                        seedSet.remove(fieldName);
+                    }
+                    if (rootSet.contains(fieldName)){
+                        rootSet.remove(fieldName);
+                    }
+                    if (shootSet.contains(fieldName)){
+                        shootSet.remove(fieldName);
+                    }
+                    if (leafSet.contains(fieldName)){
+                        leafSet.remove(fieldName);
+                    }
+                    if (seedlingSet.contains(fieldName)){
+                        seedlingSet.remove(fieldName);
+                    }
+                    if (flowerSet.contains(fieldName)){
+                        flowerSet.remove(fieldName);
+                    }
+                    if (stemSet.contains(fieldName)){
+                        stemSet.remove(fieldName);
+                    }
                 }
             } catch (NoSuchFieldException e) {
                 e.printStackTrace();
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
-
         }
+        if (podSet.size() == 1){
+            filterRootSet.add(podSet.firstElement());
+        }
+        if (seedSet.size() == 1){
+            filterRootSet.add(seedSet.firstElement());
+        }
+        if (rootSet.size() == 1){
+            filterRootSet.add(rootSet.firstElement());
+        }
+        if (shootSet.size() == 1){
+            filterRootSet.add(shootSet.firstElement());
+        }
+        if (leafSet.size() == 1){
+            filterRootSet.add(leafSet.firstElement());
+        }
+        if (seedlingSet.size() == 1){
+            filterRootSet.add(seedlingSet.firstElement());
+        }
+        if (flowerSet.size() == 1){
+            filterRootSet.add(flowerSet.firstElement());
+        }
+        if (stemSet.size() == 1){
+            filterRootSet.add(stemSet.firstElement());
+        }
+        System.out.println(filterRootSet);
     }
 
 
