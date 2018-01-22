@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>SNP INDEL database</title>
+    <title>IQGS PRIMER3</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <%--<link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">--%>
     <%--<link rel="stylesheet" href="${ctxStatic}/css/primer3.css">--%>
@@ -61,7 +61,7 @@
                         <td>3'(Self Complementarity)</td>
                         <td>Hairpin</td>
                         <td>Sequence(5'-3')</td>
-                        <td>引物检测</td>
+                        <%--<td>引物检测</td>--%>
                     </tr>
                     </thead>
                     <tbody>
@@ -189,7 +189,7 @@
                     '<td>'+primer3F.three+'</td>\n' +
                     '<td>'+primer3F.hairpin+'</td>\n' +
                     '<td>'+primer3F.sequence+'</td>\n' +
-                    '<td class="primer3-link" rowspan="2">可跳转的网址地址</td>\n' +
+                    /*'<td class="primer3-link" rowspan="2">可跳转的网址地址</td>\n' +*/
                     '</tr>\n';
                 $('.primer3-table tbody').append(primer3TrF);
 
