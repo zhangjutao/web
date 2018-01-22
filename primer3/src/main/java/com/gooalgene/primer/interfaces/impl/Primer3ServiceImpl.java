@@ -45,7 +45,11 @@ public class Primer3ServiceImpl implements Primer3Service {
             String table1 = element.substring(startPosition1, endPosition1);
             dataList.add(table1);
             int additonalPosition = element.indexOf("ADDITIONAL OLIGOS");
-            element = element.substring(additonalPosition, element.length());
+            if(additonalPosition!=-1){
+                element = element.substring(additonalPosition, element.length());
+            }else {
+                element = element.substring(element.indexOf("Statistics"), element.length());
+            }
             while (true) {
                 int startPosition = element.indexOf("LEFT");
                 int endPosition = element.indexOf("PRODUCT SIZE");

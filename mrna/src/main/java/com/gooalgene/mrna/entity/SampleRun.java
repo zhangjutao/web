@@ -13,6 +13,26 @@ public class SampleRun {
 
     private Double value;
 
+    public SampleRun(String name, String type, String study, Double value) {
+        this.name = name;
+        this.type = type;
+        this.study = study;
+        this.value = value;
+    }
+
+    public SampleRun() {
+    }
+
+    @Override
+    public String toString() {
+        return "SampleRun{" +
+                "name='" + name + '\'' +
+                ", type='" + type + '\'' +
+                ", study='" + study + '\'' +
+                ", value=" + value +
+                '}';
+    }
+
     public String getName() {
         return name;
     }
