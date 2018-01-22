@@ -520,14 +520,14 @@
 
             var geneName = getUrlParam("geneName");
             var version = getUrlParam("version");
-            if(version=='Gmax_275_v2.0'){
-                 version='gmx_phytozome_v11';
-            }else{
-                version='gmx_ensembl_release23';
-            }
+//            if(version=='Gmax_275_v2.0'){
+//                 version='gmx_phytozome_v11';
+//            }else{
+//                version='gmx_ensembl_release23';
+//            }
             var data = {
                 "genename": geneName,
-                "genegroup": version
+                "genegroup": "gmx_phytozome_v11"
             }
 //            var data = {
 //                "genename": "LOC_Os01g01010",

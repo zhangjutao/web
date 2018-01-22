@@ -2,8 +2,6 @@ package com.gooalgene.dna.web;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
-import com.gooalgene.common.authority.Role;
-import com.gooalgene.common.constant.ResultEnum;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
@@ -14,13 +12,10 @@ import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.*;
-import com.gooalgene.common.service.SMTPService;
 import com.gooalgene.utils.ResultUtil;
-import com.gooalgene.utils.Tools;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.sf.json.JSONArray;
-import net.sf.json.JSONObject;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -41,12 +36,13 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.math.MathContext;
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -161,7 +157,6 @@ public class SNPController {
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
     public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
-        //todo
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String gene = request.getParameter("gene");
@@ -203,8 +198,8 @@ public class SNPController {
     @RequestMapping("/searchSNPinRegion")
     @ResponseBody
     public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String type = request.getParameter("type");  //区分snp和indel数据
+        String ctype = request.getParameter("ctype");  //list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String chr = request.getParameter("chromosome");
         String startPos = request.getParameter("start");
         String endPos = request.getParameter("end");
@@ -242,6 +237,13 @@ public class SNPController {
             SNP snp = snps.get(i);
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
+            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+                snpDto.setConsequencetypeColor(1);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+                snpDto.setConsequencetypeColor(2);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+                snpDto.setConsequencetypeColor(3);
+            }
             snpDto.setIndex(i);
             snpDtos.add(snpDto);
         }
@@ -298,6 +300,13 @@ public class SNPController {
             SNP snp = snps.get(i);
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
+            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+                snpDto.setConsequencetypeColor(1);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+                snpDto.setConsequencetypeColor(2);
+            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+                snpDto.setConsequencetypeColor(3);
+            }
             snpDto.setIndex(i);
             snpDtos.add(snpDto);
         }
@@ -711,7 +720,10 @@ public class SNPController {
             }
         }
         if (samples.size() <= 0||runNos.size()<=0) {
-            return ResultUtil.error(ResultEnum.SNP_ID_NOT_EXIST);
+            Map response = Maps.newHashMap();
+            PageInfo<DNARunSearchResult> dnaRuns = new PageInfo<>();
+            response.put("dnaRuns", dnaRuns);
+            return ResultUtil.success(response);
         }
         Map response = Maps.newHashMap();
         dnaRunDto.setRunNos(runNos);

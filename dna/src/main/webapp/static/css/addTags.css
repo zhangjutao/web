@@ -207,6 +207,7 @@ p.first{
     width:885px;
     height:280px;
     overflow-x:scroll;
+    margin:0 auto;
 }
 #errorShow,#tableErrorShow{
     display:none;
@@ -346,3 +347,4 @@ p.first{
     /*position: absolute;*/
     /*top: 21px;*/
 /*}*/
+

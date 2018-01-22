@@ -165,7 +165,7 @@
                                     <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> GenoType
+                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> Genotype
                                 </li>
                                 <li>
                                     <%--无--%>
@@ -276,7 +276,7 @@
                             </p>
                         </div>
                     </th>
-                    <th class="param genoTypeT">GenoType
+                    <th class="param genoTypeT">Genotype
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <input type="text" placeholder="请输入" class="genoTypeI inputStyle">
@@ -652,7 +652,7 @@
                     plotShadow: false
                 },
                 title: {
-                    text: 'GenoType'
+                    text: 'Genotype'
                 },
                 credits: {
                     enabled: false
@@ -788,8 +788,10 @@
                 success:function (result) {
                     if(result.code!=0){
                       $('#snpinfoTable table tbody').empty();
+                      $("#snpInforsPage .total-page-count span").text(0);
                     }else {
                         count = result.data.dnaRuns.total;
+                        $("#total-page-count span").html(count)
                         if(count == 0){
                             $("#errorImg").show();
                             $("#containerAdmin").css("height","754px");
@@ -899,7 +901,7 @@
                             }
                         }
                     });
-                    $("#total-page-count span").html(count);
+//                    $("#total-page-count span").html(count);
                 },
                 error:function (error){
                     console.log(error);
@@ -908,7 +910,7 @@
         }
         // 详情页 搜索按钮点击事件
         $(".searBtn").click(function (){
-            var searchId = $(".searchBox").find("input").val();
+            var searchId = $(".searchBox").find("input").val().trim();
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/findSampleById",

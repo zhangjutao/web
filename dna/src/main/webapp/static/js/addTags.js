@@ -96,8 +96,19 @@ $(function (){
             var selContents = selContent.substring(0,selContent.length-1);
 
             // kindStorage.name.push(selContent);
-            var ki = {name:selContents,id:new Date().getTime()};
+            var arr = selContents.split(",");
+            var arrStr = "";
+            for(var j=0;j<arr.length;j++){
+                arrStr+=arr[j].substring(3) + ",";
+            };
 
+            var newArrStr = arrStr.substring(0,arrStr.length-1);
+            var ki = {name:selContents,
+                     id:new Date().getTime(),
+                     condition:{
+                            cultivar:newArrStr
+                     }
+            };
             kindStorage.name.push(ki);
             var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + ki.id + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
             $(".js-cursom-add").append(div);
