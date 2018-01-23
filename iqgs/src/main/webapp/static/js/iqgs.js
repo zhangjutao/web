@@ -4,6 +4,8 @@
 $(function(){
 
     $("#btn_name").on('click', function(){
+        // page.curr =1;
+        // page.pageSize = 10;
         flag = 0;
         var key = $("#key_name").val();
         if (key && !/^\s+$/.test(key)) {
@@ -12,6 +14,8 @@ $(function(){
     });
 
     $("#btn_func").on('click', function(){
+        // page.curr =1;
+        // page.pageSize = 10;
         flag = 0;
         var key = $("#key_func").val();
         if (key && !/^\s+$/.test(key)) {
@@ -20,6 +24,8 @@ $(function(){
     });
 
     $("#btn_range").on('click', function(){
+        // page.curr =1;
+        // page.pageSize = 10;
         flag = 0;
         var serial = $(".js-region").val();
         var rg_begin = $("#rg_begin").val();

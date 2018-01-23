@@ -58,7 +58,7 @@ public class DNARunService {
                 String groupName = one.getString("name");
                 if (one.containsKey("condition")) {
                     String condition = one.getString("condition");
-                    if (condition.indexOf("{\"cultivar") != -1) {
+                    if (condition.indexOf("{\"”cultivar") != -1) {
                         List<String> runNoList = new ArrayList<String>();
                         List<DNARun> dnaRunList = getQueryList(condition);
                         for (DNARun dnaRun : dnaRunList) {
