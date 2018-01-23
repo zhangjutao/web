@@ -991,6 +991,32 @@
         flag = 1;
         var dataParam = getParams();
         advanceSearchFn(dataParam);
+
+        // 处理搜索页面是当前页显示的问题
+        var currType ;
+        var list = $("#myTabs li");
+        for(var i=0;i<list.length;i++){
+            if($(list[i]).hasClass("active")){
+                currType = i+1;
+            }
+        };
+        // 当前的过滤条件
+        var currFilterVal;
+        switch (currType){
+            case 1:
+                currFilterVal = $("#key_name").val().trim();
+                break;
+            case 2:
+                currFilterVal = $("#key_func").val().trim();
+                break;
+            case 3:
+                currFilterVal = $("#Region select option:selected").val() + ',' + $("#rg_begin").val().trim() + 'bp - '+ $("#rg_end").val().trim() + "bp";
+                break;
+            case 4:
+                currFilterVal = $("#qtlName").val().trim();
+        }
+        $(".result-text>span:first").text(currFilterVal);
+
     });
 
 
