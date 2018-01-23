@@ -379,8 +379,9 @@
     // 1,获取 基因表达量的参数；
     var datas = globalObj.SleExpreDatas;
     var geneExpressionConditionEntities = [];
-    var obj = {};
+
     for (var i=0;i<datas.length;i++){
+        var obj = {};
         obj.begin = Number(datas[i].FPKM.split("-")[0]);
         obj.end = Number(datas[i].FPKM.split("-")[1]);
         var childers = datas[i].selected;
