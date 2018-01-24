@@ -3,7 +3,6 @@
  * @apiName getPrimer
  * @apiGroup Primer
  * @apiParam {String} primerSizeMin 引物序列范围下限 对应输入框 primerSize-min
- * @apiParam {String}
  * @apiParam {String} primerSizeMax 引物序列范围上限 对应输入框 primerSize-max
  * @apiParam {String} primerGCMin         GC含量下限
  * @apiParam {String} primerGCgcMax         GC含量上限
