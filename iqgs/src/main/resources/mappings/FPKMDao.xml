@@ -17,7 +17,7 @@
         <result property="functions" column="description" javaType="String" jdbcType="VARCHAR"/>
     </resultMap>
 
-    <resultMap id="FpkmMap" type="com.gooalgene.iqgs.entity.Fpkm">
+    <resultMap id="FpkmMap" type="com.gooalgene.iqgs.entity.FpkmDto">
         <id column="id" jdbcType="INTEGER" property="id" />
         <result column="gene_id" jdbcType="VARCHAR" property="geneId" />
         <result column="pod" jdbcType="DOUBLE" property="pod" />
@@ -260,8 +260,8 @@
     </select>
 
 
-    <select id="getFieldsFromFpkmForSort" resultType="com.gooalgene.iqgs.entity.Tissue">
-        SELECT
+    <select id="getFieldsFromFpkmForSort" resultType="com.gooalgene.iqgs.entity.GeneFPKM">
+        SELECT gene_id,
         <if test="fields!=null and fields!=''">
             ${fields}
         </if>

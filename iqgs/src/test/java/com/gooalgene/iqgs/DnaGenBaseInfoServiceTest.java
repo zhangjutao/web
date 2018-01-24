@@ -12,6 +12,7 @@ import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.mrna.entity.ExpressionVo;
 import junit.framework.TestCase;
 import org.junit.Before;
@@ -54,6 +55,8 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
 
     @Autowired
     private FPKMDao fpkmDao;
+    @Autowired
+    private FPKMService fpkmService;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -225,8 +228,8 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
      * 测试算fpkm的平均分
      */
     @Test
-    public void testFpkmForSort(){
-        List<Tissue> fpkms=fpkmDao.getFieldsFromFpkmForSort("seed,pod",Arrays.asList("Glyma.04G197300,Glyma.13G050700,Glyma.17G065100".split(",")));
-        System.out.println(fpkms);
+    public void testFpkmForSort() throws IllegalAccessException {
+        List<GeneFPKM> fpkms=fpkmDao.getFieldsFromFpkmForSort("seed,pod,axis",Arrays.asList("Glyma.04G197300,Glyma.13G050700,Glyma.17G065100".split(",")));
+        fpkmService.calculateScoreOfFpkm(fpkms);
     }
 }
