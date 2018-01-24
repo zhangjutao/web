@@ -417,23 +417,52 @@
     dataParam.firstHierarchyQtlId = nums;
     dataParam.pageNo = 1;
     dataParam.pageSize = 10;
-    switch (Number(searchType)){
-        case 1:
-            geneInfo.geneId = $("#key_name").val().trim();
-            dataParam.firstHierarchyQtlId = [];
-            break;
-        case 2:
-            geneInfo.functions = $("#key_func").val().trim();
-            dataParam.firstHierarchyQtlId = [];
-            break;
-        case 3:
-            geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
-            geneStructure.start = Number($("#rg_begin").val().trim());
-            geneStructure.end = Number($("#rg_end").val().trim());
-            dataParam.geneStructure = geneStructure;
-            dataParam.firstHierarchyQtlId = [];
-            break;
-    };
+//    ======bug 修改
+        var currType ;
+        var list = $("#myTabs li");
+        for(var i=0;i<list.length;i++){
+            if($(list[i]).hasClass("active")){
+                currType = i+1;
+            }
+        };
+//        当前的过滤条件
+        var currFilterVal;
+        switch (currType){
+            case 1:
+                geneInfo.geneId = $("#key_name").val().trim();
+                dataParam.firstHierarchyQtlId = [];
+                break;
+            case 2:
+                geneInfo.functions = $("#key_func").val().trim();
+                dataParam.firstHierarchyQtlId = [];
+                break;
+            case 3:
+                geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
+                geneStructure.start = Number($("#rg_begin").val().trim());
+                geneStructure.end = Number($("#rg_end").val().trim());
+                dataParam.geneStructure = geneStructure;
+                dataParam.firstHierarchyQtlId = [];
+                break;
+        }
+
+//        ======bug end
+//    switch (Number(searchType)){
+//        case 1:
+//            geneInfo.geneId = $("#key_name").val().trim();
+//            dataParam.firstHierarchyQtlId = [];
+//            break;
+//        case 2:
+//            geneInfo.functions = $("#key_func").val().trim();
+//            dataParam.firstHierarchyQtlId = [];
+//            break;
+//        case 3:
+//            geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
+//            geneStructure.start = Number($("#rg_begin").val().trim());
+//            geneStructure.end = Number($("#rg_end").val().trim());
+//            dataParam.geneStructure = geneStructure;
+//            dataParam.firstHierarchyQtlId = [];
+//            break;
+//    };
     dataParam.geneInfo = geneInfo;
     return dataParam;
 
