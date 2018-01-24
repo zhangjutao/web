@@ -25,5 +25,7 @@ public class GeneSortDaoTest extends TestCase {
         assertEquals(7, view.getSnpConsequenceType().size());
         assertEquals(3, view.getIndelConsequenceType().size());
         assertEquals(12, view.getAllQtl().size());
+        assertEquals("Chr02", view.getChromosome());
+        assertEquals("3334180bp-3337009bp:-", view.getLocation());
     }
 }
