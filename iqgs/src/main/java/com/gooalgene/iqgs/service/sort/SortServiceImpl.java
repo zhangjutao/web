@@ -25,6 +25,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
             return 0;
         }
         for (int i = 0; i < consequenceTypes.size(); i++){
+            //todo 增加错误consequencetype处理
             Cache.ValueWrapper num = snpCache.get(consequenceTypes.get(i));
             int currentScore = (int) num.get();
             snpConsequenceTypeResult += currentScore;
@@ -50,7 +51,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
         List<String> indelConsequenceTypes = view.getIndelConsequenceType();
         List<String> snpConsequenceTypes = view.getSnpConsequenceType();
         int total = calculateINDELConsequenceTypeScore(indelConsequenceTypes) + calculateSNPConsequenceTypeScore(snpConsequenceTypes);
-
+        view.setScore(total);
         return 0;
     }
 

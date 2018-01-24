@@ -10,11 +10,8 @@ import com.gooalgene.iqgs.entity.FpkmDto;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
-import java.util.Map;
 
 @MyBatisDao
 public interface FPKMDao {

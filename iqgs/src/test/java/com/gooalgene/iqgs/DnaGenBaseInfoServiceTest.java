@@ -10,7 +10,10 @@ import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
-import com.gooalgene.iqgs.entity.*;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.DNAGenFamily;
+import com.gooalgene.iqgs.entity.DNAGenSequence;
+import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.mrna.entity.ExpressionVo;
@@ -29,7 +32,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * DNAGenBaseInfoCtroller相关方法测试
