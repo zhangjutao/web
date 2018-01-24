@@ -8,7 +8,6 @@ import com.gooalgene.dna.service.DNAGenStructureService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.google.common.base.Predicate;
@@ -243,6 +242,8 @@ public class FPKMService implements InitializingBean, DisposableBean {
         //QTL查询高级搜索
         List<AdvanceSearchResultView> searchResult =
                 fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
+
         return new PageInfo<>(searchResult);
     }
 
