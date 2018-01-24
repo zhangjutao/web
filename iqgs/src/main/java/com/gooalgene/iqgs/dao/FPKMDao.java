@@ -2,12 +2,18 @@ package com.gooalgene.iqgs.dao;
 
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.entity.DNAGenStructure;
+import com.gooalgene.iqgs.entity.Tissue;
+import com.gooalgene.iqgs.provider.FpkmSqlProvider;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.Fpkm;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
+import java.util.Map;
 
 @MyBatisDao
 public interface FPKMDao {
@@ -50,4 +56,11 @@ public interface FPKMDao {
      * 检查某一基因对应consequencetype中是否存在SNP
      */
     boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType);
+
+    /**
+     * 从fpkm查询某几个组织字段
+     */
+//    @SelectProvider(type=FpkmSqlProvider.class,method="getFieldsFromFpkmForSort")
+//    @ResultMap("com.gooalgene.iqgs.dao.FPKMDao.FpkmMap")
+    List<Tissue> getFieldsFromFpkmForSort(@Param("fields") String fields, @Param("geneIds") List<String> geneIds);
 }

@@ -9,9 +9,8 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
-import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.DNAGenFamily;
-import com.gooalgene.iqgs.entity.DNAGenSequence;
+import com.gooalgene.iqgs.dao.FPKMDao;
+import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionVo;
 import junit.framework.TestCase;
@@ -52,6 +51,9 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
 
     @Autowired
     private StudyDao studyDao;
+
+    @Autowired
+    private FPKMDao fpkmDao;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -217,5 +219,14 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         info.setGeneId(null);
         info.setFunctions("sequence");
         assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
+    }
+
+    /**
+     * 测试算fpkm的平均分
+     */
+    @Test
+    public void testFpkmForSort(){
+        List<Tissue> fpkms=fpkmDao.getFieldsFromFpkmForSort("seed,pod",Arrays.asList("Glyma.04G197300,Glyma.13G050700,Glyma.17G065100".split(",")));
+        System.out.println(fpkms);
     }
 }
