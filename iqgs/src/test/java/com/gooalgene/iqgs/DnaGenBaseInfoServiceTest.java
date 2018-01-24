@@ -10,7 +10,9 @@ import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
-import com.gooalgene.iqgs.entity.*;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.DNAGenFamily;
+import com.gooalgene.iqgs.entity.DNAGenSequence;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.mrna.entity.ExpressionVo;
 import junit.framework.TestCase;
@@ -28,7 +30,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * DNAGenBaseInfoCtroller相关方法测试
@@ -221,12 +226,4 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
     }
 
-    /**
-     * 测试算fpkm的平均分
-     */
-    @Test
-    public void testFpkmForSort(){
-        List<Tissue> fpkms=fpkmDao.getFieldsFromFpkmForSort("seed,pod",Arrays.asList("Glyma.04G197300,Glyma.13G050700,Glyma.17G065100".split(",")));
-        System.out.println(fpkms);
-    }
 }
