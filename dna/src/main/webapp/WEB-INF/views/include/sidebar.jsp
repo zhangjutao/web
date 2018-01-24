@@ -1800,9 +1800,9 @@
                     if(RegionObj.start*1 > RegionObj.end*1) {
                         return alert("StartPosition应小于EndPosition");
                     }
-                    if(RegionObj.end*1 - RegionObj.start*1 > 100000) {
-                        return alert("区间应小于100 kb");
-                    }
+//                    if(RegionObj.end*1 - RegionObj.start*1 > 100000) {
+//                        return alert("区间应小于100 kb");
+//                    }
                     return RegionObj;
                 } else {
                     alert("请输入数字");
