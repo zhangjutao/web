@@ -8,10 +8,13 @@ import com.gooalgene.dna.service.DNAGenStructureService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.Fpkm;
+import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -247,5 +250,15 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){
         return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
+    }
+
+
+    /**
+     * 从fpkm查询某几个组织字段算平均分
+     */
+    public Integer getFieldsFromFpkmForSort(String fields,String geneIds){
+        List<Tissue> fpkms=fpkmDao.getFieldsFromFpkmForSort(fields,Arrays.asList(geneIds.split(",")));
+
+        return 0;
     }
 }

@@ -17,6 +17,47 @@
         <result property="functions" column="description" javaType="String" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap id="FpkmMap" type="com.gooalgene.iqgs.entity.Fpkm">
+        <id column="id" jdbcType="INTEGER" property="id" />
+        <result column="gene_id" jdbcType="VARCHAR" property="geneId" />
+        <result column="pod" jdbcType="DOUBLE" property="pod" />
+        <result column="pod_All" jdbcType="DOUBLE" property="podAll" />
+        <result column="endosperm" jdbcType="DOUBLE" property="endosperm" />
+        <result column="seed" jdbcType="DOUBLE" property="seed" />
+        <result column="embryo" jdbcType="DOUBLE" property="embryo" />
+        <result column="axis" jdbcType="DOUBLE" property="axis" />
+        <result column="seed_All" jdbcType="DOUBLE" property="seedAll" />
+        <result column="cotyledon" jdbcType="DOUBLE" property="cotyledon" />
+        <result column="seed_coat" jdbcType="DOUBLE" property="seedCoat" />
+        <result column="nodule" jdbcType="DOUBLE" property="nodule" />
+        <result column="root_All" jdbcType="DOUBLE" property="rootAll" />
+        <result column="root_hair" jdbcType="DOUBLE" property="rootHair" />
+        <result column="root" jdbcType="DOUBLE" property="root" />
+        <result column="root_tip" jdbcType="DOUBLE" property="rootTip" />
+        <result column="shoot" jdbcType="DOUBLE" property="shoot" />
+        <result column="shoot_tip" jdbcType="DOUBLE" property="shootTip" />
+        <result column="shoot_apical_meristem" jdbcType="DOUBLE" property="shootApicalMeristem" />
+        <result column="shoot_All" jdbcType="DOUBLE" property="shootAll" />
+        <result column="shoot_meristem" jdbcType="DOUBLE" property="shootMeristem" />
+        <result column="primaryleaf" jdbcType="DOUBLE" property="primaryleaf" />
+        <result column="leaf_All" jdbcType="DOUBLE" property="leafAll" />
+        <result column="petiole" jdbcType="DOUBLE" property="petiole" />
+        <result column="leaf" jdbcType="DOUBLE" property="leaf" />
+        <result column="trifoliate" jdbcType="DOUBLE" property="trifoliate" />
+        <result column="leafbud" jdbcType="DOUBLE" property="leafbud" />
+        <result column="leaflet" jdbcType="DOUBLE" property="leaflet" />
+        <result column="seedling_All" jdbcType="DOUBLE" property="seedlingAll" />
+        <result column="cotyledons_of_seedling" jdbcType="DOUBLE" property="cotyledonsOfSeedling" />
+        <result column="seedling" jdbcType="DOUBLE" property="seedling" />
+        <result column="flower_bud" jdbcType="DOUBLE" property="flowerBud" />
+        <result column="flower" jdbcType="DOUBLE" property="flower" />
+        <result column="flower_All" jdbcType="DOUBLE" property="flowerAll" />
+        <result column="stem" jdbcType="DOUBLE" property="stem" />
+        <result column="stem_internode" jdbcType="DOUBLE" property="stemInternode" />
+        <result column="hypocotyl" jdbcType="DOUBLE" property="hypocotyl" />
+        <result column="stem_All" jdbcType="DOUBLE" property="stemAll" />
+    </resultMap>
+
     <sql id="advanceSearchSQL">
         SELECT a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
         a.flower_All, a.stem_All, f.id, f.gene_name, f.description,
@@ -216,6 +257,23 @@
                           LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
                           LEFT JOIN snp_consequencetype c ON c.id = b.snp_id
                       WHERE a.gene_id = #{0} AND c.consequencetype = #{1}) AS result;
+    </select>
+
+
+    <select id="getFieldsFromFpkmForSort" resultType="com.gooalgene.iqgs.entity.Tissue">
+        SELECT
+        <if test="fields!=null and fields!=''">
+            ${fields}
+        </if>
+        from fpkm
+        <where>
+            <if test="geneIds!=null and geneIds.size>0">
+                gene_id in
+                <foreach collection="geneIds" item="geneId" open="(" close=")" separator=",">
+                    #{geneId}
+                </foreach>
+            </if>
+        </where>
     </select>
 
 </mapper>
