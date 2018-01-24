@@ -288,6 +288,7 @@
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
             <p class="result-text">您的搜索条件为:<span> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息</p>
+       <button class="sort_btn">排序</button>
         </div>
         <div class="search-result-b">
             <div class="tab-list">
@@ -311,6 +312,19 @@
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div id="gray"></div>
+<div class="popup" id="popup">
+    <div class="top_nav" id='top_nav'>
+        <div align="center">
+
+            <a class="guanbi"></a>
+        </div>
+    </div>
+    <div class="min">
+        11111111111111
     </div>
 </div>
 <!--container-->
