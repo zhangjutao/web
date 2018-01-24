@@ -77,6 +77,8 @@
             <list>
                 <value>config</value>
                 <value>advanceSearch</value>
+                <value>snpCache</value>
+                <value>indelCache</value>
             </list>
         </property>
         <property name="allowNullValues" value="false" />
