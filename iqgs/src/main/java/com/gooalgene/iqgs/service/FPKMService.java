@@ -10,8 +10,11 @@ import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.eventbus.EventBusRegister;
+import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.eventbus.EventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.DisposableBean;
@@ -45,6 +48,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     @Autowired
     private CacheManager manager;
+
+    @Autowired
+    private EventBusRegister register;
 
     private Cache cache;
 
@@ -243,7 +249,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
         List<AdvanceSearchResultView> searchResult =
                 fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
         //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
-
+        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        EventBus eventBus = register.getEventBus();
+        eventBus.post(event);
         return new PageInfo<>(searchResult);
     }
 
