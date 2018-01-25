@@ -491,7 +491,9 @@
     height:20px;
     padding-right:15px;
     line-height:20px;
-    background:#eff3fa;
+    /*background:#eff3fa;*/
+    background:#e1e8f5;
+
     font-size:14px;
     color:#666;
 }
@@ -502,6 +504,7 @@
     margin-right:6px;
     /*background:#eff3fa;*/
     padding-left:4px;
+    /*padding-left:0px;*/
     font-size:16px;
     cursor:pointer;
     color:#666;
@@ -535,4 +538,3 @@
 /*}*/
 /*#myTabs .geneIdName a,#myTabs .geneFunction a,#myTabs .region a,#myTabs .qtl a{*/
     /*font-size:12px!important;*/
-/*}*/
