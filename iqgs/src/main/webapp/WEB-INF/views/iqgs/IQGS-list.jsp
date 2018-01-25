@@ -360,7 +360,7 @@
     function getParams(){
     // 开户遮罩层
     layer.msg('数据加载中!', {
-        time: 10000,
+        time: 120000,
         shade: [0.5, '#393D49']
     });
     var geneInfo = {
@@ -553,6 +553,7 @@
     function requestSearchData(){
         // 开户遮罩层
         layer.msg('数据加载中!', {
+            time: 120000,
             shade: [0.5, '#393D49']
         });
         if (searchType == 1) {
@@ -706,6 +707,7 @@
     $("#per-page-count1").on("change", ".lay-per-page-count-select", function() {
         // 开户遮罩层
         layer.msg('数据加载中!', {
+            time: 120000,
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
@@ -732,6 +734,7 @@
         if(e && e.keyCode==13){ // enter 键
             // 开户遮罩层
             layer.msg('数据加载中!', {
+                time: 120000,
                 shade: [0.5, '#393D49']
             });
             if( _page_skip.hasClass("isFocus") ) {
