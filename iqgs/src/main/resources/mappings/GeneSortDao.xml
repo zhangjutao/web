@@ -58,9 +58,14 @@
     </resultMap>
     <select id="findViewByGeneId" resultMap="sortedMap">
         SELECT
-        <if test="fields!=null and fields!=''">
-            ${fields},
-        </if>
+            <choose >
+                <when test="fields!=null and fields!=''" >
+                    ${fields},
+                </when>
+                <otherwise>
+                    a.*,
+                </otherwise>
+            </choose>
             f.gene_id, f.gene_name, f.locus, f.description,
             c.consequencetype AS snp_consequencetype,
             c.score snp_score,

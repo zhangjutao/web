@@ -60,6 +60,12 @@ public class SortController implements InitializingBean {
         return null;
     }
 
+    @RequestMapping("/dispatch")
+    public String dispatchToIFrame(){
+        return "search/sort";
+    }
+
+
     @RequestMapping(value = "/fetch-sort-result", method = RequestMethod.POST)
     @ResponseBody
     public ResultVO<SortedResult> fetchSortedResult(@RequestBody SortRequestParam sortRequestParam){

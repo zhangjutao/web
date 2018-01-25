@@ -74,7 +74,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
      */
     public SortedSearchResultView calculateScoreOfFpkm(SortedSearchResultView view) throws IllegalAccessException {
         Integer count=0;
-        Integer score=0;
+        Double score=0d;
         FpkmDto fpkmDto=new FpkmDto();
         BeanUtils.copyProperties(view.getFpkm(),fpkmDto);
         Field[] declaredFields = fpkmDto.getClass().getDeclaredFields();
@@ -100,26 +100,30 @@ public class SortServiceImpl implements SortService, InitializingBean {
                 }
             }
         }
-        view.setScore(score);
-        return view;
-    }
-
-    private String getPrefixBeforeFields(String fields){
-        String[] strings=fields.split(",");
-        List<String> strings2= Lists.newArrayList();
-        for (String str:strings){
-            strings2.add("a."+str);
+        Double score1 = view.getScore();
+        if(score1==null){
+            score1=0d;
         }
-        return StringUtils.join(strings2.toArray(),",");
-    }
-
-    private SortedSearchResultView calculateScoreOfQtl(SortedSearchResultView view){
-        view.setScore(view.getScore()+view.getAllQtl().size()*10);
+        view.setScore(score1+score/count);
         return view;
     }
-    private SortedSearchResultView calculateScoreOfSnpAndIndel(SortedSearchResultView view){
-        Integer oldScore=view.getScore();
-        Integer sum=0;
+
+    /**
+     * 计算QTL得分
+     * @param view
+     * @return
+     */
+    public SortedSearchResultView calculateScoreOfQtl(SortedSearchResultView view){
+        Double score1 = view.getScore();
+        if(score1==null){
+            score1=0d;
+        }
+        view.setScore(score1+view.getAllQtl().size()*10);
+        return view;
+    }
+    public SortedSearchResultView calculateScoreOfSnpAndIndel(SortedSearchResultView view){
+        Double oldScore=view.getScore();
+        Double sum=0d;
         for(SnpScore snpScore:view.getSnpConsequenceType()){
             Integer score = snpScore.getScore();
             if(score==null){
@@ -139,6 +143,14 @@ public class SortServiceImpl implements SortService, InitializingBean {
         sum2=sum2/(view.getIndelConsequenceType().size());
         view.setScore(oldScore+sum+sum2);
         return view;
+    }
+    public String getPrefixBeforeFields(String fields){
+        String[] strings=fields.split(",");
+        List<String> strings2= Lists.newArrayList();
+        for (String str:strings){
+            strings2.add("a."+str);
+        }
+        return StringUtils.join(strings2.toArray(),",");
     }
 
     @Override

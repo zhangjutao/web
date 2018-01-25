@@ -106,9 +106,9 @@
     };
     // 根据选择的qtl 搜索 -- > sureBtn
     $("#qtlAdd .sureBtn").click(function (){
-        page.curr =1;
-        page.pageSize = 10;
-        flag = 0;
+        // page.curr =1;
+        // page.pageSize = 10;
+        // flag = 0;
         storage.setItem("qtlSearchNames", JSON.stringify(globleObject.selectedQtlNames));
         var num = globleObject.selectedQtl.length;
         var qtlNameArr = globleObject.selectedQtl;
