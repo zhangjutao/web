@@ -284,7 +284,7 @@
 
     </div>
 
-    <div class="search-result" style="margin-top:66px;">
+    <div class="search-result" style="margin-top:16px;">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
             <p class="result-text">您的搜索条件为:<span> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息</p>
