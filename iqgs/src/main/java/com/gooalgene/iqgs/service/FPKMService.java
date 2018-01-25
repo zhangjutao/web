@@ -8,6 +8,10 @@ import com.gooalgene.dna.service.DNAGenStructureService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.FpkmDto;
+import com.gooalgene.iqgs.entity.FpkmDto;
+import com.gooalgene.iqgs.entity.GeneFPKM;
+import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
@@ -16,9 +20,12 @@ import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Maps;
 import com.google.common.eventbus.EventBus;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +34,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -268,4 +276,45 @@ public class FPKMService implements InitializingBean, DisposableBean {
         return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
     }
 
+
+    /**
+     * 计算fpkm得分
+     * @param fpkms
+     * @return
+     * @throws IllegalAccessException
+     */
+    public Map<String,Integer> calculateScoreOfFpkm(List<GeneFPKM> fpkms) throws IllegalAccessException {
+        Map<String,Integer> scoreMap= Maps.newHashMap();
+        for(GeneFPKM fpkm:fpkms){
+            Integer count=0;
+            Integer score=0;
+            FpkmDto fpkmDto=new FpkmDto();
+            BeanUtils.copyProperties(fpkm,fpkmDto);
+            Field[] declaredFields = fpkmDto.getClass().getDeclaredFields();
+            for (Field f : declaredFields) {
+                f.setAccessible(true);
+                if (f.get(fpkmDto) != null) { //判断字段是否为空，并且对象属性中的基本都会转为对象类型来判断
+                    if(f.getName().toLowerCase().contains("id")||f.getName().endsWith("All")){
+                        System.out.println(f.getName());
+                        continue;
+                    }
+                    ++count;
+                    Double value= (Double) f.get(fpkmDto);
+                    if(0<=value&&value<5){
+                        score+=10;
+                    }else if(5<=value&&value<15){
+                        score+=20;
+                    }else if(15<=value&&value<30){
+                        score+=30;
+                    }else if(30<=value&&value<60){
+                        score+=40;
+                    }else if(value>=60){
+                        score+=50;
+                    }
+                }
+            }
+            scoreMap.put(fpkm.getGeneId(),score/count);
+        }
+        return scoreMap;
+    }
 }
