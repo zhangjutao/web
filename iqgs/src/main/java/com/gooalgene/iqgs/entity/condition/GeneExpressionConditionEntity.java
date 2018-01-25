@@ -1,6 +1,7 @@
 package com.gooalgene.iqgs.entity.condition;
 
 import com.gooalgene.iqgs.entity.Tissue;
+import com.google.common.base.Objects;
 
 /**
  * 基因表达量查询单个组织实体对象
@@ -43,5 +44,20 @@ public class GeneExpressionConditionEntity {
 
     public void setEnd(Double end) {
         this.end = end;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GeneExpressionConditionEntity that = (GeneExpressionConditionEntity) o;
+        return Objects.equal(tissue, that.tissue) &&
+                Objects.equal(begin, that.begin) &&
+                Objects.equal(end, that.end);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(tissue, begin, end);
     }
 }

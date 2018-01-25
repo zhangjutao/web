@@ -1,6 +1,7 @@
 package com.gooalgene.iqgs.entity;
 
 import com.gooalgene.common.Page;
+import com.google.common.base.Objects;
 
 /**
  * Created by sauldong on 2017/10/12.
@@ -114,5 +115,29 @@ public class DNAGenBaseInfo {
 
     public void setGeneOldId(String geneOldId) {
         this.geneOldId = geneOldId;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        DNAGenBaseInfo baseInfo = (DNAGenBaseInfo) o;
+        return Objects.equal(geneId, baseInfo.geneId) &&
+                Objects.equal(geneOldId, baseInfo.geneOldId) &&
+                Objects.equal(geneName, baseInfo.geneName) &&
+                Objects.equal(geneType, baseInfo.geneType) &&
+                Objects.equal(locus, baseInfo.locus) &&
+                Objects.equal(length, baseInfo.length) &&
+                Objects.equal(species, baseInfo.species) &&
+                Objects.equal(functions, baseInfo.functions) &&
+                Objects.equal(description, baseInfo.description) &&
+                Objects.equal(familyId, baseInfo.familyId) &&
+                Objects.equal(id, baseInfo.id) &&
+                Objects.equal(page, baseInfo.page);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hashCode(geneId, geneOldId, geneName, geneType, locus, length, species, functions, description, familyId, id, page);
     }
 }
