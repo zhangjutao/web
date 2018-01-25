@@ -54,7 +54,7 @@ public class SortController implements InitializingBean {
     /**
      * 页面初始化时性状接口
      */
-    @RequestMapping(value = "/fetch-trait", method = RequestMethod.GET)
+    @RequestMapping(value = "/fetch-trait", method = RequestMethod.POST)
     @ResponseBody
     public String fetchTrait(){
         String result = "";
