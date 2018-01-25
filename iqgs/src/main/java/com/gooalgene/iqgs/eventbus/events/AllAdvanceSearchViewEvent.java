@@ -2,14 +2,9 @@ package com.gooalgene.iqgs.eventbus.events;
 
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.Tissue;
-import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
-import com.google.common.base.MoreObjects;
 import com.google.common.base.Objects;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -109,7 +104,6 @@ public class AllAdvanceSearchViewEvent {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        return java.util.Objects.hash(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
     }
-
 }

@@ -12,6 +12,8 @@ import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
+import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
+import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.eventbus.EventBus;
@@ -172,6 +174,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
         }
         //如果是function，那么ID/name均为null，直接拿到从前台传过来的DNAGenBaseInfo即可，这里获取到符合条件的基因ID集合
         properGeneIdList = dnaGenBaseInfoDao.findProperGeneId(baseInfo);
+        IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(properGeneIdList);
+        EventBus eventBus = register.getEventBus();
+        eventBus.post(event);
         int total = properGeneIdList.size();
         page.setTotal(total);
         int end = pageNo * pageSize;
@@ -220,6 +225,10 @@ public class FPKMService implements InitializingBean, DisposableBean {
             advanceSearchResultViews.addAll(searchResult);
         }
         int total = advanceSearchResultViews.size();
+        //通过EventBus将查询结果封装，在另一个线程中处理该事件
+        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(genStructure, advanceSearchResultViews);
+        EventBus eventBus = register.getEventBus();
+        eventBus.post(event);
         page.setTotal(total);
         int end = pageNo*pageSize > total ? total : pageNo*pageSize;  //防止数组越界
         page.addAll(advanceSearchResultViews.subList((pageNo-1)*pageSize, end));

@@ -171,4 +171,14 @@ WHERE f.gene_id =o.gene_id AND f.gene_id = baseinfo.gene_id AND family_id = #{fa
     <select id="getFrontHundredGene" resultType="int">
         SELECT id FROM gens_baseinfo LIMIT 0, 100;
     </select>
+
+    <select id="findAllGeneId" parameterType="String" resultType="int">
+      SELECT gene_id FROM gens_baseinfo WHERE 1 = 1
+        <if test="idList != null and idList.size() > 0">
+            AND id IN
+            <foreach collection="idList" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 </mapper>

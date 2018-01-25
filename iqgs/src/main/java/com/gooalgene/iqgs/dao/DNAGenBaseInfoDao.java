@@ -56,6 +56,13 @@ public interface DNAGenBaseInfoDao {
      */
     List<Associatedgenes> findAllAssociatedQTLByGeneId(String geneId);
 
+    /**
+     * 查找ID主键落在该List集合中的所有基因ID
+     * @param id 主键集合
+     * @return GeneId 集合
+     */
+    List<String> findAllGeneId(@Param("idList") List<Integer> id);
+
     DNAGenBaseInfo findByGeneId(DNAGenBaseInfo bean);
 
     List<DNAGenSequence> findGenSequenceByGeneId(DNAGenSequence bean);

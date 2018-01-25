@@ -13,7 +13,6 @@ import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenSequence;
-import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.mrna.entity.ExpressionVo;
@@ -230,12 +229,4 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
     }
 
-    /**
-     * 测试算fpkm的平均分
-     */
-    @Test
-    public void testFpkmForSort() throws IllegalAccessException {
-        List<GeneFPKM> fpkms=fpkmDao.getFieldsFromFpkmForSort("seed,pod,axis",Arrays.asList("Glyma.04G197300,Glyma.13G050700,Glyma.17G065100".split(",")));
-        fpkmService.calculateScoreOfFpkm(fpkms);
-    }
 }
