@@ -43,7 +43,8 @@ public class FetchAllAdvanceSearchViewListener implements EventBusListener, Init
             });
             resultGeneCollection.addAll(geneIdCollection);
         }
-        cache.putIfAbsent(event.toString(), resultGeneCollection);
+        String key = event.getClass().getSimpleName() + event.hashCode();
+        cache.putIfAbsent(key, resultGeneCollection);
     }
 
     @Override

@@ -112,18 +112,4 @@ public class AllAdvanceSearchViewEvent {
         return Objects.hashCode(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
     }
 
-    @Override
-    public String toString() {
-        return MoreObjects.toStringHelper(this)
-                .add("condition", condition)
-                .add("selectSnp", selectSnp)
-                .add("selectIndel", selectIndel)
-                .add("firstHierarchyQtlId", firstHierarchyQtlId)
-                .add("selectQTL", selectQTL)
-                .add("baseInfo", baseInfo)
-                .add("structure", structure)
-                .omitNullValues()
-                .toString();
-    }
-
 }
