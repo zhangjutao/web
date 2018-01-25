@@ -4,8 +4,14 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
+import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.iqgs.entity.sort.SortRequestParam;
+import com.gooalgene.iqgs.entity.sort.SortedResult;
+import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
+import com.gooalgene.utils.ResultUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
@@ -16,11 +22,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -38,6 +44,9 @@ public class SortController implements InitializingBean {
     @Autowired
     private TraitCategoryService traitCategoryService;
 
+    @Autowired
+    private GeneSortViewService geneSortViewService;
+
     private Cache cache;
 
     private ObjectMapper mapper;
@@ -49,6 +58,14 @@ public class SortController implements InitializingBean {
     @ResponseBody
     public List<String> fetchAllCurrentPageGeneId(){
         return null;
+    }
+
+    @RequestMapping(value = "/fetch-sort-result", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<SortedResult> fetchSortedResult(@RequestBody SortRequestParam sortRequestParam){
+        PageInfo<SortedResult> resultPage = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(),
+                sortRequestParam.getTraitCategoryId(), sortRequestParam.getPageNo(), sortRequestParam.getPageSize());
+        return ResultUtil.success(resultPage);
     }
 
     /**
