@@ -12,5 +12,5 @@ import java.util.List;
 @MyBatisDao
 public interface GeneSortDao {
 
-    SortedSearchResultView findViewByGeneId(@Param("geneIds") List<String> geneIds,@Param("fields") String fields,@Param("categoryId") Integer categoryId);
+    List<SortedSearchResultView> findViewByGeneId(@Param("geneIds") List<String> geneIds,@Param("fields") String fields,@Param("categoryId") Integer categoryId);
 }

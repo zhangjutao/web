@@ -83,6 +83,14 @@
         </property>
         <property name="allowNullValues" value="false" />
     </bean>
+    <bean id="eventBusRegister" class="com.gooalgene.iqgs.eventbus.EventBusRegister">
+        <constructor-arg index="0" value="searchResultCache" />
+        <constructor-arg index="1">
+            <list>
+                <ref bean="fetAllListener" />
+            </list>
+        </constructor-arg>
+    </bean>
     <bean id="smtpBean" class="com.gooalgene.common.service.SMTPService" init-method="init" depends-on="cacheManager"/>
 
     <!--异步支持-->

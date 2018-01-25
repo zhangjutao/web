@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.iqgs.dao.GeneSortDao">
+
     <resultMap id="sortedMap" type="com.gooalgene.iqgs.entity.sort.SortedSearchResultView">
-        <id property="id" column="id" javaType="int" jdbcType="INTEGER" />
+        <id property="id" column="gene_id" javaType="string" jdbcType="VARCHAR" />
         <result property="chromosome" column="locus" jdbcType="VARCHAR" typeHandler="com.gooalgene.iqgs.dao.handler.LocusToChromosomeHandler" />
         <result property="location" column="locus" jdbcType="VARCHAR" typeHandler="com.gooalgene.iqgs.dao.handler.LocusToGeneLocationHandler" />
         <association property="fpkm" javaType="com.gooalgene.iqgs.entity.GeneFPKM" >
@@ -41,11 +42,15 @@
             <result property="geneName" column="gene_name" jdbcType="VARCHAR" />
             <result property="description" column="description" jdbcType="VARCHAR" />
         </association>
-        <collection property="snpConsequenceType" ofType="String">
-            <result column="snp_consequencetype" />
+        <collection property="snpConsequenceType" ofType="com.gooalgene.iqgs.entity.sort.SnpScore">
+            <result column="snp_consequencetype" property="consequencetype" />
+            <result column="snp_score" property="score"></result>
+            <result column="snp_count" property="count"></result>
         </collection>
-        <collection property="indelConsequenceType" ofType="String">
-            <result column="indel_consequencetype" />
+        <collection property="indelConsequenceType" ofType="com.gooalgene.iqgs.entity.sort.IndelScore">
+            <result column="indel_consequencetype" property="consequencetype" />
+            <result column="indel_score" property="score"></result>
+            <result column="indel_count" property="count"></result>
         </collection>
         <collection property="allQtl" ofType="String">
             <result column="qtl_name" />
@@ -58,7 +63,11 @@
         </if>
             f.gene_id, f.gene_name, f.locus,
             c.consequencetype AS snp_consequencetype,
+            c.score snp_score,
+            b.consequencetype_count snp_count,
             e.consequencetype AS indel_consequencetype,
+            e.score indel_score,
+            d.consequencetype_count indel_count,
             h.qtl_name
           FROM fpkm a, fpkm_associate_snp b, snp_consequencetype c,
                fpkm_associate_indel d, indel_consequencetype e,

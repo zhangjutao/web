@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 
 public class SortedSearchResultView {
-    private int id;
+    private String id;
 
     /**
      * 基因基本信息
@@ -33,21 +33,44 @@ public class SortedSearchResultView {
     /**
      * 该基因包含的所有变异类型
      */
-    private List<String> snpConsequenceType;
+    private List<SnpScore> snpConsequenceType;
     /**
      * 该基因包含的所有插入类型
      */
-    private List<String> indelConsequenceType;
+    private List<IndelScore> indelConsequenceType;
+
+    private List<String> scores;
+    /**
+     * 该基因包含的所有插入类型
+     */
+    private List<String> counts;
+
     /**
      * 该基因包含的所有数量性状类型
      */
     private Set<String> allQtl;
 
-    public int getId() {
+    public List<String> getScores() {
+        return scores;
+    }
+
+    public void setScores(List<String> scores) {
+        this.scores = scores;
+    }
+
+    public List<String> getCounts() {
+        return counts;
+    }
+
+    public void setCounts(List<String> counts) {
+        this.counts = counts;
+    }
+
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -59,19 +82,19 @@ public class SortedSearchResultView {
         this.fpkm = fpkm;
     }
 
-    public List<String> getSnpConsequenceType() {
+    public List<SnpScore> getSnpConsequenceType() {
         return snpConsequenceType;
     }
 
-    public void setSnpConsequenceType(List<String> snpConsequenceType) {
+    public void setSnpConsequenceType(List<SnpScore> snpConsequenceType) {
         this.snpConsequenceType = snpConsequenceType;
     }
 
-    public List<String> getIndelConsequenceType() {
+    public List<IndelScore> getIndelConsequenceType() {
         return indelConsequenceType;
     }
 
-    public void setIndelConsequenceType(List<String> indelConsequenceType) {
+    public void setIndelConsequenceType(List<IndelScore> indelConsequenceType) {
         this.indelConsequenceType = indelConsequenceType;
     }
 

@@ -14,6 +14,7 @@ import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.google.common.base.Predicate;
@@ -270,42 +271,41 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     /**
      * 计算fpkm得分
-     * @param fpkms
+     * @param view
      * @return
      * @throws IllegalAccessException
      */
-    public Map<String,Integer> calculateScoreOfFpkm(List<GeneFPKM> fpkms) throws IllegalAccessException {
-        Map<String,Integer> scoreMap= Maps.newHashMap();
-        for(GeneFPKM fpkm:fpkms){
-            Integer count=0;
-            Integer score=0;
-            FpkmDto fpkmDto=new FpkmDto();
-            BeanUtils.copyProperties(fpkm,fpkmDto);
-            Field[] declaredFields = fpkmDto.getClass().getDeclaredFields();
-            for (Field f : declaredFields) {
-                f.setAccessible(true);
-                if (f.get(fpkmDto) != null) { //判断字段是否为空，并且对象属性中的基本都会转为对象类型来判断
-                    if(f.getName().toLowerCase().contains("id")||f.getName().endsWith("All")){
-                        System.out.println(f.getName());
-                        continue;
-                    }
-                    ++count;
-                    Double value= (Double) f.get(fpkmDto);
-                    if(0<=value&&value<5){
-                        score+=10;
-                    }else if(5<=value&&value<15){
-                        score+=20;
-                    }else if(15<=value&&value<30){
-                        score+=30;
-                    }else if(30<=value&&value<60){
-                        score+=40;
-                    }else if(value>=60){
-                        score+=50;
-                    }
+    public SortedSearchResultView calculateScoreOfFpkm(SortedSearchResultView view) throws IllegalAccessException {
+        //Map<String,Integer> scoreMap= Maps.newHashMap();
+        //for(GeneFPKM fpkm:fpkms){
+        Integer count=0;
+        Integer score=0;
+        FpkmDto fpkmDto=new FpkmDto();
+        BeanUtils.copyProperties(view.getFpkm(),fpkmDto);
+        Field[] declaredFields = fpkmDto.getClass().getDeclaredFields();
+        for (Field f : declaredFields) {
+            f.setAccessible(true);
+            if (f.get(fpkmDto) != null) { //判断字段是否为空，并且对象属性中的基本都会转为对象类型来判断
+                if(f.getName().toLowerCase().contains("id")||f.getName().endsWith("All")){
+                    System.out.println(f.getName());
+                    continue;
+                }
+                ++count;
+                Double value= (Double) f.get(fpkmDto);
+                if(0<=value&&value<5){
+                    score+=10;
+                }else if(5<=value&&value<15){
+                    score+=20;
+                }else if(15<=value&&value<30){
+                    score+=30;
+                }else if(30<=value&&value<60){
+                    score+=40;
+                }else if(value>=60){
+                    score+=50;
                 }
             }
-            scoreMap.put(fpkm.getGeneId(),score/count);
         }
-        return scoreMap;
+        view.setScore(score);
+        return view;
     }
 }
