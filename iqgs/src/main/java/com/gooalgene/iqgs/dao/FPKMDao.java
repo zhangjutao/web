@@ -2,11 +2,8 @@ package com.gooalgene.iqgs.dao;
 
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.entity.DNAGenStructure;
-import com.gooalgene.iqgs.entity.GeneFPKM;
-import com.gooalgene.iqgs.entity.Tissue;
-import com.gooalgene.iqgs.provider.FpkmSqlProvider;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.FpkmDto;
+import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import org.apache.ibatis.annotations.Param;
