@@ -1,5 +1,7 @@
 package com.gooalgene.dna.entity;
 
+import com.google.common.base.Objects;
+
 /**
  * Created by Administrator on 2017-10-16.
  */
@@ -115,8 +117,6 @@ public class DNAGenStructure {
 
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + this.geneId.hashCode();
-        return result;
+        return java.util.Objects.hash(chromosome, geneId, transcriptId, feature, start, end, length, strand, maxLength, offset, id);
     }
 }

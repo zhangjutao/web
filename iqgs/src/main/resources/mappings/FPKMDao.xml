@@ -218,4 +218,21 @@
                       WHERE a.gene_id = #{0} AND c.consequencetype = #{1}) AS result;
     </select>
 
+
+    <select id="getFieldsFromFpkmForSort" resultType="com.gooalgene.iqgs.entity.GeneFPKM">
+        SELECT gene_id,
+        <if test="fields!=null and fields!=''">
+            ${fields}
+        </if>
+        from fpkm
+        <where>
+            <if test="geneIds!=null and geneIds.size>0">
+                gene_id in
+                <foreach collection="geneIds" item="geneId" open="(" close=")" separator=",">
+                    #{geneId}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
 </mapper>

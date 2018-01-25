@@ -9,10 +9,12 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.entity.Study;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
+import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenSequence;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.mrna.entity.ExpressionVo;
 import junit.framework.TestCase;
 import org.junit.Before;
@@ -29,7 +31,10 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
 
 /**
  * DNAGenBaseInfoCtroller相关方法测试
@@ -52,6 +57,11 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
 
     @Autowired
     private StudyDao studyDao;
+
+    @Autowired
+    private FPKMDao fpkmDao;
+    @Autowired
+    private FPKMService fpkmService;
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -218,4 +228,5 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         info.setFunctions("sequence");
         assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
     }
+
 }

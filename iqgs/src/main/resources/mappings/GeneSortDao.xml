@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.iqgs.dao.GeneSortDao">
+
+    <resultMap id="sortedMap" type="com.gooalgene.iqgs.entity.sort.SortedSearchResultView">
+        <id property="id" column="gene_id" javaType="string" jdbcType="VARCHAR" />
+        <result property="chromosome" column="locus" jdbcType="VARCHAR" typeHandler="com.gooalgene.iqgs.dao.handler.LocusToChromosomeHandler" />
+        <result property="location" column="locus" jdbcType="VARCHAR" typeHandler="com.gooalgene.iqgs.dao.handler.LocusToGeneLocationHandler" />
+        <association property="fpkm" javaType="com.gooalgene.iqgs.entity.GeneFPKM" >
+            <id property="id" column="id" jdbcType="INTEGER" />
+            <result property="pod" column="pod" jdbcType="DOUBLE" />
+            <result property="endosperm" column="endosperm" jdbcType="DOUBLE" />
+            <result property="seed" column="seed" jdbcType="DOUBLE" />
+            <result property="embryo" column="embryo" jdbcType="DOUBLE" />
+            <result property="axis" column="axis" jdbcType="DOUBLE" />
+            <result property="cotyledon" column="cotyledon" jdbcType="DOUBLE" />
+            <result property="seedCoat" column="seed_coat" jdbcType="DOUBLE" />
+            <result property="nodule" column="nodule" jdbcType="DOUBLE" />
+            <result property="root_hair" column="rootHair" jdbcType="DOUBLE" />
+            <result property="root" column="root" jdbcType="DOUBLE" />
+            <result property="root_tip" column="rootTip" jdbcType="DOUBLE" />
+            <result property="shoot" column="shoot" jdbcType="DOUBLE" />
+            <result property="shootTip" column="shoot_tip" jdbcType="DOUBLE" />
+            <result property="shootApicalMeristem" column="shoot_apical_meristem" jdbcType="DOUBLE" />
+            <result property="shootMeristem" column="shoot_meristem" jdbcType="DOUBLE" />
+            <result property="primaryleaf" column="primaryleaf" jdbcType="DOUBLE" />
+            <result property="petiole" column="petiole" jdbcType="DOUBLE" />
+            <result property="leaf" column="leaf" jdbcType="DOUBLE" />
+            <result property="trifoliate" column="trifoliate" jdbcType="DOUBLE" />
+            <result property="leafbud" column="leafbud" jdbcType="DOUBLE" />
+            <result property="leaflet" column="leaflet" jdbcType="DOUBLE" />
+            <result property="cotyledonsOfSeedling" column="cotyledons_of_seedling" jdbcType="DOUBLE" />
+            <result property="seedling" column="seedling" jdbcType="DOUBLE" />
+            <result property="flower_bud" column="flowerBud" jdbcType="DOUBLE" />
+            <result property="flower" column="flower" jdbcType="DOUBLE" />
+            <result property="stem" column="stem" jdbcType="DOUBLE" />
+            <result property="stemInternode" column="stem_internode" jdbcType="DOUBLE" />
+            <result property="hypocotyl" column="hypocotyl" jdbcType="DOUBLE" />
+        </association>
+        <association property="baseInfo" javaType="com.gooalgene.iqgs.entity.DNAGenBaseInfo">
+            <result property="geneId" column="gene_id" jdbcType="VARCHAR" />
+            <result property="geneName" column="gene_name" jdbcType="VARCHAR" />
+            <result property="description" column="description" jdbcType="VARCHAR" />
+        </association>
+        <collection property="snpConsequenceType" ofType="com.gooalgene.iqgs.entity.sort.SnpScore">
+            <result column="snp_consequencetype" property="consequencetype" />
+            <result column="snp_score" property="score"></result>
+            <result column="snp_count" property="count"></result>
+        </collection>
+        <collection property="indelConsequenceType" ofType="com.gooalgene.iqgs.entity.sort.IndelScore">
+            <result column="indel_consequencetype" property="consequencetype" />
+            <result column="indel_score" property="score"></result>
+            <result column="indel_count" property="count"></result>
+        </collection>
+        <collection property="allQtl" ofType="String">
+            <result column="qtl_name" />
+        </collection>
+    </resultMap>
+    <select id="findViewByGeneId" resultMap="sortedMap">
+        SELECT
+            <choose >
+                <when test="fields!=null and fields!=''" >
+                    ${fields},
+                </when>
+                <otherwise>
+                    a.*,
+                </otherwise>
+            </choose>
+            f.gene_id, f.gene_name, f.locus,
+            c.consequencetype AS snp_consequencetype,
+            c.score snp_score,
+            b.consequencetype_count snp_count,
+            e.consequencetype AS indel_consequencetype,
+            e.score indel_score,
+            d.consequencetype_count indel_count,
+            h.qtl_name
+          FROM fpkm a, fpkm_associate_snp b, snp_consequencetype c,
+               fpkm_associate_indel d, indel_consequencetype e,
+               gens_baseinfo f, qtl_gene g, associatedgenes h
+          WHERE
+              a.id = b.fpkm_id AND c.id = b.snp_id
+                  AND d.fpkm_id = a.id AND d.indel_id = e.id
+                  AND a.gene_id = f.gene_id AND f.id = g.gene_info_id AND g.qtl_id = h.id
+              AND h.qtl_name IN (
+                    SELECT
+                    c.qtl_name
+                    FROM
+                    trait_category a
+                    LEFT JOIN trait_list b ON a.id = b.qtl_id
+                    LEFT JOIN qtl c ON c.trait = b.trait_name
+                    WHERE a.id = #{categoryId}
+                )
+              AND a.gene_id in
+        <foreach collection="geneIds" item="geneId" open="(" close=")" separator=",">
+            #{geneId}
+        </foreach>
+    </select>
+</mapper>

@@ -8,12 +8,26 @@ import com.gooalgene.dna.service.DNAGenStructureService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.FpkmDto;
+import com.gooalgene.iqgs.entity.FpkmDto;
+import com.gooalgene.iqgs.entity.GeneFPKM;
+import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
+import com.gooalgene.iqgs.eventbus.EventBusRegister;
+import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
+import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
+import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Maps;
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +36,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -45,6 +60,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     @Autowired
     private CacheManager manager;
+
+    @Autowired
+    private EventBusRegister register;
 
     private Cache cache;
 
@@ -166,6 +184,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
         }
         //如果是function，那么ID/name均为null，直接拿到从前台传过来的DNAGenBaseInfo即可，这里获取到符合条件的基因ID集合
         properGeneIdList = dnaGenBaseInfoDao.findProperGeneId(baseInfo);
+        IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(properGeneIdList);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        eventBus.post(event);
         int total = properGeneIdList.size();
         page.setTotal(total);
         int end = pageNo * pageSize;
@@ -214,6 +235,10 @@ public class FPKMService implements InitializingBean, DisposableBean {
             advanceSearchResultViews.addAll(searchResult);
         }
         int total = advanceSearchResultViews.size();
+        //通过EventBus将查询结果封装，在另一个线程中处理该事件
+        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(genStructure, advanceSearchResultViews);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        eventBus.post(event);
         page.setTotal(total);
         int end = pageNo*pageSize > total ? total : pageNo*pageSize;  //防止数组越界
         page.addAll(advanceSearchResultViews.subList((pageNo-1)*pageSize, end));
@@ -242,10 +267,15 @@ public class FPKMService implements InitializingBean, DisposableBean {
         //QTL查询高级搜索
         List<AdvanceSearchResultView> searchResult =
                 fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
+        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        eventBus.post(event);
         return new PageInfo<>(searchResult);
     }
 
     public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){
         return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
     }
+
 }
