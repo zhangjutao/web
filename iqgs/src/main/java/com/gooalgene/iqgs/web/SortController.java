@@ -23,5 +23,10 @@ public class SortController {
         return null;
     }
 
+    @RequestMapping("/dispatch")
+    public String dispatchToIFrame(){
+        return "search/sort";
+    }
+
 
 }

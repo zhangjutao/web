@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link rel="stylesheet" href="${ctxStatic}/css/newAdd.css">
-    <%--<link rel="stylesheet" href="${ctxStatic}/css/laypage.css">--%>
+    <link rel="stylesheet" href="${ctxStatic}/css/sort.css">
     <link rel="stylesheet" href="${ctxStatic}/js/laypage/skin/laypage.css">
 
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
@@ -316,27 +316,18 @@
 </div>
 
 <div id="gray"></div>
-<div class="popup" id="popup">
-    <div class="top_nav" id='top_nav'>
-        <div align="center">
+<div class="popup" id="popup"  hidden="hidden" style="width: 900px;height: 600px;">
+    <iframe width="900" height="600" frameborder="0" style="border:none 0;" allowtransparency="true" id="_DialogFrame_0" src="${ctxroot}/sort/dispatch"></iframe>
 
-            <a class="guanbi"></a>
-        </div>
-    </div>
-    <div class="min">
-        11111111111111
-    </div>
 </div>
 <!--container-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <!--footer-->
 <script>
-    $(function (){
+      $(function (){
         window.DOMAIN = "${ctxroot}/iqgs";
         window.ctxROOT = "${ctxroot}";
         window.ctxStatic = "${ctxStatic}"
-
-
     })
 
 </script>
@@ -748,8 +739,27 @@
         requestSearchData();
     });
 //    })
+
+//    排序弹窗
+$(".sort_btn").click(function () {
+    $("#gray").show();
+    $("#popup").dialog({
+        buttons: {
+            "X": function () {
+                $("#gray").hide();
+                $(this).dialog('close');
+            }
+        },
+        width:900,
+        height:600,
+        closeText: "",
+    })
+})
 </script>
+
 <script src="${ctxStatic}/js/iqgs.js"></script>
 <script src="${ctxStatic}/js/newAddNeed.js"></script>
+<%--<script src="${ctxStatic}/js/sort.js"></script>--%>
+<script src="${ctxStatic}/js/jquery-ui.js"></script>
 </body>
 </html>
