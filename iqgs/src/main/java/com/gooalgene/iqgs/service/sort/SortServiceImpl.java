@@ -70,10 +70,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
     }
 
     /**
-     * 计算fpkm得分
-     * @param view
-     * @return
-     * @throws IllegalAccessException
+     * 计算FPKM得分
      */
     public SortedSearchResultView calculateScoreOfFpkm(SortedSearchResultView view) throws IllegalAccessException {
         Integer count=0;
@@ -132,7 +129,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
             if(score==null){
                 score=0;
             }
-            sum+=(score);/*snpScore.getCount()*/
+            sum+=(score);
         }
         sum=sum/(view.getSnpConsequenceType().size());
         Integer sum2=0;
@@ -141,7 +138,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
             if(score==null){
                 score=0;
             }
-            sum2+=(score);/*indelScore.getCount()*/
+            sum2+=(score);
         }
         sum2=sum2/(view.getIndelConsequenceType().size());
         view.setScore(oldScore+sum+sum2);

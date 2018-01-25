@@ -1,8 +1,6 @@
 package com.gooalgene.iqgs.dao;
 
-import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.sort.IndelScore;
-import com.gooalgene.iqgs.entity.sort.QtlScore;
 import com.gooalgene.iqgs.entity.sort.SnpScore;
 import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.gooalgene.iqgs.service.FPKMService;
@@ -17,9 +15,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import sun.security.provider.Sun;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
