@@ -17,7 +17,8 @@ public class SortedSearchResultView {
     /**
      * 计算后的分值
      */
-    private int score;
+    private Double score;
+
     /**
      * 搜索结果FPKM
      */
@@ -114,11 +115,11 @@ public class SortedSearchResultView {
         this.baseInfo = baseInfo;
     }
 
-    public int getScore() {
+    public Double getScore() {
         return score;
     }
 
-    public void setScore(int score) {
+    public void setScore(Double score) {
         this.score = score;
     }
 
