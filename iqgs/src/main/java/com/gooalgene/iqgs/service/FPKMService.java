@@ -269,14 +269,11 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
 
     /**
-     * 从fpkm查询某几个组织字段算平均分
+     * 计算fpkm得分
+     * @param fpkms
+     * @return
+     * @throws IllegalAccessException
      */
-    public Integer getFieldsFromFpkmForSort(String fields,String geneIds) throws IllegalAccessException {
-        List<GeneFPKM> fpkms=fpkmDao.getFieldsFromFpkmForSort(fields,Arrays.asList(geneIds.split(",")));
-        calculateScoreOfFpkm(fpkms);
-        return 0;
-    }
-
     public Map<String,Integer> calculateScoreOfFpkm(List<GeneFPKM> fpkms) throws IllegalAccessException {
         Map<String,Integer> scoreMap= Maps.newHashMap();
         for(GeneFPKM fpkm:fpkms){
@@ -305,7 +302,6 @@ public class FPKMService implements InitializingBean, DisposableBean {
                     }else if(value>=60){
                         score+=50;
                     }
-                    //
                 }
             }
             scoreMap.put(fpkm.getGeneId(),score/count);

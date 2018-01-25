@@ -229,13 +229,4 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         info.setFunctions("sequence");
         assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
     }
-
-    /**
-     * 测试算fpkm的平均分
-     */
-    @Test
-    public void testFpkmForSort() throws IllegalAccessException {
-        List<GeneFPKM> fpkms=fpkmDao.getFieldsFromFpkmForSort("seed,pod,axis",Arrays.asList("Glyma.04G197300,Glyma.13G050700,Glyma.17G065100".split(",")));
-        fpkmService.calculateScoreOfFpkm(fpkms);
-    }
 }
