@@ -87,8 +87,13 @@
     <bean id="eventBusRegister" class="com.gooalgene.iqgs.eventbus.EventBusRegister">
         <constructor-arg index="0" value="searchResultCache" />
         <constructor-arg index="1">
+            <list></list>
+        </constructor-arg>
+        <constructor-arg index="2">
             <list>
-                <ref bean="fetAllListener" />
+                <ref bean="advanceListener" />
+                <ref bean="regionListener" />
+                <ref bean="nameListener" />
             </list>
         </constructor-arg>
     </bean>

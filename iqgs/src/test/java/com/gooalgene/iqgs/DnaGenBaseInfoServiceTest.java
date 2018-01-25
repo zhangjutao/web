@@ -13,7 +13,6 @@ import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.DNAGenFamily;
 import com.gooalgene.iqgs.entity.DNAGenSequence;
-import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.mrna.entity.ExpressionVo;
@@ -229,4 +228,5 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         info.setFunctions("sequence");
         assertEquals(163, dnaGenBaseInfoDao.findProperGeneId(info).size());
     }
+
 }
