@@ -43,7 +43,8 @@ public class QtlController {
     @RequestMapping("/index")
     @ResponseBody
     public Map<String, Object> list(HttpServletRequest request, Model model, HttpServletResponse response) {
-        Integer sEcho = Integer.valueOf(request.getParameter("sEcho"));// 记录操作的次数 每次加1
+        String echoResult = request.getParameter("sEcho") == null ? "0" : request.getParameter("sEcho");
+        Integer sEcho = Integer.valueOf(echoResult);// 记录操作的次数 每次加1
         JSONObject jsonobj = new JSONObject();
         Page<Qtl> page = new Page<Qtl>(request, response);
         Integer start = Integer.valueOf(request.getParameter("iDisplayStart"));
