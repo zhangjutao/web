@@ -7,6 +7,7 @@ import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,7 @@ public class FetchAllAdvanceSearchViewListener extends AbstractSearchViewListene
     @Autowired
     private FPKMDao fpkmDao;
 
+    @AllowConcurrentEvents
     @Subscribe
     public void listenAdvanceSearch(AllAdvanceSearchViewEvent event){
         List<AdvanceSearchResultView> searchResult =

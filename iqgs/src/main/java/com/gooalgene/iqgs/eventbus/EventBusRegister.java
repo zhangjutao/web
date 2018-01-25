@@ -1,43 +1,55 @@
 package com.gooalgene.iqgs.eventbus;
 
+import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
 public class EventBusRegister {
 
-    private List<EventBusListener> listeners = new ArrayList<>();
+    private List<EventBusListener> syncListeners = new ArrayList<>();
+
+    private List<EventBusListener> asyncListeners = new ArrayList<>();
 
     private EventBus eventBus;
 
-    public EventBusRegister(String eventBusName, List<EventBusListener> listeners) {
+    private AsyncEventBus asyncEventBus;
+
+    public EventBusRegister(String eventBusName, List<EventBusListener> syncListeners, List<EventBusListener> asyncListeners) {
         eventBus = new EventBus(eventBusName);
-        this.listeners = listeners;
-        registerListener(this.listeners);
+        asyncEventBus = new AsyncEventBus(eventBusName, Executors.newSingleThreadExecutor());
+        this.syncListeners = syncListeners;
+        this.asyncListeners = asyncListeners;
+        registerSyncListener(this.syncListeners);
+        registerAsyncListener(this.asyncListeners);
     }
 
     public EventBus getEventBus() {
         return this.eventBus;
     }
 
+    public AsyncEventBus getAsyncEventBus() {
+        return this.asyncEventBus;
+    }
+
     /**
-     * eventBus注册监听器
+     * eventBus注册监听异步器
      */
-    private void registerListener(List<EventBusListener> eventBusListeners){
+    private void registerAsyncListener(List<EventBusListener> eventBusListeners){
+        checkNotNull(eventBusListeners);
+        for (int i = 0; i < eventBusListeners.size(); i++){
+            asyncEventBus.register(eventBusListeners.get(i));
+        }
+    }
+
+    private void registerSyncListener(List<EventBusListener> eventBusListeners){
         checkNotNull(eventBusListeners);
         for (int i = 0; i < eventBusListeners.size(); i++){
             eventBus.register(eventBusListeners.get(i));
         }
-    }
-
-    public List<EventBusListener> getListeners() {
-        return listeners;
-    }
-
-    public void setListeners(List<EventBusListener> listeners) {
-        this.listeners = listeners;
     }
 }

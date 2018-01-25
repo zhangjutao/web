@@ -21,6 +21,7 @@ import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Maps;
+import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -183,7 +184,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
         //如果是function，那么ID/name均为null，直接拿到从前台传过来的DNAGenBaseInfo即可，这里获取到符合条件的基因ID集合
         properGeneIdList = dnaGenBaseInfoDao.findProperGeneId(baseInfo);
         IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(properGeneIdList);
-        EventBus eventBus = register.getEventBus();
+        AsyncEventBus eventBus = register.getAsyncEventBus();
         eventBus.post(event);
         int total = properGeneIdList.size();
         page.setTotal(total);
@@ -235,7 +236,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
         int total = advanceSearchResultViews.size();
         //通过EventBus将查询结果封装，在另一个线程中处理该事件
         AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(genStructure, advanceSearchResultViews);
-        EventBus eventBus = register.getEventBus();
+        AsyncEventBus eventBus = register.getAsyncEventBus();
         eventBus.post(event);
         page.setTotal(total);
         int end = pageNo*pageSize > total ? total : pageNo*pageSize;  //防止数组越界
@@ -267,7 +268,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
                 fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
         //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
         AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
-        EventBus eventBus = register.getEventBus();
+        AsyncEventBus eventBus = register.getAsyncEventBus();
         eventBus.post(event);
         return new PageInfo<>(searchResult);
     }
