@@ -25,8 +25,8 @@ public class UserAssociateTraitFpkmDaoTest {
         UserAssociateTraitFpkm userAssociateTraitFpkm = new UserAssociateTraitFpkm();
         userAssociateTraitFpkm.setCreateTime(new Date());
         userAssociateTraitFpkm.setFpkmStr("saas2as,asasa");
-        userAssociateTraitFpkm.setTraitCategoryId(12);
-        userAssociateTraitFpkm.setUserId("jojo1");
+        userAssociateTraitFpkm.setTraitCategoryId(121);
+        userAssociateTraitFpkm.setUserId(1);
         int i = userAssociateTraitFpkmDao.insertSelective(userAssociateTraitFpkm);
         System.out.println(i);
     }
