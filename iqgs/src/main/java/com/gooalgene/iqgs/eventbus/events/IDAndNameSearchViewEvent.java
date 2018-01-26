@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.eventbus.events;
 
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.google.common.base.Objects;
 
 import java.util.List;
@@ -13,8 +14,12 @@ public class IDAndNameSearchViewEvent {
      */
     private List<Integer> id;
 
-    public IDAndNameSearchViewEvent(List<Integer> id) {
+    private DNAGenBaseInfo baseInfo;
+
+
+    public IDAndNameSearchViewEvent(List<Integer> id, DNAGenBaseInfo baseInfo) {
         this.id = id;
+        this.baseInfo = baseInfo;
     }
 
     public List<Integer> getId() {
@@ -25,16 +30,25 @@ public class IDAndNameSearchViewEvent {
         this.id = id;
     }
 
+    public DNAGenBaseInfo getBaseInfo() {
+        return baseInfo;
+    }
+
+    public void setBaseInfo(DNAGenBaseInfo baseInfo) {
+        this.baseInfo = baseInfo;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        IDAndNameSearchViewEvent that = (IDAndNameSearchViewEvent) o;
-        return Objects.equal(id, that.id);
+        IDAndNameSearchViewEvent event = (IDAndNameSearchViewEvent) o;
+        return Objects.equal(id, event.id) &&
+                Objects.equal(baseInfo, event.baseInfo);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(id);
+        return java.util.Objects.hash(id, baseInfo);
     }
 }

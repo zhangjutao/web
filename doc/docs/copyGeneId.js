@@ -5,7 +5,7 @@ function copyOrderedGeneId() {
  * @api {POST} /sort/copy-ordered-geneId 复制基因ID
  * @apiName copyOrderedGeneId
  * @apiGroup Sort
- * @apiDescription 复制经过排序的基因ID
+ * @apiDescription 复制经过排序的基因ID;请保持传回后端的对象与排序时传回后端的对象保持一样
  * @apiSampleRequest http://localhost:8080/iqgs/sort//copy-ordered-geneId
  * @apiDescription 排序结果列表,注意这里传入的参数。geneExpressionConditionEntities中是一个对象数组，
  * 用户选择的每一个二级组织需要给它一个不为null的值。

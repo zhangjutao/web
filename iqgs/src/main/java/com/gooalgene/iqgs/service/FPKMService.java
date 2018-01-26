@@ -184,7 +184,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
         }
         //如果是function，那么ID/name均为null，直接拿到从前台传过来的DNAGenBaseInfo即可，这里获取到符合条件的基因ID集合
         properGeneIdList = dnaGenBaseInfoDao.findProperGeneId(baseInfo);
-        IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(properGeneIdList);
+        IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(properGeneIdList, baseInfo);
         AsyncEventBus eventBus = register.getAsyncEventBus();
         eventBus.post(event);
         int total = properGeneIdList.size();

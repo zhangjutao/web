@@ -138,6 +138,6 @@ public class DNAGenBaseInfo {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(geneId, geneOldId, geneName, geneType, locus, length, species, functions, description, familyId, id, page);
+        return java.util.Objects.hash(geneId, geneOldId, geneName, geneType, locus, length, species, functions, description, familyId, id, page);
     }
 }
