@@ -564,6 +564,21 @@
         });
         if (searchType == 1) {
             if(flag == 0){
+                fetchData ();
+                function fetchData (){
+                    $.getJSON('${ctxroot}/sort/fetch-multi-data', {
+                        searchType:searchType,
+                        keyword : $("#key_name").val()
+                    }, resultFetchback);
+                };
+
+                function resultFetchback(jsonStr) {
+//                    console.log(jsonStr.data);
+                    var fetchGn=jsonStr.data;
+                    sortStrData(fetchGn)
+
+                }
+
 //                根据一级搜索来分页
                 $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
                     pageNo: page.curr || 1,
@@ -774,12 +789,8 @@
 //    })
 
 //    排序弹窗
-    function sortStrData(){
+    function sortStrData(data){
         $(".sort_btn").click(function () {
-
-
-
-
             $("#gray").show();
             $("#popup").dialog({
                 buttons: {
@@ -794,7 +805,7 @@
             });
             $('#popup iframe').attr('src','${ctxroot}/sort/dispatch').on('load',function(){
                 // 搜索结果传到排序页面
-                window.frames[0].postMessage(dataParam,'http://localhost:8082/iqgs/sort/dispatch');
+                window.frames[0].postMessage(data,'http://localhost:8082/iqgs/sort/dispatch');
             })
         })
     }

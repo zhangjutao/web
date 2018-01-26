@@ -21,6 +21,7 @@ $(function(){
         if (key && !/^\s+$/.test(key)) {
             window.location = DOMAIN + "/search/list?keyword=" + encodeURI(key) + "&searchType=2";
         }
+        alert(2)
     });
 
     $("#btn_range").on('click', function(){

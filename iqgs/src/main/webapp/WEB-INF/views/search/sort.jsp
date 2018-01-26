@@ -105,114 +105,24 @@
     window.addEventListener("message", function( event ) {
         // 把父窗口发送过来的数据显示在子窗口中
         var sortConditionData=event.data;
-
+        console.log(sortConditionData)
         var geneIdList=[
-            "Glyma.08G009000",
-            "Glyma.08G007100",
-            "Glyma.08G008600",
-            "Glyma.08G009100",
-            "Glyma.08G007900",
-            "Glyma.08G003700",
-            "Glyma.08G000700",
-            "Glyma.08G003200",
-            "Glyma.08G008200",
-            "Glyma.08G001300",
-            "Glyma.08G002400",
-            "Glyma.08G009400",
-            "Glyma.08G003000",
-            "Glyma.08G005400",
-            "Glyma.08G007800",
-            "Glyma.08G006100",
-            "Glyma.08G000600",
-            "Glyma.08G006200",
-            "Glyma.08G004300",
-            "Glyma.08G008500",
-            "Glyma.08G007500",
-            "Glyma.08G001700",
-            "Glyma.08G007200",
-            "Glyma.08G008100",
-            "Glyma.08G003800",
-            "Glyma.08G006300",
-            "Glyma.08G004200",
-            "Glyma.08G001000",
-            "Glyma.08G002300",
-            "Glyma.08G000100",
-            "Glyma.08G009200",
-            "Glyma.08G009500",
-            "Glyma.08G004800",
-            "Glyma.08G001900",
-            "Glyma.08G003600",
-            "Glyma.08G003400",
-            "Glyma.08G005800",
-            "Glyma.08G003300",
-            "Glyma.08G005600",
-            "Glyma.08G006000",
-            "Glyma.08G009600",
-            "Glyma.08G006900",
-            "Glyma.08G000500",
-            "Glyma.08G008900",
-            "Glyma.08G007300",
-            "Glyma.08G008000",
-            "Glyma.08G005200",
-            "Glyma.08G003900",
-            "Glyma.08G004900",
-            "Glyma.08G002900",
-            "Glyma.08G004500",
-            "Glyma.08G001100",
-            "Glyma.08G002200",
-            "Glyma.08G005000",
-            "Glyma.08G001800",
-            "Glyma.08G009300",
-            "Glyma.08G007600",
-            "Glyma.08G008400",
-            "Glyma.08G002600",
-            "Glyma.08G006400",
-            "Glyma.08G006500",
-            "Glyma.08G009900",
-            "Glyma.08G006600",
-            "Glyma.08G000900",
-            "Glyma.08G004600",
-            "Glyma.08G007000",
-            "Glyma.08G000200",
-            "Glyma.08G005700",
-            "Glyma.08G007700",
-            "Glyma.08G002700",
-            "Glyma.08G004700",
-            "Glyma.08G009800",
-            "Glyma.08G006700",
-            "Glyma.08G003500",
-            "Glyma.08G005900",
-            "Glyma.08G001200",
-            "Glyma.08G001500",
-            "Glyma.08G009700",
-            "Glyma.08G002000",
-            "Glyma.08G008700",
-            "Glyma.08G000300",
-            "Glyma.08G000800",
-            "Glyma.08G008800",
-            "Glyma.08G002500",
-            "Glyma.08G000400",
-            "Glyma.08G007400",
-            "Glyma.08G005300",
-            "Glyma.08G002800",
-            "Glyma.08G004400",
-            "Glyma.08G001600",
-            "Glyma.08G003100",
-            "Glyma.08G002100",
-            "Glyma.08G005500"
-
+            "Glyma.04G197300",
+            "Glyma.01G182600",
+            "Glyma.02G036200",
+            "Glyma.13G319500"
         ];
         var tissue={
             "pod": 20,
             "cotyledon": 11.5
         };
-        dataParams = {};
-        dataParams.geneIdList = geneIdList;
-        dataParams.tissue = tissue;
-        dataParams.traitCategoryId = 19;
-//        dataParams.pageNo = 1;
-//        dataParams.pageSize = 10;
-        var dataParam = Object.assign(sortConditionData,dataParams);
+        dataParam = {};
+        dataParam.geneIdList = geneIdList;
+        dataParam.tissue = tissue;
+        dataParam.traitCategoryId = 19;
+        dataParam.pageNo = 1;
+        dataParam.pageSize = 10;
+//        var dataParam = Object.assign(dataParams);
 
         sortTable(1,dataParam);
 
