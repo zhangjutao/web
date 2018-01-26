@@ -4,8 +4,20 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageInfo;
+import com.gooalgene.common.vo.ResultVO;
+import com.gooalgene.dna.entity.DNAGenStructure;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
+import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.sort.SortRequestParam;
+import com.gooalgene.iqgs.entity.sort.SortedResult;
+import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
+import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
+import com.gooalgene.utils.ConsequenceTypeUtils;
+import com.gooalgene.utils.ResultUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
@@ -16,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -38,6 +51,9 @@ public class SortController implements InitializingBean {
     @Autowired
     private TraitCategoryService traitCategoryService;
 
+    @Autowired
+    private GeneSortViewService geneSortViewService;
+
     private Cache cache;
 
     private ObjectMapper mapper;
@@ -56,6 +72,28 @@ public class SortController implements InitializingBean {
         return "search/sort";
     }
 
+    /**
+     * 排序接口
+     * @return 排序后的基因信息集合
+     */
+    @RequestMapping(value = "/fetch-sort-result", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<SortedResult> fetchSortedResult(@RequestBody SortRequestParam sortRequestParam){
+        PageInfo<SortedResult> resultPage = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(),
+                sortRequestParam.getTraitCategoryId(), sortRequestParam.getPageNo(), sortRequestParam.getPageSize());
+        return ResultUtil.success(resultPage);
+    }
+
+    @RequestMapping(value = "/copy-ordered-geneId", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<List<String>> copyOrderedGeneId(@RequestBody SortRequestParam sortRequestParam) {
+        PageInfo<SortedResult> allOrderedGene = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(), sortRequestParam.getTraitCategoryId(), 1, sortRequestParam.getGeneIdList().size());
+        List<String> geneIdList = new ArrayList<String>();
+        for (SortedResult sortedResult : allOrderedGene.getList()) {
+            geneIdList.add(sortedResult.getGeneId());
+        }
+        return ResultUtil.success(geneIdList);
+    }
 
     /**
      * 页面初始化时性状接口
@@ -82,6 +120,40 @@ public class SortController implements InitializingBean {
             logger.error("序列化错误", e.getCause());
         }
         return result;
+    }
+
+    /**
+     * 排序第一屏获取所有基因ID数据
+     * @return 搜索页面结果列表基因ID集合
+     */
+    @RequestMapping(value = "/fetch-first-screen", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<String> fetchFirstScreenData(@RequestBody GeneExpressionCondition geneExpressionCondition){
+        List<GeneExpressionConditionEntity> entities = geneExpressionCondition.getGeneExpressionConditionEntities();
+        List<String> selectSnp = geneExpressionCondition.getSnpConsequenceType();  //已选SNP集合
+        List<String> selectIndel = geneExpressionCondition.getIndelConsequenceType();  //已选INDEL集合
+        List<Integer> associateGeneIdArray = geneExpressionCondition.getQtlId();  //已选qtl集合
+        List<Integer> firstHierarchyQtlId = geneExpressionCondition.getFirstHierarchyQtlId();  //一级搜索选中的QTL ID集合
+        DNAGenBaseInfo baseInfo = geneExpressionCondition.getGeneInfo();  //高级搜索中根据基因名字查询传入的基因名或ID
+        DNAGenStructure geneStructure = geneExpressionCondition.getGeneStructure();  //高级搜索中根据基因结构搜索相应基因
+        if (selectSnp != null && selectSnp.size() > 0){
+            selectSnp = ConsequenceTypeUtils.reverseReadableListValue(selectSnp);  //转换为数据库可读的序列类型
+        }
+        if (selectIndel != null && selectIndel.size() > 0){
+            selectIndel = ConsequenceTypeUtils.reverseReadableListValue(selectIndel);
+        }
+        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(entities, selectSnp,
+                selectIndel, firstHierarchyQtlId, associateGeneIdArray, baseInfo, geneStructure);
+        String key = event.getClass().getSimpleName() + event.hashCode();
+        //数据缓存一小时，若一小时无操作，清空该数据
+        Cache.ValueWrapper cachedGeneId = cache.get(key);
+        if (cachedGeneId != null){
+            List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
+            return ResultUtil.success(resultGeneCollection);
+        } else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
+        }
     }
 
     @Override

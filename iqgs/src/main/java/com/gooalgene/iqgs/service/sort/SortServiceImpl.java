@@ -74,10 +74,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
     }
 
     /**
-     * 计算fpkm得分
-     * @param view
-     * @return
-     * @throws IllegalAccessException
+     * 计算FPKM得分
      */
     public SortedSearchResultView calculateScoreOfFpkm(SortedSearchResultView view) throws IllegalAccessException {
         Integer count=0;

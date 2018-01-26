@@ -3,7 +3,6 @@ package com.gooalgene.iqgs.service.sort;
 import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 
 import java.util.List;
-import java.util.Map;
 
 public interface SortService {
     /**

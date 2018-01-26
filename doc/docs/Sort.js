@@ -1,5 +1,6 @@
 function fetchTraits() {
 }
+
 /**
  * @api {post} /sort/fetch-trait  获取初始性状
  * @apiName fetchTrait
@@ -22,6 +23,7 @@ function fetchTraits() {
 
 function getSortList() {
 }
+
 /**
  * @api {post} /sort/fetch-sort-list  获取排序结果列表
  * @apiName fetchSortedList
@@ -34,29 +36,16 @@ function getSortList() {
  * @apiParam {Number} pageNo 当前页
  * @apiParam {Number} pageSize 每页大小
  * @apiParamExample {json} Request-Example:
- * {
- *      "msg": "成功",
- *      "code": 200,
- *      "data": {
- *      "traitCategoryId":16,
- *      "underSortedGeneId": ["Glyma.04G197300", "Glyma.01G182600", "Glyma.02G036200"]
- *      "geneExpressionConditionEntities":[
- *      {
- *          "tissue": {
- *               "pod":0.0,
- *               "endosperm": 3.2
- *          }
- *      },
- *      {
- *          "tissue": {
- *               "seed":1.0,
- *               "embryo": 2.2
- *          }
- *      }
- *      ],
- *      "total": 102
- *      }
- * }
+ *{
+ *	"geneIdList": ["Glyma.04G197300","Glyma.01G182600","Glyma.02G036200","Glyma.13G319500"],
+ *	"tissue": {
+ *		"pod": 20,
+ *		"cotyledon": 11.5
+ *	},
+ *	"traitCategoryId": 19,
+ *  "pageNo": 1,
+ *  "pageSize": 10
+ *}
  * @apiSampleRequest http://localhost:8080/iqgs/sort/fetch-sort-list
  * @apiSuccessExample Success-Response:
  * [
