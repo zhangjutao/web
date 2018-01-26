@@ -35,12 +35,13 @@ public class GeneSortDaoTest extends TestCase {
 
     @Test
     public void testFindViewByGeneId() throws IllegalAccessException {
-        String[] geneIds = new String[]{"Glyma.02G036200", "Glyma.13G319500"};
-        String fields="seed,pod";
+        String[] geneIds = new String[]{"Glyma.04G197300", "Glyma.01G182600","Glyma.02G036200","Glyma.13G319500"};
+        String fields="cotyledon,pod";
         if(fields!=null&&fields!=""){
             //fields=sortService.getPrefixBeforeFields(fields);
         }
-        List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(Arrays.asList(geneIds),fields,19);
+        List<String> qtlNamesByTrait = geneSortDao.getQtlNamesByTrait(19);
+        List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(Arrays.asList(geneIds),fields);
         /*for (SortedSearchResultView view:views){
             sortService.calculateScoreOfFpkm(view);
             sortService.calculateScoreOfQtl(view);
@@ -48,7 +49,7 @@ public class GeneSortDaoTest extends TestCase {
         }
         double v = views.get(0).getScore() - views.get(1).getScore();
         System.out.println(v);*/
-        List<SortedSearchResultView> sort = sortService.sort(views);
+        List<SortedSearchResultView> sort = sortService.sort(views,qtlNamesByTrait);
         System.out.println(sort);
     }
 
