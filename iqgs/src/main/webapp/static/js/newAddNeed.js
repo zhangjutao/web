@@ -1015,6 +1015,7 @@
         page.pageSize = 10;
         flag = 1;
         var dataParam = getParams();
+        console.log(dataParam)
         advanceSearchFn(dataParam);
 
         // 处理搜索页面是当前页显示的问题

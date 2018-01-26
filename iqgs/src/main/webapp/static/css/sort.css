@@ -73,12 +73,11 @@
 
 .sortMain{border-top: 1px solid #ddd;}
 .sortText{border: 1px solid #DDDDDD;  padding: 0px 6px; margin-left: 6px;    margin-right: 6px; display:none; }
-
-.sortZzText span{border: 1px solid #DDDDDD;  padding: 0px 6px;    margin-right: 6px;}
-.sortZzGb{    padding: 0 6px;
-    cursor: pointer;}
+.sortText_div{width: 800px;  float: left;}
+.sortZzText span{border: 1px solid #DDDDDD;  padding: 0px 6px;    margin-right: 6px;     line-height: 30px;}
+.sortZzGb{    padding: 0 6px;  cursor: pointer;}
 .sortGb{cursor: pointer;padding:0 6px;display: none; }
-
+.sortText_tit{width: 40px; float: left;}
 .combo-select {
     position: relative;
     max-width: 160px;
@@ -181,11 +180,12 @@
  * Hide native select
  */
 .sortText_main{
-    display: flex;
+    /*display: flex;*/
+    overflow: hidden;
 background: #f2f2f2;
     padding: 5px 20px;
 }
-
+.sortText .sortText_conter{    border: none;}
 
 .combo-select select {
     display: none;
