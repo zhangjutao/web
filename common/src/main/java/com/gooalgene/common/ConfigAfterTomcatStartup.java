@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
@@ -24,7 +25,7 @@ public class ConfigAfterTomcatStartup implements ApplicationListener<ContextRefr
     @Autowired
     private ConfigService configService;
     @Autowired
-    private GuavaCacheManager cacheManager;
+    private CacheManager cacheManager;
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {

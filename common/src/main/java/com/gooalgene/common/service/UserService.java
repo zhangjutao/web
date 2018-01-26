@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
@@ -34,7 +35,7 @@ public class UserService implements ApplicationContextAware {
 
     private ApplicationContext applicationContext;
     @Autowired
-    private GuavaCacheManager cacheManager;
+    private CacheManager cacheManager;
 
     //通过用户ID查询用户信息
     public User getUserById(int id){
