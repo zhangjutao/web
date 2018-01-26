@@ -1451,7 +1451,7 @@
         });
 
         /* 群体信息弹框可拖动 */
-        $( ".tab-detail" ).draggable({ containment: "body"});
+        $( ".tab-detail" ).draggable({ containment: "body",cancel:".popu-table"});
 
         var popuSamples = {}; // 存储选中的样本数据
 
