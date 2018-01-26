@@ -2,6 +2,7 @@ package com.gooalgene.iqgs.service.sort;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
+import com.gooalgene.common.authority.SecurityUser;
 import com.gooalgene.iqgs.dao.GeneSortDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.Tissue;
@@ -85,7 +86,9 @@ public class GeneSortViewService implements InitializingBean {
         AsyncEventBus asyncEventBus = register.getAsyncEventBus();
         asyncEventBus.post(param);
         //记录用户行为
-        UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),categoryId,fields,new Date());
+        UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm(
+                ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
+                ,categoryId,fields,new Date());
         asyncEventBus.post(userAssociateTraitFpkm);
         int size = result.size();
         int end = pageNo*pageSize > size ? size : pageNo*pageSize;

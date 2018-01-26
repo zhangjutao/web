@@ -5,7 +5,7 @@ import java.util.Date;
 public class UserAssociateTraitFpkm {
     private Integer id;
 
-    private String userId;
+    private Integer userId;
 
     private Integer traitCategoryId;
 
@@ -13,13 +13,13 @@ public class UserAssociateTraitFpkm {
 
     private Date createTime;
 
-    public UserAssociateTraitFpkm(String userId, Integer traitCategoryId, String fpkmStr) {
+    public UserAssociateTraitFpkm(Integer userId, Integer traitCategoryId, String fpkmStr) {
         this.userId = userId;
         this.traitCategoryId = traitCategoryId;
         this.fpkmStr = fpkmStr;
     }
 
-    public UserAssociateTraitFpkm(String userId, Integer traitCategoryId, String fpkmStr, Date createTime) {
+    public UserAssociateTraitFpkm(Integer userId, Integer traitCategoryId, String fpkmStr, Date createTime) {
         this.userId = userId;
         this.traitCategoryId = traitCategoryId;
         this.fpkmStr = fpkmStr;
@@ -37,11 +37,11 @@ public class UserAssociateTraitFpkm {
         this.id = id;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
-    public void setUserId(String userId) {
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 

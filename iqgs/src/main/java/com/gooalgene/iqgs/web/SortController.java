@@ -14,15 +14,18 @@ import com.gooalgene.iqgs.entity.sort.SortRequestParam;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
+import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ConsequenceTypeUtils;
 import com.gooalgene.utils.ResultUtil;
+import com.gooalgene.utils.Tools;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -33,10 +36,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
+import javax.servlet.http.HttpServletResponse;
+import java.lang.reflect.Field;
+import java.util.*;
 
 /**
  * 排序接口层
@@ -228,6 +230,44 @@ public class SortController implements InitializingBean {
             logger.warn("缓存数据已清空，请重新查询后排序");
             return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
         }
+    }
+
+    /**
+     * 下载排序的结果
+     */
+    @RequestMapping(value = "/download-sort", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<String> downloadSortResult(@RequestBody SortRequestParam sortRequestParam, HttpServletResponse response){
+        AllSortedResultEvent event=new AllSortedResultEvent(sortRequestParam.getGeneIdList(),sortRequestParam.getTissue(),sortRequestParam.getTraitCategoryId(),null);
+        String key = event.getClass().getSimpleName() + event.hashCode();
+        Cache.ValueWrapper cachedGeneId = cache.get(key);
+        if (cachedGeneId != null){
+            List<SortedResult> sortedResults=(List<SortedResult>) cachedGeneId.get();
+            String content=getExportContent(sortedResults);
+            Tools.toDownload(System.currentTimeMillis()+"_"+ UUID.randomUUID().toString(), content, response);
+            return ResultUtil.success();
+        }else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
+        }
+    }
+
+    private static String getExportContent(List<SortedResult> sortedResults){
+        String[] titles=new String[]{"geneId","geneName","description","chromosome","location"};
+        StringBuilder sb = new StringBuilder();
+        for(int i=0;i<titles.length;i++){
+            if(i==titles.length-1){
+                sb.append(titles[i]).append("\n");
+            }else {
+                sb.append(titles[i]).append(",");
+            }
+        }
+        for(int i=0;i<sortedResults.size();i++){
+            SortedResult sortedResult = sortedResults.get(i);
+            sb.append(sortedResult.getGeneId()).append(",").append(sortedResult.getGeneName()).append(",").append(sortedResult.getDescription()).append(",")
+                    .append(sortedResult.getChromosome()).append(",").append(sortedResult.getLocation()).append("\n");
+        }
+        return sb.toString();
     }
 
     @Override
