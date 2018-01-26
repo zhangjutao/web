@@ -94,6 +94,7 @@
                 <ref bean="advanceListener" />
                 <ref bean="regionListener" />
                 <ref bean="nameListener" />
+                <ref bean="sortedResultListener" />
             </list>
         </constructor-arg>
     </bean>

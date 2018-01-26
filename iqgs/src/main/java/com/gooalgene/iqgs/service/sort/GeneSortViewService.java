@@ -5,14 +5,21 @@ import com.github.pagehelper.PageInfo;
 import com.gooalgene.iqgs.dao.GeneSortDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.Tissue;
+import com.gooalgene.iqgs.entity.sort.SortRequestParam;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
+import com.gooalgene.iqgs.eventbus.EventBusRegister;
+import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Ordering;
+import com.google.common.eventbus.AsyncEventBus;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -24,13 +31,21 @@ import java.util.List;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
-public class GeneSortViewService {
+public class GeneSortViewService implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(GeneSortViewService.class);
     @Autowired
     private GeneSortDao geneSortDao;
 
     @Autowired
     private SortService sortService;
+
+    @Autowired
+    private EventBusRegister register;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    private Cache cache;
 
     /**
      * 对传入的基因ID进行查询、排序，输出排序后的结果
@@ -65,6 +80,10 @@ public class GeneSortViewService {
         } catch (IllegalAccessException e) {
             logger.error("排序过程中出错", e.getCause());
         }
+        //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
+        AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, result);
+        AsyncEventBus asyncEventBus = register.getAsyncEventBus();
+        asyncEventBus.post(param);
         int size = result.size();
         int end = pageNo*pageSize > size ? size : pageNo*pageSize;
         Page<SortedResult> page = new Page<>(pageNo, pageSize, false);
@@ -98,5 +117,10 @@ public class GeneSortViewService {
         }
         builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        cache = cacheManager.getCache("advanceSearch");
     }
 }
