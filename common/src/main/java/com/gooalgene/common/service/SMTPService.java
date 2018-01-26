@@ -5,10 +5,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
 import javax.mail.*;
@@ -28,10 +30,11 @@ import java.util.Properties;
  * 邮件发送工具类
  * 依赖子模块配置的GuavaCacheManager
  */
+@Service
 public class SMTPService {
     private final static Logger logger = LoggerFactory.getLogger(SMTPService.class);
     @Autowired
-    private GuavaCacheManager guavaCacheManager;
+    private CacheManager guavaCacheManager;
     private Cache cache;
 
     public void init(){

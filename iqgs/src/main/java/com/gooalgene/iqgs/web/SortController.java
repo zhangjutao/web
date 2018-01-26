@@ -29,14 +29,22 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.guava.GuavaCache;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 排序接口层
@@ -228,6 +236,31 @@ public class SortController implements InitializingBean {
             logger.warn("缓存数据已清空，请重新查询后排序");
             return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
         }
+    }
+
+    @RequestMapping(value = "/cache/admin")
+    public ModelAndView cacheAdminPage(){
+        ModelAndView view = new ModelAndView("iqgs/cache-admin");
+        com.google.common.cache.Cache guavaCache = ((GuavaCache) cache).getNativeCache();
+        ConcurrentMap cacheResult = guavaCache.asMap();
+        //获取系统运行状况相关信息
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        Method[] declaredMethods = operatingSystemMXBean.getClass().getDeclaredMethods();
+        for (Method method : declaredMethods){
+            method.setAccessible(true);
+            Object value = null;
+            if (method.getName().equals("getProcessCpuLoad")){
+                try {
+                    value = method.invoke(operatingSystemMXBean);
+                    view.addObject("processCpuLoad", value);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    logger.error("获取系统CPU负载错误", e.getCause());
+                }
+            }
+        }
+        view.addObject("cacheResult", cacheResult);
+        view.addObject("keySize", cacheResult.size());
+        return view;
     }
 
     @Override
