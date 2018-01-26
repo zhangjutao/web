@@ -105,13 +105,8 @@
     window.addEventListener("message", function( event ) {
         // 把父窗口发送过来的数据显示在子窗口中
         var sortConditionData=event.data;
-        console.log(sortConditionData)
-        var geneIdList=[
-            "Glyma.04G197300",
-            "Glyma.01G182600",
-            "Glyma.02G036200",
-            "Glyma.13G319500"
-        ];
+        console.log(sortConditionData);
+        var geneIdList=sortConditionData;
         var tissue={
             "pod": 20,
             "cotyledon": 11.5

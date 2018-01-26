@@ -786,7 +786,25 @@
         initSearchTab();
         requestSearchData();
     });
-//    })
+
+    function extractHostname(url) {
+        var hostname;
+        //find & remove protocol (http, ftp, etc.) and get hostname
+
+        if (url.indexOf("://") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+
+        return hostname;
+    }
 
 //    排序弹窗
     function sortStrData(data){
@@ -804,8 +822,10 @@
                 closeText: "",
             });
             $('#popup iframe').attr('src','${ctxroot}/sort/dispatch').on('load',function(){
+                var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
+                console.log(targetLocation);
                 // 搜索结果传到排序页面
-                window.frames[0].postMessage(data,'http://localhost:8082/iqgs/sort/dispatch');
+                window.frames[0].postMessage(data, targetLocation);
             })
         })
     }
