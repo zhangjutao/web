@@ -14,6 +14,7 @@ import com.gooalgene.iqgs.entity.sort.SortRequestParam;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
+import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
@@ -96,12 +97,22 @@ public class SortController implements InitializingBean {
     @RequestMapping(value = "/copy-ordered-geneId", method = RequestMethod.POST)
     @ResponseBody
     public ResultVO<List<String>> copyOrderedGeneId(@RequestBody SortRequestParam sortRequestParam) {
-        PageInfo<SortedResult> allOrderedGene = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(), sortRequestParam.getTraitCategoryId(), 1, sortRequestParam.getGeneIdList().size());
-        List<String> geneIdList = new ArrayList<String>();
-        for (SortedResult sortedResult : allOrderedGene.getList()) {
-            geneIdList.add(sortedResult.getGeneId());
+        AllSortedResultEvent cacheOrderedResult = new AllSortedResultEvent(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(), sortRequestParam.getTraitCategoryId(), null);
+        String OrderedGeneIdkey = cacheOrderedResult.getClass().getSimpleName() + cacheOrderedResult.hashCode();
+        Cache.ValueWrapper cacheOrderedGeneIdList = cache.get(OrderedGeneIdkey);
+        if (cacheOrderedGeneIdList != null) {
+            List<SortedResult> orderedGeneList = (List<SortedResult>) cacheOrderedGeneIdList.get();
+            Collection<String> orderedGeneIdList = Collections2.transform(orderedGeneList, new Function<SortedResult, String>() {
+                @Override
+                public String apply(SortedResult sortedResult) {
+                    return sortedResult.getGeneId();
+                }
+            });
+            return ResultUtil.success(orderedGeneIdList);
+        } else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
         }
-        return ResultUtil.success(geneIdList);
     }
 
     /**
@@ -180,7 +191,7 @@ public class SortController implements InitializingBean {
         dnaGenStructure.setStart(Long.valueOf(start));
         dnaGenStructure.setEnd(Long.valueOf(end));
         AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(dnaGenStructure, null);
-        String key = event.getClass().getSimpleName() + event.getGenStructure().hashCode();
+        String key = event.getClass().getSimpleName() + event.hashCode();
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<String> resultGeneCollection = (List<String>) cachedGeneId.get();

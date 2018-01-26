@@ -317,8 +317,7 @@
 
 <div id="gray"></div>
 <div class="popup" id="popup"  hidden="hidden" style="width: 900px;height: 600px;">
-    <iframe width="900" height="600" frameborder="0" style="border:none 0;" allowtransparency="true" id="_DialogFrame_0" src=""></iframe>
-
+    <iframe id="proxy" width="900" height="600" frameborder="0" style="border:none 0;" allowtransparency="true"  src=""></iframe>
 </div>
 <!--container-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
@@ -337,11 +336,11 @@
 <script src="${ctxStatic}/js/layer/layer.js"></script>
 <%--<script src="${ctxStatic}/js/laypage/laypage.js"></script>--%>
 <script src="${ctxStatic}/js/iqgs-list.js"></script>
+<script src="${ctxStatic}/js/iqgs.js"></script>
+<script src="${ctxStatic}/js/newAddNeed.js"></script>
+<%--<script src="${ctxStatic}/js/sort.js"></script>--%>
+<script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script>
-
-
-    //    $('#popup iframe').attr('src','src的值');
-//        ?keyword=00100&searchType=1
     // sessionStorage
     if(window.sessionStorage){
         var storage = window.sessionStorage;
@@ -775,28 +774,31 @@
 //    })
 
 //    排序弹窗
-$(".sort_btn").click(function () {
-    $("#gray").show();
-    $("#popup").dialog({
-        buttons: {
-            "X": function () {
-                $("#gray").hide();
-                $(this).dialog('close');
-            }
-        },
-        width:900,
-        height:600,
-        closeText: "",
-    })
-    var urlData=1000;
-   var urlc="wwww";
-      $('#popup iframe').attr('src','${ctxroot}/sort/dispatch?id='+urlData+'&searchType='+urlc);
-})
+    function sortStrData(){
+        $(".sort_btn").click(function () {
+
+
+
+
+            $("#gray").show();
+            $("#popup").dialog({
+                buttons: {
+                    "X": function () {
+                        $("#gray").hide();
+                        $(this).dialog('close');
+                    }
+                },
+                width:900,
+                height:600,
+                closeText: "",
+            });
+            $('#popup iframe').attr('src','${ctxroot}/sort/dispatch').on('load',function(){
+                // 搜索结果传到排序页面
+                window.frames[0].postMessage(dataParam,'http://localhost:8082/iqgs/sort/dispatch');
+            })
+        })
+    }
 </script>
 
-<script src="${ctxStatic}/js/iqgs.js"></script>
-<script src="${ctxStatic}/js/newAddNeed.js"></script>
-<%--<script src="${ctxStatic}/js/sort.js"></script>--%>
-<script src="${ctxStatic}/js/jquery-ui.js"></script>
 </body>
 </html>

@@ -48,6 +48,9 @@
 .sortSpan{
     float: right;
 }
+.sortSpan img{
+    padding-right: 3px;
+}
 .sortResult{padding:24px 20px 16px 20px;}
 .sortSpan button{
     width: 100px;
@@ -55,6 +58,7 @@
     border: 1px solid #5c8ce6;
     background: #fff;
     color:#5c8ce6;
+    border-radius: 2px;
 }
 .sortTitle{font-size: 18px; color:#5c8ce6}
 
