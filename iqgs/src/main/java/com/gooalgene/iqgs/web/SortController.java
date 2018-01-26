@@ -14,6 +14,7 @@ import com.gooalgene.iqgs.entity.sort.SortRequestParam;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
+import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
@@ -29,13 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -162,7 +161,7 @@ public class SortController implements InitializingBean {
      * 获取范围搜索排序弹框首屏数据
      * @return 排序弹框中需要的首屏基因ID
      */
-    @RequestMapping(value = "/fetch-range-data", method = RequestMethod.POST)
+    @RequestMapping(value = "/fetch-range-data", method = RequestMethod.GET)
     @ResponseBody
     public ResultVO<String> fetchRangeSearchData(HttpServletRequest req){
         String start = req.getParameter("begin");
@@ -174,6 +173,53 @@ public class SortController implements InitializingBean {
         dnaGenStructure.setEnd(Long.valueOf(end));
         AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(dnaGenStructure, null);
         String key = event.getClass().getSimpleName() + event.getGenStructure().hashCode();
+        Cache.ValueWrapper cachedGeneId = cache.get(key);
+        if (cachedGeneId != null){
+            List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
+            return ResultUtil.success(resultGeneCollection);
+        } else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
+        }
+    }
+
+    /**
+     * 获取根据ID/NAME/FUNCTION查询的结果，作为排序的首屏数据
+     * @return 排序弹框中需要的首屏基因ID
+     */
+    @RequestMapping(value = "/fetch-multi-data", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO<String> fetchIdAndFunctionData(HttpServletRequest req){
+        String keyword = req.getParameter("keyword");
+        String searchType = req.getParameter("searchType");
+        DNAGenBaseInfo bean = new DNAGenBaseInfo();
+        if (searchType.equals("1")){
+            bean.setGeneId(keyword);
+            bean.setGeneOldId(keyword);
+        } else {
+            bean.setFunctions(keyword);
+        }
+        IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(null, bean);
+        String key = event.getClass().getSimpleName() + bean.hashCode();
+        Cache.ValueWrapper cachedGeneId = cache.get(key);
+        if (cachedGeneId != null){
+            List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
+            return ResultUtil.success(resultGeneCollection);
+        } else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
+        }
+    }
+
+    /**
+     * 获取QTL查询结果，作为排序的首屏数据
+     */
+    @RequestMapping(value = "/fetch-qtl-data", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO<String> fetchQtlData(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl){
+        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(null, null, null, null, Arrays.asList(chosenQtl), null, null);
+        String key = event.getClass().getSimpleName() + event.hashCode();
+        //数据缓存一小时，若一小时无操作，清空该数据
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
