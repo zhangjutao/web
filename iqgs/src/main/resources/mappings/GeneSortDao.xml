@@ -81,7 +81,15 @@
               a.id = b.fpkm_id AND c.id = b.snp_id
                   AND d.fpkm_id = a.id AND d.indel_id = e.id
                   AND a.gene_id = f.gene_id AND f.id = g.gene_info_id AND g.qtl_id = h.id
-              AND h.qtl_name IN (
+
+              AND a.gene_id in
+        <foreach collection="geneIds" item="geneId" open="(" close=")" separator=",">
+            #{geneId}
+        </foreach>
+    </select>
+    
+    <select id="getQtlNamesByTrait" resultType="string">
+        SELECT DISTINCT  h.qtl_name FROM associatedgenes h WHERE h.qtl_name IN (
                     SELECT
                     c.qtl_name
                     FROM
@@ -90,9 +98,5 @@
                     LEFT JOIN qtl c ON c.trait = b.trait_name
                     WHERE a.id = #{categoryId}
                 )
-              AND a.gene_id in
-        <foreach collection="geneIds" item="geneId" open="(" close=")" separator=",">
-            #{geneId}
-        </foreach>
     </select>
 </mapper>
