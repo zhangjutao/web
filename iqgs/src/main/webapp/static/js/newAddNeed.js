@@ -990,6 +990,7 @@
         page.pageSize = 10;
         flag = 1;
         var dataParam = getParams();
+        console.log(dataParam)
         advanceSearchFn(dataParam);
     });
 

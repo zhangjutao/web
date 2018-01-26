@@ -21,11 +21,14 @@
 
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
 <div class="sort_top">
-    <div class="sortText_main"><span>已选></span>
-        <div class="sortText"><span class="sortText_conter"></span><i class="sortGb">X</i>
-        </div>
-        <div class="sortZzText">
-            <%--<span class="sortZzText_conter"></span><i class="sortZzGb">X</i>--%>
+    <div class="sortText_main"><span class="sortText_tit">已选></span>
+        <div class="sortText_div">
+
+            <div class="sortZzText">
+                <span class="sortText"><span class="sortText_conter"></span><i class="sortGb">X</i>
+                </span>
+                <%--<span class="sortZzText_conter"></span><i class="sortZzGb">X</i>--%>
+            </div>
         </div>
     </div>
 
@@ -180,7 +183,6 @@
         }
     })(jQuery);
     var keyword = $.getUrlParam('id');
-    console.log(keyword)
 
 
     $(".sortGb").click(function () {
@@ -272,7 +274,6 @@
                             $(this).addClass("checked");
                             var sortzzTextConter=$(this).text();
                             var sortZzText_name=$(this).parent().parent().find("#geneName").val()
-                            console.log(sortZzText_name)
                             var str="<span class='sortZzText_conter'><b class='sortZzText_b1'>"+sortZzText_name+"</b><b class='sortZzText_b2'>"+sortzzTextConter+"</b><i class='sortZzGb'>X</i></span>";
                             $(".sortZzText").append(str);
                         }
@@ -325,7 +326,6 @@
         var promise = SendAjaxRequest("POST", "${ctxroot}/sort/fetch-trait");
         promise.then(
             function (jsonStr){
-                console.log(jsonStr)
                 var arr_geneName = ["请选择"];
                 for (var i = 0; i < jsonStr.length; i++) {
                     //性状select
@@ -343,10 +343,139 @@
         )
     };
 
-//    var obj = parent.window.document.getElementsByClassName('showClear');
-//console.log(obj)
-    var parentdb = parent.window.$(".result-title");
-console.log(parentdb)
+//获取排序表格数据
+
+    <%--function sortTable(curr) {--%>
+        <%--$.ajax({--%>
+            <%--url: "${ctxroot}/sort/fetch-sort-list",--%>
+<%--//            data: {--%>
+<%--//                group: JSON.stringify(currPopu),--%>
+<%--//                pageNo: curr || 1,--%>
+<%--//                pageSize: pageSizePopu--%>
+<%--//            },--%>
+            <%--data:{--%>
+                <%--"geneIdList": [--%>
+                    <%--"Glyma.04G197300",--%>
+                    <%--"Glyma.01G182600",--%>
+                    <%--"Glyma.02G036200",--%>
+                    <%--"Glyma.13G319500"--%>
+                <%--],--%>
+                <%--"tissue": {--%>
+                    <%--"pod": 20,--%>
+                    <%--"cotyledon": 11.5--%>
+                <%--},--%>
+                <%--"traitCategoryId": 19,--%>
+                <%--"pageNo": 1,--%>
+                <%--"pageSize": 10--%>
+            <%--},--%>
+            <%--type: "POST",--%>
+            <%--dataType: "json",--%>
+            <%--success: function(res) {--%>
+                <%--console.log(res)--%>
+<%--//                popCount = res.total;--%>
+<%--//                sortPopuTable(res.data);--%>
+<%--//                laypage({--%>
+<%--//                    cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>--%>
+<%--//                    pages: Math.ceil(res.total / pageSizePopu), //通过后台拿到的总页数--%>
+<%--//                    curr: curr || 1, //当前页--%>
+<%--//                    skin: '#5c8de5',--%>
+<%--//                    skip: true,--%>
+<%--//                    first: 1, //将首页显示为数字1,。若不显示，设置false即可--%>
+<%--//                    last: Math.ceil(res.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可--%>
+<%--//                    prev: '<',--%>
+<%--//                    next: '>',--%>
+<%--//                    groups: 3, //连续显示分页数--%>
+<%--//                    jump: function (obj, first) { //触发分页后的回调--%>
+<%--//                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr--%>
+<%--//                            sortTable(obj.curr,currPopu);--%>
+<%--//                        }--%>
+<%--//                    }--%>
+<%--//                });--%>
+<%--//                $("#popu-paginate .total-page-count > span").html(res.total);--%>
+
+            <%--}--%>
+        <%--});--%>
+    <%--}--%>
+    var geneIdList=[
+            "Glyma.04G197300",
+            "Glyma.01G182600",
+            "Glyma.02G036200",
+            "Glyma.13G319500"
+        ];
+    var tissue={
+            "pod": 20,
+                "cotyledon": 11.5
+        };
+    dataParam = {};
+    dataParam.geneIdList = geneIdList;
+    dataParam.tissue = tissue;
+    dataParam.traitCategoryId = 19;
+    dataParam.pageNo = 1;
+    dataParam.pageSize = 10;
+    sortTable(dataParam);
+    function sortTable(dataParam){
+        console.log(dataParam)
+        var promise = SendAjaxRequest("POST","${ctxroot}/sort/fetch-sort-result",JSON.stringify(dataParam));
+        promise.then(
+            function (result){
+                console.log(result)
+//                sortPopuTable(result)
+
+                // 关闭遮罩层
+//                layer.closeAll();
+//                if(result.code == 0 && result.data.list.length!=0){
+//                    resultCallback(result)
+//                }else {
+//                    laypage({
+//                        cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+//                        pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+////            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
+//                        curr: page.curr || 1, //当前页
+//                        skin: '#5c8de5',
+//                        skip: true,
+//                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+//                        last: Math.ceil(result.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+//                        prev: '<',
+//                        next: '>',
+//                        groups: 3, //连续显示分页数
+//                        jump: function (obj, first) { //触发分页后的回调
+//                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+//                                page.curr = obj.curr;
+//                                requestSearchData();
+//                            }
+//                        }
+//                    });
+//                    $("#total-page-count1 span").text(result.data.total);
+//                    $(".js-search-total").text(result.data.total);
+//                }
+
+            },function (error){
+                console.log(error);
+            }
+        )
+    }
+
+    function sortPopuTable(data) {
+        $(".js-table-header-setting-popu").find("label").addClass("checkbox-ac");
+        var str = '';
+//        $.each(data, function(idx, item) {
+//            for(){
+//
+//
+//
+//            console.log(data)
+//            str += '<tr>'
+//            str += '<td class="species">item</td><td class="locality">2</td><td class="sampleName">3</td><td class="cultivar">4</td><td class="weightPer100seeds">5</td>'
+////            str += '<td class="cultivar">'+ item.cultivar +'</td><td class="weightPer100seeds">'+ item.weightPer100seeds +'</td><td class="oil">'+ item.oil +'</td>'
+////            str += '<td class="protein">'+ item.protein +'</td>'
+////            str += '<td class="maturityDate">'+ item.maturityDate +'</td><td class="height">'+item.height+'</td><td class="seedCoatColor">'+item.seedCoatColor+'</td>'
+////            str += '<td class="hilumColor">'+item.hilumColor+'</td><td class="cotyledonColor">'+item.cotyledonColor+'</td><td class="flowerColor">'+item.flowerColor+'</td>'
+//            str += '</tr>'
+////        });
+//            }
+        $(".popu-table > tbody").empty().append(str);
+    }
+
 </script>
 </body>
 </html>
