@@ -65,7 +65,10 @@ public class SortController implements InitializingBean {
         return "search/sort";
     }
 
-
+    /**
+     * 排序接口
+     * @return 排序后的基因信息集合
+     */
     @RequestMapping(value = "/fetch-sort-result", method = RequestMethod.POST)
     @ResponseBody
     public ResultVO<SortedResult> fetchSortedResult(@RequestBody SortRequestParam sortRequestParam){
