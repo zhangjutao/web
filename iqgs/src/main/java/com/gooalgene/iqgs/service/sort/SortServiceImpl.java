@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.service.sort;
 
+import com.gooalgene.iqgs.dao.GeneSortDao;
 import com.gooalgene.iqgs.entity.FpkmDto;
 import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.sort.IndelScore;
@@ -32,6 +33,9 @@ public class SortServiceImpl implements SortService, InitializingBean {
 
     private Cache indelCache;
 
+    @Autowired
+    private GeneSortDao geneSortDao;
+
     public int calculateSNPConsequenceTypeScore(List<String> consequenceTypes){
         int snpConsequenceTypeResult = 0;
         if (consequenceTypes == null || consequenceTypes.size() == 0){
@@ -60,10 +64,10 @@ public class SortServiceImpl implements SortService, InitializingBean {
     }
 
     @Override
-    public List<SortedSearchResultView> sort(List<SortedSearchResultView> views) throws IllegalAccessException {
+    public List<SortedSearchResultView> sort(List<SortedSearchResultView> views,List<String> qtlNames) throws IllegalAccessException {
         for (SortedSearchResultView view:views){
             calculateScoreOfFpkm(view);
-            calculateScoreOfQtl(view);
+            calculateScoreOfQtl(view,qtlNames);
             calculateScoreOfSnpAndIndel(view);
         }
         return views;
@@ -113,12 +117,20 @@ public class SortServiceImpl implements SortService, InitializingBean {
      * @param view
      * @return
      */
-    public SortedSearchResultView calculateScoreOfQtl(SortedSearchResultView view){
+    public SortedSearchResultView calculateScoreOfQtl(SortedSearchResultView view,List<String> qtlNames){
         Double score1 = view.getScore();
         if(score1==null){
             score1=0d;
         }
-        view.setScore(score1+view.getAllQtl().size()*10);
+        Integer size=0;
+        for(String qtlName:qtlNames){
+            for(String qtlNameInView:view.getAllQtl()){
+                if(qtlName.equals(qtlNameInView)){
+                    size++;
+                }
+            }
+        }
+        view.setScore(score1+size*10);
         return view;
     }
     public SortedSearchResultView calculateScoreOfSnpAndIndel(SortedSearchResultView view){
@@ -129,7 +141,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
             if(score==null){
                 score=0;
             }
-            sum+=(score);
+            sum+=(score*snpScore.getCount());/**/
         }
         sum=sum/(view.getSnpConsequenceType().size());
         Integer sum2=0;
@@ -138,7 +150,7 @@ public class SortServiceImpl implements SortService, InitializingBean {
             if(score==null){
                 score=0;
             }
-            sum2+=(score);
+            sum2+=(score*indelScore.getCount());/**/
         }
         sum2=sum2/(view.getIndelConsequenceType().size());
         view.setScore(oldScore+sum+sum2);

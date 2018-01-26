@@ -287,11 +287,14 @@ p.first{
 }
 #GlyIds ul{
     overflow:hidden;
+    max-height: 160px;
+    overflow-y: scroll;
 }
 #GlyIds ul li{
     float:left;
     margin-right:11px;
-    width:156px;
+    /*width:156px;*/
+    width:196px;
     height:40px;
     text-align:center;
     border:1px solid #DDDDDD;
