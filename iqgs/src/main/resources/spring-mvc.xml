@@ -12,7 +12,7 @@
 
        <!-- 使用Annotation自动注册Bean,只扫描@Controller -->
        <context:component-scan base-package="com.gooalgene">
-              <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+              <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
        </context:component-scan>
 
        <!-- 默认的注解映射的支持，org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping -->
@@ -59,4 +59,18 @@
               <property name="maxUploadSize" value="${web.maxUploadSize}" />
        </bean>
 
+    <bean id="eventBusRegister" class="com.gooalgene.iqgs.eventbus.EventBusRegister">
+        <constructor-arg index="0" value="searchResultCache" />
+        <constructor-arg index="1">
+            <list></list>
+        </constructor-arg>
+        <constructor-arg index="2">
+            <list>
+                <ref bean="advanceListener" />
+                <ref bean="regionListener" />
+                <ref bean="nameListener" />
+                <ref bean="sortedResultListener" />
+            </list>
+        </constructor-arg>
+    </bean>
 </beans>

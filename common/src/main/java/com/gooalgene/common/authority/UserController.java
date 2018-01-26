@@ -10,6 +10,7 @@ import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
@@ -41,7 +42,7 @@ public class UserController {
     private SMTPService smtpService;
 
     @Autowired
-    private GuavaCacheManager guavaCacheManager;
+    private CacheManager guavaCacheManager;
 
     private  Cache author_cache;
 

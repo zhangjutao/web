@@ -16,8 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -30,8 +29,6 @@ public class DNARunService {
     private static final Logger logger = LoggerFactory.getLogger(DNARunService.class);
     @Autowired
     private DNARunDao dnaRunDao;
-    @Autowired
-    private GuavaCacheManager cacheManager;
 
     public int insertBatch(List<DNARun> list) {
         return dnaRunDao.insertBatch(list);

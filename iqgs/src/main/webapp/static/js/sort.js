@@ -21,7 +21,7 @@ function init(arr_geneName) {
 
 
 // 初始化性状
-function initXZ(arr_geneName) {
+function initXZ(arr_geneName,arr_geneId) {
 
     //首先获取对象
     var geneName = document.forms.sortSelect;
@@ -34,6 +34,11 @@ function initXZ(arr_geneName) {
         geneName.options[i].text = arr_geneName[i];
         geneName.options[i].value = arr_geneName[i];
     }
+    for(var i=0;i<arr_geneId.length;i++){
+        geneName.options[i].id = arr_geneId[i];
+    }
+
+
 
     //修改基因表达量列表的默认选择项
     var index = 0;

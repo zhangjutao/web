@@ -21,24 +21,31 @@ import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ConsequenceTypeUtils;
 import com.gooalgene.utils.ResultUtil;
-import com.gooalgene.utils.Tools;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
-import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.cache.guava.GuavaCache;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Field;
-import java.util.*;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.concurrent.ConcurrentMap;
 
 /**
  * 排序接口层
@@ -90,12 +97,22 @@ public class SortController implements InitializingBean {
     @RequestMapping(value = "/copy-ordered-geneId", method = RequestMethod.POST)
     @ResponseBody
     public ResultVO<List<String>> copyOrderedGeneId(@RequestBody SortRequestParam sortRequestParam) {
-        PageInfo<SortedResult> allOrderedGene = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(), sortRequestParam.getTraitCategoryId(), 1, sortRequestParam.getGeneIdList().size());
-        List<String> geneIdList = new ArrayList<String>();
-        for (SortedResult sortedResult : allOrderedGene.getList()) {
-            geneIdList.add(sortedResult.getGeneId());
+        AllSortedResultEvent cacheOrderedResult = new AllSortedResultEvent(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(), sortRequestParam.getTraitCategoryId(), null);
+        String OrderedGeneIdkey = cacheOrderedResult.getClass().getSimpleName() + cacheOrderedResult.hashCode();
+        Cache.ValueWrapper cacheOrderedGeneIdList = cache.get(OrderedGeneIdkey);
+        if (cacheOrderedGeneIdList != null) {
+            List<SortedResult> orderedGeneList = (List<SortedResult>) cacheOrderedGeneIdList.get();
+            Collection<String> orderedGeneIdList = Collections2.transform(orderedGeneList, new Function<SortedResult, String>() {
+                @Override
+                public String apply(SortedResult sortedResult) {
+                    return sortedResult.getGeneId();
+                }
+            });
+            return ResultUtil.success(orderedGeneIdList);
+        } else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
         }
-        return ResultUtil.success(geneIdList);
     }
 
     /**
@@ -174,7 +191,7 @@ public class SortController implements InitializingBean {
         dnaGenStructure.setStart(Long.valueOf(start));
         dnaGenStructure.setEnd(Long.valueOf(end));
         AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(dnaGenStructure, null);
-        String key = event.getClass().getSimpleName() + event.getGenStructure().hashCode();
+        String key = event.getClass().getSimpleName() + event.hashCode();
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
@@ -232,42 +249,29 @@ public class SortController implements InitializingBean {
         }
     }
 
-    /**
-     * 下载排序的结果
-     */
-    @RequestMapping(value = "/download-sort", method = RequestMethod.POST)
-    @ResponseBody
-    public ResultVO<String> downloadSortResult(@RequestBody SortRequestParam sortRequestParam, HttpServletResponse response){
-        AllSortedResultEvent event=new AllSortedResultEvent(sortRequestParam.getGeneIdList(),sortRequestParam.getTissue(),sortRequestParam.getTraitCategoryId(),null);
-        String key = event.getClass().getSimpleName() + event.hashCode();
-        Cache.ValueWrapper cachedGeneId = cache.get(key);
-        if (cachedGeneId != null){
-            List<SortedResult> sortedResults=(List<SortedResult>) cachedGeneId.get();
-            String content=getExportContent(sortedResults);
-            Tools.toDownload(System.currentTimeMillis()+"_"+ UUID.randomUUID().toString(), content, response);
-            return ResultUtil.success();
-        }else {
-            logger.warn("缓存数据已清空，请重新查询后排序");
-            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
-        }
-    }
-
-    private static String getExportContent(List<SortedResult> sortedResults){
-        String[] titles=new String[]{"geneId","geneName","description","chromosome","location"};
-        StringBuilder sb = new StringBuilder();
-        for(int i=0;i<titles.length;i++){
-            if(i==titles.length-1){
-                sb.append(titles[i]).append("\n");
-            }else {
-                sb.append(titles[i]).append(",");
+    @RequestMapping(value = "/cache/admin")
+    public ModelAndView cacheAdminPage(){
+        ModelAndView view = new ModelAndView("iqgs/cache-admin");
+        com.google.common.cache.Cache guavaCache = ((GuavaCache) cache).getNativeCache();
+        ConcurrentMap cacheResult = guavaCache.asMap();
+        //获取系统运行状况相关信息
+        OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
+        Method[] declaredMethods = operatingSystemMXBean.getClass().getDeclaredMethods();
+        for (Method method : declaredMethods){
+            method.setAccessible(true);
+            Object value = null;
+            if (method.getName().equals("getProcessCpuLoad")){
+                try {
+                    value = method.invoke(operatingSystemMXBean);
+                    view.addObject("processCpuLoad", value);
+                } catch (IllegalAccessException | InvocationTargetException e) {
+                    logger.error("获取系统CPU负载错误", e.getCause());
+                }
             }
         }
-        for(int i=0;i<sortedResults.size();i++){
-            SortedResult sortedResult = sortedResults.get(i);
-            sb.append(sortedResult.getGeneId()).append(",").append(sortedResult.getGeneName()).append(",").append(sortedResult.getDescription()).append(",")
-                    .append(sortedResult.getChromosome()).append(",").append(sortedResult.getLocation()).append("\n");
-        }
-        return sb.toString();
+        view.addObject("cacheResult", cacheResult);
+        view.addObject("keySize", cacheResult.size());
+        return view;
     }
 
     @Override

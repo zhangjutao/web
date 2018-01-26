@@ -1015,9 +1015,10 @@
         page.pageSize = 10;
         flag = 1;
         var dataParam = getParams();
-        console.log(dataParam)
         advanceSearchFn(dataParam);
 
+        // 条件弹窗调用
+        sortStrData();
         // 处理搜索页面是当前页显示的问题
         var currType ;
         var list = $("#myTabs li");
