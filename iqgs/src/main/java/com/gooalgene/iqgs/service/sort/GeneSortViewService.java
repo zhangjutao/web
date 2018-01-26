@@ -41,10 +41,11 @@ public class GeneSortViewService {
      */
     public PageInfo<SortedResult> findViewByGeneId(List<String> geneIds, Tissue tissue, Integer categoryId, int pageNo, int pageSize){
         String fields = getAllValidTissueProperties(tissue);
-        List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(geneIds, fields, categoryId);
+        List<String> qtlNames = geneSortDao.getQtlNamesByTrait(categoryId);
+        List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(geneIds, fields);
         List<SortedResult> result = new ArrayList<>();
         try {
-            List<SortedSearchResultView> sortResult = sortService.sort(views);
+            List<SortedSearchResultView> sortResult = sortService.sort(views,qtlNames);
             Ordering<SortedSearchResultView> ordering = Ordering.natural().onResultOf(new Function<SortedSearchResultView, Double>() {
                 @Override
                 public Double apply(SortedSearchResultView input) {
