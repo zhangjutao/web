@@ -206,9 +206,9 @@
         }
     }
 
-    // 获取基因表达量的组织以及小组织
-    getExpreData ();
-    function getExpreData (){
+    // 获取性状数据
+    characterData ();
+    function characterData (){
         var promise = SendAjaxRequest("GET", "${ctxroot}/advance-search/query-all-organic");
         promise.then(
             function (result){
@@ -219,6 +219,21 @@
             }
         )
     };
+
+    // 获取组织数据
+    organizationData ();
+    function organizationData (){
+        var promise = SendAjaxRequest("GET", "${ctxroot}/sort/fetch-trait");
+        promise.then(
+            function (result){
+                console.log(result)
+            },
+            function (error){
+                console.log(error);
+            }
+        )
+    };
+
 </script>
 </body>
 </html>

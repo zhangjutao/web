@@ -45,9 +45,9 @@ public class GeneSortViewService {
         List<SortedResult> result = new ArrayList<>();
         try {
             List<SortedSearchResultView> sortResult = sortService.sort(views);
-            Ordering<SortedSearchResultView> ordering = Ordering.natural().onResultOf(new Function<SortedSearchResultView, Integer>() {
+            Ordering<SortedSearchResultView> ordering = Ordering.natural().onResultOf(new Function<SortedSearchResultView, Double>() {
                 @Override
-                public Integer apply(SortedSearchResultView input) {
+                public Double apply(SortedSearchResultView input) {
                     return input.getScore();
                 }
             });
