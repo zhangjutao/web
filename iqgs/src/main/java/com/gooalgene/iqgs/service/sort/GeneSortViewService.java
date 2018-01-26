@@ -8,6 +8,7 @@ import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.sort.SortRequestParam;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
+import com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.google.common.base.Function;
@@ -20,13 +21,11 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -56,6 +55,7 @@ public class GeneSortViewService implements InitializingBean {
      */
     public PageInfo<SortedResult> findViewByGeneId(List<String> geneIds, Tissue tissue, Integer categoryId, int pageNo, int pageSize){
         String fields = getAllValidTissueProperties(tissue);
+
         List<String> qtlNames = geneSortDao.getQtlNamesByTrait(categoryId);
         List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(geneIds, fields);
         List<SortedResult> result = new ArrayList<>();
@@ -84,6 +84,9 @@ public class GeneSortViewService implements InitializingBean {
         AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, result);
         AsyncEventBus asyncEventBus = register.getAsyncEventBus();
         asyncEventBus.post(param);
+        //记录用户行为
+        UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm((String) SecurityContextHolder.getContext().getAuthentication().getPrincipal(),categoryId,fields,new Date());
+        asyncEventBus.post(userAssociateTraitFpkm);
         int size = result.size();
         int end = pageNo*pageSize > size ? size : pageNo*pageSize;
         Page<SortedResult> page = new Page<>(pageNo, pageSize, false);

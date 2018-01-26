@@ -24,9 +24,9 @@ public class UserAssociateTraitFpkmDaoTest {
     public void testInsertSelective(){
         UserAssociateTraitFpkm userAssociateTraitFpkm = new UserAssociateTraitFpkm();
         userAssociateTraitFpkm.setCreateTime(new Date());
-        userAssociateTraitFpkm.setFpkmStr("saasas,asasa");
+        userAssociateTraitFpkm.setFpkmStr("saas2as,asasa");
         userAssociateTraitFpkm.setTraitCategoryId(12);
-        userAssociateTraitFpkm.setUserId(11);
+        userAssociateTraitFpkm.setUserId("jojo1");
         int i = userAssociateTraitFpkmDao.insertSelective(userAssociateTraitFpkm);
         System.out.println(i);
     }
