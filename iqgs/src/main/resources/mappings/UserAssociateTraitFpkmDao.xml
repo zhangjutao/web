@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gooalgene.iqgs.dao.UserAssociateTraitFpkmDao">
+  <resultMap id="BaseResultMap" type="com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm">
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="user_id" jdbcType="INTEGER" property="userId" />
+    <result column="trait_category_id" jdbcType="INTEGER" property="traitCategoryId" />
+    <result column="fpkm_str" jdbcType="VARCHAR" property="fpkmStr" />
+    <result column="create_time" jdbcType="TIMESTAMP" property="createTime" />
+  </resultMap>
+
+  <insert id="insert" parameterType="com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm">
+    insert into user_associate_trait_fpkm (user_id, trait_category_id,
+      fpkm_str, create_time)
+    values (#{userId,jdbcType=INTEGER}, #{traitCategoryId,jdbcType=INTEGER},
+      #{fpkmStr,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <insert id="insertSelective" parameterType="com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm">
+    insert into user_associate_trait_fpkm
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        user_id,
+      </if>
+      <if test="traitCategoryId != null">
+        trait_category_id,
+      </if>
+      <if test="fpkmStr != null">
+        fpkm_str,
+      </if>
+      <if test="createTime != null">
+        create_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="userId != null">
+        #{userId,jdbcType=INTEGER},
+      </if>
+      <if test="traitCategoryId != null">
+        #{traitCategoryId,jdbcType=INTEGER},
+      </if>
+      <if test="fpkmStr != null">
+        #{fpkmStr,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null">
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+</mapper>
