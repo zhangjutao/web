@@ -27,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -72,6 +73,17 @@ public class SortController implements InitializingBean {
         PageInfo<SortedResult> resultPage = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(),
                 sortRequestParam.getTraitCategoryId(), sortRequestParam.getPageNo(), sortRequestParam.getPageSize());
         return ResultUtil.success(resultPage);
+    }
+
+    @RequestMapping(value = "/copy-ordered-geneId", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<List<String>> copyOrderedGeneId(@RequestBody SortRequestParam sortRequestParam) {
+        PageInfo<SortedResult> allOrderedGene = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(), sortRequestParam.getTraitCategoryId(), 1, sortRequestParam.getGeneIdList().size());
+        List<String> geneIdList = new ArrayList<String>();
+        for (SortedResult sortedResult : allOrderedGene.getList()) {
+            geneIdList.add(sortedResult.getGeneId());
+        }
+        return ResultUtil.success(geneIdList);
     }
 
     /**
