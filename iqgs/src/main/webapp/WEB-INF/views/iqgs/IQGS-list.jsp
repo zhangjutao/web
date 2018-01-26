@@ -317,7 +317,7 @@
 
 <div id="gray"></div>
 <div class="popup" id="popup"  hidden="hidden" style="width: 900px;height: 600px;">
-    <iframe width="900" height="600" frameborder="0" style="border:none 0;" allowtransparency="true" id="_DialogFrame_0" src="${ctxroot}/sort/dispatch"></iframe>
+    <iframe width="900" height="600" frameborder="0" style="border:none 0;" allowtransparency="true" id="_DialogFrame_0" src=""></iframe>
 
 </div>
 <!--container-->
@@ -338,8 +338,10 @@
 <%--<script src="${ctxStatic}/js/laypage/laypage.js"></script>--%>
 <script src="${ctxStatic}/js/iqgs-list.js"></script>
 <script>
-//    $(function (){
 
+
+    //    $('#popup iframe').attr('src','src的值');
+//        ?keyword=00100&searchType=1
     // sessionStorage
     if(window.sessionStorage){
         var storage = window.sessionStorage;
@@ -754,6 +756,9 @@ $(".sort_btn").click(function () {
         height:600,
         closeText: "",
     })
+    var urlData=1000;
+   var urlc="wwww";
+      $('#popup iframe').attr('src','${ctxroot}/sort/dispatch?id='+urlData+'&searchType='+urlc);
 })
 </script>
 
