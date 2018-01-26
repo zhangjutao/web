@@ -284,7 +284,7 @@
 
     </div>
 
-    <div class="search-result" style="margin-top:66px;">
+    <div class="search-result" style="margin-top:16px;">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
             <p class="result-text">您的搜索条件为:<span> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息</p>
@@ -367,7 +367,7 @@
     function getParams(){
     // 开户遮罩层
     layer.msg('数据加载中!', {
-        time: 10000,
+        time: 120000,
         shade: [0.5, '#393D49']
     });
     var geneInfo = {
@@ -424,23 +424,52 @@
     dataParam.firstHierarchyQtlId = nums;
     dataParam.pageNo = 1;
     dataParam.pageSize = 10;
-    switch (Number(searchType)){
-        case 1:
-            geneInfo.geneId = $("#key_name").val().trim();
-            dataParam.firstHierarchyQtlId = [];
-            break;
-        case 2:
-            geneInfo.functions = $("#key_func").val().trim();
-            dataParam.firstHierarchyQtlId = [];
-            break;
-        case 3:
-            geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
-            geneStructure.start = Number($("#rg_begin").val().trim());
-            geneStructure.end = Number($("#rg_end").val().trim());
-            dataParam.geneStructure = geneStructure;
-            dataParam.firstHierarchyQtlId = [];
-            break;
-    };
+//    ======bug 修改
+        var currType ;
+        var list = $("#myTabs li");
+        for(var i=0;i<list.length;i++){
+            if($(list[i]).hasClass("active")){
+                currType = i+1;
+            }
+        };
+//        当前的过滤条件
+        var currFilterVal;
+        switch (currType){
+            case 1:
+                geneInfo.geneId = $("#key_name").val().trim();
+                dataParam.firstHierarchyQtlId = [];
+                break;
+            case 2:
+                geneInfo.functions = $("#key_func").val().trim();
+                dataParam.firstHierarchyQtlId = [];
+                break;
+            case 3:
+                geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
+                geneStructure.start = Number($("#rg_begin").val().trim());
+                geneStructure.end = Number($("#rg_end").val().trim());
+                dataParam.geneStructure = geneStructure;
+                dataParam.firstHierarchyQtlId = [];
+                break;
+        }
+
+//        ======bug end
+//    switch (Number(searchType)){
+//        case 1:
+//            geneInfo.geneId = $("#key_name").val().trim();
+//            dataParam.firstHierarchyQtlId = [];
+//            break;
+//        case 2:
+//            geneInfo.functions = $("#key_func").val().trim();
+//            dataParam.firstHierarchyQtlId = [];
+//            break;
+//        case 3:
+//            geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
+//            geneStructure.start = Number($("#rg_begin").val().trim());
+//            geneStructure.end = Number($("#rg_end").val().trim());
+//            dataParam.geneStructure = geneStructure;
+//            dataParam.firstHierarchyQtlId = [];
+//            break;
+//    };
     dataParam.geneInfo = geneInfo;
     return dataParam;
 
@@ -531,6 +560,7 @@
     function requestSearchData(){
         // 开户遮罩层
         layer.msg('数据加载中!', {
+            time: 120000,
             shade: [0.5, '#393D49']
         });
         if (searchType == 1) {
@@ -684,6 +714,7 @@
     $("#per-page-count1").on("change", ".lay-per-page-count-select", function() {
         // 开户遮罩层
         layer.msg('数据加载中!', {
+            time: 120000,
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
@@ -710,6 +741,7 @@
         if(e && e.keyCode==13){ // enter 键
             // 开户遮罩层
             layer.msg('数据加载中!', {
+                time: 120000,
                 shade: [0.5, '#393D49']
             });
             if( _page_skip.hasClass("isFocus") ) {
