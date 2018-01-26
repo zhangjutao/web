@@ -108,7 +108,7 @@
     $("#qtlAdd .sureBtn").click(function (){
         // page.curr =1;
         // page.pageSize = 10;
-        // flag = 0;
+        flag = 0;
         storage.setItem("qtlSearchNames", JSON.stringify(globleObject.selectedQtlNames));
         var num = globleObject.selectedQtl.length;
         var qtlNameArr = globleObject.selectedQtl;
@@ -371,8 +371,26 @@
                         $(list[i]).next().remove();
                         $(list[i]).remove();
                     }else if ($(list[i]).attr("class").split(" ")[2] == currKns && $(list[i]).text().indexOf("QTL")!=-1){
-                        $(list[i]).next().remove();
-                        $(list[i]).removeClass(currKns).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
+                        // to do
+                        if(!$(list[i]).next().next() || !$(list[i]).next().next().hasClass("qtlSigle")){
+                            $(list[i]).next().remove();
+                            $(list[i]).remove();
+                        }else if ($(list[i]).next().next() && $(list[i]).next().next().hasClass("qtlSigle")){
+                            var currName = $(list[i]).next().next().attr("data-name");
+                            var currVal = $(list[i]).next().next().text();
+                            if(currVal.indexOf("QTL:") ==-1){
+                                $(list[i]).next().next().text("QTL:" + currName + currVal);
+                            }
+                            $(list[i]).next().remove();
+                            $(list[i]).remove();
+                        }
+
+
+
+
+                        // $(list[i]).next().remove();
+                        // $(list[i]).removeClass(currKns).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
+                        // $(list[i]).removeClass(currKns).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
                     }
                 }
             };
@@ -600,7 +618,8 @@
     // 基因表达量 input 输入框的失焦事件
     var expreEnd;
     var expreStart;
-    $("#expreStart").on("blur change",function (){
+    // $("#expreStart").on("blur change",function (){
+    $("#expreStart").on("change blur",function (){
         expreStart = $("#expreStart").val();
         if(!expreStart){
             if(!$("#expreStart").hasClass("borderColorInput")){
@@ -625,7 +644,8 @@
         }
     });
     // FPKM值为必填项，如果没填，就弹框提示并框框变红
-    $("#expreEnd").on("blur change",function (){
+    // $("#expreEnd").on("blur change",function (){
+    $("#expreEnd").on("change blur",function (){
         expreEnd = $("#expreEnd").val();
         if(!expreEnd){
             if(!$("#expreEnd").hasClass("borderColorInput")){
@@ -815,6 +835,7 @@
         var list = $(".geneQtl .qtlSelectList ul li");
         // ============
         var box1Size = $("#qtlBox1").val().trim();
+        var currVal = $(this).prev().attr("data-name");
         //=========
         for(var i=0;i<list.length;i++){
             // if($(list[i]).find("span").attr("id") == id){
@@ -826,7 +847,11 @@
         if(txt.indexOf('QTL')!=-1 && qtlNum.length > 1){
             // $(this).prev().removeClass(id).removeClass("qtlSigle").addClass("qtlSigleTitle").text("QTL:");
                 var nextTxt = $(this).next().text();
-                $(this).next().text("QTL:" + box1Size + nextTxt);
+                // to do
+            if(nextTxt.indexOf("QTL:")==-1){
+                $(this).next().text("QTL:" + currVal + nextTxt);
+            }
+
                 $(this).prev().remove()
             $(this).remove();
         }else if(qtlNum.length == 1){
@@ -991,6 +1016,32 @@
         flag = 1;
         var dataParam = getParams();
         advanceSearchFn(dataParam);
+
+        // 处理搜索页面是当前页显示的问题
+        var currType ;
+        var list = $("#myTabs li");
+        for(var i=0;i<list.length;i++){
+            if($(list[i]).hasClass("active")){
+                currType = i+1;
+            }
+        };
+        // 当前的过滤条件
+        var currFilterVal;
+        switch (currType){
+            case 1:
+                currFilterVal = $("#key_name").val().trim();
+                break;
+            case 2:
+                currFilterVal = $("#key_func").val().trim();
+                break;
+            case 3:
+                currFilterVal = $("#Region select option:selected").val() + ',' + $("#rg_begin").val().trim() + 'bp - '+ $("#rg_end").val().trim() + "bp";
+                break;
+            case 4:
+                currFilterVal = $("#qtlName").val().trim();
+        }
+        $(".result-text>span:first").text(currFilterVal);
+
     });
 
 

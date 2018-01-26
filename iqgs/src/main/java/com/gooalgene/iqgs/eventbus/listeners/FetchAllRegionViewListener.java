@@ -16,7 +16,8 @@ public class FetchAllRegionViewListener extends AbstractSearchViewListener imple
     @Subscribe
     public void listenRegionSearch(AllRegionSearchResultEvent event){
         List<AdvanceSearchResultView> searchResultViews = event.getSearchResultViews();
-        String key = event.getClass().getSimpleName() + event.hashCode();
+        //这里后续取只会使用DNAGeneStructure,传入的View是需要被缓存的数据，与Key值无关
+        String key = event.getClass().getSimpleName() + event.getGenStructure().hashCode();
         cache.put(key, transformViewToId(searchResultViews));
     }
 }

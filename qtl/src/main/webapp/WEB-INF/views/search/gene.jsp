@@ -333,7 +333,7 @@
 
     <div id="gene" style="overflow: hidden;">
         <%--<iframe name="geneFrame" id="geneFrame" src="${ctxroot}/innerGene" onload="initSearch()" frameborder="0" height="1840" width="1200" scrolling="no"></iframe>--%>
-        <iframe name="geneFrame" id="geneFrame" src="${ctxroot}/innerGene" frameborder="0" height="1840" width="1200" scrolling="no"></iframe>
+        <iframe name="geneFrame" id="geneFrame" frameborder="0" height="1840" width="1200" scrolling="no"></iframe>
     </div>
 
 </section>
