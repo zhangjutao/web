@@ -14,6 +14,7 @@ import com.gooalgene.iqgs.entity.sort.SortRequestParam;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
+import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
@@ -162,7 +163,7 @@ public class SortController implements InitializingBean {
      * 获取范围搜索排序弹框首屏数据
      * @return 排序弹框中需要的首屏基因ID
      */
-    @RequestMapping(value = "/fetch-range-data", method = RequestMethod.POST)
+    @RequestMapping(value = "/fetch-range-data", method = RequestMethod.GET)
     @ResponseBody
     public ResultVO<String> fetchRangeSearchData(HttpServletRequest req){
         String start = req.getParameter("begin");
@@ -174,6 +175,34 @@ public class SortController implements InitializingBean {
         dnaGenStructure.setEnd(Long.valueOf(end));
         AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(dnaGenStructure, null);
         String key = event.getClass().getSimpleName() + event.getGenStructure().hashCode();
+        Cache.ValueWrapper cachedGeneId = cache.get(key);
+        if (cachedGeneId != null){
+            List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
+            return ResultUtil.success(resultGeneCollection);
+        } else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
+        }
+    }
+
+    /**
+     * 获取根据ID/NAME/FUNCTION查询的结果，作为排序的首屏数据
+     * @return 排序弹框中需要的首屏基因ID
+     */
+    @RequestMapping(value = "/fetch-multi-data", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO<String> fetchIdAndFunctionData(HttpServletRequest req){
+        String keyword = req.getParameter("keyword");
+        String searchType = req.getParameter("searchType");
+        DNAGenBaseInfo bean = new DNAGenBaseInfo();
+        if (searchType.equals("1")){
+            bean.setGeneId(keyword);
+            bean.setGeneOldId(keyword);
+        } else {
+            bean.setFunctions(keyword);
+        }
+        IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(null, bean);
+        String key = event.getClass().getSimpleName() + bean.hashCode();
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<String> resultGeneCollection = (List<String>) cachedGeneId.get();

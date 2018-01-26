@@ -172,7 +172,7 @@ WHERE f.gene_id =o.gene_id AND f.gene_id = baseinfo.gene_id AND family_id = #{fa
         SELECT id FROM gens_baseinfo LIMIT 0, 100;
     </select>
 
-    <select id="findAllGeneId" parameterType="String" resultType="int">
+    <select id="findAllGeneId" parameterType="int" resultType="String">
       SELECT gene_id FROM gens_baseinfo WHERE 1 = 1
         <if test="idList != null and idList.size() > 0">
             AND id IN

@@ -20,7 +20,7 @@ public class FetchIdAndFuncSearchViewListener extends AbstractSearchViewListener
     public void listenNameEvent(IDAndNameSearchViewEvent event){
         List<Integer> idList = event.getId();
         List<String> allGeneId = genBaseInfoService.findAllGeneId(idList);
-        String key = event.getClass().getSimpleName() + event.hashCode();
+        String key = event.getClass().getSimpleName() + event.getBaseInfo().hashCode();
         cache.put(key, allGeneId);
     }
 }
