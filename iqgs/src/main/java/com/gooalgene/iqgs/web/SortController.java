@@ -30,13 +30,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
@@ -203,6 +201,25 @@ public class SortController implements InitializingBean {
         }
         IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(null, bean);
         String key = event.getClass().getSimpleName() + bean.hashCode();
+        Cache.ValueWrapper cachedGeneId = cache.get(key);
+        if (cachedGeneId != null){
+            List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
+            return ResultUtil.success(resultGeneCollection);
+        } else {
+            logger.warn("缓存数据已清空，请重新查询后排序");
+            return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
+        }
+    }
+
+    /**
+     * 获取QTL查询结果，作为排序的首屏数据
+     */
+    @RequestMapping(value = "/fetch-qtl-data", method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO<String> fetchQtlData(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl){
+        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(null, null, null, null, Arrays.asList(chosenQtl), null, null);
+        String key = event.getClass().getSimpleName() + event.hashCode();
+        //数据缓存一小时，若一小时无操作，清空该数据
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
