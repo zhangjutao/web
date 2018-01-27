@@ -922,7 +922,6 @@
 
     // 一级搜索第四个，获取所有基因ID
     function fetchQtlData() {
-        console.log(nums)
         $.getJSON('${ctxroot}/fetch-qtl-data', {
             chosenQtl: nums
         }, fetchQtlback);
