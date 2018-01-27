@@ -82,7 +82,7 @@
 .sortZzText span{border: 1px solid #DDDDDD;  padding: 0px 6px;    margin-right: 6px;     line-height: 30px;}
 .sortZzGb{    padding: 0 6px;  cursor: pointer;}
 .sortGb{cursor: pointer;padding:0 6px;display: none; }
-.sortText_tit{width: 40px; float: left;}
+.sortText_tit{width: 40px; float: left;    position: relative;  top: 4px;}
 .combo-select {
     position: relative;
     max-width: 160px;
