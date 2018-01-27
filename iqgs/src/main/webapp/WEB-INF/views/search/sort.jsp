@@ -106,6 +106,10 @@
     window.addEventListener("message", function( event ) {
         // 把父窗口发送过来的数据显示在子窗口中
         var sortConditionData=event.data;
+        if(sortConditionData==null){
+           alert("无基因名")
+            return false;
+        }
         console.log(sortConditionData);
        // var dataParam = Object.assign(dataParams);
         //点击排序获取排序表格数据

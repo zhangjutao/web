@@ -522,6 +522,8 @@
                     $(".js-search-total").text(result.data.total);
                 }
 
+//                获取所有基因ID，并传到弹窗页面
+                fetchFirstData(dataParam)
             }, function (error) {
                 console.log(error);
             }
@@ -677,7 +679,6 @@
                 // 关闭遮罩层
                 layer.closeAll();
                 if (result.code == 0 && data.length != 0) {
-                    console.log(result)
                     var type = 4;
                     resultCallback(result, type)
                 }
@@ -872,7 +873,6 @@
             });
             $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
-                console.log(targetLocation);
                 // 搜索结果传到排序页面
                 window.frames[0].postMessage(data, targetLocation);
             })
@@ -881,13 +881,17 @@
 
 
     // 一级搜索第一个，获取所有基因ID
-    //fetchData ();
     function fetchData() {
         $.getJSON('${ctxroot}/sort/fetch-multi-data', {
             searchType: searchType,
             keyword: $("#key_name").val()
-        }, resultFetchback);
+        }, fetchFetchback);
     };
+    function fetchFetchback(jsonStr) {
+        var fetchGnO = jsonStr.data;
+        sortStrData(fetchGnO)
+
+    }
     // 一级搜索第二个，获取所有基因ID
     function fetchTwoData() {
         $.getJSON('${ctxroot}/sort/fetch-multi-data', {
@@ -897,9 +901,8 @@
     };
 
     function resultFetchback(jsonStr) {
-        var fetchGn = jsonStr.data;
-//        debugger;
-        sortStrData(fetchGn)
+        var fetchGnT = jsonStr.data;
+        sortStrData(fetchGnT)
 
     }
 
@@ -915,9 +918,8 @@
     };
 
     function fetchRangeback(jsonStr) {
-        console.log(jsonStr.data);
-        var fetchGn = jsonStr.data;
-        sortStrData(fetchGn)
+        var fetchGnS = jsonStr.data;
+        sortStrData(fetchGnS)
     }
 
     // 一级搜索第四个，获取所有基因ID
@@ -928,8 +930,23 @@
     };
 
     function fetchQtlback(jsonStr) {
-        var fetchGn = jsonStr.data;
-        sortStrData(fetchGn)
+        var fetchGnF = jsonStr.data;
+        sortStrData(fetchGnF)
+    }
+    // 高级搜索，获取所有基因ID
+    <%--function fetchFirstData(dataParam) {--%>
+        <%--$.post('${ctxroot}/sort/fetch-first-screen', dataParam, fetchFirstback);--%>
+    <%--};--%>
+    function fetchFirstData(dataParam) {
+        console.log(dataParam)
+        var promise = SendAjaxRequest("POST","${ctxroot}/sort/fetch-first-screen", JSON.stringify(dataParam));
+        promise.then(
+            function (result) {
+//                var fetchGnG = result.data;
+                console.log(result)
+//                sortStrData(fetchGnG)
+            }
+        )
     }
 
 </script>
