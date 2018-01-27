@@ -190,7 +190,7 @@ public class SortController implements InitializingBean {
         dnaGenStructure.setStart(Long.valueOf(start));
         dnaGenStructure.setEnd(Long.valueOf(end));
         AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(dnaGenStructure, null);
-        String key = event.getClass().getSimpleName() + event.hashCode();
+        String key = event.getClass().getSimpleName() + event.getGenStructure().hashCode();
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
