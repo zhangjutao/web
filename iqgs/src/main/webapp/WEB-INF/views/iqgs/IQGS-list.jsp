@@ -497,7 +497,9 @@
                 // 关闭遮罩层
                 layer.closeAll();
                 if (result.code == 0 && result.data.list.length != 0) {
-                    resultCallback(result)
+                    var type=5;
+                    resultCallback(result,type);
+                    fetchFirstData(dataParam)
                 } else {
                     laypage({
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -523,7 +525,7 @@
                 }
 
 //                获取所有基因ID，并传到弹窗页面
-                fetchFirstData(dataParam)
+
             }, function (error) {
                 console.log(error);
             }
@@ -721,11 +723,9 @@
         });
 
         if (type == 1) {
-//            fetchData();
-            setTimeout(fetchData,1000)
+            fetchData();
         } else if (type == 2) {
-            setTimeout(fetchTwoData,1000)
-//            fetchData();
+            fetchTwoData();
         } else if (type == 3) {
             fetchRangeData();
         }else if(type == 4){
@@ -942,9 +942,8 @@
         var promise = SendAjaxRequest("POST","${ctxroot}/sort/fetch-first-screen", JSON.stringify(dataParam));
         promise.then(
             function (result) {
-//                var fetchGnG = result.data;
-                console.log(result)
-//                sortStrData(fetchGnG)
+                var fetchGnG = result.data;
+                sortStrData(fetchGnG)
             }
         )
     }

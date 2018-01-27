@@ -58,16 +58,20 @@
         </form>
         <button class="sortInfo_btn">排序</button>
     </div>
-
-    <div class="sortMain">
+    <div class="sortMain sortMainImg">
+       <img src="${ctxStatic}/images/ydy.jpg" class="ydy">
+   </div>
+    <div class="sortMain sortMainConter" style="display: none;">
         <div class="sortResult">
             <span class="sortTitle">排序结果</span>
             <span class="sortSpan">
-            <button><img src='${ctxStatic}/images/copys.png'>复制</button>
+            <button id="copyBtn" class="copyBtn"><img src='${ctxStatic}/images/copys.png'>复制</button>
             <button><img src='${ctxStatic}/images/doms.png'>下载</button>
         </span>
         </div>
-
+        <div class="copyHtml" style="display: none;"></div>
+        <textarea id="inputText" style="display: none;"></textarea>
+        <%--style="position: absolute; top: 0; left: 0; opacity: 0; z-index: -10;"--%>
         <div class="tab-detail-tbody">
             <table class="popu-table" style="width: 100%;">
                 <thead>
@@ -134,7 +138,6 @@
 
             var characterLength= $(".sortText .sortText_conter").text().length;
             var tissueLength= JSON.stringify(tissue)=='{}';
-
             if(characterLength==0){
                 layer.msg('请选择性状');
                 // alert("请选择性状");
@@ -145,12 +148,33 @@
                 return false;
             }else{
                 sortTable(1,dataParam);
+
             }
-            $(".sortMain").show();
+
         });
 
+        $("#copyBtn").click(function(){
+            var geneIdList=sortConditionData;
+            var sortXzId=$(".sortSelect option:selected").attr("id");
+            var organization=$(".sortZzText").find(".sortZzText_conter");
 
+            var tissue = {};
+            for (var i=0;i<organization.length;i++){
+                var organizationName = $(organization[i]).find(".sortZzText_b2").text();
+                tissue[organizationName]=i;
+            }
+
+            dataParam = {};
+            dataParam.geneIdList = geneIdList;
+            dataParam.tissue = tissue;
+            dataParam.traitCategoryId = sortXzId;
+            dataParam.pageNo = 1;
+            dataParam.pageSize = 10;
+            sortCopy(dataParam);
+        })
     }, false );
+
+
 
     $(".sortGb").click(function () {
         $('.sortText_conter').text("");
@@ -321,14 +345,16 @@
 
 //   var objData = Object.assign(sortConditionData,dataParam);
 
-
+//排序获取列表数据
     function sortTable(curr,dataParam){
+        var load=layer.load(1);
         var promise = SendAjaxRequest("POST","${ctxroot}/sort/fetch-sort-result",JSON.stringify(dataParam));
         promise.then(
             function (result){
                 popCount = result.total;
                 sortPopuTable(result)
-
+                $(".ydy").hide();
+                $(".sortMain").show();
                 laypage({
                     cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(result.data.total / pageSizePopu), //通过后台拿到的总页数
@@ -352,12 +378,52 @@
                 $("#popu-paginate .total-page-count > span").html(result.data.total);
                     $("#total-page-count1 span").text(result.data.total);
                     $(".js-search-total").text(result.data.total);
-
+                layer.close(load);
             },function (error){
                 console.log(error);
             }
         )
     }
+//复制
+    function sortCopy(dataParam){
+        console.log(dataParam)
+        var promise = SendAjaxRequest("POST","${ctxroot}/sort/copy-ordered-geneId",JSON.stringify(dataParam));
+        promise.then(
+            function (result){
+               var str="";
+            for(var i=0;i<result.data.length;i++){
+                console.log(result.data[i])
+                str += '<span class="geneId">'+result.data[i]+',</span>'
+            }
+                $(".copyHtml").append(str);
+                setTimeout(copyText,1000)
+//                copyText()
+            },function (error){
+                console.log(error);
+            }
+        )
+    }
+
+
+    //复制
+    function copyText() {
+        var text = $(".sort_lab").text();
+        var inputs = document.getElementById("inputText");
+        inputs.value = text; // 修改文本框的内容
+        inputs.select(); // 选中文本
+        document.execCommand("Copy"); // 执行浏览器复制命令
+        layer.msg("复制成功！");
+    }
+//    $('.copyBtn').zclip({        　 //copy_input表示 按钮
+//        path: 'ZeroClipboard.swf',
+//        copy: function(){ 　　　　　　　　　　//复制内容
+//            return $('.copyHtml span').text();  　 //mytext表示 内容
+//        },
+//        afterCopy: function(){ //复制成功
+//            // $("<span id='msg'/>").insertAfter($('#copy_input')).text('复制成功');
+//            alert('复制成功');
+//        }
+//    });
 
     function sortPopuTable(data) {
         $(".js-table-header-setting-popu").find("label").addClass("checkbox-ac");
