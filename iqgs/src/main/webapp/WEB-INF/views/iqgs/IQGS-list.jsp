@@ -593,6 +593,21 @@
 
         } else if (searchType == 2) {
             if(flag == 0){
+                fetchData ();
+                function fetchData (){
+                    $.getJSON('${ctxroot}/sort/fetch-multi-data', {
+                        searchType:searchType,
+                        keyword : $("#key_name").val()
+                    }, resultFetchback);
+                };
+
+                function resultFetchback(jsonStr) {
+//                    console.log(jsonStr.data);
+                    var fetchGn=jsonStr.data;
+                    sortStrData(fetchGn)
+
+                }
+
                 $.getJSON('${ctxroot}/iqgs/search/func', {
                     pageNo: page.curr || 1,
                     pageSize: page.pageSize || 10,
@@ -606,6 +621,25 @@
 
         } else if(searchType == 3){
             if(flag == 0){
+                fetchRangeData ();
+                function fetchRangeData (){
+                    $.getJSON('${ctxroot}/sort/fetch-range-data', {
+                        // searchType:searchType,
+                        // keyword : $("#key_name").val()
+                        begin : $("#rg_begin").val(),
+                        end : $("#rg_end").val(),
+                        chr : $(".js-region").val()
+                    }, fetchRangeback);
+                };
+
+                function fetchRangeback(jsonStr) {
+                   console.log(jsonStr.data);
+                    var fetchGn=jsonStr.data;
+                    sortStrData(fetchGn)
+
+                }
+
+
                 $.getJSON('${ctxroot}/iqgs/search/range', {
                     pageNo: page.curr || 1,
                     pageSize: page.pageSize || 10,
@@ -621,6 +655,21 @@
 
         }else if(searchType == 4){
             if(flag == 0){
+                fetchQtlData ();
+                function fetchQtlData (){
+                    console.log(nums)
+                    $.getJSON('${ctxroot}/fetch-qtl-data', {
+                        chosenQtl : nums
+                    }, fetchQtlback);
+                };
+
+                function fetchQtlback(jsonStr) {
+                    console.log(jsonStr.data);
+                    var fetchGn=jsonStr.data;
+                    sortStrData(fetchGn)
+
+                }
+
                 getQtlNameData(page.curr,page.pageSize);
                 $(".result-text>span:first").text(qtlSearchNames.join(","));
             }else {

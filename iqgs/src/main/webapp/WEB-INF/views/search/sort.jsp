@@ -52,11 +52,11 @@
              <select name="geneName" id="geneName">
                  <option>请选择</option>
              </select>
-             <button class="sortInfo_btn">排序</button>
          </div>
             <ul class="select_con" id="geneList">
             </ul>
         </form>
+        <button class="sortInfo_btn">排序</button>
     </div>
 
     <div class="sortMain">
@@ -93,6 +93,7 @@
 <script src="${ctxStatic}/js/sort.js"></script>
 <script src="${ctxStatic}/js/jquery.combo.select.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+<script src="${ctxStatic}/js/layer/layer.js"></script>
 <script>
     $(function () {
         window.DOMAIN = "${ctxroot}/iqgs";
@@ -106,20 +107,44 @@
         // 把父窗口发送过来的数据显示在子窗口中
         var sortConditionData=event.data;
         console.log(sortConditionData);
-        var geneIdList=sortConditionData;
-        var tissue={
-            "pod": 20,
-            "cotyledon": 11.5
-        };
-        dataParam = {};
-        dataParam.geneIdList = geneIdList;
-        dataParam.tissue = tissue;
-        dataParam.traitCategoryId = 19;
-        dataParam.pageNo = 1;
-        dataParam.pageSize = 10;
-//        var dataParam = Object.assign(dataParams);
+       // var dataParam = Object.assign(dataParams);
+        //点击排序获取排序表格数据
 
-        sortTable(1,dataParam);
+        $(".sortInfo_btn").click(function() {
+            var geneIdList=sortConditionData;
+            var sortXzId=$(".sortSelect option:selected").attr("id");
+            var organization=$(".sortZzText").find(".sortZzText_conter");
+
+            var tissue = {};
+            for (var i=0;i<organization.length;i++){
+                var organizationName = $(organization[i]).find(".sortZzText_b2").text();
+                tissue[organizationName]=i;
+            }
+
+            dataParam = {};
+            dataParam.geneIdList = geneIdList;
+            dataParam.tissue = tissue;
+            dataParam.traitCategoryId = sortXzId;
+            dataParam.pageNo = 1;
+            dataParam.pageSize = 10;
+
+            var characterLength= $(".sortText .sortText_conter").text().length;
+            var tissueLength= JSON.stringify(tissue)=='{}';
+
+            if(characterLength==0){
+                layer.msg('请选择性状');
+                // alert("请选择性状");
+                return false;
+            }else if(tissueLength==true){
+                layer.msg('请选择组织');
+                // alert("请选择组织");
+                return false;
+            }else{
+                sortTable(1,dataParam);
+            }
+            $(".sortMain").show();
+        });
+
 
     }, false );
 
@@ -138,7 +163,6 @@
         }
     });
     function changeText() {
-
 //        $('.sortSelect').children('option').eq(0).val("");
         var sortText = $(".sortSelect").val();
         if ($('.sortText_conter').text().length !== 0&&$(".sortSelect").val()=="") {
@@ -286,11 +310,7 @@
         )
     };
 
-//点击排序获取排序表格数据
 
-//    $(".sortInfo_btn").click(function() {
-//      $(".sortMain").show();
-//    });
 
 
 

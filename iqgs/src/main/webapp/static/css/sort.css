@@ -73,6 +73,7 @@
     font-size: 16px;
     position: absolute;
     right: 20px;
+    top: 60px;
 }
 
 .sortMain{border-top: 1px solid #ddd;}
@@ -115,6 +116,7 @@
 .sort_zz .select_con li.checked span {
     background-image: url(../images/contrast-ac.png);
 }
+
 /**
  * Input field
  */
@@ -215,7 +217,7 @@ background: #f2f2f2;
 .option-selected {
     background-color: #eee; }
 
-.sort_selectConter{padding: 10px 20px;}
+.sort_selectConter{padding: 10px 20px;position: relative}
 /**
  * Hovered option
  */
