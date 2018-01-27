@@ -720,9 +720,11 @@
         });
 
         if (type == 1) {
-            fetchData();
+//            fetchData();
+            setTimeout(fetchData,1000)
         } else if (type == 2) {
-            fetchData();
+            setTimeout(fetchTwoData,1000)
+//            fetchData();
         } else if (type == 3) {
             fetchRangeData();
         }else if(type == 4){
@@ -878,7 +880,7 @@
     }
 
 
-    // 一级搜索第一个和第二个，获取所有基因ID
+    // 一级搜索第一个，获取所有基因ID
     //fetchData ();
     function fetchData() {
         $.getJSON('${ctxroot}/sort/fetch-multi-data', {
@@ -886,10 +888,17 @@
             keyword: $("#key_name").val()
         }, resultFetchback);
     };
+    // 一级搜索第二个，获取所有基因ID
+    function fetchTwoData() {
+        $.getJSON('${ctxroot}/sort/fetch-multi-data', {
+            searchType: searchType,
+            keyword: $("#key_func").val()
+        }, resultFetchback);
+    };
 
     function resultFetchback(jsonStr) {
         var fetchGn = jsonStr.data;
-        debugger;
+//        debugger;
         sortStrData(fetchGn)
 
     }
