@@ -32,9 +32,9 @@
     </style>
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
 <div class="sort_top">
-    <div class="sortText_main"><span class="sortText_tit">已选></span>
+    <div class="sortText_main">
         <div class="sortText_div">
-
+            <span class="sortText_tit">已选></span>
             <div class="sortZzText">
                 <span class="sortText"><span class="sortText_conter"></span><i class="sortGb">X</i>
                 </span>
