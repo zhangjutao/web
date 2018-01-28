@@ -1018,7 +1018,9 @@
         advanceSearchFn(dataParam);
 
         // 条件弹窗调用
-        sortStrData();
+        // sortStrData();
+        //获取高级搜索所有ID
+        // fetchFirstData(dataParam)
         // 处理搜索页面是当前页显示的问题
         var currType ;
         var list = $("#myTabs li");
