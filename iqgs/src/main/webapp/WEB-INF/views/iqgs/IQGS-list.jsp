@@ -295,7 +295,7 @@
             <p class="result-title">搜索结果</p>
             <p class="result-text">您的搜索条件为:<span> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息
             </p>
-            <button class="sort_btn">排序</button>
+            <button id="sort_btn_px" class="sort_btn">排序</button>
         </div>
         <div class="search-result-b">
             <div class="tab-list">
@@ -676,7 +676,7 @@
     function resultCallback(res, type) {
         $("span.js-search-total").text(res.data.total);
         $("#total-page-count1 span").text(res.data.total);
-        renderList(res.data.list);
+        renderList(res.data.list,type);
         laypage({
             cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
@@ -704,7 +704,6 @@
         });
 
         if(res.data.list.length!==0){
-            console.log(res.data.list.length);
             if (type == 1) {
                 fetchData();
             } else if (type == 2) {
@@ -757,6 +756,8 @@
                 html.push('</div>');
             });
             $(".search-result-b .tab-list").html(html.join('\n'));
+
+
         }
     }
 
@@ -844,11 +845,12 @@
 
     //    排序弹窗
     function sortStrData(data,let) {
-        $(".sort_btn").click(function () {
-            $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').on('load', function () {
+        $("#sort_btn_px").click(function () {
+            console.trace
+            $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
                 // 搜索结果传到排序页面
-                console.log(data)
+//                console.log(data)
                 if(data.length!==0&&data!==null){
                     $("#gray").show();
                     $("#popup").dialog({
