@@ -19,7 +19,13 @@
     <link rel="stylesheet" href="${ctxStatic}/js/laypage/skin/laypage.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+<style>
+   body .tab-detail-tbody{width: 830px;  margin: 0px;}
 
+   body .tab-detail-tbody .popu-table{
+        /*margin: 0px;*/
+   }
+</style>
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
 <div class="sort_top">
     <div class="sortText_main"><span class="sortText_tit">已选></span>
@@ -66,14 +72,13 @@
             <span class="sortTitle">排序结果</span>
             <span class="sortSpan">
             <button id="copyBtn" class="copyBtn"><img src='${ctxStatic}/images/copys.png'>复制</button>
-            <button><img src='${ctxStatic}/images/doms.png'>下载</button>
+            <button id="exportData"><img src='${ctxStatic}/images/doms.png'>下载</button>
         </span>
         </div>
         <div class="copyHtml" style="display: none;"></div>
-        <textarea id="inputText" style="display: none;"></textarea>
-        <%--style="position: absolute; top: 0; left: 0; opacity: 0; z-index: -10;"--%>
+        <textarea id="inputText" style="position: absolute; top: 0; left: 0; opacnoneity: 0; z-index: -10;"></textarea>
         <div class="tab-detail-tbody">
-            <table class="popu-table" style="width: 100%;">
+            <table class="popu-table">
                 <thead>
                 <tr>
                     <td class="species">基因ID</td>
@@ -140,40 +145,16 @@
             var tissueLength= JSON.stringify(tissue)=='{}';
             if(characterLength==0){
                 layer.msg('请选择性状');
-                // alert("请选择性状");
                 return false;
             }else if(tissueLength==true){
                 layer.msg('请选择组织');
-                // alert("请选择组织");
                 return false;
             }else{
                 sortTable(1,dataParam);
-
             }
 
         });
-
-        $("#copyBtn").click(function(){
-            var geneIdList=sortConditionData;
-            var sortXzId=$(".sortSelect option:selected").attr("id");
-            var organization=$(".sortZzText").find(".sortZzText_conter");
-
-            var tissue = {};
-            for (var i=0;i<organization.length;i++){
-                var organizationName = $(organization[i]).find(".sortZzText_b2").text();
-                tissue[organizationName]=i;
-            }
-
-            dataParam = {};
-            dataParam.geneIdList = geneIdList;
-            dataParam.tissue = tissue;
-            dataParam.traitCategoryId = sortXzId;
-            dataParam.pageNo = 1;
-            dataParam.pageSize = 10;
-            sortCopy(dataParam);
-        })
     }, false );
-
 
 
     $(".sortGb").click(function () {
@@ -191,7 +172,6 @@
         }
     });
     function changeText() {
-//        $('.sortSelect').children('option').eq(0).val("");
         var sortText = $(".sortSelect").val();
         if ($('.sortText_conter').text().length !== 0&&$(".sortSelect").val()=="") {
             $(".sort_xz .combo-dropdown li").removeClass("option-disabled").addClass("option-item");
@@ -219,8 +199,6 @@
 
             $(".sort_zz .combo-input").css("color","#ccc")
         }
-//    .sort_zz .combo-input{color:#ccc;}
-
     }
 
     // 获取组织数据
@@ -322,10 +300,8 @@
                     //性状select
                     list = [jsonStr[i].qtlDesc];
                     arr_geneName.push(list);
-
                     listId=[jsonStr[i].traitCategoryId];
                     arr_geneId.push(listId);
-
                 }
                 //初始化组织
                 initXZ(arr_geneName,arr_geneId);
@@ -336,14 +312,7 @@
                 console.log(error);
             }
         )
-    };
-
-
-
-
-
-
-//   var objData = Object.assign(sortConditionData,dataParam);
+    }
 
 //排序获取列表数据
     function sortTable(curr,dataParam){
@@ -378,15 +347,19 @@
                 $("#popu-paginate .total-page-count > span").html(result.data.total);
                     $("#total-page-count1 span").text(result.data.total);
                     $(".js-search-total").text(result.data.total);
+
+                    if(result.data.list.length!==0){
+                        sortCopy(dataParam);
+                    }
+
                 layer.close(load);
             },function (error){
                 console.log(error);
             }
         )
     }
-//复制
+//复制数据获取
     function sortCopy(dataParam){
-        console.log(dataParam)
         var promise = SendAjaxRequest("POST","${ctxroot}/sort/copy-ordered-geneId",JSON.stringify(dataParam));
         promise.then(
             function (result){
@@ -396,35 +369,29 @@
                 str += '<span class="geneId">'+result.data[i]+',</span>'
             }
                 $(".copyHtml").append(str);
-                setTimeout(copyText,1000)
-//                copyText()
+
+                if(result.data.length!==0){
+                    $("#copyBtn").click(function () {
+                        copyText()
+                    });
+                }
             },function (error){
                 console.log(error);
             }
         )
     }
 
-
     //复制
     function copyText() {
-        var text = $(".sort_lab").text();
+        var text = $(".copyHtml").text();
         var inputs = document.getElementById("inputText");
-        inputs.value = text; // 修改文本框的内容
+        inputs.value = text.substring(0,text.length-1); // 修改文本框的内容
         inputs.select(); // 选中文本
         document.execCommand("Copy"); // 执行浏览器复制命令
         layer.msg("复制成功！");
     }
-//    $('.copyBtn').zclip({        　 //copy_input表示 按钮
-//        path: 'ZeroClipboard.swf',
-//        copy: function(){ 　　　　　　　　　　//复制内容
-//            return $('.copyHtml span').text();  　 //mytext表示 内容
-//        },
-//        afterCopy: function(){ //复制成功
-//            // $("<span id='msg'/>").insertAfter($('#copy_input')).text('复制成功');
-//            alert('复制成功');
-//        }
-//    });
 
+    //排序表格生成
     function sortPopuTable(data) {
         $(".js-table-header-setting-popu").find("label").addClass("checkbox-ac");
         var str = '';
@@ -483,7 +450,36 @@
         sortTable(currs,dataParam);
     });
 
-
+    // 表格导出
+    $("#exportData").click(function (){
+        var unSelectes = $("#selectedDetails ul input");
+        var unSelectedLists="";
+        for(var i=0;i<unSelectes.length;i++){
+            if($(unSelectes[i]).is(":checked")){
+                var unSelecteNames = $(unSelectes[i]).attr("name");
+                unSelectedLists+=unSelecteNames + ",";
+            }
+        }
+        var exportCondition=getParamas();
+        // modify by Crabime
+        // 修复tomcat8无法识别的JSON格式问题
+        $.ajax({
+            type:"GET",
+            url:CTXROOT + "/export",
+            data:{
+                "titles":unSelectedLists,
+                "condition":JSON.stringify(exportCondition)
+            },
+            dataType: "json",
+            contentType: "application/json",
+            success:function (result){
+                window.location.href = result;
+            },
+            error:function (error){
+                console.log(error);
+            }
+        })
+    })
 
 </script>
 </body>

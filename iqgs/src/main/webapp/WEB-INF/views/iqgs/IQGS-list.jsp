@@ -499,7 +499,7 @@
                 if (result.code == 0 && result.data.list.length != 0) {
                     var type=5;
                     resultCallback(result,type);
-                    fetchFirstData(dataParam)
+
                 } else {
                     laypage({
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -523,9 +523,6 @@
                     $("#total-page-count1 span").text(result.data.total);
                     $(".js-search-total").text(result.data.total);
                 }
-
-//                获取所有基因ID，并传到弹窗页面
-
             }, function (error) {
                 console.log(error);
             }
@@ -622,22 +619,6 @@
 
         } else if (searchType == 3) {
             if (flag == 0) {
-//                // 一级搜索第三个，获取所有基因ID
-//                fetchRangeData ();
-                <%--function fetchRangeData (){--%>
-                <%--$.getJSON('${ctxroot}/sort/fetch-range-data', {--%>
-                <%--// searchType:searchType,--%>
-                <%--// keyword : $("#key_name").val()--%>
-                <%--begin : $("#rg_begin").val(),--%>
-                <%--end : $("#rg_end").val(),--%>
-                <%--chr : $(".js-region").val()--%>
-                <%--}, fetchRangeback);--%>
-                <%--};--%>
-                <%--function fetchRangeback(jsonStr) {--%>
-                <%--console.log(jsonStr.data);--%>
-                <%--var fetchGn=jsonStr.data;--%>
-                <%--sortStrData(fetchGn)--%>
-                <%--}--%>
                 $.getJSON('${ctxroot}/iqgs/search/range', {
                     pageNo: page.curr || 1,
                     pageSize: page.pageSize || 10,
@@ -722,14 +703,19 @@
             }
         });
 
-        if (type == 1) {
-            fetchData();
-        } else if (type == 2) {
-            fetchTwoData();
-        } else if (type == 3) {
-            fetchRangeData();
-        }else if(type == 4){
-            fetchQtlData();
+        if(res.data.list.length!==0){
+            console.log(res.data.list.length);
+            if (type == 1) {
+                fetchData();
+            } else if (type == 2) {
+                fetchTwoData();
+            } else if (type == 3) {
+                fetchRangeData();
+            }else if(type == 4){
+                fetchQtlData();
+            }else if(type == 5){
+               fetchFirstData(dataParam);
+            }
         }
     };
 
@@ -857,24 +843,30 @@
     }
 
     //    排序弹窗
-    function sortStrData(data) {
+    function sortStrData(data,let) {
         $(".sort_btn").click(function () {
-            $("#gray").show();
-            $("#popup").dialog({
-                buttons: {
-                    "X": function () {
-                        $("#gray").hide();
-                        $(this).dialog('close');
-                    }
-                },
-                width: 900,
-                height: 600,
-                closeText: "",
-            });
             $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
                 // 搜索结果传到排序页面
-                window.frames[0].postMessage(data, targetLocation);
+                console.log(data)
+                if(data.length!==0&&data!==null){
+                    $("#gray").show();
+                    $("#popup").dialog({
+                        buttons: {
+                            "X": function () {
+                                $("#gray").hide();
+                                $(this).dialog('close');
+                            }
+                        },
+                        width: 900,
+                        height: 600,
+                        closeText: "",
+                    });
+                    window.frames[0].postMessage(data, targetLocation);
+                }else{
+                    layer.msg("数据异常");
+                    return false;
+                }
             })
         })
     }
@@ -889,7 +881,8 @@
     };
     function fetchFetchback(jsonStr) {
         var fetchGnO = jsonStr.data;
-        sortStrData(fetchGnO)
+        var let=1;
+        sortStrData(fetchGnO,let)
 
     }
     // 一级搜索第二个，获取所有基因ID
@@ -902,7 +895,8 @@
 
     function resultFetchback(jsonStr) {
         var fetchGnT = jsonStr.data;
-        sortStrData(fetchGnT)
+        var let=2;
+        sortStrData(fetchGnT,let)
 
     }
 
@@ -919,7 +913,8 @@
 
     function fetchRangeback(jsonStr) {
         var fetchGnS = jsonStr.data;
-        sortStrData(fetchGnS)
+        var let=3;
+        sortStrData(fetchGnS,let)
     }
 
     // 一级搜索第四个，获取所有基因ID
@@ -928,22 +923,27 @@
             chosenQtl: nums
         }, fetchQtlback);
     };
-
     function fetchQtlback(jsonStr) {
         var fetchGnF = jsonStr.data;
-        sortStrData(fetchGnF)
+        var let=4;
+        sortStrData(fetchGnF,let)
     }
     // 高级搜索，获取所有基因ID
     <%--function fetchFirstData(dataParam) {--%>
         <%--$.post('${ctxroot}/sort/fetch-first-screen', dataParam, fetchFirstback);--%>
     <%--};--%>
     function fetchFirstData(dataParam) {
-        console.log(dataParam)
         var promise = SendAjaxRequest("POST","${ctxroot}/sort/fetch-first-screen", JSON.stringify(dataParam));
         promise.then(
             function (result) {
-                var fetchGnG = result.data;
-                sortStrData(fetchGnG)
+                if(result.code==-1){
+                    layer.msg("数据已过期，请重新搜索获取数据");
+                    return false;
+                }else{
+                    var fetchGnG = result.data;
+                    var let=5;
+                    sortStrData(fetchGnG,let)
+                }
             }
         )
     }
