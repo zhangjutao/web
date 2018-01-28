@@ -379,6 +379,6 @@ public class Tissue implements Serializable {
 
     @Override
     public int hashCode() {
-        return Objects.hashCode(pod, podAll, endosperm, seed, embryo, axis, seedAll, cotyledon, seedCoat, nodule, rootAll, rootHair, root, rootTip, shoot, shootTip, shootApicalMeristem, shootAll, shootMeristem, primaryleaf, leafAll, petiole, leaf, trifoliate, leafbud, leaflet, seedlingAll, cotyledonsOfSeedling, seedling, flowerBud, flower, flowerAll, stem, stemInternode, hypocotyl, stemAll);
+        return java.util.Objects.hash(pod, podAll, endosperm, seed, embryo, axis, seedAll, cotyledon, seedCoat, nodule, rootAll, rootHair, root, rootTip, shoot, shootTip, shootApicalMeristem, shootAll, shootMeristem, primaryleaf, leafAll, petiole, leaf, trifoliate, leafbud, leaflet, seedlingAll, cotyledonsOfSeedling, seedling, flowerBud, flower, flowerAll, stem, stemInternode, hypocotyl, stemAll);
     }
 }

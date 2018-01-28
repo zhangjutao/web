@@ -1,8 +1,11 @@
 package com.gooalgene.iqgs.others;
 
+import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.google.common.base.Function;
 import com.google.common.base.Optional;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Lists;
 import junit.framework.TestCase;
 import org.junit.Test;
 
@@ -46,6 +49,28 @@ public class OptionalTest extends TestCase {
             }
         });
         assertTrue(transformResult.containsAll(Arrays.asList(5, 2)));
+    }
+
+    @Test
+    public void testFilter(){
+        List<Integer> list = Lists.newArrayList(5, 10, -1, 0, -5);
+        Collection<Integer> result = Collections2.filter(list, new Predicate<Integer>() {
+            @Override
+            public boolean apply(Integer integer) {
+                return integer > 0;
+            }
+        });
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    public void testAdvanceSearchViewEquals(){
+        AdvanceSearchResultView view = new AdvanceSearchResultView();
+        view.setGeneId("02G245300");
+        AdvanceSearchResultView view1 = new AdvanceSearchResultView();
+        view1.setGeneId("02G245301");
+        assertFalse(view.equals(view1));
+        assertFalse(view == view1);
     }
 
     private class Mrna{

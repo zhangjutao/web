@@ -115,8 +115,12 @@ public class DNAGenStructure {
         return structure.getGeneId().equals(this.geneId);
     }
 
+    /**
+     * 方便在DAO根据基因ID查询基因结构取值
+     * List无影响,Set去重,参见{DNAGensStructureDao#getGeneStructureByCondition}
+     */
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(chromosome, geneId, transcriptId, feature, start, end, length, strand, maxLength, offset, id);
+        return java.util.Objects.hash(geneId);
     }
 }
