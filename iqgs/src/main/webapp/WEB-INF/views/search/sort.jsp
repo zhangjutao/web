@@ -85,11 +85,11 @@
             <table class="popu-table soetTable">
                 <thead>
                 <tr>
-                    <td class="species">基因ID</td>
-                    <td class="locality">基因名</td>
-                    <td class="sampleName">染色体</td>
-                    <td class="cultivar">基因位置</td>
-                    <td class="weightPer100seeds">基因注释</td>
+                    <td class="geneId">基因ID</td>
+                    <td class="geneName">基因名</td>
+                    <td class="chromosome">染色体</td>
+                    <td class="location">基因位置</td>
+                    <td class="description">基因注释</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -123,10 +123,12 @@
             layer.msg("无基因名")
             return false;
         }
-        console.log(sortConditionData);
+//        console.log(sortConditionData);
         // var dataParam = Object.assign(dataParams);
-        //点击排序获取排序表格数据
+//        外部数据库访问传来的postmessage数据
 
+
+        //点击排序获取排序表格数据
         $(".sortInfo_btn").click(function () {
             var geneIdList = sortConditionData;
             var sortXzId = $(".sortSelect option:selected").attr("id");
@@ -413,7 +415,7 @@
         var jsonStr = data.data;
         for (var i = 0; i < jsonStr.list.length; i++) {
             str += '<tr>'
-            str += '<td class="geneId"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + jsonStr.list[i].geneId + '">' + jsonStr.list[i].geneId + '</a></td><td class="geneName">' + jsonStr.list[i].geneName + '</td><td class="chromosome">' + jsonStr.list[i].chromosome + '</td><td class="description">' + jsonStr.list[i].description + '</td><td class="location">' + jsonStr.list[i].location + '</td>'
+            str += '<td class="geneId"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + jsonStr.list[i].geneId + '">' + jsonStr.list[i].geneId + '</a></td><td class="geneName">' + jsonStr.list[i].geneName + '</td><td class="chromosome">' + jsonStr.list[i].chromosome + '</td><td class="location">' + jsonStr.list[i].location + '</td><td class="description">' + jsonStr.list[i].description + '</td>'
             str += '</tr>'
         }
         $(".popu-table > tbody").empty().append(str);
@@ -467,8 +469,6 @@
 
     // 表格导出
     function exportData(dataParam) {
-        console.log(dataParam)
-        // modify by Crabime
         // 修复tomcat8无法识别的JSON格式问题
         $.ajax({
             type: "POST",
