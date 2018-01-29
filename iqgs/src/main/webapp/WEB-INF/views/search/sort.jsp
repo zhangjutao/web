@@ -480,7 +480,7 @@
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
-                window.location.href = result;
+                window.location.href = result.data;
             },
             error: function (error) {
                 console.log(error);

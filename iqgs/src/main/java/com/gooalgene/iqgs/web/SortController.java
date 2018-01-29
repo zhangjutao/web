@@ -20,11 +20,13 @@ import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ConsequenceTypeUtils;
+import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -39,6 +41,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.*;
 import java.lang.management.ManagementFactory;
 import java.lang.management.OperatingSystemMXBean;
 import java.lang.reflect.InvocationTargetException;
@@ -278,15 +281,50 @@ public class SortController implements InitializingBean {
      */
     @RequestMapping(value = "/download-sort", method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<String> downloadSortResult(@RequestBody SortRequestParam sortRequestParam, HttpServletResponse response){
+    public ResultVO<String> downloadSortResult(@RequestBody SortRequestParam sortRequestParam, HttpServletResponse response,HttpServletRequest request){
         AllSortedResultEvent event=new AllSortedResultEvent(sortRequestParam.getGeneIdList(),sortRequestParam.getTissue(),sortRequestParam.getTraitCategoryId(),null);
         String key = event.getClass().getSimpleName() + event.hashCode();
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<SortedResult> sortedResults=(List<SortedResult>) cachedGeneId.get();
             String content=getExportContent(sortedResults);
-            Tools.toDownload(System.currentTimeMillis()+"_"+ UUID.randomUUID().toString(), content, response);
-            return ResultUtil.success();
+            String fileName=System.currentTimeMillis()+"_"+ UUID.randomUUID().toString()+".csv";
+            String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
+            File tempfile = new File(filePath + fileName);
+            if (!tempfile.getParentFile().exists()) {
+                if (!tempfile.getParentFile().mkdirs()) {
+                    //return "文件目录创建失败";
+                }
+            }
+            FileOutputStream tempFile = null;
+            try {
+                tempFile = new FileOutputStream(tempfile);
+                tempFile.write(content.getBytes("gbk"));
+                tempFile.flush();
+                tempFile.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            String scheme = request.getScheme();                // http
+            String serverName = request.getServerName();        // gooalgene.com
+            int serverPort = request.getServerPort();           // 8080
+            String contextPath = request.getContextPath();      // /dna
+            //重构请求URL
+            StringBuilder builder = new StringBuilder();
+            builder.append(scheme).append("://").append(serverName);
+            //针对nginx反向代理、https请求重定向，不需要加端口
+            if (serverPort != 80 && serverPort != 443) {
+                builder.append(":").append(serverPort);
+            }
+            builder.append(contextPath);
+            String path = builder.toString() + "/tempFile/" + fileName;
+            logger.info(path);
+            return ResultUtil.success(JsonUtils.Bean2Json(path));
+            //Tools.toDownload(System.currentTimeMillis()+"_"+ UUID.randomUUID().toString(), content, response);
         }else {
             logger.warn("缓存数据已清空，请重新查询后排序");
             return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
@@ -305,7 +343,15 @@ public class SortController implements InitializingBean {
         }
         for(int i=0;i<sortedResults.size();i++){
             SortedResult sortedResult = sortedResults.get(i);
-            sb.append(sortedResult.getGeneId()).append(",").append(sortedResult.getGeneName()).append(",").append(sortedResult.getDescription()).append(",")
+            String geneName = sortedResult.getGeneName();
+            if(geneName!=null&&geneName.contains(",")){
+                geneName=StringUtils.replace(geneName,",",";");
+            }
+            String description = sortedResult.getDescription();
+            if(description!=null&&description.contains(",")){
+                description=StringUtils.replace(description,",",";");
+            }
+            sb.append(sortedResult.getGeneId()).append(",").append(geneName).append(",").append(description).append(",")
                     .append(sortedResult.getChromosome()).append(",").append(sortedResult.getLocation()).append("\n");
         }
         return sb.toString();
