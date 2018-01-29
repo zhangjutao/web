@@ -107,6 +107,7 @@
 <script src="${ctxStatic}/js/jquery.combo.select.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/layer/layer.js"></script>
+<script src="${ctxStatic}/js/newAddNeed.js"></script>
 <script>
     $(function () {
         window.DOMAIN = "${ctxroot}/iqgs";
@@ -136,7 +137,7 @@
 
             var tissue = {};
             for (var i = 0; i < organization.length; i++) {
-                var organizationName = $(organization[i]).find(".sortZzText_b2").text();
+                var organizationName = deleteSpace($(organization[i]).find(".sortZzText_b2").text());
                 tissue[organizationName] = i;
             }
 
@@ -225,7 +226,7 @@
                     arr_geneName.push(list)
                     var arr_geneListName = [];
                     for (var j = 0; j < jsonStr[i].children.length; j++) {
-                        geneList = jsonStr[i].children[j].name
+                        geneList = jsonStr[i].children[j].name;
                         arr_geneListName.push(geneList);
                     }
                     arr_geneList.push(arr_geneListName);
