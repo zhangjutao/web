@@ -91,10 +91,11 @@ body .tab-detail-tbody tr td {
 .soetTable .description{width: 200px;}
 body .sortMainImg{
     border: none;
+    padding: 0 12px 12px 12px;
 }
 body .tab-detail-tbody thead tr{
     height:50px;}
-.ydy{height: 436px; width:100%;}
+.ydy{height: 424px; width:100%;}
 .combo-select {
     position: relative;
     max-width: 160px;

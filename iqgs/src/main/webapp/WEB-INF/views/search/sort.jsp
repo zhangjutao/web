@@ -466,9 +466,6 @@
     });
 
     // 表格导出
-
-    //            console.log(dataParam)
-
     function exportData(dataParam) {
         console.log(dataParam)
         // modify by Crabime

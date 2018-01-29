@@ -705,24 +705,24 @@
 
         if(res.data.list.length!==0){
             if (type == 1) {
-                $("#sort_btn_px").click(function () {
+                $("#sort_btn_px").off("click").click(function () {
                     fetchData();
                 })
             } else if (type == 2) {
-                $("#sort_btn_px").click(function () {
+                $("#sort_btn_px").off("click").click(function () {
                     fetchTwoData();
                 })
             } else if (type == 3) {
-                $("#sort_btn_px").click(function () {
+                $("#sort_btn_px").off("click").click(function () {
                     fetchRangeData();
                 })
 
             }else if(type == 4){
-                $("#sort_btn_px").click(function () {
+                $("#sort_btn_px").off("click").click(function () {
                     fetchQtlData();
                 })
             }else if(type == 5){
-                $("#sort_btn_px").click(function () {
+                $("#sort_btn_px").off("click").click(function () {
                     fetchFirstData(dataParam);
                 })
             }
@@ -856,12 +856,13 @@
 
     //    排序弹窗
     function sortStrData(data,let) {
-            console.trace
+            var load = layer.load(1);
             $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
                 // 搜索结果传到排序页面
 //                console.log(data)
                 if(data.length!==0&&data!==null){
+                    layer.close(load);
                     $("#gray").show();
                     $("#popup").dialog({
                         buttons: {
