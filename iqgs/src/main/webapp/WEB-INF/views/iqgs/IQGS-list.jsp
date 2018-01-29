@@ -883,7 +883,6 @@
             })
     }
 
-
     // 一级搜索第一个，获取所有基因ID
     function fetchData() {
         $.getJSON('${ctxroot}/sort/fetch-multi-data', {
@@ -895,7 +894,6 @@
         var fetchGnO = jsonStr.data;
         var let=1;
         sortStrData(fetchGnO,let)
-
     }
     // 一级搜索第二个，获取所有基因ID
     function fetchTwoData() {
@@ -941,9 +939,6 @@
         sortStrData(fetchGnF,let)
     }
     // 高级搜索，获取所有基因ID
-    <%--function fetchFirstData(dataParam) {--%>
-        <%--$.post('${ctxroot}/sort/fetch-first-screen', dataParam, fetchFirstback);--%>
-    <%--};--%>
     function fetchFirstData(dataParam) {
         var promise = SendAjaxRequest("POST","${ctxroot}/sort/fetch-first-screen", JSON.stringify(dataParam));
         promise.then(
