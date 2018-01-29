@@ -120,7 +120,10 @@
             //外部数据库访问传来的postmessage数据
             var geneIdLists = sortConditionData.data.geneList;
             //获取外部数据进行表格排序
-            setTimeout(sortCurrencyTable(geneIdLists), 200);
+            if(geneIdLists.length!==0){
+                setTimeout(sortCurrencyTable(geneIdLists), 1000);
+            }
+
         } else {
             //点击排序获取排序表格数据
             setTimeout(sortCurrencyTable(sortConditionData), 200);
@@ -350,7 +353,9 @@
 
                 if (result.data.list.length !== 0) {
                     //复制方法调用
-                    sortCopy(dataParam);
+                    $("#copyBtn").click(function () {
+                        sortCopy(dataParam);
+                    });
                     //导出方法调用
                     $("#exportData").off('click').click(function () {
                         exportData(dataParam);
@@ -377,9 +382,7 @@
                 $(".copyHtml").append(str);
 
                 if (result.data.length !== 0) {
-                    $("#copyBtn").click(function () {
                         copyText()
-                    });
                 }
             }, function (error) {
                 console.log(error);
@@ -428,24 +431,37 @@
         $(this).removeClass("isFocus");
     });
     // 注册 enter 事件的元素
-    document.onkeydown = function (e) {
+
+    $(document).keyup(function(event){
         var _page_skip = $('#pagination .laypage_skip');
-//            if( _page_skip.hasClass("isFocus") ) {
-//
-//                if(_page_skip.val() * 1 >Math.ceil( $("#total-page-count1 span").text() / page.pageSize)) {
-//                    return alert("输入页码不能大于总页数");
-//                }
-//                curr = Number(_page_skip.val());
-//                    dataParam.pageNo = curr;
-//                sortTable(curr,dataParam);
-//            }
-        if (_page_skip.hasClass("isFocus")) {
-            var _page_skip = $('#pagination .laypage_skip');
-            var curr = Number(_page_skip.val());
-            dataParam.pageNo = curr;
-            sortTable(curr, dataParam);
+        if(event.keyCode ==13){
+            if (_page_skip.hasClass("isFocus")) {
+                var _page_skip = $('#pagination .laypage_skip');
+                var curr = Number(_page_skip.val());
+                dataParam.pageNo = curr;
+                sortTable(curr, dataParam);
+            }
         }
-    };
+    });
+
+//    document.onkeydown = function (e) {
+//        var _page_skip = $('#pagination .laypage_skip');
+////            if( _page_skip.hasClass("isFocus") ) {
+////
+////                if(_page_skip.val() * 1 >Math.ceil( $("#total-page-count1 span").text() / page.pageSize)) {
+////                    return alert("输入页码不能大于总页数");
+////                }
+////                curr = Number(_page_skip.val());
+////                    dataParam.pageNo = curr;
+////                sortTable(curr,dataParam);
+////            }
+//        if (_page_skip.hasClass("isFocus")) {
+//            var _page_skip = $('#pagination .laypage_skip');
+//            var curr = Number(_page_skip.val());
+//            dataParam.pageNo = curr;
+//            sortTable(curr, dataParam);
+//        }
+//    };
     // 修改每页显示条数
     $("#per-page-count").on("change", ".lay-per-page-count-select", function () {
 //        var _page_skip = $('#pagination .laypage_skip');
