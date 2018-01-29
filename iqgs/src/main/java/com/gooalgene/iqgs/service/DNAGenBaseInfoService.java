@@ -139,6 +139,10 @@ public class DNAGenBaseInfoService {
         return dnaGenBaseInfoDao.findAllAssociatedQTLByGeneId(geneId);
     }
 
+    public List<String> findAllGeneId(List<Integer> idList){
+        return dnaGenBaseInfoDao.findAllGeneId(idList);
+    }
+
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFunc(String func, Page<DNAGenBaseInfo> page) {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         bean.setFunctions(func);

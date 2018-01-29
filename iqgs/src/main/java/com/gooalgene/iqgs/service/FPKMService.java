@@ -8,12 +8,27 @@ import com.gooalgene.dna.service.DNAGenStructureService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.FpkmDto;
+import com.gooalgene.iqgs.entity.FpkmDto;
+import com.gooalgene.iqgs.entity.GeneFPKM;
+import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
+import com.gooalgene.iqgs.eventbus.EventBusRegister;
+import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
+import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
+import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.FluentIterable;
+import com.google.common.collect.Maps;
+import com.google.common.eventbus.AsyncEventBus;
+import com.google.common.eventbus.EventBus;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.DisposableBean;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +37,7 @@ import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.util.*;
 import java.util.concurrent.*;
 
@@ -45,6 +61,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
 
     @Autowired
     private CacheManager manager;
+
+    @Autowired
+    private EventBusRegister register;
 
     private Cache cache;
 
@@ -79,9 +98,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
             final List<AdvanceSearchResultView> advanceSearchResultViews = new ArrayList<>();
             LoadThreadCallable callable = new LoadThreadCallable(includeGeneId);
             logger.warn("执行" + chromosome + "写入缓存");
-            Future<List<AdvanceSearchResultView>> futureResult = threadPool.submit(callable);
+            Future<Set<AdvanceSearchResultView>> futureResult = threadPool.submit(callable);
             try {
-                List<AdvanceSearchResultView> executeResult = futureResult.get();
+                Set<AdvanceSearchResultView> executeResult = futureResult.get();
                 advanceSearchResultViews.addAll(executeResult);
                 logger.warn(chromosome + "完成写入缓存");
             } catch (InterruptedException e) {
@@ -89,15 +108,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
-//            new Thread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    List<AdvanceSearchResultView> result = fpkmDao.fetchFirstHundredGeneInGeneStructure(null, null, null, null, includeGeneId);
-//                    advanceSearchResultViews.addAll(result);
-//                    logger.info(Thread.currentThread().getName() + "已完成" + chromosome + "数据查询并装入缓存内");
-//                }
-//            }).start();
-            cache.putIfAbsent(chromosome, advanceSearchResultViews);  //将该染色体中所有基因对应的高级搜索结果放入到缓存中
+            cache.put(chromosome, advanceSearchResultViews);
         }
     }
 
@@ -108,7 +119,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
         }
     }
 
-    private class LoadThreadCallable implements Callable<List<AdvanceSearchResultView>>{
+    private class LoadThreadCallable implements Callable<Set<AdvanceSearchResultView>>{
         private List<DNAGenStructure> includeGeneId;
 
         public LoadThreadCallable(List<DNAGenStructure> includeGeneId) {
@@ -116,23 +127,29 @@ public class FPKMService implements InitializingBean, DisposableBean {
         }
 
         @Override
-        public List<AdvanceSearchResultView> call() throws Exception {
+        public Set<AdvanceSearchResultView> call() throws Exception {
             int singleLoop = includeGeneId.size();
             logger.info(Thread.currentThread().getName() + "正在执行查找任务，查找总量为：" + singleLoop);
-            List<AdvanceSearchResultView> result = new ArrayList<>();
+            Set<AdvanceSearchResultView> result = new HashSet<>();
             //对小于10000的数据总量不采用循环获取方式
             if (singleLoop > 10000){
                 singleLoop = singleLoop / 30 + 1;
                 int end = 0;
                 for (int i = 0; i < 30; i++){
                     end = singleLoop*(i+1) > includeGeneId.size() ? includeGeneId.size() : singleLoop*(i+1);
-                    //单次遍历结果
+                    //单次遍历可以保证返回的该次几百个基因数据的唯一性,该种唯一性可以通过SQL group操作完成
+                    //但是由于这里为了减小数据库查询压力,使用遍历方式,逐步查询最后写入到一个大的集合中,
+                    //那就破坏了最初数据唯一性,出现部分重复的基因ID,因为多次的group可没法保障,
+                    //这样就只能通过程序数据结构来控制,因为要使用Set类型来限制数据的唯一性
+                    //由于Set中元素的hash通过是来自父类的,那这里就是来自Tissue的,如果两个对象属性相同,
+                    //那么它们的equals方法一定是相同的,所以尽可能放行的使用它们equals方法
                     List<AdvanceSearchResultView> singleLoopAdvanceSearchResultViews =
                             fpkmDao.fetchFirstHundredGeneInGeneStructure(null, null, null, null, includeGeneId.subList(singleLoop * i, end));
                     result.addAll(singleLoopAdvanceSearchResultViews);
                 }
             }else {
-                result = fpkmDao.fetchFirstHundredGeneInGeneStructure(null, null, null, null, includeGeneId);
+                List<AdvanceSearchResultView> searchResultViews = fpkmDao.fetchFirstHundredGeneInGeneStructure(null, null, null, null, includeGeneId);
+                result.addAll(searchResultViews);
             }
             return result;
         }
@@ -166,6 +183,9 @@ public class FPKMService implements InitializingBean, DisposableBean {
         }
         //如果是function，那么ID/name均为null，直接拿到从前台传过来的DNAGenBaseInfo即可，这里获取到符合条件的基因ID集合
         properGeneIdList = dnaGenBaseInfoDao.findProperGeneId(baseInfo);
+        IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(properGeneIdList, baseInfo);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        eventBus.post(event);
         int total = properGeneIdList.size();
         page.setTotal(total);
         int end = pageNo * pageSize;
@@ -214,6 +234,10 @@ public class FPKMService implements InitializingBean, DisposableBean {
             advanceSearchResultViews.addAll(searchResult);
         }
         int total = advanceSearchResultViews.size();
+        //通过EventBus将查询结果封装，在另一个线程中处理该事件
+        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(genStructure, advanceSearchResultViews);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        eventBus.post(event);
         page.setTotal(total);
         int end = pageNo*pageSize > total ? total : pageNo*pageSize;  //防止数组越界
         page.addAll(advanceSearchResultViews.subList((pageNo-1)*pageSize, end));
@@ -242,10 +266,15 @@ public class FPKMService implements InitializingBean, DisposableBean {
         //QTL查询高级搜索
         List<AdvanceSearchResultView> searchResult =
                 fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
+        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        eventBus.post(event);
         return new PageInfo<>(searchResult);
     }
 
     public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){
         return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
     }
+
 }

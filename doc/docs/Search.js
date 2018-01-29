@@ -1,3 +1,5 @@
+function queryByQtlName() {
+}
 /**
  * @api {get} /advance-search/query-by-qtl-name 主页qtl search
  * @apiName queryByQTLName
@@ -3049,6 +3051,8 @@
  ]
  */
 
+function queryAllOrganic() {
+}
 /**
  * @api {get} advance-search/query-all-organic 查询所有组织及二级组织
  * @apiName getAllOrganicAndChildren
@@ -3245,6 +3249,8 @@
      * }
  */
 
+function querySNP() {
+}
 /**
  * @api {post} /advance-search/query-snp 获取所有SNP类型
  * @apiName fetchALLSNPCheckbox
@@ -3271,8 +3277,11 @@
  * ]
  */
 
+function queryINDEL() {
+
+}
 /**
- * @api {post} /advance-search/query-snp 获取所有INDEL类型
+ * @api {post} /advance-search/query-indel 获取所有INDEL类型
  * @apiName fetchALLINDELCheckbox
  * @apiGroup Search
  * @apisamplerequest http://localhost:8080/iqgs/advance-search/query-indel
@@ -3297,6 +3306,8 @@
  * ]
  */
 
+function queryQTLSmarty() {
+}
 /**
  * @api {get} /advance-search/fetch-qtl-smarty qtl搜索选项二级联动
  * @apiName fetchQtlSmartyData
@@ -3355,6 +3366,8 @@
  * ]
  */
 
+function confirm() {
+}
 /**
  * @api {get} advance-search/confirm 选中几个qtl点击确认
  * @apiName clickConfirm

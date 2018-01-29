@@ -39,7 +39,7 @@ public class DNAGensServiceTest extends TestCase {
 
     @Test
     public void testGetGeneStructureId(){
-        assertEquals(5505, dnaGenStructureService.getGeneStructureId("Chr01", 40000000L, 50000000L).size());
+        assertEquals(5505, dnaGenStructureService.getGeneStructureId("Chr01", 42580691L, 43443613L).size());
     }
 
     @Test

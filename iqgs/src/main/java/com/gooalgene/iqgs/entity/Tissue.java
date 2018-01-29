@@ -1,5 +1,7 @@
 package com.gooalgene.iqgs.entity;
 
+import com.google.common.base.Objects;
+
 import java.io.Serializable;
 
 /**
@@ -330,5 +332,53 @@ public class Tissue implements Serializable {
 
     public void setStemAll(Double stemAll) {
         this.stemAll = stemAll;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tissue tissue = (Tissue) o;
+        return Objects.equal(pod, tissue.pod) &&
+                Objects.equal(podAll, tissue.podAll) &&
+                Objects.equal(endosperm, tissue.endosperm) &&
+                Objects.equal(seed, tissue.seed) &&
+                Objects.equal(embryo, tissue.embryo) &&
+                Objects.equal(axis, tissue.axis) &&
+                Objects.equal(seedAll, tissue.seedAll) &&
+                Objects.equal(cotyledon, tissue.cotyledon) &&
+                Objects.equal(seedCoat, tissue.seedCoat) &&
+                Objects.equal(nodule, tissue.nodule) &&
+                Objects.equal(rootAll, tissue.rootAll) &&
+                Objects.equal(rootHair, tissue.rootHair) &&
+                Objects.equal(root, tissue.root) &&
+                Objects.equal(rootTip, tissue.rootTip) &&
+                Objects.equal(shoot, tissue.shoot) &&
+                Objects.equal(shootTip, tissue.shootTip) &&
+                Objects.equal(shootApicalMeristem, tissue.shootApicalMeristem) &&
+                Objects.equal(shootAll, tissue.shootAll) &&
+                Objects.equal(shootMeristem, tissue.shootMeristem) &&
+                Objects.equal(primaryleaf, tissue.primaryleaf) &&
+                Objects.equal(leafAll, tissue.leafAll) &&
+                Objects.equal(petiole, tissue.petiole) &&
+                Objects.equal(leaf, tissue.leaf) &&
+                Objects.equal(trifoliate, tissue.trifoliate) &&
+                Objects.equal(leafbud, tissue.leafbud) &&
+                Objects.equal(leaflet, tissue.leaflet) &&
+                Objects.equal(seedlingAll, tissue.seedlingAll) &&
+                Objects.equal(cotyledonsOfSeedling, tissue.cotyledonsOfSeedling) &&
+                Objects.equal(seedling, tissue.seedling) &&
+                Objects.equal(flowerBud, tissue.flowerBud) &&
+                Objects.equal(flower, tissue.flower) &&
+                Objects.equal(flowerAll, tissue.flowerAll) &&
+                Objects.equal(stem, tissue.stem) &&
+                Objects.equal(stemInternode, tissue.stemInternode) &&
+                Objects.equal(hypocotyl, tissue.hypocotyl) &&
+                Objects.equal(stemAll, tissue.stemAll);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(pod, podAll, endosperm, seed, embryo, axis, seedAll, cotyledon, seedCoat, nodule, rootAll, rootHair, root, rootTip, shoot, shootTip, shootApicalMeristem, shootAll, shootMeristem, primaryleaf, leafAll, petiole, leaf, trifoliate, leafbud, leaflet, seedlingAll, cotyledonsOfSeedling, seedling, flowerBud, flower, flowerAll, stem, stemInternode, hypocotyl, stemAll);
     }
 }

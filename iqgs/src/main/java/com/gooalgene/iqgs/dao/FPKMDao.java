@@ -50,4 +50,5 @@ public interface FPKMDao {
      * 检查某一基因对应consequencetype中是否存在SNP
      */
     boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType);
+
 }

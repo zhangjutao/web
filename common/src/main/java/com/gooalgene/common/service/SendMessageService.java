@@ -15,6 +15,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
@@ -27,16 +28,7 @@ import java.util.Date;
 public class SendMessageService {
     private static Logger logger= LoggerFactory.getLogger(SendMessageService.class);
     @Autowired
-    private GuavaCacheManager cacheManager;
-
-    //private Cache cache= cacheManager.getCache("config");
-
-    //String url = "http://gw.api.taobao.com/router/rest";
-    //private static final String url= Global.getConfig("alidy.url");
-    /*private final String accessKeyId= cacheManager.getCache("config").get("alidy.appKeyId").get().toString();
-    private final String accessKeySecret= cacheManager.getCache("config").get("alidy.appKeySecret").get().toString();
-    private final String signName= cacheManager.getCache("config").get("alidy.signName").get().toString();
-    private final String templateCode= cacheManager.getCache("config").get("alidy.templateCode").get().toString();*/
+    private CacheManager cacheManager;
 
     //产品名称:云通信短信API产品,开发者无需替换
     private static final String product = "Dysmsapi";

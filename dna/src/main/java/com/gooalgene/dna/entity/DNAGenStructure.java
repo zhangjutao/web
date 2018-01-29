@@ -1,5 +1,7 @@
 package com.gooalgene.dna.entity;
 
+import com.google.common.base.Objects;
+
 /**
  * Created by Administrator on 2017-10-16.
  */
@@ -113,10 +115,12 @@ public class DNAGenStructure {
         return structure.getGeneId().equals(this.geneId);
     }
 
+    /**
+     * 方便在DAO根据基因ID查询基因结构取值
+     * List无影响,Set去重,参见{DNAGensStructureDao#getGeneStructureByCondition}
+     */
     @Override
     public int hashCode() {
-        int result = 17;
-        result = 31 * result + this.geneId.hashCode();
-        return result;
+        return java.util.Objects.hash(geneId);
     }
 }
