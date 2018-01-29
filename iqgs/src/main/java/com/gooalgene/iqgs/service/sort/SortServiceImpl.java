@@ -86,7 +86,6 @@ public class SortServiceImpl implements SortService, InitializingBean {
             f.setAccessible(true);
             if (f.get(fpkmDto) != null) { //判断字段是否为空，并且对象属性中的基本都会转为对象类型来判断
                 if(f.getName().toLowerCase().contains("id")||f.getName().endsWith("All")){
-                    System.out.println(f.getName());
                     continue;
                 }
                 ++count;
@@ -152,7 +151,11 @@ public class SortServiceImpl implements SortService, InitializingBean {
             }
             sum2+=(score*indelScore.getCount());/**/
         }
-        sum2=sum2/(view.getIndelConsequenceType().size());
+        try {
+            sum2 = sum2 / (view.getIndelConsequenceType().size());
+        }catch (ArithmeticException e){
+            sum2 = 0;
+        }
         view.setScore(oldScore+sum+sum2);
         return view;
     }
