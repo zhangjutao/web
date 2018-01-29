@@ -30,6 +30,7 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.*;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
@@ -52,6 +53,8 @@ public class GeneSortViewService implements InitializingBean {
     private CacheManager cacheManager;
 
     private Cache cache;
+
+    private ExecutorService threadPool;
 
     /**
      * 对传入的基因ID进行查询、排序，输出排序后的结果
@@ -77,7 +80,7 @@ public class GeneSortViewService implements InitializingBean {
         if (cachedSortedResult != null){
             result = (List<SortedResult>) cachedSortedResult.get();
         } else {
-            List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(geneIds, fields);
+            List<SortedSearchResultView> views = splitTimeConsumingJob(geneIds, fields);  //大任务拆分
             try {
                 List<SortedSearchResultView> sortResult = sortService.sort(views, qtlNames);
                 Ordering<SortedSearchResultView> ordering = Ordering.natural().onResultOf(new Function<SortedSearchResultView, Double>() {
@@ -154,9 +157,51 @@ public class GeneSortViewService implements InitializingBean {
         return builder.toString();
     }
 
+    private List<SortedSearchResultView> splitTimeConsumingJob(List<String> geneIds, String fields){
+        if (geneIds == null) return null;
+        List<SortedSearchResultView> result = new ArrayList<>();
+        //小数据量直接使用一次查询
+        if (geneIds.size() < 1000){
+            result = geneSortDao.findViewByGeneId(geneIds, fields);
+        } else {
+            int size = geneIds.size();
+            int singleRun = size / 5 + 1;
+            int end = 0;
+            for (int i = 0; i < 5; i++) {
+                end = singleRun * (i + 1) > size ? size : singleRun * (i + 1);
+                try {
+                    Future<List<SortedSearchResultView>> singleSortedResult = threadPool.submit(new SortedViewCallable(geneIds.subList(singleRun * i, end), fields));
+                    List<SortedSearchResultView> singleSortedSearchResultViews = singleSortedResult.get();
+                    result.addAll(singleSortedSearchResultViews);
+                } catch (InterruptedException | ExecutionException e) {
+                    logger.error("执行数据库查询排序基因错误", e.getCause());
+                }
+            }
+        }
+        return result;
+    }
 
     @Override
     public void afterPropertiesSet() throws Exception {
         cache = cacheManager.getCache("sortCache");
+        threadPool = Executors.newFixedThreadPool(5);
+    }
+
+    private class SortedViewCallable implements Callable<List<SortedSearchResultView>>{
+        //基因ID集合
+        private List<String> geneCollection;
+
+        private String fields;
+
+        public SortedViewCallable(List<String> collection, String fields) {
+            this.geneCollection = collection;
+            this.fields = fields;
+        }
+
+        @Override
+        public List<SortedSearchResultView> call() throws Exception {
+            List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(this.geneCollection, this.fields);
+            return views;
+        }
     }
 }

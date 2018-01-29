@@ -48,6 +48,13 @@ public class SearchRegexpTest extends TestCase {
             result = matcher.group(2);
             System.out.println(result);
         }
+        str = "GmFDR3";
+        matcher = pattern.matcher(str);
+        result = "";
+        if (matcher.find()) {
+            result = matcher.group(2);
+            System.out.println(result);
+        }
     }
 
     @Test
