@@ -104,9 +104,17 @@ public class GeneSortViewService implements InitializingBean {
             AsyncEventBus asyncEventBus = register.getAsyncEventBus();
             asyncEventBus.post(param);
             //记录用户行为
+            Integer tempId;
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal instanceof String&& StringUtils.equals((String)principal,"anonymousUser")){
+                tempId= RandomUtils.nextInt(1,1000); //TODO 用户未登录时用随机数生成一个假id，以后改进
+            }else {
+                tempId=((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            }
             UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm(
-                    ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
+                    tempId
                     ,categoryId,fields,new Date());
+
             asyncEventBus.post(userAssociateTraitFpkm);
         }
         int size = result.size();
