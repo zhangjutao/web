@@ -120,7 +120,7 @@
         // 把父窗口发送过来的数据显示在子窗口中
         var sortConditionData = event.data;
         if (sortConditionData == null) {
-            alert("无基因名")
+            layer.msg("无基因名")
             return false;
         }
         console.log(sortConditionData);

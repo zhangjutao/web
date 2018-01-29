@@ -705,15 +705,26 @@
 
         if(res.data.list.length!==0){
             if (type == 1) {
-                fetchData();
+                $("#sort_btn_px").click(function () {
+                    fetchData();
+                })
             } else if (type == 2) {
-                fetchTwoData();
+                $("#sort_btn_px").click(function () {
+                    fetchTwoData();
+                })
             } else if (type == 3) {
-                fetchRangeData();
+                $("#sort_btn_px").click(function () {
+                    fetchRangeData();
+                })
+
             }else if(type == 4){
-                fetchQtlData();
+                $("#sort_btn_px").click(function () {
+                    fetchQtlData();
+                })
             }else if(type == 5){
-               fetchFirstData(dataParam);
+                $("#sort_btn_px").click(function () {
+                    fetchFirstData(dataParam);
+                })
             }
         }
     };
@@ -845,7 +856,6 @@
 
     //    排序弹窗
     function sortStrData(data,let) {
-        $("#sort_btn_px").click(function () {
             console.trace
             $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
@@ -870,7 +880,6 @@
                     return false;
                 }
             })
-        })
     }
 
 
