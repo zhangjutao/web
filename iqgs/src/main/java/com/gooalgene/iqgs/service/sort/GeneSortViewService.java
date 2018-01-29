@@ -12,6 +12,8 @@ import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
+import com.gooalgene.iqgs.service.concurrent.ThreadManager;
+import com.gooalgene.iqgs.service.concurrent.TimeConsumingJob;
 import com.gooalgene.utils.CommonUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
@@ -52,9 +54,10 @@ public class GeneSortViewService implements InitializingBean {
     @Autowired
     private CacheManager cacheManager;
 
-    private Cache cache;
+    @Autowired
+    private ThreadManager manager;
 
-    private ExecutorService threadPool;
+    private Cache cache;
 
     /**
      * 对传入的基因ID进行查询、排序，输出排序后的结果
@@ -165,13 +168,12 @@ public class GeneSortViewService implements InitializingBean {
             result = geneSortDao.findViewByGeneId(geneIds, fields);
         } else {
             int size = geneIds.size();
-            int singleRun = size / 5 + 1;
+            int singleRun = size / 20 + 1;
             int end = 0;
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 20; i++) {
                 end = singleRun * (i + 1) > size ? size : singleRun * (i + 1);
                 try {
-                    Future<List<SortedSearchResultView>> singleSortedResult = threadPool.submit(new SortedViewCallable(geneIds.subList(singleRun * i, end), fields));
-                    List<SortedSearchResultView> singleSortedSearchResultViews = singleSortedResult.get();
+                    List<SortedSearchResultView> singleSortedSearchResultViews = manager.submitTask(new SortedViewCallable(10, geneIds.subList(singleRun * i, end), fields));
                     result.addAll(singleSortedSearchResultViews);
                 } catch (InterruptedException | ExecutionException e) {
                     logger.error("执行数据库查询排序基因错误", e.getCause());
@@ -184,16 +186,16 @@ public class GeneSortViewService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         cache = cacheManager.getCache("sortCache");
-        threadPool = Executors.newFixedThreadPool(5);
     }
 
-    private class SortedViewCallable implements Callable<List<SortedSearchResultView>>{
+    private class SortedViewCallable extends TimeConsumingJob<List<SortedSearchResultView>> {
         //基因ID集合
         private List<String> geneCollection;
 
         private String fields;
 
-        public SortedViewCallable(List<String> collection, String fields) {
+        public SortedViewCallable(int priority, List<String> collection, String fields) {
+            super(priority);
             this.geneCollection = collection;
             this.fields = fields;
         }

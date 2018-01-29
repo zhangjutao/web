@@ -19,6 +19,8 @@ import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
+import com.gooalgene.iqgs.service.concurrent.ThreadManager;
+import com.gooalgene.iqgs.service.concurrent.TimeConsumingJob;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
@@ -44,7 +46,7 @@ import java.util.concurrent.*;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
-public class FPKMService implements InitializingBean, DisposableBean {
+public class FPKMService implements InitializingBean {
     private final static Logger logger = LoggerFactory.getLogger(FPKMService.class);
 
     @Autowired
@@ -65,9 +67,10 @@ public class FPKMService implements InitializingBean, DisposableBean {
     @Autowired
     private EventBusRegister register;
 
-    private Cache cache;
+    @Autowired
+    private ThreadManager threadManager;
 
-    private ExecutorService threadPool;
+    private Cache cache;
 
     private Thread initDataThread = null;
 
@@ -75,7 +78,6 @@ public class FPKMService implements InitializingBean, DisposableBean {
     public void afterPropertiesSet() throws Exception {
         if (context.getParent() != null) {
             cache = manager.getCache("advanceSearch");
-            threadPool = Executors.newFixedThreadPool(10);
             initDataThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -96,11 +98,10 @@ public class FPKMService implements InitializingBean, DisposableBean {
             final String chromosome = next.getKey();
             final List<DNAGenStructure> includeGeneId = next.getValue();
             final List<AdvanceSearchResultView> advanceSearchResultViews = new ArrayList<>();
-            LoadThreadCallable callable = new LoadThreadCallable(includeGeneId);
+            LoadThreadCallable callable = new LoadThreadCallable(1, includeGeneId);  //优先级设置稍微低点
             logger.warn("执行" + chromosome + "写入缓存");
-            Future<Set<AdvanceSearchResultView>> futureResult = threadPool.submit(callable);
             try {
-                Set<AdvanceSearchResultView> executeResult = futureResult.get();
+                Set<AdvanceSearchResultView> executeResult = threadManager.submitTask(callable);
                 advanceSearchResultViews.addAll(executeResult);
                 logger.warn(chromosome + "完成写入缓存");
             } catch (InterruptedException e) {
@@ -112,17 +113,11 @@ public class FPKMService implements InitializingBean, DisposableBean {
         }
     }
 
-    @Override
-    public void destroy() throws Exception {
-        if (threadPool != null && !threadPool.isShutdown()) {
-            threadPool.shutdown();
-        }
-    }
-
-    private class LoadThreadCallable implements Callable<Set<AdvanceSearchResultView>>{
+    private class LoadThreadCallable extends TimeConsumingJob<Set<AdvanceSearchResultView>> {
         private List<DNAGenStructure> includeGeneId;
 
-        public LoadThreadCallable(List<DNAGenStructure> includeGeneId) {
+        public LoadThreadCallable(int priority, List<DNAGenStructure> includeGeneId) {
+            super(priority);
             this.includeGeneId = includeGeneId;
         }
 
