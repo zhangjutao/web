@@ -129,7 +129,7 @@
 
 
         //点击排序获取排序表格数据
-        $(".sortInfo_btn").click(function () {
+        $(".sortInfo_btn").off("click").click(function () {
             var geneIdList = sortConditionData;
             var sortXzId = $(".sortSelect option:selected").attr("id");
             var organization = $(".sortZzText").find(".sortZzText_conter");
@@ -364,7 +364,7 @@
                     sortCopy(dataParam);
                     //导出方法调用
 
-                    $("#exportData").click(function () {
+                    $("#exportData").off('click').click(function () {
                         exportData(dataParam);
                     })
                 }
