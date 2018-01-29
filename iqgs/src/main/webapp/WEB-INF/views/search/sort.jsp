@@ -413,7 +413,7 @@
         var jsonStr = data.data;
         for (var i = 0; i < jsonStr.list.length; i++) {
             str += '<tr>'
-            str += '<td class="geneId">' + jsonStr.list[i].geneId + '</td><td class="geneName">' + jsonStr.list[i].geneName + '</td><td class="chromosome">' + jsonStr.list[i].chromosome + '</td><td class="description">' + jsonStr.list[i].description + '</td><td class="location">' + jsonStr.list[i].location + '</td>'
+            str += '<td class="geneId"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + jsonStr.list[i].geneId + '">' + jsonStr.list[i].geneId + '</a></td><td class="geneName">' + jsonStr.list[i].geneName + '</td><td class="chromosome">' + jsonStr.list[i].chromosome + '</td><td class="description">' + jsonStr.list[i].description + '</td><td class="location">' + jsonStr.list[i].location + '</td>'
             str += '</tr>'
         }
         $(".popu-table > tbody").empty().append(str);
