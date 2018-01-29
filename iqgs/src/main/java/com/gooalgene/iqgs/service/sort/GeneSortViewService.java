@@ -18,6 +18,7 @@ import com.google.common.collect.Collections2;
 import com.google.common.collect.Ordering;
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.lang3.RandomUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -90,7 +91,7 @@ public class GeneSortViewService implements InitializingBean {
         //记录用户行为
 
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(principal instanceof String&&(String)principal=="anonymousUser"){
+        if(principal instanceof String&& StringUtils.equals((String)principal,"anonymousUser")){
             Integer tempId= RandomUtils.nextInt(1,1000); //TODO 用户未登录时用随机数生成一个假id，以后改进
         }
         UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm(
