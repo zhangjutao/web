@@ -33,6 +33,9 @@ import static com.google.common.base.Preconditions.checkNotNull;
 @Service
 public class GeneSortViewService implements InitializingBean {
     private static final Logger logger = LoggerFactory.getLogger(GeneSortViewService.class);
+
+    public final static String CATEGORY = "category";
+
     @Autowired
     private GeneSortDao geneSortDao;
 
@@ -56,40 +59,53 @@ public class GeneSortViewService implements InitializingBean {
      */
     public PageInfo<SortedResult> findViewByGeneId(List<String> geneIds, Tissue tissue, Integer categoryId, int pageNo, int pageSize){
         String fields = getAllValidTissueProperties(tissue);
-
-        List<String> qtlNames = geneSortDao.getQtlNamesByTrait(categoryId);
-        List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(geneIds, fields);
-        List<SortedResult> result = new ArrayList<>();
-        try {
-            List<SortedSearchResultView> sortResult = sortService.sort(views,qtlNames);
-            Ordering<SortedSearchResultView> ordering = Ordering.natural().onResultOf(new Function<SortedSearchResultView, Double>() {
-                @Override
-                public Double apply(SortedSearchResultView input) {
-                    return input.getScore();
-                }
-            });
-            Collections.sort(sortResult, ordering);
-            Collection<SortedResult> transform = Collections2.transform(sortResult, new Function<SortedSearchResultView, SortedResult>() {
-                @Override
-                public SortedResult apply(SortedSearchResultView input) {
-                    DNAGenBaseInfo genBaseInfo = input.getBaseInfo();
-                    return new SortedResult(genBaseInfo.getGeneId(), genBaseInfo.getGeneName(),
-                            genBaseInfo.getDescription(), input.getChromosome(), input.getLocation());
-                }
-            });
-            result.addAll(transform);
-        } catch (IllegalAccessException e) {
-            logger.error("排序过程中出错", e.getCause());
+        //从缓存中拿性状对应的QTL
+        Cache.ValueWrapper categoryCachedValue = cache.get(CATEGORY + categoryId);
+        List<String> qtlNames = new ArrayList<>();
+        if (categoryCachedValue == null){
+            qtlNames = geneSortDao.getQtlNamesByTrait(categoryId);
+        } else {
+            qtlNames = (List<String>) categoryCachedValue.get();
         }
-        //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
-        AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, result);
-        AsyncEventBus asyncEventBus = register.getAsyncEventBus();
-        asyncEventBus.post(param);
-        //记录用户行为
-        UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm(
-                ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
-                ,categoryId,fields,new Date());
-        asyncEventBus.post(userAssociateTraitFpkm);
+        AllSortedResultEvent preSortedResult = new AllSortedResultEvent(geneIds, tissue, categoryId, null);
+        String cachedSortedKey = preSortedResult.getClass().getSimpleName() + preSortedResult.hashCode();
+        Cache.ValueWrapper cachedSortedResult = cache.get(cachedSortedKey);
+        List<SortedResult> result = new ArrayList<>();
+        if (cachedSortedResult != null){
+            result = (List<SortedResult>) cachedSortedResult.get();
+        } else {
+            List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(geneIds, fields);
+            try {
+                List<SortedSearchResultView> sortResult = sortService.sort(views, qtlNames);
+                Ordering<SortedSearchResultView> ordering = Ordering.natural().onResultOf(new Function<SortedSearchResultView, Double>() {
+                    @Override
+                    public Double apply(SortedSearchResultView input) {
+                        return input.getScore();
+                    }
+                });
+                Collections.sort(sortResult, ordering);
+                Collection<SortedResult> transform = Collections2.transform(sortResult, new Function<SortedSearchResultView, SortedResult>() {
+                    @Override
+                    public SortedResult apply(SortedSearchResultView input) {
+                        DNAGenBaseInfo genBaseInfo = input.getBaseInfo();
+                        return new SortedResult(genBaseInfo.getGeneId(), genBaseInfo.getGeneName(),
+                                genBaseInfo.getDescription(), input.getChromosome(), input.getLocation());
+                    }
+                });
+                result.addAll(transform);
+            } catch (IllegalAccessException e) {
+                logger.error("排序过程中出错", e.getCause());
+            }
+            //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
+            AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, result);
+            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
+            asyncEventBus.post(param);
+            //记录用户行为
+            UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm(
+                    ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId()
+                    ,categoryId,fields,new Date());
+            asyncEventBus.post(userAssociateTraitFpkm);
+        }
         int size = result.size();
         int end = pageNo*pageSize > size ? size : pageNo*pageSize;
         Page<SortedResult> page = new Page<>(pageNo, pageSize, false);
@@ -127,6 +143,6 @@ public class GeneSortViewService implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        cache = cacheManager.getCache("advanceSearch");
+        cache = cacheManager.getCache("sortCache");
     }
 }

@@ -41,7 +41,7 @@ abstract class AbstractSearchViewListener implements InitializingBean, Transform
     @Override
     public void afterPropertiesSet() throws Exception {
         if (context.getParent() != null) {
-            cache = cacheManager.getCache("advanceSearch");
+            cache = cacheManager.getCache("sortCache");
         }
     }
 }
