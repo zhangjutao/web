@@ -108,6 +108,7 @@ public class FPKMService implements InitializingBean, DisposableBean {
             } catch (ExecutionException e) {
                 e.printStackTrace();
             }
+            cache.put(chromosome, advanceSearchResultViews);
         }
     }
 
