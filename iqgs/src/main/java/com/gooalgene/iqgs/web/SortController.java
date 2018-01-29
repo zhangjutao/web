@@ -16,6 +16,7 @@ import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
+import com.gooalgene.iqgs.service.GeneRegexpService;
 import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
@@ -216,9 +217,14 @@ public class SortController implements InitializingBean {
         String keyword = req.getParameter("keyword");
         String searchType = req.getParameter("searchType");
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
+        // todo 增加判断：与第一次查询的条件保持一致，如果第一次未匹配，该次仍然无结果
         if (searchType.equals("1")){
-            bean.setGeneId(keyword);
-            bean.setGeneOldId(keyword);
+            List<String> matchedGene = GeneRegexpService.interpretGeneInput(keyword);  //基因匹配结果
+            if (matchedGene != null && matchedGene.size() > 0) {
+                //先取第一个匹配到的值
+                bean.setGeneId(matchedGene.get(0));
+                bean.setGeneOldId(matchedGene.get(0));
+            }
         } else {
             bean.setFunctions(keyword);
         }
