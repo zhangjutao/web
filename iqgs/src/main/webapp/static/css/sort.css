@@ -88,6 +88,7 @@
 body .tab-detail-tbody tr td {
     padding: 0px 15px;
 }
+.soetTable{min-width: 846px;}
 .soetTable .geneId a{color: #5c8ce6; cursor: pointer;}
 .soetTable .description{width: 200px;}
 body .sortMainImg{
