@@ -66,23 +66,26 @@
                     a.*,
                 </otherwise>
             </choose>
-            f.gene_id, f.gene_name, f.locus, f.description,
-            c.consequencetype AS snp_consequencetype,
-            c.score snp_score,
+            f.gene_id,
+            f.gene_name,
+            f.locus,
+            f.description,
+            c.consequencetype AS    snp_consequencetype,
+            c.score                 snp_score,
             b.consequencetype_count snp_count,
-            e.consequencetype AS indel_consequencetype,
-            e.score indel_score,
+            e.consequencetype AS    indel_consequencetype,
+            e.score                 indel_score,
             d.consequencetype_count indel_count,
             h.qtl_name
-          FROM fpkm a, fpkm_associate_snp b, snp_consequencetype c,
-               fpkm_associate_indel d, indel_consequencetype e,
-               gens_baseinfo f, qtl_gene g, associatedgenes h
-          WHERE
-              a.id = b.fpkm_id AND c.id = b.snp_id
-                  AND d.fpkm_id = a.id AND d.indel_id = e.id
-                  AND a.gene_id = f.gene_id AND f.id = g.gene_info_id AND g.qtl_id = h.id
-
-              AND a.gene_id in
+            FROM
+            fpkm a LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
+            LEFT JOIN snp_consequencetype c ON c.id = b.snp_id
+            LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
+            LEFT JOIN indel_consequencetype e ON e.id = d.indel_id
+            LEFT JOIN gens_baseinfo f ON f.gene_id = a.gene_id
+            LEFT JOIN qtl_gene g ON g.gene_info_id = f.id
+            LEFT JOIN associatedgenes h ON h.id = g.qtl_id
+              WHERE a.gene_id in
         <foreach collection="geneIds" item="geneId" open="(" close=")" separator=",">
             #{geneId}
         </foreach>
