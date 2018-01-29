@@ -7,10 +7,10 @@
 <body>
     <iqgs:iqgs-header />
     <h1>缓存个体数目：${keySize}</h1>
-    <h1>目前系统中缓存的Key有：</h1>
     <h1>系统目前CPU使用率：${processCpuLoad}</h1>
+    <h1>目前系统中缓存的Key有：</h1>
     <c:forEach items="${cacheResult}" var="obj">
-        <p>Key: ${obj.key}</p>
+        <span>${obj.key}、</span>
     </c:forEach>
 </body>
 </html>
