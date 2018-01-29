@@ -3,7 +3,6 @@ package com.gooalgene.iqgs.eventbus.listeners;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
-import javafx.application.Application;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -41,7 +40,7 @@ abstract class AbstractSearchViewListener implements InitializingBean, Transform
     @Override
     public void afterPropertiesSet() throws Exception {
         if (context.getParent() != null) {
-            cache = cacheManager.getCache("advanceSearch");
+            cache = cacheManager.getCache("sortCache");
         }
     }
 }

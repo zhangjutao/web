@@ -120,49 +120,60 @@
     window.addEventListener("message", function (event) {
         // 把父窗口发送过来的数据显示在子窗口中
         var sortConditionData = event.data;
+//        var geneList=["Glyma.01G000100","Glyma.01G000200","Glyma.01G000300"];
+//        var sortConditionData = {
+//            "type":"geneList",
+//            "data":{
+//                "geneList":geneList,
+////                "genomeID":toolService.sessionStorage.get('GenomeID')
+//            }
+//        };
         if (sortConditionData == null) {
             layer.msg("无基因名")
             return false;
+        }else if(sortConditionData.type=="geneList"){
+            //外部数据库访问传来的postmessage数据
+            geneIdLists = sortConditionData.data.geneList;
+            //获取外部数据进行表格排序
+             sortCurrencyTable(geneIdLists);
+        }else{
+            //点击排序获取排序表格数据
+                sortCurrencyTable(sortConditionData);
         }
-//        console.log(sortConditionData);
-        // var dataParam = Object.assign(dataParams);
-//        外部数据库访问传来的postmessage数据
-
-
-        //点击排序获取排序表格数据
-        $(".sortInfo_btn").off("click").click(function () {
-            var geneIdList = sortConditionData;
-            var sortXzId = $(".sortSelect option:selected").attr("id");
-            var organization = $(".sortZzText").find(".sortZzText_conter");
-
-            var tissue = {};
-            for (var i = 0; i < organization.length; i++) {
-                var organizationName = deleteSpace($(organization[i]).find(".sortZzText_b2").text());
-                tissue[organizationName] = i;
-            }
-
-            dataParam = {};
-            dataParam.geneIdList = geneIdList;
-            dataParam.tissue = tissue;
-            dataParam.traitCategoryId = sortXzId;
-            dataParam.pageNo = 1;
-            dataParam.pageSize = 10;
-
-            var characterLength = $(".sortText .sortText_conter").text().length;
-            var tissueLength = JSON.stringify(tissue) == '{}';
-            if (characterLength == 0) {
-                layer.msg('请选择性状');
-                return false;
-            } else if (tissueLength == true) {
-                layer.msg('请选择组织');
-                return false;
-            } else {
-                sortTable(1, dataParam);
-            }
-
-        });
     }, false);
 
+    //处理发送过来的数据
+    function sortCurrencyTable(sortConditionData) {
+        $(".sortInfo_btn").off("click").click(function () {
+//        var geneIdList = sortConditionData;
+        var sortXzId = $(".sortSelect option:selected").attr("id");
+        var organization = $(".sortZzText").find(".sortZzText_conter");
+
+        var tissue = {};
+        for (var i = 0; i < organization.length; i++) {
+            var organizationName = deleteSpace($(organization[i]).find(".sortZzText_b2").text());
+            tissue[organizationName] = i;
+        }
+        dataParam = {};
+        dataParam.geneIdList = sortConditionData;
+        dataParam.tissue = tissue;
+        dataParam.traitCategoryId = sortXzId;
+        dataParam.pageNo = 1;
+        dataParam.pageSize = 10;
+
+        var characterLength = $(".sortText .sortText_conter").text().length;
+        var tissueLength = JSON.stringify(tissue) == '{}';
+        if (characterLength == 0) {
+            layer.msg('请选择性状');
+            return false;
+        } else if (tissueLength == true) {
+            layer.msg('请选择组织');
+            return false;
+        } else {
+            sortTable(1, dataParam);
+        }
+        });
+    }
 
     $(".sortGb").click(function () {
         $('.sortText_conter').text("");
