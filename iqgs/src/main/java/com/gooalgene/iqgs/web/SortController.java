@@ -317,15 +317,15 @@ public class SortController implements InitializingBean {
             String contextPath = request.getContextPath();      // /dna
             //重构请求URL
             StringBuilder builder = new StringBuilder();
-            builder.append(scheme).append("://").append(serverName);
+            /*builder.append(scheme).append("://").append(serverName);
             //针对nginx反向代理、https请求重定向，不需要加端口
             if (serverPort != 80 && serverPort != 443) {
                 builder.append(":").append(serverPort);
-            }
+            }*/
             builder.append(contextPath);
             String path = builder.toString() + "/tempFile/" + fileName;
             logger.info(path);
-            return ResultUtil.success(JsonUtils.Bean2Json(path));
+            return ResultUtil.success(path);
             //Tools.toDownload(System.currentTimeMillis()+"_"+ UUID.randomUUID().toString(), content, response);
         }else {
             logger.warn("缓存数据已清空，请重新查询后排序");
