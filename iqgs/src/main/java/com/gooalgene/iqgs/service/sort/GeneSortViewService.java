@@ -12,10 +12,12 @@ import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
+import com.gooalgene.utils.CommonUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Ordering;
 import com.google.common.eventbus.AsyncEventBus;
+import org.apache.commons.lang3.RandomUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -127,7 +129,9 @@ public class GeneSortViewService implements InitializingBean {
             try {
                 Object fieldValue = declaredFields[i].get(tissue);
                 if (fieldValue != null){
-                    builder.append(declaredFields[i].getName());
+                    String name = declaredFields[i].getName();
+                    name= CommonUtil.camelToUnderline(name);
+                    builder.append(name);
                     builder.append(",");
                 }
             } catch (IllegalAccessException e) {
@@ -140,6 +144,7 @@ public class GeneSortViewService implements InitializingBean {
         builder.deleteCharAt(builder.length() - 1);
         return builder.toString();
     }
+
 
     @Override
     public void afterPropertiesSet() throws Exception {

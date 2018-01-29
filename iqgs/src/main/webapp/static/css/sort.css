@@ -84,10 +84,12 @@
 .sortZzText span{border: 1px solid #DDDDDD;  padding: 0px 6px; float: left; margin-top: 5px;    margin-bottom: 5px;   margin-right: 6px;     line-height: 20px; color:#666;     background: #e1e8f5;}
 .sortZzGb{    padding: 0 6px;  cursor: pointer;}
 .sortGb{cursor: pointer;padding:0 6px;display: none; }
-.sortText_tit{width: 40px; float: left;    position: relative;  top: 4px;}
+.sortText_tit{width: 40px; float: left;    position: relative;  top: 6px;}
 body .tab-detail-tbody tr td {
     padding: 0px 15px;
 }
+.soetTable{min-width: 846px;}
+.soetTable .geneId a{color: #5c8ce6; cursor: pointer;}
 .soetTable .description{width: 200px;}
 body .sortMainImg{
     border: none;

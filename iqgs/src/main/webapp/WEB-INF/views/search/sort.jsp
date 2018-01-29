@@ -85,11 +85,11 @@
             <table class="popu-table soetTable">
                 <thead>
                 <tr>
-                    <td class="species">基因ID</td>
-                    <td class="locality">基因名</td>
-                    <td class="sampleName">染色体</td>
-                    <td class="cultivar">基因位置</td>
-                    <td class="weightPer100seeds">基因注释</td>
+                    <td class="geneId">基因ID</td>
+                    <td class="geneName">基因名</td>
+                    <td class="chromosome">染色体</td>
+                    <td class="location">基因位置</td>
+                    <td class="description">基因注释</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -107,6 +107,7 @@
 <script src="${ctxStatic}/js/jquery.combo.select.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/layer/layer.js"></script>
+<script src="${ctxStatic}/js/newAddNeed.js"></script>
 <script>
     $(function () {
         window.DOMAIN = "${ctxroot}/iqgs";
@@ -123,18 +124,20 @@
             layer.msg("无基因名")
             return false;
         }
-        console.log(sortConditionData);
+//        console.log(sortConditionData);
         // var dataParam = Object.assign(dataParams);
-        //点击排序获取排序表格数据
+//        外部数据库访问传来的postmessage数据
 
-        $(".sortInfo_btn").click(function () {
+
+        //点击排序获取排序表格数据
+        $(".sortInfo_btn").off("click").click(function () {
             var geneIdList = sortConditionData;
             var sortXzId = $(".sortSelect option:selected").attr("id");
             var organization = $(".sortZzText").find(".sortZzText_conter");
 
             var tissue = {};
             for (var i = 0; i < organization.length; i++) {
-                var organizationName = $(organization[i]).find(".sortZzText_b2").text();
+                var organizationName = deleteSpace($(organization[i]).find(".sortZzText_b2").text());
                 tissue[organizationName] = i;
             }
 
@@ -223,7 +226,7 @@
                     arr_geneName.push(list)
                     var arr_geneListName = [];
                     for (var j = 0; j < jsonStr[i].children.length; j++) {
-                        geneList = jsonStr[i].children[j].name
+                        geneList = jsonStr[i].children[j].name;
                         arr_geneListName.push(geneList);
                     }
                     arr_geneList.push(arr_geneListName);
@@ -362,7 +365,7 @@
                     sortCopy(dataParam);
                     //导出方法调用
 
-                    $("#exportData").click(function () {
+                    $("#exportData").off('click').click(function () {
                         exportData(dataParam);
                     })
                 }
@@ -413,7 +416,7 @@
         var jsonStr = data.data;
         for (var i = 0; i < jsonStr.list.length; i++) {
             str += '<tr>'
-            str += '<td class="geneId">' + jsonStr.list[i].geneId + '</td><td class="geneName">' + jsonStr.list[i].geneName + '</td><td class="chromosome">' + jsonStr.list[i].chromosome + '</td><td class="description">' + jsonStr.list[i].description + '</td><td class="location">' + jsonStr.list[i].location + '</td>'
+            str += '<td class="geneId"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + jsonStr.list[i].geneId + '">' + jsonStr.list[i].geneId + '</a></td><td class="geneName">' + jsonStr.list[i].geneName + '</td><td class="chromosome">' + jsonStr.list[i].chromosome + '</td><td class="location">' + jsonStr.list[i].location + '</td><td class="description">' + jsonStr.list[i].description + '</td>'
             str += '</tr>'
         }
         $(".popu-table > tbody").empty().append(str);
@@ -467,8 +470,6 @@
 
     // 表格导出
     function exportData(dataParam) {
-        console.log(dataParam)
-        // modify by Crabime
         // 修复tomcat8无法识别的JSON格式问题
         $.ajax({
             type: "POST",
@@ -477,13 +478,33 @@
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
-                window.location.href = result;
+                var path='http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href =path+result.data;
+
             },
             error: function (error) {
                 console.log(error);
             }
         })
 
+    }
+    function extractHostname(url) {
+        var hostname;
+        //find & remove protocol (http, ftp, etc.) and get hostname
+
+        if (url.indexOf("://") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+
+        return hostname;
     }
 
 </script>
