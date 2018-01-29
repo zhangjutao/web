@@ -25,9 +25,9 @@
             margin: 0px;
             padding: 0 0px 0 20px;
         }
-
-        body .tab-detail-tbody .popu-table {
-            /*margin: 0px;*/
+        .sortMain #total-page-count {
+            position: relative;
+            top: -4px;
         }
     </style>
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
@@ -38,7 +38,6 @@
             <div class="sortZzText">
                 <span class="sortText"><span class="sortText_conter"></span><i class="sortGb">X</i>
                 </span>
-                <%--<span class="sortZzText_conter"></span><i class="sortZzGb">X</i>--%>
             </div>
         </div>
     </div>
@@ -48,11 +47,6 @@
             <div class="sort_xz">
                 <label class="sort_lab">设置性状：</label>
                 <select name="sortSelect" class="sortSelect">
-                    <%--<option value="">请选择</option>--%>
-                    <%--<option value="一月">一月</option>--%>
-                    <%--<option value="二月">二月</option>--%>
-                    <%--<option value="三月">三月</option>--%>
-                    <%--<option value="四月">四月</option>--%>
                 </select>
             </div>
         </form>
@@ -89,7 +83,7 @@
                     <td class="geneName">基因名</td>
                     <td class="chromosome">染色体</td>
                     <td class="location">基因位置</td>
-                    <td class="description">基因注释</td>
+                    <td class="">基因注释</td>
                 </tr>
                 </thead>
                 <tbody>
@@ -100,7 +94,6 @@
             </div>
         </div>
     </div>
-
 </div>
 <script src="${ctxStatic}/js/iqgsCommon.js"></script>
 <script src="${ctxStatic}/js/sort.js"></script>
@@ -123,26 +116,30 @@
         if (sortConditionData == null) {
             layer.msg("无基因名")
             return false;
+        } else if (sortConditionData.type == "geneList") {
+            //外部数据库访问传来的postmessage数据
+            var geneIdLists = sortConditionData.data.geneList;
+            //获取外部数据进行表格排序
+            setTimeout(sortCurrencyTable(geneIdLists), 200);
+        } else {
+            //点击排序获取排序表格数据
+            setTimeout(sortCurrencyTable(sortConditionData), 200);
         }
-//        console.log(sortConditionData);
-        // var dataParam = Object.assign(dataParams);
-//        外部数据库访问传来的postmessage数据
+    }, false);
 
-
-        //点击排序获取排序表格数据
+    //处理发送过来的数据
+    function sortCurrencyTable(sortConditionData) {
         $(".sortInfo_btn").off("click").click(function () {
-            var geneIdList = sortConditionData;
+//        var geneIdList = sortConditionData;
             var sortXzId = $(".sortSelect option:selected").attr("id");
             var organization = $(".sortZzText").find(".sortZzText_conter");
-
             var tissue = {};
             for (var i = 0; i < organization.length; i++) {
                 var organizationName = deleteSpace($(organization[i]).find(".sortZzText_b2").text());
                 tissue[organizationName] = i;
             }
-
             dataParam = {};
-            dataParam.geneIdList = geneIdList;
+            dataParam.geneIdList = sortConditionData;
             dataParam.tissue = tissue;
             dataParam.traitCategoryId = sortXzId;
             dataParam.pageNo = 1;
@@ -159,18 +156,12 @@
             } else {
                 sortTable(1, dataParam);
             }
-
         });
-    }, false);
-
+    }
 
     $(".sortGb").click(function () {
         $('.sortText_conter').text("");
         $(".sort_xz .combo-dropdown li").removeClass("option-disabled").addClass("option-item");
-
-//        $('.sortSelect').children('option').eq(0);
-//        $(".sort_xz .combo-dropdown li").eq(0).prop("selected", 'selected');
-//        $(".sortSelect option").eq(0).prop("selected", 'selected');
         //    如果设置性状为空，则隐藏边框
         if ($(".sortText_conter").text().length == 0) {
             $(".sortText").hide()
@@ -281,7 +272,6 @@
         )
     };
 
-
     // 组织重置保存状态
     function sortSaveStatus() {
         var sortInputs = $("#geneList").find("li");
@@ -297,7 +287,6 @@
             }
         }
     }
-
 
     // 获取性状数据
     characterData();
@@ -349,7 +338,6 @@
                     groups: 3, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-
                             dataParam.pageNo = obj.curr;
                             dataParam.pageSize = 10;
                             sortTable(obj.curr, dataParam);
@@ -364,12 +352,12 @@
                     //复制方法调用
                     sortCopy(dataParam);
                     //导出方法调用
-
                     $("#exportData").off('click').click(function () {
                         exportData(dataParam);
                     })
+                } else {
+                    $(".soetTable tbody tr").remove().html("暂无数据！");
                 }
-
                 layer.close(load);
             }, function (error) {
                 console.log(error);
@@ -478,8 +466,8 @@
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
-                var path='http://' + extractHostname(window.location.href) + ':' + window.location.port;
-                window.location.href =path+result.data;
+                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href = path + result.data;
 
             },
             error: function (error) {
@@ -488,6 +476,7 @@
         })
 
     }
+
     function extractHostname(url) {
         var hostname;
         //find & remove protocol (http, ftp, etc.) and get hostname
