@@ -10,6 +10,8 @@ import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ import java.util.Set;
 
 @Service
 public class SortServiceImpl implements SortService, InitializingBean {
+
+    private Logger logger= LoggerFactory.getLogger(SortServiceImpl.class);
 
     @Autowired
     private CacheManager cacheManager;
@@ -142,8 +146,14 @@ public class SortServiceImpl implements SortService, InitializingBean {
             }
             sum+=(score*snpScore.getCount());/**/
         }
-        sum=sum/(view.getSnpConsequenceType().size());
-        Integer sum2=0;
+        try {
+            sum=sum/(view.getSnpConsequenceType().size());
+        }catch (ArithmeticException e){
+            sum=0d;
+            logger.warn("{}的IndelConsequenceType数目为0",view.getId());
+        }
+
+        Double sum2=0d;
         for(IndelScore indelScore:view.getIndelConsequenceType()){
             Integer score = indelScore.getScore();
             if(score==null){
@@ -154,7 +164,8 @@ public class SortServiceImpl implements SortService, InitializingBean {
         try {
             sum2 = sum2 / (view.getIndelConsequenceType().size());
         }catch (ArithmeticException e){
-            sum2 = 0;
+            sum2 = 0d;
+            logger.warn("{}的IndelConsequenceType数目为0",view.getId());
         }
         view.setScore(oldScore+sum+sum2);
         return view;
