@@ -256,8 +256,12 @@ public class SortController implements InitializingBean {
     @RequestMapping(value = "/cache/admin")
     public ModelAndView cacheAdminPage(){
         ModelAndView view = new ModelAndView("iqgs/cache-admin");
+        Cache advanceSearchCache = cacheManager.getCache("advanceSearch");  //存储高级搜索相关缓存数据
+        com.google.common.cache.Cache advacenSearchGuavaCache = ((GuavaCache) advanceSearchCache).getNativeCache();  //排序相关数据缓存
         com.google.common.cache.Cache guavaCache = ((GuavaCache) cache).getNativeCache();
         ConcurrentMap cacheResult = guavaCache.asMap();
+        ConcurrentMap advanceSearchCacheMap = advacenSearchGuavaCache.asMap();
+        cacheResult.putAll(advanceSearchCacheMap);
         //获取系统运行状况相关信息
         OperatingSystemMXBean operatingSystemMXBean = ManagementFactory.getOperatingSystemMXBean();
         Method[] declaredMethods = operatingSystemMXBean.getClass().getDeclaredMethods();
@@ -361,7 +365,7 @@ public class SortController implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        cache = cacheManager.getCache("advanceSearch");
+        cache = cacheManager.getCache("sortCache");
         mapper = new ObjectMapper();
         //使私有变量或私有类对JsonMapper可见
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
