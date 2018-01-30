@@ -861,10 +861,11 @@
             $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
                 // 搜索结果传到排序页面
-//                console.log(data)
-                if(data.length!==0&&data!==null){
+                console.log(data)
+                if(data!==null){
                     layer.close(load);
                     $("#gray").show();
+                    $(".ui-dialog-title").text("排序");
                     $("#popup").dialog({
                         buttons: {
                             "X": function () {
@@ -879,6 +880,7 @@
                     window.frames[0].postMessage(data, targetLocation);
                 }else{
                     layer.msg("数据异常");
+                    layer.close(load);
                     return false;
                 }
             })
