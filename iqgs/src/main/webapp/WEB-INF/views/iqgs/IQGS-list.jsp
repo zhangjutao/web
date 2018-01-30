@@ -736,6 +736,7 @@
             var html = [];
             $.each(listdata, function (i, item) {
                 var geneName = item.geneName ? item.geneName : "-";
+
                 var description = item.description ? item.description : "-";
                 html.push('<div class="list">');
                 html.push('    <div class="tab-index">' + (page.pageSize * (page.curr - 1) + i + 1) + '.</div>');

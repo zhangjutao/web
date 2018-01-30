@@ -173,7 +173,7 @@ public class GeneSortViewService implements InitializingBean {
             for (int i = 0; i < 20; i++) {
                 end = singleRun * (i + 1) > size ? size : singleRun * (i + 1);
                 try {
-                    List<SortedSearchResultView> singleSortedSearchResultViews = manager.submitTask(new SortedViewCallable(10, geneIds.subList(singleRun * i, end), fields));
+                    List<SortedSearchResultView> singleSortedSearchResultViews = manager.submitTask(new SortedViewCallable(1, geneIds.subList(singleRun * i, end), fields));
                     result.addAll(singleSortedSearchResultViews);
                 } catch (InterruptedException | ExecutionException e) {
                     logger.error("执行数据库查询排序基因错误", e.getCause());

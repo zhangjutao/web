@@ -4,10 +4,12 @@ import com.gooalgene.common.service.ConfigService;
 import com.gooalgene.entity.Configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationListener;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.stereotype.Component;
@@ -20,25 +22,25 @@ import java.util.List;
  * 必须配置在各自模块的配置文件中
  */
 @Component
-public class ConfigAfterTomcatStartup implements ApplicationListener<ContextRefreshedEvent> {
+public class ConfigAfterTomcatStartup implements InitializingBean {
     private final static Logger logger = LoggerFactory.getLogger(ConfigAfterTomcatStartup.class);
     @Autowired
     private ConfigService configService;
     @Autowired
     private CacheManager cacheManager;
+    @Autowired
+    private ApplicationContext context;
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent event) {
-        String displayName = event.getApplicationContext().getDisplayName();
+    public void afterPropertiesSet() throws Exception {
         // 只监听一个应用启动事件
-        if (!displayName.equals("Root WebApplicationContext")){
-            return;
+        if (context.getParent() != null){
+            List<Configuration> configurations = configService.getAllConfig();
+            Cache cache = cacheManager.getCache("config");
+            for (Configuration configuration : configurations){
+                cache.putIfAbsent(configuration.getKey(), configuration.getValue());
+            }
+            logger.debug("配置目前有" + configurations.size() + "个配置");
         }
-        List<Configuration> configurations = configService.getAllConfig();
-        Cache cache = cacheManager.getCache("config");
-        for (Configuration configuration : configurations){
-            cache.putIfAbsent(configuration.getKey(), configuration.getValue());
-        }
-        logger.debug("配置目前有" + configurations.size() + "个配置");
     }
 }

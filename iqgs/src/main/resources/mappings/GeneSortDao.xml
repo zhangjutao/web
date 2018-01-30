@@ -92,7 +92,7 @@
     </select>
     
     <select id="getQtlNamesByTrait" resultType="string">
-        SELECT DISTINCT  h.qtl_name FROM associatedgenes h WHERE h.qtl_name IN (
+
                     SELECT
                     c.qtl_name
                     FROM
@@ -100,6 +100,6 @@
                     LEFT JOIN trait_list b ON a.id = b.qtl_id
                     LEFT JOIN qtl c ON c.trait = b.trait_name
                     WHERE a.id = #{categoryId}
-                )
+
     </select>
 </mapper>
