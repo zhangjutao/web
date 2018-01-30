@@ -740,7 +740,7 @@
                 html.push('<div class="list">');
                 html.push('    <div class="tab-index">' + (page.pageSize * (page.curr - 1) + i + 1) + '.</div>');
                 html.push('    <div class="list-content">');
-                html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=\' + item.geneId + \'">' + item.geneId + '</a></p>');
+                html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
                 html.push('        <p class="h-tips">基因名:<span>' + ' ' + geneName + '</span></p>');
 //                modify by jarry
 //                if(searchType == 4){
@@ -860,10 +860,11 @@
             $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
                 // 搜索结果传到排序页面
-//                console.log(data)
-                if(data.length!==0&&data!==null){
+                console.log(data)
+                if(data!==null){
                     layer.close(load);
                     $("#gray").show();
+                    $(".ui-dialog-title").text("排序");
                     $("#popup").dialog({
                         buttons: {
                             "X": function () {
@@ -878,6 +879,7 @@
                     window.frames[0].postMessage(data, targetLocation);
                 }else{
                     layer.msg("数据异常");
+                    layer.close(load);
                     return false;
                 }
             })

@@ -22,13 +22,15 @@
     <style>
         body .tab-detail-tbody {
             width: 850px;
-            margin: 0px;
-            padding: 0 0px 0 20px;
+            margin: 0 auto;
         }
         .sortMain #total-page-count {
             position: relative;
             top: -4px;
         }
+        .description{background: none}
+        #popu-paginate{padding-right: 20px;}
+       /*.soetTable .description{background-color: #f5f8ff;}*/
     </style>
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
 <div class="sort_top">
@@ -89,9 +91,9 @@
                 <tbody>
                 </tbody>
             </table>
-            <div class="checkbox-item-tab" id="popu-paginate">
-                <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-            </div>
+        </div>
+        <div class="checkbox-item-tab" id="popu-paginate">
+            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
         </div>
     </div>
 </div>
@@ -353,9 +355,9 @@
 
                 if (result.data.list.length !== 0) {
                     //复制方法调用
-                    $("#copyBtn").click(function () {
+
                         sortCopy(dataParam);
-                    });
+
                     //导出方法调用
                     $("#exportData").off('click').click(function () {
                         exportData(dataParam);
@@ -382,7 +384,9 @@
                 $(".copyHtml").append(str);
 
                 if (result.data.length !== 0) {
+                    $("#copyBtn").click(function () {
                         copyText()
+                    });
                 }
             }, function (error) {
                 console.log(error);
