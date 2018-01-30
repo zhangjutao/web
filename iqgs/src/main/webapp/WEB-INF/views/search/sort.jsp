@@ -31,7 +31,7 @@
         .description{background: none}
         #popu-paginate{padding-right: 20px;}
        /*.soetTable .description{background-color: #f5f8ff;}*/
-        #layui-layer-shade1{opacity: 0.2;}
+       body #layui-layer-shade1{opacity: 0.2!important;}
     </style>
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
 <div class="sort_top">
