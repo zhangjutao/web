@@ -736,11 +736,12 @@
             var html = [];
             $.each(listdata, function (i, item) {
                 var geneName = item.geneName ? item.geneName : "-";
+
                 var description = item.description ? item.description : "-";
                 html.push('<div class="list">');
                 html.push('    <div class="tab-index">' + (page.pageSize * (page.curr - 1) + i + 1) + '.</div>');
                 html.push('    <div class="list-content">');
-                html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=\' + item.geneId + \'">' + item.geneId + '</a></p>');
+                html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
                 html.push('        <p class="h-tips">基因名:<span>' + ' ' + geneName + '</span></p>');
 //                modify by jarry
 //                if(searchType == 4){
