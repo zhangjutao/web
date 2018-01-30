@@ -78,10 +78,16 @@ public class FPKMService implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         if (context.getParent() != null) {
             cache = manager.getCache("advanceSearch");
+            Cache configCache = manager.getCache("config");
+            final boolean cacheChromosome = Integer.parseInt((String) configCache.get("initCache").get()) == 1;  //动态配置是否启动时缓存染色体
             initDataThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    initDataToCache();
+                    if (cacheChromosome) {
+                        initDataToCache();
+                    } else {
+                        logger.warn("不缓存目标染色体");
+                    }
                 }
             });
             initDataThread.start();
@@ -98,7 +104,7 @@ public class FPKMService implements InitializingBean {
             final String chromosome = next.getKey();
             final List<DNAGenStructure> includeGeneId = next.getValue();
             final List<AdvanceSearchResultView> advanceSearchResultViews = new ArrayList<>();
-            LoadThreadCallable callable = new LoadThreadCallable(1, includeGeneId);  //优先级设置稍微低点
+            LoadThreadCallable callable = new LoadThreadCallable(10, includeGeneId);  //优先级设置稍微低点
             logger.warn("执行" + chromosome + "写入缓存");
             try {
                 Set<AdvanceSearchResultView> executeResult = threadManager.submitTask(callable);
