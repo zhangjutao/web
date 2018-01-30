@@ -52,6 +52,8 @@ public class DNAGenBaseInfoService {
         }
         //调用fpkm中针对基因功能、ID、NAME查询接口，获取到初步查询结果
         PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.searchByIdOrFunction(bean, pageNo, pageSize);
+        if (advanceSearchResultPage == null)
+            return new PageInfo<>();
         return convertSearchResultToSearchView(advanceSearchResultPage);
     }
 

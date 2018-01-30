@@ -163,21 +163,19 @@ public class GeneSortViewService implements InitializingBean {
     private List<SortedSearchResultView> splitTimeConsumingJob(List<String> geneIds, String fields){
         if (geneIds == null) return null;
         List<SortedSearchResultView> result = new ArrayList<>();
+        int size = geneIds.size();
         //小数据量直接使用一次查询
-        if (geneIds.size() < 1000){
-            result = geneSortDao.findViewByGeneId(geneIds, fields);
-        } else {
-            int size = geneIds.size();
-            int singleRun = size / 20 + 1;
-            int end = 0;
-            for (int i = 0; i < 20; i++) {
-                end = singleRun * (i + 1) > size ? size : singleRun * (i + 1);
-                try {
-                    List<SortedSearchResultView> singleSortedSearchResultViews = manager.submitTask(new SortedViewCallable(1, geneIds.subList(singleRun * i, end), fields));
-                    result.addAll(singleSortedSearchResultViews);
-                } catch (InterruptedException | ExecutionException e) {
-                    logger.error("执行数据库查询排序基因错误", e.getCause());
-                }
+        int loopTimes = size / 100 + 1;  //每次100条数据限制
+        logger.warn("分解的任务个数为：" + loopTimes);
+        int singleRun = 100;
+        int end = 0;
+        for (int i = 0; i < loopTimes; i++) {
+            end = singleRun * (i + 1) > size ? size : singleRun * (i + 1);
+            try {
+                List<SortedSearchResultView> singleSortedSearchResultViews = manager.submitTask(new SortedViewCallable(1, geneIds.subList(singleRun * i, end), fields));
+                result.addAll(singleSortedSearchResultViews);
+            } catch (InterruptedException | ExecutionException e) {
+                logger.error("执行数据库查询排序基因错误", e.getCause());
             }
         }
         return result;

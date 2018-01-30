@@ -74,6 +74,8 @@ public class FPKMService implements InitializingBean {
 
     private Cache cache;
 
+    private boolean globalCacheSign;
+
     private Thread initDataThread = null;
 
     @Override
@@ -82,6 +84,7 @@ public class FPKMService implements InitializingBean {
             cache = manager.getCache("advanceSearch");
             Cache configCache = manager.getCache("config");
             final boolean cacheChromosome = Integer.parseInt((String) configCache.get("initCache").get()) == 1;  //动态配置是否启动时缓存染色体
+            globalCacheSign = cacheChromosome;
             initDataThread = new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -186,6 +189,10 @@ public class FPKMService implements InitializingBean {
         }
         //如果是function，那么ID/name均为null，直接拿到从前台传过来的DNAGenBaseInfo即可，这里获取到符合条件的基因ID集合
         properGeneIdList = dnaGenBaseInfoDao.findProperGeneId(baseInfo);
+        if (properGeneIdList.size() == 0){
+            logger.warn(baseInfo + "未找到合适的基因");
+            return null;
+        }
         IDAndNameSearchViewEvent event = new IDAndNameSearchViewEvent(properGeneIdList, baseInfo);
         AsyncEventBus eventBus = register.getAsyncEventBus();
         eventBus.post(event);
@@ -215,6 +222,16 @@ public class FPKMService implements InitializingBean {
         if (valueWrapper == null){
             //确保缓存数据线程是否还在运行中，防止启动时由于该线程还在跑，但是页面已经有人访问，但是从缓存中找不到值以为缓存值已经被清理了，又重新开始该线程
             if (!initDataThread.isAlive()){
+                initDataThread = new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (globalCacheSign) {
+                            initDataToCache();
+                        } else {
+                            logger.warn("无需缓存染色体数据，仅在测试环境下使用!");
+                        }
+                    }
+                });
                 initDataThread.start();
             }
             if (properGeneStructureIdList.size() > 0) {
