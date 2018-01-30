@@ -161,14 +161,21 @@ body .tab-detail-tbody tr td {
 }
 
 .soetTable {
-    min-width: 846px;
+    min-width: 860px;
 }
 
 .soetTable .geneId a {
     color: #5c8ce6;
     cursor: pointer;
 }
-
+.tishi{
+    position: relative;
+    top: 14px;
+    padding-left: 12px;
+    color: #5c8ce6;
+    font-size: 12px;
+}
+.tishi img{padding-right: 6px; vertical-align:bottom}
 /*.soetTable .description{width: 200px;}*/
 body .sortMainImg {
     border: none;

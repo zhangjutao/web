@@ -21,7 +21,7 @@
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <style>
         body .tab-detail-tbody {
-            width: 850px;
+            width: 860px;
             margin: 0 auto;
         }
         .sortMain #total-page-count {
@@ -31,6 +31,7 @@
         .description{background: none}
         #popu-paginate{padding-right: 20px;}
        /*.soetTable .description{background-color: #f5f8ff;}*/
+        #layui-layer-shade1{opacity: 0.2;}
     </style>
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
 <div class="sort_top">
@@ -50,6 +51,7 @@
                 <label class="sort_lab">设置性状：</label>
                 <select name="sortSelect" class="sortSelect">
                 </select>
+                <span class="tishi"><img src="${ctxStatic}/images/tishi.png" class="tishiImg">性状仅可选择一项</span>
             </div>
         </form>
         <form name="form1" class="sort_zz">
@@ -323,6 +325,10 @@
     //排序获取列表数据
     function sortTable(curr, dataParam) {
         var load = layer.load(1);
+        // 开启遮罩层
+//        layer.msg('数据加载中!', {
+//            shade: [0.5, '#393D49']
+//        });
         var promise = SendAjaxRequest("POST", "${ctxroot}/sort/fetch-sort-result", JSON.stringify(dataParam));
         promise.then(
             function (result) {
@@ -355,9 +361,7 @@
 
                 if (result.data.list.length !== 0) {
                     //复制方法调用
-
                         sortCopy(dataParam);
-
                     //导出方法调用
                     $("#exportData").off('click').click(function () {
                         exportData(dataParam);
@@ -365,7 +369,10 @@
                 } else {
                     $(".soetTable tbody tr").remove().html("暂无数据！");
                 }
+//
+                // 关闭遮罩层
                 layer.close(load);
+//                layer.closeAll();
             }, function (error) {
                 console.log(error);
             }

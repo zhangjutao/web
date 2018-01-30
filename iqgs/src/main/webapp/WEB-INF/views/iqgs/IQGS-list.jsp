@@ -860,7 +860,7 @@
             $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
                 var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
                 // 搜索结果传到排序页面
-                console.log(data)
+//                console.log(data)
                 if(data!==null){
                     layer.close(load);
                     $("#gray").show();
