@@ -37,6 +37,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.DependsOn;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
@@ -46,6 +47,7 @@ import java.util.concurrent.*;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
+@DependsOn(value = {"configAfterTomcatStartup"})
 public class FPKMService implements InitializingBean {
     private final static Logger logger = LoggerFactory.getLogger(FPKMService.class);
 
