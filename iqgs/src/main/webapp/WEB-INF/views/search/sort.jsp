@@ -120,7 +120,7 @@
         window.DOMAIN = "${ctxroot}/iqgs";
         window.ctxROOT = "${ctxroot}";
         window.ctxStatic = "${ctxStatic}";
-        $('.sort_xz select').comboSelect();
+//        $('.sort_xz select').comboSelect();
 
         //性状初始化
         characterData();
@@ -309,8 +309,6 @@
     }
 
     // 获取性状数据
-
-
     function characterData() {
         var promise = SendAjaxRequest("POST", "${ctxroot}/sort/fetch-trait");
         promise.then(
