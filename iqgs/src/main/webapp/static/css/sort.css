@@ -481,15 +481,19 @@ body .tab-detail-tbody thead tr {
 /*}*/
 .sort_xz input::-webkit-input-placeholder { /* WebKit browsers */
     color: #000 !important;
+    opacity:1;
 }
 .sort_xz input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
     color: #000 !important;
+    opacity:1;
 }
 .sort_xz input::-moz-placeholder { /* Mozilla Firefox 19+ */
     color: #000 !important;
+    opacity:1;
 }
 .sort_xz input:-ms-input-placeholder { /* Internet Explorer 10+ */
     color: #000 !important;
+    opacity:1;
 }
 
 

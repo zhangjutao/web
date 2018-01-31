@@ -413,7 +413,7 @@
             for (var k = 0; k < newArr.length; k++) {
                 tissue[newArr[k]] = Math.random();
             }
-            ;
+ ;
             obj.tissue = tissue;
             geneExpressionConditionEntities.push(obj);
         }
@@ -550,8 +550,7 @@
                 $("#qtlName").val(qtlSearchNames.join(","));
             } else {
                 $("#qtlName").val(qtlSearchNames[0])
-            }
-            ;
+            };
             activeItem(searchType);
 //            $("#advancedSearch").show();
         }
@@ -585,16 +584,8 @@
         });
         if (searchType == 1) {
             if (flag == 0) {
-//                根据一级搜索来分页
-                $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
-                    pageNo: page.curr || 1,
-                    pageSize: page.pageSize || 10,
-                    keyword: $("#key_name").val()
-                }, function (res) {
-                    var type = 1;
-                    resultCallback(res, type)
-                });
-//                setTimeout(fetchData, 1000);
+            // 调用第一个一级搜索获取数据
+                searchOne();
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -603,14 +594,8 @@
 
         } else if (searchType == 2) {
             if (flag == 0) {
-                $.getJSON('${ctxroot}/iqgs/search/func', {
-                    pageNo: page.curr || 1,
-                    pageSize: page.pageSize || 10,
-                    keyword: $("#key_func").val()
-                }, function (res) {
-                    var type = 2;
-                    resultCallback(res, type)
-                });
+                // 调用第二个一级搜索获取数据
+                searchTwo()
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -619,16 +604,8 @@
 
         } else if (searchType == 3) {
             if (flag == 0) {
-                $.getJSON('${ctxroot}/iqgs/search/range', {
-                    pageNo: page.curr || 1,
-                    pageSize: page.pageSize || 10,
-                    begin: $("#rg_begin").val(),
-                    end: $("#rg_end").val(),
-                    chr: $(".js-region").val()
-                }, function (res) {
-                    var type = 3;
-                    resultCallback(res, type)
-                });
+                // 调用第三个一级搜索获取数据
+                searchThree();
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -645,6 +622,44 @@
                 advanceSearchFn(dataParam);
             }
         }
+    }
+
+
+    // 第一个一级搜索获取数据
+    function searchOne(){
+        // 根据一级搜索来分页
+        $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
+            pageNo: page.curr || 1,
+            pageSize: page.pageSize || 10,
+            keyword: $("#key_name").val()
+        }, function (res) {
+            var type = 1;
+            resultCallback(res, type)
+        });
+    }
+    //第二个一级搜索获取数据
+    function searchTwo(){
+        $.getJSON('${ctxroot}/iqgs/search/func', {
+            pageNo: page.curr || 1,
+            pageSize: page.pageSize || 10,
+            keyword: $("#key_func").val()
+        }, function (res) {
+            var type = 2;
+            resultCallback(res, type)
+        });
+    }
+    //第三个一级搜索获取数据
+    function searchThree(){
+        $.getJSON('${ctxroot}/iqgs/search/range', {
+            pageNo: page.curr || 1,
+            pageSize: page.pageSize || 10,
+            begin: $("#rg_begin").val(),
+            end: $("#rg_end").val(),
+            chr: $(".js-region").val()
+        }, function (res) {
+            var type = 3;
+            resultCallback(res, type)
+        });
     }
 
     // 根据qtlName 获取数据
@@ -782,7 +797,16 @@
         });
         page.pageSize = Number($(this).val());
         if (flag == 0) {
-            getQtlNameData(page.curr, page.pageSize);
+//            getQtlNameData(page.curr, page.pageSize);
+            if(searchType == 1){
+                searchOne();
+            }else if(searchType == 2){
+                searchTwo();
+            }else if(searchType == 3){
+                searchThree();
+            }else{
+                getQtlNameData(page.curr, page.pageSize);
+            }
         } else {
             var dataParam = getParams();
             dataParam.pageNo = page.curr;
@@ -810,12 +834,21 @@
             if (_page_skip.hasClass("isFocus")) {
 
                 if (_page_skip.val() * 1 > Math.ceil($("#total-page-count1 span").text() / page.pageSize)) {
-                    return alert("输入页码不能大于总页数");
+                    alert("输入页码不能大于总页数");
+                    layer.closeAll();
+                    return false;
                 }
                 page.curr = Number(_page_skip.val());
                 if (flag == 0) {
-
-                    getQtlNameData(page.curr, page.pageSize);
+                    if(searchType == 1){
+                        searchOne();
+                    }else if(searchType == 2){
+                        searchTwo();
+                    }else if(searchType == 3){
+                        searchThree();
+                    }else{
+                        getQtlNameData(page.curr, page.pageSize);
+                    }
                 } else {
                     var dataParam = getParams();
                     dataParam.pageNo = page.curr;

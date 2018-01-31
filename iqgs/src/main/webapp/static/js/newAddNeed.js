@@ -1039,6 +1039,7 @@
             case 4:
                 currFilterVal = $("#qtlName").val().trim();
         }
+        console.log(currFilterVal)
         $(".result-text>span:first").text(currFilterVal);
 
     });

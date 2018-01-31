@@ -24,14 +24,24 @@
             width: 860px;
             margin: 0 auto;
         }
+
         .sortMain #total-page-count {
             position: relative;
             top: -4px;
         }
-        .description{background: none}
-        #popu-paginate{padding-right: 20px;}
-       /*.soetTable .description{background-color: #f5f8ff;}*/
-       body #layui-layer-shade1{opacity: 0.2!important;}
+
+        .description {
+            background: none
+        }
+
+        #popu-paginate {
+            padding-right: 20px;
+        }
+
+        /*.soetTable .description{background-color: #f5f8ff;}*/
+        body #layui-layer-shade1 {
+            opacity: 0.2 !important;
+        }
     </style>
 <body style="min-width:auto; width: 100%;  background-color: #fff;">
 <div class="sort_top">
@@ -111,6 +121,11 @@
         window.ctxROOT = "${ctxroot}";
         window.ctxStatic = "${ctxStatic}";
         $('.sort_xz select').comboSelect();
+
+        //性状初始化
+        characterData();
+        //组织初始化
+        organizationData();
     });
 
     //接收消息数据
@@ -124,7 +139,7 @@
             //外部数据库访问传来的postmessage数据
             var geneIdLists = sortConditionData.data.geneList;
             //获取外部数据进行表格排序
-            if(geneIdLists.length!==0){
+            if (geneIdLists.length !== 0) {
                 setTimeout(sortCurrencyTable(geneIdLists), 1000);
             }
 
@@ -210,8 +225,6 @@
     }
 
     // 获取组织数据
-    organizationData();
-
     function organizationData() {
         var promise = SendAjaxRequest("GET", "${ctxroot}/advance-search/query-all-organic");
         promise.then(
@@ -296,7 +309,7 @@
     }
 
     // 获取性状数据
-    characterData();
+
 
     function characterData() {
         var promise = SendAjaxRequest("POST", "${ctxroot}/sort/fetch-trait");
@@ -361,7 +374,7 @@
 
                 if (result.data.list.length !== 0) {
                     //复制方法调用
-                        sortCopy(dataParam);
+                    sortCopy(dataParam);
                     //导出方法调用
                     $("#exportData").off('click').click(function () {
                         exportData(dataParam);
@@ -443,9 +456,9 @@
     });
     // 注册 enter 事件的元素
 
-    $(document).keyup(function(event){
+    $(document).keyup(function (event) {
         var _page_skip = $('#pagination .laypage_skip');
-        if(event.keyCode ==13){
+        if (event.keyCode == 13) {
             if (_page_skip.hasClass("isFocus")) {
                 var _page_skip = $('#pagination .laypage_skip');
                 var curr = Number(_page_skip.val());
@@ -455,24 +468,24 @@
         }
     });
 
-//    document.onkeydown = function (e) {
-//        var _page_skip = $('#pagination .laypage_skip');
-////            if( _page_skip.hasClass("isFocus") ) {
-////
-////                if(_page_skip.val() * 1 >Math.ceil( $("#total-page-count1 span").text() / page.pageSize)) {
-////                    return alert("输入页码不能大于总页数");
-////                }
-////                curr = Number(_page_skip.val());
-////                    dataParam.pageNo = curr;
-////                sortTable(curr,dataParam);
-////            }
-//        if (_page_skip.hasClass("isFocus")) {
-//            var _page_skip = $('#pagination .laypage_skip');
-//            var curr = Number(_page_skip.val());
-//            dataParam.pageNo = curr;
-//            sortTable(curr, dataParam);
-//        }
-//    };
+    //    document.onkeydown = function (e) {
+    //        var _page_skip = $('#pagination .laypage_skip');
+    ////            if( _page_skip.hasClass("isFocus") ) {
+    ////
+    ////                if(_page_skip.val() * 1 >Math.ceil( $("#total-page-count1 span").text() / page.pageSize)) {
+    ////                    return alert("输入页码不能大于总页数");
+    ////                }
+    ////                curr = Number(_page_skip.val());
+    ////                    dataParam.pageNo = curr;
+    ////                sortTable(curr,dataParam);
+    ////            }
+    //        if (_page_skip.hasClass("isFocus")) {
+    //            var _page_skip = $('#pagination .laypage_skip');
+    //            var curr = Number(_page_skip.val());
+    //            dataParam.pageNo = curr;
+    //            sortTable(curr, dataParam);
+    //        }
+    //    };
     // 修改每页显示条数
     $("#per-page-count").on("change", ".lay-per-page-count-select", function () {
 //        var _page_skip = $('#pagination .laypage_skip');
