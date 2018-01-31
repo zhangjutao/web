@@ -60,6 +60,11 @@ public class GeneSortViewService implements InitializingBean {
     private Cache cache;
 
     /**
+     * 是否返回分数
+     */
+    private boolean showScore;
+
+    /**
      * 对传入的基因ID进行查询、排序，输出排序后的结果
      * @param geneIds 输入的基因ID
      * @param tissue 用户所选的组织，多种二级组织可以组成一个完整的Tissue对象
@@ -97,8 +102,12 @@ public class GeneSortViewService implements InitializingBean {
                     @Override
                     public SortedResult apply(SortedSearchResultView input) {
                         DNAGenBaseInfo genBaseInfo = input.getBaseInfo();
+                        Double score = null;
+                        if (showScore){
+                            score = input.getScore();
+                        }
                         return new SortedResult(genBaseInfo.getGeneId(), genBaseInfo.getGeneName(),
-                                genBaseInfo.getDescription(), input.getChromosome(), input.getLocation());
+                                genBaseInfo.getDescription(), input.getChromosome(), input.getLocation(), score);
                     }
                 });
                 result.addAll(transform);
@@ -184,6 +193,8 @@ public class GeneSortViewService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         cache = cacheManager.getCache("sortCache");
+        Cache configCache = cacheManager.getCache("config");
+        showScore = configCache.get("showScore") != null && Integer.parseInt((String) configCache.get("showScore").get()) == 1;
     }
 
     private class SortedViewCallable extends TimeConsumingJob<List<SortedSearchResultView>> {
