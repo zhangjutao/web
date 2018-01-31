@@ -237,11 +237,6 @@
     //复制gDNA
         $("#copygDNABtn").click(function(){
             $("#copyConter,.CDS,.upstream2k,.peptide").removeClass("order_bg");
-//            $(".upstream2k").addClass("upstream2k_bg");
-//            $(".three_prime_UTR").removeClass('three_p');
-//            $(".five_prime_UTR").removeClass('five_p');
-//            $(".CDS").removeClass('cds_bg');
-//            $(".CDS,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
             var text = $("#copyConter .gDNA").text();
             var input = document.getElementById("input");
             input.value = text; // 修改文本框的内容
@@ -254,10 +249,6 @@
     //复制CDS
         $("#copyCDSBtn").click(function(){
             $("#copyConter,.gDNA,.upstream2k,.peptide").removeClass("order_bg");
-//            $(".upstream2k").addClass("upstream2k_bg");
-//            $(".three_prime_UTR").addClass('three_p');
-//            $(".five_prime_UTR").addClass('five_p');
-//            $(".gDNA,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
             var text = $("#copyConter .CDS").text();
             var input = document.getElementById("input");
             input.value = text; // 修改文本框的内容
@@ -270,10 +261,6 @@
     //复制upstream2k
         $("#copyUpstream2kBtn").click(function(){
             $("#copyConter,.gDNA,.CDS,.peptide").removeClass("order_bg");
-//            $(".three_prime_UTR").addClass('three_p');
-//            $(".five_prime_UTR").addClass('five_p');
-//            $(".CDS").addClass('cds_bg');
-//            $(".gDNA,.CDS,#copyConter,.peptide").removeClass("order_bg");
             var text = $("#copyConter .upstream2k").text();
             var input = document.getElementById("input");
             input.value = text; // 修改文本框的内容
@@ -286,11 +273,6 @@
     //复制全部序列
         $("#copyConterBtn").click(function(){
             $(".gDNA,.CDS,.upstream2k,.peptide").removeClass("order_bg");
-//            $(".CDS").removeClass('cds_bg');
-//            $(".upstream2k").removeClass("upstream2k_bg")
-//            $(".three_prime_UTR").removeClass('three_p');
-//            $(".five_prime_UTR").removeClass('five_p');
-//            $(".gDNA,.CDS,.upstream2k,.peptide").removeClass("order_bg");
             var text = $("#copyConter").text();
             var input = document.getElementById("input");
             input.value = text; // 修改文本框的内容
@@ -303,11 +285,6 @@
     //复制Peptide全部序列
         $("#copyPeptideBtn").click(function(){
             $("#copyConter,.gDNA,.CDS,.upstream2k").removeClass("order_bg");
-//            $(".three_prime_UTR").addClass('three_p');
-//            $(".five_prime_UTR").addClass('five_p');
-//            $(".CDS").addClass('cds_bg');
-//            $(".upstream2k").addClass("upstream2k_bg")
-//            $(".gDNA,.CDS,.upstream2k,#copyConter").removeClass("order_bg");
             var text = $(".peptide").text();
             var input = document.getElementById("input");
             input.value = text; // 修改文本框的内容
@@ -316,15 +293,7 @@
             $(".peptide").addClass("order_bg");
             layer.msg("复制成功！");
         })
-
-//    $('body').click(function(e) {
-//        if(e.target.id != 'copyConterBtn'){
-//            if($("#copyConter").hasClass("order_bg")){
-//                $("#copyConter").removeClass('order_bg');
-//            }
-//        }
-//    })
-
+    //点击任意地方取消复制背景颜色
     $('body').click(function(e) {
         if(e.target.id != 'copyConterBtn'&&e.target.id != 'copyUpstream2kBtn'&&e.target.id != 'copygDNABtn'&&e.target.id != 'copyCDSBtn'&&e.target.id != 'copyPeptideBtn'){
             if($("#copyConter,.upstream2k,.gDNA,.CDS,.peptide").hasClass("order_bg")){
@@ -332,7 +301,6 @@
             }
         }
     })
-
 
 </script>
 </body>
