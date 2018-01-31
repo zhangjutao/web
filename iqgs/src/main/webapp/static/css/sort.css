@@ -460,18 +460,21 @@ body .tab-detail-tbody thead tr {
 /*下拉样式修改*/
 .option-item:hover {
     background-color: #e5edff;
-    color: #666;
+    color: #5a5a5a;
 }
 
 .option-hover {
     /*background-color: #e5edff;*/
-    color: #666;
+    color: #5a5a5a;
 }
 
 .option-selected {
     background-color: #e5edff;
 }
 
+.sort_xz .combo-select .combo-input {
+    color: #5a5a5a!important;
+}
 /*.sort_xz input::-webkit-input-placeholder {*/
     /*color: #000 !important;*/
 /*}*/
@@ -480,22 +483,25 @@ body .tab-detail-tbody thead tr {
     /*color: #000 !important;*/
 /*}*/
 .sort_xz input::-webkit-input-placeholder { /* WebKit browsers */
-    color: #000 !important;
+    color: #5a5a5a !important;
     opacity:1;
 }
 .sort_xz input:-moz-placeholder { /* Mozilla Firefox 4 to 18 */
-    color: #000 !important;
+    color: #5a5a5a !important;
     opacity:1;
 }
 .sort_xz input::-moz-placeholder { /* Mozilla Firefox 19+ */
-    color: #000 !important;
+    color: #5a5a5a !important;
     opacity:1;
 }
 .sort_xz input:-ms-input-placeholder { /* Internet Explorer 10+ */
-    color: #000 !important;
+    color: #5a5a5a !important;
     opacity:1;
 }
 
+.sort_zz .combo-input{color: #5a5a5a!important;}
+
+/*input[disabled]{opacity:1;background: #fff}*/
 
 #inputText{
     filter:alpha(opacity=0); /* IE */

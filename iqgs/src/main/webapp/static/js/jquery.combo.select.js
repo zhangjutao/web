@@ -195,7 +195,7 @@
 			 * Append Input
 			 */
 
-			this.$input = $('<input type="text"' + (isMobile? 'tabindex="-1"': '') + ' placeholder="'+p+'" class="'+ this.settings.inputClass + '">').appendTo(this.$container)
+			this.$input = $('<input type="text"' + (isMobile? 'tabindex="-1"': '') + ' placeholder="'+p+'" readonly="readonly"   class="'+ this.settings.inputClass + '">').appendTo(this.$container)
 
 			/* Update input text */
 
