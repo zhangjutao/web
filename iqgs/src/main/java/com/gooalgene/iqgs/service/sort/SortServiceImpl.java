@@ -1,71 +1,19 @@
 package com.gooalgene.iqgs.service.sort;
 
-import com.gooalgene.iqgs.dao.GeneSortDao;
 import com.gooalgene.iqgs.entity.FpkmDto;
-import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.sort.IndelScore;
-import com.gooalgene.iqgs.entity.sort.QtlScore;
 import com.gooalgene.iqgs.entity.sort.SnpScore;
 import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import org.apache.commons.lang3.StringUtils;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
-import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 @Service
-public class SortServiceImpl implements SortService, InitializingBean {
-
-    private Logger logger= LoggerFactory.getLogger(SortServiceImpl.class);
-
-    @Autowired
-    private CacheManager cacheManager;
-
-    private Cache snpCache;
-
-    private Cache indelCache;
-
-    @Autowired
-    private GeneSortDao geneSortDao;
-
-    public int calculateSNPConsequenceTypeScore(List<String> consequenceTypes){
-        int snpConsequenceTypeResult = 0;
-        if (consequenceTypes == null || consequenceTypes.size() == 0){
-            return 0;
-        }
-        for (int i = 0; i < consequenceTypes.size(); i++){
-            //todo 增加错误consequencetype处理
-            Cache.ValueWrapper num = snpCache.get(consequenceTypes.get(i));
-            int currentScore = (int) num.get();
-            snpConsequenceTypeResult += currentScore;
-        }
-        return snpConsequenceTypeResult;
-    }
-
-    public int calculateINDELConsequenceTypeScore(List<String> consequenceTypes){
-        int snpConsequenceTypeResult = 0;
-        if (consequenceTypes == null || consequenceTypes.size() == 0){
-            return 0;
-        }
-        for (int i = 0; i < consequenceTypes.size(); i++){
-            Cache.ValueWrapper num = indelCache.get(consequenceTypes.get(i));
-            int currentScore = (int) num.get();
-            snpConsequenceTypeResult += currentScore;
-        }
-        return snpConsequenceTypeResult;
-    }
+public class SortServiceImpl implements SortService {
 
     @Override
     public List<SortedSearchResultView> sort(List<SortedSearchResultView> views,List<String> qtlNames) throws IllegalAccessException {
@@ -139,33 +87,28 @@ public class SortServiceImpl implements SortService, InitializingBean {
     public SortedSearchResultView calculateScoreOfSnpAndIndel(SortedSearchResultView view){
         Double oldScore=view.getScore();
         Double sum=0d;
-        for(SnpScore snpScore:view.getSnpConsequenceType()){
-            Integer score = snpScore.getScore();
-            if(score==null){
-                score=0;
+        List<SnpScore> snpScoreList = view.getSnpConsequenceType();
+        if (snpScoreList.size() != 0) {
+            for (SnpScore snpScore : snpScoreList) {
+                Integer score = snpScore.getScore();
+                if (score == null) {
+                    score = 0;
+                }
+                sum += (score * snpScore.getCount());
             }
-            sum+=(score*snpScore.getCount());/**/
+            sum = sum / (snpScoreList.size());
         }
-        try {
-            sum=sum/(view.getSnpConsequenceType().size());
-        }catch (ArithmeticException e){
-            sum=0d;
-            logger.warn("{}的IndelConsequenceType数目为0",view.getId());
-        }
-
         Double sum2=0d;
-        for(IndelScore indelScore:view.getIndelConsequenceType()){
-            Integer score = indelScore.getScore();
-            if(score==null){
-                score=0;
+        List<IndelScore> indelScoreList = view.getIndelConsequenceType();
+        if (indelScoreList.size() != 0) {
+            for (IndelScore indelScore : indelScoreList) {
+                Integer score = indelScore.getScore();
+                if (score == null) {
+                    score = 0;
+                }
+                sum2 += (score * indelScore.getCount());
             }
-            sum2+=(score*indelScore.getCount());/**/
-        }
-        try {
-            sum2 = sum2 / (view.getIndelConsequenceType().size());
-        }catch (ArithmeticException e){
-            sum2 = 0d;
-            logger.warn("{}的IndelConsequenceType数目为0",view.getId());
+            sum2 = sum2 / indelScoreList.size();
         }
         view.setScore(oldScore+sum+sum2);
         return view;
@@ -177,11 +120,5 @@ public class SortServiceImpl implements SortService, InitializingBean {
             strings2.add("a."+str);
         }
         return StringUtils.join(strings2.toArray(),",");
-    }
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        snpCache = cacheManager.getCache("snpCache");
-        indelCache = cacheManager.getCache("indelCache");
     }
 }

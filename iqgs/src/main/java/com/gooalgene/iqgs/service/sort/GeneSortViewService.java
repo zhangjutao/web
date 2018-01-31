@@ -17,6 +17,7 @@ import com.gooalgene.iqgs.service.concurrent.TimeConsumingJob;
 import com.gooalgene.utils.CommonUtil;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
 import com.google.common.eventbus.AsyncEventBus;
 import org.apache.commons.lang3.RandomUtils;
@@ -65,6 +66,11 @@ public class GeneSortViewService implements InitializingBean {
     private boolean showScore;
 
     /**
+     * 排序规则, 0(false):降序(true)， 1:升序
+     */
+    private boolean sortedOrder;
+
+    /**
      * 对传入的基因ID进行查询、排序，输出排序后的结果
      * @param geneIds 输入的基因ID
      * @param tissue 用户所选的组织，多种二级组织可以组成一个完整的Tissue对象
@@ -91,7 +97,12 @@ public class GeneSortViewService implements InitializingBean {
             List<SortedSearchResultView> views = splitTimeConsumingJob(geneIds, fields);  //大任务拆分
             try {
                 List<SortedSearchResultView> sortResult = sortService.sort(views, qtlNames);
-                Ordering<SortedSearchResultView> ordering = Ordering.natural().onResultOf(new Function<SortedSearchResultView, Double>() {
+                //确定排序升序或降序，动态配置
+                Ordering<Comparable> comparableOrdering = Ordering.natural();
+                if (!sortedOrder){
+                    comparableOrdering = comparableOrdering.reverse();
+                }
+                Ordering<SortedSearchResultView> ordering = comparableOrdering.onResultOf(new Function<SortedSearchResultView, Double>() {
                     @Override
                     public Double apply(SortedSearchResultView input) {
                         return input.getScore();
@@ -180,6 +191,9 @@ public class GeneSortViewService implements InitializingBean {
         int end = 0;
         for (int i = 0; i < loopTimes; i++) {
             end = singleRun * (i + 1) > size ? size : singleRun * (i + 1);
+            int start = singleRun * i;
+            if (start == end)  //防止1000条数据循环到10次时出现start==end情况
+                continue;
             try {
                 List<SortedSearchResultView> singleSortedSearchResultViews = manager.submitTask(new SortedViewCallable(1, geneIds.subList(singleRun * i, end), fields));
                 result.addAll(singleSortedSearchResultViews);
@@ -195,6 +209,7 @@ public class GeneSortViewService implements InitializingBean {
         cache = cacheManager.getCache("sortCache");
         Cache configCache = cacheManager.getCache("config");
         showScore = configCache.get("showScore") != null && Integer.parseInt((String) configCache.get("showScore").get()) == 1;
+        sortedOrder = configCache.get("sortedOrder") != null && Integer.parseInt((String) configCache.get("sortedOrder").get()) == 1;
     }
 
     private class SortedViewCallable extends TimeConsumingJob<List<SortedSearchResultView>> {
@@ -211,7 +226,12 @@ public class GeneSortViewService implements InitializingBean {
 
         @Override
         public List<SortedSearchResultView> call() throws Exception {
-            List<SortedSearchResultView> views = geneSortDao.findViewByGeneId(this.geneCollection, this.fields);
+            List<SortedSearchResultView> views = new ArrayList<>();
+            try {
+                views = geneSortDao.findViewByGeneId(this.geneCollection, this.fields);
+            }catch (Exception sqlSyntaxErrorException){
+                logger.error("查询出错,基因集合[：" + Iterables.toString(views) + "], fields:[" + this.fields + "]", sqlSyntaxErrorException.getCause());
+            }
             return views;
         }
     }
