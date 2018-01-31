@@ -42,10 +42,13 @@
             z-index: -10;
         }
 
-        .order_bg{
-            background:#5c8ce6;
+       body .order_bg{
+            background:#5c8ce6!important;
             color:#fff;
         }
+       .order_bg span{
+           background:#5c8ce6!important;
+           color:#fff;}
         .refseq{
             overflow: hidden;
             margin-bottom: 28px;
@@ -116,10 +119,10 @@
                         <tr>
                             <td style="padding: 30px 0;">
                                 <p class="se0quence-name"><b>Genomic sequence</b></p>
-                                <button class="copy" onclick="copyConter()"><img src="${ctxStatic}/images/i-1-ac.png">复制序列</button><br />
-                                <button class="copy" onclick="copyUpstream2k()">复制Upstream2k</button><br />
-                                <button class="copy" onclick="copygDNA()">复制gDNA</button><br />
-                                <button class="copy" onclick="copyCDS()">复制CDS</button>
+                                <button class="copy" id="copyConterBtn"><img src="${ctxStatic}/images/i-1-ac.png">复制序列</button><br />
+                                <button class="copy" id="copyUpstream2kBtn" >复制Upstream2k</button><br />
+                                <button class="copy" id="copygDNABtn">复制gDNA</button><br />
+                                <button class="copy" id="copyCDSBtn">复制CDS</button>
                             </td>
                             <td>
                                 <div class="foo_main">
@@ -135,7 +138,7 @@
                         <tr>
                             <td style="padding: 30px 0;">
                                 <p class="se0quence-name"><b>Peptide sequence</b></p>
-                                <button class="copy" onclick="copyPeptide()"><img src="${ctxStatic}/images/i-1-ac.png">复制序列</button><br />
+                                <button class="copy" id="copyPeptideBtn"><img src="${ctxStatic}/images/i-1-ac.png">复制序列</button><br />
                             </td>
                             <td>
                                 <div class="foo_main">
@@ -232,82 +235,105 @@
     });
 
     //复制gDNA
-    function copygDNA() {
-        $(".upstream2k").addClass("upstream2k_bg");
-        $(".three_prime_UTR").removeClass('three_p');
-        $(".five_prime_UTR").removeClass('five_p');
-        $(".CDS").removeClass('cds_bg');
-        $(".CDS,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
-        var text = $("#copyConter .gDNA").text();
-        var input = document.getElementById("input");
-        input.value = text; // 修改文本框的内容
-        input.select(); // 选中文本
-        document.execCommand("copy"); // 执行浏览器复制命令
-        $(".gDNA").removeClass('cds_bg').addClass("order_bg");
-        layer.msg("复制成功！");
-    }
+        $("#copygDNABtn").click(function(){
+            $("#copyConter,.CDS,.upstream2k,.peptide").removeClass("order_bg");
+//            $(".upstream2k").addClass("upstream2k_bg");
+//            $(".three_prime_UTR").removeClass('three_p');
+//            $(".five_prime_UTR").removeClass('five_p');
+//            $(".CDS").removeClass('cds_bg');
+//            $(".CDS,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
+            var text = $("#copyConter .gDNA").text();
+            var input = document.getElementById("input");
+            input.value = text; // 修改文本框的内容
+            input.select(); // 选中文本
+            document.execCommand("copy"); // 执行浏览器复制命令
+            $(".gDNA").addClass("order_bg");
+            layer.msg("复制成功！");
+        })
 
     //复制CDS
-    function copyCDS(){
-        $(".upstream2k").addClass("upstream2k_bg");
-        $(".three_prime_UTR").addClass('three_p');
-        $(".five_prime_UTR").addClass('five_p');
-        $(".gDNA,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
-        var text = $("#copyConter .CDS").text();
-        var input = document.getElementById("input");
-        input.value = text; // 修改文本框的内容
-        input.select(); // 选中文本
-        document.execCommand("copy"); // 执行浏览器复制命令
-        $(".CDS").removeClass('cds_bg').addClass("order_bg");
-        layer.msg("复制成功！");
-    }
+        $("#copyCDSBtn").click(function(){
+            $("#copyConter,.gDNA,.upstream2k,.peptide").removeClass("order_bg");
+//            $(".upstream2k").addClass("upstream2k_bg");
+//            $(".three_prime_UTR").addClass('three_p');
+//            $(".five_prime_UTR").addClass('five_p');
+//            $(".gDNA,.upstream2k,#copyConter,.peptide").removeClass("order_bg");
+            var text = $("#copyConter .CDS").text();
+            var input = document.getElementById("input");
+            input.value = text; // 修改文本框的内容
+            input.select(); // 选中文本
+            document.execCommand("copy"); // 执行浏览器复制命令
+            $(".CDS").addClass("order_bg");
+            layer.msg("复制成功！");
+        })
 
     //复制upstream2k
-    function copyUpstream2k() {
-        $(".three_prime_UTR").addClass('three_p');
-        $(".five_prime_UTR").addClass('five_p');
-        $(".CDS").addClass('cds_bg');
-        $(".gDNA,.CDS,#copyConter,.peptide").removeClass("order_bg");
-        var text = $("#copyConter .upstream2k").text();
-        var input = document.getElementById("input");
-        input.value = text; // 修改文本框的内容
-        input.select(); // 选中文本
-        document.execCommand("copy"); // 执行浏览器复制命令
-        $(".upstream2k").removeClass("upstream2k_bg").addClass("order_bg");
-        layer.msg("复制成功！");
-    }
+        $("#copyUpstream2kBtn").click(function(){
+            $("#copyConter,.gDNA,.CDS,.peptide").removeClass("order_bg");
+//            $(".three_prime_UTR").addClass('three_p');
+//            $(".five_prime_UTR").addClass('five_p');
+//            $(".CDS").addClass('cds_bg');
+//            $(".gDNA,.CDS,#copyConter,.peptide").removeClass("order_bg");
+            var text = $("#copyConter .upstream2k").text();
+            var input = document.getElementById("input");
+            input.value = text; // 修改文本框的内容
+            input.select(); // 选中文本
+            document.execCommand("copy"); // 执行浏览器复制命令
+            $(".upstream2k").addClass("order_bg");
+            layer.msg("复制成功！");
+        })
 
     //复制全部序列
-    function copyConter() {
-        $(".CDS").removeClass('cds_bg');
-        $(".upstream2k").removeClass("upstream2k_bg")
-        $(".three_prime_UTR").removeClass('three_p');
-        $(".five_prime_UTR").removeClass('five_p');
-        $(".gDNA,.CDS,.upstream2k,.peptide").removeClass("order_bg");
-        var text = $("#copyConter").text();
-        var input = document.getElementById("input");
-        input.value = text; // 修改文本框的内容
-        input.select(); // 选中文本
-        document.execCommand("copy"); // 执行浏览器复制命令
-        $("#copyConter").addClass("order_bg");
-        layer.msg("复制成功！");
-    }
+        $("#copyConterBtn").click(function(){
+            $(".gDNA,.CDS,.upstream2k,.peptide").removeClass("order_bg");
+//            $(".CDS").removeClass('cds_bg');
+//            $(".upstream2k").removeClass("upstream2k_bg")
+//            $(".three_prime_UTR").removeClass('three_p');
+//            $(".five_prime_UTR").removeClass('five_p');
+//            $(".gDNA,.CDS,.upstream2k,.peptide").removeClass("order_bg");
+            var text = $("#copyConter").text();
+            var input = document.getElementById("input");
+            input.value = text; // 修改文本框的内容
+            input.select(); // 选中文本
+            document.execCommand("copy"); // 执行浏览器复制命令
+            $("#copyConter").addClass("order_bg");
+            layer.msg("复制成功！");
+        })
 
     //复制Peptide全部序列
-    function copyPeptide() {
-        $(".three_prime_UTR").addClass('three_p');
-        $(".five_prime_UTR").addClass('five_p');
-        $(".CDS").addClass('cds_bg');
-        $(".upstream2k").addClass("upstream2k_bg")
-        $(".gDNA,.CDS,.upstream2k,#copyConter").removeClass("order_bg");
-        var text = $(".peptide").text();
-        var input = document.getElementById("input");
-        input.value = text; // 修改文本框的内容
-        input.select(); // 选中文本
-        document.execCommand("copy"); // 执行浏览器复制命令
-        $(".peptide").addClass("order_bg");
-        layer.msg("复制成功！");
-    }
+        $("#copyPeptideBtn").click(function(){
+            $("#copyConter,.gDNA,.CDS,.upstream2k").removeClass("order_bg");
+//            $(".three_prime_UTR").addClass('three_p');
+//            $(".five_prime_UTR").addClass('five_p');
+//            $(".CDS").addClass('cds_bg');
+//            $(".upstream2k").addClass("upstream2k_bg")
+//            $(".gDNA,.CDS,.upstream2k,#copyConter").removeClass("order_bg");
+            var text = $(".peptide").text();
+            var input = document.getElementById("input");
+            input.value = text; // 修改文本框的内容
+            input.select(); // 选中文本
+            document.execCommand("copy"); // 执行浏览器复制命令
+            $(".peptide").addClass("order_bg");
+            layer.msg("复制成功！");
+        })
+
+//    $('body').click(function(e) {
+//        if(e.target.id != 'copyConterBtn'){
+//            if($("#copyConter").hasClass("order_bg")){
+//                $("#copyConter").removeClass('order_bg');
+//            }
+//        }
+//    })
+
+    $('body').click(function(e) {
+        if(e.target.id != 'copyConterBtn'&&e.target.id != 'copyUpstream2kBtn'&&e.target.id != 'copygDNABtn'&&e.target.id != 'copyCDSBtn'&&e.target.id != 'copyPeptideBtn'){
+            if($("#copyConter,.upstream2k,.gDNA,.CDS,.peptide").hasClass("order_bg")){
+                $("#copyConter,.upstream2k,.gDNA,.CDS,.peptide").removeClass('order_bg');
+            }
+        }
+    })
+
+
 </script>
 </body>
 </html>
