@@ -165,7 +165,7 @@
             dataParam.tissue = tissue;
             dataParam.traitCategoryId = sortXzId;
             dataParam.pageNo = 1;
-            dataParam.pageSize = 10;
+
 
             var characterLength = $(".sortText .sortText_conter").text().length;
             var tissueLength = JSON.stringify(tissue) == '{}';
@@ -334,7 +334,9 @@
     }
 
     //排序获取列表数据
-    function sortTable(curr, dataParam) {
+    var paseSize=10;
+    function sortTable(curr, dataParam,pageSize) {
+        dataParam.pageSize = pageSize||10;
         var load = layer.load(1);
         // 开启遮罩层
 //        layer.msg('数据加载中!', {
@@ -343,26 +345,27 @@
         var promise = SendAjaxRequest("POST", "${ctxroot}/sort/fetch-sort-result", JSON.stringify(dataParam));
         promise.then(
             function (result) {
+
                 popCount = result.total;
                 sortPopuTable(result)
                 $(".ydy").hide();
                 $(".sortMain").show();
                 laypage({
                     cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(result.data.total / pageSizePopu), //通过后台拿到的总页数
+                    pages: Math.ceil(result.data.total / dataParam.pageSize), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
                     skin: '#5c8de5',
                     skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(result.data.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可
+                    last: Math.ceil(result.data.total / dataParam.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',
                     next: '>',
                     groups: 3, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                             dataParam.pageNo = obj.curr;
-                            dataParam.pageSize = 10;
-                            sortTable(obj.curr, dataParam);
+                            dataParam.pageSize = dataParam.pageSize;
+                            sortTable(obj.curr, dataParam,pageSize);
                         }
                     }
                 });
@@ -437,7 +440,7 @@
 
     var popPageNum = 1;
     var popCount;
-    var pageSizePopu = 10;
+//    var pageSizePopu = 10;
     // 获取焦点添加样式：
     $("#popu-paginate").on("focus", ".laypage_skip", function () {
         $(this).addClass("isFocus");
@@ -493,8 +496,15 @@
         var currs = $(".laypage_curr").text();
         var pageSize = Number($(this).val());
 //            dataParam.pageNo = curr;
+
+      var total= $("#total-page-count span").text();
+        if(currs*pageSize>total) {
+//             return alert("切换条数不能大于总页数");
+             layer.msg("切换条数不能大于总页数");
+             return false;
+       }
         dataParam.pageSize = pageSize;
-        sortTable(currs, dataParam);
+        sortTable(currs, dataParam,pageSize);
     });
 
     // 表格导出
