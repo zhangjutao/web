@@ -94,7 +94,7 @@ public class SortController implements InitializingBean {
     @RequestMapping(value = "/fetch-sort-result", method = RequestMethod.POST)
     @ResponseBody
     public ResultVO<SortedResult> fetchSortedResult(@RequestBody SortRequestParam sortRequestParam){
-        PageInfo<SortedResult> resultPage = geneSortViewService.findViewByGeneId(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(),
+        PageInfo<SortedResult> resultPage = geneSortViewService.findSortedView(sortRequestParam.getGeneIdList(), sortRequestParam.getTissue(),
                 sortRequestParam.getTraitCategoryId(), sortRequestParam.getPageNo(), sortRequestParam.getPageSize());
         return ResultUtil.success(resultPage);
     }

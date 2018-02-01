@@ -13,6 +13,9 @@ public class SortedResult {
 
     private Double score;
 
+    public SortedResult() {
+    }
+
     public SortedResult(String geneId, String geneName, String description, String chromosome, String location, Double score) {
         this.geneId = geneId;
         this.geneName = geneName;

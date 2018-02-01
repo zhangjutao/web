@@ -6,16 +6,14 @@ import com.gooalgene.common.authority.SecurityUser;
 import com.gooalgene.iqgs.dao.GeneSortDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.Tissue;
-import com.gooalgene.iqgs.entity.sort.SortRequestParam;
-import com.gooalgene.iqgs.entity.sort.SortedResult;
-import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
-import com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm;
+import com.gooalgene.iqgs.entity.sort.*;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.gooalgene.iqgs.service.concurrent.ThreadManager;
 import com.gooalgene.iqgs.service.concurrent.TimeConsumingJob;
 import com.gooalgene.utils.CommonUtil;
 import com.google.common.base.Function;
+import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Iterables;
 import com.google.common.collect.Ordering;
@@ -69,6 +67,51 @@ public class GeneSortViewService implements InitializingBean {
      * 排序规则, 0(false):降序(true)， 1:升序
      */
     private boolean sortedOrder;
+
+    public PageInfo<SortedResult> findSortedView(List<String> geneIds, Tissue tissue, Integer categoryId, int pageNo, int pageSize){
+        String fields = getAllValidTissueProperties(tissue);
+        List<String> selectedTissue = Arrays.asList(fields.split(","));
+        List<CalculateScoreResult> calculateSortedResult = geneSortDao.findCalculateSortedResult(geneIds, selectedTissue, categoryId);
+        int size = calculateSortedResult.size();
+        //确定排序升序或降序，动态配置
+        Ordering<Comparable> comparableOrdering = Ordering.natural();
+        if (!sortedOrder){
+            comparableOrdering = comparableOrdering.reverse();
+        }
+        Ordering<CalculateScoreResult> ordering = comparableOrdering.onResultOf(new Function<CalculateScoreResult, Double>() {
+            @Override
+            public Double apply(CalculateScoreResult input) {
+                return input.getScore();
+            }
+        });
+        Collections.sort(calculateSortedResult, ordering);
+        int start = (pageNo - 1) * pageSize;
+        int end = (pageNo+1)*pageSize > size ? size : (pageNo+1)*pageSize;
+        final List<CalculateScoreResult> originPageResult = calculateSortedResult.subList(start, end);
+        Collection<String> transformResult = Collections2.transform(originPageResult, new Function<CalculateScoreResult, String>() {
+            @Override
+            public String apply(CalculateScoreResult input) {
+                return input.getGeneId();
+            }
+        });
+        //获取基因基本信息
+        List<SortedResult> sortedResultWithNoScore = geneSortDao.findSortedResultThroughGeneId(new ArrayList<>(transformResult));
+        Collection<SortedResult> finalSortedResult = Collections2.transform(sortedResultWithNoScore, new Function<SortedResult, SortedResult>() {
+            @Override
+            public SortedResult apply(SortedResult input) {
+                String geneId = input.getGeneId();
+                CalculateScoreResult result = getSortedResultIfExists(originPageResult, geneId);
+                input.setScore(result.getScore());
+                return input;
+            }
+        });
+        PageInfo<SortedResult> resultPageInfo = new PageInfo<>();
+        resultPageInfo.setList(new ArrayList<>(finalSortedResult));
+        resultPageInfo.setPageNum(pageNo);
+        resultPageInfo.setPageSize(pageSize);
+        resultPageInfo.setTotal(size);
+        return resultPageInfo;
+    }
 
     /**
      * 对传入的基因ID进行查询、排序，输出排序后的结果
@@ -202,6 +245,22 @@ public class GeneSortViewService implements InitializingBean {
             }
         }
         return result;
+    }
+
+    /**
+     * 判断从数据库中搜索的结果中是否包含指定基因ID
+     * @param originPageResult 数据库搜索结果
+     * @param geneId 指定基因ID
+     * @return 如果存在则返回原始搜索结果，否则返回null
+     */
+    private CalculateScoreResult getSortedResultIfExists(List<CalculateScoreResult> originPageResult, final String geneId){
+        Collection<CalculateScoreResult> filterResult = Collections2.filter(originPageResult, new Predicate<CalculateScoreResult>() {
+            @Override
+            public boolean apply(CalculateScoreResult input) {
+                return input.getGeneId().equals(geneId);
+            }
+        });
+        return new ArrayList<>(filterResult).get(0);
     }
 
     @Override
