@@ -86,7 +86,7 @@ public class GeneSortViewService implements InitializingBean {
         });
         Collections.sort(calculateSortedResult, ordering);
         int start = (pageNo - 1) * pageSize;
-        int end = (pageNo+1)*pageSize > size ? size : (pageNo+1)*pageSize;
+        int end = pageNo*pageSize > size ? size : pageNo*pageSize;
         final List<CalculateScoreResult> originPageResult = calculateSortedResult.subList(start, end);
         Collection<String> transformResult = Collections2.transform(originPageResult, new Function<CalculateScoreResult, String>() {
             @Override
@@ -94,7 +94,7 @@ public class GeneSortViewService implements InitializingBean {
                 return input.getGeneId();
             }
         });
-        //获取基因基本信息
+        //获取基因基本信息，这里会输入集合的顺序，需要重新对输出到页面的基因进行重排序
         List<SortedResult> sortedResultWithNoScore = geneSortDao.findSortedResultThroughGeneId(new ArrayList<>(transformResult));
         Collection<SortedResult> finalSortedResult = Collections2.transform(sortedResultWithNoScore, new Function<SortedResult, SortedResult>() {
             @Override
@@ -105,8 +105,16 @@ public class GeneSortViewService implements InitializingBean {
                 return input;
             }
         });
+        List<SortedResult> finalSortedResultList = new ArrayList<>(finalSortedResult);  //Collection无法被Collections使用，需转换为List
+        Ordering<SortedResult> sortedResultOrdering = comparableOrdering.onResultOf(new Function<SortedResult, Double>() {
+            @Override
+            public Double apply(SortedResult input) {
+                return input.getScore();
+            }
+        });
+        Collections.sort(finalSortedResultList, sortedResultOrdering);
         PageInfo<SortedResult> resultPageInfo = new PageInfo<>();
-        resultPageInfo.setList(new ArrayList<>(finalSortedResult));
+        resultPageInfo.setList(finalSortedResultList);
         resultPageInfo.setPageNum(pageNo);
         resultPageInfo.setPageSize(pageSize);
         resultPageInfo.setTotal(size);
