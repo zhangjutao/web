@@ -37,8 +37,7 @@
                 <p class="search-title">Search By Gene ID</p>
                 <label>
                     <input class="search-input" id="key_name" type="text" name="search" placeholder="输入您要查找的关键字">
-                    <span class="clear-input" style="display: none"><img
-                            src="${ctxStatic}/images/clear-search.png"></span>
+                    <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_name" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900"> LOC778160</a></p>--%>
@@ -825,14 +824,13 @@
     // 注册 enter 事件的元素
     document.onkeydown = function (e) {
         var _page_skip = $('#paginationCnt .laypage_skip');
+        if (_page_skip.hasClass("isFocus")) {
         if (e && e.keyCode == 13) { // enter 键
             // 开户遮罩层
             layer.msg('数据加载中!', {
                 time: 120000,
                 shade: [0.5, '#393D49']
             });
-            if (_page_skip.hasClass("isFocus")) {
-
                 if (_page_skip.val() * 1 > Math.ceil($("#total-page-count1 span").text() / page.pageSize)) {
                     alert("输入页码不能大于总页数");
                     layer.closeAll();
