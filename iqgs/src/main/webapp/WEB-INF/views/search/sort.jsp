@@ -83,7 +83,7 @@
         <div class="sortResult">
             <span class="sortTitle">排序结果</span>
             <span class="sortSpan">
-            <button id="copyBtn" class="copyBtn"><img src='${ctxStatic}/images/copys.png'>复制</button>
+            <button id="copyBtn" class="copyBtn"  data-clipboard-action="copy" data-clipboard-target="#inputText"><img src='${ctxStatic}/images/copys.png'>双击复制</button>
             <button id="exportData"><img src='${ctxStatic}/images/doms.png'>下载</button>
         </span>
         </div>
@@ -115,17 +115,13 @@
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="${ctxStatic}/js/newAddNeed.js"></script>
+<script src="${ctxStatic}/js/clipboard.min.js"></script>
 <script>
     $(function () {
         window.DOMAIN = "${ctxroot}/iqgs";
         window.ctxROOT = "${ctxroot}";
         window.ctxStatic = "${ctxStatic}";
-//        $('.sort_xz select').comboSelect();
-
-        //性状初始化
-        characterData();
-        //组织初始化
-        organizationData();
+        $('.sort_xz select').comboSelect();
     });
 
     //接收消息数据
@@ -143,6 +139,10 @@
                 setTimeout(sortCurrencyTable(geneIdLists), 1000);
             }
         } else {
+            //性状初始化
+            characterData();
+            //组织初始化
+            organizationData();
             //点击排序获取排序表格数据
             setTimeout(sortCurrencyTable(sortConditionData), 200);
         }
@@ -171,10 +171,12 @@
             if (characterLength == 0) {
                 layer.msg('请选择性状');
                 return false;
-            } else if (tissueLength == true) {
+            }
+            else if (tissueLength == true) {
                 layer.msg('请选择组织');
                 return false;
-            } else {
+            }
+            else {
                 sortTable(1, dataParam);
             }
         });
@@ -374,7 +376,11 @@
 
                 if (result.data.list.length !== 0) {
                     //复制方法调用
-                    sortCopy(dataParam);
+                    document.getElementById("copyBtn").click();
+                    $("#copyBtn").click(function () {
+                        sortCopy(dataParam);
+                    });
+
                     //导出方法调用
                     $("#exportData").off('click').click(function () {
                         exportData(dataParam);
@@ -404,9 +410,23 @@
                 $(".copyHtml").append(str);
 
                 if (result.data.length !== 0) {
-                    $("#copyBtn").click(function () {
-                        copyText()
+//                        copyText()
+                    var text = $(".copyHtml").text();
+                    var inputs = document.getElementById("inputText");
+                    inputs.value = text.substring(0, text.length - 1); // 修改文本框的内容
+                    inputs.select(); // 选中文本
+
+                    var clipboard = new Clipboard('#copyBtn');
+
+                    clipboard.on('success', function(e) {
+                        console.log(e);
+                        layer.msg("复制成功！");
                     });
+
+                    clipboard.on('error', function(e) {
+                        console.log(e);
+                    });
+
                 }
             }, function (error) {
                 console.log(error);
@@ -415,14 +435,14 @@
     }
 
     //复制
-    function copyText() {
-        var text = $(".copyHtml").text();
-        var inputs = document.getElementById("inputText");
-        inputs.value = text.substring(0, text.length - 1); // 修改文本框的内容
-        inputs.select(); // 选中文本
-        document.execCommand("Copy"); // 执行浏览器复制命令
-        layer.msg("复制成功！");
-    }
+//    function copyText() {
+//        var text = $(".copyHtml").text();
+//        var inputs = document.getElementById("inputText");
+//        inputs.value = text.substring(0, text.length - 1); // 修改文本框的内容
+//        inputs.select(); // 选中文本
+//        document.execCommand("Copy"); // 执行浏览器复制命令
+//        layer.msg("复制成功！");
+//    }
 
     //排序表格生成
     function sortPopuTable(data) {
