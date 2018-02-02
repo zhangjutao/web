@@ -3,10 +3,12 @@ package com.gooalgene.common.service;
 import com.gooalgene.utils.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
@@ -31,15 +33,22 @@ import java.util.Properties;
  * 依赖子模块配置的GuavaCacheManager
  */
 @Service
-public class SMTPService {
+public class SMTPService implements InitializingBean{
     private final static Logger logger = LoggerFactory.getLogger(SMTPService.class);
     @Autowired
     private CacheManager guavaCacheManager;
     private Cache cache;
 
-    public void init(){
-        cache = guavaCacheManager.getCache("config");
+    @Autowired
+    private ApplicationContext context;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        if (context.getParent() != null) {
+            cache = guavaCacheManager.getCache("config");
+        }
     }
+
     /**
      * 使用腾讯企业邮箱发送邮件
      * @param from 邮件发送者邮箱
