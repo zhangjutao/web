@@ -376,7 +376,7 @@
 
                 if (result.data.list.length !== 0) {
                     //复制方法调用
-                    document.getElementById("copyBtn").click();
+//                    document.getElementById("copyBtn").click();
                     $("#copyBtn").click(function () {
                         sortCopy(dataParam);
                     });
@@ -482,11 +482,15 @@
                 var _page_skip = $('#pagination .laypage_skip');
                 var curr = Number(_page_skip.val());
                 if (_page_skip.val() * 1 > Math.ceil($("#total-page-count span").text() / curr)) {
-                    layer.msg("输入页码不能大于总页数");
-                    return false;
+//                    layer.msg("输入页码不能大于总页数");
+//                    return false;
+//                    dataParam.pageNo = 1;
+                    sortTable(1, dataParam);
+                }else{
+                    dataParam.pageNo = curr;
+                    sortTable(curr, dataParam);
                 }
-                dataParam.pageNo = curr;
-                sortTable(curr, dataParam);
+
             }
         }
     });
@@ -518,12 +522,15 @@
 
       var total= $("#total-page-count span").text();
         if(currs*pageSize>total) {
-//             return alert("切换条数不能大于总页数");
-             layer.msg("切换条数不能大于总页数");
-             return false;
-       }
-        dataParam.pageSize = pageSize;
-        sortTable(currs, dataParam,pageSize);
+//             layer.msg("切换条数不能大于总页数");
+//             return false;
+            dataParam.pageNo = 1;
+            sortTable(dataParam.pageNo, dataParam,pageSize);
+       }else{
+            dataParam.pageSize = pageSize;
+            sortTable(currs, dataParam,pageSize);
+        }
+
     });
 
     // 表格导出
