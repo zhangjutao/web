@@ -56,6 +56,9 @@ public class GeneSortViewService implements InitializingBean {
     @Autowired
     private ThreadManager manager;
 
+    @Autowired
+    private GeneSortUtils geneSortUtils;
+
     private Cache cache;
 
     /**
@@ -68,51 +71,57 @@ public class GeneSortViewService implements InitializingBean {
      */
     private boolean sortedOrder;
 
+    private Ordering<Comparable> comparableOrdering = Ordering.natural();
+
     public PageInfo<SortedResult> findSortedView(List<String> geneIds, Tissue tissue, Integer categoryId, int pageNo, int pageSize){
-        String fields = getAllValidTissueProperties(tissue);
-        List<String> selectedTissue = Arrays.asList(fields.split(","));
-        List<CalculateScoreResult> calculateSortedResult = geneSortDao.findCalculateSortedResult(geneIds, selectedTissue, categoryId);
-        int size = calculateSortedResult.size();
-        //确定排序升序或降序，动态配置
-        Ordering<Comparable> comparableOrdering = Ordering.natural();
-        if (!sortedOrder){
-            comparableOrdering = comparableOrdering.reverse();
-        }
-        Ordering<CalculateScoreResult> ordering = comparableOrdering.onResultOf(new Function<CalculateScoreResult, Double>() {
-            @Override
-            public Double apply(CalculateScoreResult input) {
-                return input.getScore();
-            }
-        });
-        Collections.sort(calculateSortedResult, ordering);
+        AllSortedResultEvent preSortedResult = new AllSortedResultEvent(geneIds, tissue, categoryId, null);
+        String cachedSortedKey = preSortedResult.getClass().getSimpleName() + preSortedResult.hashCode();
+        Cache.ValueWrapper cachedSortedResult = cache.get(cachedSortedKey);
+        List<SortedResult> result = new ArrayList<>();
+        List<SortedResult> finalSortedResultList = new ArrayList<>();
+        int size;
         int start = (pageNo - 1) * pageSize;
-        int end = pageNo*pageSize > size ? size : pageNo*pageSize;
-        final List<CalculateScoreResult> originPageResult = calculateSortedResult.subList(start, end);
-        Collection<String> transformResult = Collections2.transform(originPageResult, new Function<CalculateScoreResult, String>() {
-            @Override
-            public String apply(CalculateScoreResult input) {
-                return input.getGeneId();
+        if (cachedSortedResult != null){  //从缓存中拿结果(已排好序)
+            result = (List<SortedResult>) cachedSortedResult.get();
+            size = result.size();
+            int end = pageNo * pageSize > size ? size : pageNo * pageSize;
+            finalSortedResultList = result.subList(start, end);
+        } else {
+            String fields = getAllValidTissueProperties(tissue);
+            List<String> selectedTissue = Arrays.asList(fields.split(","));
+            List<CalculateScoreResult> calculateSortedResult = geneSortDao.findCalculateSortedResult(geneIds, selectedTissue, categoryId);
+            //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
+            AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, calculateSortedResult);
+            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
+            asyncEventBus.post(param);
+            size = calculateSortedResult.size();
+            //确定排序升序或降序，动态配置
+            Ordering<Comparable> comparableOrdering = Ordering.natural();
+            if (!sortedOrder) {
+                comparableOrdering = comparableOrdering.reverse();
             }
-        });
-        //获取基因基本信息，这里会输入集合的顺序，需要重新对输出到页面的基因进行重排序
-        List<SortedResult> sortedResultWithNoScore = geneSortDao.findSortedResultThroughGeneId(new ArrayList<>(transformResult));
-        Collection<SortedResult> finalSortedResult = Collections2.transform(sortedResultWithNoScore, new Function<SortedResult, SortedResult>() {
-            @Override
-            public SortedResult apply(SortedResult input) {
-                String geneId = input.getGeneId();
-                CalculateScoreResult result = getSortedResultIfExists(originPageResult, geneId);
-                input.setScore(result.getScore());
-                return input;
+            Ordering<CalculateScoreResult> ordering = comparableOrdering.onResultOf(new Function<CalculateScoreResult, Double>() {
+                @Override
+                public Double apply(CalculateScoreResult input) {
+                    return input.getScore();
+                }
+            });
+            Collections.sort(calculateSortedResult, ordering);
+            int end = pageNo * pageSize > size ? size : pageNo * pageSize;
+            List<CalculateScoreResult> originPageResult = calculateSortedResult.subList(start, end);
+            //转换为结果视图
+            finalSortedResultList = geneSortUtils.convertSearchResultToView(originPageResult);
+            //记录用户行为
+            Integer tempId;
+            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if(principal instanceof String&& StringUtils.equals((String)principal,"anonymousUser")){
+                tempId= RandomUtils.nextInt(1,1000); //TODO 用户未登录时用随机数生成一个假id，以后改进
+            }else {
+                tempId=((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             }
-        });
-        List<SortedResult> finalSortedResultList = new ArrayList<>(finalSortedResult);  //Collection无法被Collections使用，需转换为List
-        Ordering<SortedResult> sortedResultOrdering = comparableOrdering.onResultOf(new Function<SortedResult, Double>() {
-            @Override
-            public Double apply(SortedResult input) {
-                return input.getScore();
-            }
-        });
-        Collections.sort(finalSortedResultList, sortedResultOrdering);
+            UserAssociateTraitFpkm userAssociateTraitFpkm = new UserAssociateTraitFpkm(tempId , categoryId, fields, new Date());
+            asyncEventBus.post(userAssociateTraitFpkm);
+        }
         PageInfo<SortedResult> resultPageInfo = new PageInfo<>();
         resultPageInfo.setList(finalSortedResultList);
         resultPageInfo.setPageNum(pageNo);
@@ -120,6 +129,7 @@ public class GeneSortViewService implements InitializingBean {
         resultPageInfo.setTotal(size);
         return resultPageInfo;
     }
+
 
     /**
      * 对传入的基因ID进行查询、排序，输出排序后的结果
@@ -148,11 +158,6 @@ public class GeneSortViewService implements InitializingBean {
             List<SortedSearchResultView> views = splitTimeConsumingJob(geneIds, fields);  //大任务拆分
             try {
                 List<SortedSearchResultView> sortResult = sortService.sort(views, qtlNames);
-                //确定排序升序或降序，动态配置
-                Ordering<Comparable> comparableOrdering = Ordering.natural();
-                if (!sortedOrder){
-                    comparableOrdering = comparableOrdering.reverse();
-                }
                 Ordering<SortedSearchResultView> ordering = comparableOrdering.onResultOf(new Function<SortedSearchResultView, Double>() {
                     @Override
                     public Double apply(SortedSearchResultView input) {
@@ -176,10 +181,6 @@ public class GeneSortViewService implements InitializingBean {
             } catch (IllegalAccessException e) {
                 logger.error("排序过程中出错", e.getCause());
             }
-            //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
-            AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, result);
-            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
-            asyncEventBus.post(param);
             //记录用户行为
             Integer tempId;
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
@@ -188,10 +189,8 @@ public class GeneSortViewService implements InitializingBean {
             }else {
                 tempId=((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
             }
-            UserAssociateTraitFpkm userAssociateTraitFpkm=new UserAssociateTraitFpkm(
-                    tempId
-                    ,categoryId,fields,new Date());
-
+            UserAssociateTraitFpkm userAssociateTraitFpkm = new UserAssociateTraitFpkm(tempId , categoryId, fields, new Date());
+            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
             asyncEventBus.post(userAssociateTraitFpkm);
         }
         int size = result.size();
@@ -255,28 +254,16 @@ public class GeneSortViewService implements InitializingBean {
         return result;
     }
 
-    /**
-     * 判断从数据库中搜索的结果中是否包含指定基因ID
-     * @param originPageResult 数据库搜索结果
-     * @param geneId 指定基因ID
-     * @return 如果存在则返回原始搜索结果，否则返回null
-     */
-    private CalculateScoreResult getSortedResultIfExists(List<CalculateScoreResult> originPageResult, final String geneId){
-        Collection<CalculateScoreResult> filterResult = Collections2.filter(originPageResult, new Predicate<CalculateScoreResult>() {
-            @Override
-            public boolean apply(CalculateScoreResult input) {
-                return input.getGeneId().equals(geneId);
-            }
-        });
-        return new ArrayList<>(filterResult).get(0);
-    }
-
     @Override
     public void afterPropertiesSet() throws Exception {
         cache = cacheManager.getCache("sortCache");
         Cache configCache = cacheManager.getCache("config");
         showScore = configCache.get("showScore") != null && Integer.parseInt((String) configCache.get("showScore").get()) == 1;
         sortedOrder = configCache.get("sortedOrder") != null && Integer.parseInt((String) configCache.get("sortedOrder").get()) == 1;
+        //确定排序升序或降序，动态配置
+        if (!sortedOrder){
+            comparableOrdering = comparableOrdering.reverse();
+        }
     }
 
     private class SortedViewCallable extends TimeConsumingJob<List<SortedSearchResultView>> {

@@ -112,10 +112,11 @@
             LEFT JOIN indel_consequencetype c ON c.id = b.indel_id
             LEFT JOIN (SELECT a.gene_id ,count(e.snp_id) AS snp_num FROM fpkm a
                               LEFT JOIN fpkm_associate_snp e ON e.fpkm_id = a.id
+                              WHERE e.snp_id NOT IN (6, 13, 14)
                           GROUP BY a.gene_id) AS g ON g.gene_id = a.gene_id
-            LEFT JOIN (SELECT a.gene_id ,count(e.indel_id) AS indel_num FROM
-                fpkm a
+            LEFT JOIN (SELECT a.gene_id ,count(e.indel_id) AS indel_num FROM fpkm a
                 LEFT JOIN fpkm_associate_indel e ON e.fpkm_id = a.id
+                WHERE e.indel_id NOT IN (5, 13, 14)
             GROUP BY a.gene_id) AS h ON h.gene_id = a.gene_id
             LEFT JOIN (SELECT gene_id, qtl_name FROM qtl_gene WHERE qtl_trait_id = #{traitCategoryId} GROUP BY gene_id, qtl_name) AS k ON k.gene_id = a.gene_id
             LEFT JOIN (SELECT gene_id,

@@ -1,6 +1,7 @@
 package com.gooalgene.iqgs.eventbus.events;
 
 import com.gooalgene.iqgs.entity.Tissue;
+import com.gooalgene.iqgs.entity.sort.CalculateScoreResult;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.google.common.base.Objects;
 
@@ -22,20 +23,20 @@ public class AllSortedResultEvent {
     /**
      * 排序结果
      */
-    private List<SortedResult> sortedResult;
+    private List<CalculateScoreResult> sortedResult;
 
-    public AllSortedResultEvent(List<String> geneIdList, Tissue tissue, Integer traitCategoryId, List<SortedResult> sortedResult) {
+    public AllSortedResultEvent(List<String> geneIdList, Tissue tissue, Integer traitCategoryId, List<CalculateScoreResult> sortedResult) {
         this.geneIdList = geneIdList;
         this.tissue = tissue;
         this.traitCategoryId = traitCategoryId;
         this.sortedResult = sortedResult;
     }
 
-    public List<SortedResult> getSortedResult() {
+    public List<CalculateScoreResult> getSortedResult() {
         return sortedResult;
     }
 
-    public void setSortedResult(List<SortedResult> sortedResult) {
+    public void setSortedResult(List<CalculateScoreResult> sortedResult) {
         this.sortedResult = sortedResult;
     }
 
