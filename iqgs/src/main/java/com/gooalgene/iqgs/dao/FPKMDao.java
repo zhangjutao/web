@@ -51,6 +51,15 @@ public interface FPKMDao {
     List<AdvanceSearchResultView> searchByRegion(String chromosome, int start, int end);
 
     /**
+     * 保证基因ID不为空，根据ID高级搜索
+     */
+    List<AdvanceSearchResultView> advanceSearchByGeneId(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                        @Param("snp") List<String> selectSnp,
+                                                        @Param("indel") List<String> selectIndel,
+                                                        @Param("qtl") List<Integer> associateGeneId,
+                                                        @Param("geneId") String geneId);
+
+    /**
      * 检查某一基因对应consequencetype中是否存在SNP
      */
     boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType);

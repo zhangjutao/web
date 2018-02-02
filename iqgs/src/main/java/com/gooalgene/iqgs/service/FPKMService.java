@@ -303,4 +303,7 @@ public class FPKMService implements InitializingBean {
         return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
     }
 
+    private PageInfo<AdvanceSearchResultView> advanceSearchForGeneId(){
+        return null;
+    }
 }
