@@ -293,9 +293,10 @@ public class FPKMService implements InitializingBean {
         return new PageInfo<>(searchResult);
     }
 
-    public PageInfo<AdvanceSearchResultView> findViewByQtlList(List<Integer> selectQTL, int pageNo, int pageSize){
+    public PageInfo<AdvanceSearchResultView> findViewByRange(String chromosome, int start, int end, int pageNo, int pageSize){
         PageHelper.startPage(pageNo, pageSize);
-        return null;
+        List<AdvanceSearchResultView> result = fpkmDao.searchByRegion(chromosome, start, end);
+        return new PageInfo<>(result);
     }
 
     public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){

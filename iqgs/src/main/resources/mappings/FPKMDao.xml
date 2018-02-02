@@ -198,6 +198,32 @@
         <include refid="groupBySQL"/>
     </select>
 
+    <select id="searchByRegion" resultMap="advanceSearchResult">
+        SELECT
+        a.gene_id,
+        a.pod_All,
+        a.seed_All,
+        a.root_All,
+        a.shoot_All,
+        a.leaf_All,
+        a.seedling_All,
+        a.flower_All,
+        a.stem_All,
+        f.id,
+        f.gene_name,
+        f.description,
+        f.gene_id_old
+        FROM fpkm a LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
+        LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
+        LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
+        LEFT JOIN indel_consequencetype e ON e.id = d.indel_id
+        JOIN (SELECT * FROM gens_baseinfo WHERE chromosome = #{0} AND ((start  <![CDATA[ >= ]]> #{1} AND start <![CDATA[ < ]]> #{2})
+            OR (end <![CDATA[ >= ]]> #{1} AND end <![CDATA[ < ]]> #{2}) OR (start <![CDATA[ <= ]]> #{1} AND end <![CDATA[ > ]]> #{1}))) AS f ON a.gene_id = f.gene_id
+        WHERE 1 = 1
+        GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
+        a.stem_All, f.id, f.gene_id_old, f.gene_name, f.description
+    </select>
+
     <select id="fetchFirstHundredGeneInGeneStructure"
             resultMap="advanceSearchResult">
         <include refid="advanceSearchSQL"/>

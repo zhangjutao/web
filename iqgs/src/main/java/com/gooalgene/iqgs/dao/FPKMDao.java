@@ -48,6 +48,8 @@ public interface FPKMDao {
                                                                        @Param("qtl") List<Integer> associateGeneId,
                                                                        @Param("structureId") List<DNAGenStructure> firstHundredStructureId);
 
+    List<AdvanceSearchResultView> searchByRegion(String chromosome, int start, int end);
+
     /**
      * 检查某一基因对应consequencetype中是否存在SNP
      */
