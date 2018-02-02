@@ -816,4 +816,12 @@ public class SNPController {
         }
         return ResultUtil.success(data);
     }
+
+    @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)
+    @ResponseBody
+    public ResultVO getByCultivar(HttpServletRequest request,@RequestParam("names")List<String> names,
+                                  @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
+                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
+        return ResultUtil.success(dnaRunService.getByCultivar(names,pageNum,pageSize));
+    }
 }
