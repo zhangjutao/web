@@ -64,13 +64,13 @@ public class DNAGenBaseInfoService {
      * @param start 起始位置
      * @param end 终点位置
      */
-    public PageInfo<DNAGeneSearchResult> queryDNAGenByRange(String chr, String start, String end, int pageNo, int pageSize) {
-        DNAGenStructure dnaGenStructure = new DNAGenStructure();
-        dnaGenStructure.setChromosome(chr);
-        dnaGenStructure.setStart(Long.valueOf(start));
-        dnaGenStructure.setEnd(Long.valueOf(end));
-        PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.searchByRegion(dnaGenStructure, pageNo, pageSize);
+    public PageInfo<DNAGeneSearchResult> queryDNAGenByRange(String chr, int start, int end, int pageNo, int pageSize) {
+        PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.findViewByRange(chr, start, end, pageNo, pageSize);
         return convertSearchResultToSearchView(advanceSearchResultPage);
+    }
+
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNo, int pageSize){
+        return null;
     }
 
     /**

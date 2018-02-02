@@ -293,8 +293,17 @@ public class FPKMService implements InitializingBean {
         return new PageInfo<>(searchResult);
     }
 
+    public PageInfo<AdvanceSearchResultView> findViewByRange(String chromosome, int start, int end, int pageNo, int pageSize){
+        PageHelper.startPage(pageNo, pageSize);
+        List<AdvanceSearchResultView> result = fpkmDao.searchByRegion(chromosome, start, end);
+        return new PageInfo<>(result);
+    }
+
     public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){
         return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
     }
 
+    private PageInfo<AdvanceSearchResultView> advanceSearchForGeneId(){
+        return null;
+    }
 }

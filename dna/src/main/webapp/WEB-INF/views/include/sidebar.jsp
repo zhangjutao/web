@@ -1291,7 +1291,7 @@
         function getKindInfos(curr){
             $.ajax({
                 type:'GET',
-                url:CTXROOT + "/dnarun/getByCultivar",
+                url:CTXROOT + "/dna/getByCultivar",
 //                data:data,
                 data:{
                     names:kindNames.join(","),

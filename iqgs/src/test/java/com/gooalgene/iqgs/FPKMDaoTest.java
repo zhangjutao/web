@@ -135,6 +135,13 @@ public class FPKMDaoTest extends TestCase {
     }
 
     @Test
+    public void testSearchByRegion(){
+        String chromosome = "Chr01";
+        List<AdvanceSearchResultView> resultViews = fpkmDao.searchByRegion(chromosome, 0, 10000000);
+        assertNotNull(resultViews);
+    }
+
+    @Test
     public void testDoubleNullCompare(){
         Double a = null;
         try {

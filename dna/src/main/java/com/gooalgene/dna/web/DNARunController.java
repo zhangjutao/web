@@ -1,10 +1,8 @@
 package com.gooalgene.dna.web;
 
 import com.gooalgene.common.Page;
-import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.service.DNARunService;
-import com.gooalgene.utils.ResultUtil;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.slf4j.Logger;
@@ -108,20 +106,13 @@ public class DNARunController {
         return flag;
     }
 
-    @RequestMapping(value = "/",method = RequestMethod.GET)
+    @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
     public List<DNARun> getDunRuns(HttpServletRequest request, DNARun dnaRun,
-                                   @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
-        return dnaRunService.queryByondition(dnaRun,pageNum,pageSize);
+                                   @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                   @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize) {
+        return dnaRunService.queryByondition(dnaRun, pageNum, pageSize);
     }
 
 
-    @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)
-    @ResponseBody
-    public ResultVO getByCultivar(HttpServletRequest request,@RequestParam("names")List<String> names,
-                                  @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
-        return ResultUtil.success(dnaRunService.getByCultivar(names,pageNum,pageSize));
-    }
 }

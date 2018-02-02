@@ -28,6 +28,8 @@ public interface FPKMDao {
                                                                          @Param("searchById") DNAGenBaseInfo searchedGene,
                                                                          @Param("structure") DNAGenStructure geneStructure);
 
+    List<AdvanceSearchResultView> findViewByQtl(@Param("qtl") List<Integer> associateGeneId);
+
     /**
      * 拿到前一百个基因对应的高级搜索信息
      */
@@ -45,6 +47,17 @@ public interface FPKMDao {
                                                                        @Param("indel") List<String> selectIndel,
                                                                        @Param("qtl") List<Integer> associateGeneId,
                                                                        @Param("structureId") List<DNAGenStructure> firstHundredStructureId);
+
+    List<AdvanceSearchResultView> searchByRegion(String chromosome, int start, int end);
+
+    /**
+     * 保证基因ID不为空，根据ID高级搜索
+     */
+    List<AdvanceSearchResultView> advanceSearchByGeneId(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                        @Param("snp") List<String> selectSnp,
+                                                        @Param("indel") List<String> selectIndel,
+                                                        @Param("qtl") List<Integer> associateGeneId,
+                                                        @Param("geneId") String geneId);
 
     /**
      * 检查某一基因对应consequencetype中是否存在SNP

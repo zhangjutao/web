@@ -33,7 +33,7 @@ public class GeneSortServiceTest extends TestCase {
         Tissue tissue = new Tissue();
         tissue.setPod(23.0);
         tissue.setCotyledon(11d);
-        PageInfo<SortedResult> sortedResults = geneSortViewService.findViewByGeneId(Arrays.asList("Glyma.04G197300", "Glyma.01G182600", "Glyma.02G036200", "Glyma.13G319500"),
+        PageInfo<SortedResult> sortedResults = geneSortViewService.findSortedView(Arrays.asList("Glyma.04G197300", "Glyma.01G182600", "Glyma.02G036200", "Glyma.13G319500"),
                 tissue, 19, 1, 10);
         assertNotNull(sortedResults);
     }
@@ -43,7 +43,7 @@ public class GeneSortServiceTest extends TestCase {
         Tissue tissue = new Tissue();
         tissue.setPod(23.0);
         tissue.setCotyledon(11d);
-        PageInfo<SortedResult> sortedResults = geneSortViewService.findViewByGeneId(Arrays.asList("Glyma.04G197300", "Glyma.01G182600", "Glyma.02G036200", "Glyma.13G319500"),
+        PageInfo<SortedResult> sortedResults = geneSortViewService.findSortedView(Arrays.asList("Glyma.04G197300", "Glyma.01G182600", "Glyma.02G036200", "Glyma.13G319500"),
                 tissue, 19, 1, 10);
         SortRequestParam sortRequestParam = new SortRequestParam();
         sortRequestParam.setGeneIdList(Arrays.asList("Glyma.04G197300", "Glyma.01G182600", "Glyma.02G036200", "Glyma.13G319500"));

@@ -130,9 +130,9 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     @RequestMapping("/search/range")
     @ResponseBody
-    public ResultVO<DNAGeneSearchResult> searchForRange(HttpServletRequest req, HttpServletResponse resp) {
-        String start = req.getParameter("begin");
-        String end = req.getParameter("end");
+    public ResultVO<DNAGeneSearchResult> searchForRange(HttpServletRequest req) {
+        int start = Integer.parseInt(req.getParameter("begin"));
+        int end = Integer.parseInt(req.getParameter("end"));
         String chr = req.getParameter("chr");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
         int pageSize = Integer.parseInt(req.getParameter("pageSize"));
