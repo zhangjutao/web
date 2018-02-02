@@ -73,6 +73,10 @@ public class DNAGenBaseInfoService {
         return convertSearchResultToSearchView(advanceSearchResultPage);
     }
 
+    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNo, int pageSize){
+        return null;
+    }
+
     /**
      * QTL输入框搜索结果对应的查询服务
      * @param allQTLId 所有的QTL ID

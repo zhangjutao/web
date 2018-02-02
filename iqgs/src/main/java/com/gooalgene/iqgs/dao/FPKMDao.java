@@ -28,6 +28,8 @@ public interface FPKMDao {
                                                                          @Param("searchById") DNAGenBaseInfo searchedGene,
                                                                          @Param("structure") DNAGenStructure geneStructure);
 
+    List<AdvanceSearchResultView> findViewByQtl(@Param("qtl") List<Integer> associateGeneId);
+
     /**
      * 拿到前一百个基因对应的高级搜索信息
      */

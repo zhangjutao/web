@@ -293,6 +293,11 @@ public class FPKMService implements InitializingBean {
         return new PageInfo<>(searchResult);
     }
 
+    public PageInfo<AdvanceSearchResultView> findViewByQtlList(List<Integer> selectQTL, int pageNo, int pageSize){
+        PageHelper.startPage(pageNo, pageSize);
+        return null;
+    }
+
     public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){
         return fpkmDao.checkExistSNP(fpkmGeneId, snpConsequenceType);
     }
