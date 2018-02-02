@@ -142,7 +142,6 @@
             if (geneIdLists.length !== 0) {
                 setTimeout(sortCurrencyTable(geneIdLists), 1000);
             }
-
         } else {
             //点击排序获取排序表格数据
             setTimeout(sortCurrencyTable(sortConditionData), 200);
@@ -381,7 +380,7 @@
                         exportData(dataParam);
                     })
                 } else {
-                    $(".soetTable tbody tr").remove().html("暂无数据！");
+                    $(".soetTable tbody").html("<p class='dataNo'>暂无数据！</p>");
                 }
 //
                 // 关闭遮罩层
