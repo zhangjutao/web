@@ -57,22 +57,6 @@ public class DNAGenBaseInfoService {
         return convertSearchResultToSearchView(advanceSearchResultPage);
     }
 
-
-    /**
-     * 根据落在染色体上范围查询基因
-     * @param chr 染色体类型
-     * @param start 起始位置
-     * @param end 终点位置
-     */
-    public PageInfo<DNAGeneSearchResult> queryDNAGenByRange(String chr, int start, int end, int pageNo, int pageSize) {
-        PageInfo<AdvanceSearchResultView> advanceSearchResultPage = fpkmService.findViewByRange(chr, start, end, pageNo, pageSize);
-        return convertSearchResultToSearchView(advanceSearchResultPage);
-    }
-
-    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<Integer> allQTLId, int pageNo, int pageSize){
-        return null;
-    }
-
     /**
      * QTL输入框搜索结果对应的查询服务
      * @param allQTLId 所有的QTL ID

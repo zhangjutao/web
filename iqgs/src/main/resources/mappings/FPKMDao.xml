@@ -17,6 +17,45 @@
         <result property="functions" column="description" javaType="String" jdbcType="VARCHAR"/>
     </resultMap>
 
+    <resultMap id="rangeSearchResult" type="com.gooalgene.iqgs.entity.condition.RangeSearchResult">
+        <result property="geneId" column="gene_id" javaType="String" jdbcType="VARCHAR"/>
+        <result property="podAll" column="pod_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="seedAll" column="seed_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="rootAll" column="root_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="shootAll" column="shoot_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="leafAll" column="leaf_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="seedlingAll" column="seedling_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="flowerAll" column="flower_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="stemAll" column="stem_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="description" column="description" javaType="String" jdbcType="VARCHAR"/>
+        <result property="existsSNP" column="existsSNP" javaType="boolean" jdbcType="BOOLEAN" />
+        <collection property="associateQTLs" column="qtl_name" ofType="String">
+            <id column="gene_info_id" javaType="int" jdbcType="INTEGER" />
+            <result column="qtl_name" javaType="String" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
+    <!-- 这里为什么要自定义一个GeneId字段,因为MyBatis一对多需要知道连接查询时ON的条件,根据该相等条件才能查询除多的那个字段并做映射 -->
+    <resultMap id="qtlSearchResult" type="com.gooalgene.iqgs.entity.condition.RangeSearchResult">
+        <result property="geneId" column="gene_id" javaType="String" jdbcType="VARCHAR"/>
+        <result property="podAll" column="pod_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="seedAll" column="seed_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="rootAll" column="root_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="shootAll" column="shoot_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="leafAll" column="leaf_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="seedlingAll" column="seedling_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="flowerAll" column="flower_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="stemAll" column="stem_All" javaType="double" jdbcType="DOUBLE"/>
+        <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR"/>
+        <result property="description" column="description" javaType="String" jdbcType="VARCHAR"/>
+        <result property="existsSNP" column="existsSNP" javaType="boolean" jdbcType="BOOLEAN" />
+        <collection property="associateQTLs" column="qtl_name" ofType="String">
+            <id column="geneId" javaType="String" jdbcType="VARCHAR" />
+            <result column="qtl_name" javaType="String" jdbcType="VARCHAR" />
+        </collection>
+    </resultMap>
+
     <sql id="advanceSearchSQL">
         SELECT a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All,
         a.flower_All, a.stem_All, f.id, f.gene_name, f.description,
@@ -198,8 +237,14 @@
         <include refid="groupBySQL"/>
     </select>
 
-    <select id="searchByRegion" resultMap="advanceSearchResult">
+    <select id="searchByRegion" resultMap="rangeSearchResult">
         SELECT
+        a.*,
+        g.gene_info_id,
+        g.qtl_name
+        FROM (
+        SELECT
+        a.id,
         a.gene_id,
         a.pod_All,
         a.seed_All,
@@ -209,19 +254,88 @@
         a.seedling_All,
         a.flower_All,
         a.stem_All,
+        CASE WHEN b.fpkm_id IS NULL
+        THEN FALSE
+        ELSE TRUE END AS existSNP,
+        f.gene_name,
+        f.description,
+        f.gene_id_old
+        FROM fpkm a LEFT JOIN (SELECT fpkm_id
+        FROM fpkm_associate_snp
+        WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+        JOIN
+          (SELECT * FROM gens_baseinfo
+            WHERE
+          chromosome = #{0} AND ((start  <![CDATA[ >= ]]> #{1} AND start <![CDATA[ < ]]> #{2})
+          OR (end <![CDATA[ >= ]]> #{1} AND end <![CDATA[ < ]]> #{2}) OR (start <![CDATA[ <= ]]> #{1} AND end <![CDATA[ > ]]> #{1}))) AS f
+          ON a.baseinfo_id = f.id LIMIT #{3}, #{4}) AS a
+        LEFT JOIN qtl_gene g ON g.gene_info_id = a.id;
+    </select>
+
+    <select id="countBySearchRegion" resultType="int">
+        SELECT COUNT(*) AS total FROM
+        (SELECT
+        a.gene_id,
+        a.pod_All,
+        a.seed_All,
+        a.root_All,
+        a.shoot_All,
+        a.leaf_All,
+        a.seedling_All,
+        a.flower_All,
+        a.stem_All,
+        CASE WHEN b.fpkm_id IS NULL THEN FALSE ELSE TRUE END AS existSNP,
         f.id,
         f.gene_name,
         f.description,
         f.gene_id_old
-        FROM fpkm a LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
-        LEFT JOIN snp_consequencetype c ON b.snp_id = c.id
-        LEFT JOIN fpkm_associate_indel d ON a.id = d.fpkm_id
-        LEFT JOIN indel_consequencetype e ON e.id = d.indel_id
+        FROM fpkm a
+        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
         JOIN (SELECT * FROM gens_baseinfo WHERE chromosome = #{0} AND ((start  <![CDATA[ >= ]]> #{1} AND start <![CDATA[ < ]]> #{2})
-            OR (end <![CDATA[ >= ]]> #{1} AND end <![CDATA[ < ]]> #{2}) OR (start <![CDATA[ <= ]]> #{1} AND end <![CDATA[ > ]]> #{1}))) AS f ON a.gene_id = f.gene_id
-        WHERE 1 = 1
-        GROUP BY a.id, a.gene_id, a.pod_All, a.seed_All, a.root_All, a.shoot_All, a.leaf_All, a.seedling_All, a.flower_All,
-        a.stem_All, f.id, f.gene_id_old, f.gene_name, f.description
+            OR (end <![CDATA[ >= ]]> #{1} AND end <![CDATA[ < ]]> #{2}) OR (start <![CDATA[ <= ]]> #{1} AND end <![CDATA[ > ]]> #{1}))) AS f
+        ON a.baseinfo_id = f.id) AS result
+    </select>
+
+    <select id="findViewByQtl" resultMap="qtlSearchResult">
+        SELECT
+          a.gene_id,
+          a.qtl_name,
+          b.geneId,
+          c.gene_name,
+          c.description,
+          c.gene_id_old,
+          d.pod_All,
+          d.seed_All,
+          d.root_All,
+          d.shoot_All,
+          d.leaf_All,
+          d.seedling_All,
+          d.flower_All,
+          d.stem_All,
+          CASE WHEN e.fpkm_id IS NULL
+            THEN FALSE
+          ELSE TRUE END AS existSNP
+        FROM qtl_gene a
+        JOIN (
+          SELECT gene_id AS geneId FROM qtl_gene a
+            WHERE a.qtl_id IN
+            <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        LIMIT #{1}, #{2}) AS b ON b.geneId = a.gene_id
+        LEFT JOIN gens_baseinfo c ON c.id = a.gene_info_id
+        LEFT JOIN fpkm d ON c.id = d.baseinfo_id
+        LEFT JOIN (SELECT fpkm_id
+                   FROM fpkm_associate_snp
+                   WHERE snp_id = 12) AS e ON d.id = e.fpkm_id;
+    </select>
+
+    <select id="countBySearchQtl" parameterType="int" resultType="int">
+        SELECT COUNT(gene_id) AS geneId FROM qtl_gene a
+        WHERE a.qtl_id IN
+        <foreach collection="qtl" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
     </select>
 
     <select id="advanceSearchByGeneId"

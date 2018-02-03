@@ -11,7 +11,10 @@ import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
+import com.google.common.collect.Lists;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -137,8 +140,16 @@ public class FPKMDaoTest extends TestCase {
     @Test
     public void testSearchByRegion(){
         String chromosome = "Chr01";
-        List<AdvanceSearchResultView> resultViews = fpkmDao.searchByRegion(chromosome, 0, 10000000);
+        List<RangeSearchResult> resultViews = fpkmDao.searchByRegion(chromosome, 0, 10000000, 0, 10);
         assertNotNull(resultViews);
+    }
+
+    @Test
+    public void testFindViewByQtl(){
+        List<Integer> qtls = Lists.newArrayList(3861, 3840, 3851);
+        assertEquals(480, fpkmDao.countBySearchQtl(qtls));
+        List<RangeSearchResult> result = fpkmDao.findViewByQtl(qtls, 0, 10);
+        assertNotNull(result);
     }
 
     @Test

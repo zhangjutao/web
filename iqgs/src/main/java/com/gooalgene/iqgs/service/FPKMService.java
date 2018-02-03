@@ -13,7 +13,9 @@ import com.gooalgene.iqgs.entity.FpkmDto;
 import com.gooalgene.iqgs.entity.GeneFPKM;
 import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
+import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
 import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
@@ -293,10 +295,30 @@ public class FPKMService implements InitializingBean {
         return new PageInfo<>(searchResult);
     }
 
-    public PageInfo<AdvanceSearchResultView> findViewByRange(String chromosome, int start, int end, int pageNo, int pageSize){
-        PageHelper.startPage(pageNo, pageSize);
-        List<AdvanceSearchResultView> result = fpkmDao.searchByRegion(chromosome, start, end);
-        return new PageInfo<>(result);
+    public PageInfo<RangeSearchResult> findViewByRange(String chromosome, int start, int end, int pageNo, int pageSize){
+        //mybatis对连表查询无能为力,这里需要手动查询分页
+        int total = fpkmDao.countBySearchRegion(chromosome, start, end);
+        int pageStart = (pageNo - 1) * pageSize;
+        List<RangeSearchResult> result = fpkmDao.searchByRegion(chromosome, start, end, pageStart, pageNo*pageSize);
+        PageInfo<RangeSearchResult> pageInfo = new PageInfo<>();
+        pageInfo.setTotal(total);
+        pageInfo.setPageNum(pageNo);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setList(result);
+        return pageInfo;
+    }
+
+    public PageInfo<RangeSearchResult> findViewByQtl(List<Integer> allQTLId, int pageNo, int pageSize){
+        if (allQTLId == null || allQTLId.size() == 0) return null;
+        int total = fpkmDao.countBySearchQtl(allQTLId);  //先计算选中QTL对应的基因总量
+        int pageStart = (pageNo - 1) * pageSize;
+        List<RangeSearchResult> result = fpkmDao.findViewByQtl(allQTLId, pageStart, pageNo * pageSize);
+        PageInfo<RangeSearchResult> pageInfo = new PageInfo<>();
+        pageInfo.setTotal(total);
+        pageInfo.setPageNum(pageNo);
+        pageInfo.setPageSize(pageSize);
+        pageInfo.setList(result);
+        return pageInfo;
     }
 
     public boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType){

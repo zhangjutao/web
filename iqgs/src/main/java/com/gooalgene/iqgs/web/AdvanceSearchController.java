@@ -8,11 +8,9 @@ import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.RegularityLink;
 import com.gooalgene.iqgs.entity.RegularityNode;
-import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
-import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
-import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
-import com.gooalgene.iqgs.entity.condition.RegularityResult;
+import com.gooalgene.iqgs.entity.condition.*;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.RegularityNetworkService;
 import com.gooalgene.iqgs.service.SearchService;
 import com.gooalgene.mrna.entity.Classifys;
@@ -63,6 +61,9 @@ public class AdvanceSearchController implements InitializingBean {
 
     @Autowired
     private SearchService searchService;
+
+    @Autowired
+    private FPKMService fpkmService;
 
     @Autowired
     private TraitCategoryService traitCategoryService;
@@ -147,10 +148,10 @@ public class AdvanceSearchController implements InitializingBean {
 
     @RequestMapping(value = "/confirm", method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO<DNAGeneSearchResult> clickConfirm(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl, HttpServletRequest request) {
+    public ResultVO<RangeSearchResult> clickConfirm(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl, HttpServletRequest request) {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> genes = dnaGenBaseInfoService.queryDNAGenBaseInfos(null, null, null, null, Arrays.asList(chosenQtl), null, null, pageNo, pageSize);
+        PageInfo<RangeSearchResult> genes = fpkmService.findViewByQtl(Arrays.asList(chosenQtl), pageNo, pageSize);
         return ResultUtil.success(genes);
     }
 
