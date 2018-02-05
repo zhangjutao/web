@@ -9,7 +9,9 @@ import com.gooalgene.dna.service.SNPService;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
+import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
+import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.mrna.entity.ExpressionStudy;
 import com.gooalgene.mrna.service.StudyService;
 import com.gooalgene.mrna.service.TService;
@@ -61,6 +63,9 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     @Autowired
     private QueryService queryService;
+
+    @Autowired
+    private FPKMService fpkmService;
 
     private PropertiesLoader loader;
 
@@ -130,13 +135,13 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     @RequestMapping("/search/range")
     @ResponseBody
-    public ResultVO<DNAGeneSearchResult> searchForRange(HttpServletRequest req) {
+    public ResultVO<RangeSearchResult> searchForRange(HttpServletRequest req) {
         int start = Integer.parseInt(req.getParameter("begin"));
         int end = Integer.parseInt(req.getParameter("end"));
         String chr = req.getParameter("chr");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
         int pageSize = Integer.parseInt(req.getParameter("pageSize"));
-        PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenByRange(chr, start, end, pageNo, pageSize);
+        PageInfo<RangeSearchResult> resultPageInfo = fpkmService.findViewByRange(chr, start, end, pageNo, pageSize);
         return ResultUtil.success(resultPageInfo);
     }
 
