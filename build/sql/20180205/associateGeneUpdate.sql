@@ -1,0 +1,1 @@
+#执行associateGene表数据拆分，建立qtl_gene表之间关系

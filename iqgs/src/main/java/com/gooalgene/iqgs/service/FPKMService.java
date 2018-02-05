@@ -8,11 +8,8 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.service.DNAGenStructureService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
-import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.FpkmDto;
-import com.gooalgene.iqgs.entity.FpkmDto;
-import com.gooalgene.iqgs.entity.GeneFPKM;
-import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
@@ -24,6 +21,7 @@ import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.gooalgene.iqgs.service.concurrent.ThreadManager;
 import com.gooalgene.iqgs.service.concurrent.TimeConsumingJob;
+import com.google.common.base.Function;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.FluentIterable;
@@ -104,10 +102,18 @@ public class FPKMService implements InitializingBean {
     }
 
     private void cacheAllSNPAndINDEL(){
-        Map<String, Integer> allSNPConsequenceType = fpkmDao.getAllConsequenceTypeAndItsId("SNP");
-        Map<String, Integer> allINDELConsequenceType = fpkmDao.getAllConsequenceTypeAndItsId("INDEL");
-        cache.putIfAbsent(CommonConstant.CACHEDSNP, allSNPConsequenceType);
-        cache.putIfAbsent(CommonConstant.CACHEDINDEL, allINDELConsequenceType);
+        List<ConsequenceEntity> allSNPConsequenceType = fpkmDao.getAllConsequenceTypeAndItsId("SNP");
+        List<ConsequenceEntity> allINDELConsequenceType = fpkmDao.getAllConsequenceTypeAndItsId("INDEL");
+        cache.putIfAbsent(CommonConstant.CACHEDSNP, convertConsequenceEntityToMap(allSNPConsequenceType));
+        cache.putIfAbsent(CommonConstant.CACHEDINDEL, convertConsequenceEntityToMap(allINDELConsequenceType));
+    }
+
+    public Map<String, Integer> convertConsequenceEntityToMap(List<ConsequenceEntity> entities){
+        Map<String, Integer> result = new HashMap<>();
+        for (ConsequenceEntity entity : entities){
+            result.put(entity.getConsequenceType(), entity.getId());
+        }
+        return result;
     }
 
     private void initDataToCache(){
@@ -285,7 +291,7 @@ public class FPKMService implements InitializingBean {
      * @param pageSize 每页条数
      * @return 符合条件基因ID集合
      */
-    public PageInfo<AdvanceSearchResultView> findProperGeneUnderSampleRun(List<GeneExpressionConditionEntity> condition,
+    public PageInfo<RangeSearchResult> findProperGeneUnderSampleRun(List<GeneExpressionConditionEntity> condition,
                                                                       List<String> selectSnp,
                                                                       List<String> selectIndel,
                                                                       List<Integer> firstHierarchyQtlId,
@@ -297,27 +303,40 @@ public class FPKMService implements InitializingBean {
         List<Integer> allSNPId = getAllSelectedConsequenceTypeId("SNP", selectSnp);
         List<Integer> allINDELId = getAllSelectedConsequenceTypeId("INDEL", selectIndel);
         if (firstHierarchyQtlId != null && firstHierarchyQtlId.size() > 0){
-
+            return advanceSearchByQtl(condition, allSNPId, allINDELId, firstHierarchyQtlId, selectQTL, pageNo, pageSize);
+        } else if (structure != null){
+            String chromosome = structure.getChromosome();
+            long start = structure.getStart();
+            long end = structure.getEnd();
         }
+
         //QTL查询高级搜索
-        List<AdvanceSearchResultView> searchResult =
-                fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
-        //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
-        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
-        AsyncEventBus eventBus = register.getAsyncEventBus();
-        eventBus.post(event);
-        return new PageInfo<>(searchResult);
+//        List<AdvanceSearchResultView> searchResult =
+//                fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+//        //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
+//        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+//        AsyncEventBus eventBus = register.getAsyncEventBus();
+//        eventBus.post(event);
+        return new PageInfo<>(null);
     }
 
     /**
      * QTL一级搜索对应的高级搜索功能
      */
     private PageInfo<RangeSearchResult> advanceSearchByQtl(List<GeneExpressionConditionEntity> condition,
-                                                           List<String> selectSnp,
-                                                           List<String> selectIndel,
+                                                           List<Integer> selectSnp,
+                                                           List<Integer> selectIndel,
                                                            List<Integer> firstHierarchyQtlId,
                                                            List<Integer> selectQTL, int pageNo, int pageSize){
-        return null;
+        int start = (pageNo - 1) * pageSize;
+        int total = fpkmDao.countAdvanceSearchByQtl(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL);
+        List<RangeSearchResult> searchResult = fpkmDao.advanceSearchByQtl(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, start, pageNo * pageSize);
+        PageInfo<RangeSearchResult> resultPageInfo = new PageInfo<>();
+        resultPageInfo.setTotal(total);
+        resultPageInfo.setList(searchResult);
+        resultPageInfo.setPageNum(pageNo);
+        resultPageInfo.setPageSize(pageSize);
+        return resultPageInfo;
     }
 
     public PageInfo<RangeSearchResult> findViewByRange(String chromosome, int start, int end, int pageNo, int pageSize){
