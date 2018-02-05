@@ -34,4 +34,12 @@ public interface CommonConstant {
      * 高级搜索INDEL checkbox选项
      */
     String ADVANCESEARCHINDEL = "advanceSearchINDEL";
+    /**
+     * 启动时缓存的SNP consequencetype、id Map
+     */
+    String CACHEDSNP = "cachedSNP";
+    /**
+     * 启动时缓存的INDEL consequencetype、id Map
+     */
+    String CACHEDINDEL = "cachedINDEL";
 }

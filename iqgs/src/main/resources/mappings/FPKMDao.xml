@@ -69,6 +69,28 @@
         LEFT JOIN associatedgenes h ON h.id = g.qtl_id
         LEFT JOIN gens_structure i ON i.gene_id = a.gene_id
         WHERE 1=1
+        <include refid="geneExpressionCondition" />
+        <if test="snp != null and snp.size() > 0">
+            AND c.consequencetype IN
+            <foreach collection="snp" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="indel != null and indel.size() > 0">
+            AND e.consequencetype IN
+            <foreach collection="indel" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="qtl != null and qtl.size() > 0">
+            AND h.id IN
+            <foreach collection="qtl" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+    </sql>
+    <!-- 基因表达量选择条件公共部分,每个高级搜索都有可能传入该参数 -->
+    <sql id="geneExpressionCondition">
         <if test="geneExpression != null and geneExpression.size() > 0">
             AND (
             <trim suffixOverrides="OR">
@@ -160,24 +182,6 @@
                 </foreach>
             </trim>
             )
-        </if>
-        <if test="snp != null and snp.size() > 0">
-            AND c.consequencetype IN
-            <foreach collection="snp" index="index" item="item" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
-        </if>
-        <if test="indel != null and indel.size() > 0">
-            AND e.consequencetype IN
-            <foreach collection="indel" index="index" item="item" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
-        </if>
-        <if test="qtl != null and qtl.size() > 0">
-            AND h.id IN
-            <foreach collection="qtl" index="index" item="item" open="(" close=")" separator=",">
-                #{item}
-            </foreach>
         </if>
     </sql>
     <sql id="groupBySQL">
@@ -328,6 +332,93 @@
         LEFT JOIN (SELECT fpkm_id
                    FROM fpkm_associate_snp
                    WHERE snp_id = 12) AS e ON d.id = e.fpkm_id;
+    </select>
+
+    <select id="advanceSearchByQtl" resultMap="qtlSearchResult">
+        SELECT
+         a.gene_id,
+         a.qtl_name,
+         b.geneId,
+         c.gene_name,
+         c.description,
+         c.gene_id_old,
+         d.pod_All,
+         d.seed_All,
+         d.root_All,
+         d.shoot_All,
+         d.leaf_All,
+         d.seedling_All,
+         d.flower_All,
+         d.stem_All,
+         CASE WHEN e.fpkm_id IS NULL
+           THEN FALSE
+         ELSE TRUE END AS existSNP
+       FROM qtl_gene a
+         JOIN (SELECT gene_id AS geneId
+               FROM qtl_gene a
+               WHERE a.qtl_id IN
+                <foreach collection="firstHierarchyQtlId" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+               ) AS b ON b.geneId = a.gene_id
+         JOIN (SELECT gene_id AS secondQtlId
+               FROM qtl_gene a
+               WHERE a.qtl_id IN
+                <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+               ) AS h ON h.secondQtlId = a.gene_id
+         LEFT JOIN gens_baseinfo c ON c.id = a.gene_info_id
+         JOIN (SELECT id, baseinfo_id, pod_All, seed_All, root_All, shoot_All, leaf_All, seedling_All, flower_All, stem_All FROM fpkm
+              WHERE 1 = 1
+              <include refid="geneExpressionCondition" />
+              ) AS d ON c.id = d.baseinfo_id
+         JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id IN
+                <foreach collection="snp" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+              ) AS f ON d.id = f.fpkm_id
+         JOIN (SELECT fpkm_id FROM fpkm_associate_indel WHERE indel_id IN
+                <foreach collection="indel" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+              ) AS g ON d.id = g.fpkm_id
+         LEFT JOIN (SELECT fpkm_id
+                    FROM fpkm_associate_snp
+                    WHERE snp_id = 12) AS e ON d.id = e.fpkm_id
+    </select>
+
+    <select id="countAdvanceSearchByQtl" resultType="int">
+        SELECT count(*) AS result FROM (
+        SELECT DISTINCT a.gene_id AS geneId
+        FROM qtl_gene a
+          JOIN (SELECT gene_id AS secondQtlId
+                FROM qtl_gene a
+                WHERE a.qtl_id IN
+                <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+                ) AS b ON a.gene_id = b.secondQtlId
+          LEFT JOIN gens_baseinfo c ON c.id = a.gene_info_id
+          JOIN (SELECT id, baseinfo_id, pod_All, seed_All, root_All, shoot_All, leaf_All, seedling_All, flower_All, stem_All FROM fpkm a
+                WHERE 1 = 1
+                <include refid="geneExpressionCondition" />
+                ) AS d ON c.id = d.baseinfo_id
+          JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id IN
+                <foreach collection="snp" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+                ) AS f ON d.id = f.fpkm_id
+          JOIN (SELECT fpkm_id FROM fpkm_associate_indel WHERE indel_id IN
+                <foreach collection="indel" item="item" separator="," open="(" close=")">
+                    #{item}
+                </foreach>
+                ) AS g ON d.id = g.fpkm_id
+        WHERE a.qtl_id IN
+          <foreach collection="firstHierarchyQtlId" item="item" separator="," open="(" close=")">
+              #{item}
+          </foreach>
+        ) AS table_count
     </select>
 
     <select id="countBySearchQtl" parameterType="int" resultType="int">
@@ -488,6 +579,15 @@
                 </foreach>
             </if>
         </where>
+    </select>
+
+    <select id="getAllConsequenceTypeAndItsId" resultType="java.util.Map">
+        <if test="type == 'SNP'">
+            SELECT consequencetype, id FROM snp_consequencetype
+        </if>
+        <if test="type == 'INDEL'">
+            SELECT consequencetype, id FROM indel_consequencetype
+        </if>
     </select>
 
 </mapper>

@@ -7,9 +7,11 @@ import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
+import org.apache.ibatis.annotations.MapKey;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @MyBatisDao
 public interface FPKMDao {
@@ -37,6 +39,24 @@ public interface FPKMDao {
      * @param end MySQL分页终点位置
      */
     List<RangeSearchResult> findViewByQtl(@Param("qtl") List<Integer> associateGeneId, int start, int end);
+
+    /**
+     * 一级搜索为QTL的高级搜索查询DAO层
+     */
+    List<RangeSearchResult> advanceSearchByQtl(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                               @Param("snp") List<Integer> selectSnp,
+                                               @Param("indel") List<Integer> selectIndel,
+                                               @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
+                                               @Param("qtl") List<Integer> associateGeneId, int start, int end);
+
+    /**
+     * 计算QTL高级搜索总条数
+     */
+    int countAdvanceSearchByQtl(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                @Param("snp") List<Integer> selectSnp,
+                                @Param("indel") List<Integer> selectIndel,
+                                @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
+                                @Param("qtl") List<Integer> associateGeneId);
 
     /**
      * 计算QTL查询的总基因个数
@@ -81,5 +101,13 @@ public interface FPKMDao {
      * 检查某一基因对应consequencetype中是否存在SNP
      */
     boolean checkExistSNP(String fpkmGeneId, String snpConsequenceType);
+
+    /**
+     * 获取所有snp_consequencetype或indel_consequencetype表中consequencetype、id字段,启动时放入缓存
+     * @param type "SNP"、"INDEL"
+     * @return 存放consequencetype、id的map
+     */
+    @MapKey("consequencetype")
+    Map<String, Integer> getAllConsequenceTypeAndItsId(@Param("type") String type);
 
 }

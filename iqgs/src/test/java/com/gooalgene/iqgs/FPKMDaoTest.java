@@ -26,6 +26,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
@@ -149,6 +150,29 @@ public class FPKMDaoTest extends TestCase {
         List<Integer> qtls = Lists.newArrayList(3861, 3840, 3851);
         assertEquals(480, fpkmDao.countBySearchQtl(qtls));
         List<RangeSearchResult> result = fpkmDao.findViewByQtl(qtls, 0, 10);
+        assertNotNull(result);
+    }
+
+    @Test
+    public void testCountAdvanceSearchByQtl(){
+        List<GeneExpressionConditionEntity> list = new ArrayList<>();
+        GeneExpressionConditionEntity condition = new GeneExpressionConditionEntity();
+        Tissue tissue = new Tissue();
+        tissue.setPod(0.0);
+        condition.setTissue(tissue);
+        condition.setBegin(10.0);
+        condition.setEnd(20.0);
+        list.add(condition);
+        GeneExpressionConditionEntity condition1 = new GeneExpressionConditionEntity();
+        Tissue embryo = new Tissue();
+        embryo.setEmbryo(0.0);
+        condition1.setBegin(40.0);
+        condition1.setEnd(50.0);
+        condition1.setTissue(embryo);  //这只新的查询条件为胚芽(embryo)
+        list.add(condition1);
+        List<Integer> conseqenceType = Lists.newArrayList(12, 13);
+        int result = fpkmDao.countAdvanceSearchByQtl(list, conseqenceType, conseqenceType,
+                Lists.<Integer>newArrayList(3861, 3840, 3851), Lists.newArrayList(3922, 3976, 117, 4052, 7164));
         assertNotNull(result);
     }
 

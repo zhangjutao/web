@@ -3,6 +3,7 @@ package com.gooalgene.iqgs.service;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.service.DNAGenStructureService;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
@@ -84,6 +85,7 @@ public class FPKMService implements InitializingBean {
     public void afterPropertiesSet() throws Exception {
         if (context.getParent() != null) {
             cache = manager.getCache("advanceSearch");
+            cacheAllSNPAndINDEL();
             Cache configCache = manager.getCache("config");
             final boolean cacheChromosome = Integer.parseInt((String) configCache.get("initCache").get()) == 1;  //动态配置是否启动时缓存染色体
             globalCacheSign = cacheChromosome;
@@ -99,6 +101,13 @@ public class FPKMService implements InitializingBean {
             });
             initDataThread.start();
         }
+    }
+
+    private void cacheAllSNPAndINDEL(){
+        Map<String, Integer> allSNPConsequenceType = fpkmDao.getAllConsequenceTypeAndItsId("SNP");
+        Map<String, Integer> allINDELConsequenceType = fpkmDao.getAllConsequenceTypeAndItsId("INDEL");
+        cache.putIfAbsent(CommonConstant.CACHEDSNP, allSNPConsequenceType);
+        cache.putIfAbsent(CommonConstant.CACHEDINDEL, allINDELConsequenceType);
     }
 
     private void initDataToCache(){
@@ -267,7 +276,8 @@ public class FPKMService implements InitializingBean {
     }
 
     /**
-     * 根据用户选择的基因表达量、SNP、INDEL，筛选出对应基因
+     * 根据用户选择的基因表达量、SNP、INDEL，筛选出对应基因,
+     * 目前使用入参中firstHierarchyQtlId、baseinfo、structure做查询分发,也就是传入的三个参数中另外两个肯定为null
      * @param condition 基因表达量
      * @param selectSnp 选择的SNP name集合
      * @param selectIndel 选择的INDEL name集合
@@ -284,7 +294,11 @@ public class FPKMService implements InitializingBean {
                                                                       DNAGenStructure structure,
                                                                       int pageNo,
                                                                       int pageSize){
-        PageHelper.startPage(pageNo, pageSize, true);
+        List<Integer> allSNPId = getAllSelectedConsequenceTypeId("SNP", selectSnp);
+        List<Integer> allINDELId = getAllSelectedConsequenceTypeId("INDEL", selectIndel);
+        if (firstHierarchyQtlId != null && firstHierarchyQtlId.size() > 0){
+
+        }
         //QTL查询高级搜索
         List<AdvanceSearchResultView> searchResult =
                 fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
@@ -293,6 +307,17 @@ public class FPKMService implements InitializingBean {
         AsyncEventBus eventBus = register.getAsyncEventBus();
         eventBus.post(event);
         return new PageInfo<>(searchResult);
+    }
+
+    /**
+     * QTL一级搜索对应的高级搜索功能
+     */
+    private PageInfo<RangeSearchResult> advanceSearchByQtl(List<GeneExpressionConditionEntity> condition,
+                                                           List<String> selectSnp,
+                                                           List<String> selectIndel,
+                                                           List<Integer> firstHierarchyQtlId,
+                                                           List<Integer> selectQTL, int pageNo, int pageSize){
+        return null;
     }
 
     public PageInfo<RangeSearchResult> findViewByRange(String chromosome, int start, int end, int pageNo, int pageSize){
@@ -327,5 +352,23 @@ public class FPKMService implements InitializingBean {
 
     private PageInfo<AdvanceSearchResultView> advanceSearchForGeneId(){
         return null;
+    }
+
+    private List<Integer> getAllSelectedConsequenceTypeId(String type, List<String> consequenceType){
+        List<Integer> result = new ArrayList<>();
+        if (consequenceType != null && consequenceType.size() > 0){
+            Map<String, Integer> cachedMap = new HashMap<>();
+            if (type.equals("SNP")){
+                cachedMap = (Map<String, Integer>) cache.get(CommonConstant.CACHEDSNP).get();
+            } else if (type.equals("INDEL")){
+                cachedMap = (Map<String, Integer>) cache.get(CommonConstant.CACHEDINDEL).get();
+            } else {
+                throw new IllegalArgumentException("传入的Type参数必须为:SNP、INDEL");
+            }
+            for (String con : consequenceType){
+                result.add(cachedMap.get(con));
+            }
+        }
+        return result;
     }
 }
