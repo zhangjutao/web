@@ -2,6 +2,7 @@ package com.gooalgene.iqgs.dao;
 
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.entity.DNAGenStructure;
+import com.gooalgene.iqgs.entity.ConsequenceEntity;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
@@ -47,7 +48,7 @@ public interface FPKMDao {
                                                @Param("snp") List<Integer> selectSnp,
                                                @Param("indel") List<Integer> selectIndel,
                                                @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
-                                               @Param("qtl") List<Integer> associateGeneId, int start, int end);
+                                               @Param("qtl") List<Integer> associateGeneId, @Param("start") int start, @Param("end") int end);
 
     /**
      * 计算QTL高级搜索总条数
@@ -107,7 +108,6 @@ public interface FPKMDao {
      * @param type "SNP"、"INDEL"
      * @return 存放consequencetype、id的map
      */
-    @MapKey("consequencetype")
-    Map<String, Integer> getAllConsequenceTypeAndItsId(@Param("type") String type);
+    List<ConsequenceEntity> getAllConsequenceTypeAndItsId(@Param("type") String type);
 
 }

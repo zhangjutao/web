@@ -157,7 +157,7 @@ public class AdvanceSearchController implements InitializingBean {
 
     @RequestMapping(value = "/advanceSearch", method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<DNAGeneSearchResult> advanceSearch(
+    public ResultVO<RangeSearchResult> advanceSearch(
             @RequestBody GeneExpressionCondition geneExpressionCondition) throws InterruptedException {
         int pageNo = geneExpressionCondition.getPageNo();
         int pageSize = geneExpressionCondition.getPageSize();
@@ -169,7 +169,7 @@ public class AdvanceSearchController implements InitializingBean {
         DNAGenBaseInfo baseInfo = geneExpressionCondition.getGeneInfo();  //高级搜索中根据基因名字查询传入的基因名或ID
         DNAGenStructure geneStructure = geneExpressionCondition.getGeneStructure();  //高级搜索中根据基因结构搜索相应基因
         // 需要在这个地方分页,现在为存入SNP、INDEL,仍然需要跨库查询
-        PageInfo<DNAGeneSearchResult> properGene =
+        PageInfo<RangeSearchResult> properGene =
                 dnaGenBaseInfoService.queryDNAGenBaseInfos(entities, selectSnpConsequenceType,
                         selectIndelConsequenceType, firstHierarchyQtlId, associateGeneIdArray, baseInfo, geneStructure, pageNo, pageSize);
         return ResultUtil.success(properGene);

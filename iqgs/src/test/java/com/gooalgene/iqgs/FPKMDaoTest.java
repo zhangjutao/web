@@ -8,6 +8,7 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
 import com.gooalgene.iqgs.dao.FPKMDao;
+import com.gooalgene.iqgs.entity.ConsequenceEntity;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
@@ -23,10 +24,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
@@ -173,7 +171,16 @@ public class FPKMDaoTest extends TestCase {
         List<Integer> conseqenceType = Lists.newArrayList(12, 13);
         int result = fpkmDao.countAdvanceSearchByQtl(list, conseqenceType, conseqenceType,
                 Lists.<Integer>newArrayList(3861, 3840, 3851), Lists.newArrayList(3922, 3976, 117, 4052, 7164));
+        List<RangeSearchResult> rangeSearchResults = fpkmDao.advanceSearchByQtl(list, conseqenceType, conseqenceType,
+                Lists.<Integer>newArrayList(3861, 3840, 3851), Lists.newArrayList(3922, 3976, 117, 4052, 7164), 0, 10);
         assertNotNull(result);
+        assertNotNull(rangeSearchResults);
+    }
+
+    @Test
+    public void testGetAllConsequenceTypeAndItsId(){
+        List<ConsequenceEntity> allSNP = fpkmDao.getAllConsequenceTypeAndItsId("SNP");
+        assertEquals(3, allSNP.get(0).getId());
     }
 
     @Test
