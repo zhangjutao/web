@@ -622,7 +622,6 @@
     }
     // 第一个一级搜索获取数据
     function searchOne(currNums, pageSize) {
-        console.log(pageSize)
         // 根据一级搜索来分页
         $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
             pageNo: currNums || 1,
@@ -686,10 +685,6 @@
     }
 
     function resultCallback(res, type, currNums,pageSize) {
-        console.log(res);
-        console.log(type);
-        console.log(currNums);
-        console.log(pageSize);
         $("span.js-search-total").text(res.data.total);
         $("#total-page-count1 span").text(res.data.total);
         renderList(res.data.list, currNums);
