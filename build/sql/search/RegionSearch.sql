@@ -101,7 +101,7 @@ FROM (SELECT
   LEFT JOIN qtl_gene g ON g.gene_info_id = a.id;
 
 
-#根据geneId高级搜索
+#根据gene function高级搜索
 SELECT
   a.*,
   g.gene_info_id,

@@ -306,14 +306,18 @@ public class FPKMService implements InitializingBean {
             return advanceSearchByQtl(condition, allSNPId, allINDELId, firstHierarchyQtlId, selectQTL, pageNo, pageSize);
         } else if (structure != null){
             String chromosome = structure.getChromosome();
-            long start = structure.getStart();
-            long end = structure.getEnd();
-            return null;
+            int start = (int)(long)structure.getStart();
+            int end = (int)(long)structure.getEnd();
+            return advanceSearchByRegion(condition, allSNPId, allINDELId, selectQTL, chromosome, start, end, pageNo, pageSize);
         } else if (baseInfo != null && baseInfo.getGeneId() != null){
             String geneId = baseInfo.getGeneId();
             return advanceSearchByGeneId(condition, allSNPId, allINDELId, selectQTL, geneId, pageNo, pageSize);
+        } else if (baseInfo != null && (baseInfo.getDescription() != null || baseInfo.getFunctions() != null)){  //接受description、function任意参数
+            String function = baseInfo.getFunctions() != null ? baseInfo.getFunctions() : baseInfo.getDescription();
+            return advanceSearchByFunction(condition, allSNPId, allINDELId, selectQTL, function, pageNo, pageSize);
+        } else {
+            throw new IllegalArgumentException("请求参数不正确，高级搜索必须包含或GeneId，或QTL，或GeneFunction、或染色体区间查询条件");
         }
-
         //QTL查询高级搜索
 //        List<AdvanceSearchResultView> searchResult =
 //                fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
@@ -321,8 +325,42 @@ public class FPKMService implements InitializingBean {
 //        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
 //        AsyncEventBus eventBus = register.getAsyncEventBus();
 //        eventBus.post(event);
-        return new PageInfo<>(null);
     }
+
+    private PageInfo<RangeSearchResult> advanceSearchByFunction(List<GeneExpressionConditionEntity> condition,
+                                                              List<Integer> selectSnp,
+                                                              List<Integer> selectIndel,
+                                                              List<Integer> selectQTL,
+                                                              String function, int pageNo, int pageSize){
+        int start = (pageNo - 1) * pageSize;
+        int total = fpkmDao.countAdvanceSearchByFunction(condition, selectSnp, selectIndel, selectQTL, function);
+        List<RangeSearchResult> searchResult = fpkmDao.advanceSearchByFunction(condition, selectSnp, selectIndel, selectQTL, function, start, pageSize);
+        PageInfo<RangeSearchResult> resultPageInfo = new PageInfo<>();
+        resultPageInfo.setTotal(total);
+        resultPageInfo.setList(searchResult);
+        resultPageInfo.setPageNum(pageNo);
+        resultPageInfo.setPageSize(pageSize);
+        return resultPageInfo;
+    }
+
+      private PageInfo<RangeSearchResult> advanceSearchByRegion(List<GeneExpressionConditionEntity> condition,
+      List<Integer> selectSnp,
+      List<Integer> selectIndel,
+      List<Integer> selectQTL,
+      String chromosome,
+      int geneStart, int geneEnd,
+      int pageNo, int pageSize){
+        int start = (pageNo - 1) * pageSize;
+        int total = fpkmDao.countAdvanceSearchByRegion(condition, selectSnp, selectIndel, selectQTL, chromosome, geneStart, geneEnd);
+        List<RangeSearchResult> searchResult = fpkmDao.advanceSearchByRegion(condition, selectSnp, selectIndel, selectQTL, chromosome, geneStart, geneEnd, start, pageSize);
+        PageInfo<RangeSearchResult> resultPageInfo = new PageInfo<>();
+        resultPageInfo.setTotal(total);
+        resultPageInfo.setList(searchResult);
+        resultPageInfo.setPageNum(pageNo);
+        resultPageInfo.setPageSize(pageSize);
+        return resultPageInfo;
+    }
+
 
     private PageInfo<RangeSearchResult> advanceSearchByGeneId(List<GeneExpressionConditionEntity> condition,
                                                               List<Integer> selectSnp,
