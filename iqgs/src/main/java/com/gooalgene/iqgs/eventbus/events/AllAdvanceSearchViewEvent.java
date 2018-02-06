@@ -1,35 +1,33 @@
 package com.gooalgene.iqgs.eventbus.events;
 
-import com.gooalgene.dna.entity.DNAGenStructure;
-import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
+import com.gooalgene.iqgs.entity.AdvanceSearchType;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.google.common.base.Objects;
+import com.google.common.collect.Lists;
 
+import java.util.Arrays;
 import java.util.List;
 
 /**
  * 获取所有高级搜索结果事件
  */
-public class AllAdvanceSearchViewEvent {
+public class AllAdvanceSearchViewEvent<T> {
     private List<GeneExpressionConditionEntity> condition;
-    private List<String> selectSnp;
-    private List<String> selectIndel;
+    private List<Integer> selectSnp;
+    private List<Integer> selectIndel;
     private List<Integer> firstHierarchyQtlId;
-    private List<Integer> selectQTL;
-    private DNAGenBaseInfo baseInfo;
-    private DNAGenStructure structure;
+    private T t;
+    private AdvanceSearchType type;
 
     public AllAdvanceSearchViewEvent(List<GeneExpressionConditionEntity> condition,
-                                     List<String> selectSnp, List<String> selectIndel,
-                                     List<Integer> firstHierarchyQtlId, List<Integer> selectQTL,
-                                     DNAGenBaseInfo baseInfo, DNAGenStructure structure) {
+                                     List<Integer> selectSnp, List<Integer> selectIndel,
+                                     List<Integer> firstHierarchyQtlId, T t, AdvanceSearchType type) {
         this.condition = condition;
         this.selectSnp = selectSnp;
         this.selectIndel = selectIndel;
         this.firstHierarchyQtlId = firstHierarchyQtlId;
-        this.selectQTL = selectQTL;
-        this.baseInfo = baseInfo;
-        this.structure = structure;
+        this.type = type;
+        this.t = t;
     }
 
     public List<GeneExpressionConditionEntity> getCondition() {
@@ -40,19 +38,19 @@ public class AllAdvanceSearchViewEvent {
         this.condition = condition;
     }
 
-    public List<String> getSelectSnp() {
+    public List<Integer> getSelectSnp() {
         return selectSnp;
     }
 
-    public void setSelectSnp(List<String> selectSnp) {
+    public void setSelectSnp(List<Integer> selectSnp) {
         this.selectSnp = selectSnp;
     }
 
-    public List<String> getSelectIndel() {
+    public List<Integer> getSelectIndel() {
         return selectIndel;
     }
 
-    public void setSelectIndel(List<String> selectIndel) {
+    public void setSelectIndel(List<Integer> selectIndel) {
         this.selectIndel = selectIndel;
     }
 
@@ -64,46 +62,36 @@ public class AllAdvanceSearchViewEvent {
         this.firstHierarchyQtlId = firstHierarchyQtlId;
     }
 
-    public List<Integer> getSelectQTL() {
-        return selectQTL;
+    public AdvanceSearchType getType() {
+        return type;
     }
 
-    public void setSelectQTL(List<Integer> selectQTL) {
-        this.selectQTL = selectQTL;
+    public void setType(AdvanceSearchType type) {
+        this.type = type;
     }
 
-    public DNAGenBaseInfo getBaseInfo() {
-        return baseInfo;
+    public T getT() {
+        return t;
     }
 
-    public void setBaseInfo(DNAGenBaseInfo baseInfo) {
-        this.baseInfo = baseInfo;
-    }
-
-    public DNAGenStructure getStructure() {
-        return structure;
-    }
-
-    public void setStructure(DNAGenStructure structure) {
-        this.structure = structure;
+    public void setT(T t) {
+        this.t = t;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AllAdvanceSearchViewEvent event = (AllAdvanceSearchViewEvent) o;
+        AllAdvanceSearchViewEvent<?> event = (AllAdvanceSearchViewEvent<?>) o;
         return Objects.equal(condition, event.condition) &&
                 Objects.equal(selectSnp, event.selectSnp) &&
                 Objects.equal(selectIndel, event.selectIndel) &&
                 Objects.equal(firstHierarchyQtlId, event.firstHierarchyQtlId) &&
-                Objects.equal(selectQTL, event.selectQTL) &&
-                Objects.equal(baseInfo, event.baseInfo) &&
-                Objects.equal(structure, event.structure);
+                Objects.equal(t, event.t);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
+        return java.util.Objects.hash(condition, selectSnp, selectIndel, firstHierarchyQtlId, t);
     }
 }

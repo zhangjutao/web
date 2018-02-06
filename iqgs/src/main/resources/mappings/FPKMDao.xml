@@ -30,7 +30,7 @@
         <result property="stemAll" column="stem_All" javaType="double" jdbcType="DOUBLE"/>
         <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR"/>
         <result property="description" column="description" javaType="String" jdbcType="VARCHAR"/>
-        <result property="existsSNP" column="existsSNP" javaType="boolean" jdbcType="BOOLEAN" />
+        <result property="existsSNP" column="existSNP" javaType="boolean" jdbcType="BOOLEAN" />
         <collection property="associateQTLs" column="geneId" ofType="com.gooalgene.entity.Associatedgenes">
             <result column="qtl_name" property="qtlName" javaType="String" jdbcType="VARCHAR" />
         </collection>
@@ -49,7 +49,7 @@
         <result property="stemAll" column="stem_All" javaType="double" jdbcType="DOUBLE"/>
         <result property="geneName" column="gene_name" javaType="String" jdbcType="VARCHAR"/>
         <result property="description" column="description" javaType="String" jdbcType="VARCHAR"/>
-        <result property="existsSNP" column="existsSNP" javaType="boolean" jdbcType="BOOLEAN" />
+        <result property="existsSNP" column="existSNP" javaType="boolean" jdbcType="BOOLEAN" />
         <collection property="associateQTLs" column="qtl_gene_id" ofType="com.gooalgene.entity.Associatedgenes">
             <result column="qtl_name" property="qtlName" javaType="String" jdbcType="VARCHAR" />
         </collection>
@@ -275,6 +275,7 @@
         a.seedling_All,
         a.flower_All,
         a.stem_All,
+        a.baseinfo_id,
         CASE WHEN b.fpkm_id IS NULL
         THEN FALSE
         ELSE TRUE END AS existSNP,
@@ -290,7 +291,7 @@
           chromosome = #{0} AND ((start  <![CDATA[ >= ]]> #{1} AND start <![CDATA[ < ]]> #{2})
           OR (end <![CDATA[ >= ]]> #{1} AND end <![CDATA[ < ]]> #{2}) OR (start <![CDATA[ <= ]]> #{1} AND end <![CDATA[ > ]]> #{1}))) AS f
           ON a.baseinfo_id = f.id LIMIT #{3}, #{4}) AS a
-        LEFT JOIN qtl_gene g ON g.gene_info_id = a.id;
+        LEFT JOIN qtl_gene g ON g.gene_info_id = a.baseinfo_id;
     </select>
 
     <select id="countBySearchRegion" resultType="int">
@@ -451,7 +452,7 @@
                 FROM qtl_gene a
                 WHERE 1 = 1
                 <if test="qtl != null and qtl.size() > 0">
-                    a.qtl_id IN
+                    AND a.qtl_id IN
                     <foreach collection="qtl" item="item" separator="," open="(" close=")">
                         #{item}
                     </foreach>
@@ -488,6 +489,49 @@
         ) AS table_count
     </select>
 
+    <select id="cacheAdvanceSearchByQtl" resultType="String">
+        SELECT DISTINCT a.gene_id AS geneId
+        FROM qtl_gene a
+        JOIN (SELECT gene_id AS secondQtlId
+        FROM qtl_gene a
+        WHERE 1 = 1
+        <if test="qtl != null and qtl.size() > 0">
+            AND a.qtl_id IN
+            <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                #{item}
+            </foreach>
+        </if>
+        ) AS b ON a.gene_id = b.secondQtlId
+        LEFT JOIN gens_baseinfo c ON c.id = a.gene_info_id
+        JOIN (SELECT id, baseinfo_id, pod_All, seed_All, root_All, shoot_All, leaf_All, seedling_All, flower_All, stem_All FROM fpkm a
+        WHERE 1 = 1
+        <include refid="geneExpressionCondition" />
+        ) AS d ON c.id = d.baseinfo_id
+        JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE 1 = 1
+        <if test="snp != null and snp.size() > 0">
+            AND snp_id IN
+            <foreach collection="snp" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+        </if>
+        ) AS f ON d.id = f.fpkm_id
+        JOIN (SELECT fpkm_id FROM fpkm_associate_indel WHERE 1 = 1
+        <if test="indel != null and indel.size() > 0">
+            AND indel_id IN
+            <foreach collection="indel" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+        </if>
+        ) AS g ON d.id = g.fpkm_id
+        WHERE 1 = 1
+        <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
+            AND a.qtl_id IN
+            <foreach collection="firstHierarchyQtlId" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+        </if>
+    </select>
+
     <select id="countBySearchQtl" parameterType="int" resultType="int">
         SELECT COUNT(gene_id) AS geneId FROM qtl_gene a
         WHERE a.qtl_id IN
@@ -506,6 +550,7 @@
         FROM (SELECT
                   a.id,
                   a.gene_id,
+                  a.baseinfo_id,
                   a.pod_All,
                   a.seed_All,
                   a.root_All,
@@ -516,7 +561,7 @@
                   a.stem_All,
                   CASE WHEN b.fpkm_id IS NULL
                       THEN FALSE
-                  ELSE TRUE END AS existSNP,
+                  ELSE TRUE END AS existsSNP,
                   f.gene_name,
                   f.description,
                   f.gene_id_old
@@ -558,7 +603,7 @@
               WHERE 1 = 1
               <include refid="geneExpressionCondition" />
               LIMIT #{start}, #{end}) AS a
-            LEFT JOIN qtl_gene g ON g.gene_info_id = a.id
+            LEFT JOIN qtl_gene g ON g.gene_info_id = a.baseinfo_id
     </select>
 
     <select id="countAdvanceSearchByGeneId" resultType="int">
@@ -620,6 +665,44 @@
         ) AS table_count;
     </select>
 
+    <select id="cacheAdvanceSearchByGeneId" resultType="String">
+        SELECT
+        a.gene_id
+        FROM fpkm a
+        JOIN (SELECT * FROM gens_baseinfo
+        WHERE gene_id LIKE concat('%', #{geneId}, '%') OR gene_id_old LIKE concat('%', #{geneId}, '%')) AS f
+        ON a.baseinfo_id = f.id
+        <if test="snp != null and snp.size() > 0">
+            JOIN (SELECT fpkm_id
+            FROM fpkm_associate_snp
+            WHERE 1 = 1 AND snp_id IN
+            <foreach collection="snp" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            GROUP BY fpkm_id) AS g ON a.id = g.fpkm_id
+        </if>
+        <if test="indel != null and indel.size() > 0">
+            JOIN (SELECT fpkm_id
+            FROM fpkm_associate_indel
+            WHERE 1 = 1 AND indel_id IN
+            <foreach collection="indel" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            GROUP BY fpkm_id) AS h ON h.fpkm_id = a.id
+        </if>
+        <if test="qtl != null and qtl.size() > 0">
+            JOIN (SELECT gene_info_id AS second_gene_info_id
+            FROM qtl_gene a
+            WHERE 1 = 1 AND a.qtl_id IN
+            <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            ) AS i ON i.second_gene_info_id = f.id
+        </if>
+        WHERE 1 = 1
+        <include refid="geneExpressionCondition" />
+    </select>
+
     <select id="advanceSearchByRegion" parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
             resultMap="qtlAdvanceSearchResult">
         SELECT
@@ -639,10 +722,11 @@
             a.stem_All,
             CASE WHEN b.fpkm_id IS NULL
             THEN FALSE
-            ELSE TRUE END AS existSNP,
+            ELSE TRUE END AS existsSNP,
             f.gene_name,
             f.description,
-            f.gene_id_old
+            f.gene_id_old,
+            a.baseinfo_id
         FROM fpkm a
         LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
         JOIN (
@@ -682,7 +766,7 @@
         WHERE 1 = 1
         <include refid="geneExpressionCondition" />
         LIMIT #{start}, #{end}) AS a
-        LEFT JOIN qtl_gene g ON g.gene_info_id = a.id
+        LEFT JOIN qtl_gene g ON g.gene_info_id = a.baseinfo_id
     </select>
 
     <select id="countAdvanceSearchByRegion" resultType="int">
@@ -745,6 +829,47 @@
         ) AS table_count
     </select>
 
+    <select id="cacheAdvanceSearchByRegion" resultType="String">
+        SELECT
+        a.gene_id
+        FROM fpkm a
+        JOIN (SELECT * FROM gens_baseinfo
+        WHERE chromosome = #{chromosome}
+        AND ((start  <![CDATA[ >= ]]> #{geneStart} AND start <![CDATA[ < ]]> #{geneEnd})
+        OR (end <![CDATA[ >= ]]> #{geneStart} AND end <![CDATA[ < ]]> #{geneEnd})
+        OR (start <![CDATA[ <= ]]> #{geneStart} AND end <![CDATA[ > ]]> #{geneStart}))) AS f
+        ON a.baseinfo_id = f.id
+        <if test="snp != null and snp.size() > 0">
+            JOIN (SELECT fpkm_id
+            FROM fpkm_associate_snp
+            WHERE 1 = 1 AND snp_id IN
+            <foreach collection="snp" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            GROUP BY fpkm_id) AS g ON a.id = g.fpkm_id
+        </if>
+        <if test="indel != null and indel.size() > 0">
+            JOIN (SELECT fpkm_id
+            FROM fpkm_associate_indel
+            WHERE 1 = 1 AND indel_id IN
+            <foreach collection="indel" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            GROUP BY fpkm_id) AS h ON h.fpkm_id = a.id
+        </if>
+        <if test="qtl != null and qtl.size() > 0">
+            JOIN (SELECT gene_info_id AS second_gene_info_id
+            FROM qtl_gene a
+            WHERE 1 = 1 AND a.qtl_id IN
+            <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            ) AS i ON i.second_gene_info_id = f.id
+        </if>
+        WHERE 1 = 1
+        <include refid="geneExpressionCondition" />
+    </select>
+
     <select id="advanceSearchByFunction" parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
             resultMap="qtlAdvanceSearchResult">
         SELECT
@@ -762,9 +887,10 @@
         a.seedling_All,
         a.flower_All,
         a.stem_All,
+        a.baseinfo_id,
         CASE WHEN b.fpkm_id IS NULL
         THEN FALSE
-        ELSE TRUE END AS existSNP,
+        ELSE TRUE END AS existsSNP,
         f.gene_name,
         f.description,
         f.gene_id_old
@@ -806,7 +932,7 @@
         WHERE 1 = 1
         <include refid="geneExpressionCondition" />
         LIMIT #{start}, #{end}) AS a
-        LEFT JOIN qtl_gene g ON g.gene_info_id = a.id
+        LEFT JOIN qtl_gene g ON g.gene_info_id = a.baseinfo_id
     </select>
 
     <select id="countAdvanceSearchByFunction" resultType="int">
@@ -866,6 +992,45 @@
         WHERE 1 = 1
         <include refid="geneExpressionCondition" />
         ) AS table_count
+    </select>
+
+    <select id="cacheAdvanceSearchByFunction" resultType="String">
+        SELECT
+        a.gene_id
+        FROM fpkm a
+        JOIN (SELECT *
+        FROM gens_baseinfo
+        WHERE gene_name LIKE concat('%', #{func}, '%') OR description LIKE concat('%', #{func}, '%')) AS f
+        ON a.baseinfo_id = f.id
+        <if test="snp != null and snp.size() > 0">
+            JOIN (SELECT fpkm_id
+            FROM fpkm_associate_snp
+            WHERE 1 = 1 AND snp_id IN
+            <foreach collection="snp" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            GROUP BY fpkm_id) AS g ON a.id = g.fpkm_id
+        </if>
+        <if test="indel != null and indel.size() > 0">
+            JOIN (SELECT fpkm_id
+            FROM fpkm_associate_indel
+            WHERE 1 = 1 AND indel_id IN
+            <foreach collection="indel" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            GROUP BY fpkm_id) AS h ON h.fpkm_id = a.id
+        </if>
+        <if test="qtl != null and qtl.size() > 0">
+            JOIN (SELECT gene_info_id AS second_gene_info_id
+            FROM qtl_gene a
+            WHERE 1 = 1 AND a.qtl_id IN
+            <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                #{item, jdbcType=INTEGER}
+            </foreach>
+            ) AS i ON i.second_gene_info_id = f.id
+        </if>
+        WHERE 1 = 1
+        <include refid="geneExpressionCondition" />
     </select>
 
     <select id="fetchFirstHundredGeneInGeneStructure"

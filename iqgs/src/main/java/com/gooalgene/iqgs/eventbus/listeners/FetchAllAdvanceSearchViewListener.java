@@ -1,6 +1,9 @@
 package com.gooalgene.iqgs.eventbus.listeners;
 
+import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.iqgs.dao.FPKMDao;
+import com.gooalgene.iqgs.entity.AdvanceSearchType;
+import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.eventbus.EventBusListener;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
@@ -28,12 +31,30 @@ public class FetchAllAdvanceSearchViewListener extends AbstractSearchViewListene
     @AllowConcurrentEvents
     @Subscribe
     public void listenAdvanceSearch(AllAdvanceSearchViewEvent event){
-        List<AdvanceSearchResultView> searchResult =
-                fpkmDao.findGeneThroughGeneExpressionCondition(event.getCondition(), event.getSelectSnp(), event.getSelectIndel(),
-                        event.getFirstHierarchyQtlId(), event.getSelectQTL(), event.getBaseInfo(), event.getStructure());
-        List<String> resultGeneCollection = transformViewToId(searchResult);
+        List<String> searchResult = null;
+        AdvanceSearchType type = event.getType();
+        if (type.equals(AdvanceSearchType.ID)){
+            DNAGenBaseInfo baseInfo = (DNAGenBaseInfo) event.getT();
+            String geneId = baseInfo.getGeneId();
+            searchResult = fpkmDao.cacheAdvanceSearchByGeneId(event.getCondition(), event.getSelectSnp(), event.getSelectIndel(), event.getFirstHierarchyQtlId(), geneId);
+        } else if (type.equals(AdvanceSearchType.NAME)){
+            DNAGenBaseInfo baseInfo = (DNAGenBaseInfo) event.getT();
+            String function = baseInfo.getFunctions() != null ? baseInfo.getFunctions() : baseInfo.getDescription();
+            searchResult = fpkmDao.cacheAdvanceSearchByFunction(event.getCondition(), event.getSelectSnp(), event.getSelectIndel(), event.getFirstHierarchyQtlId(), function);
+        } else if (type.equals(AdvanceSearchType.REGION)){
+            DNAGenStructure structure = (DNAGenStructure) event.getT();
+            String chromosome = structure.getChromosome();
+            int start = (int)(long)structure.getStart();
+            int end = (int)(long)structure.getEnd();
+            searchResult = fpkmDao.cacheAdvanceSearchByRegion(event.getCondition(), event.getSelectSnp(), event.getSelectIndel(), event.getFirstHierarchyQtlId(), chromosome, start, end);
+        } else if (type.equals(AdvanceSearchType.QTL)){
+            List<Integer> firstHierarchyId = (List<Integer>) event.getT();
+            searchResult = fpkmDao.cacheAdvanceSearchByQtl(event.getCondition(), event.getSelectSnp(), event.getSelectIndel(), event.getFirstHierarchyQtlId(), firstHierarchyId);
+        } else {
+            throw new IllegalArgumentException("请传入合理的事件类型");
+        }
         String key = event.getClass().getSimpleName() + event.hashCode();
-        cache.putIfAbsent(key, resultGeneCollection);
+        cache.putIfAbsent(key, searchResult);
     }
 
 }
