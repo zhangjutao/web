@@ -499,8 +499,73 @@
 
     <select id="advanceSearchByGeneId"
             parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity"
-            resultMap="advanceSearchResult">
+            resultMap="qtlAdvanceSearchResult">
         SELECT
+            a.*,
+            g.gene_info_id,
+            g.qtl_name
+        FROM (SELECT
+                  a.id,
+                  a.gene_id,
+                  a.pod_All,
+                  a.seed_All,
+                  a.root_All,
+                  a.shoot_All,
+                  a.leaf_All,
+                  a.seedling_All,
+                  a.flower_All,
+                  a.stem_All,
+                  CASE WHEN b.fpkm_id IS NULL
+                      THEN FALSE
+                  ELSE TRUE END AS existSNP,
+                  f.gene_name,
+                  f.description,
+                  f.gene_id_old
+              FROM fpkm a
+                  LEFT JOIN (SELECT fpkm_id
+                             FROM fpkm_associate_snp
+                             WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+                  JOIN (SELECT *
+                        FROM gens_baseinfo
+                        WHERE gene_id LIKE concat('%', #{geneId}, '%') OR gene_id_old LIKE concat('%', #{geneId}, '%')) AS f
+                      ON a.baseinfo_id = f.id
+                  <if test="snp != null and snp.size() > 0">
+                      JOIN (SELECT fpkm_id
+                            FROM fpkm_associate_snp
+                            WHERE 1 = 1 AND snp_id IN
+                          <foreach collection="snp" item="item" separator="," open="(" close=")">
+                              #{item, jdbcType=INTEGER}
+                          </foreach>
+                            GROUP BY fpkm_id) AS g ON a.id = g.fpkm_id
+                  </if>
+                  <if test="indel != null and indel.size() > 0">
+                  JOIN (SELECT fpkm_id
+                        FROM fpkm_associate_indel
+                        WHERE 1 = 1 AND indel_id IN
+                      <foreach collection="indel" item="item" separator="," open="(" close=")">
+                          #{item, jdbcType=INTEGER}
+                      </foreach>
+                        GROUP BY fpkm_id) AS h ON h.fpkm_id = a.id
+                  </if>
+                  <if test="qtl != null and qtl.size() > 0">
+                  JOIN (SELECT gene_info_id AS second_gene_info_id
+                        FROM qtl_gene a
+                        WHERE 1 = 1 AND a.qtl_id IN
+                      <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                          #{item, jdbcType=INTEGER}
+                      </foreach>
+                        ) AS i ON i.second_gene_info_id = f.id
+                  </if>
+              WHERE 1 = 1
+              <include refid="geneExpressionCondition" />
+              LIMIT #{start}, #{end}) AS a
+            LEFT JOIN qtl_gene g ON g.gene_info_id = a.id
+    </select>
+
+    <select id="countAdvanceSearchByGeneId" resultType="int">
+        SELECT count(*) AS result FROM (
+            SELECT
+            a.id,
             a.gene_id,
             a.pod_All,
             a.seed_All,
@@ -510,106 +575,50 @@
             a.seedling_All,
             a.flower_All,
             a.stem_All,
-            f.id,
+            CASE WHEN b.fpkm_id IS NULL
+            THEN FALSE
+            ELSE TRUE END AS existSNP,
             f.gene_name,
             f.description,
             f.gene_id_old
-        FROM fpkm a LEFT JOIN fpkm_associate_snp b ON a.id = b.fpkm_id
-            JOIN (SELECT a.id FROM snp_consequencetype a WHERE a.consequencetype IN ('UTR3', 'exonic_nonsynonymous SNV')) AS c ON b.snp_id = c.id
-            JOIN (SELECT * FROM gens_baseinfo a WHERE a.gene_id LIKE concat('%', #{geneId}, '%') OR a.gene_id_old LIKE concat('%', #{geneId}, '%') AS f ON a.gene_id = f.gene_id
-        WHERE 1 = 1
-        <if test="geneExpression != null and geneExpression.size() > 0">
-            AND (
-            <trim suffixOverrides="OR">
-                <foreach collection="geneExpression" index="index" item="item">
-                    <if test="item.tissue.pod != null">
-                        a.pod BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.endosperm != null">
-                        a.endosperm BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.seed != null">
-                        a.seed BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.embryo != null">
-                        a.embryo BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.axis != null">
-                        a.axis BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.cotyledon != null">
-                        a.cotyledon BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.seedCoat != null">
-                        a.seed_coat BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.nodule != null">
-                        a.nodule BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.rootHair != null">
-                        a.root_hair BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.root != null">
-                        a.root BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.rootTip != null">
-                        a.root_tip BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.shoot != null">
-                        a.shoot BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.shootTip != null">
-                        a.shoot_tip BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.shootApicalMeristem != null">
-                        a.shoot_apical_meristem BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.shootMeristem != null">
-                        a.shoot_meristem BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.primaryleaf != null">
-                        a.primaryleaf BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.petiole != null">
-                        a.petiole BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.leaf != null">
-                        a.leaf BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.trifoliate != null">
-                        a.trifoliate BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.leafbud != null">
-                        a.leafbud BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.leaflet != null">
-                        a.leaflet BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.cotyledonsOfSeedling != null">
-                        a.cotyledons_of_seedling BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.seedling != null">
-                        a.seedling BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.flowerBud != null">
-                        a.flower_bud BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.flower != null">
-                        a.flower BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.stem != null">
-                        a.stem BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.stemInternode != null">
-                        a.stem_internode BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
-                    <if test="item.tissue.hypocotyl != null">
-                        a.hypocotyl BETWEEN #{item.begin} AND #{item.end} OR
-                    </if>
+            FROM fpkm a
+            LEFT JOIN (SELECT fpkm_id
+            FROM fpkm_associate_snp
+            WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+            JOIN (SELECT *
+            FROM gens_baseinfo
+            WHERE gene_id LIKE concat('%', #{geneId}, '%') OR gene_id_old LIKE concat('%', #{geneId}, '%')) AS f
+            ON a.baseinfo_id = f.id
+            <if test="snp != null and snp.size() > 0">
+                JOIN (SELECT fpkm_id
+                FROM fpkm_associate_snp
+                WHERE 1 = 1 AND snp_id IN
+                <foreach collection="snp" item="item" separator="," open="(" close=")">
+                    #{item, jdbcType=INTEGER}
                 </foreach>
-            </trim>
-            )
-        </if>
+                GROUP BY fpkm_id) AS g ON a.id = g.fpkm_id
+            </if>
+            <if test="indel != null and indel.size() > 0">
+                JOIN (SELECT fpkm_id
+                FROM fpkm_associate_indel
+                WHERE 1 = 1 AND indel_id IN
+                <foreach collection="indel" item="item" separator="," open="(" close=")">
+                    #{item, jdbcType=INTEGER}
+                </foreach>
+                GROUP BY fpkm_id) AS h ON h.fpkm_id = a.id
+            </if>
+            <if test="qtl != null and qtl.size() > 0">
+                JOIN (SELECT gene_info_id AS second_gene_info_id
+                FROM qtl_gene a
+                WHERE 1 = 1 AND a.qtl_id IN
+                <foreach collection="qtl" item="item" separator="," open="(" close=")">
+                    #{item, jdbcType=INTEGER}
+                </foreach>
+                ) AS i ON i.second_gene_info_id = f.id
+            </if>
+            WHERE 1 = 1
+            <include refid="geneExpressionCondition" />
+        ) AS table_count;
     </select>
 
     <select id="fetchFirstHundredGeneInGeneStructure"

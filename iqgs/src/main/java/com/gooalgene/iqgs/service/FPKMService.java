@@ -308,8 +308,10 @@ public class FPKMService implements InitializingBean {
             String chromosome = structure.getChromosome();
             long start = structure.getStart();
             long end = structure.getEnd();
-
             return null;
+        } else if (baseInfo != null && baseInfo.getGeneId() != null){
+            String geneId = baseInfo.getGeneId();
+            return advanceSearchByGeneId(condition, allSNPId, allINDELId, selectQTL, geneId, pageNo, pageSize);
         }
 
         //QTL查询高级搜索
@@ -320,6 +322,23 @@ public class FPKMService implements InitializingBean {
 //        AsyncEventBus eventBus = register.getAsyncEventBus();
 //        eventBus.post(event);
         return new PageInfo<>(null);
+    }
+
+    private PageInfo<RangeSearchResult> advanceSearchByGeneId(List<GeneExpressionConditionEntity> condition,
+                                                              List<Integer> selectSnp,
+                                                              List<Integer> selectIndel,
+                                                              List<Integer> selectQTL,
+                                                              String geneId,
+                                                              int pageNo, int pageSize){
+        int start = (pageNo - 1) * pageSize;
+        int total = fpkmDao.countAdvanceSearchByGeneId(condition, selectSnp, selectIndel, selectQTL, geneId);
+        List<RangeSearchResult> searchResult = fpkmDao.advanceSearchByGeneId(condition, selectSnp, selectIndel, selectQTL, geneId, start, pageSize);
+        PageInfo<RangeSearchResult> resultPageInfo = new PageInfo<>();
+        resultPageInfo.setTotal(total);
+        resultPageInfo.setList(searchResult);
+        resultPageInfo.setPageNum(pageNo);
+        resultPageInfo.setPageSize(pageSize);
+        return resultPageInfo;
     }
 
     /**
@@ -345,7 +364,7 @@ public class FPKMService implements InitializingBean {
         //mybatis对连表查询无能为力,这里需要手动查询分页
         int total = fpkmDao.countBySearchRegion(chromosome, start, end);
         int pageStart = (pageNo - 1) * pageSize;
-        List<RangeSearchResult> result = fpkmDao.searchByRegion(chromosome, start, end, pageStart, pageNo*pageSize);
+        List<RangeSearchResult> result = fpkmDao.searchByRegion(chromosome, start, end, pageStart, pageSize);
         PageInfo<RangeSearchResult> pageInfo = new PageInfo<>();
         pageInfo.setTotal(total);
         pageInfo.setPageNum(pageNo);
@@ -358,7 +377,7 @@ public class FPKMService implements InitializingBean {
         if (allQTLId == null || allQTLId.size() == 0) return null;
         int total = fpkmDao.countBySearchQtl(allQTLId);  //先计算选中QTL对应的基因总量
         int pageStart = (pageNo - 1) * pageSize;
-        List<RangeSearchResult> result = fpkmDao.findViewByQtl(allQTLId, pageStart, pageNo * pageSize);
+        List<RangeSearchResult> result = fpkmDao.findViewByQtl(allQTLId, pageStart, pageSize);
         PageInfo<RangeSearchResult> pageInfo = new PageInfo<>();
         pageInfo.setTotal(total);
         pageInfo.setPageNum(pageNo);

@@ -92,11 +92,20 @@ public interface FPKMDao {
     /**
      * 保证基因ID不为空，根据ID高级搜索
      */
-    List<AdvanceSearchResultView> advanceSearchByGeneId(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
-                                                        @Param("snp") List<String> selectSnp,
-                                                        @Param("indel") List<String> selectIndel,
+    List<RangeSearchResult> advanceSearchByGeneId(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                        @Param("snp") List<Integer> selectSnp,
+                                                        @Param("indel") List<Integer> selectIndel,
                                                         @Param("qtl") List<Integer> associateGeneId,
-                                                        @Param("geneId") String geneId);
+                                                        @Param("geneId") String geneId, @Param("start") int start, @Param("end") int end);
+
+    /**
+     * 计算根据基因ID高级搜索查询总条数
+     */
+    int countAdvanceSearchByGeneId(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                   @Param("snp") List<Integer> selectSnp,
+                                   @Param("indel") List<Integer> selectIndel,
+                                   @Param("qtl") List<Integer> associateGeneId,
+                                   @Param("geneId") String geneId);
 
     /**
      * 检查某一基因对应consequencetype中是否存在SNP
