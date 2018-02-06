@@ -490,7 +490,7 @@
 
     // 高级搜索 --》代码封装
 
-    function advanceSearchFn(dataParam,currNums) {
+    function advanceSearchFn(dataParam,currNums,pageSize) {
         var promise = SendAjaxRequest("POST", window.ctxROOT + "/advance-search/advanceSearch", JSON.stringify(dataParam));
         promise.then(
             function (result) {
@@ -500,7 +500,8 @@
                     alert(1)
                     var type = 5;
 //                    var currNums = 1;
-                    resultCallback(result, type,currNums);
+                    console.log(pageSize)
+                    resultCallback(result, type,currNums,pageSize);
 //                    resultCallback(res, type, currNums)
 
                 } else {
@@ -621,7 +622,7 @@
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam,page.curr);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
         }
     }
@@ -806,7 +807,7 @@
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
-        var currs = $(".laypage_curr").text();
+        var currs = Number($(".laypage_curr").text());
         var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
         var total = $("#total-page-count1 span").text();
         if (flag == 0) {
@@ -855,15 +856,17 @@
             if (currs * pageSize > total) {
                 var currNums = 1;
                 var dataParam = getParams();
+                dataParam.pageSize = pageSize;
 
                 advanceSearchFn(dataParam,currNums);
             } else {
                 var dataParam = getParams();
+//                var currNums = currs;
                 var currNums = page.curr;
-                advanceSearchFn(dataParam, currNums);
+            dataParam.pageNo = currs;
+            dataParam.pageSize = pageSize;
+                advanceSearchFn(dataParam,currNums);
             }
-
-
         }
     });
 
