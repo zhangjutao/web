@@ -302,17 +302,26 @@ public class FPKMService implements InitializingBean {
                                                                       int pageSize){
         List<Integer> allSNPId = getAllSelectedConsequenceTypeId("SNP", selectSnp);
         List<Integer> allINDELId = getAllSelectedConsequenceTypeId("INDEL", selectIndel);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
         if (firstHierarchyQtlId != null && firstHierarchyQtlId.size() > 0){
+            AllAdvanceSearchViewEvent<List<Integer>> advanceSearchQTLEvent = new AllAdvanceSearchViewEvent<>(condition, allSNPId, allINDELId, selectQTL, firstHierarchyQtlId, AdvanceSearchType.QTL);
+            eventBus.post(advanceSearchQTLEvent);
             return advanceSearchByQtl(condition, allSNPId, allINDELId, firstHierarchyQtlId, selectQTL, pageNo, pageSize);
         } else if (structure != null){
             String chromosome = structure.getChromosome();
             int start = (int)(long)structure.getStart();
             int end = (int)(long)structure.getEnd();
+            AllAdvanceSearchViewEvent<DNAGenStructure> advanceSearchRegionEvent = new AllAdvanceSearchViewEvent<>(condition, allSNPId, allINDELId, selectQTL, structure, AdvanceSearchType.REGION);
+            eventBus.post(advanceSearchRegionEvent);
             return advanceSearchByRegion(condition, allSNPId, allINDELId, selectQTL, chromosome, start, end, pageNo, pageSize);
         } else if (baseInfo != null && baseInfo.getGeneId() != null){
             String geneId = baseInfo.getGeneId();
+            AllAdvanceSearchViewEvent<DNAGenBaseInfo> advanceSearchIdEvent = new AllAdvanceSearchViewEvent<>(condition, allSNPId, allINDELId, selectQTL, baseInfo, AdvanceSearchType.ID);
+            eventBus.post(advanceSearchIdEvent);
             return advanceSearchByGeneId(condition, allSNPId, allINDELId, selectQTL, geneId, pageNo, pageSize);
         } else if (baseInfo != null && (baseInfo.getDescription() != null || baseInfo.getFunctions() != null)){  //接受description、function任意参数
+            AllAdvanceSearchViewEvent<DNAGenBaseInfo> advanceSearchIdEvent = new AllAdvanceSearchViewEvent<>(condition, allSNPId, allINDELId, selectQTL, baseInfo, AdvanceSearchType.NAME);
+            eventBus.post(advanceSearchIdEvent);
             String function = baseInfo.getFunctions() != null ? baseInfo.getFunctions() : baseInfo.getDescription();
             return advanceSearchByFunction(condition, allSNPId, allINDELId, selectQTL, function, pageNo, pageSize);
         } else {
@@ -390,6 +399,7 @@ public class FPKMService implements InitializingBean {
         int start = (pageNo - 1) * pageSize;
         int total = fpkmDao.countAdvanceSearchByQtl(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL);
         List<RangeSearchResult> searchResult = fpkmDao.advanceSearchByQtl(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, start, pageSize);
+
         PageInfo<RangeSearchResult> resultPageInfo = new PageInfo<>();
         resultPageInfo.setTotal(total);
         resultPageInfo.setList(searchResult);
@@ -432,7 +442,7 @@ public class FPKMService implements InitializingBean {
         return null;
     }
 
-    private List<Integer> getAllSelectedConsequenceTypeId(String type, List<String> consequenceType){
+    public List<Integer> getAllSelectedConsequenceTypeId(String type, List<String> consequenceType){
         List<Integer> result = new ArrayList<>();
         if (consequenceType != null && consequenceType.size() > 0){
             Map<String, Integer> cachedMap = new HashMap<>();
