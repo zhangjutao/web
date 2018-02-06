@@ -82,12 +82,56 @@ public interface FPKMDao {
                                                                        @Param("qtl") List<Integer> associateGeneId,
                                                                        @Param("structureId") List<DNAGenStructure> firstHundredStructureId);
 
-    List<RangeSearchResult> searchByRegion(String chromosome, int start, int end, int pageNo, int pageSize);
+    /**
+     * 染色体区间高级搜索
+     */
+    List<RangeSearchResult> advanceSearchByRegion(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                           @Param("snp") List<Integer> selectSnp,
+                                           @Param("indel") List<Integer> selectIndel,
+                                           @Param("qtl") List<Integer> associateGeneId,
+                                           @Param("chromosome") String chromosome,
+                                           @Param("geneStart") int start,
+                                           @Param("geneEnd") int end,
+                                           @Param("start") int offset,
+                                           @Param("end") int pageSize);
+
+    /**
+     * 染色体区间搜索count总值
+     */
+    int countAdvanceSearchByRegion(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                   @Param("snp") List<Integer> selectSnp,
+                                   @Param("indel") List<Integer> selectIndel,
+                                   @Param("qtl") List<Integer> associateGeneId,
+                                   @Param("chromosome") String chromosome,
+                                   @Param("geneStart") int start,
+                                   @Param("geneEnd") int end);
+
+    /**
+     * function搜索后对应的高级搜索结果
+     */
+    List<RangeSearchResult> advanceSearchByFunction(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                                  @Param("snp") List<Integer> selectSnp,
+                                                  @Param("indel") List<Integer> selectIndel,
+                                                  @Param("qtl") List<Integer> associateGeneId,
+                                                  @Param("func") String function,
+                                                  @Param("start") int start,
+                                                  @Param("end") int pageSize);
+
+    /**
+     * function高级搜索总条数
+     */
+    int countAdvanceSearchByFunction(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
+                                     @Param("snp") List<Integer> selectSnp,
+                                     @Param("indel") List<Integer> selectIndel,
+                                     @Param("qtl") List<Integer> associateGeneId,
+                                     @Param("func") String function);
 
     /**
      * Mybatis无法对连接查询进行分页,这里先手动计算总条数
      */
     int countBySearchRegion(String chromosome, int start, int end);
+
+    List<RangeSearchResult> searchByRegion(String chromosome, int start, int end, int pageNo, int pageSize);
 
     /**
      * 保证基因ID不为空，根据ID高级搜索
