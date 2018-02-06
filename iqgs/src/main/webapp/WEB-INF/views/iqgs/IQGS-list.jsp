@@ -497,20 +497,14 @@
                 // 关闭遮罩层
                 layer.closeAll();
                 if (result.code == 0 && result.data.list.length != 0) {
-                    alert(1)
                     var type = 5;
-//                    var currNums = 1;
-                    console.log(pageSize)
                     resultCallback(result, type,currNums,pageSize);
-//                    resultCallback(res, type, currNums)
-
                 } else {
-                    alert(2)
                     laypage({
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
 //            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-                        curr: page.curr || 1, //当前页
+                        curr: currNums || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
@@ -717,15 +711,11 @@
                     var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                     requestSearchData(pageSize);
                 } else if (!first && flag == 1) {
-                    alert(6)
                     page.curr = obj.curr;
                     var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                     var dataParam = getParams();
                     dataParam.pageNo = page.curr;
                     dataParam.pageSize = page.pageSize;
-                    console.log(page.curr)
-                    console.log(dataParam.pageNo)
-                    console.log(dataParam.pageSize)
                     advanceSearchFn(dataParam,dataParam.pageNo,dataParam.pageSize);
                 }
             }
@@ -848,11 +838,6 @@
 
             }
         } else {
-//            var dataParam = getParams();
-//            dataParam.pageNo = page.curr;
-//            dataParam.pageSize = page.pageSize;
-//            advanceSearchFn(dataParam);
-
             if (currs * pageSize > total) {
                 var currNums = 1;
                 var dataParam = getParams();
@@ -888,7 +873,7 @@
                     shade: [0.5, '#393D49']
                 });
 
-                var currs = $(".laypage_curr").text();
+                var currs = Number($(".laypage_curr").text());
                 var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                 var total = $("#total-page-count1 span").text();
 
@@ -916,16 +901,6 @@
                                 var currNums = page.curr;
                                 searchOne(currNums,pageSize);
                             }
-
-//                            if (currs * pageSize > total) {
-//                                var currNums = 1;
-//                                searchOne(currNums, pageSize);
-//                            } else {
-//                                var currNums = currs;
-//                                searchOne(currNums, pageSize);
-//                            }
-
-//                        searchOne();
                         } else if (searchType == 2) {
                             if (currs * pageSize > total) {
                                 var currNums = 1;
@@ -934,7 +909,6 @@
                                 var currNums = page.curr;
                                 searchTwo(currNums);
                             }
-//                        searchTwo();
                         } else if (searchType == 3) {
                             if (currs * pageSize > total) {
                                 var currNums = 1;
@@ -943,7 +917,6 @@
                                 var currNums = page.curr;
                                 searchThree(currNums);
                             }
-//                        searchThree();
                         } else {
                             if (currs * pageSize > total) {
                                 var currNums = 1;
@@ -952,25 +925,20 @@
                                 var currNums = page.curr;
                                 getQtlNameData(page.curr, page.pageSize, currNums);
                             }
-
                         }
                     } else {
                         if (currs * pageSize > total) {
                             var currNums = 1;
                             var dataParam = getParams();
-//                            dataParam.pageNo = page.curr;
+                            dataParam.pageSize = pageSize;
                             advanceSearchFn(dataParam,currNums);
-//                            getQtlNameData(page.curr, page.pageSize, currNums);
                         } else {
                             var dataParam = getParams();
                             var currNums = page.curr;
-                            advanceSearchFn(dataParam, currNums);
+                            dataParam.pageNo = currNums;
+                            dataParam.pageSize = pageSize;
+                            advanceSearchFn(dataParam,currNums);
                         }
-
-
-//                        var dataParam = getParams();
-//                        dataParam.pageNo = page.curr;
-//                        advanceSearchFn(dataParam);
                     }
                 }
             }
