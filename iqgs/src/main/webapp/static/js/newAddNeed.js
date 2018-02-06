@@ -1011,6 +1011,7 @@
 
     // 高级搜索
     $("#iqgsSearch p").click(function (){
+        $("#per-page-count1 .lay-per-page-count-select option:first").prop("selected", 'selected');
         page.curr = 1;
         page.pageSize = 10;
         flag = 1;

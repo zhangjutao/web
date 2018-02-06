@@ -491,6 +491,7 @@
     // 高级搜索 --》代码封装
 
     function advanceSearchFn(dataParam,currNums,pageSize) {
+        console.log(currNums)
         var promise = SendAjaxRequest("POST", window.ctxROOT + "/advance-search/advanceSearch", JSON.stringify(dataParam));
         promise.then(
             function (result) {
@@ -589,25 +590,25 @@
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
         } else if (searchType == 2) {
             if (flag == 0) {
                 // 调用第二个一级搜索获取数据
-                searchTwo(page.curr)
+                searchTwo(page.curr,pageSize)
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
         } else if (searchType == 3) {
             if (flag == 0) {
                 // 调用第三个一级搜索获取数据
-                searchThree(page.curr);
+                searchThree(page.curr,pageSize);
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
         } else if (searchType == 4) {
             if (flag == 0) {
@@ -634,10 +635,10 @@
     }
 
     //第二个一级搜索获取数据
-    function searchTwo(currNums) {
+    function searchTwo(currNums,pageSize) {
         $.getJSON('${ctxroot}/iqgs/search/func', {
             pageNo: currNums || 1,
-            pageSize: page.pageSize || 10,
+            pageSize: pageSize || 10,
             keyword: $("#key_func").val()
         }, function (res) {
             var type = 2;
@@ -646,10 +647,10 @@
     }
 
     //第三个一级搜索获取数据
-    function searchThree(currNums) {
+    function searchThree(currNums,pageSize) {
         $.getJSON('${ctxroot}/iqgs/search/range', {
             pageNo: currNums || 1,
-            pageSize: page.pageSize || 10,
+            pageSize: pageSize || 10,
             begin: $("#rg_begin").val(),
             end: $("#rg_end").val(),
             chr: $(".js-region").val()
@@ -792,6 +793,7 @@
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
+//        var pageSize = Number($(this).val());
         var currs = Number($(".laypage_curr").text());
         var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
         var total = $("#total-page-count1 span").text();
@@ -809,28 +811,27 @@
             } else if (searchType == 2) {
                 if (currs * pageSize > total) {
                     var currNums = 1;
-                    searchTwo(currNums);
+                    searchTwo(currNums,pageSize);
                 } else {
                     var currNums = currs;
-                    searchTwo(currNums);
+                    searchTwo(currNums,pageSize);
                 }
             } else if (searchType == 3) {
                 if (currs * pageSize > total) {
                     var currNums = 1;
-                    searchThree(currNums);
+                    searchThree(currNums,pageSize);
                 } else {
                     var currNums = currs;
-                    searchThree(currNums);
+                    searchThree(currNums,pageSize);
                 }
             } else {
                 if (currs * pageSize > total) {
                     var currNums = 1;
-                    getQtlNameData(page.curr, page.pageSize, currNums);
+                    getQtlNameData(page.curr, pageSize, currNums);
                 } else {
                     var currNums = currs;
-                    getQtlNameData(page.curr, page.pageSize, currNums);
+                    getQtlNameData(page.curr, pageSize, currNums);
                 }
-
             }
         } else {
             if (currs * pageSize > total) {
@@ -841,8 +842,8 @@
                 advanceSearchFn(dataParam,currNums);
             } else {
                 var dataParam = getParams();
-//                var currNums = currs;
-                var currNums = page.curr;
+                var currNums = currs;
+//                var currNums = page.curr;
             dataParam.pageNo = currs;
             dataParam.pageSize = pageSize;
                 advanceSearchFn(dataParam,currNums);
@@ -868,74 +869,141 @@
                     shade: [0.5, '#393D49']
                 });
 
+//                var currs = Number($(".laypage_curr").text());
+//                var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+//                var total = $("#total-page-count1 span").text();
+//
+//                if (_page_skip.val() * 1 > Math.ceil($("#total-page-count1 span").text() / page.pageSize)) {
+//                    if (searchType == 1) {
+//                        searchOne(1,pageSize);
+//                    } else if (searchType == 2) {
+//                        searchTwo(1);
+//                    } else if (searchType == 3) {
+//                        searchThree(1);
+//                    } else {
+//                        getQtlNameData(page.curr, page.pageSize, 1);
+//                    }
+////                    alert("输入页码不能大于总页数");
+////                    layer.closeAll();
+////                    return false;
+//                } else {
+//                    page.curr = Number(_page_skip.val());
+//                    if (flag == 0) {
+//
+//                        if (searchType == 1) {
+//                            if (currs * pageSize > total) {
+//                                var currNums = 1;
+//                                searchOne(currNums, pageSize);
+//                            } else {
+//                                var currNums = currs;
+//                                searchOne(currNums, pageSize);
+//                            }
+//
+//                        } else if (searchType == 2) {
+//                            if (currs * pageSize > total) {
+//                                var currNums = 1;
+//                                searchTwo(currNums);
+//                            } else {
+//                                var currNums = currs;
+//                                searchTwo(currNums);
+//                            }
+//                        } else if (searchType == 3) {
+//                            if (currs * pageSize > total) {
+//                                var currNums = 1;
+//                                searchThree(currNums);
+//                            } else {
+//                                var currNums = currs;
+//                                searchThree(currNums);
+//                            }
+//                        } else {
+//                            if (currs * pageSize > total) {
+//                                var currNums = 1;
+//                                getQtlNameData(page.curr, page.pageSize, currNums);
+//                            } else {
+//                                var currNums = currs;
+//                                getQtlNameData(page.curr, page.pageSize, currNums);
+//                            }
+//                        }
+//                    } else {
+//                        if (currs * pageSize > total) {
+//                            var currNums = 1;
+//                            var dataParam = getParams();
+//                            dataParam.pageSize = pageSize;
+//                            advanceSearchFn(dataParam,currNums);
+//                        } else {
+//                            var dataParam = getParams();
+////                var currNums = currs;
+//                            var currNums = page.curr;
+//                            dataParam.pageNo = currs;
+//                            dataParam.pageSize = pageSize;
+//                            advanceSearchFn(dataParam,currNums);
+//                        }
+//                    }
+//                }
+//                page.pageSize = Number(_page_skip.val());
+
+//                page.curr = Number(_page_skip.val());
+//                var currs = Number($(".laypage_curr").text());
+//                var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+//                var total = $("#total-page-count1 span").text();
+                var pageNo = Number(_page_skip.val());
                 var currs = Number($(".laypage_curr").text());
                 var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                 var total = $("#total-page-count1 span").text();
 
-                if (_page_skip.val() * 1 > Math.ceil($("#total-page-count1 span").text() / page.pageSize)) {
+                if (flag == 0) {
+
                     if (searchType == 1) {
-                        searchOne(1,pageSize);
-                    } else if (searchType == 2) {
-                        searchTwo(1);
-                    } else if (searchType == 3) {
-                        searchThree(1);
-                    } else {
-                        getQtlNameData(page.curr, page.pageSize, 1);
-                    }
-//                    alert("输入页码不能大于总页数");
-//                    layer.closeAll();
-//                    return false;
-                } else {
-                    page.curr = Number(_page_skip.val());
-                    if (flag == 0) {
-                        if (searchType == 1) {
-                            if (currs * pageSize > total) {
-                                var currNums = 1;
-                                searchOne(currNums,pageSize);
-                            } else {
-                                var currNums = page.curr;
-                                searchOne(currNums,pageSize);
-                            }
-                        } else if (searchType == 2) {
-                            if (currs * pageSize > total) {
-                                var currNums = 1;
-                                searchTwo(currNums);
-                            } else {
-                                var currNums = page.curr;
-                                searchTwo(currNums);
-                            }
-                        } else if (searchType == 3) {
-                            if (currs * pageSize > total) {
-                                var currNums = 1;
-                                searchThree(currNums);
-                            } else {
-                                var currNums = page.curr;
-                                searchThree(currNums);
-                            }
-                        } else {
-                            if (currs * pageSize > total) {
-                                var currNums = 1;
-                                getQtlNameData(page.curr, page.pageSize, currNums);
-                            } else {
-                                var currNums = page.curr;
-                                getQtlNameData(page.curr, page.pageSize, currNums);
-                            }
-                        }
-                    } else {
-                        if (currs * pageSize > total) {
+                        if (pageNo * pageSize > total) {
                             var currNums = 1;
-                            var dataParam = getParams();
-                            dataParam.pageSize = pageSize;
-                            advanceSearchFn(dataParam,currNums);
+                            searchOne(currNums, pageSize);
                         } else {
-                            var dataParam = getParams();
-                            var currNums = page.curr;
-                            dataParam.pageNo = currNums;
-                            dataParam.pageSize = pageSize;
-                            advanceSearchFn(dataParam,currNums);
+                            var currNums = pageNo;
+                            searchOne(currNums, pageSize);
                         }
+
+                    } else if (searchType == 2) {
+                        if (pageNo * pageSize > total) {
+                            var currNums = 1;
+                            searchTwo(currNums,pageSize);
+                        } else {
+                            var currNums = pageNo;
+                            searchTwo(currNums,pageSize);
+                        }
+                    } else if (searchType == 3) {
+                        if (pageNo * pageSize > total) {
+                            var currNums = 1;
+                            searchThree(currNums,pageSize);
+                        } else {
+                            var currNums = pageNo;
+                            searchThree(currNums,pageSize);
+                        }
+                    } else {
+                        if (pageNo * pageSize > total) {
+                            var currNums = 1;
+                            getQtlNameData(currs, pageSize, currNums);
+                        } else {
+//                            var currNums = currs;
+                            getQtlNameData(currs, pageSize, pageNo);
+                        }
+                    }
+                } else {
+                    if (pageNo * pageSize > total) {
+                        var currNums = 1;
+                        var dataParam = getParams();
+                        dataParam.pageSize = pageSize;
+
+                        advanceSearchFn(dataParam,currNums);
+                    } else {
+                        var dataParam = getParams();
+//                var currNums = currs;
+                        var currNums = page.curr;
+                        dataParam.pageNo = pageNo;
+                        dataParam.pageSize = pageSize;
+                        advanceSearchFn(dataParam,pageNo,pageSize);
                     }
                 }
+
             }
         }
     };
