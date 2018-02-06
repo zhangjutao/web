@@ -490,22 +490,25 @@
 
     // 高级搜索 --》代码封装
 
-    function advanceSearchFn(dataParam) {
+    function advanceSearchFn(dataParam,currNums) {
+        console.log(currNums)
         var promise = SendAjaxRequest("POST", window.ctxROOT + "/advance-search/advanceSearch", JSON.stringify(dataParam));
         promise.then(
             function (result) {
                 // 关闭遮罩层
                 layer.closeAll();
                 if (result.code == 0 && result.data.list.length != 0) {
+                    alert(1)
                     var type = 5;
-                    resultCallback(result, type);
+                    resultCallback(result, type,currNums);
 
                 } else {
+                    alert(2)
                     laypage({
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
 //            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-                        curr: page.curr || 1, //当前页
+                        curr: currNums || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
@@ -516,7 +519,7 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 page.curr = obj.curr;
-                                requestSearchData();
+                                requestSearchData(pageSize);
                             }
                         }
                     });
@@ -577,7 +580,7 @@
         $(cntList[searchtype - 1]).addClass("tab-pane-ac");
     };
 
-    function requestSearchData() {
+    function requestSearchData(pageSize) {
         // 开户遮罩层
         layer.msg('数据加载中!', {
             time: 120000,
@@ -586,7 +589,7 @@
         if (searchType == 1) {
             if (flag == 0) {
                 // 调用第一个一级搜索获取数据
-                searchOne(page.curr);
+                searchOne(page.curr,pageSize);
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -623,6 +626,7 @@
     }
     // 第一个一级搜索获取数据
     function searchOne(currNums, pageSize) {
+        console.log(pageSize)
         // 根据一级搜索来分页
         $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
             pageNo: currNums || 1,
@@ -685,7 +689,7 @@
         })
     }
 
-    function resultCallback(res, type, currNums) {
+    function resultCallback(res, type, currNums,pageSize) {
         $("span.js-search-total").text(res.data.total);
         $("#total-page-count1 span").text(res.data.total);
         renderList(res.data.list, currNums);
@@ -704,7 +708,8 @@
             jump: function (obj, first) { //触发分页后的回调
                 if (!first && flag == 0) { //点击跳页触发函数自身，并传递当前页：obj.curr
                     page.curr = obj.curr;
-                    requestSearchData();
+                    var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+                    requestSearchData(pageSize);
                 } else if (!first && flag == 1) {
                     page.curr = obj.curr;
                     var dataParam = getParams();
@@ -855,9 +860,14 @@
                     time: 120000,
                     shade: [0.5, '#393D49']
                 });
+
+                var currs = $(".laypage_curr").text();
+                var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+                var total = $("#total-page-count1 span").text();
+
                 if (_page_skip.val() * 1 > Math.ceil($("#total-page-count1 span").text() / page.pageSize)) {
                     if (searchType == 1) {
-                        searchOne(1);
+                        searchOne(1,pageSize);
                     } else if (searchType == 2) {
                         searchTwo(1);
                     } else if (searchType == 3) {
@@ -871,18 +881,24 @@
                 } else {
                     page.curr = Number(_page_skip.val());
                     if (flag == 0) {
-                        var currs = $(".laypage_curr").text();
-                        var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
-                        var total = $("#total-page-count1 span").text();
-
                         if (searchType == 1) {
                             if (currs * pageSize > total) {
                                 var currNums = 1;
-                                searchOne(currNums);
+                                console.log(pageSize)
+                                searchOne(currNums,pageSize);
                             } else {
                                 var currNums = page.curr;
                                 searchOne(currNums);
                             }
+
+                            if (currs * pageSize > total) {
+                                var currNums = 1;
+                                searchOne(currNums, pageSize);
+                            } else {
+                                var currNums = currs;
+                                searchOne(currNums, pageSize);
+                            }
+
 //                        searchOne();
                         } else if (searchType == 2) {
                             if (currs * pageSize > total) {
@@ -913,9 +929,22 @@
 
                         }
                     } else {
-                        var dataParam = getParams();
-                        dataParam.pageNo = page.curr;
-                        advanceSearchFn(dataParam);
+                        if (currs * pageSize > total) {
+                            var currNums = 1;
+                            var dataParam = getParams();
+//                            dataParam.pageNo = page.curr;
+                            advanceSearchFn(dataParam,currNums);
+//                            getQtlNameData(page.curr, page.pageSize, currNums);
+                        } else {
+                            var dataParam = getParams();
+                            var currNums = page.curr;
+                            advanceSearchFn(dataParam, currNums);
+                        }
+
+
+//                        var dataParam = getParams();
+//                        dataParam.pageNo = page.curr;
+//                        advanceSearchFn(dataParam);
                     }
                 }
             }
