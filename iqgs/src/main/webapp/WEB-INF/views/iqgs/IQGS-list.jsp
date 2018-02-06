@@ -490,8 +490,7 @@
 
     // 高级搜索 --》代码封装
 
-    function advanceSearchFn(dataParam,currNums) {
-        console.log(currNums)
+    function advanceSearchFn(dataParam,currNums,pageSize) {
         var promise = SendAjaxRequest("POST", window.ctxROOT + "/advance-search/advanceSearch", JSON.stringify(dataParam));
         promise.then(
             function (result) {
@@ -500,7 +499,10 @@
                 if (result.code == 0 && result.data.list.length != 0) {
                     alert(1)
                     var type = 5;
-                    resultCallback(result, type,currNums);
+//                    var currNums = 1;
+                    console.log(pageSize)
+                    resultCallback(result, type,currNums,pageSize);
+//                    resultCallback(res, type, currNums)
 
                 } else {
                     alert(2)
@@ -508,7 +510,7 @@
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
 //            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-                        curr: currNums || 1, //当前页
+                        curr: page.curr || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
@@ -620,7 +622,7 @@
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
         }
     }
@@ -690,6 +692,10 @@
     }
 
     function resultCallback(res, type, currNums,pageSize) {
+        console.log(res);
+        console.log(type);
+        console.log(currNums);
+        console.log(pageSize);
         $("span.js-search-total").text(res.data.total);
         $("#total-page-count1 span").text(res.data.total);
         renderList(res.data.list, currNums);
@@ -711,11 +717,16 @@
                     var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                     requestSearchData(pageSize);
                 } else if (!first && flag == 1) {
+                    alert(6)
                     page.curr = obj.curr;
+                    var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                     var dataParam = getParams();
                     dataParam.pageNo = page.curr;
                     dataParam.pageSize = page.pageSize;
-                    advanceSearchFn(dataParam);
+                    console.log(page.curr)
+                    console.log(dataParam.pageNo)
+                    console.log(dataParam.pageSize)
+                    advanceSearchFn(dataParam,dataParam.pageNo,dataParam.pageSize);
                 }
             }
         });
@@ -796,10 +807,11 @@
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
+        var currs = Number($(".laypage_curr").text());
+        var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+        var total = $("#total-page-count1 span").text();
         if (flag == 0) {
-            var currs = $(".laypage_curr").text();
-            var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
-            var total = $("#total-page-count1 span").text();
+
             if (searchType == 1) {
                 if (currs * pageSize > total) {
                     var currNums = 1;
@@ -836,10 +848,25 @@
 
             }
         } else {
-            var dataParam = getParams();
-            dataParam.pageNo = page.curr;
-            dataParam.pageSize = page.pageSize;
-            advanceSearchFn(dataParam);
+//            var dataParam = getParams();
+//            dataParam.pageNo = page.curr;
+//            dataParam.pageSize = page.pageSize;
+//            advanceSearchFn(dataParam);
+
+            if (currs * pageSize > total) {
+                var currNums = 1;
+                var dataParam = getParams();
+                dataParam.pageSize = pageSize;
+
+                advanceSearchFn(dataParam,currNums);
+            } else {
+                var dataParam = getParams();
+//                var currNums = currs;
+                var currNums = page.curr;
+            dataParam.pageNo = currs;
+            dataParam.pageSize = pageSize;
+                advanceSearchFn(dataParam,currNums);
+            }
         }
     });
 
@@ -884,20 +911,19 @@
                         if (searchType == 1) {
                             if (currs * pageSize > total) {
                                 var currNums = 1;
-                                console.log(pageSize)
                                 searchOne(currNums,pageSize);
                             } else {
                                 var currNums = page.curr;
-                                searchOne(currNums);
+                                searchOne(currNums,pageSize);
                             }
 
-                            if (currs * pageSize > total) {
-                                var currNums = 1;
-                                searchOne(currNums, pageSize);
-                            } else {
-                                var currNums = currs;
-                                searchOne(currNums, pageSize);
-                            }
+//                            if (currs * pageSize > total) {
+//                                var currNums = 1;
+//                                searchOne(currNums, pageSize);
+//                            } else {
+//                                var currNums = currs;
+//                                searchOne(currNums, pageSize);
+//                            }
 
 //                        searchOne();
                         } else if (searchType == 2) {

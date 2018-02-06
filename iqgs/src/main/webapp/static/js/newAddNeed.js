@@ -1015,7 +1015,8 @@
         page.pageSize = 10;
         flag = 1;
         var dataParam = getParams();
-        advanceSearchFn(dataParam);
+        var currNums = 1;
+        advanceSearchFn(dataParam,currNums);
         // 处理搜索页面是当前页显示的问题
         var currType ;
         var list = $("#myTabs li");
