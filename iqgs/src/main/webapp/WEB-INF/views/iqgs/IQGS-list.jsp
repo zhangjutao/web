@@ -629,7 +629,7 @@
             keyword: $("#key_name").val()
         }, function (res) {
             var type = 1;
-            resultCallback(res, type, currNums)
+            resultCallback(res, type, currNums);
         });
     }
 
@@ -655,7 +655,7 @@
             chr: $(".js-region").val()
         }, function (res) {
             var type = 3;
-            resultCallback(res, type, currNums)
+            resultCallback(res, type, currNums);
         });
     }
 
