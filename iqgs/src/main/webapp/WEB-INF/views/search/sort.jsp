@@ -481,7 +481,7 @@
             if (event.keyCode == 13) {
                 var _page_skip = $('#pagination .laypage_skip');
                 var curr = Number(_page_skip.val());
-                var pageSizeNum = $('#per-page-count .lay-per-page-count-select').val();
+                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
                 if (_page_skip.val() * 1 > Math.ceil($("#total-page-count span").text() / curr)) {
 //                    layer.msg("输入页码不能大于总页数");
 //                    return false;
