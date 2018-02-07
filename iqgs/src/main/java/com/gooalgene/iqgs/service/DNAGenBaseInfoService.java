@@ -47,6 +47,7 @@ public class DNAGenBaseInfoService {
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         if (conditionEnum.equals(SearchConditionEnum.ID)) {
             bean.setGeneId(keyword);
+            throw new IllegalArgumentException("请求参数不正确");
         }else if (conditionEnum.equals(SearchConditionEnum.FUNCTION)){
             bean.setFunctions(keyword);
         }
