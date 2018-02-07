@@ -10,6 +10,7 @@ import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
+import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
 import com.gooalgene.utils.ConsequenceTypeUtils;
 import net.sf.json.JSONArray;
@@ -66,7 +67,7 @@ public class DNAGenBaseInfoService {
      * @param pageSize 页数
      * @return 搜索结果列表
      */
-    public PageInfo<DNAGeneSearchResult> queryDNAGenBaseInfos(List<GeneExpressionConditionEntity> condition,
+    public PageInfo<RangeSearchResult> queryDNAGenBaseInfos(List<GeneExpressionConditionEntity> condition,
                                                               List<String> selectSnp,
                                                               List<String> selectIndel,
                                                               List<Integer> firstHierarchyQtlId,
@@ -80,9 +81,9 @@ public class DNAGenBaseInfoService {
         if (selectIndel != null && selectIndel.size() > 0){
             selectIndel = ConsequenceTypeUtils.reverseReadableListValue(selectIndel);
         }
-        PageInfo<AdvanceSearchResultView> properGene =
+        PageInfo<RangeSearchResult> properGene =
                 fpkmService.findProperGeneUnderSampleRun(condition, selectSnp, selectIndel, firstHierarchyQtlId, allQTLId, baseInfo, structure, pageNo, pageSize);  //通过高级搜索接口查询
-        return convertSearchResultToSearchView(properGene);
+        return properGene;
     }
 
     /**

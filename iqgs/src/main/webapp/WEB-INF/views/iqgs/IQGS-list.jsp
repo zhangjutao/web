@@ -37,7 +37,8 @@
                 <p class="search-title">Search By Gene ID</p>
                 <label>
                     <input class="search-input" id="key_name" type="text" name="search" placeholder="输入您要查找的关键字">
-                    <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
+                    <span class="clear-input" style="display: none"><img
+                            src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_name" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <%--<p class="search-tips">示例: <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900">Glyma.01G004900</a><b>;</b> <a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=Glyma.01G004900"> LOC778160</a></p>--%>
@@ -412,7 +413,7 @@
             for (var k = 0; k < newArr.length; k++) {
                 tissue[newArr[k]] = Math.random();
             }
- ;
+            ;
             obj.tissue = tissue;
             geneExpressionConditionEntities.push(obj);
         }
@@ -489,22 +490,21 @@
 
     // 高级搜索 --》代码封装
 
-    function advanceSearchFn(dataParam) {
+    function advanceSearchFn(dataParam,currNums,pageSize) {
         var promise = SendAjaxRequest("POST", window.ctxROOT + "/advance-search/advanceSearch", JSON.stringify(dataParam));
         promise.then(
             function (result) {
                 // 关闭遮罩层
                 layer.closeAll();
                 if (result.code == 0 && result.data.list.length != 0) {
-                    var type=5;
-                    resultCallback(result,type);
-
+                    var type = 5;
+                    resultCallback(result, type,currNums,pageSize);
                 } else {
                     laypage({
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(result.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
 //            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-                        curr: page.curr || 1, //当前页
+                        curr: currNums || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
@@ -515,7 +515,7 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 page.curr = obj.curr;
-                                requestSearchData();
+                                requestSearchData(pageSize);
                             }
                         }
                     });
@@ -549,7 +549,8 @@
                 $("#qtlName").val(qtlSearchNames.join(","));
             } else {
                 $("#qtlName").val(qtlSearchNames[0])
-            };
+            }
+            ;
             activeItem(searchType);
 //            $("#advancedSearch").show();
         }
@@ -575,7 +576,7 @@
         $(cntList[searchtype - 1]).addClass("tab-pane-ac");
     };
 
-    function requestSearchData() {
+    function requestSearchData(pageSize) {
         // 开户遮罩层
         layer.msg('数据加载中!', {
             time: 120000,
@@ -583,88 +584,85 @@
         });
         if (searchType == 1) {
             if (flag == 0) {
-            // 调用第一个一级搜索获取数据
-                searchOne();
+                // 调用第一个一级搜索获取数据
+                searchOne(page.curr,pageSize);
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
-
         } else if (searchType == 2) {
             if (flag == 0) {
                 // 调用第二个一级搜索获取数据
-                searchTwo()
+                searchTwo(page.curr,pageSize)
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
-
         } else if (searchType == 3) {
             if (flag == 0) {
                 // 调用第三个一级搜索获取数据
-                searchThree();
+                searchThree(page.curr,pageSize);
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
-
         } else if (searchType == 4) {
             if (flag == 0) {
-                getQtlNameData(page.curr, page.pageSize);
+                getQtlNameData(page.curr, page.pageSize, page.curr);
                 $(".result-text>span:first").text(qtlSearchNames.join(","));
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam);
+                advanceSearchFn(dataParam,page.curr,pageSize);
             }
         }
     }
-
-
     // 第一个一级搜索获取数据
-    function searchOne(){
+    function searchOne(currNums, pageSize) {
         // 根据一级搜索来分页
         $.getJSON('${ctxroot}/iqgs/search/gene-id-name', {
-            pageNo: page.curr || 1,
-            pageSize: page.pageSize || 10,
+            pageNo: currNums || 1,
+            pageSize: pageSize || 10,
             keyword: $("#key_name").val()
         }, function (res) {
             var type = 1;
-            resultCallback(res, type)
+            resultCallback(res, type, currNums);
         });
     }
+
     //第二个一级搜索获取数据
-    function searchTwo(){
+    function searchTwo(currNums,pageSize) {
         $.getJSON('${ctxroot}/iqgs/search/func', {
-            pageNo: page.curr || 1,
-            pageSize: page.pageSize || 10,
+            pageNo: currNums || 1,
+            pageSize: pageSize || 10,
             keyword: $("#key_func").val()
         }, function (res) {
             var type = 2;
-            resultCallback(res, type)
+            resultCallback(res, type, currNums)
         });
     }
+
     //第三个一级搜索获取数据
-    function searchThree(){
+    function searchThree(currNums,pageSize) {
         $.getJSON('${ctxroot}/iqgs/search/range', {
-            pageNo: page.curr || 1,
-            pageSize: page.pageSize || 10,
+            pageNo: currNums || 1,
+            pageSize: pageSize || 10,
             begin: $("#rg_begin").val(),
             end: $("#rg_end").val(),
             chr: $(".js-region").val()
         }, function (res) {
             var type = 3;
-            resultCallback(res, type)
+            resultCallback(res, type, currNums);
         });
     }
 
     // 根据qtlName 获取数据
-    function getQtlNameData(curr, pageSize) {
+    function getQtlNameData(curr, pageSize, currNums) {
         var data = {
-            pageNo: curr || 1,
+            pageNo: currNums || 1,
             pageSize: pageSize || 10,
             chosenQtl: nums
         };
@@ -677,25 +675,24 @@
                 layer.closeAll();
                 if (result.code == 0 && data.length != 0) {
                     var type = 4;
-                    resultCallback(result, type)
+                    resultCallback(result, type, currNums)
                 }
             },
             error: function (error) {
                 console.log(error);
             }
-
         })
     }
 
-    function resultCallback(res, type) {
+    function resultCallback(res, type, currNums,pageSize) {
         $("span.js-search-total").text(res.data.total);
         $("#total-page-count1 span").text(res.data.total);
-        renderList(res.data.list,type);
+        renderList(res.data.list, currNums);
         laypage({
             cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
 //            pages: 100, //通过后台拿到的总页数 (坑坑坑：这个框架默认是如果只有一页的话就不显示)
-            curr: page.curr || 1, //当前页
+            curr: currNums || 1, //当前页
             skin: '#5c8de5',
             skip: true,
             first: 1, //将首页显示为数字1,。若不显示，设置false即可
@@ -706,18 +703,20 @@
             jump: function (obj, first) { //触发分页后的回调
                 if (!first && flag == 0) { //点击跳页触发函数自身，并传递当前页：obj.curr
                     page.curr = obj.curr;
-                    requestSearchData();
+                    var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+                    requestSearchData(pageSize);
                 } else if (!first && flag == 1) {
                     page.curr = obj.curr;
+                    var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                     var dataParam = getParams();
                     dataParam.pageNo = page.curr;
                     dataParam.pageSize = page.pageSize;
-                    advanceSearchFn(dataParam);
+                    advanceSearchFn(dataParam,dataParam.pageNo,dataParam.pageSize);
                 }
             }
         });
 
-        if(res.data.list.length!==0){
+        if (res.data.list.length !== 0) {
             if (type == 1) {
                 $("#sort_btn_px").off("click").click(function () {
                     fetchData();
@@ -731,11 +730,11 @@
                     fetchRangeData();
                 })
 
-            }else if(type == 4){
+            } else if (type == 4) {
                 $("#sort_btn_px").off("click").click(function () {
                     fetchQtlData();
                 })
-            }else if(type == 5){
+            } else if (type == 5) {
                 $("#sort_btn_px").off("click").click(function () {
                     fetchFirstData(dataParam);
                 })
@@ -743,7 +742,7 @@
         }
     };
 
-    function renderList(listdata) {
+    function renderList(listdata, currNums) {
         // 关闭遮罩层
         layer.closeAll();
         if (listdata && listdata.length > 0) {
@@ -753,7 +752,7 @@
 
                 var description = item.description ? item.description : "-";
                 html.push('<div class="list">');
-                html.push('    <div class="tab-index">' + (page.pageSize * (page.curr - 1) + i + 1) + '.</div>');
+                html.push('    <div class="tab-index">' + (page.pageSize * (currNums - 1) + i + 1) + '.</div>');
                 html.push('    <div class="list-content">');
                 html.push('        <p class="content-h"><a target="_blank" href="${ctxroot}/iqgs/detail/basic?gen_id=' + item.geneId + '">' + item.geneId + '</a></p>');
                 html.push('        <p class="h-tips">基因名:<span>' + ' ' + geneName + '</span></p>');
@@ -782,8 +781,6 @@
                 html.push('</div>');
             });
             $(".search-result-b .tab-list").html(html.join('\n'));
-
-
         }
     }
 
@@ -795,22 +792,60 @@
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
+//        var pageSize = Number($(this).val());
+        var currs = Number($(".laypage_curr").text());
+        var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+        var total = $("#total-page-count1 span").text();
         if (flag == 0) {
-//            getQtlNameData(page.curr, page.pageSize);
-            if(searchType == 1){
-                searchOne();
-            }else if(searchType == 2){
-                searchTwo();
-            }else if(searchType == 3){
-                searchThree();
-            }else{
-                getQtlNameData(page.curr, page.pageSize);
+            if (searchType == 1) {
+                if (currs * pageSize > total) {
+                    var currNums = 1;
+                    searchOne(currNums, pageSize);
+                } else {
+                    var currNums = currs;
+                    searchOne(currNums, pageSize);
+                }
+
+            } else if (searchType == 2) {
+                if (currs * pageSize > total) {
+                    var currNums = 1;
+                    searchTwo(currNums,pageSize);
+                } else {
+                    var currNums = currs;
+                    searchTwo(currNums,pageSize);
+                }
+            } else if (searchType == 3) {
+                if (currs * pageSize > total) {
+                    var currNums = 1;
+                    searchThree(currNums,pageSize);
+                } else {
+                    var currNums = currs;
+                    searchThree(currNums,pageSize);
+                }
+            } else {
+                if (currs * pageSize > total) {
+                    var currNums = 1;
+                    getQtlNameData(page.curr, pageSize, currNums);
+                } else {
+                    var currNums = currs;
+                    getQtlNameData(page.curr, pageSize, currNums);
+                }
             }
         } else {
-            var dataParam = getParams();
-            dataParam.pageNo = page.curr;
-            dataParam.pageSize = page.pageSize;
-            advanceSearchFn(dataParam);
+            if (currs * pageSize > total) {
+                var currNums = 1;
+                var dataParam = getParams();
+                dataParam.pageSize = pageSize;
+
+                advanceSearchFn(dataParam,currNums);
+            } else {
+                var dataParam = getParams();
+                var currNums = currs;
+//                var currNums = page.curr;
+            dataParam.pageNo = currs;
+            dataParam.pageSize = pageSize;
+                advanceSearchFn(dataParam,currNums);
+            }
         }
     });
 
@@ -825,34 +860,66 @@
     document.onkeydown = function (e) {
         var _page_skip = $('#paginationCnt .laypage_skip');
         if (_page_skip.hasClass("isFocus")) {
-        if (e && e.keyCode == 13) { // enter 键
-            // 开户遮罩层
-            layer.msg('数据加载中!', {
-                time: 120000,
-                shade: [0.5, '#393D49']
-            });
-                if (_page_skip.val() * 1 > Math.ceil($("#total-page-count1 span").text() / page.pageSize)) {
-                    alert("输入页码不能大于总页数");
-                    layer.closeAll();
-                    return false;
-                }
-                page.curr = Number(_page_skip.val());
+            if (e && e.keyCode == 13) { // enter 键
+                // 开户遮罩层
+                layer.msg('数据加载中!', {
+                    time: 120000,
+                    shade: [0.5, '#393D49']
+                });
+                var pageNo = Number(_page_skip.val());
+                var currs = Number($(".laypage_curr").text());
+                var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
+                var total = Number($("#total-page-count1 span").text());
+                var mathCeil=  Math.ceil(total/pageSize);
+
                 if (flag == 0) {
-                    if(searchType == 1){
-                        searchOne();
-                    }else if(searchType == 2){
-                        searchTwo();
-                    }else if(searchType == 3){
-                        searchThree();
-                    }else{
-                        getQtlNameData(page.curr, page.pageSize);
+                    if (searchType == 1) {
+                        if (pageNo>mathCeil) {
+                            var currNums = 1;
+                            searchOne(currNums, pageSize);
+                        } else {
+                            var currNums = pageNo;
+                            searchOne(currNums, pageSize);
+                        }
+                    } else if (searchType == 2) {
+                        if (pageNo>mathCeil) {
+                            var currNums = 1;
+                            searchTwo(currNums,pageSize);
+                        } else {
+                            var currNums = pageNo;
+                            searchTwo(currNums,pageSize);
+                        }
+                    } else if (searchType == 3) {
+                        if (pageNo>mathCeil) {
+                            var currNums = 1;
+                            searchThree(currNums,pageSize);
+                        } else {
+                            var currNums = pageNo;
+                            searchThree(currNums,pageSize);
+                        }
+                    } else {
+                        if (pageNo>mathCeil) {
+                            var currNums = 1;
+                            getQtlNameData(currs, pageSize, currNums);
+                        } else {
+                            getQtlNameData(currs, pageSize, pageNo);
+                        }
                     }
                 } else {
-                    var dataParam = getParams();
-                    dataParam.pageNo = page.curr;
-                    advanceSearchFn(dataParam);
-                }
+                    if (pageNo>mathCeil) {
+                        var currNums = 1;
+                        var dataParam = getParams();
+                        dataParam.pageSize = pageSize;
 
+                        advanceSearchFn(dataParam,currNums);
+                    } else {
+                        var dataParam = getParams();
+                        var currNums = page.curr;
+                        dataParam.pageNo = pageNo;
+                        dataParam.pageSize = pageSize;
+                        advanceSearchFn(dataParam,pageNo,pageSize);
+                    }
+                }
             }
         }
     };
@@ -887,34 +954,33 @@
     }
 
     //    排序弹窗
-    function sortStrData(data,let) {
-            var load = layer.load(1);
-            $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
-                var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
-                // 搜索结果传到排序页面
-//                console.log(data)
-                if(data!==null){
-                    layer.close(load);
-                    $("#gray").show();
-                    $(".ui-dialog-title").text("排序");
-                    $("#popup").dialog({
-                        buttons: {
-                            "X": function () {
-                                $("#gray").hide();
-                                $(this).dialog('close');
-                            }
-                        },
-                        width: 900,
-                        height: 600,
-                        closeText: "",
-                    });
-                    window.frames[0].postMessage(data, targetLocation);
-                }else{
-                    layer.msg("数据异常");
-                    layer.close(load);
-                    return false;
-                }
-            })
+    function sortStrData(data, let) {
+        var load = layer.load(1);
+        $('#popup iframe').attr('src', '${ctxroot}/sort/dispatch').off('load').on('load', function () {
+            var targetLocation = 'http://' + extractHostname(window.location.href) + ":" + window.location.port + '${ctxroot}/sort/dispatch';
+            // 搜索结果传到排序页面
+            if (data !== null) {
+                layer.close(load);
+                $("#gray").show();
+                $(".ui-dialog-title").text("排序");
+                $("#popup").dialog({
+                    buttons: {
+                        "X": function () {
+                            $("#gray").hide();
+                            $(this).dialog('close');
+                        }
+                    },
+                    width: 900,
+                    height: 600,
+                    closeText: "",
+                });
+                window.frames[0].postMessage(data, targetLocation);
+            } else {
+                layer.msg("数据异常");
+                layer.close(load);
+                return false;
+            }
+        })
     }
 
     // 一级搜索第一个，获取所有基因ID
@@ -924,11 +990,13 @@
             keyword: $("#key_name").val()
         }, fetchFetchback);
     };
+
     function fetchFetchback(jsonStr) {
         var fetchGnO = jsonStr.data;
-        var let=1;
-        sortStrData(fetchGnO,let)
+        var let = 1;
+        sortStrData(fetchGnO, let)
     }
+
     // 一级搜索第二个，获取所有基因ID
     function fetchTwoData() {
         $.getJSON('${ctxroot}/sort/fetch-multi-data', {
@@ -939,8 +1007,8 @@
 
     function resultFetchback(jsonStr) {
         var fetchGnT = jsonStr.data;
-        var let=2;
-        sortStrData(fetchGnT,let)
+        var let = 2;
+        sortStrData(fetchGnT, let)
 
     }
 
@@ -957,8 +1025,8 @@
 
     function fetchRangeback(jsonStr) {
         var fetchGnS = jsonStr.data;
-        var let=3;
-        sortStrData(fetchGnS,let)
+        var let = 3;
+        sortStrData(fetchGnS, let)
     }
 
     // 一级搜索第四个，获取所有基因ID
@@ -967,23 +1035,25 @@
             chosenQtl: nums
         }, fetchQtlback);
     };
+
     function fetchQtlback(jsonStr) {
         var fetchGnF = jsonStr.data;
-        var let=4;
-        sortStrData(fetchGnF,let)
+        var let = 4;
+        sortStrData(fetchGnF, let)
     }
+
     // 高级搜索，获取所有基因ID
     function fetchFirstData(dataParam) {
-        var promise = SendAjaxRequest("POST","${ctxroot}/sort/fetch-first-screen", JSON.stringify(dataParam));
+        var promise = SendAjaxRequest("POST", "${ctxroot}/sort/fetch-first-screen", JSON.stringify(dataParam));
         promise.then(
             function (result) {
-                if(result.code==-1){
+                if (result.code == -1) {
                     layer.msg("数据已过期，请重新搜索获取数据");
                     return false;
-                }else{
+                } else {
                     var fetchGnG = result.data;
-                    var let=5;
-                    sortStrData(fetchGnG,let)
+                    var let = 5;
+                    sortStrData(fetchGnG, let)
                 }
             }
         )

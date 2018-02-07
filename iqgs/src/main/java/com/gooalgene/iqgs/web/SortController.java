@@ -7,23 +7,20 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNAGenStructure;
+import com.gooalgene.iqgs.entity.AdvanceSearchType;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionCondition;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.iqgs.entity.sort.SortRequestParam;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
-import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
-import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
-import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
-import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
+import com.gooalgene.iqgs.eventbus.events.*;
+import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.GeneRegexpService;
 import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.gooalgene.utils.ConsequenceTypeUtils;
-import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.ResultUtil;
-import com.gooalgene.utils.Tools;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.ImmutableList;
@@ -68,6 +65,9 @@ public class SortController implements InitializingBean {
 
     @Autowired
     private GeneSortViewService geneSortViewService;
+
+    @Autowired
+    private FPKMService fpkmService;
 
     private Cache cache;
 
@@ -167,8 +167,21 @@ public class SortController implements InitializingBean {
         if (selectIndel != null && selectIndel.size() > 0){
             selectIndel = ConsequenceTypeUtils.reverseReadableListValue(selectIndel);
         }
-        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(entities, selectSnp,
-                selectIndel, firstHierarchyQtlId, associateGeneIdArray, baseInfo, geneStructure);
+        List<Integer> selectSNP = fpkmService.getAllSelectedConsequenceTypeId("SNP", selectSnp);
+        List<Integer> selectINDEL = fpkmService.getAllSelectedConsequenceTypeId("INDEL", selectIndel);
+        AllAdvanceSearchViewEvent event = null;
+        if (baseInfo != null && baseInfo.getGeneId() != null){
+            event = new AllAdvanceSearchViewEvent(entities, selectSNP, selectINDEL, associateGeneIdArray, baseInfo, AdvanceSearchType.ID);
+        } else if (baseInfo != null && (baseInfo.getDescription() != null || baseInfo.getFunctions() != null)){
+            event = new AllAdvanceSearchViewEvent(entities, selectSNP, selectINDEL, associateGeneIdArray, baseInfo, AdvanceSearchType.NAME);
+        } else if (geneStructure != null){
+            event = new AllAdvanceSearchViewEvent(entities, selectSNP, selectINDEL, associateGeneIdArray, geneStructure, AdvanceSearchType.REGION);
+        } else if (firstHierarchyQtlId != null && firstHierarchyQtlId.size() > 0){
+            event = new AllAdvanceSearchViewEvent(entities, selectSNP, selectINDEL, associateGeneIdArray, firstHierarchyQtlId, AdvanceSearchType.QTL);
+        } else {
+            logger.warn("传入数据有问题，请确定传入参数");
+            return ResultUtil.error(-1, "传入参数有问题");
+        }
         String key = event.getClass().getSimpleName() + event.hashCode();
         //数据缓存一小时，若一小时无操作，清空该数据
         Cache.ValueWrapper cachedGeneId = cache.get(key);
@@ -191,12 +204,8 @@ public class SortController implements InitializingBean {
         String start = req.getParameter("begin");
         String end = req.getParameter("end");
         String chr = req.getParameter("chr");
-        DNAGenStructure dnaGenStructure = new DNAGenStructure();
-        dnaGenStructure.setChromosome(chr);
-        dnaGenStructure.setStart(Long.valueOf(start));
-        dnaGenStructure.setEnd(Long.valueOf(end));
-        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(dnaGenStructure, null);
-        String key = event.getClass().getSimpleName() + event.getGenStructure().hashCode();
+        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(chr, Integer.valueOf(start), Integer.valueOf(end));
+        String key = event.getClass().getSimpleName() + event.hashCode();
         Cache.ValueWrapper cachedGeneId = cache.get(key);
         if (cachedGeneId != null){
             List<String> resultGeneCollection = (List<String>) cachedGeneId.get();
@@ -246,7 +255,7 @@ public class SortController implements InitializingBean {
     @RequestMapping(value = "/fetch-qtl-data", method = RequestMethod.GET)
     @ResponseBody
     public ResultVO<String> fetchQtlData(@RequestParam(value = "chosenQtl[]") Integer[] chosenQtl){
-        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(null, null, null, null, Arrays.asList(chosenQtl), null, null);
+        AllQTLSearchResultEvent event = new AllQTLSearchResultEvent(Arrays.asList(chosenQtl));
         String key = event.getClass().getSimpleName() + event.hashCode();
         //数据缓存一小时，若一小时无操作，清空该数据
         Cache.ValueWrapper cachedGeneId = cache.get(key);

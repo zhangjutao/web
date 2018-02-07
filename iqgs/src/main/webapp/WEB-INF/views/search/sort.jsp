@@ -481,14 +481,18 @@
             if (event.keyCode == 13) {
                 var _page_skip = $('#pagination .laypage_skip');
                 var curr = Number(_page_skip.val());
-                if (_page_skip.val() * 1 > Math.ceil($("#total-page-count span").text() / curr)) {
+                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                var total= $("#total-page-count span").text();
+                var mathCeil=  Math.ceil(total/pageSizeNum);
+                if (curr>mathCeil) {
 //                    layer.msg("输入页码不能大于总页数");
 //                    return false;
-//                    dataParam.pageNo = 1;
-                    sortTable(1, dataParam);
+                    dataParam.pageNo = 1;
+                    dataParam.pageSize = pageSizeNum
+                    sortTable(1, dataParam,pageSizeNum);
                 }else{
                     dataParam.pageNo = curr;
-                    sortTable(curr, dataParam);
+                    sortTable(curr, dataParam,pageSizeNum);
                 }
 
             }

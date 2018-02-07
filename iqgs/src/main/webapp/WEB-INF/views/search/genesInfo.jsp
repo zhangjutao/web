@@ -536,7 +536,7 @@
 //            }
             loadMask('#mask-test');
             $.ajax({
-                url: "http://180.76.159.174:81/api/CYJYFX/GetRapeInfoByGNAndGG",
+                url: "http://47.96.185.131:82/api/CYJYFX/GetRapeInfoByGNAndGG",
                 type: "POST",
                 data: JSON.stringify(data),
                 dataType: "json",

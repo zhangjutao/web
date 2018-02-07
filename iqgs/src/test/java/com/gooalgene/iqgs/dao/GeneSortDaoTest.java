@@ -27,7 +27,7 @@ public class GeneSortDaoTest extends TestCase {
         };
         String fields="cotyledon,pod";
         List<String> chooseFields = Arrays.asList(fields);
-        List<CalculateScoreResult> result = geneSortDao.findCalculateSortedResult(Arrays.asList(geneIds), chooseFields, 16);
+        List<CalculateScoreResult> result = geneSortDao.findCalculateSortedResult(Arrays.asList(geneIds), chooseFields, 16, chooseFields.size());
         assertNotNull(result);
     }
 

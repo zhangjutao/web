@@ -1,47 +1,54 @@
 package com.gooalgene.iqgs.eventbus.events;
 
-import com.gooalgene.dna.entity.DNAGenStructure;
-import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.google.common.base.Objects;
 
-import java.util.List;
-
 public class AllRegionSearchResultEvent {
-    private DNAGenStructure genStructure;
-    private List<AdvanceSearchResultView> searchResultViews;
+    private String chromosome;
+    private int start;
+    private int end;
 
-    public AllRegionSearchResultEvent(DNAGenStructure genStructure, List<AdvanceSearchResultView> searchResultViews) {
-        this.genStructure = genStructure;
-        this.searchResultViews = searchResultViews;
+    public AllRegionSearchResultEvent(String chromosome, int start, int end) {
+        this.chromosome = chromosome;
+        this.start = start;
+        this.end = end;
     }
 
-    public DNAGenStructure getGenStructure() {
-        return genStructure;
+    public String getChromosome() {
+        return chromosome;
     }
 
-    public void setGenStructure(DNAGenStructure genStructure) {
-        this.genStructure = genStructure;
+    public void setChromosome(String chromosome) {
+        this.chromosome = chromosome;
     }
 
-    public List<AdvanceSearchResultView> getSearchResultViews() {
-        return searchResultViews;
+    public int getStart() {
+        return start;
     }
 
-    public void setSearchResultViews(List<AdvanceSearchResultView> searchResultViews) {
-        this.searchResultViews = searchResultViews;
+    public void setStart(int start) {
+        this.start = start;
+    }
+
+    public int getEnd() {
+        return end;
+    }
+
+    public void setEnd(int end) {
+        this.end = end;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        AllRegionSearchResultEvent that = (AllRegionSearchResultEvent) o;
-        return Objects.equal(genStructure, that.genStructure) &&
-                Objects.equal(searchResultViews, that.searchResultViews);
+        AllRegionSearchResultEvent event = (AllRegionSearchResultEvent) o;
+        return start == event.start &&
+                end == event.end &&
+                Objects.equal(chromosome, event.chromosome);
     }
 
     @Override
     public int hashCode() {
-        return java.util.Objects.hash(genStructure, searchResultViews);
+        return java.util.Objects.hash(chromosome, start, end);
     }
 }

@@ -1011,11 +1011,13 @@
 
     // 高级搜索
     $("#iqgsSearch p").click(function (){
+        $("#per-page-count1 .lay-per-page-count-select option:first").prop("selected", 'selected');
         page.curr = 1;
         page.pageSize = 10;
         flag = 1;
         var dataParam = getParams();
-        advanceSearchFn(dataParam);
+        var currNums = 1;
+        advanceSearchFn(dataParam,currNums);
         // 处理搜索页面是当前页显示的问题
         var currType ;
         var list = $("#myTabs li");
