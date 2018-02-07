@@ -60,7 +60,7 @@ public class FPKMService implements InitializingBean {
     @Override
     public void afterPropertiesSet() throws Exception {
         if (context.getParent() != null) {
-            cache = manager.getCache("advanceSearch");
+            cache = manager.getCache("config");
             cacheAllSNPAndINDEL();
         }
     }
@@ -280,6 +280,10 @@ public class FPKMService implements InitializingBean {
 
     public List<Integer> getAllSelectedConsequenceTypeId(String type, List<String> consequenceType){
         List<Integer> result = new ArrayList<>();
+        //判断缓存是否存在
+        if (cache.get(CommonConstant.CACHEDSNP) == null){
+            cacheAllSNPAndINDEL();
+        }
         if (consequenceType != null && consequenceType.size() > 0){
             Map<String, Integer> cachedMap = new HashMap<>();
             if (type.equals("SNP")){
