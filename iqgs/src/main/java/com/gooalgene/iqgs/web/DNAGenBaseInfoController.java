@@ -27,6 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -52,6 +54,11 @@ import java.util.Map;
 @Controller
 @RequestMapping("/iqgs")
 public class DNAGenBaseInfoController implements InitializingBean {
+    @RequestMapping("/me")
+    public Authentication auth() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication;
+    }
 
     Logger logger = LoggerFactory.getLogger(DNAGenBaseInfoController.class);
 
@@ -99,7 +106,7 @@ public class DNAGenBaseInfoController implements InitializingBean {
             model.addAttribute("chr", chr);
             model.addAttribute("rgBegin", begin);
             model.addAttribute("rgEnd", end);
-            model.addAttribute("keyword",chr+","+begin +"bp-"+ end + "bp");
+            model.addAttribute("keyword", chr + "," + begin + "bp-" + end + "bp");
         }
         model.addAttribute("searchType", searchType);
         return "iqgs/IQGS-list";
@@ -107,7 +114,6 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     /**
      * 根据基因id进行模糊查询
-     *
      */
     @RequestMapping("/search/gene-id-name")
     @ResponseBody
@@ -121,6 +127,7 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     /**
      * 根据基因function或者name字段进行模糊查询
+     *
      * @return 搜索出来的总条数, data:搜索出来的数据,data中包含哪些数据...
      */
     @RequestMapping("/search/func")
@@ -358,7 +365,7 @@ public class DNAGenBaseInfoController implements InitializingBean {
         logger.info(gene + "Expression");
         Map rs = new HashMap();
         Page<ExpressionStudy> page = new Page<ExpressionStudy>(req, resp);
-        List<ExpressionStudy> gens = studyService.getStudyByGene(gene,page);
+        List<ExpressionStudy> gens = studyService.getStudyByGene(gene, page);
         rs.put("total", page.getCount());
         rs.put("data", gens);
         return rs;
@@ -400,6 +407,6 @@ public class DNAGenBaseInfoController implements InitializingBean {
         logger.info("queryBy " + type + "and ctype" + ctype + " with gene:" + gene);
         String[] ctypeList = ctype.split(",");
         Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPByGene(type,ctypeList,gene,page);
+        return snpService.searchSNPByGene(type, ctypeList, gene, page);
     }
 }
