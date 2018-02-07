@@ -17,6 +17,7 @@ import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
 import com.gooalgene.iqgs.entity.sort.SortedSearchResultView;
 import com.gooalgene.iqgs.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
+import com.gooalgene.iqgs.eventbus.events.AllQTLSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.gooalgene.iqgs.service.concurrent.ThreadManager;
@@ -272,9 +273,9 @@ public class FPKMService implements InitializingBean {
         }
         int total = advanceSearchResultViews.size();
         //通过EventBus将查询结果封装，在另一个线程中处理该事件
-        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(genStructure, advanceSearchResultViews);
-        AsyncEventBus eventBus = register.getAsyncEventBus();
-        eventBus.post(event);
+//        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(genStructure, advanceSearchResultViews);
+//        AsyncEventBus eventBus = register.getAsyncEventBus();
+//        eventBus.post(event);
         page.setTotal(total);
         int end = pageNo*pageSize > total ? total : pageNo*pageSize;  //防止数组越界
         page.addAll(advanceSearchResultViews.subList((pageNo-1)*pageSize, end));
@@ -327,13 +328,6 @@ public class FPKMService implements InitializingBean {
         } else {
             throw new IllegalArgumentException("请求参数不正确，高级搜索必须包含或GeneId，或QTL，或GeneFunction、或染色体区间查询条件");
         }
-        //QTL查询高级搜索
-//        List<AdvanceSearchResultView> searchResult =
-//                fpkmDao.findGeneThroughGeneExpressionCondition(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
-//        //通过EventBus将该参数封装，发送一个异步事件，在该事件中执行读取所有符合条件基因实体
-//        AllAdvanceSearchViewEvent event = new AllAdvanceSearchViewEvent(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, baseInfo, structure);
-//        AsyncEventBus eventBus = register.getAsyncEventBus();
-//        eventBus.post(event);
     }
 
     private PageInfo<RangeSearchResult> advanceSearchByFunction(List<GeneExpressionConditionEntity> condition,
@@ -399,7 +393,6 @@ public class FPKMService implements InitializingBean {
         int start = (pageNo - 1) * pageSize;
         int total = fpkmDao.countAdvanceSearchByQtl(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL);
         List<RangeSearchResult> searchResult = fpkmDao.advanceSearchByQtl(condition, selectSnp, selectIndel, firstHierarchyQtlId, selectQTL, start, pageSize);
-
         PageInfo<RangeSearchResult> resultPageInfo = new PageInfo<>();
         resultPageInfo.setTotal(total);
         resultPageInfo.setList(searchResult);
@@ -411,6 +404,9 @@ public class FPKMService implements InitializingBean {
     public PageInfo<RangeSearchResult> findViewByRange(String chromosome, int start, int end, int pageNo, int pageSize){
         //mybatis对连表查询无能为力,这里需要手动查询分页
         int total = fpkmDao.countBySearchRegion(chromosome, start, end);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        AllRegionSearchResultEvent event = new AllRegionSearchResultEvent(chromosome, start, end);
+        eventBus.post(event);
         int pageStart = (pageNo - 1) * pageSize;
         List<RangeSearchResult> result = fpkmDao.searchByRegion(chromosome, start, end, pageStart, pageSize);
         PageInfo<RangeSearchResult> pageInfo = new PageInfo<>();
@@ -426,6 +422,10 @@ public class FPKMService implements InitializingBean {
         int total = fpkmDao.countBySearchQtl(allQTLId);  //先计算选中QTL对应的基因总量
         int pageStart = (pageNo - 1) * pageSize;
         List<RangeSearchResult> result = fpkmDao.findViewByQtl(allQTLId, pageStart, pageSize);
+        //发布QTL一级搜索结果列表事件
+        AllQTLSearchResultEvent qtlSearchResultEvent = new AllQTLSearchResultEvent(allQTLId);
+        AsyncEventBus eventBus = register.getAsyncEventBus();
+        eventBus.post(qtlSearchResultEvent);
         PageInfo<RangeSearchResult> pageInfo = new PageInfo<>();
         pageInfo.setTotal(total);
         pageInfo.setPageNum(pageNo);

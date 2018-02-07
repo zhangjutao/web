@@ -42,6 +42,16 @@ public interface FPKMDao {
     List<RangeSearchResult> findViewByQtl(@Param("qtl") List<Integer> associateGeneId, int start, int end);
 
     /**
+     * 计算QTL查询的总基因个数
+     */
+    int countBySearchQtl(@Param("qtl") List<Integer> associateGeneId);
+
+    /**
+     * 缓存QTL一级搜索全部基因列表
+     */
+    List<String> cacheFindViewByQtl(@Param("qtl") List<Integer> associateGeneId);
+
+    /**
      * 一级搜索为QTL的高级搜索查询DAO层
      */
     List<RangeSearchResult> advanceSearchByQtl(@Param("geneExpression") List<GeneExpressionConditionEntity> condition,
@@ -67,11 +77,6 @@ public interface FPKMDao {
                                          @Param("indel") List<Integer> selectIndel,
                                          @Param("firstHierarchyQtlId") List<Integer> firstHierarchyQtlId,
                                          @Param("qtl") List<Integer> associateGeneId);
-
-    /**
-     * 计算QTL查询的总基因个数
-     */
-    int countBySearchQtl(@Param("qtl") List<Integer> associateGeneId);
 
     /**
      * 拿到前一百个基因对应的高级搜索信息
@@ -161,6 +166,11 @@ public interface FPKMDao {
     int countBySearchRegion(String chromosome, int start, int end);
 
     List<RangeSearchResult> searchByRegion(String chromosome, int start, int end, int pageNo, int pageSize);
+
+    /**
+     * 缓存染色体区间搜索一级搜索基因列表
+     */
+    List<String> cacheSearchByRegion(String chromosome, int start, int end);
 
     /**
      * 保证基因ID不为空，根据ID高级搜索

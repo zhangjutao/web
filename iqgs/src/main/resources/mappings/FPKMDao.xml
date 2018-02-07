@@ -318,6 +318,12 @@
         ON a.baseinfo_id = f.id) AS result
     </select>
 
+    <select id="cacheSearchByRegion" resultType="String">
+        SELECT gene_id FROM gens_baseinfo
+          WHERE chromosome = #{0} AND ((start  <![CDATA[ >= ]]> #{1} AND start <![CDATA[ < ]]> #{2})
+        OR (end <![CDATA[ >= ]]> #{1} AND end <![CDATA[ < ]]> #{2}) OR (start <![CDATA[ <= ]]> #{1} AND end <![CDATA[ > ]]> #{1}))
+    </select>
+
     <select id="findViewByQtl" resultMap="qtlSearchResult">
         SELECT
           a.gene_id,
@@ -534,6 +540,14 @@
 
     <select id="countBySearchQtl" parameterType="int" resultType="int">
         SELECT COUNT(gene_id) AS geneId FROM qtl_gene a
+        WHERE a.qtl_id IN
+        <foreach collection="qtl" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </select>
+
+    <select id="cacheFindViewByQtl" resultType="String" parameterType="int">
+        SELECT gene_id FROM qtl_gene a
         WHERE a.qtl_id IN
         <foreach collection="qtl" item="item" separator="," open="(" close=")">
             #{item}
