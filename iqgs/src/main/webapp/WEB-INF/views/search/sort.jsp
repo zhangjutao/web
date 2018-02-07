@@ -482,7 +482,9 @@
                 var _page_skip = $('#pagination .laypage_skip');
                 var curr = Number(_page_skip.val());
                 var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
-                if (_page_skip.val() * 1 > Math.ceil($("#total-page-count span").text() / curr)) {
+                var total= $("#total-page-count span").text();
+                var mathCeil=  Math.ceil(total/pageSizeNum);
+                if (curr>mathCeil) {
 //                    layer.msg("输入页码不能大于总页数");
 //                    return false;
                     dataParam.pageNo = 1;
