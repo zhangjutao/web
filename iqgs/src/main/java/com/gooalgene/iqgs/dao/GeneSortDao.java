@@ -16,7 +16,8 @@ public interface GeneSortDao {
 
     List<SortedSearchResultView> findViewByGeneId(@Param("geneIds") List<String> geneIds,@Param("fields") String fields);
 
-    List<CalculateScoreResult> findCalculateSortedResult(@Param("geneIds") List<String> geneIds,@Param("fields") List<String> fields, @Param("traitCategoryId") int traitCategoryId);
+    List<CalculateScoreResult> findCalculateSortedResult(@Param("geneIds") List<String> geneIds,@Param("fields") List<String> fields,
+                                                         @Param("traitCategoryId") int traitCategoryId, @Param("fieldSize") int size);
 
     List<SortedResult> findSortedResultThroughGeneId(@Param("geneIdList") List<String> geneIdList);
 

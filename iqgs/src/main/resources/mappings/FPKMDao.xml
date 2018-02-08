@@ -1093,4 +1093,7 @@
         </if>
     </select>
 
+    <select id="getLongestLength" resultType="int" parameterType="String">
+        SELECT max(end) AS result FROM gens_baseinfo WHERE chromosome = #{0}
+    </select>
 </mapper>

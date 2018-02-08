@@ -6,6 +6,7 @@ import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.entity.Associatedgenes;
 import com.gooalgene.iqgs.dao.DNAGenBaseInfoDao;
+import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.*;
 import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
@@ -17,6 +18,8 @@ import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -30,6 +33,8 @@ import static com.google.common.base.Preconditions.checkNotNull;
  */
 @Service
 public class DNAGenBaseInfoService {
+    private final String PREFIX = "MAX";
+
     @Autowired
     private DNAGenBaseInfoDao dnaGenBaseInfoDao;
 
@@ -38,6 +43,12 @@ public class DNAGenBaseInfoService {
 
     @Autowired
     private FPKMService fpkmService;
+
+    @Autowired
+    private FPKMDao fpkmDao;
+
+    @Autowired
+    private CacheManager manager;
 
     /**
      * controller层调用的服务层接口，用于查询单个搜索返回结果
@@ -119,6 +130,25 @@ public class DNAGenBaseInfoService {
             e.printStackTrace();
         }
         return resultPageInfo;
+    }
+
+    /**
+     * 获取染色体的最大长度(接口预留)
+     * @param chromosome 染色体名
+     * @return 该染色体中最长的基因长度
+     */
+    public int getLongestLength(String chromosome){
+        int length = 0;
+        Cache chromosomeCache = manager.getCache("config");
+        String key = PREFIX + chromosome;
+        Cache.ValueWrapper valueWrapper = chromosomeCache.get(key);
+        if (valueWrapper == null){
+            length = fpkmDao.getLongestLength(chromosome);
+            chromosomeCache.putIfAbsent(key, length);
+        } else {
+            length = (int) chromosomeCache.get(key).get();
+        }
+        return length;
     }
 
     public List<Associatedgenes> findAllQTLNamesByGeneId(String geneId){
