@@ -211,4 +211,8 @@ public interface FPKMDao {
      */
     List<ConsequenceEntity> getAllConsequenceTypeAndItsId(@Param("type") String type);
 
+    /**
+     * 获取染色体中基因最大长度
+     */
+    int getLongestLength(String chromosome);
 }

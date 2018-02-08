@@ -31,7 +31,7 @@ public class CacheConfig {
         //排序相关的搜索结果列表缓存
         Cache<Object, Object> sortCache = CacheBuilder.newBuilder()
                 .maximumSize(1000)
-                .expireAfterAccess(1, TimeUnit.HOURS)
+                .expireAfterAccess(3, TimeUnit.HOURS)
                 .build();
         GuavaCache sortedGuavaCache = new GuavaCache("sortCache", sortCache);
         manager.addGuavaCache(sortedGuavaCache);
