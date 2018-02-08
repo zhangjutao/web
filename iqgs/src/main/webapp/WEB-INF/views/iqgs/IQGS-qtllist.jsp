@@ -331,6 +331,8 @@
 <script src="${ctxStatic}/js/layout.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+    var data=${data};
+
     /*清除搜索框内容*/
     $(".clear-input").click(function () {
         $(".js-search-text").val("");

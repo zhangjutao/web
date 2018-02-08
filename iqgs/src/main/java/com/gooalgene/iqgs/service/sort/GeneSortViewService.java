@@ -86,7 +86,7 @@ public class GeneSortViewService implements InitializingBean {
         } else {
             String fields = getAllValidTissueProperties(tissue);
             List<String> selectedTissue = Arrays.asList(fields.split(","));
-            List<CalculateScoreResult> calculateSortedResult = geneSortDao.findCalculateSortedResult(geneIds, selectedTissue, categoryId);
+            List<CalculateScoreResult> calculateSortedResult = geneSortDao.findCalculateSortedResult(geneIds, selectedTissue, categoryId, selectedTissue.size());
             //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
             AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, calculateSortedResult);
             AsyncEventBus asyncEventBus = register.getAsyncEventBus();
@@ -208,7 +208,7 @@ public class GeneSortViewService implements InitializingBean {
         public List<CalculateScoreResult> call() throws Exception {
             List<CalculateScoreResult> views = new ArrayList<>();
             try {
-                views = geneSortDao.findCalculateSortedResult(this.geneCollection, selectedTissue, categoryId);
+                views = geneSortDao.findCalculateSortedResult(this.geneCollection, selectedTissue, categoryId, selectedTissue.size());
             }catch (Exception sqlSyntaxErrorException){
                 logger.error("查询出错,基因集合[：" + Iterables.toString(this.geneCollection) + "]", sqlSyntaxErrorException.getCause());
             }

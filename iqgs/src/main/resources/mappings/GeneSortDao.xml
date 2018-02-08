@@ -103,7 +103,7 @@
     <select id="findCalculateSortedResult" resultType="com.gooalgene.iqgs.entity.sort.CalculateScoreResult">
         SELECT
             a.gene_id,
-          (coalesce(snp_score, 0) + coalesce(indel_score, 0) + coalesce(count(k.qtl_name)*10, 0) + j.fpkmTotal) AS score
+          (coalesce(snp_score, 0) + coalesce(indel_score, 0) + coalesce(count(k.qtl_name)*10, 0) + j.fpkmTotal/#{fieldSize}) AS score
         FROM fpkm a
             LEFT JOIN (SELECT a.gene_id ,
                             CASE WHEN sum(f.score * e.consequencetype_count) / count(e.snp_id) IS NULL

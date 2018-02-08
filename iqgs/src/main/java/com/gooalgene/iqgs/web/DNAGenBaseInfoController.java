@@ -54,12 +54,6 @@ import java.util.Map;
 @Controller
 @RequestMapping("/iqgs")
 public class DNAGenBaseInfoController implements InitializingBean {
-    @RequestMapping("/me")
-    public Authentication auth() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication;
-    }
-
     Logger logger = LoggerFactory.getLogger(DNAGenBaseInfoController.class);
 
     @Autowired
@@ -111,6 +105,13 @@ public class DNAGenBaseInfoController implements InitializingBean {
         model.addAttribute("searchType", searchType);
         return "iqgs/IQGS-list";
     }
+
+    @RequestMapping("/me")
+    public Authentication auth() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        return authentication;
+    }
+
 
     /**
      * 根据基因id进行模糊查询

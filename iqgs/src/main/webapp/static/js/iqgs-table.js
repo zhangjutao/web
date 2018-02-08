@@ -1,5 +1,5 @@
 $(function () {
-    $(".total-page-count").hide();
+    // $(".total-page-count").hide();
     var CurrentTab = "SNP";
 
     function loadMask (el) {
@@ -48,8 +48,8 @@ $(function () {
         if(typeof obj == "object") {
             CTypeSnp = "all";
             CTypeIndel = "all";
-            requestForSnpData(1, obj.url, obj.params);
-            requestForIndelData(1, obj.url, obj.params);
+            requestForSnpData(1,10,obj.url, obj.params);
+            requestForIndelData(1,10, obj.url, obj.params);
             renderSearchText();
             renderTableHead();
         }
@@ -175,6 +175,7 @@ $(function () {
     }
 
     // 配置默认每页显示条数
+    var curr=1;
     var pageSizeSNP = 10;
     $("#snp-paginate .lay-per-page-count-select").val(pageSizeSNP);
 
@@ -184,15 +185,31 @@ $(function () {
 
     // 修改每页显示条数
     $(".js-snp-tab").on("change", ".lay-per-page-count-select", function() {
-        pageSizeSNP = $(this).val();
         var obj = getPanelParams();
-        requestForSnpData(1, obj.url, obj.params);
+        var currNum=Number($(".js-snp-tab .laypage_curr").text());
+        var pageSizeSNPS = Number($(this).val());
+        var total= Number($(".js-snp-tab #total-page-count span").text());
+        var mathCeil=  Math.ceil(total/currNum);
+
+        if(pageSizeSNPS>mathCeil){
+            requestForSnpData(1,pageSizeSNPS, obj.url, obj.params);
+        }else{
+            requestForSnpData(currNum,pageSizeSNPS, obj.url, obj.params);
+        }
     });
 
     $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
-        pageSizeINDEL = $(this).val();
         var obj = getPanelParams();
-        requestForIndelData(1, obj.url, obj.params);
+        var currIndelNum=Number($("#indel-paginate .laypage_curr").text());
+        var pageSizeINDEL = Number($(this).val());
+        var total= $("#indel-paginate #total-page-count span").text();
+        var mathCeil=  Math.ceil(total/currIndelNum);
+
+        if(pageSizeINDEL>mathCeil){
+            requestForIndelData(1,pageSizeINDEL, obj.url, obj.params);
+        }else{
+            requestForIndelData(currIndelNum,pageSizeINDEL, obj.url, obj.params);
+        }
     });
 
     // 分页跳转
@@ -212,20 +229,33 @@ $(function () {
     document.onkeydown = function(e) {
         var _page_skip = $('#snp-paginate .laypage_skip');
         var _page_skip2 = $('#indel-paginate .laypage_skip');
+        // var pageSizeSNPS = Number($(".js-snp-tab .lay-per-page-count-select").val());
+
+
         if(e && e.keyCode==13){ // enter 键
             if( _page_skip.hasClass("isFocus") ) {
-                if(_page_skip.val() * 1 > Math.ceil(($(".total-page-count-snp").text()*1)/pageSizeSNP)) {
-                    return alert("输入页码不能大于总页数");
-                }
+                var pageSizeSNPS = Number($(".js-snp-tab .lay-per-page-count-select").val());
+
                 var obj = getPanelParams();
-                requestForSnpData(_page_skip.val() * 1, obj.url, obj.params);
+                var total= Number($(".js-snp-tab #total-page-count span").text());
+                var currNum=Number($("#snp-paginate .laypage_skip").val());
+                var mathCeil=  Math.ceil(total/pageSizeSNPS);
+                if(currNum>mathCeil){
+                    requestForSnpData(1,pageSizeSNPS, obj.url, obj.params);
+                }else{
+                    requestForSnpData(_page_skip.val() * 1,pageSizeSNPS, obj.url, obj.params);
+                }
             }
             if(_page_skip2.hasClass("isFocus")) {
-                if(_page_skip2.val() * 1 > Math.ceil(($(".total-page-count-indel").text() *1)/pageSizeINDEL)) {
-                    return alert("输入页码不能大于总页数");
-                }
+                var pageSizeINDEL = Number($(".js-indel-tab .lay-per-page-count-select").val());
                 var obj = getPanelParams();
-                requestForIndelData(_page_skip2.val() * 1, obj.url, obj.params);
+                if(_page_skip2.val() * 1 > Math.ceil(($(".total-page-count-indel").text() *1)/pageSizeINDEL)) {
+                    var curr= 1;
+                    requestForIndelData(1,pageSizeINDEL, obj.url, obj.params);
+                    // return alert("输入页码不能大于总页数");
+                }else{
+                    requestForIndelData(_page_skip2.val() * 1,pageSizeINDEL, obj.url, obj.params);
+                }
             }
         }
     }
@@ -233,9 +263,10 @@ $(function () {
     var SNPData = [];
     var Major_Or_Minor_SNP = "major";
     // 请求数据并分页 -- SNP
-    function requestForSnpData(curr, url, params) {
+    function requestForSnpData(curr,pageSizeSNP, url, params) {
+        // console.log(pageSizeSNP)
         params['pageNo'] = curr || 1;
-        params['pageSize'] = pageSizeSNP;
+        params['pageSize'] = pageSizeSNP||10;
         params['type'] = 'SNP';
         params['ctype'] = CTypeSnp;
 
@@ -266,14 +297,17 @@ $(function () {
                     last: Math.ceil(res.total / pageSizeSNP), //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',
                     next: '>',
+                    skip: true,
                     groups: 3, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                             var tmp = getPanelParams();
-                            requestForSnpData(obj.curr, tmp.url, tmp.params);
+                            requestForSnpData(obj.curr,pageSizeSNP, tmp.url, tmp.params);
                         }
                     }
                 });
+                // $(".total-page-count-snp").html(res.total);
+                $(".js-snp-tab #total-page-count span").html(res.total);
                 $(".total-page-count-snp").html(res.total);
 
                 /*鼠标悬浮在SNP ID上显示SNP信息*/
@@ -307,7 +341,7 @@ $(function () {
     var INDELData = [];
     var Major_Or_Minor_INDEL = "major";
     // 请求数据并分页 -- INDEL
-    function requestForIndelData(curr, url, params) {
+    function requestForIndelData(curr,pageSizeINDEL, url, params) {
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeINDEL;
         params['type'] = 'INDEL';
@@ -340,14 +374,17 @@ $(function () {
                     last: Math.ceil(res.total / pageSizeINDEL), //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',
                     next: '>',
+                    skip: true,
                     groups: 3, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                            var pageSizeINDEL = Number($("#indel-paginate #per-page-count .lay-per-page-count-select").val());
                             var tmp = getPanelParams();
-                            requestForIndelData(obj.curr, tmp.url, tmp.params);
+                            requestForIndelData(obj.curr,pageSizeINDEL, tmp.url, tmp.params);
                         }
                     }
                 });
+                $("#indel-paginate #total-page-count span").html(res.total);
                 $(".total-page-count-indel").html(res.total);
 
                 /*鼠标悬浮在INDEL ID上显示INDEL信息*/
