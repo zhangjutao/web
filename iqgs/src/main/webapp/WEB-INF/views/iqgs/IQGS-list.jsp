@@ -137,12 +137,6 @@
                 <div id="expreDetail">
                     <%--<span class="expreSigle">基因表达量:种子23-45,seed,fjkldjfs</span><span class="deleteIconP">X</span>--%>
                 </div>
-                <%--<div id="snpDetail">--%>
-                <%--</div>--%>
-                <%--<div id="indelDetail">--%>
-                <%--</div>--%>
-                <%--<div id="qtlDetail">--%>
-                <%--</div>--%>
             </div>
             <p class="showClear">清空</p>
         </div>
