@@ -338,6 +338,15 @@ public class DNAGenBaseInfoController implements InitializingBean {
         return modelAndView;
     }
 
+    @RequestMapping("/getQtlByVersionAndGene")
+    @ResponseBody
+    public ResultVO getQtlByVersionAndGene(HttpServletRequest req, HttpServletResponse resp){
+        String gene = req.getParameter("gen_id");
+        Page<Qtl> page = new Page<Qtl>(req, resp);
+        Map<String, ?> stringMap = queryService.qtlSearchbyGene(gene, page);
+        return ResultUtil.success(stringMap);
+    }
+
     @RequestMapping("/detail/variation")
     public String detailForVariation(HttpServletRequest req, HttpServletResponse resp, Model model) {
         String genId = req.getParameter("gen_id");
