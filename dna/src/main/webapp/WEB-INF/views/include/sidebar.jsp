@@ -710,7 +710,7 @@
             <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
         </p>
     </div>
-    <div class="tab-detail-tbody">
+    <div class="tab-detail-tbody" style="max-height: 500px; overflow-y: auto;">
         <table class="popu-table">
             <thead>
                 <tr>
@@ -1364,6 +1364,41 @@
         $("#popu-paginate").on("blur", ".laypage_skip", function() {
             $(this).removeClass("isFocus");
         });
+
+        $("body").on("change",".lay-per-page-count-select", function() {
+            var curr = Number($(".laypage_curr").text());
+            var pageSize = Number($(this).val());
+            var total= Number($("#popu-paginate #total-page-count span").text());
+            var mathCeil=  Math.ceil(total/curr);
+            pageSizePopu = $(this).val();
+            if(pageSize>mathCeil){
+                var pageSizeNum=$(this).val();
+                getPopuTable(1,pageSizeNum)
+            }else{
+                var pageSizeNum=$(this).val();
+                getPopuTable(curr,pageSizeNum)
+            }
+        });
+
+        // 注册 enter 事件的元素
+        $(document).keyup(function (event) {
+            var _page_skip = $('#pagination .laypage_skip');
+            if (_page_skip.hasClass("isFocus")) {
+                if (event.keyCode == 13) {
+                    var _page_skip = $('#pagination .laypage_skip');
+                    var currNum = Number(_page_skip.val());
+                    var pageSizeNum = Number($('#popu-paginate #per-page-count .lay-per-page-count-select').val());
+                    var total= Number($("#popu-paginate #total-page-count span").text());
+                    var mathCeil=  Math.ceil(total/pageSizeNum);
+                    if(currNum>mathCeil){
+                        getPopuTable(1,pageSizeNum)
+                    }else{
+                        getPopuTable(currNum,pageSizeNum)
+                    }
+                }
+            }
+        });
+
         var pageSizePopu = 10;
         function getPopuTable(curr) {
             $.ajax({
@@ -1387,6 +1422,8 @@
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                                console.log(pageSizeNum)
                                 getPopuTable(obj.curr,currPopu);
                             }
                         }
@@ -1451,7 +1488,7 @@
         });
 
         /* 群体信息弹框可拖动 */
-        $( ".tab-detail" ).draggable({ containment: "body",cancel:".popu-table"});
+        $( ".tab-detail" ).draggable({ containment: "body",cancel:".popu-table,#popu-paginate"});
 
         var popuSamples = {}; // 存储选中的样本数据
 
