@@ -301,3 +301,49 @@
  * @apiErrorExample {json} Error-Response:
  * {"error": "no data"}
  */
+
+
+/**
+ * @api {get} /iqgs/getQtlByVersionAndGene
+ * @apiName getQtlByVersionAndGene
+ * @apiGroup detail
+ * @apiDescription ajax success时接收返回值
+ * @apiParam {String} gen_id
+ * @apiParam {Integer} pageNo
+ * @apiParam {Integer} pageSize
+ * @apiSuccessExample {json}Example data on success:
+ * data：
+ * {
+ *	"msg": "成功",
+*	"code": 0,
+*	"status": null,
+*	"data": {
+*		"total": 0,
+*		"data": [{
+*			"lod": 2.61,
+*			"genesNum": 96,
+*			"geneStart": 0.97,
+*			"method": "JoinMap 4.0,WinQTL Cartographer 2.5,CIM",
+*			"genes": "Glyma.01G004900,Glyma.01G005000,Glyma.01G005100,Glyma.01G005200,Glyma.01G005300,Glyma.01G005400,Glyma.01G005500,Glyma.01G005600,Glyma.01G005700,Glyma.01G005800,Glyma.01G005900,Glyma.01G006000,Glyma.01G006100,Glyma.01G006200,Glyma.01G006300,Glyma.01G006400,Glyma.01G006500,Glyma.01G006600,Glyma.01G006700,Glyma.01G006800,Glyma.01G006900,Glyma.01G007000,Glyma.01G007100,Glyma.01G007200,Glyma.01G007300,Glyma.01G007400,Glyma.01G007500,Glyma.01G007600,Glyma.01G007700,Glyma.01G007800,Glyma.01G007900,Glyma.01G008000,Glyma.01G008100,Glyma.01G008200,Glyma.01G008300,Glyma.01G008400,Glyma.01G008500,Glyma.01G008600,Glyma.01G008700,Glyma.01G008800,Glyma.01G008900,Glyma.01G009000,Glyma.01G009100,Glyma.01G009200,Glyma.01G009300,Glyma.01G009400,Glyma.01G009500,Glyma.01G009600,Glyma.01G009700,Glyma.01G009800,Glyma.01G009900,Glyma.01G010000,Glyma.01G010100,Glyma.01G010200,Glyma.01G010300,Glyma.01G010400,Glyma.01G010500,Glyma.01G010600,Glyma.01G010700,Glyma.01G010800,Glyma.01G010900,Glyma.01G011000,Glyma.01G011100,Glyma.01G011200,Glyma.01G011300,Glyma.01G011400,Glyma.01G011500,Glyma.01G011600,Glyma.01G011700,Glyma.01G011800,Glyma.01G011900,Glyma.01G012000,Glyma.01G012100,Glyma.01G012200,Glyma.01G012300,Glyma.01G012400,Glyma.01G012500,Glyma.01G012600,Glyma.01G012700,Glyma.01G012800,Glyma.01G012900,Glyma.01G013000,Glyma.01G013100,Glyma.01G013200,Glyma.01G013300,Glyma.01G013400,Glyma.01G013500,Glyma.01G013600,Glyma.01G013700,Glyma.01G013800,Glyma.01G013900,Glyma.01G014000,Glyma.01G014100,Glyma.01G014200,Glyma.01G014300,Glyma.01G014400",
+*			"author": "Akond et al. 2012",
+*			"type": "QTL_yield",
+*			"chr": "Chr01",
+*			"version": "Gmax_275_v2.0",
+*			"markerlg": "D1a(1)",
+*			"parent1": "PI 438489B",
+*			"marker1": "Tel750",
+*			"ref": "Quantitative trait loci associated with moisture, protein, and oil content in soybean&nbsp;J. Ag. Sci. 2012, 4(11):16-25",
+*			"trait": "Row spacing response",
+*			"id": 13974,
+*			"lg": "D1a",
+*			"qtlName": "Row spacing response 3-1",
+*			"marker2": "",
+*			"parent2": "Hamilton",
+*			"geneEnd": 2.97
+*		}],
+*		"gene": "Glyma.01G004900",
+*		"pageNo": 1,
+*		"pageSize": 10
+*	}
+*}
+ */
