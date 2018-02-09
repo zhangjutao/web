@@ -11,7 +11,7 @@
 	<title>IQGS details</title>
 	<link rel="stylesheet" href="${ctxStatic}/css/public.css">
 	<link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
-    <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
+	<link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
 
 	<link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
 	<!--jquery-1.11.0-->
@@ -118,30 +118,30 @@
 							<div id="line" style="height: 400px; margin: 20px 0; min-width: 310px; width: 100%; "></div>
 						</div>
 					</div>
-                    <div class="expressionTable">
-                    <table id="expression-table">
-                        <thead>
-                        <tr>
-                            <td>Gene ID</td>
-							<td class="param t_experiment">Expression value</td>
-                            <td>Experiment ID</td>
-                            <td class="t_sampleName">Sample Name</td>
-                            <td class="param t_study">Study</td>
-                            <td class="param t_tissue">Tissue</td>
-                            <td class="param t_stage">Stage</td>
-                            <td class="param t_treat">Treat</td>
-                            <td class="param t_geneType">GeneType</td>
-                            <td class="param t_cultivar">Cultivar</td>
-                            <td class="param t_scientificName">ScientificName</td>
-                            <td class="param t_sampleRun">Run</td>
-                            <td class="param t_sraStudy">SRAStudy</td>
-                        </tr>
-                        </thead>
-                        <tbody>
+					<div class="expressionTable">
+						<table id="expression-table">
+							<thead>
+							<tr>
+								<td>Gene ID</td>
+								<td class="param t_experiment">Expression value</td>
+								<td>Experiment ID</td>
+								<td class="t_sampleName">Sample Name</td>
+								<td class="param t_study">Study</td>
+								<td class="param t_tissue">Tissue</td>
+								<td class="param t_stage">Stage</td>
+								<td class="param t_treat">Treat</td>
+								<td class="param t_geneType">GeneType</td>
+								<td class="param t_cultivar">Cultivar</td>
+								<td class="param t_scientificName">ScientificName</td>
+								<td class="param t_sampleRun">Run</td>
+								<td class="param t_sraStudy">SRAStudy</td>
+							</tr>
+							</thead>
+							<tbody>
 
-                        </tbody>
-                    </table>
-                    </div>
+							</tbody>
+						</table>
+					</div>
 				</div>
 				<div class="checkbox-item-tab" id="snp-paginate">
 					<%@ include file="/WEB-INF/views/include/pagination.jsp" %>
@@ -274,16 +274,16 @@
                     sourceWidth: 1000,
                     scale: 2
                 },
-				plotOptions: {
+                plotOptions: {
                     series: {
                         cursor: 'pointer',
-						events: {
+                        events: {
                             click: function(event) {
                                 $("#specificForm").submit();
-							}
-						}
-					}
-				},
+                            }
+                        }
+                    }
+                },
                 tooltip: {
                     shared: true,
                     formatter: function() {
@@ -469,16 +469,18 @@
 
         }
 
-        var pageSize = 10;
-        $(".lay-per-page-count-select").val(pageSize);
+//        var pageSize = 10;
+        var page = {curr: 1, pageSize:10};
+
+        $(".lay-per-page-count-select").val(page.pageSize);
         // 获取表格数据+分页
-        function initTables(curr){
+        function initTables(currNum,pageSizeNum){
             loadMask ("#mask-test");
             $.getJSON('${ctxroot}/iqgs/queryExpressionByGene', {
-                pageNo: curr || 1,
-                pageSize: pageSize,
+                pageNo: currNum || 1,
+                pageSize: pageSizeNum|| 10,
                 gene: "${genId}"
-            }, function(res){
+            }, function(res,currNum){
                 maskClose();
                 //显示表格内容
                 if(res.data.length==0){
@@ -492,17 +494,22 @@
                 //显示分页
                 laypage({
                     cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
-                    curr: curr || 1, //当前页
+                    pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
+                    curr: page.curr || 1, //当前页
                     skin: '#5c8de5',
+                    skip: true,
+                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                    last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',
                     next: '>',
-                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
                     groups: 3, //连续显示分页数
                     jump: function(obj, first){ //触发分页后的回调
                         if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
-                            initTables(obj.curr);
+                            var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+//                            initTables(obj.curr);
+                            page.curr = obj.curr;
+                            var currNum=obj.curr;
+                            initTables(currNum,pageSizeNum);
                         }
                         if(res.data.length==0){
                             $("#tableBody").html("<p class='no-data'>无数据显示!</p>")
@@ -531,31 +538,31 @@
                 str += '<td>'+ eleData[i].study.sampleRun +'</td>';
                 str += '<td>'+ eleData[i].study.sraStudy +'</td>';
                 str += '</tr>';
-			}
+            }
             $("#expression-table > tbody").empty().append(str);
 
             $(".js-tipes-show").hover(
-                    function(){
-                        if($(this).text()!==""){
-                            var _text=$(this).text()
-                            var self = this;
-                            var content = "";
-                            content += "<div>"+_text+"</div>";
-                            $.pt({
-                                target: self,
-                                position: 't',
-                                align: 'l',
-                                autoClose: false,
-                                content: content
-                            });
+                function(){
+                    if($(this).text()!==""){
+                        var _text=$(this).text()
+                        var self = this;
+                        var content = "";
+                        content += "<div>"+_text+"</div>";
+                        $.pt({
+                            target: self,
+                            position: 't',
+                            align: 'l',
+                            autoClose: false,
+                            content: content
+                        });
 //                            $(".pt").css("left", $(".pt").position().left-15);
-                        }else{
-                            $(".pt").remove();
-                        }
-                    },
-                    function(){
+                    }else{
                         $(".pt").remove();
                     }
+                },
+                function(){
+                    $(".pt").remove();
+                }
             )
         }
 
@@ -564,10 +571,57 @@
         <%--getTable('${genId}');--%>
 
         // 修改每页显示条数
+//        $("body").on("change",".lay-per-page-count-select", function() {
+//            pageSize = $(this).val();
+//            initTables(1)
+//        });
         $("body").on("change",".lay-per-page-count-select", function() {
-            pageSize = $(this).val();
-            initTables(1)
+            var curr = Number($(".laypage_curr").text());
+            var pageSize = Number($(this).val());
+            var total= $("#total-page-count span").text();
+
+            var mathCeil=  Math.ceil(total/curr);
+            page.pageSize = $(this).val();
+            if(pageSize>mathCeil){
+                var pageSizeNum=$(this).val();
+                page.curr = 1;
+                initTables(1,pageSizeNum)
+            }else{
+                var pageSizeNum=$(this).val();
+                initTables(curr,pageSizeNum)
+            }
         });
+
+        // 分页跳转
+        $("#pagination").on("focus", ".laypage_total .laypage_skip", function () {
+            $(this).addClass("isFocus");
+        });
+        $("#pagination").on("blur", ".laypage_total .laypage_skip", function () {
+            $(this).removeClass("isFocus");
+        });
+        // 注册 enter 事件的元素
+        $(document).keyup(function (event) {
+            var _page_skip = $('#pagination .laypage_skip');
+            if (_page_skip.hasClass("isFocus")) {
+                if (event.keyCode == 13) {
+                    var _page_skip = $('#pagination .laypage_skip');
+                    var curr = Number(_page_skip.val());
+                    var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                    var total= $("#total-page-count span").text();
+                    var mathCeil=  Math.ceil(total/pageSizeNum);
+                    if (curr>mathCeil) {
+                        page.curr = 1;
+                        initTables(1,pageSizeNum)
+                    }else{
+                        page.curr = curr;
+                        initTables(curr,pageSizeNum)
+                    }
+                }
+            }
+        });
+
+
+
         /*列表初始化*/
         initTables(1);
 

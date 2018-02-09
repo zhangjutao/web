@@ -187,91 +187,91 @@
                 </div>
 
                 <c:if test="${not empty data}">
-                <div class="explain-b">
-                    <div class="checkbox-tab">
-                        <table class="checkbox-list">
-                            <thead>
-                            <tr>
-                                <td class="param t_id">ID</td>
-                                <td class="param t_qtlName">QTL Name</td>
-                                <td class="param trait t_trait">Trait</td>
-                                <td class="param t_type">Type</td>
-                                <td class="param t_chr">Chr</td>
-                                <td class="param t_LG">LG</td>
-                                <td class="param t_method">Method</td>
-                                <td class="param t_marker1">Marker1</td>
-                                <td class="param t_marker2">Marker2</td>
-                                <td class="param t_genesNum">Genes</td>
-                                <td class="param t_lod">LOD</td>
-                                <td class="param t_parent1">Parent1</td>
-                                <td class="param t_parent2">Parent2</td>
-                                <td class="param t_genomeStart">Genome start(cM)</td>
-                                <td class="param t_genomeEnd">Genome end(cM)</td>
-                                <td class="param t_author">Reference</tr>
-                            </thead>
-                            <tbody class="item-tab">
-                            <c:forEach items="${data}" var="item">
+                    <div class="explain-b">
+                        <div class="checkbox-tab">
+                            <table class="checkbox-list">
+                                <thead>
                                 <tr>
-                                    <td class="t_id">${item.id}</td>
-                                    <td class="t_qtlName"><a class="qtlname" target="_blank"
-                                                             href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>
-                                    </td>
-                                    <td class="t_trait">${item.trait}</td>
-                                    <td class="t_type">${item.type}</td>
-                                    <c:set var="chrStr" value="${item.chr}"></c:set>
-                                    <c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>
-                                    <c:choose>
-                                        <c:when test="${fn:startsWith(num, '0')}">
-                                            <c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>
-                                        </c:when>
-                                        <c:when test="${fn:startsWith(num, '0') == false}">
-                                            <c:set var="lg" value="${num}"></c:set>
-                                        </c:when>
-                                    </c:choose>
-                                    <td class="t_chr"><a  target="_blank"
-                                            href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>
-                                    </td>
-                                    <td class="t_lg"><a  target="_blank"
-                                            href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>
-                                    </td>
-                                    <td class="t_method">${item.method}</td>
-                                    <td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"
-                                                             data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>
-                                    </td>
-                                    <td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"
-                                                             data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>
-                                    </td>
-                                    <td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"
-                                                              data-txt="${item.genes}">${item.genesNum}</a></td>
-                                    <td class="t_lod">${item.lod}</td>
-                                    <td class="t_parent1">${item.parent1}</td>
-                                    <td class="t_parent2">${item.parent2}</td>
-                                    <td class="t_genomeStart">${item.geneStart}</td>
-                                    <td class="t_genomeEnd">${item.geneEnd}</td>
-                                    <td class="t_author">
-                                        <a class="js-author-pop" href="javascript:;"
-                                           data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>
+                                    <td class="param t_id">ID</td>
+                                    <td class="param t_qtlName">QTL Name</td>
+                                    <td class="param trait t_trait">Trait</td>
+                                    <td class="param t_type">Type</td>
+                                    <td class="param t_chr">Chr</td>
+                                    <td class="param t_LG">LG</td>
+                                    <td class="param t_method">Method</td>
+                                    <td class="param t_marker1">Marker1</td>
+                                    <td class="param t_marker2">Marker2</td>
+                                    <td class="param t_genesNum">Genes</td>
+                                    <td class="param t_lod">LOD</td>
+                                    <td class="param t_parent1">Parent1</td>
+                                    <td class="param t_parent2">Parent2</td>
+                                    <td class="param t_genomeStart">Genome start(cM)</td>
+                                    <td class="param t_genomeEnd">Genome end(cM)</td>
+                                    <td class="param t_author">Reference</tr>
+                                </thead>
+                                <tbody class="item-tab">
+                                <c:forEach items="${data}" var="item">
+                                    <tr>
+                                        <td class="t_id">${item.id}</td>
+                                        <td class="t_qtlName"><a class="qtlname" target="_blank"
+                                                                 href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>
+                                        </td>
+                                        <td class="t_trait">${item.trait}</td>
+                                        <td class="t_type">${item.type}</td>
+                                        <c:set var="chrStr" value="${item.chr}"></c:set>
+                                        <c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>
+                                        <c:choose>
+                                            <c:when test="${fn:startsWith(num, '0')}">
+                                                <c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>
+                                            </c:when>
+                                            <c:when test="${fn:startsWith(num, '0') == false}">
+                                                <c:set var="lg" value="${num}"></c:set>
+                                            </c:when>
+                                        </c:choose>
+                                        <td class="t_chr"><a  target="_blank"
+                                                              href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>
+                                        </td>
+                                        <td class="t_lg"><a  target="_blank"
+                                                             href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>
+                                        </td>
+                                        <td class="t_method">${item.method}</td>
+                                        <td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"
+                                                                 data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>
+                                        </td>
+                                        <td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"
+                                                                 data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>
+                                        </td>
+                                        <td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"
+                                                                  data-txt="${item.genes}">${item.genesNum}</a></td>
+                                        <td class="t_lod">${item.lod}</td>
+                                        <td class="t_parent1">${item.parent1}</td>
+                                        <td class="t_parent2">${item.parent2}</td>
+                                        <td class="t_genomeStart">${item.geneStart}</td>
+                                        <td class="t_genomeEnd">${item.geneEnd}</td>
+                                        <td class="t_author">
+                                            <a class="js-author-pop" href="javascript:;"
+                                               data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>
 
-                                        <div class="author-pop-tab" style="display: none">
-                                            <div class="information-title">
-                                                <p>REFERENCE</p>
-                                                <button class="close-pop">X</button>
+                                            <div class="author-pop-tab" style="display: none">
+                                                <div class="information-title">
+                                                    <p>REFERENCE</p>
+                                                    <button class="close-pop">X</button>
+                                                </div>
+                                                <div class="information-tab">
+                                                    <table>
+                                                    </table>
+                                                </div>
                                             </div>
-                                            <div class="information-tab">
-                                                <table>
-                                                </table>
-                                            </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            </c:forEach>
-                            </tbody>
-                        </table>
+                                        </td>
+                                    </tr>
+                                </c:forEach>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="ktPaginate">
+                                ${page}
+                        </div>
                     </div>
-                    <div class="ktPaginate">
-                        ${page}
-                    </div>
-                </div>
                 </c:if>
                 <c:if test="${empty data}">
                     <div class="explain-b" style="text-align: center">
@@ -331,6 +331,8 @@
 <script src="${ctxStatic}/js/layout.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+    var data=${data};
+
     /*清除搜索框内容*/
     $(".clear-input").click(function () {
         $(".js-search-text").val("");
@@ -464,26 +466,26 @@
         $(".set-up").hide();
     })
     $(".lg").hover(
-            function (e) {
-                $(".lg-item").show();
-                $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
-            },
-            function (e) {
-                $(".lg-item").hide();
-                $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
+        function (e) {
+            $(".lg-item").show();
+            $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
+        },
+        function (e) {
+            $(".lg-item").hide();
+            $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
 
-            }
+        }
     );
     $(".chr").hover(
-            function (e) {
-                $(".chr-item").show();
-                $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
-            },
-            function (e) {
-                $(".chr-item").hide();
-                $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
+        function (e) {
+            $(".chr-item").show();
+            $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
+        },
+        function (e) {
+            $(".chr-item").hide();
+            $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
 
-            }
+        }
     );
     var search_select = '${type}';
     if (search_select) {
@@ -802,7 +804,7 @@
         $(".genesInfo").hide();
     })
     $(".js-search-text").on("focus", function() {
-       $(this).addClass("isFocus");
+        $(this).addClass("isFocus");
     });
     $(".js-search-text").on("blur", function() {
         $(this).removeClass("isFocus");

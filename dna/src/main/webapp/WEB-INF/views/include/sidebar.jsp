@@ -201,7 +201,7 @@
                             </div>
                         </div>
                         <%--<div class="flowering-data " data-name="floweringDate">--%>
-                            <%--<label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>--%>
+                        <%--<label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>--%>
                         <%--</div>--%>
                         <div class="mature-data " data-name="maturityDate">
                             <label><b  class="category-title">熟期组 :</b><span>0</span><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span></label> </div>
@@ -218,10 +218,10 @@
                             <label>
                                 <b  class="category-title">粒色(种皮色):</b>
                                 <p>
-                                <span>Bl - Black</span><span>Striped</span><span>Y - Yellow</span><span>Ggn - Grayish green</span>
-                                <span>Gn - Green</span><span>Rbr - Reddish brown</span><span>Br - Brown</span><span>Lgn - Light green</span>
-                                <span>Ib - Imperfect black</span><span>Gnbr - Greenish brown</span><span>dull yellow with black hila</span><span>dull yellow with imperfect black hila</span>
-                                <span>Wye - White yellow</span><span>Lye - Light yellow</span>
+                                    <span>Bl - Black</span><span>Striped</span><span>Y - Yellow</span><span>Ggn - Grayish green</span>
+                                    <span>Gn - Green</span><span>Rbr - Reddish brown</span><span>Br - Brown</span><span>Lgn - Light green</span>
+                                    <span>Ib - Imperfect black</span><span>Gnbr - Greenish brown</span><span>dull yellow with black hila</span><span>dull yellow with imperfect black hila</span>
+                                    <span>Wye - White yellow</span><span>Lye - Light yellow</span>
                                 </p>
                             </label>
                         </div>
@@ -229,11 +229,11 @@
                             <label>
                                 <b  class="category-title">种脐色:</b>
                                 <p>
-                                <span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark Brown</span><span>Lbf - Light buff</span>
-                                <span>Bf - Buff</span><span>Gn - Green</span><span>Y - Yellow</span><span>Dib - Dark imperfect black</span>
-                                <span>Brbl - Brown w/black</span><span>Rbr - Reddish brown</span><span>Lbl - Light black</span><span>Ib - Imperfect black</span>
-                                <span>G - Gray</span><span>Tn - Tan</span><span>H - Hazel</span><span>Gnbr - Greenish-brown</span>
-                                <span>Dbf - Dark buff</span><span>W - White</span><span>Lye - Light Yellow</span><span>C - Colorless</span>
+                                    <span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark Brown</span><span>Lbf - Light buff</span>
+                                    <span>Bf - Buff</span><span>Gn - Green</span><span>Y - Yellow</span><span>Dib - Dark imperfect black</span>
+                                    <span>Brbl - Brown w/black</span><span>Rbr - Reddish brown</span><span>Lbl - Light black</span><span>Ib - Imperfect black</span>
+                                    <span>G - Gray</span><span>Tn - Tan</span><span>H - Hazel</span><span>Gnbr - Greenish-brown</span>
+                                    <span>Dbf - Dark buff</span><span>W - White</span><span>Lye - Light Yellow</span><span>C - Colorless</span>
                                 </p>
                             </label>
                         </div>
@@ -710,37 +710,37 @@
             <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
         </p>
     </div>
-    <div class="tab-detail-tbody">
+    <div class="tab-detail-tbody" style="max-height: 500px; overflow-y: auto;">
         <table class="popu-table">
             <thead>
-                <tr>
-                    <td class="species" rowspan="2">物种</td>
-                    <td class="locality" rowspan="2">位置</td>
-                    <td class="sampleName" rowspan="2">样品名</td>
-                    <td class="cultivar" rowspan="2">品种名</td>
-                    <td class="weightPer100seeds" rowspan="2">百粒重(g)</td>
-                    <td class="oil" rowspan="2">含油量(%)</td>
-                    <td class="protein" rowspan="2">蛋白质含量(%)</td>
-                    <%--<td class="floweringDate" rowspan="2">开花日期(月日)</td>--%>
-                    <td class="maturityDate" rowspan="2">熟期组</td>
-                    <td class="height" rowspan="2">株高(cm)</td>
-                    <td class="seedCoatColor" rowspan="2">种皮色</td>
-                    <td class="hilumColor" rowspan="2">种脐色</td>
-                    <td class="cotyledonColor"  rowspan="2">子叶色</td>
-                    <td class="flowerColor" rowspan="2">花色</td>
-                    <td class="podColor" rowspan="2">荚色</td>
-                    <td class="pubescenceColor" rowspan="2">茸毛色</td>
-                    <td class="yield" rowspan="2">产量(Mg/ha)</td>
-                    <td class="upperLeafletLength" rowspan="2">顶端小叶长度(mm)</td>
-                    <td colspan="5" >脂肪酸(%)</td>
-                </tr>
-                <tr>
-                    <td class="linoleic">亚油酸</td>
-                    <td class="linolenic">亚麻酸</td>
-                    <td class="oleic">油酸</td>
-                    <td class="palmitic">软脂酸</td>
-                    <td class="stearic">硬脂酸</td>
-                </tr>
+            <tr>
+                <td class="species" rowspan="2">物种</td>
+                <td class="locality" rowspan="2">位置</td>
+                <td class="sampleName" rowspan="2">样品名</td>
+                <td class="cultivar" rowspan="2">品种名</td>
+                <td class="weightPer100seeds" rowspan="2">百粒重(g)</td>
+                <td class="oil" rowspan="2">含油量(%)</td>
+                <td class="protein" rowspan="2">蛋白质含量(%)</td>
+                <%--<td class="floweringDate" rowspan="2">开花日期(月日)</td>--%>
+                <td class="maturityDate" rowspan="2">熟期组</td>
+                <td class="height" rowspan="2">株高(cm)</td>
+                <td class="seedCoatColor" rowspan="2">种皮色</td>
+                <td class="hilumColor" rowspan="2">种脐色</td>
+                <td class="cotyledonColor"  rowspan="2">子叶色</td>
+                <td class="flowerColor" rowspan="2">花色</td>
+                <td class="podColor" rowspan="2">荚色</td>
+                <td class="pubescenceColor" rowspan="2">茸毛色</td>
+                <td class="yield" rowspan="2">产量(Mg/ha)</td>
+                <td class="upperLeafletLength" rowspan="2">顶端小叶长度(mm)</td>
+                <td colspan="5" >脂肪酸(%)</td>
+            </tr>
+            <tr>
+                <td class="linoleic">亚油酸</td>
+                <td class="linolenic">亚麻酸</td>
+                <td class="oleic">油酸</td>
+                <td class="palmitic">软脂酸</td>
+                <td class="stearic">硬脂酸</td>
+            </tr>
             </thead>
             <tbody>
             </tbody>
@@ -1119,63 +1119,63 @@
         window.renderTableHead = function () {
             var str = '', str2 = '';
             var commonStr = '<li data-value="all">ALL</li>'+
-                    '<li data-type="type" data-value="downstream">Downstream</li>'+
-                    '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
-                    '<li data-type="effect" data-value="nonsynonymous SNV">Exonic_nonsynonymous SNV</li>'+
-                    '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
-                    '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>' +
-                    '<li data-type="effect" data-value="synonymous SNV">Exonic_synonymous SNV</li>' +
-                    '<li data-type="type" data-value="intergenic">Intergenic</li>'+
-                    '<li data-type="type" data-value="intronic">Intronic</li>'+
-                    '<li data-type="type" data-value="splicing">Splicing</li>'+
-                    '<li data-type="type" data-value="upstream">Upstream</li>'+
-                    '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>'+
-                    '<li data-type="type" data-value="UTR3">3&acute;UTR</li>'+
-                    '<li data-type="type" data-value="UTR5">5&acute;UTR</li>' +
-                    '<li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>';
+                '<li data-type="type" data-value="downstream">Downstream</li>'+
+                '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
+                '<li data-type="effect" data-value="nonsynonymous SNV">Exonic_nonsynonymous SNV</li>'+
+                '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
+                '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>' +
+                '<li data-type="effect" data-value="synonymous SNV">Exonic_synonymous SNV</li>' +
+                '<li data-type="type" data-value="intergenic">Intergenic</li>'+
+                '<li data-type="type" data-value="intronic">Intronic</li>'+
+                '<li data-type="type" data-value="splicing">Splicing</li>'+
+                '<li data-type="type" data-value="upstream">Upstream</li>'+
+                '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>'+
+                '<li data-type="type" data-value="UTR3">3&acute;UTR</li>'+
+                '<li data-type="type" data-value="UTR5">5&acute;UTR</li>' +
+                '<li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>';
             var commonStr2 = '<li data-value="all">ALL</li>'+
-                    '<li data-type="type" data-value="downstream">Downstream</li>'+
-                    '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
-                    '<li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>'+
-                    '<li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>'+
-                    '<li data-type="effect" data-value="frameshift insertion">Exonic_nonframeshift deletion</li>'+
-                    '<li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>'+
-                    '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
-                    '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>'+
-                    '<li data-type="type" data-value="intergenic">Intergenic</li>'+
-                    '<li data-type="type" data-value="intronic">Intronic</li>'+
-                    '<li data-type="type" data-value="splicing">Splicing</li>'+
-                    '<li data-type="type" data-value="upstream">Upstream</li>'+
-                    '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>'+
-                    '<li data-type="type" data-value="UTR3">3&acute;UTR</li>'+
-                    '<li data-type="type" data-value="UTR5">5&acute;UTR</li>'+
-                    '<li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>';
+                '<li data-type="type" data-value="downstream">Downstream</li>'+
+                '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
+                '<li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>'+
+                '<li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>'+
+                '<li data-type="effect" data-value="frameshift insertion">Exonic_nonframeshift deletion</li>'+
+                '<li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>'+
+                '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
+                '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>'+
+                '<li data-type="type" data-value="intergenic">Intergenic</li>'+
+                '<li data-type="type" data-value="intronic">Intronic</li>'+
+                '<li data-type="type" data-value="splicing">Splicing</li>'+
+                '<li data-type="type" data-value="upstream">Upstream</li>'+
+                '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>'+
+                '<li data-type="type" data-value="UTR3">3&acute;UTR</li>'+
+                '<li data-type="type" data-value="UTR5">5&acute;UTR</li>'+
+                '<li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>';
 
             var headStr = '<td class="t_snpid">SNP ID</td>' +
-                        '<td class="param t_consequenceType">Consequence Type'+
-                        '<img src="${ctxStatic}/images/down.png">'+
-                        '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">'+ commonStr +
-                        '</ul> </div></td>'+
-                        '<td class="param t_snpchromosome">Chromosome</td>'+
-                        '<td class="param t_position">Position</td>'+
-                        '<td class="param t_snpreference">Reference</td>'+
-                        '<td class="param t_majorAllele">Major Allele</td>'+
-                        '<td class="param t_minorAllele">Minor Allele</td>'+
-                        '<td class="param t_fmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
-                        '<option value="minor">Frequency of Minor Allele</option></select></td>'+
-                        '<td class="param t_genoType">Genotype</td>';
+                '<td class="param t_consequenceType">Consequence Type'+
+                '<img src="${ctxStatic}/images/down.png">'+
+                '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">'+ commonStr +
+                '</ul> </div></td>'+
+                '<td class="param t_snpchromosome">Chromosome</td>'+
+                '<td class="param t_position">Position</td>'+
+                '<td class="param t_snpreference">Reference</td>'+
+                '<td class="param t_majorAllele">Major Allele</td>'+
+                '<td class="param t_minorAllele">Minor Allele</td>'+
+                '<td class="param t_fmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
+                '<option value="minor">Frequency of Minor Allele</option></select></td>'+
+                '<td class="param t_genoType">Genotype</td>';
             var headStr2 = '<td class="t_indels">INDEL ID</td>' +
-                        '<td class="param t_iconsequenceType">Consequence Type'+
-                        '<img src="${ctxStatic}/images/down.png">'+
-                        '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">'+ commonStr2 +
-                        '</ul> </div></td>'+
-                        '<td class="param t_indelchromosome">Chromosome</td>'+
-                        '<td class="param t_iposition">Position</td>'+
-                        '<td class="param t_indelreference">Reference</td>'+
-                        '<td class="param t_imajorAllele">Major Allele</td>'+
-                        '<td class="param t_iminorAllele">Minor Allele</td>'+
-                        '<td class="param t_ifmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
-                        '<option value="minor">Frequency of Minor Allele</option></select></td>';
+                '<td class="param t_iconsequenceType">Consequence Type'+
+                '<img src="${ctxStatic}/images/down.png">'+
+                '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">'+ commonStr2 +
+                '</ul> </div></td>'+
+                '<td class="param t_indelchromosome">Chromosome</td>'+
+                '<td class="param t_iposition">Position</td>'+
+                '<td class="param t_indelreference">Reference</td>'+
+                '<td class="param t_imajorAllele">Major Allele</td>'+
+                '<td class="param t_iminorAllele">Minor Allele</td>'+
+                '<td class="param t_ifmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
+                '<option value="minor">Frequency of Minor Allele</option></select></td>';
             if(selectedPopulations.length > 0) {
                 var resultPopulations = selectedPopulations;
             } else {
@@ -1183,18 +1183,18 @@
             }
             $.each(resultPopulations, function(idx, item) {
                 str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
-                        '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
+                    '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
 
                 headStr += '<td title="'+ item.name +'" class="param t_fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'">' +
-                            '<select class="f-ma">' +
-                            '<option value="major">Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                            '<option value="minor">Frequency of Minor Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                            '</select>' +'</td>'
+                    '<select class="f-ma">' +
+                    '<option value="major">Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</option>' +
+                    '<option value="minor">Frequency of Minor Allele in '+ item.name.substr(0, 20) +'...</option>' +
+                    '</select>' +'</td>'
                 headStr2 += '<td title="'+ item.name +'" class="param t_fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'">' +
-                            '<select class="f-ma">' +
-                            '<option value="major">Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                            '<option value="minor">Frequency of Minor Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                            '</select>' +'</td>'
+                    '<select class="f-ma">' +
+                    '<option value="major">Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</option>' +
+                    '<option value="minor">Frequency of Minor Allele in '+ item.name.substr(0, 20) +'...</option>' +
+                    '</select>' +'</td>'
             });
             $(".js-table-header-setting-snp > span").empty().append(str);
             $(".js-table-header-setting-indel > span").empty().append(str);
@@ -1207,18 +1207,18 @@
         // 封装手动删除品种名/localStorage 中的值
         function deleteLocalKind (kindId,self){
             // 判断删除的是不是品种
-                var currPval = $(self).prev().find("div").text().substring(0,3);
-                if (currPval == "品种名"){
-                    var kindStorage = JSON.parse(storage.getItem("kind"));
-                    var sdKinds = kindStorage.name;
-                      for (var i=0;i<sdKinds.length;i++){
-                        if(sdKinds[i].id == kindId){
-                            sdKinds.splice(i,1);
-                        }
+            var currPval = $(self).prev().find("div").text().substring(0,3);
+            if (currPval == "品种名"){
+                var kindStorage = JSON.parse(storage.getItem("kind"));
+                var sdKinds = kindStorage.name;
+                for (var i=0;i<sdKinds.length;i++){
+                    if(sdKinds[i].id == kindId){
+                        sdKinds.splice(i,1);
                     }
-                   storage.removeItem("kind");
-                    storage.setItem("kind",JSON.stringify(kindStorage));
                 }
+                storage.removeItem("kind");
+                storage.setItem("kind",JSON.stringify(kindStorage));
+            }
         };
         /* 删除手动添加的自定义群体 */
         $("body").on("click",".js-del-dd",function(){
@@ -1275,8 +1275,8 @@
                 currPopu = selectPopulation(popId)[0];
                 getPopuTable(1);
             }
-        // 弹框所有表头都显示
-           var trs = $(".popu-table thead").find("tr");
+            // 弹框所有表头都显示
+            var trs = $(".popu-table thead").find("tr");
             for(var i=0;i<trs.length;i++){
                 var trChildrens = $(trs[i]).find("td");
                 for(var j=0;j<trChildrens.length;j++){
@@ -1340,7 +1340,7 @@
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
-             popId  = $(this).parent("label").attr("data-index");
+            popId  = $(this).parent("label").attr("data-index");
             currPopu = selectDefaulPopulation(popId)[0];
             getPopuTable(1);
             // 弹框所有表头都显示
@@ -1364,6 +1364,41 @@
         $("#popu-paginate").on("blur", ".laypage_skip", function() {
             $(this).removeClass("isFocus");
         });
+
+        $("body").on("change",".lay-per-page-count-select", function() {
+            var curr = Number($(".laypage_curr").text());
+            var pageSize = Number($(this).val());
+            var total= Number($("#popu-paginate #total-page-count span").text());
+            var mathCeil=  Math.ceil(total/curr);
+            pageSizePopu = $(this).val();
+            if(pageSize>mathCeil){
+                var pageSizeNum=$(this).val();
+                getPopuTable(1,pageSizeNum)
+            }else{
+                var pageSizeNum=$(this).val();
+                getPopuTable(curr,pageSizeNum)
+            }
+        });
+
+        // 注册 enter 事件的元素
+        $(document).keyup(function (event) {
+            var _page_skip = $('#pagination .laypage_skip');
+            if (_page_skip.hasClass("isFocus")) {
+                if (event.keyCode == 13) {
+                    var _page_skip = $('#pagination .laypage_skip');
+                    var currNum = Number(_page_skip.val());
+                    var pageSizeNum = Number($('#popu-paginate #per-page-count .lay-per-page-count-select').val());
+                    var total= Number($("#popu-paginate #total-page-count span").text());
+                    var mathCeil=  Math.ceil(total/pageSizeNum);
+                    if(currNum>mathCeil){
+                        getPopuTable(1,pageSizeNum)
+                    }else{
+                        getPopuTable(currNum,pageSizeNum)
+                    }
+                }
+            }
+        });
+
         var pageSizePopu = 10;
         function getPopuTable(curr) {
             $.ajax({
@@ -1387,6 +1422,8 @@
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                                console.log(pageSizeNum)
                                 getPopuTable(obj.curr,currPopu);
                             }
                         }
@@ -1416,7 +1453,7 @@
             });
             $(".popu-table > tbody").empty().append(str);
         }
-         // 弹框 筛选确认按钮
+        // 弹框 筛选确认按钮
 
         $(".js-popu-setting-btn").click(function(){
             var _labels = $(".js-table-header-setting-popu").find("label");
@@ -1430,11 +1467,11 @@
             });
             // 判断脂肪酸是否显示
             var linoleic1 ,linolenic1,oleic1,palmitic1,stearic1;
-               var linoleic2 =  $(".js-table-header-setting-popu").find("label[for='linoleic']").attr("class");
-               var linolenic2 =  $(".js-table-header-setting-popu").find("label[for='linolenic']").attr("class");
-               var oleic2 =  $(".js-table-header-setting-popu").find("label[for='oleic']").attr("class");
-               var palmitic2 =  $(".js-table-header-setting-popu").find("label[for='palmitic']").attr("class");
-               var stearic2 =  $(".js-table-header-setting-popu").find("label[for='stearic']").attr("class");
+            var linoleic2 =  $(".js-table-header-setting-popu").find("label[for='linoleic']").attr("class");
+            var linolenic2 =  $(".js-table-header-setting-popu").find("label[for='linolenic']").attr("class");
+            var oleic2 =  $(".js-table-header-setting-popu").find("label[for='oleic']").attr("class");
+            var palmitic2 =  $(".js-table-header-setting-popu").find("label[for='palmitic']").attr("class");
+            var stearic2 =  $(".js-table-header-setting-popu").find("label[for='stearic']").attr("class");
             if(!linoleic2 && !linolenic2 && !oleic2 && !palmitic2 && !stearic2){
                 $(".popu-table thead").find("td[colspan='5']").hide();
             }else {
@@ -1451,7 +1488,7 @@
         });
 
         /* 群体信息弹框可拖动 */
-        $( ".tab-detail" ).draggable({ containment: "body",cancel:".popu-table"});
+        $( ".tab-detail" ).draggable({ containment: "body",cancel:".popu-table,#popu-paginate"});
 
         var popuSamples = {}; // 存储选中的样本数据
 
@@ -1462,7 +1499,7 @@
             $(this).addClass("js-span-ac");
 
             var sampleName = $(this).parents("label").parent().attr("data-name"),
-            sampleValue = $(this).text();
+                sampleValue = $(this).text();
             popuSamples[sampleName] = sampleValue;
             renderSampleText();
 
@@ -1701,7 +1738,7 @@
         }
         linkEndPosition();
         $(".js-chorosome").change(function() {
-           linkEndPosition();
+            linkEndPosition();
         });
 
         /* 定义 Region & Gene 搜索条件 */

@@ -104,15 +104,15 @@
             window.location = "${ctxroot}/iqgs/detail/family?gen_id=${genId}&family_id="+$(this).text();
         });
 
-        function requestPageData(){
+        function requestPageData(currNum,pageSizeNum){
             $.getJSON('${ctxroot}/iqgs/detail/family/page', {
-                pageNo: page.curr || 1,
-                pageSize: page.pageSize || 10,
+                pageNo: currNum || 1,
+                pageSize: pageSizeNum || 10,
                 family_id: '${familyId}'
             }, resultCallback);
         }
 
-        function resultCallback(res) {
+        function resultCallback(res,currNum) {
             // 关闭遮罩层
             renderList(res.data);
             laypage({
@@ -120,7 +120,7 @@
                 pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                 curr: page.curr || 1, //当前页
                 skin: '#5c8de5',
-//                skip: true,
+                skip: true,
                 first: 1, //将首页显示为数字1,。若不显示，设置false即可
                 last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                 prev: '<',
@@ -128,8 +128,10 @@
                 groups: 3, //连续显示分页数
                 jump: function (obj, first) { //触发分页后的回调
                     if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                        var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
                         page.curr = obj.curr;
-                        requestPageData();
+                        var currNum=obj.curr;
+                        requestPageData(currNum,pageSizeNum);
                     }
                 }
             });
@@ -138,9 +140,51 @@
 
         // 修改每页显示条数
         $("body").on("change",".lay-per-page-count-select", function() {
+            var curr = Number($(".laypage_curr").text());
+            var pageSize = Number($(this).val());
+            var total= $("#total-page-count span").text();
+
+            var mathCeil=  Math.ceil(total/curr);
             page.pageSize = $(this).val();
-            requestPageData(1)
+            if(pageSize>mathCeil){
+                var pageSizeNum=$(this).val();
+                page.curr = 1;
+                requestPageData(1,pageSizeNum)
+            }else{
+                var pageSizeNum=$(this).val();
+                requestPageData(curr,pageSizeNum)
+            }
         });
+
+        // 分页跳转
+        $("#pagination").on("focus", ".laypage_total .laypage_skip", function () {
+            $(this).addClass("isFocus");
+        });
+        $("#pagination").on("blur", ".laypage_total .laypage_skip", function () {
+            $(this).removeClass("isFocus");
+        });
+        // 注册 enter 事件的元素
+        $(document).keyup(function (event) {
+            var _page_skip = $('#pagination .laypage_skip');
+            if (_page_skip.hasClass("isFocus")) {
+                if (event.keyCode == 13) {
+                    var _page_skip = $('#pagination .laypage_skip');
+                    var curr = Number(_page_skip.val());
+                    var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                    var total= $("#total-page-count span").text();
+                    var mathCeil=  Math.ceil(total/pageSizeNum);
+                    if (curr>mathCeil) {
+                        page.curr = 1;
+                        requestPageData(1,pageSizeNum)
+                    }else{
+                        page.curr = curr;
+                        requestPageData(curr,pageSizeNum)
+                    }
+                }
+            }
+        });
+
+
         /*列表初始化*/
         requestPageData(1);
 
@@ -353,10 +397,10 @@
                     // label文字
                     var gene_name = single_gene_g.append("g").attr("class", "gene_name");
 
-                   var gene_id= gene_name.append("text").attr("class", "labelGeneID").attr("transform", "translate( 10 ,10 )")
-                       .text(json.data[i].geneID).attr("dominant-baseline", "middle").style("font-size", "12px");
+                    var gene_id= gene_name.append("text").attr("class", "labelGeneID").attr("transform", "translate( 10 ,10 )")
+                        .text(json.data[i].geneID).attr("dominant-baseline", "middle").style("font-size", "12px");
                     var labelGeneName = gene_name.append("text").attr("class", "labelGeneName").attr("transform", "translate( 10 ,26)").style("cursor", "pointer")
-                    .attr('title',json.data[i].geneName).text(json.data[i].geneName).attr("dominant-baseline", "middle").style("font-size", "12px");
+                        .attr('title',json.data[i].geneName).text(json.data[i].geneName).attr("dominant-baseline", "middle").style("font-size", "12px");
                     gene_name.on("click", function () {
                         targetGeneArray = [];
                         targetGeneArray.push(d3.select(this).select('.labelGeneID').text())
@@ -406,23 +450,23 @@
                 window.open("${ctxroot}/specific/index?genes="+geneArray.join(","));
             }
         }
-            //基因名称悬浮框显示
-                $('.gene_name .labelGeneName').hover(function () {
+        //基因名称悬浮框显示
+        $('.gene_name .labelGeneName').hover(function () {
 //                    $(this).attr("fill", "#5C8CE6")
-                    var self = this;
-                    var cont = $(this).attr("title");
-                    if($(this).text()!==""&&cont.length>15){
-                        $.pt({
-                            target: self,
-                            content: cont
-                        })
-                    }
-                },function(){
-//                    $(this).attr("fill", "#000000");
-                    if( $(".pt").css("display")=='block' ){
-                        $("body .pt").css("display","none");
-                  }
+            var self = this;
+            var cont = $(this).attr("title");
+            if($(this).text()!==""&&cont.length>15){
+                $.pt({
+                    target: self,
+                    content: cont
                 })
+            }
+        },function(){
+//                    $(this).attr("fill", "#000000");
+            if( $(".pt").css("display")=='block' ){
+                $("body .pt").css("display","none");
+            }
+        })
     </script>
 </c:if>
 

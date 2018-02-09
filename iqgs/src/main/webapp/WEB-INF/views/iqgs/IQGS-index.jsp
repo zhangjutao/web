@@ -43,7 +43,7 @@
                 <div id="GeneIdName" class="tab-pane tab-pane-ac" style="margin-left:20px;">
                     <p class="search-title">Search By Gene ID</p>
                     <label>
-                        <input class="search-input" id="key_name" type="text" name="search" placeholder="输入您要查找的关键字">
+                        <input class="search-input" id="key_name" type="text" name="search" onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255"  placeholder="输入您要查找的关键字">
                         <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                         <button id="btn_name" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
@@ -54,7 +54,7 @@
                 <div id="GeneFunction" class="tab-pane" style="margin-left:20px;">
                     <p class="search-title">Search By Gene Function/Name</p>
                     <label>
-                        <input id="key_func" class="search-input" type="text" name="search" placeholder="输入您要查找的关键字">
+                        <input id="key_func" class="search-input" type="text" name="search" onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255" placeholder="输入您要查找的关键字">
                         <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                         <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
@@ -97,7 +97,7 @@
                 <div id="qtlAdd" class="tab-pane" style="margin-left:20px;">
                     <p class="search-title">Search By QTL</p>
                     <label>
-                        <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
+                        <input class="search-input" id="qtlName" type="text" name="search" onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255" placeholder="输入您要查找的关键字">
                         <button id="QtlBtnName" class="search-btn" ><img src="${ctxStatic}/images/search.png">搜索</button>
                     </label>
                     <div id="qtlErrorTip">

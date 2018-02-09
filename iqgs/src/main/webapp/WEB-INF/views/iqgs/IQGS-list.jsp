@@ -30,13 +30,13 @@
             <li class="geneIdName"><a class="">Search By Gene ID</a></li>
             <li class="geneFunction"><a class="">Search By Gene Function/Name</a></li>
             <li class="region"><a class="">Search By Region</a></li>
-            <li class="qtl active"><a class="">Search By QTL</a></li>
+            <li class="qtl"><a class="">Search By QTL</a></li>
         </ul>
         <div id="myTabContent" class="tab-content">
             <div id="GeneIdName" class="tab-pane tab-pane-ac" style="margin-left:20px;">
                 <p class="search-title">Search By Gene ID</p>
                 <label>
-                    <input class="search-input" id="key_name" type="text" name="search" placeholder="输入您要查找的关键字">
+                    <input class="search-input" id="key_name" type="text" onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')"  maxlength="255" name="search" placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img
                             src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_name" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
@@ -49,7 +49,7 @@
             <div id="GeneFunction" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By Gene Function/Name</p>
                 <label>
-                    <input id="key_func" class="search-input" type="text" name="search" placeholder="输入您要查找的关键字">
+                    <input id="key_func" class="search-input" type="text"onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255" name="search" placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img
                             src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
@@ -61,34 +61,31 @@
             <div id="Region" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By Region</p>
                 <select class="js-region">
-                    <option value="Chr01" data-max="">Chr01</option>
-                    <option value="Chr02" data-max="">Chr02</option>
-                    <option value="Chr03" data-max="">Chr03</option>
-                    <option value="Chr04" data-max="">Chr04</option>
-                    <option value="Chr05" data-max="">Chr05</option>
-                    <option value="Chr06" data-max="">Chr06</option>
-                    <option value="Chr07" data-max="">Chr07</option>
-                    <option value="Chr08" data-max="">Chr08</option>
-                    <option value="Chr09" data-max="">Chr09</option>
-                    <option value="Chr10" data-max="">Chr10</option>
-                    <option value="Chr11" data-max="">Chr11</option>
-                    <option value="Chr12" data-max="">Chr12</option>
-                    <option value="Chr13" data-max="">Chr13</option>
-                    <option value="Chr14" data-max="">Chr14</option>
-                    <option value="Chr15" data-max="">Chr15</option>
-                    <option value="Chr16" data-max="">Chr16</option>
-                    <option value="Chr17" data-max="">Chr17</option>
-                    <option value="Chr18" data-max="">Chr18</option>
-                    <option value="Chr19" data-max="">Chr19</option>
-                    <option value="Chr20" data-max="">Chr20</option>
+                    <option value="Chr01" data-max="56831624">Chr01</option>
+                    <option value="Chr02" data-max="48577505">Chr02</option>
+                    <option value="Chr03" data-max="45779781">Chr03</option>
+                    <option value="Chr04" data-max="52389146">Chr04</option>
+                    <option value="Chr05" data-max="42234498">Chr05</option>
+                    <option value="Chr06" data-max="51416486">Chr06</option>
+                    <option value="Chr07" data-max="44630646">Chr07</option>
+                    <option value="Chr08" data-max="47837940">Chr08</option>
+                    <option value="Chr09" data-max="50189764">Chr09</option>
+                    <option value="Chr10" data-max="51566898">Chr10</option>
+                    <option value="Chr11" data-max="34766867">Chr11</option>
+                    <option value="Chr12" data-max="40091314">Chr12</option>
+                    <option value="Chr13" data-max="45874162">Chr13</option>
+                    <option value="Chr14" data-max="49042192">Chr14</option>
+                    <option value="Chr15" data-max="51756343">Chr15</option>
+                    <option value="Chr16" data-max="37887014">Chr16</option>
+                    <option value="Chr17" data-max="41641366">Chr17</option>
+                    <option value="Chr18" data-max="58018742">Chr18</option>
+                    <option value="Chr19" data-max="50746916">Chr19</option>
+                    <option value="Chr20" data-max="47904181">Chr20</option>
                 </select>
                 <div>
-                    <input id="rg_begin" class="region-input region-s" type="number" name="search"
-                           placeholder="输入您要查找的数值"><span class="s-line"></span>
-                    <input id="rg_end" class="region-input region-e" type="number" name="search"
-                           placeholder="输入您要查找的数值">
-                    <span class="clear-input" style="display: none"><img
-                            src="${ctxStatic}/images/clear-search.png"></span>
+                    <input id="rg_begin" class="region-input region-s" type="number" name="search"  onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="输入您要查找的数值"><span class="s-line"></span>
+                    <input id="rg_end" class="region-input region-e" type="number" name="search" onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="输入您要查找的数值">
+                    <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_range" class="region-search"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </div>
                 <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
@@ -97,7 +94,7 @@
             <div id="qtlAdd" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By QTL</p>
                 <label>
-                    <input class="search-input" id="qtlName" type="text" name="search" placeholder="输入您要查找的关键字">
+                    <input class="search-input" id="qtlName" type="text" onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255" name="search" placeholder="输入您要查找的关键字">
                     <button id="QtlBtnName" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <div id="qtlErrorTip">
@@ -293,7 +290,7 @@
     <div class="search-result" style="margin-top:16px;">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
-            <p class="result-text">您的搜索条件为:<span> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息
+            <p class="result-text" style="display: flex">您的搜索条件为:<span title="${keyword}" style="display: block; width: 600px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息
             </p>
             <button id="sort_btn_px" class="sort_btn">排序</button>
         </div>
@@ -459,7 +456,11 @@
             case 3:
                 geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
                 geneStructure.start = Number($("#rg_begin").val().trim());
-                geneStructure.end = Number($("#rg_end").val().trim());
+                if ($("#rg_end").val() > 1000000000) {
+                    geneStructure.end = 1000000000;
+                }else{
+                    geneStructure.end = Number($("#rg_end").val().trim());
+                }
                 dataParam.geneStructure = geneStructure;
                 dataParam.firstHierarchyQtlId = [];
                 break;
@@ -490,7 +491,7 @@
 
     // 高级搜索 --》代码封装
 
-    function advanceSearchFn(dataParam,currNums,pageSize) {
+    function advanceSearchFn(dataParam, currNums, pageSize) {
         var promise = SendAjaxRequest("POST", window.ctxROOT + "/advance-search/advanceSearch", JSON.stringify(dataParam));
         promise.then(
             function (result) {
@@ -498,7 +499,7 @@
                 layer.closeAll();
                 if (result.code == 0 && result.data.list.length != 0) {
                     var type = 5;
-                    resultCallback(result, type,currNums,pageSize);
+                    resultCallback(result, type, currNums, pageSize);
                 } else {
                     laypage({
                         cont: 'paginationCnt',//容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -585,29 +586,29 @@
         if (searchType == 1) {
             if (flag == 0) {
                 // 调用第一个一级搜索获取数据
-                searchOne(page.curr,pageSize);
+                searchOne(page.curr, pageSize);
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam,page.curr,pageSize);
+                advanceSearchFn(dataParam, page.curr, pageSize);
             }
         } else if (searchType == 2) {
             if (flag == 0) {
                 // 调用第二个一级搜索获取数据
-                searchTwo(page.curr,pageSize)
+                searchTwo(page.curr, pageSize)
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam,page.curr,pageSize);
+                advanceSearchFn(dataParam, page.curr, pageSize);
             }
         } else if (searchType == 3) {
             if (flag == 0) {
                 // 调用第三个一级搜索获取数据
-                searchThree(page.curr,pageSize);
+                searchThree(page.curr, pageSize);
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam,page.curr,pageSize);
+                advanceSearchFn(dataParam, page.curr, pageSize);
             }
         } else if (searchType == 4) {
             if (flag == 0) {
@@ -616,10 +617,11 @@
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
-                advanceSearchFn(dataParam,page.curr,pageSize);
+                advanceSearchFn(dataParam, page.curr, pageSize);
             }
         }
     }
+
     // 第一个一级搜索获取数据
     function searchOne(currNums, pageSize) {
         // 根据一级搜索来分页
@@ -634,7 +636,7 @@
     }
 
     //第二个一级搜索获取数据
-    function searchTwo(currNums,pageSize) {
+    function searchTwo(currNums, pageSize) {
         $.getJSON('${ctxroot}/iqgs/search/func', {
             pageNo: currNums || 1,
             pageSize: pageSize || 10,
@@ -646,12 +648,18 @@
     }
 
     //第三个一级搜索获取数据
-    function searchThree(currNums,pageSize) {
+    function searchThree(currNums, pageSize) {
+        var rgEnd = $("#rg_end").val();
+        if ($("#rg_end").val() > 1000000000) {
+//            $("#rg_end").val("1000000000")
+            var rgEnd=1000000000;
+        }
+
         $.getJSON('${ctxroot}/iqgs/search/range', {
             pageNo: currNums || 1,
             pageSize: pageSize || 10,
             begin: $("#rg_begin").val(),
-            end: $("#rg_end").val(),
+            end: rgEnd,
             chr: $(".js-region").val()
         }, function (res) {
             var type = 3;
@@ -684,7 +692,7 @@
         })
     }
 
-    function resultCallback(res, type, currNums,pageSize) {
+    function resultCallback(res, type, currNums, pageSize) {
         $("span.js-search-total").text(res.data.total);
         $("#total-page-count1 span").text(res.data.total);
         renderList(res.data.list, currNums);
@@ -711,7 +719,7 @@
                     var dataParam = getParams();
                     dataParam.pageNo = page.curr;
                     dataParam.pageSize = page.pageSize;
-                    advanceSearchFn(dataParam,dataParam.pageNo,dataParam.pageSize);
+                    advanceSearchFn(dataParam, dataParam.pageNo, dataParam.pageSize);
                 }
             }
         });
@@ -809,18 +817,18 @@
             } else if (searchType == 2) {
                 if (currs * pageSize > total) {
                     var currNums = 1;
-                    searchTwo(currNums,pageSize);
+                    searchTwo(currNums, pageSize);
                 } else {
                     var currNums = currs;
-                    searchTwo(currNums,pageSize);
+                    searchTwo(currNums, pageSize);
                 }
             } else if (searchType == 3) {
                 if (currs * pageSize > total) {
                     var currNums = 1;
-                    searchThree(currNums,pageSize);
+                    searchThree(currNums, pageSize);
                 } else {
                     var currNums = currs;
-                    searchThree(currNums,pageSize);
+                    searchThree(currNums, pageSize);
                 }
             } else {
                 if (currs * pageSize > total) {
@@ -837,14 +845,14 @@
                 var dataParam = getParams();
                 dataParam.pageSize = pageSize;
 
-                advanceSearchFn(dataParam,currNums);
+                advanceSearchFn(dataParam, currNums);
             } else {
                 var dataParam = getParams();
                 var currNums = currs;
 //                var currNums = page.curr;
-            dataParam.pageNo = currs;
-            dataParam.pageSize = pageSize;
-                advanceSearchFn(dataParam,currNums);
+                dataParam.pageNo = currs;
+                dataParam.pageSize = pageSize;
+                advanceSearchFn(dataParam, currNums);
             }
         }
     });
@@ -870,11 +878,11 @@
                 var currs = Number($(".laypage_curr").text());
                 var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
                 var total = Number($("#total-page-count1 span").text());
-                var mathCeil=  Math.ceil(total/pageSize);
+                var mathCeil = Math.ceil(total / pageSize);
 
                 if (flag == 0) {
                     if (searchType == 1) {
-                        if (pageNo>mathCeil) {
+                        if (pageNo > mathCeil) {
                             var currNums = 1;
                             searchOne(currNums, pageSize);
                         } else {
@@ -882,23 +890,23 @@
                             searchOne(currNums, pageSize);
                         }
                     } else if (searchType == 2) {
-                        if (pageNo>mathCeil) {
+                        if (pageNo > mathCeil) {
                             var currNums = 1;
-                            searchTwo(currNums,pageSize);
+                            searchTwo(currNums, pageSize);
                         } else {
                             var currNums = pageNo;
-                            searchTwo(currNums,pageSize);
+                            searchTwo(currNums, pageSize);
                         }
                     } else if (searchType == 3) {
-                        if (pageNo>mathCeil) {
+                        if (pageNo > mathCeil) {
                             var currNums = 1;
-                            searchThree(currNums,pageSize);
+                            searchThree(currNums, pageSize);
                         } else {
                             var currNums = pageNo;
-                            searchThree(currNums,pageSize);
+                            searchThree(currNums, pageSize);
                         }
                     } else {
-                        if (pageNo>mathCeil) {
+                        if (pageNo > mathCeil) {
                             var currNums = 1;
                             getQtlNameData(currs, pageSize, currNums);
                         } else {
@@ -906,18 +914,18 @@
                         }
                     }
                 } else {
-                    if (pageNo>mathCeil) {
+                    if (pageNo > mathCeil) {
                         var currNums = 1;
                         var dataParam = getParams();
                         dataParam.pageSize = pageSize;
 
-                        advanceSearchFn(dataParam,currNums);
+                        advanceSearchFn(dataParam, currNums);
                     } else {
                         var dataParam = getParams();
                         var currNums = page.curr;
                         dataParam.pageNo = pageNo;
                         dataParam.pageSize = pageSize;
-                        advanceSearchFn(dataParam,pageNo,pageSize);
+                        advanceSearchFn(dataParam, pageNo, pageSize);
                     }
                 }
             }
@@ -1058,6 +1066,17 @@
             }
         )
     }
+
+    //Search By Region 下拉框切换 超过10亿，按10亿给后台传值
+    function linkEndPosition() {
+        var chromosomeMax = $(".js-region option:selected").attr("data-max");
+        $("#rg_end").attr("placeholder", "<= " + chromosomeMax);
+    }
+    linkEndPosition();
+    $(".js-region").change(function () {
+        linkEndPosition();
+    });
+
 
 </script>
 
