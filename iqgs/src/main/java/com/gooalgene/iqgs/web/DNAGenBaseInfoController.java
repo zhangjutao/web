@@ -344,7 +344,8 @@ public class DNAGenBaseInfoController implements InitializingBean {
         String gene = req.getParameter("gen_id");
         Page<Qtl> page = new Page<Qtl>(req, resp);
         Map<String, ?> stringMap = queryService.qtlSearchbyGene(gene, page);
-        return ResultUtil.success(stringMap);
+        ResultVO success = ResultUtil.success(stringMap);
+        return success;
     }
 
     @RequestMapping("/detail/variation")
