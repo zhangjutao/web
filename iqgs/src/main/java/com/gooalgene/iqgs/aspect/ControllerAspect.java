@@ -16,11 +16,11 @@ import java.lang.reflect.Method;
  * 对整合数据库中Controller接口返回的任何异常导致前台500错误,统一返回
  * 采用AOP机制
  */
-@Aspect
+//@Aspect
 public class ControllerAspect {
     private final static Logger logger = LoggerFactory.getLogger(ControllerAspect.class);
 
-    @Around("execution(* com.gooalgene.iqgs.web.*.*(..)) && @annotation(org.springframework.web.bind.annotation.ResponseBody)")
+    /*@Around("execution(* com.gooalgene.iqgs.web.*.*(..)) && @annotation(org.springframework.web.bind.annotation.ResponseBody)")
     public Object catchException(ProceedingJoinPoint call){
         MethodSignature signature = (MethodSignature) call.getSignature();
         Method method = signature.getMethod();
@@ -33,5 +33,5 @@ public class ControllerAspect {
             result = ResultUtil.error(500, "服务器出错");
         }
         return result;
-    }
+    }*/
 }
