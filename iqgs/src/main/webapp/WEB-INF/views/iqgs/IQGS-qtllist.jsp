@@ -390,9 +390,9 @@
 //
 //        }
         /*拖动弹框*/
-        $(".js-pop").draggable({ containment: "body" });
-        $( ".author-pop-tab" ).draggable({ containment: "body" });
-        $( ".tab-detail" ).draggable({ containment: "body" });
+        $(".js-pop").draggable({ containment: "body",cancel:".js-pop-body" });
+        $( ".author-pop-tab" ).draggable({ containment: "body",cancel:".js-pop-body"  });
+        $( ".tab-detail" ).draggable({ containment: "body",cancel:".tab-detail-tbody"  });
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
@@ -406,7 +406,6 @@
             });
 
         }
-
 
         /* 设置表头 */
         $(".btn-confirm").click(function () {
