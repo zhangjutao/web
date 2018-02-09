@@ -130,7 +130,6 @@
             top: 60px;
             left: 25%;
             z-index: 11;
-            border: 1px solid #e6e6e6;
         }
 
         .author-pop-tab:before {
@@ -147,6 +146,7 @@
         }
 
         .author-pop-tab .information-title {
+            position: relative;
             height: 50px;
             line-height: 50px;
             text-align: center;
@@ -157,19 +157,29 @@
         }
 
         .checkbox-tab .information-title button {
-            float: right;
-            color: #666;
+            color: #fff;
             margin-right: 20px;
-            margin-top: -38px;
-            background-color: #f5f8ff;
+            background-color: #386cca;
             border: none;
             font-size: 20px;
             cursor: pointer;
+            position: absolute;
+            right: 0;
+            top: 8px;
         }
         .js-pop-head,.information-title,.tab-detail-thead{cursor: move;}
         .checkbox-list thead{background-color: #f5f8ff}
         .checkbox-list thead td img{width: 18px}
         .item-tab tr:nth-child(even){background-color: #f5f8ff}
+       .information-title .topTc{
+           width: 100%;
+           height: 40px;
+            line-height: 40px;
+            background-color: #386cca;
+            color: #fff;
+            text-align: center;
+            padding: 0px;
+       }
     </style>
 </head>
 <body>
@@ -185,9 +195,8 @@
                 <div class="explain-h">
                     <p>QTL数据</p>
                 </div>
-
-                <c:if test="${not empty data}">
-                    <div class="explain-b">
+                <%--<c:if test="${not empty data}">--%>
+                    <div class="explain-b" style="padding-top: 0px;">
                         <div class="checkbox-tab">
                             <table class="checkbox-list">
                                 <thead>
@@ -210,75 +219,76 @@
                                     <td class="param t_author">Reference</tr>
                                 </thead>
                                 <tbody class="item-tab">
-                                <c:forEach items="${data}" var="item">
-                                    <tr>
-                                        <td class="t_id">${item.id}</td>
-                                        <td class="t_qtlName"><a class="qtlname" target="_blank"
-                                                                 href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>
-                                        </td>
-                                        <td class="t_trait">${item.trait}</td>
-                                        <td class="t_type">${item.type}</td>
-                                        <c:set var="chrStr" value="${item.chr}"></c:set>
-                                        <c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>
-                                        <c:choose>
-                                            <c:when test="${fn:startsWith(num, '0')}">
-                                                <c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>
-                                            </c:when>
-                                            <c:when test="${fn:startsWith(num, '0') == false}">
-                                                <c:set var="lg" value="${num}"></c:set>
-                                            </c:when>
-                                        </c:choose>
-                                        <td class="t_chr"><a  target="_blank"
-                                                              href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>
-                                        </td>
-                                        <td class="t_lg"><a  target="_blank"
-                                                             href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>
-                                        </td>
-                                        <td class="t_method">${item.method}</td>
-                                        <td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"
-                                                                 data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>
-                                        </td>
-                                        <td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"
-                                                                 data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>
-                                        </td>
-                                        <td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"
-                                                                  data-txt="${item.genes}">${item.genesNum}</a></td>
-                                        <td class="t_lod">${item.lod}</td>
-                                        <td class="t_parent1">${item.parent1}</td>
-                                        <td class="t_parent2">${item.parent2}</td>
-                                        <td class="t_genomeStart">${item.geneStart}</td>
-                                        <td class="t_genomeEnd">${item.geneEnd}</td>
-                                        <td class="t_author">
-                                            <a class="js-author-pop" href="javascript:;"
-                                               data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>
-
-                                            <div class="author-pop-tab" style="display: none">
-                                                <div class="information-title">
-                                                    <p>REFERENCE</p>
-                                                    <button class="close-pop">X</button>
-                                                </div>
-                                                <div class="information-tab">
-                                                    <table>
-                                                    </table>
-                                                </div>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </c:forEach>
+                                <%--<c:forEach items="${data}" var="item">--%>
+                                    <%--<tr>--%>
+                                        <%--<td class="t_id">${item.id}</td>--%>
+                                        <%--<td class="t_qtlName">--%>
+                                            <%--<a class="qtlname" target="_blank" href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>--%>
+                                        <%--</td>--%>
+                                        <%--<td class="t_trait">${item.trait}</td>--%>
+                                        <%--<td class="t_type">${item.type}</td>--%>
+                                        <%--<c:set var="chrStr" value="${item.chr}"></c:set>--%>
+                                        <%--<c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>--%>
+                                        <%--<c:choose>--%>
+                                            <%--<c:when test="${fn:startsWith(num, '0')}">--%>
+                                                <%--<c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>--%>
+                                            <%--</c:when>--%>
+                                            <%--<c:when test="${fn:startsWith(num, '0') == false}">--%>
+                                                <%--<c:set var="lg" value="${num}"></c:set>--%>
+                                            <%--</c:when>--%>
+                                        <%--</c:choose>--%>
+                                        <%--<td class="t_chr">--%>
+                                            <%--<a  target="_blank" href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>--%>
+                                        <%--</td>--%>
+                                        <%--<td class="t_lg">--%>
+                                            <%--<a  target="_blank" href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>--%>
+                                        <%--</td>--%>
+                                        <%--<td class="t_method">${item.method}</td>--%>
+                                        <%--<td class="t_marker1">--%>
+                                            <%--<a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>--%>
+                                        <%--</td>--%>
+                                        <%--<td class="t_marker2">--%>
+                                            <%--<a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>--%>
+                                        <%--</td>--%>
+                                        <%--<td class="t_genesNum">--%>
+                                            <%--<a class="js-pop-genes" href="javascript:;" data-txt="${item.genes}">${item.genesNum}</a></td>--%>
+                                        <%--<td class="t_lod">${item.lod}</td>--%>
+                                        <%--<td class="t_parent1">${item.parent1}</td>--%>
+                                        <%--<td class="t_parent2">${item.parent2}</td>--%>
+                                        <%--<td class="t_genomeStart">${item.geneStart}</td>--%>
+                                        <%--<td class="t_genomeEnd">${item.geneEnd}</td>--%>
+                                        <%--<td class="t_author">--%>
+                                            <%--<a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>--%>
+                                            <%--<div class="author-pop-tab" style="display: none">--%>
+                                                <%--<div class="information-title">--%>
+                                                    <%--<p>REFERENCE</p>--%>
+                                                    <%--<button class="close-pop">X</button>--%>
+                                                <%--</div>--%>
+                                                <%--<div class="information-tab">--%>
+                                                    <%--<table>--%>
+                                                    <%--</table>--%>
+                                                <%--</div>--%>
+                                            <%--</div>--%>
+                                        <%--</td>--%>
+                                    <%--</tr>--%>
+                                <%--</c:forEach>--%>
                                 </tbody>
                             </table>
                         </div>
-                        <div class="ktPaginate">
-                                ${page}
+                        <div class="checkbox-item-tab" id="snp-paginate">
+                            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
                         </div>
+                        <%--<div class="ktPaginate">--%>
+                                <%--${page}--%>
+                        <%--</div>--%>
                     </div>
-                </c:if>
-                <c:if test="${empty data}">
-                    <div class="explain-b" style="text-align: center">
-                        <img src="${ctxStatic}/images/nodata.png">
-                        <div style="padding-top: 10px">无QTL数据</div>
-                    </div>
-                </c:if>
+                <%--</c:if>--%>
+                <%--<c:if test="${empty data}">--%>
+                    <%--<div class="explain-b" style="text-align: center">--%>
+                        <%--<img src="${ctxStatic}/images/nodata.png">--%>
+                        <%--<div style="padding-top: 10px">无QTL数据</div>--%>
+                    <%--</div>--%>
+                <%--</c:if>--%>
             </div>
         </div>
     </div>
@@ -329,10 +339,11 @@
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
 <script src="${ctxStatic}/js/layout.js"></script>
-<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="${ctxStatic}/js/jquery-ui.js"></script>
+<script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script>
-    var data=${data};
-
+    /*列表初始化*/
+    initTables(1,10);
     /*清除搜索框内容*/
     $(".clear-input").click(function () {
         $(".js-search-text").val("");
@@ -373,7 +384,6 @@
             return null;
     }
 
-    console.log(getCookie('showedCols'));
     $(function () {
 //        var currentPage = getParamsString("pageNo");
 //        if(!currentPage && currentPage*1 > 1) {
@@ -386,7 +396,6 @@
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
-                console.log($(this).val());
                 for (var i = 0; i < cols.length; i++) {
                     if ($(this).val() == cols[i]) {
                         $(this).prop("checked", false);
@@ -601,7 +610,6 @@
             }
         });
         var choices = colArr.join(",");
-        console.log(choices)
         $("#search8").val(choices);
         $("#exportForm").submit();
     });
@@ -636,7 +644,6 @@
 
     $(".js-search-text").keydown(function (event) {
         if (event.keyCode == 13) {
-            console.log(event.keyCode)
         }
     })
     $(".nav_ac .icon-right").click(function () {
@@ -652,6 +659,8 @@
         $(".nav_ac").show();
     })
 
+//    Reference弹窗
+    function referenceTc(){
     $(".js-author-pop").click(function (e) {
 
         var url = $(this).attr("data-src");
@@ -663,7 +672,6 @@
             type: "get",
             dataType: "json",
             success: function (data) {
-                console.log(data)
                 var tbody = "";
                 tbody += "<tbody>"
                 tbody += "   <tr>"
@@ -692,7 +700,6 @@
                     $("#mid").show();
                     $(".links-pop").show();
                     var txt = $(this).attr("data-txt");
-                    console.log(txt + "----");
                     $(".links-text").html("<p>" + txt + "</p>")
 
 
@@ -704,11 +711,12 @@
         var yy = e.pageY
 
     })
-    $(".close-pop").click(function (e) {
-        $(".author-pop-tab").hide();
-        $("#mid").hide();
-    })
 
+        $(".close-pop").click(function (e) {
+            $(".author-pop-tab").hide();
+            $("#mid").hide();
+        })
+    }
 
     /*表头*/
     $(".btn-confirm").click(function () {
@@ -736,7 +744,6 @@
                 type: "get",
                 dataType: "json",
                 success: function (data) {
-                    console.log(data);
                     var pop = "";
                     pop += "<tr>"
                     pop += "  <td>Name</td>"
@@ -771,9 +778,9 @@
             })
         })
     }
-    pop(".js-pop-marker1", "marker1")
-    pop(".js-pop-marker2", "marker2")
+
     /*genes 弹框*/
+    function genesTc() {
     $(".js-pop-genes").click(function (e) {
         e.preventDefault();
         $("#mid").show();
@@ -788,7 +795,7 @@
             $(".tab-category-list").append(span)
         }
     });
-
+    }
     $("body").on("click", ".js-gene-info", function (e) {
         var version = getUrlParam("version");
         var geneName = $(this).attr("data-gene-name");
@@ -829,9 +836,146 @@
                     $(this).siblings("p").find(".btn-confirm-info").trigger("click");
                 }
             });
-
         }
     });
+
+
+
+    // 分页跳转
+    $("#pagination").on("focus", ".laypage_total .laypage_skip", function () {
+        $(this).addClass("isFocus");
+    });
+    $("#pagination").on("blur", ".laypage_total .laypage_skip", function () {
+        $(this).removeClass("isFocus");
+    });
+    // 注册 enter 事件的元素
+    $(document).keyup(function (event) {
+        var _page_skip = $('#pagination .laypage_skip');
+        if (_page_skip.hasClass("isFocus")) {
+            if (event.keyCode == 13) {
+                var _page_skip = $('#pagination .laypage_skip');
+                var curr = Number(_page_skip.val());
+                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                var total= $("#total-page-count span").text();
+                var mathCeil=  Math.ceil(total/pageSizeNum);
+                if (curr>mathCeil) {
+                    page.curr = 1;
+                    initTables(1,pageSizeNum)
+                }else{
+                    page.curr = curr;
+                    initTables(curr,pageSizeNum)
+                }
+            }
+        }
+    });
+
+    // 修改每页显示条数
+    $("body").on("change",".lay-per-page-count-select", function() {
+        var curr = Number($(".laypage_curr").text());
+        var pageSize = Number($(this).val());
+        var total= $("#total-page-count span").text();
+
+        var mathCeil=  Math.ceil(total/curr);
+        page.pageSize = $(this).val();
+        if(pageSize>mathCeil){
+            var pageSizeNum=$(this).val();
+            page.curr = 1;
+            initTables(1,pageSizeNum)
+        }else{
+            var pageSizeNum=$(this).val();
+            initTables(curr,pageSizeNum)
+        }
+    });
+
+    var page = {curr: 1, pageSize:10};
+
+//    $(".lay-per-page-count-select").val(page.pageSize);
+    // 获取表格数据+分页
+    function initTables(currNum,pageSizeNum){
+        $.getJSON('${ctxroot}/iqgs/getQtlByVersionAndGene', {
+            pageNo: currNum || 1,
+            pageSize: pageSizeNum|| 10,
+            gen_id: "${genId}"
+        }, function(res,currNum){
+            //显示表格内容
+            if(res.data.data.length==0){
+                $(".checkbox-tab").html("<div class='explain-b' style='text-align: center'><img src='${ctxStatic}/images/nodata.png'><div style='padding-top: 10px'>无QTL数据</div></div>")
+            }else{
+                renderTable(res);
+                $("#total-page-count > span").html(res.data.total);
+            }
+
+//            显示分页
+            laypage({
+                cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数
+                curr: page.curr || 1, //当前页
+                skin: '#5c8de5',
+                skip: true,
+                first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                prev: '<',
+                next: '>',
+                groups: 3, //连续显示分页数
+                jump: function(obj, first){ //触发分页后的回调
+                    if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
+                        var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+//                            initTables(obj.curr);
+                        page.curr = obj.curr;
+                        var currNum=obj.curr;
+                        initTables(currNum,pageSizeNum);
+                    }
+                    if(res.data.length==0){
+                        $("#tableBody").html("<p class='no-data'>无数据显示!</p>")
+                    }
+                }
+            });
+        });
+    }
+
+    function renderTable(data) {
+        var eleData=data.data.data;
+        var str = '';
+        for(var i=0;i<eleData.length; i++){
+            str += '<tr>'
+            str += '<td class="t_id">'+ eleData[i].id +'</td>';
+            str += '<td class="t_qtlName"><a class="qtlname" target="_blank" href="${ctxroot}/search/aboutus?name='+eleData[i].qtlName+'&version='+eleData[i].version+'">'+ eleData[i].qtlName +'</a></td>';
+            str += '<td class="t_trait">'+ eleData[i].trait +'</td>';
+            str += '<td class="t_type">'+ eleData[i].type+'</td>';
+            str += '<td class="t_lg"><a target="_blank" href="${ctxroot}/gene?chr='+eleData[i].chr+'&version='+eleData[i].version+'&markerlg='+eleData[i].markerlg+'&qtl='+eleData[i].qtlName+'">'+ eleData[i].chr +'</a></td>';
+            str += '<td class="t_chr"><a target="_blank" href="${ctxroot}/gene?chr='+eleData[i].chr+'&version='+eleData[i].version+'&markerlg='+eleData[i].markerlg+'&qtl='+eleData[i].qtlName+'">'+ eleData[i].lg +'</a></td>';
+            str += '<td class="t_method">'+ eleData[i].method +'</td>';
+            str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName='+eleData[i].marker1+'">'+ eleData[i].marker1 +'</a></td>';
+            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName='+eleData[i].marker2+'">'+ eleData[i].marker2 +'</a></td>';
+            str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"  data-txt="'+eleData[i].genes+'">'+ eleData[i].genesNum +'</a></td>';
+            str += '<td class="t_lod">'+ eleData[i].lod +'</td>';
+            str += '<td class="t_parent1">'+ eleData[i].parent1 +'</td>';
+            str += '<td class="parent2">'+ eleData[i].parent2 +'</td>';
+            str += '<td class="t_genomeStart">'+ eleData[i].geneStart +'</td>';
+            str += '<td class="t_genomeEnd">'+ eleData[i].geneEnd +'</td>';
+            str += '<td class="t_author">'
+            str += '<a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName='+ eleData[i].qtlName +'">'+ eleData[i].author +'</a>'
+            str += '<div class="author-pop-tab" style="display: none">'
+            str += '<div class="information-title">'
+            str += '<p class="topTc">REFERENCE</p>'
+            str += '<button class="close-pop">X</button>'
+            str += '</div>'
+            str += '<div class="information-tab">'
+            str += '<table> </table>'
+            str += '</div>'
+            str += '</div>'
+            str += '</td>';
+            str += '</tr>';
+        }
+        $(".checkbox-list> tbody").empty().append(str);
+
+
+//        弹窗
+        pop(".js-pop-marker1", "marker1")
+        pop(".js-pop-marker2", "marker2");
+        genesTc();//基因弹窗
+        referenceTc();//Reference弹窗
+    }
 
 </script>
 </body>

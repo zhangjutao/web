@@ -1,5 +1,7 @@
 package com.gooalgene.qtl.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.*;
 import com.gooalgene.qtl.dao.*;
@@ -934,7 +936,9 @@ public class QueryService {
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
         JSONArray data = new JSONArray();
+        PageHelper.startPage(page.getPageNo(),page.getPageSize());
         List<Map> list = qtlDao.findListByGene(para);
+        PageInfo pageInfo=new PageInfo(list);
         Map lgAndMarkerlg = lgAndMarkerlg();
         for (Map m : list) {
             String qtlName = (String) m.get("qtlName");
@@ -954,7 +958,8 @@ public class QueryService {
             m.put("genes", genes == null ? "" : genes);
             data.add(m);
         }
-        result.put("total", page.getCount());
+        //result.put("total", page.getCount());
+        result.put("total", pageInfo.getTotal());
         result.put("data", data);
         return result;
     }
