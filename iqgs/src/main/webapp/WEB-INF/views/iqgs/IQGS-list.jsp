@@ -290,7 +290,7 @@
     <div class="search-result" style="margin-top:16px;">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
-            <p class="result-text" style="display: flex">您的搜索条件为:<span title="${keyword}" style="display: block; width: 600px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息
+            <p class="result-text" style="display: flex">您的搜索条件为:<span title="${keyword}" style="display: block; max-width: 600px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息
             </p>
             <button id="sort_btn_px" class="sort_btn">排序</button>
         </div>
