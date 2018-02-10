@@ -475,6 +475,7 @@
         if(!$(this).hasClass("testClass")){
             // 先清空
             $("#selectedKinds ul").empty();
+            $("#expreKinds ul li").removeClass("testClass");
             $(this).addClass("testClass");
             // var currVal = $(this).text().trim();
             var currId = $(this).attr("data-id");
@@ -786,6 +787,7 @@
         //  删除当前基因表达量
         $(this).prev().remove();
         $(this).remove();
+
         if(!$.contains($("#exprePopTip").get(0),$("#exprePopTip").find("span").get(0))){
             layer.close(tip);
         }
