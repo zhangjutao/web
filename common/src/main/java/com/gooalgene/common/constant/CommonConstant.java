@@ -42,4 +42,12 @@ public interface CommonConstant {
      * 启动时缓存的INDEL consequencetype、id Map
      */
     String CACHEDINDEL = "cachedINDEL";
+    /**
+     * 排序缓存结果是否完成
+     */
+    String SUFFIX = "_done";
+    /**
+     * 排序结果
+     */
+    String SORTEDRESULT = "_sortedResult";
 }
