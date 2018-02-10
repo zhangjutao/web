@@ -72,11 +72,11 @@ public class DNAMongoServiceTest extends TestCase {
 
     @Test
     public void testSearchByGene() {
-        String[] ctypeList = {"upstream", "downstream"};
+        String[] ctypeList = {"all"};
         Page page = new Page();
         page.setPageSize(10);
         page.setPageNo(2);
-        List<SNP> snps = dnaMongoService.searchByGene("SNP", ctypeList, "Glyma.01G004900", page);
+        List<SNP> snps = dnaMongoService.searchByGene("SNP", ctypeList, "Glyma.01G000300", page);
         System.out.println(snps);
     }
 

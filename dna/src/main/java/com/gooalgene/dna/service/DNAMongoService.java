@@ -575,12 +575,9 @@ public class DNAMongoService {
             logger.info(collectionName + " searchInGene:" + query.toString() + ",total:" + total);
             Integer pageNo = page.getPageNo();
             Integer pageSize = page.getPageSize();
-            int skip = (pageNo - 1) * pageSize;
-            if (skip < 0) {
-                skip = 0;
-            }
-            query.skip(skip);
-            query.limit(pageSize);
+            //spring data mongodb正确分页方式
+            final Pageable pageable = new PageRequest(pageNo-1, pageSize);
+            query.with(pageable);
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");
