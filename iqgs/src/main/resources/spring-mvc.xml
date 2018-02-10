@@ -11,9 +11,11 @@
        <context:property-placeholder ignore-unresolvable="true" location="classpath:qtldb.properties" />
 
        <!-- 使用Annotation自动注册Bean,只扫描@Controller -->
-       <context:component-scan base-package="com.gooalgene">
+        <context:component-scan base-package="com.gooalgene">
             <!--<context:include-filter type="annotation" expression="org.aspectj.lang.annotation.Aspect" />-->
-       </context:component-scan>
+            <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+        </context:component-scan>
+       <!-- <context:component-scan base-package="com.gooalgene"/>-->
 
         <!--<aop:aspectj-autoproxy />-->
 
