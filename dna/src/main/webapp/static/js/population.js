@@ -247,12 +247,7 @@ $(function (){
         pageNum:page.pageNum,
         pageSize:page.pageSize
     };
-    // // pageSize 选择事件
-    $("#per-page-count select").change(function (e){
-        var currentSelected = $(this).find("option:selected").text();
-        page.pageSize = currentSelected;
-        paramData.pageSize = page.pageSize;
-    });
+
     // 获取焦点添加样式：
     $("#sysPopulations").on("focus", ".laypage_skip", function() {
         $(this).addClass("isFocus");
@@ -260,23 +255,35 @@ $(function (){
     $("#sysPopulations").on("blur", ".laypage_skip", function() {
         $(this).removeClass("isFocus");
     });
-    $("#sysPopulations").on("keydown",".laypage_skip",function (e){
+
+    // 注册 enter 事件的元素
+    $(document).keyup(function (event) {
         var _page_skip = $('#sysPopulations .laypage_skip');
-            if(e && e.keyCode==13){ // enter 键
-                if( _page_skip.hasClass("isFocus") ) {
-                    if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
-                        return alert("输入页码不能大于总页数");
-                    }
-                    var selectedNum = $('#sysPopulations .laypage_skip').val();
-                    page.pageNum = selectedNum;
-                    paramData.pageNum = page.pageNum;
-                    var selectedDatas = getParamas();
-                    selectedDatas.pageNum = paramData.pageNum;
-                    selectedDatas.pageSize = paramData.pageSize;
+        if (_page_skip.hasClass("isFocus")) {
+            if (event.keyCode == 13) {
+                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                var total= $("#total-page-count span").text();
+                var mathCeil=  Math.ceil(total/pageSizeNum);
+
+                var selectedNum = $('#sysPopulations .laypage_skip').val();
+                page.pageNum = selectedNum;
+                paramData.pageNum = page.pageNum;
+                var selectedDatas = getParamas();
+                selectedDatas.pageNum = paramData.pageNum;
+                selectedDatas.pageSize =pageSizeNum;
+
+                if (selectedNum>mathCeil) {
+                    selectedDatas.pageNum = 1;
+                    getData(selectedDatas,1);
+                }else{
+                    // page.curr = selectedNum;
                     getData(selectedDatas,selectedDatas.pageNum);
                 }
             }
-    })
+        }
+    });
+
+
 
     var curr = 1;
     var currPageNumber = 1;
@@ -368,10 +375,11 @@ $(function (){
                     groups: 3, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                            var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
                             var tmp = getParamas();
                             tmp.pageNum = obj.curr;
                             currPageNumber = obj.curr;
-                            tmp.pageSize = paramData.pageSize;
+                            tmp.pageSize = pageSizeNum;
                             getData(tmp,obj.curr);
                         }
                     }
@@ -385,14 +393,25 @@ $(function (){
     }
 
     // pageSize 事件
-    $("#per-page-count select").change(function (e){
-        var val = $(this).val();
+    $("body").on("change",".lay-per-page-count-select", function() {
+        var curr = Number($(".laypage_curr").text());
+        var pageSize = Number($(this).val());
+        var total= Number($("#total-page-count span").text());
+        var mathCeil=  Math.ceil(total/curr);
+        page.pageSize = $(this).val();
         var data = getParamas();
-        data.pageSize = val;
-        data.pageNum = currPageNumber;
-        getData(data,data.pageNum);
+        if(pageSize>mathCeil){
+                data.pageSize = pageSize;
+                data.pageNum = 1;
+                getData(data,1);
+        }else{
+            data.pageSize = pageSize;
+            data.pageNum =curr;
+            getData(data,data.pageNum);
 
-    })
+        }
+    });
+
     // 表格导出
     $("#exportData").click(function (){
         var unSelectes = $("#selectedDetails ul input");
