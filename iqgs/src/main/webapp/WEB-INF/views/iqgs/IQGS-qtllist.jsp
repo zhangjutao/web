@@ -968,7 +968,15 @@
         }
         $(".checkbox-list> tbody").empty().append(str);
 
-
+        //当结果为undefined
+        $(".item-tab tr").each(function(){
+            var td=$(this).find("td");
+            $(td).each(function(){
+                if($(this).text()=="undefined"){
+                    $(this).text("-");
+                }
+            });
+        });
 //        弹窗
         pop(".js-pop-marker1", "marker1")
         pop(".js-pop-marker2", "marker2");
