@@ -261,8 +261,6 @@ $(function (){
         var _page_skip = $('#sysPopulations .laypage_skip');
         if (_page_skip.hasClass("isFocus")) {
             if (event.keyCode == 13) {
-                // var _page_skip = $('#sysPopulations .laypage_skip');
-                // var curr = Number(_page_skip.val());
                 var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
                 var total= $("#total-page-count span").text();
                 var mathCeil=  Math.ceil(total/pageSizeNum);
@@ -275,7 +273,7 @@ $(function (){
                 selectedDatas.pageSize =pageSizeNum;
 
                 if (selectedNum>mathCeil) {
-                    // page.curr = 1;
+                    selectedDatas.pageNum = 1;
                     getData(selectedDatas,1);
                 }else{
                     // page.curr = selectedNum;
