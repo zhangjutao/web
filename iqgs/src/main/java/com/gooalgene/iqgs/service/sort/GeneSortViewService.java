@@ -29,8 +29,10 @@ import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Field;
 import java.util.*;
+import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.ExecutionException;
 
+import static com.gooalgene.common.constant.CommonConstant.SORTEDRESULT;
 import static com.google.common.base.Preconditions.checkNotNull;
 
 @Service
@@ -88,9 +90,16 @@ public class GeneSortViewService implements InitializingBean {
             List<String> selectedTissue = Arrays.asList(fields.split(","));
             List<CalculateScoreResult> calculateSortedResult = geneSortDao.findCalculateSortedResult(geneIds, selectedTissue, categoryId, selectedTissue.size());
             //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
-            AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, calculateSortedResult);
+            CopyOnWriteArrayList<CalculateScoreResult> destList = new CopyOnWriteArrayList<>(calculateSortedResult);
+            AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, destList);
+            String key = param.getClass().getSimpleName() + param.hashCode() + SORTEDRESULT;
+            Cache.ValueWrapper valueWrapper = cache.get(key);
             AsyncEventBus asyncEventBus = register.getAsyncEventBus();
-            asyncEventBus.post(param);
+            //防止事件重复提交
+            if (valueWrapper == null) {
+                asyncEventBus.post(param);
+                cache.put(key, true);
+            }
             size = calculateSortedResult.size();
             //确定排序升序或降序，动态配置
             Ordering<Comparable> comparableOrdering = Ordering.natural();

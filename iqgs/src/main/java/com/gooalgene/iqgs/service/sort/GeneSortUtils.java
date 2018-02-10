@@ -42,7 +42,7 @@ public class GeneSortUtils implements InitializingBean {
      * @param calculateSortedResult 数据库查询结果，包含geneId、score字段
      * @return 排完序后的结果视图
      */
-    public List<SortedResult> convertSearchResultToView(final List<CalculateScoreResult> calculateSortedResult){
+    public synchronized List<SortedResult> convertSearchResultToView(final List<CalculateScoreResult> calculateSortedResult){
         Collection<String> transformResult = Collections2.transform(calculateSortedResult, new Function<CalculateScoreResult, String>() {
             @Override
             public String apply(CalculateScoreResult input) {

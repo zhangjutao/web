@@ -9,16 +9,22 @@ import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.gooalgene.iqgs.service.sort.GeneSortUtils;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 获取所有排序完成后的基因基本信息
  */
 @Service("sortedResultListener")
 public class FetchAllSortedResultListener extends AbstractSearchViewListener implements EventBusListener {
+
+    private final static Logger logger = LoggerFactory.getLogger(FetchAllSortedResultListener.class);
 
     @Autowired
     private UserAssociateTraitFpkmDao userAssociateTraitFpkmDao;
@@ -28,11 +34,17 @@ public class FetchAllSortedResultListener extends AbstractSearchViewListener imp
 
     @AllowConcurrentEvents
     @Subscribe
-    public void listenSortedResult(AllSortedResultEvent event){
-        List<CalculateScoreResult> sortedResult = event.getSortedResult();
+    public void listenSortedResult(AllSortedResultEvent event) throws InterruptedException {
+        CopyOnWriteArrayList<CalculateScoreResult> sortedResult = (CopyOnWriteArrayList<CalculateScoreResult>) event.getSortedResult();
         String key = event.getClass().getSimpleName() + event.hashCode();
-        List<SortedResult> finalSortedResult = geneSortUtils.convertSearchResultToView(sortedResult);
-        cache.put(key, finalSortedResult);
+        List<SortedResult> finalSortedResults = geneSortUtils.convertSearchResultToView(sortedResult);
+        while (true){
+            if (finalSortedResults.size() == sortedResult.size()) {
+                logger.debug("任务执行完毕!");
+                break;
+            }
+        }
+        cache.put(key, finalSortedResults);
     }
 
     @AllowConcurrentEvents
