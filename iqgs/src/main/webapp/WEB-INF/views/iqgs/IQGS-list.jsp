@@ -734,14 +734,13 @@
                 if (type == 1) {
                     fetchData();
                 } else if (type == 2) {
-                        fetchTwoData();
+                    fetchTwoData();
                 } else if (type == 3) {
-                        fetchRangeData();
-
+                    fetchRangeData();
                 } else if (type == 4) {
-                        fetchQtlData();
+                    fetchQtlData();
                 } else if (type == 5) {
-                        fetchFirstData(dataParam);
+                    fetchFirstData(dataParam);
                 }
             } else {
                 layer.msg("无数据，不可排序")
@@ -770,8 +769,7 @@
                 var qtlNames = "";
                 for (var k = 0; k < qtls.length; k++) {
                     qtlNames += qtls[k].qtlName + ", ";
-                }
-                ;
+                };
                 var qtlNames = qtlNames.substring(0, qtlNames.length - 2);
                 var snp = item.existsSNP ? "存在Exonic_nonsynonymouse SNV" : "-";
                 var expreTissues = item.rootTissues.length ? item.rootTissues.join(",") : "-";
@@ -800,7 +798,6 @@
             shade: [0.5, '#393D49']
         });
         page.pageSize = Number($(this).val());
-//        var pageSize = Number($(this).val());
         var currs = Number($(".laypage_curr").text());
         var pageSize = Number($("#per-page-count1 .lay-per-page-count-select").val());
         var total = $("#total-page-count1 span").text();
@@ -813,7 +810,6 @@
                     var currNums = currs;
                     searchOne(currNums, pageSize);
                 }
-
             } else if (searchType == 2) {
                 if (currs * pageSize > total) {
                     var currNums = 1;
@@ -849,7 +845,6 @@
             } else {
                 var dataParam = getParams();
                 var currNums = currs;
-//                var currNums = page.curr;
                 dataParam.pageNo = currs;
                 dataParam.pageSize = pageSize;
                 advanceSearchFn(dataParam, currNums);
@@ -918,7 +913,6 @@
                         var currNums = 1;
                         var dataParam = getParams();
                         dataParam.pageSize = pageSize;
-
                         advanceSearchFn(dataParam, currNums);
                     } else {
                         var dataParam = getParams();
@@ -945,19 +939,16 @@
     function extractHostname(url) {
         var hostname;
         //find & remove protocol (http, ftp, etc.) and get hostname
-
         if (url.indexOf("://") > -1) {
             hostname = url.split('/')[2];
         }
         else {
             hostname = url.split('/')[0];
         }
-
         //find & remove port number
         hostname = hostname.split(':')[0];
         //find & remove "?"
         hostname = hostname.split('?')[0];
-
         return hostname;
     }
 
@@ -1017,14 +1008,12 @@
         var fetchGnT = jsonStr.data;
         var let = 2;
         sortStrData(fetchGnT, let)
-
     }
 
     // 一级搜索第三个，获取所有基因ID
     function fetchRangeData() {
         var rgEnd = $("#rg_end").val();
         if ($("#rg_end").val() > 1000000000) {
-//            $("#rg_end").val("1000000000")
             var rgEnd = 1000000000;
         }
         $.getJSON('${ctxroot}/sort/fetch-range-data', {
