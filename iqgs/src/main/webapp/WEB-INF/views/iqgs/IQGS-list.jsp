@@ -36,7 +36,9 @@
             <div id="GeneIdName" class="tab-pane tab-pane-ac" style="margin-left:20px;">
                 <p class="search-title">Search By Gene ID</p>
                 <label>
-                    <input class="search-input" id="key_name" type="text" onkeyup="value=value.replace(/[^\w\.\,\、\;\s\-/]/ig,'')"   maxlength="255" name="search" placeholder="输入您要查找的关键字">
+                    <input class="search-input" id="key_name" type="text"
+                           onkeyup="value=value.replace(/[^\w\.\,\、\;\s\-/]/ig,'')" maxlength="255" name="search"
+                           placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img
                             src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_name" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
@@ -49,7 +51,9 @@
             <div id="GeneFunction" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By Gene Function/Name</p>
                 <label>
-                    <input id="key_func" class="search-input" type="text" onkeyup="value=value.replace(/[^\w\.\,\、\;\s\-/]/ig,'')"  maxlength="255" name="search" placeholder="输入您要查找的关键字">
+                    <input id="key_func" class="search-input" type="text"
+                           onkeyup="value=value.replace(/[^\w\.\,\、\;\s\-/]/ig,'')" maxlength="255" name="search"
+                           placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img
                             src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
@@ -83,9 +87,13 @@
                     <option value="Chr20" data-max="47904181">Chr20</option>
                 </select>
                 <div>
-                    <input id="rg_begin" class="region-input region-s" type="number" name="search"  onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="输入您要查找的数值"><span class="s-line"></span>
-                    <input id="rg_end" class="region-input region-e" type="number" name="search" onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="输入您要查找的数值">
-                    <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
+                    <input id="rg_begin" class="region-input region-s" type="number" name="search"
+                           onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="输入您要查找的数值"><span
+                        class="s-line"></span>
+                    <input id="rg_end" class="region-input region-e" type="number" name="search"
+                           onkeyup="this.value=this.value.replace(/\D/g,'')" placeholder="输入您要查找的数值">
+                    <span class="clear-input" style="display: none"><img
+                            src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_range" class="region-search"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </div>
                 <p class="search-region-tips">示例: Chr01,0bp-10000bp</p>
@@ -94,7 +102,9 @@
             <div id="qtlAdd" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By QTL</p>
                 <label>
-                    <input class="search-input" id="qtlName" type="text" onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255" name="search" placeholder="输入您要查找的关键字">
+                    <input class="search-input" id="qtlName" type="text"
+                           onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255" name="search"
+                           placeholder="输入您要查找的关键字">
                     <button id="QtlBtnName" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
                 </label>
                 <div id="qtlErrorTip">
@@ -284,7 +294,9 @@
     <div class="search-result" style="margin-top:16px;">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
-            <p class="result-text" style="display: flex">您的搜索条件为:<span title="${keyword}" style="display: block; max-width: 600px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息
+            <p class="result-text" style="display: flex">您的搜索条件为:<span title="${keyword}"
+                                                                       style="display: block; max-width: 600px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> ${keyword} </span>,共匹配到<span
+                    class="js-search-total"> 0 </span>条相关消息
             </p>
             <button id="sort_btn_px" class="sort_btn">排序</button>
         </div>
@@ -452,7 +464,7 @@
                 geneStructure.start = Number($("#rg_begin").val().trim());
                 if ($("#rg_end").val() > 1000000000) {
                     geneStructure.end = 1000000000;
-                }else{
+                } else {
                     geneStructure.end = Number($("#rg_end").val().trim());
                 }
                 dataParam.geneStructure = geneStructure;
@@ -646,7 +658,7 @@
         var rgEnd = $("#rg_end").val();
         if ($("#rg_end").val() > 1000000000) {
 //            $("#rg_end").val("1000000000")
-            var rgEnd=1000000000;
+            var rgEnd = 1000000000;
         }
 
         $.getJSON('${ctxroot}/iqgs/search/range', {
@@ -717,34 +729,25 @@
                 }
             }
         });
-
-        if (res.data.list.length !== 0&&!res.data.list) {
-            if (type == 1) {
-                $("#sort_btn_px").off("click").click(function () {
+        $("#sort_btn_px").off("click").click(function () {
+            if (res.data.list !== null) {
+                if (type == 1) {
                     fetchData();
-                })
-            } else if (type == 2) {
-                $("#sort_btn_px").off("click").click(function () {
-                    fetchTwoData();
-                })
-            } else if (type == 3) {
-                $("#sort_btn_px").off("click").click(function () {
-                    fetchRangeData();
-                })
+                } else if (type == 2) {
+                        fetchTwoData();
+                } else if (type == 3) {
+                        fetchRangeData();
 
-            } else if (type == 4) {
-                $("#sort_btn_px").off("click").click(function () {
-                    fetchQtlData();
-                })
-            } else if (type == 5) {
-                $("#sort_btn_px").off("click").click(function () {
-                    fetchFirstData(dataParam);
-                })
+                } else if (type == 4) {
+                        fetchQtlData();
+                } else if (type == 5) {
+                        fetchFirstData(dataParam);
+                }
+            } else {
+                layer.msg("无数据，不可排序")
+                return false;
             }
-        }else{
-            console.log("无数据")
-            return false;
-        }
+        })
     };
 
     function renderList(listdata, currNums) {
@@ -1022,7 +1025,7 @@
         var rgEnd = $("#rg_end").val();
         if ($("#rg_end").val() > 1000000000) {
 //            $("#rg_end").val("1000000000")
-            var rgEnd=1000000000;
+            var rgEnd = 1000000000;
         }
         $.getJSON('${ctxroot}/sort/fetch-range-data', {
             // searchType:searchType,
@@ -1074,6 +1077,7 @@
         var chromosomeMax = $(".js-region option:selected").attr("data-max");
         $("#rg_end").attr("placeholder", "<= " + chromosomeMax);
     }
+
     linkEndPosition();
     $(".js-region").change(function () {
         linkEndPosition();
