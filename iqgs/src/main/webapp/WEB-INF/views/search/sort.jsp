@@ -59,7 +59,7 @@
         <form name="forms">
             <div class="sort_xz">
                 <label class="sort_lab">设置性状：</label>
-                <select name="sortSelect" class="sortSelect" >
+                <select name="sortSelect" class="sortSelect">
                 </select>
                 <span class="tishi"><img src="${ctxStatic}/images/tishi.png" class="tishiImg">性状仅可选择一项</span>
             </div>
@@ -83,7 +83,8 @@
         <div class="sortResult">
             <span class="sortTitle">排序结果</span>
             <span class="sortSpan">
-            <button id="copyBtn" class="copyBtn"  data-clipboard-action="copy" data-clipboard-target="#inputText"><img src='${ctxStatic}/images/copys.png'>双击复制</button>
+            <button id="copyBtn" class="copyBtn" data-clipboard-action="copy" data-clipboard-target="#inputText"><img
+                    src='${ctxStatic}/images/copys.png'>双击复制</button>
             <button id="exportData"><img src='${ctxStatic}/images/doms.png'>下载</button>
         </span>
         </div>
@@ -335,9 +336,9 @@
     }
 
     //排序获取列表数据
-    var paseSize=10;
-    function sortTable(curr, dataParam,pageSize) {
-        dataParam.pageSize = pageSize||10;
+    var paseSize = 10;
+    function sortTable(curr, dataParam, pageSize) {
+        dataParam.pageSize = pageSize || 10;
         var load = layer.load(1);
         // 开启遮罩层
 //        layer.msg('数据加载中!', {
@@ -346,9 +347,14 @@
         var promise = SendAjaxRequest("POST", "${ctxroot}/sort/fetch-sort-result", JSON.stringify(dataParam));
         promise.then(
             function (result) {
-
                 popCount = result.total;
-                sortPopuTable(result)
+                if (result.data.list.length !== 0) {
+                    sortPopuTable(result)
+                } else {
+                    $(".soetTable tbody").html("<p class='dataNo'>暂无数据！</p>");
+                    $("#popu-paginate").hide();
+                }
+
                 $(".ydy").hide();
                 $(".sortMain").show();
                 laypage({
@@ -366,7 +372,7 @@
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                             dataParam.pageNo = obj.curr;
                             dataParam.pageSize = dataParam.pageSize;
-                            sortTable(obj.curr, dataParam,pageSize);
+                            sortTable(obj.curr, dataParam, pageSize);
                         }
                     }
                 });
@@ -374,24 +380,27 @@
                 $("#total-page-count1 span").text(result.data.total);
                 $(".js-search-total").text(result.data.total);
 
-                if (result.data.list.length !== 0) {
-                    //复制方法调用
-//                    document.getElementById("copyBtn").click();
-                    $("#copyBtn").click(function () {
+                //复制方法调用
+                $("#copyBtn").click(function () {
+                    if (result.data.list.length !== 0) {
                         sortCopy(dataParam);
-                    });
+                    } else {
+                        layer.msg("暂无数据，不可复制！")
+                    }
+                });
 
-                    //导出方法调用
-                    $("#exportData").off('click').click(function () {
+                //导出方法调用
+                $("#exportData").off('click').click(function () {
+                    if (result.data.list.length !== 0) {
                         exportData(dataParam);
-                    })
-                } else {
-                    $(".soetTable tbody").html("<p class='dataNo'>暂无数据！</p>");
-                }
-//
+                    } else {
+                        layer.msg("暂无数据，不可下载！")
+                    }
+
+                })
+
                 // 关闭遮罩层
                 layer.close(load);
-//                layer.closeAll();
             }, function (error) {
                 console.log(error);
             }
@@ -408,41 +417,25 @@
                     str += '<span class="geneId">' + result.data[i] + ',</span>'
                 }
                 $(".copyHtml").append(str);
-
                 if (result.data.length !== 0) {
-//                        copyText()
                     var text = $(".copyHtml").text();
                     var inputs = document.getElementById("inputText");
                     inputs.value = text.substring(0, text.length - 1); // 修改文本框的内容
                     inputs.select(); // 选中文本
-
                     var clipboard = new Clipboard('#copyBtn');
-
-                    clipboard.on('success', function(e) {
+                    clipboard.on('success', function (e) {
                         console.log(e);
                         layer.msg("复制成功！");
                     });
-
-                    clipboard.on('error', function(e) {
+                    clipboard.on('error', function (e) {
                         console.log(e);
                     });
-
                 }
             }, function (error) {
                 console.log(error);
             }
         )
     }
-
-    //复制
-//    function copyText() {
-//        var text = $(".copyHtml").text();
-//        var inputs = document.getElementById("inputText");
-//        inputs.value = text.substring(0, text.length - 1); // 修改文本框的内容
-//        inputs.select(); // 选中文本
-//        document.execCommand("Copy"); // 执行浏览器复制命令
-//        layer.msg("复制成功！");
-//    }
 
     //排序表格生成
     function sortPopuTable(data) {
@@ -459,7 +452,7 @@
 
     var popPageNum = 1;
     var popCount;
-//    var pageSizePopu = 10;
+    //    var pageSizePopu = 10;
     // 获取焦点添加样式：
     $("#popu-paginate").on("focus", ".laypage_skip", function () {
         $(this).addClass("isFocus");
@@ -482,59 +475,35 @@
                 var _page_skip = $('#pagination .laypage_skip');
                 var curr = Number(_page_skip.val());
                 var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
-                var total= $("#total-page-count span").text();
-                var mathCeil=  Math.ceil(total/pageSizeNum);
-                if (curr>mathCeil) {
+                var total = $("#total-page-count span").text();
+                var mathCeil = Math.ceil(total / pageSizeNum);
+                if (curr > mathCeil) {
 //                    layer.msg("输入页码不能大于总页数");
 //                    return false;
                     dataParam.pageNo = 1;
                     dataParam.pageSize = pageSizeNum
-                    sortTable(1, dataParam,pageSizeNum);
-                }else{
+                    sortTable(1, dataParam, pageSizeNum);
+                } else {
                     dataParam.pageNo = curr;
-                    sortTable(curr, dataParam,pageSizeNum);
+                    sortTable(curr, dataParam, pageSizeNum);
                 }
 
             }
         }
     });
 
-    //    document.onkeydown = function (e) {
-    //        var _page_skip = $('#pagination .laypage_skip');
-    ////            if( _page_skip.hasClass("isFocus") ) {
-    ////
-    ////                if(_page_skip.val() * 1 >Math.ceil( $("#total-page-count1 span").text() / page.pageSize)) {
-    ////                    return alert("输入页码不能大于总页数");
-    ////                }
-    ////                curr = Number(_page_skip.val());
-    ////                    dataParam.pageNo = curr;
-    ////                sortTable(curr,dataParam);
-    ////            }
-    //        if (_page_skip.hasClass("isFocus")) {
-    //            var _page_skip = $('#pagination .laypage_skip');
-    //            var curr = Number(_page_skip.val());
-    //            dataParam.pageNo = curr;
-    //            sortTable(curr, dataParam);
-    //        }
-    //    };
     // 修改每页显示条数
     $("#per-page-count").on("change", ".lay-per-page-count-select", function () {
-//        var _page_skip = $('#pagination .laypage_skip');
         var currs = $(".laypage_curr").text();
         var pageSize = Number($(this).val());
-//            dataParam.pageNo = curr;
-
-      var total= $("#total-page-count span").text();
-        if(currs*pageSize>total) {
-//             layer.msg("切换条数不能大于总页数");
-//             return false;
+        var total = $("#total-page-count span").text();
+        if (currs * pageSize > total) {
             dataParam.pageNo = 1;
-            sortTable(dataParam.pageNo, dataParam,pageSize);
-       }else{
+            sortTable(dataParam.pageNo, dataParam, pageSize);
+        } else {
             dataParam.pageSize = pageSize;
-            sortTable(currs, dataParam,pageSize);
+            sortTable(currs, dataParam, pageSize);
         }
-
     });
 
     // 表格导出
@@ -549,34 +518,27 @@
             success: function (result) {
                 var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
                 window.location.href = path + result.data;
-
             },
             error: function (error) {
                 console.log(error);
             }
         })
-
     }
 
     function extractHostname(url) {
         var hostname;
-        //find & remove protocol (http, ftp, etc.) and get hostname
-
         if (url.indexOf("://") > -1) {
             hostname = url.split('/')[2];
         }
         else {
             hostname = url.split('/')[0];
         }
-
         //find & remove port number
         hostname = hostname.split(':')[0];
         //find & remove "?"
         hostname = hostname.split('?')[0];
-
         return hostname;
     }
-
 </script>
 </body>
 </html>
