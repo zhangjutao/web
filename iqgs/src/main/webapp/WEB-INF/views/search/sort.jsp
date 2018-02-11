@@ -152,6 +152,7 @@
     //处理发送过来的数据
     function sortCurrencyTable(sortConditionData) {
         $(".sortInfo_btn").off("click").click(function () {
+            $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
 //        var geneIdList = sortConditionData;
             var sortXzId = $(".sortSelect option:selected").attr("id");
             var organization = $(".sortZzText").find(".sortZzText_conter");

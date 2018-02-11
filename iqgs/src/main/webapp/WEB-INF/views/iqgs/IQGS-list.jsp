@@ -36,7 +36,7 @@
             <div id="GeneIdName" class="tab-pane tab-pane-ac" style="margin-left:20px;">
                 <p class="search-title">Search By Gene ID</p>
                 <label>
-                    <input class="search-input" id="key_name" type="text" onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')"  maxlength="255" name="search" placeholder="输入您要查找的关键字">
+                    <input class="search-input" id="key_name" type="text" onkeyup="value=value.replace(/[^\w\.\,\、\;\s\-/]/ig,'')"   maxlength="255" name="search" placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img
                             src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_name" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
@@ -49,7 +49,7 @@
             <div id="GeneFunction" class="tab-pane" style="margin-left:20px;">
                 <p class="search-title">Search By Gene Function/Name</p>
                 <label>
-                    <input id="key_func" class="search-input" type="text"onkeyup="value = value.replace(/[\u4e00-\u9fa5]/g, '')" maxlength="255" name="search" placeholder="输入您要查找的关键字">
+                    <input id="key_func" class="search-input" type="text" onkeyup="value=value.replace(/[^\w\.\,\、\;\s\-/]/ig,'')"  maxlength="255" name="search" placeholder="输入您要查找的关键字">
                     <span class="clear-input" style="display: none"><img
                             src="${ctxStatic}/images/clear-search.png"></span>
                     <button id="btn_func" class="search-btn"><img src="${ctxStatic}/images/search.png">搜索</button>
@@ -718,7 +718,7 @@
             }
         });
 
-        if (res.data.list.length !== 0) {
+        if (res.data.list.length !== 0&&!res.data.list) {
             if (type == 1) {
                 $("#sort_btn_px").off("click").click(function () {
                     fetchData();
@@ -741,6 +741,9 @@
                     fetchFirstData(dataParam);
                 })
             }
+        }else{
+            console.log("无数据")
+            return false;
         }
     };
 
@@ -1016,11 +1019,16 @@
 
     // 一级搜索第三个，获取所有基因ID
     function fetchRangeData() {
+        var rgEnd = $("#rg_end").val();
+        if ($("#rg_end").val() > 1000000000) {
+//            $("#rg_end").val("1000000000")
+            var rgEnd=1000000000;
+        }
         $.getJSON('${ctxroot}/sort/fetch-range-data', {
             // searchType:searchType,
             // keyword : $("#key_name").val()
             begin: $("#rg_begin").val(),
-            end: $("#rg_end").val(),
+            end: rgEnd,
             chr: $(".js-region").val()
         }, fetchRangeback);
     };
