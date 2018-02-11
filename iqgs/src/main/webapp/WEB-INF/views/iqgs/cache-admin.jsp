@@ -13,16 +13,26 @@
     <h1>目前系统中缓存的Key有：</h1>
     <c:forEach items="${cacheResult}" var="obj">
         <span>${obj.key}</span>
-        <button id="remove">remove</button><br/>
+        <button class="remove" onclick="evictKey(this)">remove</button><br/>
     </c:forEach>
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <script type="application/javascript">
-        $("#remove").click(function(){
-            var currentElement = $(this);
+        function evictKey(item) {
+            var currentElement = $(item);
             console.log(currentElement.prev().text());
             var key = currentElement.prev().text();
-
-        })
+            $.ajax({
+                method: 'GET',
+                url: '${ctxroot}/cache/delete',
+                data: {
+                    key: key
+                }
+            }).done(function(data){
+                console.log("请求成功：" + data);
+            }).error(function(){
+                console.log("后台报错");
+            });
+        }
     </script>
 </body>
 </html>
