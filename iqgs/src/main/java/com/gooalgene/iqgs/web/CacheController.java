@@ -1,5 +1,7 @@
 package com.gooalgene.iqgs.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
@@ -8,7 +10,7 @@ import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCache;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.lang.management.ManagementFactory;
@@ -24,6 +26,8 @@ public class CacheController implements InitializingBean {
 
     @Autowired
     private CacheManager cacheManager;
+
+    private ObjectMapper mapper;
 
     private Cache cache;
 
@@ -56,8 +60,25 @@ public class CacheController implements InitializingBean {
         return view;
     }
 
+    @RequestMapping(value = "/delete", method = RequestMethod.GET)
+    @ResponseBody
+    public String deleteCacheValue(@RequestParam("key") String key) throws JsonProcessingException {
+        Cache advanceSearchCache = cacheManager.getCache("advanceSearch");
+        boolean found = false;
+        if (advanceSearchCache.get(key) != null){
+            advanceSearchCache.evict(key);
+            found = true;
+        }
+        if (cache.get(key) != null){
+            cache.evict(key);
+            found = true;
+        }
+        return mapper.writeValueAsString(found);
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         cache = cacheManager.getCache("sortCache");
+        mapper = new ObjectMapper();
     }
 }
