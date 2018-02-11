@@ -129,7 +129,6 @@
             top: 60px;
             left: 25%;
             z-index: 11;
-            border: 1px solid #e6e6e6;
         }
 
         .author-pop-tab:before {
@@ -146,24 +145,34 @@
         }
 
         .author-pop-tab .information-title {
-            height: 50px;
-            line-height: 50px;
+            height: 40px;
+            line-height: 40px;
             text-align: center;
+            position: relative;
         }
-
+        .information-title p {
+            color: #fff;
+            padding: 0 30px;
+            border-bottom: 1px solid #e6e6e6;
+            text-transform: uppercase;
+            background-color: #386cca;
+        }
         .author-pop-tab .information-tab {
             padding: 20px;
         }
 
         .checkbox-tab .information-title button {
-            float: right;
-            color: #666;
+            /* float: right; */
+            color: #fff;
             margin-right: 20px;
-            margin-top: -38px;
-            background-color: #f5f8ff;
+            /* margin-top: -38px; */
+            background-color: #386cca;
             border: none;
             font-size: 20px;
             cursor: pointer;
+            position: absolute;
+            right: 0;
+            top: 6px;
         }
         .js-pop-head,.information-title,.tab-detail-thead{cursor: move;}
     </style>
@@ -632,9 +641,9 @@
 //
 //        }
         /*拖动弹框*/
-        $(".js-pop").draggable({ containment: "body" });
-        $( ".author-pop-tab" ).draggable({ containment: "body" });
-        $( ".tab-detail" ).draggable({ containment: "body" });
+        $(".js-pop").draggable({ containment: "body",cancel:".js-pop-body" });
+        $( ".author-pop-tab" ).draggable({ containment: "body",cancel:".js-pop-body,.information-tab" });
+        $( ".tab-detail" ).draggable({ containment: "body",cancel:".tab-detail-tbody" });
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
