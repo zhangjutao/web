@@ -73,6 +73,20 @@ public class OptionalTest extends TestCase {
         assertFalse(view == view1);
     }
 
+    /**
+     * sublist的修改会影响到原list
+     */
+    @Test
+    public void testSubString(){
+        List<String> list = new ArrayList<>();
+        list.add("one");
+        list.add("two");
+        list.add("three");
+        List<String> another = list.subList(0, 1);
+        another.set(0, "new value");
+        System.out.println(list.get(0));
+    }
+
     private class Mrna{
         private String name;
 
