@@ -284,7 +284,7 @@ $(function () {
                     renderSNPTable(SNPData, Major_Or_Minor_SNP);
                 } else {
                     //alert("无数据");
-                    $(".js-snp-table>tbody").empty().append("<div style='position: absolute;left: 35%;top: 15%;'><img src='"+ctxStatic+"/images/nodata.png'><p>无数据</p></div>");
+                    $(".js-snp-table>tbody").empty().append("<div class='zwsj'><p>暂无数据</p></div>");
                 }
 
                 laypage({
@@ -361,7 +361,7 @@ $(function () {
                     renderINDELTable(INDELData, Major_Or_Minor_INDEL);
                 } else {
                     //alert("无数据");
-                    $(".js-indel-table>tbody").empty().append("<div style='position: absolute;left: 35%;top: 15%;'><img src='"+ctxStatic+"/images/nodata.png'><p>无数据</p></div>");
+                    $(".js-indel-table>tbody").empty().append("<div class='zwsj'><p>暂无数据</p></div>");
                 }
 
                 laypage({

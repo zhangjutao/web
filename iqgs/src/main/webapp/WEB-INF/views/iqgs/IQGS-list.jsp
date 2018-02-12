@@ -461,7 +461,11 @@
                 break;
             case 3:
                 geneStructure.chromosome = $("#Region .js-region option:selected").val().trim();
-                geneStructure.start = Number($("#rg_begin").val().trim());
+                if ($("#rg_begin").val() > 1000000000) {
+                    geneStructure.start = 1000000000;
+                } else {
+                    geneStructure.start = Number($("#rg_begin").val().trim());
+                }
                 if ($("#rg_end").val() > 1000000000) {
                     geneStructure.end = 1000000000;
                 } else {
@@ -655,6 +659,12 @@
 
     //第三个一级搜索获取数据
     function searchThree(currNums, pageSize) {
+        var rgBegin = $("#rg_end").val();
+        if ($("#rg_begin").val() > 1000000000) {
+//            $("#rg_end").val("1000000000")
+            var rgBegin = 1000000000;
+        }
+
         var rgEnd = $("#rg_end").val();
         if ($("#rg_end").val() > 1000000000) {
 //            $("#rg_end").val("1000000000")
@@ -664,7 +674,7 @@
         $.getJSON('${ctxroot}/iqgs/search/range', {
             pageNo: currNums || 1,
             pageSize: pageSize || 10,
-            begin: $("#rg_begin").val(),
+            begin: rgBegin,
             end: rgEnd,
             chr: $(".js-region").val()
         }, function (res) {
@@ -1012,6 +1022,10 @@
 
     // 一级搜索第三个，获取所有基因ID
     function fetchRangeData() {
+        var rgBegin = $("#rg_end").val();
+        if ($("#rg_end").val() > 1000000000) {
+            var rgBegin = 1000000000;
+        }
         var rgEnd = $("#rg_end").val();
         if ($("#rg_end").val() > 1000000000) {
             var rgEnd = 1000000000;
@@ -1019,7 +1033,7 @@
         $.getJSON('${ctxroot}/sort/fetch-range-data', {
             // searchType:searchType,
             // keyword : $("#key_name").val()
-            begin: $("#rg_begin").val(),
+            begin: rgBegin,
             end: rgEnd,
             chr: $(".js-region").val()
         }, fetchRangeback);

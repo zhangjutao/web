@@ -318,8 +318,9 @@ input::-webkit-input-placeholder {
 }
 #basic .explain-b tbody tr td:first-child{
     background: #f5f8ff;
-    position: relative;
+    /*position: relative;*/
 }
+.zwsj{padding: 10px;}
 #basic .explain-b tbody tr td:nth-child(2){text-align: center;padding: 10px 10px 10px 30px}
 #sequence .explain-b tbody tr td:first-child{
     background: #f5f8ff;
