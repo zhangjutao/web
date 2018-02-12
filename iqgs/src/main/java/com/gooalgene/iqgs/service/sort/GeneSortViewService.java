@@ -89,17 +89,6 @@ public class GeneSortViewService implements InitializingBean {
             String fields = getAllValidTissueProperties(tissue);
             List<String> selectedTissue = Arrays.asList(fields.split(","));
             List<CalculateScoreResult> calculateSortedResult = geneSortDao.findCalculateSortedResult(geneIds, selectedTissue, categoryId, selectedTissue.size());
-            //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
-            CopyOnWriteArrayList<CalculateScoreResult> destList = new CopyOnWriteArrayList<>(calculateSortedResult);
-            AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, destList);
-            String key = param.getClass().getSimpleName() + param.hashCode() + SORTEDRESULT;
-            Cache.ValueWrapper valueWrapper = cache.get(key);
-            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
-            //防止事件重复提交
-            if (valueWrapper == null) {
-                asyncEventBus.post(param);
-                cache.put(key, true);
-            }
             size = calculateSortedResult.size();
             //确定排序升序或降序，动态配置
             Ordering<Comparable> comparableOrdering = Ordering.natural();
@@ -117,6 +106,16 @@ public class GeneSortViewService implements InitializingBean {
             List<CalculateScoreResult> originPageResult = calculateSortedResult.subList(start, end);
             //转换为结果视图
             finalSortedResultList = geneSortUtils.convertSearchResultToView(originPageResult);
+            //发布EventBus异步事件，将该条件的搜索结果缓存到内存中
+            AllSortedResultEvent param = new AllSortedResultEvent(geneIds, tissue, categoryId, calculateSortedResult);
+            String key = param.getClass().getSimpleName() + param.hashCode() + SORTEDRESULT;
+            Cache.ValueWrapper valueWrapper = cache.get(key);
+            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
+            //防止事件重复提交
+            if (valueWrapper == null) {
+                asyncEventBus.post(param);
+                cache.put(key, true);
+            }
             //记录用户行为
             Integer tempId;
             Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();

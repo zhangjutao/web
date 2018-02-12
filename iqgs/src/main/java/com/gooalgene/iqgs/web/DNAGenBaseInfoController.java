@@ -27,6 +27,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -68,11 +70,17 @@ public class DNAGenBaseInfoController implements InitializingBean {
     @Autowired
     private FPKMService fpkmService;
 
+    @Autowired
+    private CacheManager cacheManager;
+
     private PropertiesLoader loader;
+
+    private Cache cache;
 
     @Override
     public void afterPropertiesSet() throws Exception {
         loader = new PropertiesLoader("classpath:qtldb.properties");
+        cache = cacheManager.getCache("sortCache");
     }
 
     @RequestMapping("/index")
@@ -396,7 +404,16 @@ public class DNAGenBaseInfoController implements InitializingBean {
         logger.info("line:genes{" + genes + "}");
         if (org.apache.commons.lang.StringUtils.isNotBlank(genes)) {
             String[] gens = genes.split(",");
-            GenResult genResult = tService.generateData(gens);
+            GenResult genResult = new GenResult();
+            if (gens.length == 1){
+                String key = gens[0] + "_" + genResult.getClass().getSimpleName();
+                Cache.ValueWrapper valueWrapper = cache.get(key);
+                if (valueWrapper != null){
+                    genResult = (GenResult) valueWrapper.get();
+                }
+            } else {
+                genResult = tService.generateData(gens);
+            }
             json = JsonUtils.Bean2Json(genResult);
         }
         return json;
