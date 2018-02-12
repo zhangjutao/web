@@ -740,7 +740,7 @@
             }
         });
         $("#sort_btn_px").off("click").click(function () {
-            if (res.data.list !== null) {
+            if (res.data.list !== null&&res.data.list.length !==0 ) {
                 if (type == 1) {
                     fetchData();
                 } else if (type == 2) {
