@@ -748,7 +748,7 @@ public class StudyService {
             Integer pageNo = page.getPageNo();
             Integer pageSize = page.getPageSize();
             //正确分页方式
-            Pageable pageable = new PageRequest(pageNo, pageSize);
+            Pageable pageable = new PageRequest(pageNo - 1, pageSize);
             query.with(pageable);
             result = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
             for (int i = 0; i < result.size(); i++) {
