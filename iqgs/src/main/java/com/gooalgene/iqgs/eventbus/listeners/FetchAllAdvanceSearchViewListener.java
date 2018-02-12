@@ -72,11 +72,14 @@ public class FetchAllAdvanceSearchViewListener extends AbstractSearchViewListene
         Class<?> type = event.getType();
         String geneId = event.getGeneId();
         String key = geneId + "_" + type.getSimpleName();
-        if (type.equals(GenResult.class)) {
-            logger.debug("正在获取" + geneId + " GenResult结果");
-            GenResult result = getGeneResult(geneId, 0);
-            if (result != null) {
-                cache.put(key, result);
+        //防止无谓的性能消耗
+        if (cache.get(key) == null){
+            if (type.equals(GenResult.class)) {
+                logger.debug("正在获取" + geneId + " GenResult结果");
+                GenResult result = getGeneResult(geneId, 0);
+                if (result != null) {
+                    cache.put(key, result);
+                }
             }
         }
     }

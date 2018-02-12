@@ -9,6 +9,8 @@ import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.aggregation.Aggregation;
@@ -745,12 +747,9 @@ public class StudyService {
             total = mongoTemplate.count(query, ExpressionVo.class, collectionName);//总记录数
             Integer pageNo = page.getPageNo();
             Integer pageSize = page.getPageSize();
-            int skip = (pageNo - 1) * pageSize;
-            if (skip < 0) {
-                skip = 0;
-            }
-            query.skip(skip);
-            query.limit(pageSize);
+            //正确分页方式
+            Pageable pageable = new PageRequest(pageNo, pageSize);
+            query.with(pageable);
             result = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
             for (int i = 0; i < result.size(); i++) {
                 Study study=null;
