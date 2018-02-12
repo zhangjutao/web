@@ -47,3 +47,14 @@ SET a.qtl_trait_id = d.id;
 
 #在qtl_gene中qtl_trait_id添加与trait_category表之间的外键关联
 ALTER TABLE qtl_gene ADD CONSTRAINT qtl_gene_trait_category FOREIGN KEY (qtl_trait_id) REFERENCES trait_category(id);
+
+#增加用户行为记录表
+create table user_associate_trait_fpkm
+(
+  id int auto_increment
+    primary key,
+  user_id int null,
+  trait_category_id int null,
+  fpkm_str varchar(500) null,
+  create_time datetime null
+);

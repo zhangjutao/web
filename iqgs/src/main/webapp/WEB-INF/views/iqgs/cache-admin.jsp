@@ -6,49 +6,70 @@
 <head>
     <title>Cache Admin Management</title>
     <style type="text/css">
+        body {
+            font-size: 14px;
+            background-color: #f5f5f5;
+            font-family: Microsoft YaHei, Heiti SC;
+            color: #5a5a5a;
+            min-width: 1200px;
+        }
         .key {
             padding: 10px;
             font-size: 16px;
-            background-color: aliceblue;
             margin-right: 10px;
         }
         .remove {
             margin-left: 10px;
             font-size: 16px;
-            padding: 4px;
+            padding: 5px;
             border-radius: 4px;
             cursor: pointer;
         }
-        table {
-            border: 1px solid black;
-            padding: 10px;
+        .container {
+            width: 1200px;
+            margin: 0 auto;
         }
-        table td {
-            border-left: 1px solid gray;
+        .ele {
+            background-color: #fff;
+        }
+        .t {
+            width: 100%;
+        }
+        td.single {
+            width: 80%;
+            padding-left: 20px;
+        }
+        td.even {
+            padding-left: 80px;
+        }
+        tr:nth-child(odd) {
+            background-color: aliceblue;
         }
     </style>
 </head>
 <body>
-    <iqgs:iqgs-header />
-    <h1>缓存个体数目：${keySize}</h1>
-    <h1>系统目前CPU使用率：${processCpuLoad}</h1>
-    <h1>目前系统中缓存的Key有：</h1>
-    <div class="ele">
-        <table>
-            <c:forEach items="${cacheResult}" var="obj">
-                <tr>
-                    <td><span class="key">${obj.key}</span></td>
-                    <td><button class="remove" onclick="evictKey(this)">remove</button></td>
-                </tr>
-            </c:forEach>
-        </table>
+    <div class="container">
+        <iqgs:iqgs-header />
+        <h1>缓存个体数目：${keySize}</h1>
+        <h1>系统目前CPU使用率：${processCpuLoad}</h1>
+        <h1>目前系统中缓存的Key有：</h1>
+        <div class="ele">
+            <table class="t">
+                <c:forEach items="${cacheResult}" var="obj">
+                    <tr>
+                        <td class="single"><span class="key">${obj.key}</span></td>
+                        <td class="even"><button class="remove">remove</button></td>
+                    </tr>
+                </c:forEach>
+            </table>
+        </div>
     </div>
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <script type="application/javascript">
-        function evictKey(item) {
-            var currentElement = $(item);
-            console.log(currentElement.prev().text());
-            var key = currentElement.prev().text();
+        $(".remove").click(function () {
+            var $currentElement = $(this);
+            var key = $currentElement.parent().prev().children(".key").text();
+            console.log("key: " + key);
             $.ajax({
                 method: 'GET',
                 url: '${ctxroot}/cache/delete',
@@ -57,10 +78,11 @@
                 }
             }).done(function(data){
                 console.log("请求成功：" + data);
+                location.reload();
             }).error(function(){
                 console.log("后台报错");
             });
-        }
+        });
     </script>
 </body>
 </html>

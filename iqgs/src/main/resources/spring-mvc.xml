@@ -50,7 +50,6 @@
        <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
 
        <!-- 定义无Controller的path<->view直接映射 -->
-       <mvc:view-controller path="/" view-name="/login"/>
        <mvc:view-controller path="/primer3" view-name="/primer3/primer3-input"/>
        <mvc:view-controller path="/primer3out" view-name="/primer3/primer3-output"/>
 
