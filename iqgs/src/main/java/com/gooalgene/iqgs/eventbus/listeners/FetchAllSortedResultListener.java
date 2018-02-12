@@ -14,9 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * 获取所有排序完成后的基因基本信息
@@ -35,7 +33,7 @@ public class FetchAllSortedResultListener extends AbstractSearchViewListener imp
     @AllowConcurrentEvents
     @Subscribe
     public void listenSortedResult(AllSortedResultEvent event) throws InterruptedException {
-        CopyOnWriteArrayList<CalculateScoreResult> sortedResult = (CopyOnWriteArrayList<CalculateScoreResult>) event.getSortedResult();
+        List<CalculateScoreResult> sortedResult = event.getSortedResult();
         String key = event.getClass().getSimpleName() + event.hashCode();
         List<SortedResult> finalSortedResults = geneSortUtils.convertSearchResultToView(sortedResult);
         while (true){
