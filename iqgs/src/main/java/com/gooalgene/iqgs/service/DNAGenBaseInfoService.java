@@ -12,11 +12,16 @@ import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
+import com.gooalgene.iqgs.eventbus.EventBusRegister;
+import com.gooalgene.iqgs.eventbus.events.GenePreFetchEvent;
+import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;
 import com.gooalgene.utils.ConsequenceTypeUtils;
+import com.google.common.eventbus.AsyncEventBus;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.beanutils.BeanUtils;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
@@ -32,7 +37,7 @@ import static com.google.common.base.Preconditions.checkNotNull;
  * Created by sauldong on 2017/10/12.
  */
 @Service
-public class DNAGenBaseInfoService {
+public class DNAGenBaseInfoService implements InitializingBean {
     private final String PREFIX = "MAX";
 
     @Autowired
@@ -49,6 +54,9 @@ public class DNAGenBaseInfoService {
 
     @Autowired
     private CacheManager manager;
+
+    @Autowired
+    private EventBusRegister register;
 
     /**
      * controller层调用的服务层接口，用于查询单个搜索返回结果
@@ -168,6 +176,10 @@ public class DNAGenBaseInfoService {
     }
 
     public DNAGenBaseInfo getGenBaseInfoByGeneId(String genId) {
+        //发布请求该基因相关的MongoDB数据事件
+        GenePreFetchEvent<GenResult> event = new GenePreFetchEvent<>(genId, GenResult.class);
+        AsyncEventBus asyncEventBus = register.getAsyncEventBus();
+        asyncEventBus.post(event);
         DNAGenBaseInfo bean = new DNAGenBaseInfo();
         bean.setGeneId(genId);
         return dnaGenBaseInfoDao.findByGeneId(bean);
@@ -336,5 +348,10 @@ public class DNAGenBaseInfoService {
         }
         result = dnaGenBaseInfoDao.checkGeneExistsInQtlList(genePrimaryKey, qtlList);
         return result;
+    }
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+
     }
 }
