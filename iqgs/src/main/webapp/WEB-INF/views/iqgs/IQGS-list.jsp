@@ -659,7 +659,7 @@
 
     //第三个一级搜索获取数据
     function searchThree(currNums, pageSize) {
-        var rgBegin = $("#rg_end").val();
+        var rgBegin = $("#rg_begin").val();
         if ($("#rg_begin").val() > 1000000000) {
 //            $("#rg_end").val("1000000000")
             var rgBegin = 1000000000;
@@ -1022,8 +1022,8 @@
 
     // 一级搜索第三个，获取所有基因ID
     function fetchRangeData() {
-        var rgBegin = $("#rg_end").val();
-        if ($("#rg_end").val() > 1000000000) {
+        var rgBegin = $("#rg_begin").val();
+        if ($("#rg_begin").val() > 1000000000) {
             var rgBegin = 1000000000;
         }
         var rgEnd = $("#rg_end").val();
