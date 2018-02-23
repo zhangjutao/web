@@ -123,6 +123,7 @@
         window.ctxROOT = "${ctxroot}";
         window.ctxStatic = "${ctxStatic}";
         $('.sort_xz select').comboSelect();
+        $('.sort_zz select').comboSelect();
     });
 
     //接收消息数据
