@@ -124,6 +124,10 @@
         window.ctxStatic = "${ctxStatic}";
         $('.sort_xz select').comboSelect();
         $('.sort_zz select').comboSelect();
+        //性状初始化
+        characterData();
+        //组织初始化
+        organizationData();
     });
 
     //接收消息数据
