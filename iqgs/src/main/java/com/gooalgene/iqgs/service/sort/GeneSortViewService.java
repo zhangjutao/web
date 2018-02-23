@@ -24,6 +24,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -117,14 +118,15 @@ public class GeneSortViewService implements InitializingBean {
                 cache.put(key, true);
             }
             //记录用户行为
-            Integer tempId;
-            Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if(principal instanceof String&& StringUtils.equals((String)principal,"anonymousUser")){
-                tempId= RandomUtils.nextInt(1,1000); //TODO 用户未登录时用随机数生成一个假id，以后改进
-            }else {
-                tempId=((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            Integer tempId = null;
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            //报告系统嵌入的排序页面排序时无需记录用户行为
+            if (authentication != null) {
+                tempId = ((SecurityUser) SecurityContextHolder.getContext().getAuthentication().getPrincipal()).getId();
+            } else {
+                tempId = RandomUtils.nextInt(1, 1000); //TODO 用户未登录时用随机数生成一个假id，以后改进
             }
-            UserAssociateTraitFpkm userAssociateTraitFpkm = new UserAssociateTraitFpkm(tempId , categoryId, fields, new Date());
+            UserAssociateTraitFpkm userAssociateTraitFpkm = new UserAssociateTraitFpkm(tempId, categoryId, fields, new Date());
             asyncEventBus.post(userAssociateTraitFpkm);
         }
         PageInfo<SortedResult> resultPageInfo = new PageInfo<>();
