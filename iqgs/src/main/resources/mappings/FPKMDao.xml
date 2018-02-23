@@ -284,7 +284,7 @@
         f.gene_id_old
         FROM fpkm a LEFT JOIN (SELECT fpkm_id
         FROM fpkm_associate_snp
-        WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+        WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
         JOIN
           (SELECT * FROM gens_baseinfo
             WHERE
@@ -312,7 +312,7 @@
         f.description,
         f.gene_id_old
         FROM fpkm a
-        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
         JOIN (SELECT * FROM gens_baseinfo WHERE chromosome = #{0} AND ((start  <![CDATA[ >= ]]> #{1} AND start <![CDATA[ < ]]> #{2})
             OR (end <![CDATA[ >= ]]> #{1} AND end <![CDATA[ < ]]> #{2}) OR (start <![CDATA[ <= ]]> #{1} AND end <![CDATA[ > ]]> #{1}))) AS f
         ON a.baseinfo_id = f.id) AS result
@@ -355,7 +355,7 @@
         LEFT JOIN fpkm d ON c.id = d.baseinfo_id
         LEFT JOIN (SELECT fpkm_id
                    FROM fpkm_associate_snp
-                   WHERE snp_id = 12) AS e ON d.id = e.fpkm_id;
+                   WHERE snp_id = 9) AS e ON d.id = e.fpkm_id;
     </select>
 
     <select id="advanceSearchByQtl" parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity" resultMap="qtlAdvanceSearchResult">
@@ -447,7 +447,7 @@
                          d.flower_All,
                          d.stem_All LIMIT #{start}, #{end}) AS a
         LEFT JOIN (SELECT a.gene_id AS qtl_gene_id, a.qtl_name FROM qtl_gene a) AS b ON a.gene_id = b.qtl_gene_id
-        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 12) c ON c.fpkm_id = a.id
+        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 9) c ON c.fpkm_id = a.id
     </select>
 
     <select id="countAdvanceSearchByQtl" parameterType="com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity" resultType="int">
@@ -582,7 +582,7 @@
               FROM fpkm a
                   LEFT JOIN (SELECT fpkm_id
                              FROM fpkm_associate_snp
-                             WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+                             WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
                   JOIN (SELECT *
                         FROM gens_baseinfo
                         WHERE gene_id LIKE concat('%', #{geneId}, '%') OR gene_id_old LIKE concat('%', #{geneId}, '%')) AS f
@@ -642,7 +642,7 @@
             FROM fpkm a
             LEFT JOIN (SELECT fpkm_id
             FROM fpkm_associate_snp
-            WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+            WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
             JOIN (SELECT *
             FROM gens_baseinfo
             WHERE gene_id LIKE concat('%', #{geneId}, '%') OR gene_id_old LIKE concat('%', #{geneId}, '%')) AS f
@@ -742,7 +742,7 @@
             f.gene_id_old,
             a.baseinfo_id
         FROM fpkm a
-        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
         JOIN (
         SELECT * FROM gens_baseinfo
           WHERE chromosome = #{chromosome}
@@ -803,7 +803,7 @@
         f.description,
         f.gene_id_old
         FROM fpkm a
-        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+        LEFT JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
         JOIN (
         SELECT * FROM gens_baseinfo
         WHERE chromosome = #{chromosome}
@@ -911,7 +911,7 @@
         FROM fpkm a
         LEFT JOIN (SELECT fpkm_id
         FROM fpkm_associate_snp
-        WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+        WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
         JOIN (SELECT *
         FROM gens_baseinfo
         WHERE gene_name LIKE concat('%', #{func}, '%') OR description LIKE concat('%', #{func}, '%')) AS f
@@ -971,7 +971,7 @@
         FROM fpkm a
         LEFT JOIN (SELECT fpkm_id
         FROM fpkm_associate_snp
-        WHERE snp_id = 12) AS b ON a.id = b.fpkm_id
+        WHERE snp_id = 9) AS b ON a.id = b.fpkm_id
         JOIN (SELECT *
         FROM gens_baseinfo
         WHERE gene_name LIKE concat('%', #{func}, '%') OR description LIKE concat('%', #{func}, '%')) AS f
