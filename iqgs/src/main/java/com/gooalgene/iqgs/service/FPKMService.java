@@ -278,6 +278,7 @@ public class FPKMService implements InitializingBean {
         return null;
     }
 
+    @SuppressWarnings("unchecked")
     public List<Integer> getAllSelectedConsequenceTypeId(String type, List<String> consequenceType){
         List<Integer> result = new ArrayList<>();
         //判断缓存是否存在

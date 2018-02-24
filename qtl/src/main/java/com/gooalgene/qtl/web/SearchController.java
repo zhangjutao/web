@@ -81,8 +81,8 @@ public class SearchController {
             return new ModelAndView("redirect:/search/index");
         }
         Page<Qtl> page = new Page<Qtl>(request, response);
-        modelAndView.addObject("types", queryService.queryAll());
-        modelAndView.addObject("versions", queryService.queryVersions());
+        modelAndView.addObject("types", queryService.queryAll());  // 搜索结果侧边栏
+        modelAndView.addObject("versions", queryService.queryVersions());  // 可选的所有基因版本
         modelAndView.addAllObjects(queryService.qtlSearchbyKeywords(version, type, keywords, page));
         modelAndView.addObject("condition", "{}");
         modelAndView.addObject("page", page);
