@@ -2,6 +2,7 @@ package com.gooalgene.iqgs.web;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
@@ -34,6 +35,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -89,9 +91,14 @@ public class DNAGenBaseInfoController implements InitializingBean {
         String mrnaIndex = loader.getProperty("mrna.index");
         String dnaIndex = loader.getProperty("dna.index");
         String qtlIndex = loader.getProperty("qtl.index");
+        String qtlExample = loader.getProperty("qtl.example");
+        int exampleQtlId = dnaGenBaseInfoService.getAssociateGeneIdByQtlAndVersion(qtlExample, CommonConstant.VERSIONTWO);
+        modelAndView.addObject("qtlExample", qtlExample);
+        modelAndView.addObject("exampleQtlId", exampleQtlId);
         modelAndView.addObject("mrnaIndex", mrnaIndex);
         modelAndView.addObject("dnaIndex", dnaIndex);
         modelAndView.addObject("qtlIndex", qtlIndex);
+
         return modelAndView;
     }
 

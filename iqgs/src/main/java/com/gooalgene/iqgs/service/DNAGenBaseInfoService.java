@@ -159,6 +159,17 @@ public class DNAGenBaseInfoService implements InitializingBean {
         return length;
     }
 
+    /**
+     * 获取示例QTL ID
+     */
+    public int getAssociateGeneIdByQtlAndVersion(String qtlName, String version){
+        Associatedgenes associateGene = associatedgenesDao.getByNameAndVersion(qtlName, version);
+        if (associateGene == null){
+            throw new IllegalArgumentException(qtlName + "对应的版本" + version + "不存在，请重新选择示例QTL");
+        }
+        return Integer.parseInt(associateGene.getId());
+    }
+
     public List<Associatedgenes> findAllQTLNamesByGeneId(String geneId){
         Assert.notNull(geneId, "传入的geneId为空");
         return dnaGenBaseInfoDao.findAllAssociatedQTLByGeneId(geneId);

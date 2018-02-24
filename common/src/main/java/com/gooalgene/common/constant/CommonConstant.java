@@ -50,4 +50,12 @@ public interface CommonConstant {
      * 排序结果
      */
     String SORTEDRESULT = "_sortedResult";
+    /**
+     * V1版本
+     */
+    String VERSIONONE = "Glycine_max.V1.0.23.dna.genome";
+    /**
+     * V2版本
+     */
+    String VERSIONTWO = "Gmax_275_v2.0";
 }
