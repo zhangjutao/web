@@ -128,9 +128,9 @@
     $("#qtlAdd .qtlExample").click(function (){
         var qtlNames = $(this).text();
         var qtlNameArr = [];
-        qtlNameArr.push(qtlNames)
+        qtlNameArr.push(qtlNames);
         storage.setItem("qtlSearchNames",JSON.stringify(qtlNameArr));
-        window.location = DOMAIN + "/search/list?keyword=" +6340+ "&searchType=4" ;
+        window.location = DOMAIN + "/search/list?keyword=" + exampleQtlId + "&searchType=4" ;
     });
 
     // geneID 示例搜索

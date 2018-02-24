@@ -405,26 +405,28 @@
                               <include refid="geneExpressionCondition" />
                                ) AS d
                              ON c.id = d.baseinfo_id
-                         JOIN (SELECT fpkm_id
+                          <if test="snp != null and snp.size() > 0">
+                          JOIN (SELECT fpkm_id
                                FROM fpkm_associate_snp
                                WHERE 1 = 1
-                                <if test="snp != null and snp.size() > 0">
-                                    AND snp_id IN
+                                AND snp_id IN
                                 <foreach collection="snp" item="item" separator="," open="(" close=")">
                                     #{item, jdbcType=INTEGER}
                                 </foreach>
-                                </if>
                               ) AS f ON d.id = f.fpkm_id
+                          </if>
+                          <if test="indel != null and indel.size() > 0">
                          JOIN (SELECT fpkm_id
                                FROM fpkm_associate_indel
                                WHERE 1 = 1
-                                <if test="indel != null and indel.size() > 0">
+
                                     AND indel_id IN
                                 <foreach collection="indel" item="item" separator="," open="(" close=")">
                                     #{item, jdbcType=INTEGER}
                                 </foreach>
-                                </if>
+
                               ) AS g ON d.id = g.fpkm_id
+                          </if>
                      WHERE 1 = 1
                         <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
                               AND a.qtl_id IN
@@ -469,22 +471,22 @@
                 WHERE 1 = 1
                 <include refid="geneExpressionCondition" />
                 ) AS d ON c.id = d.baseinfo_id
+          <if test="snp != null and snp.size() > 0">
           JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE 1 = 1
-                <if test="snp != null and snp.size() > 0">
-                    AND snp_id IN
-                    <foreach collection="snp" item="item" separator="," open="(" close=")">
-                        #{item, jdbcType=INTEGER}
-                    </foreach>
-                </if>
+                AND snp_id IN
+                <foreach collection="snp" item="item" separator="," open="(" close=")">
+                    #{item, jdbcType=INTEGER}
+                </foreach>
                 ) AS f ON d.id = f.fpkm_id
+          </if>
+          <if test="indel != null and indel.size() > 0">
           JOIN (SELECT fpkm_id FROM fpkm_associate_indel WHERE 1 = 1
-                <if test="indel != null and indel.size() > 0">
-                    AND indel_id IN
-                    <foreach collection="indel" item="item" separator="," open="(" close=")">
-                        #{item, jdbcType=INTEGER}
-                    </foreach>
-                </if>
+                AND indel_id IN
+                <foreach collection="indel" item="item" separator="," open="(" close=")">
+                    #{item, jdbcType=INTEGER}
+                </foreach>
                 ) AS g ON d.id = g.fpkm_id
+          </if>
         WHERE 1 = 1
         <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
             AND a.qtl_id IN
@@ -513,22 +515,22 @@
         WHERE 1 = 1
         <include refid="geneExpressionCondition" />
         ) AS d ON c.id = d.baseinfo_id
-        JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE 1 = 1
         <if test="snp != null and snp.size() > 0">
+        JOIN (SELECT fpkm_id FROM fpkm_associate_snp WHERE 1 = 1
             AND snp_id IN
             <foreach collection="snp" item="item" separator="," open="(" close=")">
                 #{item, jdbcType=INTEGER}
             </foreach>
-        </if>
         ) AS f ON d.id = f.fpkm_id
-        JOIN (SELECT fpkm_id FROM fpkm_associate_indel WHERE 1 = 1
+        </if>
         <if test="indel != null and indel.size() > 0">
+        JOIN (SELECT fpkm_id FROM fpkm_associate_indel WHERE 1 = 1
             AND indel_id IN
             <foreach collection="indel" item="item" separator="," open="(" close=")">
                 #{item, jdbcType=INTEGER}
             </foreach>
-        </if>
         ) AS g ON d.id = g.fpkm_id
+        </if>
         WHERE 1 = 1
         <if test="firstHierarchyQtlId != null and firstHierarchyQtlId.size() > 0">
             AND a.qtl_id IN
