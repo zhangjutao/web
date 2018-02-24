@@ -16,9 +16,29 @@
     <link rel="stylesheet" href="${ctxStatic}/js/laypage/skin/laypage.css">
 
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
+    <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <script src="${ctxStatic}/js/iqgsCommon.js"></script>
+    <style>
+        .text_tit{
+            height: 30px;
+            line-height: 30px;
+            /*top:20px;*/
+            margin-top: 20px;
+        }
+
+        .textWidth{
+            display: block;
+            max-width: 600px;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            /*position: relative;*/
+        }
+        .pt{position: absolute;}
+        .cont{width: auto!important;}
+    </style>
 </head>
 <body>
 
@@ -294,9 +314,7 @@
     <div class="search-result" style="margin-top:16px;">
         <div class="search-result-h">
             <p class="result-title">搜索结果</p>
-            <p class="result-text" style="display: flex">您的搜索条件为:<span title="${keyword}"
-                                                                       style="display: block; max-width: 600px; overflow: hidden; white-space: nowrap; text-overflow: ellipsis;"> ${keyword} </span>,共匹配到<span
-                    class="js-search-total"> 0 </span>条相关消息
+            <p class="result-text" style="display: flex">您的搜索条件为:<span class="text_tit"> ${keyword} </span>,共匹配到<span class="js-search-total"> 0 </span>条相关消息
             </p>
             <button id="sort_btn_px" class="sort_btn">排序</button>
         </div>
@@ -351,6 +369,7 @@
 <script src="${ctxStatic}/js/newAddNeed.js"></script>
 <%--<script src="${ctxStatic}/js/sort.js"></script>--%>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
+<script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
 <script>
     // sessionStorage
     if (window.sessionStorage) {
@@ -597,6 +616,7 @@
             if (flag == 0) {
                 // 调用第一个一级搜索获取数据
                 searchOne(page.curr, pageSize);
+                textWidth();//搜索结果长度省略号加提示方法调用
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -606,6 +626,7 @@
             if (flag == 0) {
                 // 调用第二个一级搜索获取数据
                 searchTwo(page.curr, pageSize)
+                textWidth();//搜索结果长度省略号加提示方法调用
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -615,6 +636,7 @@
             if (flag == 0) {
                 // 调用第三个一级搜索获取数据
                 searchThree(page.curr, pageSize);
+                textWidth();//搜索结果长度省略号加提示方法调用
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -624,6 +646,7 @@
             if (flag == 0) {
                 getQtlNameData(page.curr, page.pageSize, page.curr);
                 $(".result-text>span:first").text(qtlSearchNames.join(","));
+                textWidth();//搜索结果长度省略号加提示方法调用
             } else {
                 // 根据高级搜索来分页
                 var dataParam = getParams();
@@ -1086,6 +1109,27 @@
         linkEndPosition();
     });
 
+//    搜索结果长度限制
+    function textWidth(){
+        var searchWidth= $(".result-text .text_tit").width();
+        if(searchWidth>600){
+            $(".text_tit").addClass("textWidth");
+            //基因名称悬浮框显示
+            $('.text_tit').hover(function () {
+                var self = this;
+                var cont = $(this).html();
+                if(searchWidth>600){
+                    $.pt({
+                        target: self,
+                        content: cont
+                    })
+                }
+            },function(){
+                    $("body .pt").remove();
+            })
+
+        }
+    }
 
 </script>
 
