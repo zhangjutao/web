@@ -804,7 +804,7 @@
                     qtlNames += qtls[k].qtlName + ", ";
                 };
                 var qtlNames = qtlNames.substring(0, qtlNames.length - 2);
-                var snp = item.existsSNP ? "存在Exonic_nonsynonymouse SNV" : "-";
+                var snp = item.existsSNP ? "存在Exonic_nonsynonymous SNV" : "-";
                 var expreTissues = item.rootTissues.length ? item.rootTissues.join(",") : "-";
                 var description = item.description ? item.description : "-";
                 if (item.associateQTLs.length == 0) {
