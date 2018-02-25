@@ -60,6 +60,12 @@
         background: #5c8ce6;
         color: #fff;
     }
+    .js-cursom-add2 .label-txt {
+        vertical-align: bottom;
+    }
+    .js-ad-dd {
+        padding: 3px 8px;
+    }
 </style>
 
 <div class="nav_ac">
@@ -1044,6 +1050,11 @@
 
         /* 保存群体 */
         $(".sample-screening-btn button").click(function(){
+            var sampleTexts=$(".sample-text").text();
+            if(sampleTexts.length==0){
+                alert("请选择群体!")
+                return;
+            }
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
             if(populations.length + defaultLen < 10){
                 var arr = [];
