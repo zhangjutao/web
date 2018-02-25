@@ -84,6 +84,11 @@ $(function (){
     // 选择品种中的保存群体
     $(".saveKind").click(function (){
         // 先判断保存群体/品种的数量
+        var sampleTexts=$(".sample-text").text();
+        if(sampleTexts.length==0){
+            alert("请选择样品!")
+            return;
+        }
         var numbs =$(".js-cursom-add").find(".js-ad-dd").length;
         if(numbs>3){
             alert("最多可添加10个群体")

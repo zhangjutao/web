@@ -582,6 +582,7 @@ $(function () {
     // consequence type 交互
     var CTypeSnp = 'all';
     $(".js-snp-table").on("click", ".consequence-type li", function() {
+        $("#snp-paginate .lay-per-page-count-select option:first").prop("selected", 'selected');
         $(".js-snp-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
         var type = $(".js-snp-table .consequence-type").find(".active").attr("data-type");
@@ -598,6 +599,7 @@ $(function () {
 
     var CTypeIndel = 'all';
     $(".js-indel-table").on("click", ".consequence-type li", function() {
+        $("#indel-paginate .lay-per-page-count-select option:first").prop("selected", 'selected');
         $(".js-indel-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
         var type = $(".js-indel-table .consequence-type").find(".active").attr("data-type");

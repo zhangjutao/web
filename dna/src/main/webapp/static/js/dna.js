@@ -1682,7 +1682,7 @@ $(function () {
         $(this).parent().addClass("tabTrColor");
         var pps = $("#" + id).find("td.t_genoType div");
         for (var i=0;i<pps.length;i++){
-            $(pps[i]).find("p:first").css("background","#5D8CE6");
+            $(pps[i]).find("p:first").css("background","none");
         }
 
     });
