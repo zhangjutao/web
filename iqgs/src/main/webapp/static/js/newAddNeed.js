@@ -25,8 +25,14 @@
             alert("sorry,你的浏览器不支持Promise 对象")
         };
     };
+// 每个qtlname列表的点击选中事件
+var globleObject = {};
     // qtl 搜索 -- 》获取数据 -- >search
     $("#QtlBtnName").click(function (){
+        // 每次搜索清空上一次的保存状态
+        globleObject.selectedQtl = [];
+        globleObject.selectedQtlNames = [];
+
         var qtlSearchVal = $("#qtlName").val().trim();
         var data ={
             qtlName:qtlSearchVal
@@ -77,10 +83,7 @@
             }
         )
     });
-    // 每个qtlname列表的点击选中事件
-    var globleObject = {};
-     globleObject.selectedQtl = [];
-     globleObject.selectedQtlNames = [];
+
     $("#qtlAdd .fuzzySearch").on("click","li",function (){
         var list =  $("#qtlAdd .fuzzySearch li");
         if($(this).hasClass("checked")) {
