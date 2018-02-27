@@ -66,6 +66,11 @@
     .js-ad-dd {
         padding: 3px 8px;
     }
+    body .tab-detail{
+        left: 50%;
+        margin-left: -515px;
+        border:none;
+    }
 </style>
 
 <div class="nav_ac">
