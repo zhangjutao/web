@@ -10,7 +10,7 @@
 <div class="genesInfo" style="display: none;">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="javascript:void(0);">X</a>
+        <a href="javascript:void(0);">x</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
@@ -141,8 +141,7 @@
                         heatmapdata = _.orderBy(dd.cate, ["name"]);
                         heatmapcategory =  dd.gens;
                         g_cate = initCategories();
-                        console.log(innergenes)
-                        <%--$("#heatmap_${id}").css({"height": (70 * innergenes.length + 120) +"px"});--%>
+                        $("#heatmap_${id}").css({"height": (70 * innergenes.length + 120) +"px"});
                         renderChart(heatmapcategory, g_cate, getChartData(g_cate));
 
                         // 显示分页

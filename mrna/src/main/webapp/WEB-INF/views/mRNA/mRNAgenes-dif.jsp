@@ -364,9 +364,6 @@
 	.tab-contrast-ac .contrast{
             display: none;
         }
-        .zwsj{
-            padding: 20px 0;
-        }
     </style>
 </head>
 
@@ -732,7 +729,7 @@
     <div class="genesInfo" style="display: none;">
         <div class="genesInfo-head">
             <p>基因<span class="js-gene-head-name"></span>信息</p>
-            <a href="javascript:void(0);">X</a>
+            <a href="javascript:void(0);">x</a>
         </div>
         <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
     </div>
@@ -839,7 +836,7 @@
         }
 
         function getParams() {
-            var geneName = $.trim($(".js-search-gene-name").val());
+            var geneName = $(".js-search-gene-name").val();
             var logFoldChange = $(".js-log-fold-change-val").val();
             var adjustedPValue = $(".js-adjusted-pvalue").val();
             var sort = $(".js-regulated").val();
@@ -939,8 +936,7 @@
                     $("#min").html("-" + Math.ceil(min));
 
                     if(res.data.length > 0) {
-                        $(".js-heat-table > tbody, .js-heat-table > thead,.ga-ctrl-footer").show();
-                        $('.zwsj').remove();
+
                         //显示表格内容
                         renderTable(res.data);
 
@@ -961,9 +957,8 @@
                         });
 
                     } else {
-                        $('.heat-table').append("<p class='zwsj'>暂无数据</p>")
-                        $(".js-heat-table > tbody, .js-heat-table > thead,.ga-ctrl-footer").hide();
-//                        alert("无数据");
+                        $(".js-heat-table > tbody, .js-heat-table > thead").empty();
+                        alert("无数据");
                     }
                     //显示分页
                     laypage({

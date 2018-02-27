@@ -43,30 +43,6 @@
             -moz-border-radius: 5px;
             border-radius: 5px;
         }
-        body .genesInfo{
-            left: 50%;
-            margin-left: -515px;
-            border:none;
-        }
-        body .genesInfo-head{
-            position: relative;
-            height: 40px;
-            line-height: 40px;
-            background: #5c8ce6;
-            cursor: move;
-        }
-        .genesInfo .genesInfo-head p{
-            width: 100%;
-            text-align:center;
-            color: #fff;
-        }
-        .genesInfo .genesInfo-head a{
-            float: none;
-            position: absolute;
-            right: 15px;
-            color:#fff;
-            font-size: 20px;
-        }
     </style>
 </head>
 <body>
@@ -434,7 +410,7 @@
 <div class="genesInfo" style="display: none">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="#">X</a>
+        <a href="#">x</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
@@ -445,13 +421,7 @@
 </script>
 <script src="${ctxStatic}/js/dna.js"></script>
 <script src="${ctxStatic}/js/addTags.js"></script>
-<script>
-    /* 详情信息弹框可拖动 */
-    $( ".genesInfo" ).draggable({
-        containment: "body",
-        cancel: '#mask-test',
-    });
-</script>
+
 
 </body>
 </html>

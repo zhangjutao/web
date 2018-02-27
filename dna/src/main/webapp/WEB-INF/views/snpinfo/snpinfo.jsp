@@ -152,7 +152,7 @@
         <p class="pieShowTop"></p>
         <div id="pieShow">
         </div>
-        <div id="snpinfoTable" style="overflow-x: inherit">
+        <div id="snpinfoTable">
             <div id="snpSetPanel">
                 <div id="tableCnt">
                     <div class="selecting" >
@@ -263,7 +263,6 @@
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
             </div>
-            <div style="overflow-x: auto">
             <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
                 <thead style="overflow-x: scroll;">
                 <tr style="background: #F5F8FF;">
@@ -596,7 +595,7 @@
                 <tbody>
                 </tbody>
             </table>
-            </div>
+
         </div>
         <%--laypage 分页 插件  begin--%>
         <div class="checkbox-item-tab" id="snpInforsPage">

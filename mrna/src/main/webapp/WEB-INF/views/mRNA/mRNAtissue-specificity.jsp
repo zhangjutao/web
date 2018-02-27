@@ -26,7 +26,7 @@
     <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
     <script src="https://cdn.bootcss.com/echarts/3.6.2/echarts.min.js"></script>
     <script src="${ctxStatic}/js/dataTool.min.js"></script>
-    <script src="${ctxStatic}/js/jquery-ui.js"></script>
+
     <style>
         .ga-checkbox {
             cursor: pointer;
@@ -39,30 +39,6 @@
         }
         #heatmap_ .highcharts-container {
             top: -40px!important;
-        }
-        body .genesInfo{
-            left: 50%;
-            margin-left: -515px;
-            border:none;
-        }
-        body .genesInfo-head{
-            position: relative;
-            height: 40px;
-            line-height: 40px;
-            background: #5c8ce6;
-            cursor: move;
-        }
-        .genesInfo .genesInfo-head p{
-            width: 100%;
-            text-align:center;
-            color: #fff;
-        }
-        .genesInfo .genesInfo-head a{
-            float: none;
-            position: absolute;
-            right: 15px;
-            color:#fff;
-            font-size: 20px;
         }
     </style>
 </head>
@@ -109,7 +85,7 @@
                     <div class="genes-choose-export" style="position: relative; top: 15px; right: 0; z-index: 9;">
                         <button type="button" class="btn  js-export-heat">导出图表</button>
                     </div>
-                    <mrna:chart-heatmap data="${data}" isAjax="true" ></mrna:chart-heatmap>
+                    <mrna:chart-heatmap data="${data}" isAjax="true" gaHeight="600"></mrna:chart-heatmap>
                 </div>
                 <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
              </div>
@@ -990,8 +966,7 @@
 
 
     });
-    /*基因详情拖动弹框*/
-    $(".genesInfo").draggable({ containment: "body" });
+
 </script>
 </body>
 </html>
