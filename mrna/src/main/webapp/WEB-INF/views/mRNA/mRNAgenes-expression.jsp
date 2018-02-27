@@ -62,7 +62,7 @@
         .table-responsive {
             /*width: 900px;*/
             overflow: auto;
-            min-height: 665px;
+            /*min-height: 665px;*/
         }
 
         .heat-table {
@@ -223,6 +223,37 @@
         }
         .tab-contrast-ac .contrast{
             display: none;
+        }
+        .zwsj{
+            padding: 20px 0;
+        }
+        .mRMA-dif .ga-ctrl-footer {
+            text-align: right;
+            padding: 20px 0;
+        }
+        body .genesInfo{
+            left: 50%;
+            margin-left: -515px;
+            border:none;
+        }
+        body .genesInfo-head{
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            background: #5c8ce6;
+            cursor: move;
+        }
+        .genesInfo .genesInfo-head p{
+            width: 100%;
+            text-align:center;
+            color: #fff;
+        }
+        .genesInfo .genesInfo-head a{
+            float: none;
+            position: absolute;
+            right: 15px;
+            color:#fff;
+            font-size: 20px;
         }
     </style>
 </head>
@@ -545,7 +576,7 @@
     <div class="genesInfo" style="display: none;">
         <div class="genesInfo-head">
             <p>基因<span class="js-gene-head-name"></span>信息</p>
-            <a href="javascript:void(0);">x</a>
+            <a href="javascript:void(0);">X</a>
         </div>
         <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
     </div>
@@ -558,6 +589,7 @@
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
+<script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script>
 
     function loadMask (el) {
@@ -639,7 +671,7 @@
         }
 
         function getParams() {
-            var geneName = $(".js-search-gene-name").val();
+            var geneName = $.trim($(".js-search-gene-name").val());
             var expressionValue = $(".js-expression-select").val() + "," + $(".js-expression-value").val();
             return {
                 "id": studyId,
@@ -710,6 +742,9 @@
                     maskClose();
 
                     if(res.data.length > 0) {
+                        $(".js-heat-table > tbody, .js-heat-table > thead,.ga-ctrl-footer").show();
+                        $('.zwsj').remove();
+
                         //显示表格内容
                         renderTable(res.data);
 
@@ -728,9 +763,14 @@
                         });
 
                     } else {
-                        $(".js-heat-table > thead").empty();
-                        $(".js-heat-table > tbody").empty();
-                        alert("无数据");
+//                        $(".js-heat-table > thead").empty();
+//                        $(".js-heat-table > tbody").empty();
+//                        alert("无数据");
+
+                        $('.heat-table').append("<p class='zwsj'>暂无数据</p>")
+                        $(".js-heat-table > tbody, .js-heat-table > thead,.ga-ctrl-footer").hide();
+//                        alert("无数据");
+
                     }
                     $("#total-page-count > span").html(res.total);
 
@@ -1018,6 +1058,9 @@
         }();
 
     })
+
+    /*基因详情拖动弹框*/
+    $(".genesInfo").draggable({ containment: "body" });
 </script>
 </body>
 </html>
