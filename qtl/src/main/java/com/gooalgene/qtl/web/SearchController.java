@@ -78,6 +78,9 @@ public class SearchController {
         String keywords = request.getParameter("keywords");
         String version = request.getParameter("version");
         String parameters = request.getParameter("condition");
+        if (parameters == null) {
+            parameters="{}";
+        }
         if (type == null) {
             return new ModelAndView("redirect:/search/index");
         }
