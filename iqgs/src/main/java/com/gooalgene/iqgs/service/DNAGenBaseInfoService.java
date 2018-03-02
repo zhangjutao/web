@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.service;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
@@ -283,10 +284,13 @@ public class DNAGenBaseInfoService implements InitializingBean {
         return rs;
     }
 
-    public List<DNAGenHomologous> getGenHomologousByGeneId(String genId) {
+    public PageInfo<DNAGenHomologous> getGenHomologousByGeneId(String genId, int pageNo, int pageSize) {
         DNAGenHomologous bean = new DNAGenHomologous();
         bean.setGeneId(genId);
-        return dnaGenBaseInfoDao.findGenHomologousByGeneId(bean);
+        PageHelper.startPage(pageNo, pageSize);
+        List<DNAGenHomologous> homologousList = dnaGenBaseInfoDao.findGenHomologousByGeneId(bean);
+        PageInfo<DNAGenHomologous> homologousPageInfo = new PageInfo<>(homologousList);
+        return homologousPageInfo;
     }
 
     public List<DNAGenBaseInfo> queryDNAGenBaseInfosByFamilyId(String familyId, Page<DNAGenBaseInfo> page) {

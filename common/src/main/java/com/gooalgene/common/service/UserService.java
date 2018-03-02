@@ -122,8 +122,12 @@ public class UserService implements ApplicationContextAware {
     //更新用户enable的值
     public boolean enableUser(int id) {
         User user = new User();
+        Calendar calendar=Calendar.getInstance();
         user.setId(id);
         user.setEnabled(1);
+        calendar.add(Calendar.MONTH,2);
+        Date due_date=calendar.getTime();
+        user.setDue_time(due_date);
         return userDao.updateUserEnabled(user);
     }
 

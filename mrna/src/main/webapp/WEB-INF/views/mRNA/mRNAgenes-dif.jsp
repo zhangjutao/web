@@ -364,6 +364,39 @@
 	.tab-contrast-ac .contrast{
             display: none;
         }
+        .zwsj{
+            padding: 15px 0;
+            font-size: 14px;
+        }
+        .btn-export-set .btn img{
+            position: relative;
+            top: -2px;
+            padding-right: 2px;
+        }
+        body .genesInfo{
+            left: 50%;
+            margin-left: -515px;
+            border: none;
+        }
+        body .genesInfo-head{
+            position: relative;
+            height: 40px;
+            line-height: 40px;
+            background: #386cca;
+            cursor: move;
+        }
+        .genesInfo .genesInfo-head p{
+            width: 100%;
+            text-align:center;
+            color: #fff;
+        }
+        .genesInfo .genesInfo-head a{
+            float: none;
+            position: absolute;
+            right: 15px;
+            color:#fff;
+            font-size: 20px;
+        }
     </style>
 </head>
 
@@ -729,7 +762,7 @@
     <div class="genesInfo" style="display: none;">
         <div class="genesInfo-head">
             <p>基因<span class="js-gene-head-name"></span>信息</p>
-            <a href="javascript:void(0);">x</a>
+            <a href="javascript:void(0);">X</a>
         </div>
         <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
     </div>
@@ -742,6 +775,7 @@
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
+<script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script>
 
     function loadMask (el) {
@@ -836,7 +870,7 @@
         }
 
         function getParams() {
-            var geneName = $(".js-search-gene-name").val();
+            var geneName = $.trim($(".js-search-gene-name").val());
             var logFoldChange = $(".js-log-fold-change-val").val();
             var adjustedPValue = $(".js-adjusted-pvalue").val();
             var sort = $(".js-regulated").val();
@@ -910,15 +944,15 @@
 
         }
 
-        var pageSize = 20;
-        $(".lay-per-page-count-select").val(pageSize);
+        var page = {curr: 1, pageSize:20};
+        $(".lay-per-page-count-select").val(page.pageSize);
 
-        function initTable(curr) {
+        function initTable(curr,pageSizeNum) {
             var max, min;
 
             var params = getParams();
             params['pageNo'] = curr || 1;
-            params['pageSize'] = pageSize;
+            params['pageSize'] = pageSizeNum||20;
 
             loadMask ("#mask-test");
 
@@ -936,7 +970,7 @@
                     $("#min").html("-" + Math.ceil(min));
 
                     if(res.data.length > 0) {
-
+                        $(".js-heat-table > thead,.ga-ctrl-footer").show();
                         //显示表格内容
                         renderTable(res.data);
 
@@ -956,29 +990,39 @@
                             }
                         });
 
-                    } else {
-                        $(".js-heat-table > tbody, .js-heat-table > thead").empty();
-                        alert("无数据");
-                    }
-                    //显示分页
-                    laypage({
-                        cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
-                        curr: curr || 1, //当前页
-                        skin: '#5c8de5',
-                        skip: true,
-                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
-                        prev: '<',
-                        next: '>',
-                        groups: 3, //连续显示分页数
-                        jump: function (obj, first) { //触发分页后的回调
-                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                initTable(obj.curr);
+                        //显示分页
+                        laypage({
+                            cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                            pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
+                            curr: page.curr || 1, //当前页
+                            skin: '#5c8de5',
+                            skip: true,
+                            first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                            last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                            prev: '<',
+                            next: '>',
+                            groups: 3, //连续显示分页数
+                            jump: function (obj, first) { //触发分页后的回调
+                                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+//                                    var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+//                                    initTable(obj.curr,pageSizeNum);
+                                    var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                                    page.curr = obj.curr;
+                                    var currNum=obj.curr;
+                                    initTable(currNum,pageSizeNum);
+                                }
                             }
-                        }
-                    });
-                    $("#total-page-count > span").html(res.total);
+                        });
+                        $("#total-page-count > span").html(res.total);
+
+                    } else {
+//                        $(".js-heat-table > tbody, .js-heat-table > thead").empty();
+                        $(".js-heat-table > thead,.ga-ctrl-footer").hide();
+                        $(".js-heat-table > tbody").empty();
+                        $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")
+
+                    }
+
                 }
 
             })
@@ -986,18 +1030,34 @@
 
         // 修改每页显示条数
         $(".ga-heat-table").on("change", ".lay-per-page-count-select", function() {
-            pageSize = $(this).val();
-            initTable(1);
+//            pageSize = $(this).val();
+//            initTable(1);
+            var curr = Number($(".ga-heat-table .laypage_curr").text());
+            var pageSize = Number($(this).val());
+            var total= Number($(".ga-heat-table #total-page-count span").text());
+            var mathCeil=  Math.ceil(total/curr);
+            page.pageSize = $(this).val();
+            if(pageSize>mathCeil){
+                page.curr = 1;
+                initTable(1,pageSize);
+            }else{
+                initTable(curr,pageSize);
+            }
         });
 
         // up or down regulated
         $(".js-regulated").change(function() {
+            page.curr=1;
            initTable(1);
+            $(".ga-ctrl-footer .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
         });
 
         // 搜索
         $(".js-search-gene-button").click(function() {
+            page.curr=1;
             initTable(1);
+            $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
+            $('.zwsj').remove();
         });
 
         $(".ga-heat-table").on("focus", ".laypage_skip", function() {
@@ -1027,24 +1087,52 @@
 
         // 注册 enter 事件的元素
         document.onkeydown = function(e) {
-            var _page_skip = $('.laypage_skip');
+            var _page_skip = $('.ga-ctrl-footer .laypage_skip');
             var _search_gene_dom = $('.js-search-gene-name');
             var _log_fold_change_dom = $('.js-log-fold-change-val');
             var _adjusted_pvalue_dom = $('.js-adjusted-pvalue');
             if(e && e.keyCode==13){ // enter 键
-
+                var currNum = Number(_page_skip.val());
+                var pageSizeNum = Number($('.ga-ctrl-footer #per-page-count .lay-per-page-count-select').val());
+                var total= Number($(".ga-ctrl-footer #total-page-count span").text());
+                var mathCeil=  Math.ceil(total/pageSizeNum);
                 if( _page_skip.hasClass("isFocus") ) {
-                    initTable(_page_skip.val() * 1);
+                    if(currNum>mathCeil){
+                        page.curr = 1;
+                        initTable(1,pageSizeNum);
+                    }else{
+                        page.curr = currNum;
+                        initTable(currNum,pageSizeNum);
+                    }
+//                    initTable(_page_skip.val() * 1);
                 } else if (_search_gene_dom.hasClass("isFocus")) {
-                    initTable(1);
+                    $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
+                    if(currNum>mathCeil){
+                        page.curr = 1;
+                        initTable(1,pageSizeNum);
+                    }else{
+                        page.curr = currNum;
+                        initTable(currNum,pageSizeNum);
+                    }
                 } else if (_adjusted_pvalue_dom.hasClass("isFocus")) {
-                    initTable(1);
+                    $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
+                    if(currNum>mathCeil){
+                        page.curr = 1;
+                        initTable(1,pageSizeNum);
+                    }else{
+                        page.curr = currNum;
+                        initTable(currNum,pageSizeNum);
+                    }
                 } else if(_log_fold_change_dom.hasClass("isFocus")) {
-                    initTable(1);
-                } else {
-
+                    $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
+                    if(currNum>mathCeil){
+                        page.curr = 1;
+                        initTable(1,pageSizeNum);
+                    }else{
+                        page.curr = currNum;
+                        initTable(currNum,pageSizeNum);
+                    }
                 }
-
             }
         }
 
@@ -1338,7 +1426,9 @@
             $(".change-select").on("click", ".ga-num-add", function() {
                 var num = $(this).siblings("input").val();
                 $(this).siblings("input").val(num*1+1);
+                page.curr=1;
                 initTable(1);
+                $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
             $(".change-select").on("click", ".ga-num-minus", function() {
                 var num = $(this).siblings("input").val();
@@ -1347,19 +1437,25 @@
                     num = 0;
                 }
                 $(this).siblings("input").val(num);
+                page.curr=1;
                 initTable(1);
+                $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
 
             $(".search-input").on("click", ".ga-num-add", function() {
                 var num = $(this).siblings("input").val();
                 $(this).siblings("input").val( ((num*100 + 1)/100).toFixed(2) );
+                page.curr=1;
                 initTable(1);
+                $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
             $(".search-input").on("click", ".ga-num-minus", function() {
                 var num = $(this).siblings("input").val();
                 num = ((num*100 - 1)/100).toFixed(2);
                 $(this).siblings("input").val(num);
+                page.curr=1;
                 initTable(1);
+                $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
 
             $(".js-export").click(function() {
@@ -1382,6 +1478,9 @@
             $(".sample-contrast").addClass("tab-contrast-ac")
         })
     })
+
+    /*基因详情拖动弹框*/
+    $(".genesInfo").draggable({ containment: "body" });
 </script>
 </body>
 </html>

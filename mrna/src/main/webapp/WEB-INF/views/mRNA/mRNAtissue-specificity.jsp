@@ -85,7 +85,7 @@
                     <div class="genes-choose-export" style="position: relative; top: 15px; right: 0; z-index: 9;">
                         <button type="button" class="btn  js-export-heat">导出图表</button>
                     </div>
-                    <mrna:chart-heatmap data="${data}" isAjax="true" gaHeight="600"></mrna:chart-heatmap>
+                    <mrna:chart-heatmap data="${data}" isAjax="true" gaHeight="400"></mrna:chart-heatmap>
                 </div>
                 <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
              </div>
