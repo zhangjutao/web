@@ -28,7 +28,7 @@
     <script src="${ctxStatic}/js/d3.js"></script>
     <script src="${ctxStatic}/js/svg-pan-zoom.js"></script>
     <style>
-        .total-page-count {display: none!important;}
+        .total-page-count {    position: relative;  top: -4px;}
         /* master分支中无群体信息 */
         #populationInfos{
             padding:8px 20px;
@@ -42,6 +42,33 @@
             -webkit-border-radius: 5px;
             -moz-border-radius: 5px;
             border-radius: 5px;
+        }
+
+        .genesInfo .genesInfo-head{
+            height: 40px;
+            line-height: 40px;
+            background-color: #386cca;
+            color: #fff;
+            cursor: move;
+        }
+       body .genesInfo{
+            border: none;
+           left: 50%!important;
+           margin-left: -515px;
+        }
+        .genesInfo .genesInfo-head p{
+            position: relative;
+            float: inherit;
+            text-align: center;
+        }
+        .genesInfo .genesInfo-head a{
+            color: #fff;
+            float: right;
+            padding: 0 20px;
+            font-size: 20px;
+            position: absolute;
+            right: 0px;
+            top: 0;
         }
     </style>
 </head>
@@ -410,7 +437,7 @@
 <div class="genesInfo" style="display: none">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="#">x</a>
+        <a href="#">X</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
@@ -421,7 +448,13 @@
 </script>
 <script src="${ctxStatic}/js/dna.js"></script>
 <script src="${ctxStatic}/js/addTags.js"></script>
-
+<script>
+    /* 详情信息弹框可拖动 */
+    $( ".genesInfo" ).draggable({
+        containment: "body",
+        cancel: '#mask-test',
+    });
+</script>
 
 </body>
 </html>

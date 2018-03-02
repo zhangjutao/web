@@ -68,7 +68,7 @@
     }
     body .tab-detail{
         left: 50%;
-        margin-left: -515px;
+        margin-left: -450px;
         border:none;
     }
 </style>
@@ -1381,7 +1381,7 @@
             $(this).removeClass("isFocus");
         });
 
-        $("body").on("change",".lay-per-page-count-select", function() {
+        $("#popu-paginate #per-page-count").on("change",".lay-per-page-count-select", function() {
             var curr = Number($(".laypage_curr").text());
             var pageSize = Number($(this).val());
             var total= Number($("#popu-paginate #total-page-count span").text());
@@ -1398,10 +1398,10 @@
 
         // 注册 enter 事件的元素
         $(document).keyup(function (event) {
-            var _page_skip = $('#pagination .laypage_skip');
+            var _page_skip = $('#popu-paginate .laypage_skip');
             if (_page_skip.hasClass("isFocus")) {
                 if (event.keyCode == 13) {
-                    var _page_skip = $('#pagination .laypage_skip');
+                    var _page_skip = $('#popu-paginate .laypage_skip');
                     var currNum = Number(_page_skip.val());
                     var pageSizeNum = Number($('#popu-paginate #per-page-count .lay-per-page-count-select').val());
                     var total= Number($("#popu-paginate #total-page-count span").text());
