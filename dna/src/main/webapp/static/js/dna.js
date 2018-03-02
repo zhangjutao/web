@@ -505,7 +505,7 @@ $(function () {
 
     };
     // 修改每页显示条数
-    $(".js-snp-tab").on("change", ".lay-per-page-count-select", function() {
+    $(".tab-item .js-snp-tab").on("change", ".lay-per-page-count-select", function() {
         pageSizeSNP = $(this).val();
         var obj = getPanelParams();
         // add
@@ -521,8 +521,18 @@ $(function () {
             // add
             // obj.params.pageNo = currPageNumb;
         }
-        deleteSelectedSnp()
-        requestForSnpData(1, obj.url, obj.params);
+        deleteSelectedSnp();
+        // requestForSnpData(1, obj.url, obj.params);
+
+        var currSnp = Number($("#snp-paginate .laypage_curr").text());
+        var pageSizeSnp = Number($(this).val());
+        var totalSnp= Number($("#snp-paginate #total-page-count span").text());
+        var mathCeilSnp=  Math.ceil(totalSnp/currSnp);
+        if(pageSizeSnp>mathCeilSnp){
+            requestForSnpData(1, obj.url, obj.params);
+        }else{
+            requestForSnpData(currSnp, obj.url, obj.params);
+        }
     });
 
     $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
@@ -541,7 +551,17 @@ $(function () {
             // add
         }
         deleteSelectedSnp()
-        requestForIndelData(1, obj.url, obj.params);
+        // requestForIndelData(1, obj.url, obj.params);
+
+        var currIndel = Number($("#indel-paginate .laypage_curr").text());
+        var pageSizeIndel = Number($(this).val());
+        var totalIndel= Number($("#indel-paginate #total-page-count span").text());
+        var mathCeilIndel=  Math.ceil(totalIndel/currIndel);
+        if(pageSizeIndel>mathCeilIndel){
+            requestForIndelData(1, obj.url, obj.params);
+        }else{
+            requestForIndelData(currIndel, obj.url, obj.params);
+        }
     });
 
     // 分页跳转
@@ -565,9 +585,9 @@ $(function () {
         if(e && e.keyCode==13){ // enter 键
             if( _page_skip.hasClass("isFocus") ) {
 
-                if(_page_skip.val() * 1 > Math.ceil(($(".total-page-count-snp").text()*1)/pageSizeSNP)) {
-                    return alert("输入页码不能大于总页数");
-                }
+                // if(_page_skip.val() * 1 > Math.ceil(($(".total-page-count-snp").text()*1)/pageSizeSNP)) {
+                //     return alert("输入页码不能大于总页数");
+                // }
                 var obj = getPanelParams();
                 if(filterEvent!=0){
                     // add
@@ -581,12 +601,25 @@ $(function () {
                     delete obj.params.chromosome;
                     // add
                 };
-                requestForSnpData(_page_skip.val() * 1, obj.url, obj.params);
+
+                var currNum1 = Number(_page_skip.val());
+                var pageSizeNum1 = Number($('#snp-paginate #per-page-count .lay-per-page-count-select').val());
+                var total1= Number($("#snp-paginate #total-page-count span").text());
+                var mathCeil=  Math.ceil(total1/pageSizeNum1);
+                if(currNum1>mathCeil){
+                    requestForSnpData(1, obj.url, obj.params);
+                }else{
+                    // getPopuTable(currNum,pageSizeNum);
+                    requestForSnpData(currNum1, obj.url, obj.params);
+                }
+
+
+                // requestForSnpData(_page_skip.val() * 1, obj.url, obj.params);
             }
             if(_page_skip2.hasClass("isFocus")) {
-                if(_page_skip2.val() * 1 > Math.ceil(($(".total-page-count-indel").text() *1)/pageSizeINDEL)) {
-                    return alert("输入页码不能大于总页数");
-                }
+                // if(_page_skip2.val() * 1 > Math.ceil(($(".total-page-count-indel").text() *1)/pageSizeINDEL)) {
+                //     return alert("输入页码不能大于总页数");
+                // }
                 var obj = getPanelParams();
                 if(filterEvent!=0){
                     // add
@@ -600,7 +633,17 @@ $(function () {
                     delete obj.params.chromosome;
                     // add
                 };
-                requestForIndelData(_page_skip2.val() * 1, obj.url, obj.params);
+
+                var currNum2 = Number(_page_skip2.val());
+                var pageSizeNum2 = Number($('#indel-paginate #per-page-count .lay-per-page-count-select').val());
+                var total2= Number($("#indel-paginate #total-page-count span").text());
+                var mathCei2=  Math.ceil(total2/pageSizeNum2);
+                if(currNum2>mathCei2){
+                    requestForIndelData(1, obj.url, obj.params);
+                }else{
+                    requestForIndelData(currNum2, obj.url, obj.params);
+                }
+                // requestForIndelData(_page_skip2.val() * 1, obj.url, obj.params);
             }
         }
     }
@@ -637,6 +680,7 @@ $(function () {
                     SNPData = res.data;
                     if(res.data.length > 0) {
                         renderSNPTable(SNPData, Major_Or_Minor_SNP);
+                        $('#snp-paginate #total-page-count span').html(res.total)
                         // renderSNPTable(SNPData);
                     } else {
                         $(".js-snp-table>tbody").empty().append("<span>无数据</span>");
@@ -738,6 +782,7 @@ $(function () {
                     INDELData = res.data;
                     if(res.data.length > 0) {
                         renderINDELTable(INDELData, Major_Or_Minor_INDEL);
+                        $('#indel-paginate #total-page-count span').html(res.total)
                     } else {
                         //alert("无数据");
                         $(".js-indel-table>tbody").empty().append("<span>无数据</span>");
@@ -987,6 +1032,7 @@ $(function () {
     // consequence type 交互
     var CTypeSnp = 'all';
     $(".js-snp-table").on("click", ".consequence-type li", function() {
+        $("#snp-paginate .lay-per-page-count-select option:first").prop("selected", 'selected');
         // 每次进行筛选都要snp 位点上的信息都去掉
         var snppoints = $("#snpid").find("a");
         for(var i=0;i<snppoints.length;i++){
@@ -1028,6 +1074,7 @@ $(function () {
 
     var CTypeIndel = 'all';
     $(".js-indel-table").on("click", ".consequence-type li", function() {
+        $("#indel-paginate .lay-per-page-count-select option:first").prop("selected", 'selected');
         // 每次进行筛选都要snp 位点上的信息都去掉
         var snppoints = $("#indelid").find("a");
         for(var i=0;i<snppoints.length;i++){

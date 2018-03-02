@@ -115,7 +115,7 @@
                                     <%--<label><span></span>基因12345</label>--%>
                                     <%--<label><span></span>基因123</label>--%>
                                 </div>
-                                <div class="box-genes-tab js-checkbox-gene">
+                                <div class="box-genes-tab js-checkbox-gene" id="CheckboxGene">
                                     <dl>
                                         <%--<dd><label for="sampleName"><span id="sampleName"></span>基因23456</label></dd>--%>
                                         <%--<dd><label for="study"><span id="study"></span>基因23456</label></dd>--%>
@@ -310,7 +310,8 @@
         function renderGenesCheckBox() {
             var str = '';
             for(var i in specificGenes) {
-                var gene = specificGenes[i];
+                var gene = specificGenes[i].split(".")[0] + specificGenes[i].split(".")[1];
+//                var gene = specificGenes[i];
                 str += '<dd><label class="ga-checkbox js-checkbox-item-gene cls_'+gene+'" for="'+ gene +'"><span id="'+ gene +'"></span>'+ gene +'</label></dd>'
             }
             $(".js-checkbox-gene > dl").empty().append(str);

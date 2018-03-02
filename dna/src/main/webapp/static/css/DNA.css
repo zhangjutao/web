@@ -100,7 +100,7 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {color: #d5d5d5;}
 #select-populations-checkbox dd{float: left;height: 20px;line-height: 20px;margin-bottom: 6px}
 #select-populations-checkbox dd label{;display: inline-block}
 #select-populations-checkbox dd label span.label-txt{min-width: 40px;display: inline-block}
-.label-txt {display: inline-block;  cursor: pointer;}
+.label-txt {display: inline-block;  cursor: pointer;width: 203px!important;}
 #select-populations-checkbox dd label span.label-checkbox,.js-ad-dd label span{width: 14px;height: 14px;background-image: url(../images/contrast.png); background-repeat: no-repeat;vertical-align: middle; margin-right: 8px;display: inline-block;}
 #select-populations-checkbox dd label.cur span.label-checkbox,.js-ad-dd label.cur span{background-image: url(../images/contrast-ac.png)}
 #select-populations-checkbox dd label.cur {color: #5c8ce6}
@@ -119,7 +119,9 @@ input:-ms-input-placeholder, textarea:-ms-input-placeholder {color: #d5d5d5;}
 .js-span-ac{background-color: #eff3fa;color: #5c8ce6;}
 .js-cursom-add{background-color: #f5f8ff;}
 .js-ad-dd{border: 1px solid #e6e6e6;padding: 0 3px;margin-right:5px;margin-bottom: 8px;;line-height: 18px;cursor: pointer;
-    display: inline-block;}
+    display: inline-block;
+    width:241px;
+}
 .js-cursom-add:after{content: "";display: block;clear: both}
 /*.js-add-checkbox label span{width: 14px;height: 14px;}*/
 .js-default-add .js-ad-dd {  border: none;  }
