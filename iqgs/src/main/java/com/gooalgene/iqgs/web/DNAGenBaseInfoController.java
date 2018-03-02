@@ -1,5 +1,6 @@
 package com.gooalgene.iqgs.web;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
@@ -43,6 +44,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -136,6 +138,7 @@ public class DNAGenBaseInfoController implements InitializingBean {
         String idOrName = req.getParameter("keyword");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
         int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        ResultVO resultVO = new ResultVO();
         PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseSearchResult(SearchConditionEnum.ID, idOrName, pageNo, pageSize);
         return ResultUtil.success(resultPageInfo);
     }
@@ -271,12 +274,12 @@ public class DNAGenBaseInfoController implements InitializingBean {
     }
 
     @RequestMapping("/detail/origin")
-    public String detailForOrigin(HttpServletRequest req, HttpServletResponse resp, Model model) {
-        String genId = req.getParameter("gen_id");
-        List<DNAGenHomologous> homologous = dnaGenBaseInfoService.getGenHomologousByGeneId(genId);
-        model.addAttribute("genId", genId);
-        model.addAttribute("homologous", homologous);
-        return "iqgs/homologous-gene";
+    public ResultVO<DNAGenHomologous> detailForOrigin(HttpServletRequest req) {
+        String genId = req.getParameter("gene_id");
+        int pageNo = Integer.parseInt(req.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(req.getParameter("pageSize"));
+        PageInfo<DNAGenHomologous> homologousPageInfo = dnaGenBaseInfoService.getGenHomologousByGeneId(genId, pageNo, pageSize);
+        return ResultUtil.success(homologousPageInfo);
     }
 
     @RequestMapping("/detail/family")
@@ -354,7 +357,7 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     @RequestMapping("/getQtlByVersionAndGene")
     @ResponseBody
-    public ResultVO getQtlByVersionAndGene(HttpServletRequest req, HttpServletResponse resp){
+    public ResultVO getQtlByVersionAndGene(HttpServletRequest req, HttpServletResponse resp) {
         String gene = req.getParameter("gen_id");
         Page<Qtl> page = new Page<Qtl>(req, resp);
         Map<String, ?> stringMap = queryService.qtlSearchbyGene(gene, page);
@@ -411,10 +414,10 @@ public class DNAGenBaseInfoController implements InitializingBean {
         if (org.apache.commons.lang.StringUtils.isNotBlank(genes)) {
             String[] gens = genes.split(",");
             GenResult genResult = new GenResult();
-            if (gens.length == 1){
+            if (gens.length == 1) {
                 String key = gens[0] + "_" + genResult.getClass().getSimpleName();
                 Cache.ValueWrapper valueWrapper = cache.get(key);
-                if (valueWrapper != null){
+                if (valueWrapper != null) {
                     genResult = (GenResult) valueWrapper.get();
                 }
             } else {
