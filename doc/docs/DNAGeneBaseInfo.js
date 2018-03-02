@@ -259,22 +259,9 @@
  * @api {get} /iqgs/detail/origin 基因的同源基因信息获取
  * @apiName detailForOrigin
  * @apiGroup DNAGeneBaseInfo
- * @apiParam {String} gen_id 基因详情页对应的基因id
- * @apidescription 返回页面转发（到homologous-gene.jsp），通过EL表达式取到后台查询的值。
- * @apiSuccessExample model structure:
- * {
-     * "geneId": "Glyma.01G004900",
-     * "homologous": [
-     * {
-     * "isNewRecord": false,
-     * "orthologSpecies": "Arabidopsis thaliana",
-     * "geneId": "Glyma.01G004900",
-     * "orthologGeneId": "AT5G65790.1",
-     * "orthologGeneDescription": "myb domain protein 68",
-     * "relationship":"many-to-one"
-     * }
-     * ]
-     * }
+ * @apiParam {String} gene_id 基因详情页对应的基因id
+ * @apiParam {String} pageNo 当前页
+ * @apiParam {String} pageSize 每页条数
  */
 
 /**
