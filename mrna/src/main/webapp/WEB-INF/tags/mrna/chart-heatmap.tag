@@ -10,7 +10,7 @@
 <div class="genesInfo" style="display: none;">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="javascript:void(0);">x</a>
+        <a href="javascript:void(0);">X</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
@@ -53,8 +53,33 @@
     .js-label.has-child.ml-10 {
         margin-left: -10px;
     }
+    body .genesInfo{
+        left: 50%;
+        margin-left: -515px;
+        border: none;
+    }
+    body .genesInfo-head{
+        position: relative;
+        height: 40px;
+        line-height: 40px;
+        background: #386cca;
+        cursor: move;
+    }
+    .genesInfo .genesInfo-head p{
+        width: 100%;
+        text-align:center;
+        color: #fff;
+    }
+    .genesInfo .genesInfo-head a{
+        float: none;
+        position: absolute;
+        right: 15px;
+        color:#fff;
+        font-size: 20px;
+    }
 </style>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
+<script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script>
 
     $("body").on("click", ".js-gene-info", function(e) {
@@ -141,7 +166,7 @@
                         heatmapdata = _.orderBy(dd.cate, ["name"]);
                         heatmapcategory =  dd.gens;
                         g_cate = initCategories();
-                        $("#heatmap_${id}").css({"height": (70 * innergenes.length + 120) +"px"});
+                        $("#heatmap_${id}").css({"min-height": (70 * innergenes.length + 120) +"px"});
                         renderChart(heatmapcategory, g_cate, getChartData(g_cate));
 
                         // 显示分页
@@ -521,5 +546,6 @@
 
 
     })();
-
+    /*基因详情拖动弹框*/
+    $(".genesInfo").draggable({ containment: "body" });
 </script>
