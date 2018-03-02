@@ -249,9 +249,7 @@ public class QueryService {
         qtl.setVersion(version);//匹配版本信息
         qtl.setPage(page);
         List<Map> list = null;
-        List<Qtl> list1 = null;
         list = qtlDao.findByCondition(qtl);
-        list1 = qtlDao.findList(qtl);
         Map lgAndMarkerlg = lgAndMarkerlg();
         for (Map m : list) {
             String qtlName = (String) m.get("qtlName");
@@ -793,24 +791,6 @@ public class QueryService {
      * @return
      */
     private Qtl getByPara(Qtl qtl, String parameters) {
-//        {
-//            "qtlName": "Al tolerance 1-1",
-//            "trait": "Aluminum Tolerance",
-//            "type": "QTL_inorganic",
-//            "chr": "8",
-//            "lg": "A2",
-//            "version": "Glycine_max.V1.0.23.dna.genome",
-//            "method": "ANOVA",
-//            "marker1": "mO103_1",
-//            "marker2": "",
-//            "lod": "1",
-//            "parent1": "Young",
-//            "parent2": "PI229358",
-//            "geneStart": 117.5,
-//            "geneEnd": 119.5,
-//            "ref": "sh",
-//            "author": ""
-//        }
         JSONObject jsonObject = JSONObject.fromObject(parameters);
         if (hasValue(jsonObject, "qtlName")) {
             qtl.setQtlName(jsonObject.getString("qtlName"));
