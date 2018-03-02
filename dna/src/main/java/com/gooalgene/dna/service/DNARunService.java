@@ -120,10 +120,9 @@ public class DNARunService {
             DNARun dnaRun=getQuery(condition);
             DnaRunDto dnaRunDto=new DnaRunDto();
             BeanUtils.copyProperties(dnaRun,dnaRunDto);
-            PageHelper.startPage(page.getPageNo(),page.getPageSize());
+            com.github.pagehelper.Page<Object> resultPage = PageHelper.startPage(page.getPageNo(), page.getPageSize());
             List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
-            page.setCount(dnaRunDao.getListByCondition(dnaRunDto).size());
-            System.out.println("Size:" + list.size());
+            page.setCount(resultPage.getTotal());
             page.setList(list);
             for (DNARunSearchResult dnaRunSearchResult : list) {
                 data.add(dnaRunSearchResult.toJSON());
