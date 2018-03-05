@@ -284,6 +284,12 @@ public class DNAGenBaseInfoService implements InitializingBean {
         return rs;
     }
 
+    public List<DNAGenHomologous> getGenHomologousPageByGeneId(String genId) {
+        DNAGenHomologous bean = new DNAGenHomologous();
+        bean.setGeneId(genId);
+        return dnaGenBaseInfoDao.findGenHomologousByGeneId(bean);
+    }
+
     public PageInfo<DNAGenHomologous> getGenHomologousByGeneId(String genId, int pageNo, int pageSize) {
         DNAGenHomologous bean = new DNAGenHomologous();
         bean.setGeneId(genId);
