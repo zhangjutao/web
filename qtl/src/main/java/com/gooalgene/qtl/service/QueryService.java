@@ -656,7 +656,7 @@ public class QueryService {
         return jsonObject;
     }
 
-    public Map qtlSearchbyResult(String version, String type, String keywords, String param, Page<Qtl> page) {
+    public Map qtlSearchByResult(String version, String type, String keywords, String param, Page<Qtl> page) {
         JSONObject jsonObject = null;
         try {
             jsonObject = JSONObject.fromObject(param);
@@ -674,46 +674,26 @@ public class QueryService {
         result.put("lgs", queryLgs());
         JSONArray data = new JSONArray();
         Qtl qtl = new Qtl();
+        // 空白查询所有
         if ("all".equalsIgnoreCase(type)) {
             qtl.setVersion(version);
             if (!StringUtils.isBlank(keywords)) {
                 qtl.setKeywords(keywords);
-            }//空白查询所有
+            }
         }
-
         getByPara(qtl, fixParam(type, keywords, param));
-
-        qtl.setVersion(version);//匹配版本信息
+        qtl.setVersion(version);
         qtl.setPage(page);
-        List<Map> list = null;
-        List<Qtl> list1 = null;
-//        if ("all".equalsIgnoreCase(type)) {//all的时候需要全文匹配，查询字段使用or进行关联
-//            list = qtlDao.findByTypeAll(qtl);
-//            list1 = qtlDao.findByTypeAllList(qtl);
-//        } else {//其他的字段查询是对应的and关联
-        list = qtlDao.findByCondition(qtl);
-        list1 = qtlDao.findList(qtl);
-//        }
-        Map lgAndMarkerlg = lgAndMarkerlg();
+        List<Map> list = qtlDao.findByCondition(qtl);
         for (Map m : list) {
-            String qtlName = (String) m.get("qtlName");
-            String genes = null;
-            Associatedgenes associatedgenes = associatedgenesDao.getByNameAndVersion(qtlName, version);
-            if (associatedgenes != null) {
-                genes = associatedgenes.getAssociatedGenes();
-            }
+            String genes = (String) m.get("associateGenes");
             m.put("genesNum", genes == null ? 0 : genes.split(",").length);
-            String lg = (String) m.get("lg");
-            if (lgAndMarkerlg.containsKey(lg)) {
-                m.put("markerlg", lgAndMarkerlg.get(lg));
-            }
             if (version.equals("Gmax_275_v2.0") && genes != null) {
                 genes = genes.replaceAll("g", "G");
             }
             m.put("genes", genes == null ? "" : genes);
             data.add(m);
         }
-        page.setList(list1);
         result.put("total", page.getCount());
         result.put("data", data);
         return result;
@@ -756,15 +736,17 @@ public class QueryService {
 
     private String fixParam(String type, String keywords, String param) {
         JSONObject jsonObject = new JSONObject();
-        try {
-            jsonObject = JSONObject.fromObject(param);//页面传递过来的param也可能是空。
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        if ("All".equalsIgnoreCase(type) || StringUtils.isBlank(keywords)) {
-            //啥也不做
 
-        } else {
+        // 页面传递过来的param也可能是空
+        if (StringUtils.isNotBlank(param)) {
+            try {
+                jsonObject = JSONObject.fromObject(param);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        // 如果type不为空且关键字也不为空
+        if (!"All".equalsIgnoreCase(type) && StringUtils.isNotBlank(keywords)) {
             if ("Trait".equalsIgnoreCase(type)) {
                 jsonObject.put("trait", keywords);
             }

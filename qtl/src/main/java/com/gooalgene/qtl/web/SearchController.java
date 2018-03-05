@@ -71,16 +71,12 @@ public class SearchController {
      */
     @RequestMapping("/list")
     public ModelAndView list(HttpServletRequest request, HttpServletResponse response) {
-
         ModelAndView modelAndView = new ModelAndView("/search/list");
         //搜索框：包含ALL、Trait、QTL Name、marker、parent、reference，ALL是全局搜索，
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String version = request.getParameter("version");
         String parameters = request.getParameter("condition");
-        if (parameters == null) {
-            parameters="{}";
-        }
         if (type == null) {
             return new ModelAndView("redirect:/search/index");
         }
@@ -88,8 +84,7 @@ public class SearchController {
         modelAndView.addObject("types", queryService.queryAll());  // 搜索结果侧边栏
         modelAndView.addObject("versions", queryService.queryVersions());  // 可选的所有基因版本
 
-        //TODO 这里使用的是外包的分页代码，待改进
-        modelAndView.addAllObjects(queryService.qtlSearchbyResult(version, type, keywords, parameters, page));
+        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
         modelAndView.addObject("condition", "{}");
         modelAndView.addObject("page", page);
         return modelAndView;
@@ -117,7 +112,7 @@ public class SearchController {
         Page<Qtl> page = new Page<Qtl>(request, response);
         modelAndView.addObject("versions", queryService.queryVersions());
         modelAndView.addObject("types", queryService.queryAll());
-        modelAndView.addAllObjects(queryService.qtlSearchbyResult(version, type, keywords, parameters, page));
+        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
         modelAndView.addObject("page", page);
         return modelAndView;
     }

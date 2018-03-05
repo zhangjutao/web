@@ -218,16 +218,31 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
     </insert>
 
     <select id="findByCondition" resultType="Map">
-        SELECT a.id,a.`qtl_name` AS
-        qtlName,trait,type,marker1,marker2,b.lg,d.chr,method,lod,parent1,parent2,genome_start AS
-        geneStart,genome_end AS geneEnd,d.version AS version,ref,author
+        SELECT
+            a.id,
+            a.qtl_name AS qtlName,
+            a.trait,
+            a.type,
+            a.marker1,
+            a.marker2,
+            a.method,
+            a.lod,
+            a.parent1,
+            a.parent2,
+            a.ref,
+            a.author,
+            a.genome_start AS geneStart,
+            a.genome_end   AS geneEnd,
+            b.lgAndMarker AS markerlg,
+            c.associated_genes AS associateGenes
         FROM qtl a
         LEFT JOIN chrlg b ON a.chrlg_id = b.id
-        LEFT JOIN chrlg d ON b.`lg`=d.`lg`
+        LEFT JOIN (SELECT * FROM associatedgenes WHERE 1 = 1
+            <if test="version!=null">
+              AND version = #{version}
+            </if>
+            ) c ON a.qtl_name = c.qtl_name
         WHERE 1=1
-        <if test="version!=null">
-            AND d.version = #{version}
-        </if>
         <if test="keywords!=null">
             AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')
             OR type LIKE CONCAT('%',#{keywords},'%') OR lod LIKE CONCAT('%',#{keywords},'%')

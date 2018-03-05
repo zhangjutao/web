@@ -110,6 +110,7 @@
     $("#search-btn").click(function(){
         var s_option=$(".search select").val();
         var i_input=$.trim($("#search-input").val());
+        // 这里强行使用V1版本基因
         window.location.href = "${ctxroot}/search/list?version=Glycine_max.V1.0.23.dna.genome&type="+s_option+"&keywords="+i_input;
     })
     $("#search-input").bind({
