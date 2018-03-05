@@ -170,7 +170,6 @@ public class SNPController {
         String upstream = request.getParameter("upstream");
         String downstream = request.getParameter("downstream");
         String group = request.getParameter("group");
-//      String conditions = request.getParameter("conditions");
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
         if (dnaGens != null) {
@@ -211,7 +210,6 @@ public class SNPController {
         String startPos = request.getParameter("start");
         String endPos = request.getParameter("end");
         String group = request.getParameter("group");
-//      String conditions = request.getParameter("conditions");
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
         Page<DNARun> page = new Page<DNARun>(request, response);
         Map result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
