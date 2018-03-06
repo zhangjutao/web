@@ -86,4 +86,10 @@ public class QueryServiceTest extends TestCase {
         Map result = queryService.qtlSearchbyKeywords(version, type, keywords, page);  //不做分页
 
     }
+
+    @Test
+    public void testQuerySearchByResult() {
+        Map a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "type", "d", "{}", 1, 20);
+        System.out.println("success");
+    }
 }

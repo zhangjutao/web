@@ -3,8 +3,10 @@ package com.gooalgene.qtl.web;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.qtl.service.QueryService;
+import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
+import java.util.Map;
 
 /**
  * Created by Administrator on 2017/07/08.
@@ -74,20 +79,33 @@ public class SearchController {
         ModelAndView modelAndView = new ModelAndView("/search/list");
         //搜索框：包含ALL、Trait、QTL Name、marker、parent、reference，ALL是全局搜索，
         String type = request.getParameter("type");
-        String keywords = request.getParameter("keywords");
-        String version = request.getParameter("version");
-        String parameters = request.getParameter("condition");
+//        String keywords = request.getParameter("keywords");
+//        String version = request.getParameter("version");
+//        String parameters = request.getParameter("condition");
         if (type == null) {
             return new ModelAndView("redirect:/search/index");
         }
-        Page<Qtl> page = new Page<Qtl>(request, response);
+//        Page<Qtl> page = new Page<Qtl>(request, response);
         modelAndView.addObject("types", queryService.queryAll());  // 搜索结果侧边栏
         modelAndView.addObject("versions", queryService.queryVersions());  // 可选的所有基因版本
 
-        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
+//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
         modelAndView.addObject("condition", "{}");
-        modelAndView.addObject("page", page);
+//        modelAndView.addObject("page", page);
         return modelAndView;
+    }
+
+    @RequestMapping(value = "/list/page",method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<Map> lista(HttpServletRequest request) {
+        String type = request.getParameter("type");
+        String keywords = request.getParameter("keywords");
+        String version = request.getParameter("version");
+        String parameters = request.getParameter("condition");
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        Map result = queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize);
+        return ResultUtil.success(result);
     }
 
 
@@ -107,13 +125,13 @@ public class SearchController {
         if (type == null || version == null) {
             return new ModelAndView("redirect:/search/index");
         }
-        String keywords = request.getParameter("keywords");
-        String parameters = request.getParameter("condition");
-        Page<Qtl> page = new Page<Qtl>(request, response);
+//        String keywords = request.getParameter("keywords");
+//        String parameters = request.getParameter("condition");
+//        Page<Qtl> page = new Page<Qtl>(request, response);
         modelAndView.addObject("versions", queryService.queryVersions());
         modelAndView.addObject("types", queryService.queryAll());
-        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
-        modelAndView.addObject("page", page);
+//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
+//        modelAndView.addObject("page", page);
         return modelAndView;
     }
 }
