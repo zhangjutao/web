@@ -70,8 +70,8 @@
 		#expression-data thead td {
 			border: 1px solid #e6e6e6;
 			white-space: nowrap;
-			height: 35px;
-			padding: 0 15px;
+			height: auto;
+			padding: 15px 10px;
 			background-color: #f5f8ff;
 			border-bottom: none;
 			/*border-right: none;*/
@@ -81,7 +81,7 @@
 			white-space: nowrap;
 			position: relative;
 		}
-		body #snp-paginate{padding-right: 20px;}
+		body #bdsj-paginate{padding-right: 20px;}
 		body #expression-data .explain-b{overflow-x:inherit;}
 		.expressionTable{width:860px;overflow-x:scroll;}
 	</style>
@@ -143,7 +143,7 @@
 						</table>
 					</div>
 				</div>
-				<div class="checkbox-item-tab" id="snp-paginate">
+				<div class="checkbox-item-tab" id="bdsj-paginate">
 					<%@ include file="/WEB-INF/views/include/pagination.jsp" %>
 				</div>
 
@@ -493,7 +493,7 @@
 
                 //显示分页
                 laypage({
-                    cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    cont: $('#bdsj-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                     curr: page.curr || 1, //当前页
                     skin: '#5c8de5',
