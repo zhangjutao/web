@@ -8,9 +8,9 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.dialect.Dialect;
 import com.gooalgene.common.dialect.db.MySQLDialect;
 import com.gooalgene.utils.Reflections;
-import org.apache.ibatis.logging.Log;
-import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.plugin.Interceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.Serializable;
 import java.util.Properties;
@@ -31,7 +31,7 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
 
     protected static final String MAPPED_STATEMENT = "mappedStatement";
 
-    protected Log log = LogFactory.getLog(this.getClass());
+    protected Logger log = LoggerFactory.getLogger(this.getClass());
 
     protected Dialect DIALECT;
 
@@ -39,12 +39,10 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
      * 对参数进行转换和检查
      *
      * @param parameterObject 参数对象
-     * @param page            分页对象
      * @return 分页对象
-     * @throws NoSuchFieldException 无法找到参数
      */
     @SuppressWarnings("unchecked")
-    protected static Page<Object> convertParameter(Object parameterObject, Page<Object> page) {
+    protected static Page<Object> convertParameter(Object parameterObject) {
         try {
             if (parameterObject instanceof Page) {
                 return (Page<Object>) parameterObject;
