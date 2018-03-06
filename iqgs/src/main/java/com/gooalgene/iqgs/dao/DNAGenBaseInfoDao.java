@@ -79,7 +79,7 @@ public interface DNAGenBaseInfoDao {
 
     List<DNAGenStructure> findGenByChr(DNAGenStructure dnaGenStructure);
 
-    List<DNAGenHomologous> findGenHomologousByGeneId(DNAGenHomologous bean);
+    List<DNAGenHomologous> findGenHomologousByGeneId(String geneId);
 
 	List<DNAGenBaseInfo> findBaseInfoByFamilyId(DNAGenBaseInfo bean);
 

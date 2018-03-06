@@ -274,6 +274,14 @@ public class DNAGenBaseInfoController implements InitializingBean {
     }
 
     @RequestMapping("/detail/origin")
+    public String detailForOrigin(HttpServletRequest req, HttpServletResponse resp, Model model) {
+        String genId = req.getParameter("gen_id");
+        model.addAttribute("genId", genId);
+        return "iqgs/homologous-gene";
+    }
+
+    @RequestMapping("/detail/origin/page")
+    @ResponseBody
     public ResultVO<DNAGenHomologous> detailForOrigin(HttpServletRequest req) {
         String genId = req.getParameter("gene_id");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
