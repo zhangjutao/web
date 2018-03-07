@@ -19,6 +19,7 @@
         .nav li {
             position: relative;
         }
+
         .nav .second-text a {
             display: block;
             margin-right: 15px;;
@@ -31,9 +32,11 @@
             color: #5c8ce6;
             border-radius: 2px;
         }
+
         .nav li:nth-child(8) .second-text:before {
             height: 59px;
         }
+
         .checkbox-tab table .lg-item a, .checkbox-tab table .chr-item a {
             display: block;
             height: 30px;;
@@ -150,6 +153,7 @@
             text-align: center;
             position: relative;
         }
+
         .information-title p {
             color: #fff;
             padding: 0 30px;
@@ -157,6 +161,7 @@
             text-transform: uppercase;
             background-color: #386cca;
         }
+
         .author-pop-tab .information-tab {
             padding: 20px;
         }
@@ -174,7 +179,10 @@
             right: 0;
             top: 6px;
         }
-        .js-pop-head,.information-title,.tab-detail-thead{cursor: move;}
+
+        .js-pop-head, .information-title, .tab-detail-thead {
+            cursor: move;
+        }
     </style>
 </head>
 <body>
@@ -274,50 +282,44 @@
                 <div class="icon-left"><img src="${ctxStatic}/images/bookmarks.png">性状<i class="">TRAITS</i></div>
                 <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
             </div>
-
             <%@ include file="/WEB-INF/views/include/nav.jsp" %>
 
         </aside>
         <article class="">
             <div class="checkbox-tab">
-                <table class="checkbox-list-item">
+                <table class="checkbox-list-item" id="tableBody">
                     <thead>
                     <tr>
                         <td class="param t_id">ID</td>
                         <td class="param t_qtlName">QTL Name<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component qtl-name-component">
                                 <input type="text" placeholder="请输入" class="js-qtl-name">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param trait t_trait">Trait<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component trait-component">
                                 <input type="text" placeholder="请输入" class="js-trait">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_type">Type<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component type-component">
                                 <input type="text" placeholder="请输入" class="js-type">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
-
                         <td class="param chr t_chr">Chr<img src="${ctxStatic}/images/arrow-drop-down.png">
                             <input class="js-chr" type="hidden">
-
                             <div class="chr-item">
                                 <c:forEach items="${chrs}" var="item">
                                     <a href="#">${item}</a>
@@ -326,67 +328,59 @@
                         </td>
                         <td class="param lg t_lg">LG<img src="${ctxStatic}/images/arrow-drop-down.png">
                             <input class="js-lg" type="hidden">
-
                             <div class="lg-item">
-                                <a href="#">D1a</a>
-                                <a href="#">D1b</a>
-                                <a href="#">N</a>
-                                <a href="#">C1</a>
-                                <a href="#">A1</a>
-                                <a href="#">C2</a>
-                                <a href="#">M</a>
-                                <a href="#">A2</a>
-                                <a href="#">K</a>
-                                <a href="#">O</a>
-                                <a href="#">B1</a>
-                                <a href="#">H</a>
-                                <a href="#">F</a>
-                                <a href="#">B2</a>
-                                <a href="#">E</a>
-                                <a href="#">J</a>
-                                <a href="#">D2</a>
-                                <a href="#">G</a>
-                                <a href="#">L</a>
-                                <a href="#">I</a>
-                                <%--<c:forEach items="${lgs}" var="item">--%>
-                                <%--<a href="#">${item}</a>--%>
-                                <%--</c:forEach>--%>
+                                <%--<a href="#">D1a</a>--%>
+                                <%--<a href="#">D1b</a>--%>
+                                <%--<a href="#">N</a>--%>
+                                <%--<a href="#">C1</a>--%>
+                                <%--<a href="#">A1</a>--%>
+                                <%--<a href="#">C2</a>--%>
+                                <%--<a href="#">M</a>--%>
+                                <%--<a href="#">A2</a>--%>
+                                <%--<a href="#">K</a>--%>
+                                <%--<a href="#">O</a>--%>
+                                <%--<a href="#">B1</a>--%>
+                                <%--<a href="#">H</a>--%>
+                                <%--<a href="#">F</a>--%>
+                                <%--<a href="#">B2</a>--%>
+                                <%--<a href="#">E</a>--%>
+                                <%--<a href="#">J</a>--%>
+                                <%--<a href="#">D2</a>--%>
+                                <%--<a href="#">G</a>--%>
+                                <%--<a href="#">L</a>--%>
+                                <%--<a href="#">I</a>--%>
                             </div>
                         </td>
                         <td class="param t_method">Method<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component method-component">
                                 <input type="text" placeholder="请输入" class="js-method">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_marker1">Marker1<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component marker1-component">
                                 <input type="text" placeholder="请输入" class="js-marker1">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_marker2">Marker2<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component marker2-component">
                                 <input type="text" placeholder="请输入" class="js-marker2">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_genesNum">Genes
                         </td>
                         <td class="param t_lod">LOD<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component genome-start-component">
                                 <select class="js-lod-select">
                                     <option value="<">&lt;</option>
@@ -394,35 +388,32 @@
                                     <option value=">">&gt;</option>
                                 </select>
                                 <input type="text" class="js-lod">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_parent1">Parent1<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component parent1-component">
                                 <input type="text" placeholder="请输入" class="js-parent1">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_parent2">Parent2<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component parent2-component">
                                 <input type="text" placeholder="请输入" class="js-parent2">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_genomeStart">Genome start(cM)<img
                                 src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component genome-start-component">
                                 <select class="js-genome-start-select">
                                     <option value="<">&lt;</option>
@@ -430,14 +421,13 @@
                                     <option value=">">&gt;</option>
                                 </select>
                                 <input type="text" class="js-genome-start">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_genomeEnd">Genome end(cM)<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component genome-start-component">
                                 <select class="js-genome-end-select">
                                     <option value="<">&lt;</option>
@@ -445,84 +435,82 @@
                                     <option value=">">&gt;</option>
                                 </select>
                                 <input type="text" class="js-genome-end">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_author">Reference<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component author-component">
                                 <input type="text" placeholder="请输入" class="js-author">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                     </tr>
                     </thead>
                     <tbody class="item-tab">
-                    <c:forEach items="${data}" var="item">
-                        <tr>
-                            <td class="t_id">${item.id}</td>
-                            <td class="t_qtlName"><a class="qtlname"
-                                                     href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>
-                            </td>
-                            <td class="t_trait">${item.trait}</td>
-                            <td class="t_type">${item.type}</td>
-                            <c:set var="chrStr" value="${item.chr}"></c:set>
-                            <c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>
-                            <c:choose>
-                                <c:when test="${fn:startsWith(num, '0')}">
-                                    <c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>
-                                </c:when>
-                                <c:when test="${fn:startsWith(num, '0') == false}">
-                                    <c:set var="lg" value="${num}"></c:set>
-                                </c:when>
-                            </c:choose>
-                            <td class="t_chr"><a
-                                    href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>
-                            </td>
-                            <td class="t_lg"><a
-                                    href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>
-                            </td>
-                                <%--<td class="t_version">${item.version}</td>--%>
-                            <td class="t_method">${item.method}</td>
-                            <td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"
-                                                     data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>
-                            </td>
-                            <td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"
-                                                     data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>
-                            </td>
-                            <td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"
-                                                      data-txt="${item.genes}">${item.genesNum}</a></td>
-                            <td class="t_lod">${item.lod}</td>
-                            <td class="t_parent1">${item.parent1}</td>
-                            <td class="t_parent2">${item.parent2}</td>
-                            <td class="t_genomeStart">${item.geneStart}</td>
-                            <td class="t_genomeEnd">${item.geneEnd}</td>
-                            <td class="t_author">
-                                <a class="js-author-pop" href="javascript:;"
-                                   data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>
+                    <%--<c:forEach items="${data}" var="item">--%>
+                    <%--<tr>--%>
+                    <%--<td class="t_id">${item.id}</td>--%>
+                    <%--<td class="t_qtlName"><a class="qtlname"--%>
+                    <%--href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>--%>
+                    <%--</td>--%>
+                    <%--<td class="t_trait">${item.trait}</td>--%>
+                    <%--<td class="t_type">${item.type}</td>--%>
+                    <%--<c:set var="chrStr" value="${item.chr}"></c:set>--%>
+                    <%--<c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>--%>
+                    <%--<c:choose>--%>
+                    <%--<c:when test="${fn:startsWith(num, '0')}">--%>
+                    <%--<c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>--%>
+                    <%--</c:when>--%>
+                    <%--<c:when test="${fn:startsWith(num, '0') == false}">--%>
+                    <%--<c:set var="lg" value="${num}"></c:set>--%>
+                    <%--</c:when>--%>
+                    <%--</c:choose>--%>
+                    <%--<td class="t_chr"><a--%>
+                    <%--href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>--%>
+                    <%--</td>--%>
+                    <%--<td class="t_lg"><a--%>
+                    <%--href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>--%>
+                    <%--</td>--%>
+                    <%--&lt;%&ndash;<td class="t_version">${item.version}</td>&ndash;%&gt;--%>
+                    <%--<td class="t_method">${item.method}</td>--%>
+                    <%--<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"--%>
+                    <%--data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>--%>
+                    <%--</td>--%>
+                    <%--<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"--%>
+                    <%--data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>--%>
+                    <%--</td>--%>
+                    <%--<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"--%>
+                    <%--data-txt="${item.genes}">${item.genesNum}</a></td>--%>
+                    <%--<td class="t_lod">${item.lod}</td>--%>
+                    <%--<td class="t_parent1">${item.parent1}</td>--%>
+                    <%--<td class="t_parent2">${item.parent2}</td>--%>
+                    <%--<td class="t_genomeStart">${item.geneStart}</td>--%>
+                    <%--<td class="t_genomeEnd">${item.geneEnd}</td>--%>
+                    <%--<td class="t_author">--%>
+                    <%--<a class="js-author-pop" href="javascript:;"--%>
+                    <%--data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>--%>
 
-                                <div class="author-pop-tab" style="display: none">
-                                    <div class="information-title">
-                                        <p>REFERENCE</p>
-                                        <button class="close-pop">X</button>
-                                    </div>
-                                    <div class="information-tab">
-                                        <table>
-                                        </table>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
+                    <%--<div class="author-pop-tab" style="display: none">--%>
+                    <%--<div class="information-title">--%>
+                    <%--<p>REFERENCE</p>--%>
+                    <%--<button class="close-pop">X</button>--%>
+                    <%--</div>--%>
+                    <%--<div class="information-tab">--%>
+                    <%--<table>--%>
+                    <%--</table>--%>
+                    <%--</div>--%>
+                    <%--</div>--%>
+                    <%--</td>--%>
+                    <%--</tr>--%>
+                    <%--</c:forEach>--%>
                     </tbody>
                 </table>
-
                 <form id="searchForm" action="${ctxroot}/search/listByResult" method="get">
                     <input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>
                     <input id="search2" name="keywords" type="hidden" value="${keywords}"/>
@@ -531,7 +519,6 @@
                     <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
                     <input id="version" name="version" type="hidden" value="">
                 </form>
-
                 <form id="exportForm" action="${ctxroot}/query/dataExport" method="get">
                     <input id="search7" name="version" type="hidden" value="${version}"/>
                     <input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>
@@ -539,6 +526,9 @@
                     <input id="search6" name="condition" type="hidden" value='${condition}'/>
                     <input id="search8" name="choices" type="hidden"/>
                 </form>
+            </div>
+            <div class="checkbox-item-tab" id="all-paginate">
+                <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
             </div>
             <div class="ktPaginate">
                 ${page}
@@ -592,19 +582,179 @@
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
 <script src="${ctxStatic}/js/layout.js"></script>
+<script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+    //获取URL参数
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+    })(jQuery);
+    var version = $.getUrlParam('version');
+    var types = $.getUrlParam('type');
+    var keywords = $.getUrlParam('keywords');
+    initTables();
+    var page = {curr: 1, pageSize: 10};
+    $(".lay-per-page-count-select").val(page.pageSize);
+
+    // 获取表格数据+分页
+    function initTables(currNum, pageSizeNum) {
+        $.ajax({
+            url: "${ctxroot}/search/list/page",
+            type: "POST",
+            data: {
+                <%--pageNo: currNum || 1,--%>
+                <%--pageSize: pageSizeNum || 10,--%>
+                <%--gene_id: "${genId}"--%>
+                version: version,
+                type: types,
+                keywords: keywords,
+                condition: {},
+                pageNo: currNum || 1,
+                pageSize: pageSizeNum || 10
+            },
+            dataType: "json",
+            success: function (res) {
+                console.log(res)
+                //显示表格内容
+                if (res.data.data.length == 0) {
+                    $('#all-paginate').hide();
+                    $("#tableBody").html("<div class='explain-b' style='text-align: center'><img src='${ctxStatic}/images/nodata.png'><div style='padding-top: 10px'>无同源基因信息</div></div>")
+                } else {
+                    renderTable(res);
+                    $('#all-paginate').show();
+                    $("#total-page-count > span").html(res.data.total);
+
+                    //显示分页
+                    laypage({
+                        cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数
+                        curr: currNum || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                var currNum = obj.curr;
+                                initTables(currNum, pageSizeNum);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    // 修改每页显示条数
+    $("#all-paginate").on("change", ".lay-per-page-count-select", function () {
+        var curr = Number($(".laypage_curr").text());
+        var pageSize = Number($(this).val());
+        var total = $("#total-page-count span").text();
+        var mathCeil = Math.ceil(total / curr);
+        page.pageSize = Number($(this).val());
+        if (pageSize > mathCeil) {
+            page.curr = 1;
+            initTables(1, pageSize)
+        } else {
+            initTables(curr, pageSize)
+        }
+    });
+
+    // 分页跳转
+    $("#pagination").on("focus", ".laypage_total .laypage_skip", function () {
+        $(this).addClass("isFocus");
+    });
+    $("#pagination").on("blur", ".laypage_total .laypage_skip", function () {
+        $(this).removeClass("isFocus");
+    });
+    // 注册 enter 事件的元素
+    $(document).keyup(function (event) {
+        var _page_skip = $('#pagination .laypage_skip');
+        if (_page_skip.hasClass("isFocus")) {
+            if (event.keyCode == 13) {
+                var _page_skip = $('#pagination .laypage_skip');
+                var curr = Number(_page_skip.val());
+                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                var total = $("#total-page-count span").text();
+                var mathCeil = Math.ceil(total / pageSizeNum);
+                if (curr > mathCeil) {
+                    page.curr = 1;
+                    initTables(1, pageSizeNum)
+                } else {
+                    page.curr = curr;
+                    initTables(curr, pageSizeNum)
+                }
+            }
+        }
+    });
+
+    function renderTable(data) {
+        var eleData = data.data.data;
+        //表格数据填充
+        var str = '';
+        for (var i = 0; i < eleData.length; i++) {
+            str += '<tr>'
+            str += '<td class="t_id">' + eleData[i].id + '</td>';
+            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=${item.version}">' + eleData[i].qtlName + '</a> </td>';
+            str += '<td class="t_trait">' + eleData[i].trait + '</td>';
+            str += '<td class="t_type">' + eleData[i].type + '</td>';
+            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a></td>';
+            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a> </td>';
+            str += '<td class="t_method">' + eleData[i].method + '</td>';
+            str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a> </td>';
+            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a> </td>';
+            str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].genes + '">' + eleData[i].genesNum + '</a></td>';
+            str += '<td class="t_lod">' + eleData[i].lod + '</td>';
+            str += '<td class="t_parent1">' + eleData[i].parent1 + '</td>';
+            str += '<td class="t_parent2">' + eleData[i].parent2 + '</td>';
+            str += '<td class="t_genomeStart">' + eleData[i].geneStart + '</td>';
+            str += '<td class="t_genomeEnd">' + eleData[i].geneEnd + '</td>';
+            str += '<td class="t_author"> <a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=' + eleData[i].author + '">' + eleData[i].author + '</a>';
+            str += '<div class="author-pop-tab" style="display: none">';
+            str += '<div class="information-title">';
+            str += '<p>REFERENCE</p> <button class="close-pop">X</button> </div> <div class="information-tab"> <table> </table> </div> </div> </td>';
+            str += '</tr>';
+        }
+        $("#tableBody > tbody").empty().append(str);
+
+        //表头chr添加内容
+        var chrData = data.data.chrs;
+        var strChr = "";
+        for (var j = 0; j < chrData.length; j++) {
+            strChr += '<a href="#">' + chrData[j] + '</a>';
+        }
+        $('.chr-item').append(strChr);
+
+        //表头lg添加内容
+        var lgData = data.data.lgs;
+        var strLg = "";
+        for (var m = 0; m < chrData.length; m++) {
+            strLg += '<a href="#">' + lgData[m] + '</a>';
+        }
+        $('.lg-item').append(strLg)
+    }
+
     /*清除搜索框内容*/
     $(".clear-input").click(function () {
         $(".js-search-text").val("");
         return false
     })
+
     function getUrlParam(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
         if (r != null) return unescape(r[2]);
         return null; //返回参数值
     }
+
     $(".js-search-text").bind({
         focus: function () {
             $(".clear-input").css({"display": "inline-block"});
@@ -617,6 +767,7 @@
             }
         }
     });
+
     /**
      *  初始化时读取 cookie 还原需要显示的列表项
      */
@@ -626,6 +777,7 @@
         exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
         document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     }
+
     function getCookie(name) {
         var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
         if (arr = document.cookie.match(reg))
@@ -634,16 +786,15 @@
             return null;
     }
 
-    console.log(getCookie('showedCols'));
     $(function () {
 //        var currentPage = getParamsString("pageNo");
 //        if(!currentPage && currentPage*1 > 1) {
 //
 //        }
         /*拖动弹框*/
-        $(".js-pop").draggable({ containment: "body",cancel:".js-pop-body" });
-        $( ".author-pop-tab" ).draggable({ containment: "body",cancel:".js-pop-body,.information-tab" });
-        $( ".tab-detail" ).draggable({ containment: "body",cancel:".tab-detail-tbody" });
+        $(".js-pop").draggable({containment: "body", cancel: ".js-pop-body"});
+        $(".author-pop-tab").draggable({containment: "body", cancel: ".js-pop-body,.information-tab"});
+        $(".tab-detail").draggable({containment: "body", cancel: ".tab-detail-tbody"});
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
@@ -697,29 +848,34 @@
         $("#searchForm").submit();
         return false;
     }
+
     function PressPage(e, n, s, p) {
         var c = e.keyCode || e.which;
         if (c == 13) {
             page(n, s);
         }
     }
+
     function SelectPage(e, n, s, p) {
         if ($("#pageSize").val() != s) {
             page(n, s);
         }
     }
+
     /*版本号选择*/
     $(".version-num select").change(function () {
         var option = $(".version-num option:selected").text();
 
         $(".version-num span").text(option);
     })
+
     /*全选*/
     function checkall() {
         $(".btn-chooseAll").click(function () {
             $("input[type='checkbox']").prop("checked", true);
         });
     }
+
     checkall()
     $(".set-up").click(function () {
         $(".checkbox-list").show();
@@ -727,26 +883,26 @@
         $(".set-up").hide();
     })
     $(".lg").hover(
-            function (e) {
-                $(".lg-item").show();
-                $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
-            },
-            function (e) {
-                $(".lg-item").hide();
-                $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
+        function (e) {
+            $(".lg-item").show();
+            $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
+        },
+        function (e) {
+            $(".lg-item").hide();
+            $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
 
-            }
+        }
     );
     $(".chr").hover(
-            function (e) {
-                $(".chr-item").show();
-                $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
-            },
-            function (e) {
-                $(".chr-item").hide();
-                $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
+        function (e) {
+            $(".chr-item").show();
+            $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
+        },
+        function (e) {
+            $(".chr-item").hide();
+            $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
 
-            }
+        }
     );
     var search_select = '${type}';
     if (search_select) {
@@ -824,6 +980,7 @@
             obj.author ? $(".js-author").val(obj.author) : "";
         }
     }();
+        console.log(restoreParamString)
     $(".chr-item a").click(function () {
         $(".js-chr").val($(this).html());
         $(".js-lg").val("");
@@ -985,6 +1142,7 @@
 
         setCookie('showedCols', str);
     })
+
     function pop(id, name) {
         $(id).click(function (e) {
             e.preventDefault();
@@ -1032,6 +1190,7 @@
             })
         })
     }
+
     pop(".js-pop-marker1", "marker1")
     pop(".js-pop-marker2", "marker2")
     /*genes 弹框*/
@@ -1064,29 +1223,29 @@
         e.preventDefault();
         $(".genesInfo").hide();
     })
-    $(".js-search-text").on("focus", function() {
-       $(this).addClass("isFocus");
-    });
-    $(".js-search-text").on("blur", function() {
-        $(this).removeClass("isFocus");
-    });
-    $(".input-component input").on("focus", function() {
+    $(".js-search-text").on("focus", function () {
         $(this).addClass("isFocus");
     });
-    $(".input-component input").on("blur", function() {
+    $(".js-search-text").on("blur", function () {
         $(this).removeClass("isFocus");
     });
-    $(document).keyup(function(event){
+    $(".input-component input").on("focus", function () {
+        $(this).addClass("isFocus");
+    });
+    $(".input-component input").on("blur", function () {
+        $(this).removeClass("isFocus");
+    });
+    $(document).keyup(function (event) {
         var _searchDom = $(".js-search-text");
         var _conditionDoms = $(".input-component input");
-        var e=e||event
+        var e = e || event
         var keycode = e.which;
-        if(keycode==13){
-            if(_searchDom.hasClass("isFocus")) {
+        if (keycode == 13) {
+            if (_searchDom.hasClass("isFocus")) {
                 $(".js-search-btn").trigger("click");
             }
-            $.each(_conditionDoms, function(idx, item) {
-                if($(item).hasClass("isFocus") ) {
+            $.each(_conditionDoms, function (idx, item) {
+                if ($(item).hasClass("isFocus")) {
                     $(this).siblings("p").find(".btn-confirm-info").trigger("click");
                 }
             });
