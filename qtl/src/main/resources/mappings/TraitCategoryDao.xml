@@ -62,7 +62,8 @@
             c.id AS qtl_primary_id,
             c.associatedGenes_id
         FROM trait_category a
-          LEFT JOIN trait_list b ON a.id = b.qtl_id
-          LEFT JOIN qtl c ON b.trait_name = c.trait
+            LEFT JOIN category_associate_trait d ON a.id = d.trait_category_id
+            LEFT JOIN trait_list b ON d.trait_list_id = b.id
+            LEFT JOIN qtl c ON b.trait_name = c.trait
     </select>
 </mapper>
