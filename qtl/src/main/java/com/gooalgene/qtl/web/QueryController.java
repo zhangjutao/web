@@ -78,7 +78,7 @@ public class QueryController {
         String parameters = request.getParameter("condition");
         String version = request.getParameter("version");
         Page<Qtl> page = new Page<Qtl>(request, response);
-        return queryService.qtlSearchByResult(version, type, keywords, parameters, page).toString();
+        return queryService.qtlSearchByResult(version, type, keywords, parameters, page.getPageNo(),page.getPageSize()).toString();
     }
 
     @RequestMapping("/dataExport")

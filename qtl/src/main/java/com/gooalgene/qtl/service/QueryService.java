@@ -656,7 +656,7 @@ public class QueryService {
         return jsonObject;
     }
 
-    public Map qtlSearchByResult(String version, String type, String keywords, String param, Page<Qtl> page) {
+    public Map qtlSearchByResult(String version, String type, String keywords, String param, int pageNo, int pageSize) {
         JSONObject jsonObject = null;
         try {
             jsonObject = JSONObject.fromObject(param);
@@ -668,8 +668,8 @@ public class QueryService {
         result.put("type", type);
         result.put("keywords", keywords == null ? "" : keywords);
         result.put("condition", jsonObject);
-        result.put("pageNo", page.getPageNo());
-        result.put("pageSize", page.getPageSize());
+        result.put("pageNo", pageNo);
+        result.put("pageSize", pageSize);
         result.put("chrs", queryChrs(version));
         result.put("lgs", queryLgs());
         JSONArray data = new JSONArray();
@@ -683,8 +683,10 @@ public class QueryService {
         }
         getByPara(qtl, fixParam(type, keywords, param));
         qtl.setVersion(version);
-        qtl.setPage(page);
+//        qtl.setPage(page);
+        PageHelper.startPage(pageNo, pageSize);
         List<Map> list = qtlDao.findByCondition(qtl);
+        result.put("total", new PageInfo<>(list).getTotal());
         for (Map m : list) {
             String genes = (String) m.get("associateGenes");
             m.put("genesNum", genes == null ? 0 : genes.split(",").length);
@@ -694,7 +696,8 @@ public class QueryService {
             m.put("genes", genes == null ? "" : genes);
             data.add(m);
         }
-        result.put("total", page.getCount());
+        PageInfo<JSONArray> a = new PageInfo<>(data);
+        result.put("total", a.getTotal());
         result.put("data", data);
         return result;
     }
