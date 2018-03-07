@@ -20,6 +20,4 @@ public interface GeneSortDao {
                                                          @Param("traitCategoryId") int traitCategoryId, @Param("fieldSize") int size);
 
     List<SortedResult> findSortedResultThroughGeneId(@Param("geneIdList") List<String> geneIdList);
-
-    List<String> getQtlNamesByTrait(Integer categoryId);
 }

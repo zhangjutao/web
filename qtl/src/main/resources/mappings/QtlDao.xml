@@ -268,7 +268,7 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
             AND type LIKE CONCAT('%',#{type},'%')
         </if>
         <if test="chr!=null">
-            AND d.chr = #{chr}
+            AND b.chr = #{chr}
         </if>
         <if test="lg!=null">
             AND b.lg = #{lg}

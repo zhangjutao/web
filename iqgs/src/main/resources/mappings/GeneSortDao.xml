@@ -124,7 +124,13 @@
                 LEFT JOIN indel_consequencetype f ON f.id = e.indel_id
                 WHERE e.indel_id NOT IN (5, 13, 14)
             GROUP BY a.gene_id) AS h ON h.gene_id = a.gene_id
-            LEFT JOIN (SELECT gene_id, qtl_name FROM qtl_gene WHERE qtl_trait_id = #{traitCategoryId} GROUP BY gene_id, qtl_name) AS k ON k.gene_id = a.gene_id
+            LEFT JOIN (SELECT
+                a.gene_id,
+                a.qtl_name
+                FROM qtl_gene a
+                LEFT JOIN category_associate_trait b ON a.qtl_trait_id = b.trait_list_id
+                WHERE b.trait_category_id = #{traitCategoryId}
+                GROUP BY gene_id, qtl_name) AS k ON k.gene_id = a.gene_id
             LEFT JOIN (SELECT gene_id,
                 (
                 <trim suffixOverrides="+">
@@ -147,16 +153,5 @@
         <foreach collection="geneIdList" item="item" separator="," open="(" close=")">
             #{item}
         </foreach>
-    </select>
-    
-    <select id="getQtlNamesByTrait" resultType="string">
-
-                    SELECT
-                    c.qtl_name
-                    FROM
-                    trait_category a
-                    LEFT JOIN trait_list b ON a.id = b.qtl_id
-                    LEFT JOIN qtl c ON c.trait = b.trait_name
-                    WHERE a.id = #{categoryId}
     </select>
 </mapper>
