@@ -15,7 +15,7 @@
     </select>
 
     <select id="getTraitListsByQtlId" resultType="com.gooalgene.entity.TraitList">
-        SELECT * FROM trait_list WHERE qtl_id = #{id}
+        SELECT * FROM trait_list WHERE id = #{id}
     </select>
 
     <insert id="add" parameterType="com.gooalgene.entity.TraitList">
@@ -23,7 +23,7 @@
     </insert>
 
     <insert id="insertBatch">
-        INSERT INTO trait_list (qtl_id,trait_name,trait_createtime)
+        INSERT INTO trait_list (trait_name,trait_createtime)
         values
         <foreach collection="list" item="item" index="index" separator=",">
             ( #{item.qtlId}, #{item.traitName},NOW())
@@ -31,7 +31,7 @@
     </insert>
 
     <update id="update" parameterType="com.gooalgene.entity.TraitList">
-        UPDATE trait_list SET qtl_id=#{qtlId},trait_name=#{traitName},trait_createtime=NOW() WHERE id=#{id};
+        UPDATE trait_list SET trait_name=#{traitName},trait_createtime=NOW() WHERE id=#{id};
     </update>
 
     <delete id="deleteById" parameterType="int">
