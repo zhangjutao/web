@@ -76,3 +76,7 @@ UPDATE qtl_gene a
   LEFT JOIN trait_list c ON c.trait_name = b.trait
   LEFT JOIN category_associate_trait d ON d.trait_list_id = c.id
 SET a.qtl_trait_id = d.trait_list_id;
+
+#删除trait_list中关联trait_category主键的外键字段
+ALTER TABLE trait_list DROP FOREIGN KEY qtk_id;
+ALTER TABLE trait_list DROP COLUMN qtl_id;
