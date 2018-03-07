@@ -86,10 +86,12 @@ public class SearchController {
             return new ModelAndView("redirect:/search/index");
         }
 //        Page<Qtl> page = new Page<Qtl>(request, response);
+//        int pageNo = page.getPageNo();
+//        int pageSize = page.getPageSize();
         modelAndView.addObject("types", queryService.queryAll());  // 搜索结果侧边栏
         modelAndView.addObject("versions", queryService.queryVersions());  // 可选的所有基因版本
 
-//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
+//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize));
         modelAndView.addObject("condition", "{}");
 //        modelAndView.addObject("page", page);
         return modelAndView;
