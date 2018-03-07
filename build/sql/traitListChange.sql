@@ -80,3 +80,7 @@ SET a.qtl_trait_id = d.trait_list_id;
 #删除trait_list中关联trait_category主键的外键字段
 ALTER TABLE trait_list DROP FOREIGN KEY qtk_id;
 ALTER TABLE trait_list DROP COLUMN qtl_id;
+
+#增加中间表category_associate_trait外键关联
+ALTER TABLE category_associate_trait ADD CONSTRAINT fk_associate_category FOREIGN KEY (trait_category_id) REFERENCES trait_category(id);
+ALTER TABLE category_associate_trait ADD CONSTRAINT fk_associate_trait FOREIGN KEY (trait_list_id) REFERENCES trait_list(id);

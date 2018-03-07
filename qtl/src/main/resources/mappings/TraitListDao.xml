@@ -19,14 +19,14 @@
     </select>
 
     <insert id="add" parameterType="com.gooalgene.entity.TraitList">
-        INSERT INTO trait_list (trait_name,trait_createtime) VALUES(#{qtlId},#{traitName},NOW())
+        INSERT INTO trait_list (trait_name,trait_createtime) VALUES(#{traitName},NOW())
     </insert>
 
     <insert id="insertBatch">
         INSERT INTO trait_list (trait_name,trait_createtime)
         values
         <foreach collection="list" item="item" index="index" separator=",">
-            ( #{item.qtlId}, #{item.traitName},NOW())
+            (#{item.traitName},NOW())
         </foreach>
     </insert>
 
