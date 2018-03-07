@@ -56,11 +56,13 @@
     <select id="findAllTraitCategoryAndItsTraitList" resultMap="traitCategoryResultMap">
         SELECT
             a.id as traitCategoryId,
-            a.qtl_desc, b.id as traitListId,
-            b.qtl_id, b.trait_name,
+            a.qtl_desc,
+            b.id as traitListId,
+            b.trait_name,
             c.qtl_name,
             c.id AS qtl_primary_id,
-            c.associatedGenes_id
+            c.associatedGenes_id,
+            d.trait_category_id AS qtl_id
         FROM trait_category a
             LEFT JOIN category_associate_trait d ON a.id = d.trait_category_id
             LEFT JOIN trait_list b ON d.trait_list_id = b.id

@@ -19,7 +19,7 @@
     </select>
 
     <insert id="add" parameterType="com.gooalgene.entity.TraitList">
-        INSERT INTO trait_list (qtl_id,trait_name,trait_createtime) VALUES(#{qtlId},#{traitName},NOW())
+        INSERT INTO trait_list (trait_name,trait_createtime) VALUES(#{traitName},NOW())
     </insert>
 
     <insert id="insertBatch">

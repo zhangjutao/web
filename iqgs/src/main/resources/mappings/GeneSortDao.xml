@@ -154,15 +154,4 @@
             #{item}
         </foreach>
     </select>
-    
-    <select id="getQtlNamesByTrait" resultType="string">
-
-                    SELECT
-                    c.qtl_name
-                    FROM
-                    trait_category a
-                    LEFT JOIN trait_list b ON a.id = b.qtl_id
-                    LEFT JOIN qtl c ON c.trait = b.trait_name
-                    WHERE a.id = #{categoryId}
-    </select>
 </mapper>
