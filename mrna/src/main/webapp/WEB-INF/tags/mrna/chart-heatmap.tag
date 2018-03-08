@@ -1,5 +1,5 @@
 <%@ tag language="java" pageEncoding="UTF-8" %>
-<%@ include file="/WEB-INF/views/include/taglib.jsp"%>
+<%@ include file="/WEB-INF/views/include/taglib.jsp" %>
 <%@ attribute name="data" type="java.lang.String" required="true" description="" %>
 <%@ attribute name="isAjax" type="java.lang.String" required="false" description="" %>
 <%@ attribute name="gaHeight" type="java.lang.String" required="false" description="" %>
@@ -20,15 +20,18 @@
         color: #688be2;
         font-weight: bold;
     }
-    .js-label{
+
+    .js-label {
         padding-left: 20px;
         height: 20px;
         line-height: 20px;
         /*transform: rotate(-70deg);*/
     }
+
     .js-label.has-child {
 
     }
+
     .js-label.has-child::before {
         content: "+";
         position: relative;
@@ -38,6 +41,7 @@
         height: 10px;
         font-weight: bold;
     }
+
     .js-label.has-child.open::before {
         content: "-";
         position: relative;
@@ -47,56 +51,68 @@
         height: 10px;
         font-weight: bold;
     }
+
     .js-label.has-child.ml-20 {
         margin-left: -20px;
     }
+
     .js-label.has-child.ml-10 {
         margin-left: -10px;
     }
-    body .genesInfo{
+
+    body .genesInfo {
         left: 50%;
         margin-left: -515px;
         border: none;
     }
-    body .genesInfo-head{
+
+    body .genesInfo-head {
         position: relative;
         height: 40px;
         line-height: 40px;
         background: #386cca;
         cursor: move;
     }
-    .genesInfo .genesInfo-head p{
+
+    .genesInfo .genesInfo-head p {
         width: 100%;
-        text-align:center;
+        text-align: center;
         color: #fff;
     }
-    .genesInfo .genesInfo-head a{
+
+    .genesInfo .genesInfo-head a {
         float: none;
         position: absolute;
         right: 15px;
-        color:#fff;
+        color: #fff;
         font-size: 20px;
+    }
+
+    .zwsj {
+        width: 200px;
+        padding: 20px 10px;
+        text-align: left;
     }
 </style>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script>
 
-    $("body").on("click", ".js-gene-info", function(e) {
+    $("body").on("click", ".js-gene-info", function (e) {
         var version = 'gmx_ensembl_release23';
         var geneName = $(this).text();
         $(".js-gene-head-name").html(geneName);
-        $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName="+ geneName + "&version=" + version);
+        $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
         e.preventDefault();
         $(".genesInfo").show();
 
     });
-    $(".genesInfo-head > a").click(function() {
+    $(".genesInfo-head > a").click(function () {
         $(".genesInfo").hide();
     });
 
     var chart;
-    (function(){
+    (function () {
 
 
         var g_cate;
@@ -104,9 +120,9 @@
         var heatmapdata, heatmapcategory;
 
         // 分类英文转中文显示
-        window.en2cn = function(str){
+        window.en2cn = function (str) {
             var name = "";
-            switch (str){
+            switch (str) {
                 case "pod_All" :
                     name = "豆荚";
                     break;
@@ -137,7 +153,7 @@
             return name;
         }
 
-        if("${isAjax}" == "true") {
+        if ("${isAjax}" == "true") {
             window.pageSize = 20;
             window.getHeatMap = function (genes, curr) {
                 var innergenes = genes.split(",");
@@ -150,58 +166,133 @@
 
                 var start = 1 + (curr - 1) * pageSize - 1;
                 var end = curr * pageSize;
-                if(end > len) {
+                if (end > len) {
                     end = len;
                 }
                 innergenes = innergenes.slice(start, end);
                 innergenesStr = innergenes.join(",");
 
-                $.ajax({
-                    url: "${ctxroot}/specific/hitmap",
-                    type: "POST",
-                    data: {genes: innergenesStr},
-                    dataType: "json",
-                    success: function(res) {
-                        var dd = res;
-                        heatmapdata = _.orderBy(dd.cate, ["name"]);
-                        heatmapcategory =  dd.gens;
-                        g_cate = initCategories();
-                        $("#heatmap_${id}").css({"min-height": (70 * innergenes.length + 120) +"px"});
-                        renderChart(heatmapcategory, g_cate, getChartData(g_cate));
+//                热图数据获取
+                initHeatmap();
+                var page = {curr: 1, pageSize: 10};
 
-                        // 显示分页
-                        laypage({
-                            cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                            pages: pageTotal, //通过后台拿到的总页数
-                            curr: curr || 1, //当前页
-                            skin: '#5c8de5',
-                            skip: true,
-                            prev: '<',
-                            next: '>',
-                            groups: 3, //连续显示分页数
-                            jump: function (obj, first) { //触发分页后的回调
-                                $("#total-page-count > span").html(specificGenes.length);
-                                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                    getHeatMap(genes, obj.curr);
-                                }
+                function initHeatmap(currNum, pageSizeNum) {
+                    $.ajax({
+                        url: "${ctxroot}/specific/hitmap",
+                        type: "POST",
+                        data: {
+                            genes: innergenesStr,
+                            pageNo: currNum || 1,
+                            pageSize: pageSizeNum || 10
+                        },
+                        dataType: "json",
+                        success: function (res) {
+                            if (res.cate.length == 0) {
+                                $('#heatmap_').empty().html("<p class='zwsj'>暂无数据</p>");
+                            } else {
+                                var dd = res;
+                                heatmapdata = _.orderBy(dd.cate, ["name"]);
+                                heatmapcategory = dd.gens;
+                                g_cate = initCategories();
+                                <%--$("#heatmap_${id}").css({"min-height": (70 * innergenes.length + 120) + "px"});--%>
+                                renderChart(heatmapcategory, g_cate, getChartData(g_cate));
+
+                                // 显示分页
+                                laypage({
+                                    cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                                    pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数
+                                    curr: currNum || 1, //当前页
+                                    skin: '#5c8de5',
+                                    skip: true,
+                                    first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                                    last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                                    prev: '<',
+                                    next: '>',
+                                    groups: 3, //连续显示分页数
+                                    jump: function (obj, first) { //触发分页后的回调
+                                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                            var currNum = obj.curr;
+                                            initHeatmap(currNum, pageSizeNum);
+                                        }
+                                    }
+
+//                                    cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+//                                    pages: pageTotal, //通过后台拿到的总页数
+//                                    curr: curr || 1, //当前页
+//                                    skin: '#5c8de5',
+//                                    skip: true,
+//                                    prev: '<',
+//                                    next: '>',
+//                                    groups: 3, //连续显示分页数
+//                                    jump: function (obj, first) { //触发分页后的回调
+//                                        $("#total-page-count > span").html(specificGenes.length);
+//                                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+////                                            getHeatMap(genes, obj.curr);
+//                                        }
+//                                    }
+                                });
                             }
-                        });
+                        }
+                    });
+                }
+
+                // 修改每页显示条数
+                $(".tissue-specificity-chartstab").on("change", ".lay-per-page-count-select", function () {
+                    var curr = Number($(".laypage_curr").text());
+                    var pageSize = Number($(this).val());
+                    var total = $("#total-page-count span").text();
+                    var mathCeil = Math.ceil(total / curr);
+                    page.pageSize = Number($(this).val());
+                    if (pageSize > mathCeil) {
+                        page.curr = 1;
+                        initHeatmap(1, pageSize)
+                    } else {
+                        initHeatmap(curr, pageSize)
                     }
                 });
+
+                // 分页跳转
+                $("#pagination").on("focus", ".laypage_total .laypage_skip", function () {
+                    $(this).addClass("isFocus");
+                });
+                $("#pagination").on("blur", ".laypage_total .laypage_skip", function () {
+                    $(this).removeClass("isFocus");
+                });
+                // 注册 enter 事件的元素
+                $(document).keyup(function (event) {
+                    var _page_skip = $('#pagination .laypage_skip');
+                    if (_page_skip.hasClass("isFocus")) {
+                        if (event.keyCode == 13) {
+                            var _page_skip = $('#pagination .laypage_skip');
+                            var curr = Number(_page_skip.val());
+                            var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                            var total = $("#total-page-count span").text();
+                            var mathCeil = Math.ceil(total / pageSizeNum);
+                            if (curr > mathCeil) {
+                                page.curr = 1;
+                                initHeatmap(1, pageSizeNum)
+                            } else {
+                                page.curr = curr;
+                                initHeatmap(curr, pageSizeNum)
+                            }
+                        }
+                    }
+                });
+
             }
         } else {
             var dd = eval(${data});
             heatmapdata = _.orderBy(dd.cate, ["name"]);
-            heatmapcategory =  dd.gens;
+            heatmapcategory = dd.gens;
             g_cate = initCategories();
             renderChart(heatmapcategory, g_cate, getChartData(g_cate));
         }
 
         // 初始化显示的种类数据，默认显示第一级
-        function initCategories(){
+        function initCategories() {
             var d = new Array();
             for (var i = 0; i < heatmapdata.length; i++) {
-                if(heatmapdata[i].level == 0){
+                if (heatmapdata[i].level == 0) {
                     heatmapdata[i].hasChild = judgeChildren(heatmapdata[i].name);
                     d.push(heatmapdata[i]);
                 }
@@ -210,10 +301,10 @@
         }
 
         // 判断是否有子节点
-        function judgeChildren(cate_name){
+        function judgeChildren(cate_name) {
             var hasChild = false;
             for (var i = 0; i < heatmapdata.length; i++) {
-                if(heatmapdata[i].pname == cate_name && heatmapdata[i].level == 1){
+                if (heatmapdata[i].pname == cate_name && heatmapdata[i].level == 1) {
                     hasChild = true;
                     break;
                 }
@@ -223,12 +314,12 @@
 
 
         // 根据基因种类数据产生图表数据
-        function getChartData(categoriesT){
+        function getChartData(categoriesT) {
             var chartData = new Array();
             for (var i = 0; i < categoriesT.length; i++) {
                 var values = categoriesT[i].values;
                 for (var j = 0; j < values.length; j++) {
-                    var arr = [i,j,values[j]];
+                    var arr = [i, j, values[j]];
                     chartData.push(arr);
                 }
             }
@@ -240,12 +331,14 @@
 //            console.log("gene: ", gene);
 //            console.log("cate: ", cate);
 //            console.log("data: ", data);
-            if(chart) {chart.destroy();}
+            if (chart) {
+                chart.destroy();
+            }
 
             var filename = "heat map " + gene[0];
 
             // 热力图
-            chart =  Highcharts.chart('heatmap_${id}', {
+            chart = Highcharts.chart('heatmap_${id}', {
                 chart: {
                     type: 'heatmap',
 //                    marginTop: 140
@@ -288,7 +381,7 @@
                         rotation: -70,
                         y: -10,
 //                        y: -55,
-                        formatter: function() {
+                        formatter: function () {
                             var name = this.value["name"];
                             var chinese = this.value["chinese"];
                             var level = this.value["level"];
@@ -311,12 +404,12 @@
 //                                    _label += "<div class='js-label'>&nbsp</div><div class='js-label'>&nbsp</div><div class='js-label' style='margin-left:10px'>" + name + "</div>";
 //                                    break
 //                            }
-                            switch(level){
+                            switch (level) {
                                 case 0 :
-                                    _label += "<div class='js-label "+hasChildClass+state+" ml-20 cateOnToggleClass' dname='"+name+"' cname='"+ chinese +"'>" + chinese + "</div>";
+                                    _label += "<div class='js-label " + hasChildClass + state + " ml-20 cateOnToggleClass' dname='" + name + "' cname='" + chinese + "'>" + chinese + "</div>";
                                     break
                                 case 1 :
-                                    _label += "<div class='js-label "+hasChildClass+state+" ml-20 cateOnToggleClass' dname='"+name+"' cname='"+ chinese +"'>" + name + "</div>";
+                                    _label += "<div class='js-label " + hasChildClass + state + " ml-20 cateOnToggleClass' dname='" + name + "' cname='" + chinese + "'>" + name + "</div>";
                                     break
                                 case 2 :
                                     _label += "<div class='js-label' style='margin-left:10px'>" + name + "</div>";
@@ -333,8 +426,8 @@
                     reversed: true,
                     labels: {
                         useHTML: true,
-                        formatter: function() {
-                            return '<span class="js-gene-info">'+ this.value +'</span>';
+                        formatter: function () {
+                            return '<span class="js-gene-info">' + this.value + '</span>';
                         }
                     }
                 },
@@ -355,15 +448,15 @@
                         borderWidth: 1,
                         dataLabels: {
                             enabled: true,
-                            formatter: function() {
+                            formatter: function () {
                                 return ""
                             }
                         },
                         cursor: "pointer",
                         point: {
                             events: {
-                                click: function() {
-                                    if("${isAjax}" == "true") {
+                                click: function () {
+                                    if ("${isAjax}" == "true") {
 
                                     } else {
                                         $("#specificForm").find("input").val(heatmapcategory.join(","));
@@ -400,7 +493,7 @@
 //                        str += '    <div ><span style="display:inline-block; height:22px; width: 90px;">Phenotype :</span>High isoflavonaid content vs law isoflavonoid content. </div>'
                         str += '<div style="border-top: 1px solid #DDD; margin: 10px 0;"></div>'
 //                        str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Log-fold change:</span> -5.5</div>'
-                        str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>'+ (this.point.value*1).toFixed(4) +' </div>'
+                        str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>' + (this.point.value * 1).toFixed(4) + ' </div>'
                         str += '</div>'
 
                         return str;
@@ -420,33 +513,33 @@
                 }]
             });
 
-            if('${isAjax}' == "true") {
+            if ('${isAjax}' == "true") {
                 chart.legend.update({x: -150});
             }
         }
 
         //鼠标移动上去事件
-        function cateOnHover(){
-            $(".cateOnToggleClass").hover( function() {
+        function cateOnHover() {
+            $(".cateOnToggleClass").hover(function () {
                 var str = "";
-                if($(this).attr("dname")){
+                if ($(this).attr("dname")) {
                     str = $(this).attr("dname");
-                }else{
+                } else {
                     str = $(this).html();
                 }
                 var chinese = $(this).attr("cname");
                 var content = '';
-                if(chinese != "") {
-                    content += "<div class='title'>"+ chinese +"</div>";
+                if (chinese != "") {
+                    content += "<div class='title'>" + chinese + "</div>";
                 }
                 else {
-                    content += "<div class='title'>"+str+"</div>";
+                    content += "<div class='title'>" + str + "</div>";
                 }
-                content += "<div class='sub-title'>"+str.split("_")[0]+"</div>";
-                for(var i=0; i<heatmapdata.length; i++){
+                content += "<div class='sub-title'>" + str.split("_")[0] + "</div>";
+                for (var i = 0; i < heatmapdata.length; i++) {
 //                console.log(" str : "+str + " == "+heatmapdata[i].pname+"  == "+heatmapdata[i].name);
-                    if(heatmapdata[i].level == 1 && str == heatmapdata[i].pname){
-                        content += "<a class='tips-qtl' href='${ctxroot}/mrna/list?type=Tissues&keywords="+heatmapdata[i].name+"'>" + heatmapdata[i].name + "<\/a>";
+                    if (heatmapdata[i].level == 1 && str == heatmapdata[i].pname) {
+                        content += "<a class='tips-qtl' href='${ctxroot}/mrna/list?type=Tissues&keywords=" + heatmapdata[i].name + "'>" + heatmapdata[i].name + "<\/a>";
                     }
 
                 }
@@ -457,15 +550,15 @@
                     autoClose: true,
                     content: content
                 });
-            }, function() {
+            }, function () {
                 $(".pt").hide();
             });
         }
 
 
         // 种类节点点击事件
-        function cateOnToggle(obj){
-            if($(obj).hasClass("has-child")) {
+        function cateOnToggle(obj) {
+            if ($(obj).hasClass("has-child")) {
                 if ($(obj).hasClass("close")) {
                     openNode(obj);
                 } else if ($(obj).hasClass("open")) {
@@ -475,22 +568,22 @@
         }
 
         // 展开节点
-        function openNode(obj){
+        function openNode(obj) {
             var str = "";
-            if($(obj).attr("dname")){
+            if ($(obj).attr("dname")) {
                 str = $(obj).attr("dname");
-            }else{
+            } else {
                 str = $(obj).html();
             }
 
             for (var i = 0; i < heatmapdata.length; i++) {
-                if(heatmapdata[i].pname == str){
+                if (heatmapdata[i].pname == str) {
                     var openNode = heatmapdata[i];
                     openNode.hasChild = judgeChildren(openNode.name)
-                    for(var j = 0; j < g_cate.length; j++){
-                        if (g_cate[j].name == str){
+                    for (var j = 0; j < g_cate.length; j++) {
+                        if (g_cate[j].name == str) {
                             g_cate[j].state = "open";
-                            g_cate.splice(j+1,0,openNode);
+                            g_cate.splice(j + 1, 0, openNode);
                             break;
                         }
                     }
@@ -500,29 +593,29 @@
         }
 
         // 收缩节点
-        function closeNode(obj){
+        function closeNode(obj) {
             var str = "";
-            if($(obj).attr("dname")){
+            if ($(obj).attr("dname")) {
                 str = $(obj).attr("dname");
-            }else{
+            } else {
                 str = $(obj).html();
             }
             for (var i = 0; i < heatmapdata.length; i++) {
-                if(heatmapdata[i].pname == str){
+                if (heatmapdata[i].pname == str) {
                     var subPname = "";
-                    for(var j = 0; j < g_cate.length; j++){
-                        if (g_cate[j].name == str){
+                    for (var j = 0; j < g_cate.length; j++) {
+                        if (g_cate[j].name == str) {
                             g_cate[j].state = "close";
                         }
-                        if(g_cate[j].pname == str){
+                        if (g_cate[j].pname == str) {
                             subPname = g_cate[j].name;
-                            g_cate.splice(j,1);
+                            g_cate.splice(j, 1);
                         }
                     }
-                    if (subPname != ""){
-                        for(var k = 0; k < g_cate.length; k++){
-                            if(g_cate[k].pname == subPname){
-                                g_cate.splice(k,1);
+                    if (subPname != "") {
+                        for (var k = 0; k < g_cate.length; k++) {
+                            if (g_cate[k].pname == subPname) {
+                                g_cate.splice(k, 1);
                             }
                         }
                     }
@@ -532,7 +625,7 @@
         }
 
 
-        $("body").on("click",".cateOnToggleClass",function(){
+        $("body").on("click", ".cateOnToggleClass", function () {
             cateOnToggle($(this));
             cateOnHover();
         });
@@ -546,6 +639,8 @@
 
 
     })();
+
+
     /*基因详情拖动弹框*/
-    $(".genesInfo").draggable({ containment: "body" });
+    $(".genesInfo").draggable({containment: "body"});
 </script>
