@@ -154,7 +154,7 @@
         }
 
         if ("${isAjax}" == "true") {
-            window.pageSize = 20;
+            window.pageSize = 10;
             window.getHeatMap = function (genes, curr) {
                 var innergenes = genes.split(",");
                 innergenes = innergenes.sort();
@@ -196,16 +196,16 @@
                                 g_cate = initCategories();
                                 <%--$("#heatmap_${id}").css({"min-height": (70 * innergenes.length + 120) + "px"});--%>
                                 renderChart(heatmapcategory, g_cate, getChartData(g_cate));
-
+                                $("#total-page-count span").html(res.gensTotal);
                                 // 显示分页
                                 laypage({
                                     cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                                    pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数
+                                    pages: Math.ceil(res.gensTotal / page.pageSize), //通过后台拿到的总页数
                                     curr: currNum || 1, //当前页
                                     skin: '#5c8de5',
                                     skip: true,
                                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                                    last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                                    last: Math.ceil(res.gensTotal / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                                     prev: '<',
                                     next: '>',
                                     groups: 3, //连续显示分页数
