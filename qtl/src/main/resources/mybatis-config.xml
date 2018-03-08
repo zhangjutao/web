@@ -38,6 +38,8 @@
         <setting name="jdbcTypeForNull" value="NULL"/>
 		
 		<setting name="logImpl" value="SLF4J" />
+
+		<setting name="callSettersOnNulls" value="true" />
 		
 	</settings>
 	

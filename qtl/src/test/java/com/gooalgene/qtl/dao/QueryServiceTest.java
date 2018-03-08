@@ -89,7 +89,7 @@ public class QueryServiceTest extends TestCase {
 
     @Test
     public void testQuerySearchByResult() {
-        Map a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "type", "d", "{}", 1, 20);
+        Map a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "QTL Name", "Asian Soybean Rust 1-1", "{}", 1, 20);
         System.out.println("success");
     }
 }
