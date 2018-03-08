@@ -8,6 +8,16 @@ public class GenResult {
 	
 	private String [] gens;
 
+	private int gensTotal;
+
+	public int getGensTotal() {
+		return gensTotal;
+	}
+
+	public void setGensTotal(int gensTotal) {
+		this.gensTotal = gensTotal;
+	}
+
 	public String[] getGens() {
 		return gens;
 	}

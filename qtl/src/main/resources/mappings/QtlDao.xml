@@ -217,7 +217,7 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
         </foreach>
     </insert>
 
-    <select id="findByCondition" resultType="Map">
+    <select id="findByCondition" resultType="com.gooalgene.qtl.entity.AsObjectForQtlTableEntity">
         SELECT
             a.id,
             a.qtl_name AS qtlName,
@@ -236,7 +236,8 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
             b.lgAndMarker AS markerlg,
             b.chr,
             b.lg,
-            c.associated_genes AS associateGenes
+            c.associated_genes AS associateGenes,
+            c.version
         FROM qtl a
         LEFT JOIN chrlg b ON a.chrlg_id = b.id
         LEFT JOIN (SELECT * FROM associatedgenes WHERE 1 = 1
