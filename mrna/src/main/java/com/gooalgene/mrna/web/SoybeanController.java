@@ -76,7 +76,6 @@ public class SoybeanController {
             String[] gens = Arrays.copyOfRange(genes.split(","), pageNo * pageSize - pageSize, pageNo * pageSize);
             GenResult genResult = tService.generateData(gens);
             json = JsonUtils.Bean2Json(genResult);
-//            System.out.println(json);
         }
         return json;
     }
@@ -97,7 +96,6 @@ public class SoybeanController {
             String[] gens = genes.split(",");
             GenResult genResult = tService.generateData(gens);
             json = JsonUtils.Bean2Json(genResult);
-//            System.out.println(json);
         }
         return json;
     }

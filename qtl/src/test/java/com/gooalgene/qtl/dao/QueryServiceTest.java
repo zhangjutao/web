@@ -1,5 +1,8 @@
 package com.gooalgene.qtl.dao;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.TraitCategory;
 import com.gooalgene.qtl.service.QueryService;
@@ -12,10 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 查询所有qtl大类型
@@ -31,6 +31,8 @@ public class QueryServiceTest extends TestCase {
 
     @Autowired
     private TraitCategoryDao traitCategoryDao;
+
+    private ObjectMapper mapper = new ObjectMapper();
 
     @Test
     public void testQueryAllTrait(){
@@ -88,8 +90,11 @@ public class QueryServiceTest extends TestCase {
     }
 
     @Test
-    public void testQuerySearchByResult() {
-        Map a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "QTL Name", "Asian Soybean Rust 1-1", "{}", 1, 20);
-        System.out.println("success");
+    public void testQuerySearchByResult() throws JsonProcessingException {
+        Map a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "all", "Seed", "", 1, 20);
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
+        a.values().removeAll(Collections.singleton(null));
+        String result = mapper.writeValueAsString(a);
+        System.out.println(result);
     }
 }

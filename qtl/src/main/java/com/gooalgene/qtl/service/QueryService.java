@@ -683,7 +683,6 @@ public class QueryService {
         }
         getByPara(qtl, fixParam(type, keywords, param));
         qtl.setVersion(version);
-//        qtl.setPage(page);
         PageHelper.startPage(pageNo, pageSize);
         List<Map> list = qtlDao.findByCondition(qtl);
         result.put("total", new PageInfo<>(list).getTotal());
@@ -696,8 +695,6 @@ public class QueryService {
             m.put("genes", genes == null ? "" : genes);
             data.add(m);
         }
-        PageInfo<JSONArray> a = new PageInfo<>(data);
-        result.put("total", a.getTotal());
         result.put("data", data);
         return result;
     }
