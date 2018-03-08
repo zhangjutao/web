@@ -1,10 +1,8 @@
 package com.gooalgene.qtl.web;
 
-import com.gooalgene.common.Page;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
-import com.gooalgene.entity.Qtl;
 import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
 import com.gooalgene.utils.ResultUtil;
@@ -98,7 +96,7 @@ public class SearchController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/list/page",method = RequestMethod.POST)
+    @RequestMapping(value = "/list/page",method = RequestMethod.GET)
     @ResponseBody
     public ResultVO<QtlTableEntity> lista(HttpServletRequest request) {
         String type = request.getParameter("type");

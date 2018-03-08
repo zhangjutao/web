@@ -25,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
-import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -86,7 +85,6 @@ public class SoybeanController {
                 genResult.setGensTotal(total);
                 json = JsonUtils.Bean2Json(genResult);
             }
-//            System.out.println(json);
         }
         return json;
     }
@@ -107,7 +105,6 @@ public class SoybeanController {
             String[] gens = genes.split(",");
             GenResult genResult = tService.generateData(gens);
             json = JsonUtils.Bean2Json(genResult);
-//            System.out.println(json);
         }
         return json;
     }
