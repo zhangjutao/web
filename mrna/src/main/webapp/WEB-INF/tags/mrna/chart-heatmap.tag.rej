@@ -1,0 +1,9 @@
+diff a/mrna/src/main/webapp/WEB-INF/tags/mrna/chart-heatmap.tag b/mrna/src/main/webapp/WEB-INF/tags/mrna/chart-heatmap.tag	(rejected hunks)
+@@ -83,6 +83,7 @@
+ <script>
+ 
+     $("body").on("click", ".js-gene-info", function(e) {
++//        var version = 'gmx_ensembl_release23';
+         var version = "Gmax_275_v2.0";
+         var geneName = $(this).text();
+         $(".js-gene-head-name").html(geneName);

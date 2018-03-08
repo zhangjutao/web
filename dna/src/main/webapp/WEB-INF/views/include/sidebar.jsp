@@ -1579,7 +1579,7 @@
             var val1 = _prev.find("input").first().val() * 1;
             var val2 = _prev.find("input").last().val() * 1;
             var str = val1 + "-" + val2;
-            if(val1 != "" && val2 != "") {
+            if(val1.toString() != "" && val2.toString() != "") {
                 if($.inArray($(this).attr("data-name"), percetageArray) > -1) {
                     if((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
                         alert("添加的区间数据不合理,如果是百分比则要小于100");
