@@ -183,6 +183,11 @@
         .js-pop-head, .information-title, .tab-detail-thead {
             cursor: move;
         }
+        .zwsj{
+            width: 200px;
+            padding:20px 10px;
+            text-align:left;
+        }
     </style>
 </head>
 <body>
@@ -287,7 +292,7 @@
         </aside>
         <article class="">
             <div class="checkbox-tab">
-                <table class="checkbox-list-item" id="tableBody">
+                <table class="checkbox-list-item" id="tableBody" style="width:1090px">
                     <thead>
                     <tr>
                         <td class="param t_id">ID</td>
@@ -617,11 +622,10 @@
             },
             dataType: "json",
             success: function (res) {
-                console.log(res)
                 //显示表格内容
                 if (res.data.data.length == 0) {
                     $('#all-paginate').hide();
-                    $("#tableBody").html("<div class='explain-b' style='text-align: center'><img src='${ctxStatic}/images/nodata.png'><div style='padding-top: 10px'>无同源基因信息</div></div>")
+                    $("#tableBody>tbody").empty().html("<p class='zwsj'>暂无数据</p>");
                 } else {
                     renderTable(res);
                     $('#all-paginate').show();
@@ -701,11 +705,11 @@
         for (var i = 0; i < eleData.length; i++) {
             str += '<tr>'
             str += '<td class="t_id">' + eleData[i].id + '</td>';
-            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=${item.version}">' + eleData[i].qtlName + '</a> </td>';
+            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=' + version+ '">' + eleData[i].qtlName + '</a> </td>';
             str += '<td class="t_trait">' + eleData[i].trait + '</td>';
             str += '<td class="t_type">' + eleData[i].type + '</td>';
-            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">' + eleData[i].chr + '</a></td>';
-            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">' + eleData[i].lg + '</a> </td>';
+            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version+ '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].chr + '</a></td>';
+            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version+ '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].lg + '</a> </td>';
             str += '<td class="t_method">' + eleData[i].method + '</td>';
             str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker1 + '">' + eleData[i].marker1 + '</a> </td>';
             str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2+ '</a> </td>';
@@ -757,6 +761,161 @@
 //            $("#searchForm").submit();
             thSearch();
         });
+
+        $(".js-author-pop").click(function (e) {
+
+            var url = $(this).attr("data-src");
+            $("#mid").show()
+            $(this).siblings().show();
+            var _qtl = $("a.qtlName").html();
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    console.log(data)
+                    var tbody = "";
+                    tbody += "<tbody>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Title:</td>"
+                    tbody += "       <td>" + data.title + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Authors:</td>"
+                    tbody += "       <td>" + data.authors + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Source:</td>"
+                    tbody += "       <td>" + data.source + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Abstract:</td>"
+                    tbody += "       <td>"
+                    tbody += "               <p>" + data.abs + "</a>"
+                    tbody += "       </td>"
+                    tbody += "   </tr>"
+                    tbody += "</tbody>"
+                    $(".information-tab table").html(tbody);
+                    /*data.abs*/
+                    $(".abstract").click(function (e) {
+                        e.preventDefault();
+                        $("#mid").show();
+                        $(".links-pop").show();
+                        var txt = $(this).attr("data-txt");
+                        console.log(txt + "----");
+                        $(".links-text").html("<p>" + txt + "</p>")
+
+
+                    })
+                }
+            });
+
+            var xx = e.pageX;
+            var yy = e.pageY
+
+        })
+        $(".close-pop").click(function (e) {
+            $(".author-pop-tab").hide();
+            $("#mid").hide();
+        })
+
+
+        /*表头*/
+        $(".btn-confirm").click(function () {
+            var str = "";
+            $("input[type='checkbox']").each(function (index) {
+                if (!$(this).is(":checked")) {
+                    $(".t_" + $(this).val()).hide();
+                } else {
+                    $(".t_" + $(this).val()).show();
+                    str += $(this).val() + "-";
+                }
+            })
+
+            setCookie('showedCols', str);
+        })
+
+        function pop(id, name) {
+            $(id).click(function (e) {
+                e.preventDefault();
+                $("#mid").show();
+                $(".js-pop").show();
+                $(".tname").text(name)
+                var url = $(this).attr("data-src");
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+                        console.log(data);
+                        var pop = "";
+                        pop += "<tr>"
+                        pop += "  <td>Name</td>"
+                        pop += "  <td>" + data.name + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Type</td>"
+                        pop += "  <td>" + data.type + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>LG(Chr)</td>"
+                        pop += "  <td>" + data.lg + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Position</td>"
+                        pop += "  <td>" + data.position + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Amplification Info</td>"
+                        pop += "  <td>" + data.amplificationInfo + "</td>"
+                        pop += "</tr>"
+                        pop += "  <td>Providers</td>"
+                        pop += "  <td>" + data.provider + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>References</td>"
+                        pop += "  <td>" + data.refference + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        $(".js-pop-body tbody").html(pop)
+                    }
+                })
+            })
+        }
+
+        pop(".js-pop-marker1", "marker1")
+        pop(".js-pop-marker2", "marker2")
+        /*genes 弹框*/
+        $(".js-pop-genes").click(function (e) {
+            e.preventDefault();
+            $("#mid").show();
+            $(".tab-detail").show();
+            $(".tab-category-list").html("");
+            var text = $(this).attr("data-txt");
+            var t = text.split(",")
+
+            for (var i = 0; i < t.length; i++) {
+                var span = "";
+                span += "<span><a class='js-gene-info' data-gene-name='" + t[i] + "' href='javascript:void(0);'>" + t[i] + "</a></span>"
+                $(".tab-category-list").append(span)
+            }
+        });
+
+        $("body").on("click", ".js-gene-info", function (e) {
+            var version = getUrlParam("version");
+            var geneName = $(this).attr("data-gene-name");
+            $(".js-gene-head-name").html(geneName);
+            $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
+            e.preventDefault();
+//        console.log($(this).html())
+            $(".genesInfo").show();
+
+        });
+        $(".genesInfo a").click(function (e) {
+            e.preventDefault();
+            $(".genesInfo").hide();
+        })
+
 
     }
 
@@ -1105,159 +1264,9 @@
         $(".nav_ac").show();
     })
 
-    $(".js-author-pop").click(function (e) {
-
-        var url = $(this).attr("data-src");
-        $("#mid").show()
-        $(this).siblings().show();
-        var _qtl = $("a.qtlName").html();
-        $.ajax({
-            url: url,
-            type: "get",
-            dataType: "json",
-            success: function (data) {
-                console.log(data)
-                var tbody = "";
-                tbody += "<tbody>"
-                tbody += "   <tr>"
-                tbody += "       <td>Title:</td>"
-                tbody += "       <td>" + data.title + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Authors:</td>"
-                tbody += "       <td>" + data.authors + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Source:</td>"
-                tbody += "       <td>" + data.source + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Abstract:</td>"
-                tbody += "       <td>"
-                tbody += "               <p>" + data.abs + "</a>"
-                tbody += "       </td>"
-                tbody += "   </tr>"
-                tbody += "</tbody>"
-                $(".information-tab table").html(tbody);
-                /*data.abs*/
-                $(".abstract").click(function (e) {
-                    e.preventDefault();
-                    $("#mid").show();
-                    $(".links-pop").show();
-                    var txt = $(this).attr("data-txt");
-                    console.log(txt + "----");
-                    $(".links-text").html("<p>" + txt + "</p>")
 
 
-                })
-            }
-        });
 
-        var xx = e.pageX;
-        var yy = e.pageY
-
-    })
-    $(".close-pop").click(function (e) {
-        $(".author-pop-tab").hide();
-        $("#mid").hide();
-    })
-
-
-    /*表头*/
-    $(".btn-confirm").click(function () {
-        var str = "";
-        $("input[type='checkbox']").each(function (index) {
-            if (!$(this).is(":checked")) {
-                $(".t_" + $(this).val()).hide();
-            } else {
-                $(".t_" + $(this).val()).show();
-                str += $(this).val() + "-";
-            }
-        })
-
-        setCookie('showedCols', str);
-    })
-
-    function pop(id, name) {
-        $(id).click(function (e) {
-            e.preventDefault();
-            $("#mid").show();
-            $(".js-pop").show();
-            $(".tname").text(name)
-            var url = $(this).attr("data-src");
-            $.ajax({
-                url: url,
-                type: "get",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var pop = "";
-                    pop += "<tr>"
-                    pop += "  <td>Name</td>"
-                    pop += "  <td>" + data.name + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Type</td>"
-                    pop += "  <td>" + data.type + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>LG(Chr)</td>"
-                    pop += "  <td>" + data.lg + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Position</td>"
-                    pop += "  <td>" + data.position + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Amplification Info</td>"
-                    pop += "  <td>" + data.amplificationInfo + "</td>"
-                    pop += "</tr>"
-                    pop += "  <td>Providers</td>"
-                    pop += "  <td>" + data.provider + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>References</td>"
-                    pop += "  <td>" + data.refference + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    $(".js-pop-body tbody").html(pop)
-                }
-            })
-        })
-    }
-
-    pop(".js-pop-marker1", "marker1")
-    pop(".js-pop-marker2", "marker2")
-    /*genes 弹框*/
-    $(".js-pop-genes").click(function (e) {
-        e.preventDefault();
-        $("#mid").show();
-        $(".tab-detail").show();
-        $(".tab-category-list").html("");
-        var text = $(this).attr("data-txt");
-        var t = text.split(",")
-
-        for (var i = 0; i < t.length; i++) {
-            var span = "";
-            span += "<span><a class='js-gene-info' data-gene-name='" + t[i] + "' href='javascript:void(0);'>" + t[i] + "</a></span>"
-            $(".tab-category-list").append(span)
-        }
-    });
-
-    $("body").on("click", ".js-gene-info", function (e) {
-        var version = getUrlParam("version");
-        var geneName = $(this).attr("data-gene-name");
-        $(".js-gene-head-name").html(geneName);
-        $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
-        e.preventDefault();
-//        console.log($(this).html())
-        $(".genesInfo").show();
-
-    });
-    $(".genesInfo a").click(function (e) {
-        e.preventDefault();
-        $(".genesInfo").hide();
-    })
     $(".js-search-text").on("focus", function () {
         $(this).addClass("isFocus");
     });

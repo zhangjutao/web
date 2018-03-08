@@ -683,9 +683,10 @@ public class QueryService {
         }
         getByPara(qtl, fixParam(type, keywords, param));
         qtl.setVersion(version);
+//        qtl.setPage(page);
         PageHelper.startPage(pageNo, pageSize);
         List<Map> list = qtlDao.findByCondition(qtl);
-        result.put("total", new PageInfo<>(list).getTotal());
+        result.put("total", new PageInfo<>(list).getTotal ());
         for (Map m : list) {
             String genes = (String) m.get("associateGenes");
             m.put("genesNum", genes == null ? 0 : genes.split(",").length);
@@ -695,6 +696,7 @@ public class QueryService {
             m.put("genes", genes == null ? "" : genes);
             data.add(m);
         }
+        PageInfo<JSONArray> a = new PageInfo<>(data);
         result.put("data", data);
         return result;
     }
