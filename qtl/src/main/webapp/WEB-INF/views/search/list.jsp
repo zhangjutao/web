@@ -321,9 +321,9 @@
                         <td class="param chr t_chr">Chr<img src="${ctxStatic}/images/arrow-drop-down.png">
                             <input class="js-chr" type="hidden">
                             <div class="chr-item">
-                                <c:forEach items="${chrs}" var="item">
-                                    <a href="#">${item}</a>
-                                </c:forEach>
+                                <%--<c:forEach items="${chrs}" var="item">--%>
+                                    <%--<a href="#">${item}</a>--%>
+                                <%--</c:forEach>--%>
                             </div>
                         </td>
                         <td class="param lg t_lg">LG<img src="${ctxStatic}/images/arrow-drop-down.png">
@@ -595,25 +595,23 @@
         }
     })(jQuery);
     var version = $.getUrlParam('version');
-    var types = $.getUrlParam('type');
-    var keywords = $.getUrlParam('keywords');
-    initTables();
+    var type_select = $.getUrlParam('type');
+    var key_input = $.getUrlParam('keywords');
+//    初始化列表
+    initTables(1,10,type_select,key_input,version);
     var page = {curr: 1, pageSize: 10};
     $(".lay-per-page-count-select").val(page.pageSize);
 
     // 获取表格数据+分页
-    function initTables(currNum, pageSizeNum) {
+    function initTables(currNum, pageSizeNum,type_select,key_input,version,cdt) {
         $.ajax({
             url: "${ctxroot}/search/list/page",
             type: "POST",
             data: {
-                <%--pageNo: currNum || 1,--%>
-                <%--pageSize: pageSizeNum || 10,--%>
-                <%--gene_id: "${genId}"--%>
                 version: version,
-                type: types,
-                keywords: keywords,
-                condition: {},
+                type: type_select,
+                keywords: key_input,
+                condition: cdt,
                 pageNo: currNum || 1,
                 pageSize: pageSizeNum || 10
             },
@@ -706,11 +704,11 @@
             str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=${item.version}">' + eleData[i].qtlName + '</a> </td>';
             str += '<td class="t_trait">' + eleData[i].trait + '</td>';
             str += '<td class="t_type">' + eleData[i].type + '</td>';
-            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a></td>';
-            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a> </td>';
+            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">' + eleData[i].chr + '</a></td>';
+            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">' + eleData[i].lg + '</a> </td>';
             str += '<td class="t_method">' + eleData[i].method + '</td>';
-            str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a> </td>';
-            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a> </td>';
+            str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker1 + '">' + eleData[i].marker1 + '</a> </td>';
+            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2+ '</a> </td>';
             str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].genes + '">' + eleData[i].genesNum + '</a></td>';
             str += '<td class="t_lod">' + eleData[i].lod + '</td>';
             str += '<td class="t_parent1">' + eleData[i].parent1 + '</td>';
@@ -739,7 +737,27 @@
         for (var m = 0; m < chrData.length; m++) {
             strLg += '<a href="#">' + lgData[m] + '</a>';
         }
-        $('.lg-item').append(strLg)
+        $('.lg-item').append(strLg);
+
+        //chr点击事件
+        $(".chr-item a").click(function () {
+            $(".js-chr").val($(this).html());
+        $(".js-lg").val("");
+//        $("#pageNo").val(1);
+//        $("#search3").val(getParamsString());
+//        $("#searchForm").submit();
+            thSearch();
+        });
+
+        $(".lg-item a").click(function () {
+            $(".js-lg").val($(this).html());
+            $(".js-chr").val("");
+//            $("#pageNo").val(1);
+//            $("#search3").val(getParamsString());
+//            $("#searchForm").submit();
+            thSearch();
+        });
+
     }
 
     /*清除搜索框内容*/
@@ -914,93 +932,110 @@
     });
 
     $(".js-search-btn").click(function () {
-        $("#search2").val($(".js-search-text").val());
-        $("#search3").val("{}");
-        $("#search6").val("{}");
-        $("#searchForm").submit();
+//        $("#search2").val($(".js-search-text").val());
+        $(".btn-toggle").trigger("click");
+        var type=$(".js-search-select").val();
+        var key=$(".js-search-text").val();
+//        initTables(1,10,type,key,cdt)
+//        $("#search3").val("{}");
+//        $("#search6").val("{}");
+//        $("#searchForm").submit();
+
+        initTables(1,10,type,key,version);
+    });
+//    $(".btn-confirm-info").click(function(){
+////        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
+//        var cdt=getParamsString()
+//        console.log(cdt)
+//    })
+
+    /*表头条件搜索*/
+    function thSearch(){
+        $(".btn-toggle").trigger("click");
+        var type=$(".js-search-select").val();
+        var key=$(".js-search-text").val();
+        var cdt=getParamsString()
+        console.log(cdt)
+        initTables(1,10,type,key,version,cdt)
+    }
+    $(".btn-confirm-info").click(function(){
+        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
+        thSearch();
+    })
+    /*筛选取消*/
+    $(".btn-cancel").click(function() {
+        $(this).parent("p").siblings("input").val("");
+        $(this).siblings(".btn-confirm-info").trigger("click");
     });
 
-    var restoreParamString = function () {
-        if ($("#search3").val()) {
-            var obj = JSON.parse($("#search3").val());
-            obj.qtlName ? $(".js-qtl-name").val(obj.qtlName) : "";
-            obj.trait ? $(".js-trait").val(obj.trait) : "";
-            obj.type ? $(".js-type").val(obj.type) : "";
-            obj.chr ? $(".js-chr").val(obj.chr) : "";
-            obj.lg ? $(".js-lg").val(obj.lg) : "";
-            obj.version ? $(".js-version").val(obj.version) : "";
-            obj.method ? $(".js-method").val(obj.method) : "";
-            obj.marker1 ? $(".js-marker1").val(obj.marker1) : "";
-            obj.marker2 ? $(".js-marker2").val(obj.marker2) : "";
-            if (obj.lod) {
-                if (obj.lod.indexOf(">") > -1) {
-                    $(".js-lod-select").val(">");
-                    $(".js-lod").val(obj.lod.split(">")[1]);
-                }
-                if (obj.lod.indexOf("=") > -1) {
-                    $(".js-lod-select").val("=");
-                    $(".js-lod").val(obj.lod.split("=")[1]);
-                }
-                if (obj.lod.indexOf("<") > -1) {
-                    $(".js-lod-select").val("<");
-                    $(".js-lod").val(obj.lod.split("<")[1]);
-                }
+    function getParamsString() {
+        var tmp = {};
+        $(".js-qtl-name").val() ? tmp.QTLName = $(".js-qtl-name").val() : "";
+        $(".js-trait").val() ? tmp.trait = $(".js-trait").val() : "";
+        $(".js-type").val() ? tmp.type = $(".js-type").val() : "";
+        $(".js-method").val() ? tmp.method = $(".js-method").val() : "";
+        $(".js-marker1").val() ? tmp.marker1 = $(".js-marker1").val() : "";
+        $(".js-marker2").val() ? tmp.marker2 = $(".js-marker2").val() : "";
+        var lods = $(".js-lod").val();
+        if (lods) {
+            if (lods.indexOf(">") > -1) {
+                $(".js-lod-select").val(">");
+                $(".js-lod").val(lods.split(">")[1]);
             }
-            obj.parent1 ? $(".js-parent1").val(obj.parent1) : "";
-            obj.parent2 ? $(".js-parent2").val(obj.parent2) : "";
-            if (obj.geneStart) {
-                if (obj.geneStart.indexOf(">") > -1) {
-                    $(".js-genome-start-select").val(">");
-                    $(".js-genome-start").val(obj.geneStart.split(">")[1]);
-                }
-                if (obj.geneStart.indexOf("=") > -1) {
-                    $(".js-genome-start-select").val("=");
-                    $(".js-genome-start").val(obj.geneStart.split("=")[1]);
-                }
-                if (obj.geneStart.indexOf("<") > -1) {
-                    $(".js-genome-start-select").val("<");
-                    $(".js-genome-start").val(obj.geneStart.split("<")[1]);
-                }
+            if (lods.indexOf("=") > -1) {
+                $(".js-lod-select").val("=");
+                $(".js-lod").val(lods.split("=")[1]);
             }
-            if (obj.geneEnd) {
-                if (obj.geneEnd.indexOf(">") > -1) {
-                    $(".js-genome-end-select").val(">");
-                    $(".js-genome-end").val(obj.geneEnd.split(">")[1]);
-                }
-                if (obj.geneEnd.indexOf("=") > -1) {
-                    $(".js-genome-end-select").val("=");
-                    $(".js-genome-end").val(obj.geneEnd.split("=")[1]);
-                }
-                if (obj.geneEnd.indexOf("<") > -1) {
-                    $(".js-genome-end-select").val("<");
-                    $(".js-genome-end").val(obj.geneEnd.split("<")[1]);
-                }
+            if (lods.indexOf("<") > -1) {
+                $(".js-lod-select").val("<");
+                $(".js-lod").val(lods.split("<")[1]);
             }
-            obj.ref ? $(".js-ref").val(obj.ref) : "";
-            obj.author ? $(".js-author").val(obj.author) : "";
         }
-    }();
-        console.log(restoreParamString)
-    $(".chr-item a").click(function () {
-        $(".js-chr").val($(this).html());
-        $(".js-lg").val("");
-        $("#pageNo").val(1);
-        $("#search3").val(getParamsString());
-        $("#searchForm").submit();
-    });
-    $(".lg-item a").click(function () {
-        $(".js-lg").val($(this).html());
-        $(".js-chr").val("");
-        $("#pageNo").val(1);
-        $("#search3").val(getParamsString());
-        $("#searchForm").submit();
-    });
+        $(".js-parent1").val() ? tmp.parent1 = $(".js-parent1").val() : "";
+        $(".js-parent2").val() ? tmp.parent2 = $(".js-parent2").val() : "";
+        var geneStarts = $(".js-geneStart").val();
+        if (geneStarts) {
+            if (geneStarts.indexOf(">") > -1) {
+                $(".js-genome-start-select").val(">");
+                $(".js-genome-start").val(geneStarts.split(">")[1]);
+            }
+            if (geneStarts.indexOf("=") > -1) {
+                $(".js-genome-start-select").val("=");
+                $(".js-genome-start").val(geneStarts.split("=")[1]);
+            }
+            if (geneStarts.indexOf("<") > -1) {
+                $(".js-genome-start-select").val("<");
+                $(".js-genome-start").val(geneStarts.split("<")[1]);
+            }
+        }
+        var geneEnds = $(".js-geneEnd").val();
+        if (geneEnds) {
+            if (geneEnds.indexOf(">") > -1) {
+                $(".js-genome-end-select").val(">");
+                $(".js-genome-end").val(geneEnds.split(">")[1]);
+            }
+            if (geneEnds.indexOf("=") > -1) {
+                $(".js-genome-end-select").val("=");
+                $(".js-genome-end").val(geneEnds.split("=")[1]);
+            }
+            if (geneEnds.indexOf("<") > -1) {
+                $(".js-genome-end-select").val("<");
+                $(".js-genome-end").val(geneEnds.split("<")[1]);
+            }
+        }
+        $(".js-ref").val() ? tmp.ref = $(".js-ref").val() : "";
+        $(".js-author").val() ? tmp.author = $(".js-author").val() : "";
+        return JSON.stringify(tmp);
+    };
 
-    $(".btn-confirm-info").click(function () {
-        $("#pageNo").val(1);
-        $("#search3").val(getParamsString());
-        $("#searchForm").submit();
-    });
+
+
+//
+//    $(".btn-confirm-info").click(function () {
+//        $("#pageNo").val(1);
+//        $("#search3").val(getParamsString());
+//        $("#searchForm").submit();
+//    });
 
     $(".btn-cancel").click(function () {
         $(this).parent("p").siblings("input").val("");
