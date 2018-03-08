@@ -2,6 +2,8 @@ package com.gooalgene.qtl.dao;
 
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.TraitCategory;
+import com.gooalgene.qtl.entity.AsObjectForQtlTableEntity;
+import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
 import junit.framework.TestCase;
 import net.sf.json.JSONArray;
@@ -89,7 +91,7 @@ public class QueryServiceTest extends TestCase {
 
     @Test
     public void testQuerySearchByResult() {
-        Map a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "QTL Name", "Asian Soybean Rust 1-1", "{}", 1, 20);
+        QtlTableEntity a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "QTL Name", "Asian Soybean Rust 1-1", "{}", 1, 20);
         System.out.println("success");
     }
 }

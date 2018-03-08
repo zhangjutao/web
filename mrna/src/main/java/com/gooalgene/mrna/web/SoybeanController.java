@@ -25,6 +25,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
 import java.text.DecimalFormat;
 import java.util.*;
 
@@ -70,12 +71,21 @@ public class SoybeanController {
         String genes = request.getParameter("genes");
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        int total = genes.split(",").length;
         String json = "{}";
         logger.info("hitmap:genes{" + genes + "}");
         if (StringUtils.isNotBlank(genes)) {
-            String[] gens = Arrays.copyOfRange(genes.split(","), pageNo * pageSize - pageSize, pageNo * pageSize);
-            GenResult genResult = tService.generateData(gens);
-            json = JsonUtils.Bean2Json(genResult);
+            if (pageSize >= total) {
+                String[] gens = Arrays.copyOfRange(genes.split(","), 0, total);
+                GenResult genResult = tService.generateData(gens);
+                genResult.setGensTotal(total);
+                json = JsonUtils.Bean2Json(genResult);
+            }else {
+                String[] gens = Arrays.copyOfRange(genes.split(","), pageNo * pageSize - pageSize, pageNo * pageSize);
+                GenResult genResult = tService.generateData(gens);
+                genResult.setGensTotal(total);
+                json = JsonUtils.Bean2Json(genResult);
+            }
 //            System.out.println(json);
         }
         return json;

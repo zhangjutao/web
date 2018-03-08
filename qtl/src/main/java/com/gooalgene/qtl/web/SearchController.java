@@ -5,6 +5,7 @@ import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
 import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
@@ -99,14 +100,14 @@ public class SearchController {
 
     @RequestMapping(value = "/list/page",method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<Map> lista(HttpServletRequest request) {
+    public ResultVO<QtlTableEntity> lista(HttpServletRequest request) {
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String version = request.getParameter("version");
         String parameters = request.getParameter("condition");
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        Map result = queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize);
+        QtlTableEntity result = queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize);
         return ResultUtil.success(result);
     }
 

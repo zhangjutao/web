@@ -5,6 +5,8 @@ import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.*;
 import com.gooalgene.qtl.dao.*;
+import com.gooalgene.qtl.entity.AsObjectForQtlTableEntity;
+import com.gooalgene.qtl.entity.QtlTableEntity;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -248,26 +250,26 @@ public class QueryService {
         }
         qtl.setVersion(version);//匹配版本信息
         qtl.setPage(page);
-        List<Map> list = null;
+        List<AsObjectForQtlTableEntity> list = null;
         list = qtlDao.findByCondition(qtl);
         Map lgAndMarkerlg = lgAndMarkerlg();
-        for (Map m : list) {
-            String qtlName = (String) m.get("qtlName");
+        for (AsObjectForQtlTableEntity asObjectForQtlTableEntity : list) {
+            String qtlName = (String) asObjectForQtlTableEntity.getQtlName();
             String genes = null;
             Associatedgenes associatedgenes = associatedgenesDao.getByNameAndVersion(qtlName, version);
             if (associatedgenes != null) {
                 genes = associatedgenes.getAssociatedGenes();
             }
-            String lg = (String) m.get("lg");
+            String lg = (String) asObjectForQtlTableEntity.getLg();
             if (lgAndMarkerlg.containsKey(lg)) {
-                m.put("markerlg", lgAndMarkerlg.get(lg));
+                asObjectForQtlTableEntity.setMarkerlg((String) lgAndMarkerlg.get(lg));
             }
             if (version.equals("Gmax_275_v2.0") && genes != null) {
                 genes = genes.replaceAll("g", "G");
             }
-            m.put("genes", genes == null ? "" : genes);
-            m.put("genesNum", genes == null ? 0 : genes.split(",").length);
-            data.add(m);
+            asObjectForQtlTableEntity.setAssociateGenes(genes == null ? "" : genes);
+            asObjectForQtlTableEntity.setGenesNum(genes == null ? 0 : genes.split(",").length);
+            data.add(asObjectForQtlTableEntity);
         }
         // page.setList(list1);
         result.put("total", page.getCount());
@@ -656,7 +658,7 @@ public class QueryService {
         return jsonObject;
     }
 
-    public Map qtlSearchByResult(String version, String type, String keywords, String param, int pageNo, int pageSize) {
+    public QtlTableEntity qtlSearchByResult(String version, String type, String keywords, String param, int pageNo, int pageSize) {
         JSONObject jsonObject = null;
         try {
             jsonObject = JSONObject.fromObject(param);
@@ -664,14 +666,14 @@ public class QueryService {
             e.printStackTrace();
             jsonObject = new JSONObject();
         }
-        Map result = new HashMap();
-        result.put("type", type);
-        result.put("keywords", keywords == null ? "" : keywords);
-        result.put("condition", jsonObject);
-        result.put("pageNo", pageNo);
-        result.put("pageSize", pageSize);
-        result.put("chrs", queryChrs(version));
-        result.put("lgs", queryLgs());
+        QtlTableEntity qtlTableEntity = new QtlTableEntity();
+        qtlTableEntity.setType(type);
+        qtlTableEntity.setKeywords(keywords == null ? "" : keywords);
+        qtlTableEntity.setCondition(jsonObject);
+        qtlTableEntity.setPageNo(pageNo);
+        qtlTableEntity.setPageSize(pageSize);
+        qtlTableEntity.setChrs(queryChrs(version));
+        qtlTableEntity.setLgs(queryLgs());
         JSONArray data = new JSONArray();
         Qtl qtl = new Qtl();
         // 空白查询所有
@@ -685,20 +687,19 @@ public class QueryService {
         qtl.setVersion(version);
 //        qtl.setPage(page);
         PageHelper.startPage(pageNo, pageSize);
-        List<Map> list = qtlDao.findByCondition(qtl);
-        result.put("total", new PageInfo<>(list).getTotal ());
-        for (Map m : list) {
-            String genes = (String) m.get("associateGenes");
-            m.put("genesNum", genes == null ? 0 : genes.split(",").length);
+        List<AsObjectForQtlTableEntity> list = qtlDao.findByCondition(qtl);
+        qtlTableEntity.setTotal((int) new PageInfo<>(list).getTotal ());
+        for (AsObjectForQtlTableEntity asObjectForQtlTableEntity : list) {
+            String genes = asObjectForQtlTableEntity.getAssociateGenes();
+            asObjectForQtlTableEntity.setGenesNum(genes == null ? 0 : genes.split(",").length);
             if (version.equals("Gmax_275_v2.0") && genes != null) {
                 genes = genes.replaceAll("g", "G");
             }
-            m.put("genes", genes == null ? "" : genes);
-            data.add(m);
+            asObjectForQtlTableEntity.setAssociateGenes(genes == null ? "" : genes);
+            data.add(asObjectForQtlTableEntity);
         }
-        PageInfo<JSONArray> a = new PageInfo<>(data);
-        result.put("data", data);
-        return result;
+        qtlTableEntity.setData(data);
+        return qtlTableEntity;
     }
 
     /**
@@ -709,7 +710,7 @@ public class QueryService {
      * @param param
      * @return
      */
-    public List<Map> qtlSearchbyResultExport(String version, String type, String keywords, String param) {
+    public List<AsObjectForQtlTableEntity> qtlSearchbyResultExport(String version, String type, String keywords, String param) {
         Qtl qtl = new Qtl();
         if ("all".equalsIgnoreCase(type)) {
             if (!StringUtils.isBlank(keywords)) {
@@ -718,20 +719,20 @@ public class QueryService {
         }
         getByPara(qtl, fixParam(type, keywords, param));
         qtl.setVersion(version);//匹配版本信息
-        List<Map> list = null;
+        List<AsObjectForQtlTableEntity> list = null;
 //        if ("all".equalsIgnoreCase(type)) {//all的时候需要全文匹配，查询字段使用or进行关联
 //            list = qtlDao.findByTypeAll(qtl);
 //        } else {//其他的字段查询是对应的and关联
         list = qtlDao.findByCondition(qtl);
 //        }
-        for (Map m : list) {
-            String qtlName = (String) m.get("qtlName");
+        for (AsObjectForQtlTableEntity asObjectForQtlTableEntity : list) {
+            String qtlName = asObjectForQtlTableEntity.getQtlName();
             String genes = null;
             Associatedgenes associatedgenes = associatedgenesDao.getByNameAndVersion(qtlName, version);
             if (associatedgenes != null) {
                 genes = associatedgenes.getAssociatedGenes();
             }
-            m.put("genesNum", genes == null ? 0 : genes.split(",").length);
+            asObjectForQtlTableEntity.setGenesNum(genes == null ? 0 : genes.split(",").length);
         }
         return list;
     }
