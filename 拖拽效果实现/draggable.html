@@ -1,0 +1,86 @@
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset=" utf-8"> 
+<meta name="author" content="http://www.softwhy.com/" />
+<title>拖拽效果限制范围(限制在整个浏览器可视窗口内)</title>
+<style type="text/css">
+*{
+  margin:0px;
+  padding:0px;
+}
+body{
+  padding:50px;
+}
+#box{
+  width:100%;
+  height:400px;
+  background:red;
+  opacity:0.3;
+  overflow:hidden;
+  position:relative;
+}
+#drag{
+  width:50px;
+  height:50px;
+  background:green;
+  position:absolute;
+}
+</style>
+<script type="text/javascript">
+window.onload=function(){
+  var obox=document.getElementById("box");
+  var odrag=document.getElementById("drag");
+  var isDrag=false;
+  var x,y;
+  //浏览器可视窗口宽度和高度
+  windowwidth=document.documentElement.clientWidth;
+  windowheight=document.documentElement.clientHeight;
+  //div节点的宽度和高度
+  elementwidth=odrag.offsetWidth;
+  elementheight=odrag.offsetHeight;
+  odrag.onmousedown=down;
+  document.onmousemove=move;
+  document.onmouseup=up;
+  
+  
+  function down(ev){
+    var ev=window.event||ev;
+    x=ev.clientX-this.offsetLeft;
+    y=ev.clientY-this.offsetTop;
+    this.style.cursor="move"; 
+    isDrag=true;
+	//document.write("clientWidth: " + document.documentElement.clientWidth + " clientHeight:" + document.documentElement.clientHeight);
+	//document.write("clientX: " + ev.clientX + " clientY: " + ev.clientY + " this.offsetLeft: " + this.offsetLeft + " this.offsetTop " + this.offsetTop);
+  }
+  function move(ev){
+    if(isDrag){
+      var ev=window.event||ev;
+      odrag.style.left=(ev.clientX-x)+"px";
+      odrag.style.top=(ev.clientY-x)+"px";
+      if(parseInt(odrag.style.left)<0){
+        odrag.style.left=0;
+      }
+      if(parseInt(odrag.style.top)<0){
+        odrag.style.top=0;
+      }
+	  if(parseInt(odrag.style.left) > windowwidth - elementwidth){
+		odrag.style.left = (windowwidth - elementwidth) + "px";
+		//document.write(maxleft);
+	  }
+	  if(parseInt(odrag.style.top) > windowheight - elementheight ){
+		odrag.style.top = (windowheight - elementheight) + "px";
+	  }
+    }
+  }
+  function up(){
+    isDrag=false;
+    odrag.style.cursor="pointer";
+  }
+}
+</script>
+</head>
+<body>
+<div id="drag"></div>
+</body>
+</html>
