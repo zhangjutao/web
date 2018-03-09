@@ -1591,6 +1591,7 @@
             if ((val1 != "" && val2 != "") || (val1 == "0" || val2 == "0") && (val1 != "" || val2 != "")) {
                 if ($.inArray($(this).attr("data-name"), percetageArray) > -1) {
                     if ((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
+                        alert("添加的区间数据不合理,如果是百分比则要小于100");
                         input1.style.borderColor = "red";
                         input2.style.borderColor = "red";
                     } else {
