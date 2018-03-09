@@ -222,16 +222,19 @@
             top: 0;
         }
 
-        body #layui-layer-shade1 {
-            opacity: 0.2 !important;
+        .imgHTML{
+            top:50%;
+            left: 50%;
+            position: absolute;
+            margin-left: -18.5px;
+            margin-top: -18.5px;
         }
-
-        body .layui-layer-loading {
-            width: 37px;
-            border-radius: 100%;
-            background: 0 0;
-            box-shadow: none;
-            border: none;
+        .mengc{
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
         }
     </style>
 </head>
@@ -336,7 +339,7 @@
 
         </aside>
         <article class="">
-            <div class="checkbox-tab">
+            <div class="checkbox-tab" style="position:relative;">
                 <table class="checkbox-list-item" id="tableBody" style="width:1090px">
                     <thead>
                     <tr>
@@ -589,7 +592,6 @@
 <script src="${ctxStatic}/js/layout.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-<script src="${ctxStatic}/js/layer/layer.js"></script>
 <script>
     //获取URL参数
     (function ($) {
@@ -610,7 +612,10 @@
 
     // 获取表格数据+分页
     function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
-        var load = layer.load(1);// 开启遮罩层
+        // 开启遮罩层
+        var imgHTML="<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>" ;
+        $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
+        $('.checkbox-tab').append(imgHTML);
         $.ajax({
             url: "${ctxroot}/search/list/page",
             type: "POST",
@@ -653,7 +658,7 @@
                         }
                     });
                     // 关闭遮罩层
-                    layer.close(load);
+                    $(".imgHTML,.mengc").remove();
                 }
             }
         });
