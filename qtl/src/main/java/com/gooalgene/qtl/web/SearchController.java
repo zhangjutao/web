@@ -96,7 +96,7 @@ public class SearchController {
         return modelAndView;
     }
 
-    @RequestMapping(value = "/list/page",method = RequestMethod.GET)
+    @RequestMapping(value = "/list/page",method = RequestMethod.POST)
     @ResponseBody
     public ResultVO<QtlTableEntity> lista(HttpServletRequest request) {
         String type = request.getParameter("type");
