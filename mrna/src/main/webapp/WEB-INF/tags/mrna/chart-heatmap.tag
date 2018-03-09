@@ -186,10 +186,10 @@
                             if (res.gens.length == 0) {
                                 $('#heatmap_').empty().html("<p class='zwsj'>暂无数据</p>");
                             } else {
-//                               var heatmapHeigth= $('.heatmapHeigth').height();
-//                                var heatmapHeigth= $('.heatmapHeigth').height();
                                 if(res.gens.length>30){
                                     var heatmapHeigth= 900;
+                                }else if(res.gens.length<5){
+                                    var heatmapHeigth= 300;
                                 }else{
                                     var heatmapHeigth= 600;
                                 }
@@ -366,7 +366,7 @@
                         style: {
                             "fontSize": "12px",
                         },
-                        rotation: -70,
+                        rotation: -80,
                         y: -10,
 //                        y: -55,
                         formatter: function () {

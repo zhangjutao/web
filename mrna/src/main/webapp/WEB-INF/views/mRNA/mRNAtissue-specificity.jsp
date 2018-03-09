@@ -273,7 +273,7 @@
         /*
          * 基因特异表达
          */
-        $(".js-specific-gene").click(function() {
+        $(".js-specific-gene").off('click').click(function() {
             secondSpecificGenes = [];
             specificGenes = [];
 
@@ -446,13 +446,13 @@
                     var categories = [];
                     for(var i in res[0]){
                         var data0 = objKeySort(res[0][i]);
-                        console.log('data0:', data0);
+//                        console.log('data0:', data0);
                         $.each(data0, function(idx, el){
 //                            categories.push(en22cn(idx));
                             categories.push(el.chinese);
                         });
                     }
-                    console.log('cate: ', categories);
+//                    console.log('cate: ', categories);
                     var src = {};
                     src.data = [];
                     $.each(res, function(idx, el) {
@@ -461,7 +461,7 @@
                         for(var key in el) {
                             obj["name"] = key;
                             var d = objKeySort(el[key]);
-                            console.log('el', d)
+//                            console.log('el', d)
                             for(var key2 in d) {
                                 var data1 = d[key2].data;
                                 var tmp = [];
@@ -541,7 +541,7 @@
             }
 
             data = _.orderBy(data, ['name']); // 按基因名称排序
-            console.log(data);
+//            console.log(data);
             var src = {};
             src.cate = categories;
             src.data = data;
@@ -588,7 +588,7 @@
                             enabled: false,
                             menuItems: null,
                             onclick: function () {
-                                console.log(this);
+//                                console.log(this);
                                 this.exportChart();
                             }
                         }
@@ -695,7 +695,7 @@
                             enabled: false,
                             menuItems: null,
                             onclick: function () {
-                                console.log(this);
+//                                console.log(this);
                                 this.exportChart();
                             }
                         }
