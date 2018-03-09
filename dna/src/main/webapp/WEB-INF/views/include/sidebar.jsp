@@ -658,7 +658,7 @@
     </div>
 </div>
 <div id="mid"></div>
-<div class="tab-detail">
+<div id="tab-detail" class="tab-detail ui-widget-content">
     <div class="tab-detail-thead">
         <p style="position:relative;">
             <span style="display:inline-block;text-align:center;max-width:600px;overflow:hidden;text-overflow: ellipsis; white-space: nowrap;">1</span>
@@ -1503,8 +1503,12 @@
             $("#mid").hide();
         });
 
-        /* 群体信息弹框可拖动 */
-        $( ".tab-detail" ).draggable({ containment: "body",cancel:".popu-table,#popu-paginate"});
+        /* 群体信息弹框可拖动 ,且弹窗边界动态改变*/
+        $(".tab-detail").draggable({ containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false });
+        window.onscroll = scroll;
+        function scroll() {
+            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, window.screen.availHeight] });//滚动后重新计算弹框边界
+        }
 
         var popuSamples = {}; // 存储选中的样本数据
 
@@ -1579,7 +1583,7 @@
             var val1 = _prev.find("input").first().val() * 1;
             var val2 = _prev.find("input").last().val() * 1;
             var str = val1 + "-" + val2;
-            if(val1 != "" && val2 != "") {
+            if((val1 != ""  && val2 != "") || (val1== "0" ||  val2 == "0") && (val1 != "" ||  val2 != "")) {
                 if($.inArray($(this).attr("data-name"), percetageArray) > -1) {
                     if((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
                         alert("添加的区间数据不合理,如果是百分比则要小于100");
