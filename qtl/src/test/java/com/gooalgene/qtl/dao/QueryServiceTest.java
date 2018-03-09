@@ -2,7 +2,6 @@ package com.gooalgene.qtl.dao;
 
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.TraitCategory;
-import com.gooalgene.qtl.entity.AsObjectForQtlTableEntity;
 import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
 import junit.framework.TestCase;

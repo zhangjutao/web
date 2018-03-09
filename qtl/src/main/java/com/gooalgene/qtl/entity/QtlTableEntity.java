@@ -1,29 +1,27 @@
 package com.gooalgene.qtl.entity;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
-import javax.json.JsonArray;
+import java.util.List;
 
 public class QtlTableEntity {
-    String type;
-    String keywords;
-    JSONObject condition;
-    int pageNo;
-    int pageSize;
-    JSONArray chrs;
-    JSONArray lgs;
-    int total;
+    private String type;
+    private String keywords;
+    private String condition;
+    private int pageNo;
+    private int pageSize;
+    private List<String> chrs;
+    private List<String> lgs;
+    private List<QtlSearchResult> data;
+    private int total;
 
-    public JSONArray getData() {
+    public List<QtlSearchResult> getData() {
         return data;
     }
 
-    public void setData(JSONArray data) {
+    public void setData(List<QtlSearchResult> data) {
         this.data = data;
     }
-
-    JSONArray data;
 
     public String getType() {
         return type;
@@ -41,11 +39,11 @@ public class QtlTableEntity {
         this.keywords = keywords;
     }
 
-    public JSONObject getCondition() {
+    public String getCondition() {
         return condition;
     }
 
-    public void setCondition(JSONObject condition) {
+    public void setCondition(String condition) {
         this.condition = condition;
     }
 
@@ -65,19 +63,11 @@ public class QtlTableEntity {
         this.pageSize = pageSize;
     }
 
-    public JSONArray getChrs() {
-        return chrs;
-    }
-
-    public void setChrs(JSONArray chrs) {
-        this.chrs = chrs;
-    }
-
-    public JSONArray getLgs() {
+    public List<String> getLgs() {
         return lgs;
     }
 
-    public void setLgs(JSONArray lgs) {
+    public void setLgs(List<String> lgs) {
         this.lgs = lgs;
     }
 
@@ -87,5 +77,13 @@ public class QtlTableEntity {
 
     public void setTotal(int total) {
         this.total = total;
+    }
+
+    public List<String> getChrs() {
+        return chrs;
+    }
+
+    public void setChrs(List<String> chrs) {
+        this.chrs = chrs;
     }
 }

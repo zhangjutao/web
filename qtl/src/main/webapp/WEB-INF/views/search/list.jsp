@@ -485,62 +485,6 @@
                     </tr>
                     </thead>
                     <tbody class="item-tab">
-                    <%--<c:forEach items="${data}" var="item">--%>
-                    <%--<tr>--%>
-                    <%--<td class="t_id">${item.id}</td>--%>
-                    <%--<td class="t_qtlName"><a class="qtlname"--%>
-                    <%--href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_trait">${item.trait}</td>--%>
-                    <%--<td class="t_type">${item.type}</td>--%>
-                    <%--<c:set var="chrStr" value="${item.chr}"></c:set>--%>
-                    <%--<c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>--%>
-                    <%--<c:choose>--%>
-                    <%--<c:when test="${fn:startsWith(num, '0')}">--%>
-                    <%--<c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>--%>
-                    <%--</c:when>--%>
-                    <%--<c:when test="${fn:startsWith(num, '0') == false}">--%>
-                    <%--<c:set var="lg" value="${num}"></c:set>--%>
-                    <%--</c:when>--%>
-                    <%--</c:choose>--%>
-                    <%--<td class="t_chr"><a--%>
-                    <%--href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_lg"><a--%>
-                    <%--href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>--%>
-                    <%--</td>--%>
-                    <%--&lt;%&ndash;<td class="t_version">${item.version}</td>&ndash;%&gt;--%>
-                    <%--<td class="t_method">${item.method}</td>--%>
-                    <%--<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"--%>
-                    <%--data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"--%>
-                    <%--data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"--%>
-                    <%--data-txt="${item.genes}">${item.genesNum}</a></td>--%>
-                    <%--<td class="t_lod">${item.lod}</td>--%>
-                    <%--<td class="t_parent1">${item.parent1}</td>--%>
-                    <%--<td class="t_parent2">${item.parent2}</td>--%>
-                    <%--<td class="t_genomeStart">${item.geneStart}</td>--%>
-                    <%--<td class="t_genomeEnd">${item.geneEnd}</td>--%>
-                    <%--<td class="t_author">--%>
-                    <%--<a class="js-author-pop" href="javascript:;"--%>
-                    <%--data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>--%>
-
-                    <%--<div class="author-pop-tab" style="display: none">--%>
-                    <%--<div class="information-title">--%>
-                    <%--<p>REFERENCE</p>--%>
-                    <%--<button class="close-pop">X</button>--%>
-                    <%--</div>--%>
-                    <%--<div class="information-tab">--%>
-                    <%--<table>--%>
-                    <%--</table>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--</td>--%>
-                    <%--</tr>--%>
-                    <%--</c:forEach>--%>
                     </tbody>
                 </table>
                 <form id="searchForm" action="${ctxroot}/search/listByResult" method="get">

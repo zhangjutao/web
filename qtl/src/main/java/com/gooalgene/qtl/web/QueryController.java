@@ -2,7 +2,7 @@ package com.gooalgene.qtl.web;
 
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.Qtl;
-import com.gooalgene.qtl.entity.AsObjectForQtlTableEntity;
+import com.gooalgene.qtl.entity.QtlSearchResult;
 import com.gooalgene.qtl.service.QueryService;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONObject;
@@ -98,7 +98,7 @@ public class QueryController {
                 if (columns.contains("author")) {
                     columns = columns.replace("author", "reference");
                 }
-                List<AsObjectForQtlTableEntity> result = queryService.qtlSearchbyResultExport(version, type, keywords, parameters);
+                List<QtlSearchResult> result = queryService.qtlSearchbyResultExport(version, type, keywords, parameters);
                 sb = serialList(result, columns.split(","));
             }
             String fileName = "SoyBean-" + version + "-" + type + "(" + keywords + ")";
@@ -157,7 +157,7 @@ public class QueryController {
      * @param titles
      * @return
      */
-    private String serialList(List<AsObjectForQtlTableEntity> result, String[] titles) {
+    private String serialList(List<QtlSearchResult> result, String[] titles) {
         StringBuilder sb = new StringBuilder();
         Map<String, Integer> map = new HashMap<String, Integer>();
         Map<String, String> titlesMap = changeCloumn2Web();
@@ -176,9 +176,9 @@ public class QueryController {
             }
         }
         if (!result.isEmpty() && !map.isEmpty()) {
-            Iterator<AsObjectForQtlTableEntity> it = result.iterator();
+            Iterator<QtlSearchResult> it = result.iterator();
             while (it.hasNext()) {
-                AsObjectForQtlTableEntity data = it.next();
+                QtlSearchResult data = it.next();
                 if (map.containsKey("id")) {
                     sb.append((data.getId())).append(",");
                 }

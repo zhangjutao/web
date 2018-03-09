@@ -1,31 +1,30 @@
 package com.gooalgene.qtl.entity;
 
-public class AsObjectForQtlTableEntity {
-    int id;
-    String qtlName;
-    String trait;
-    String type;
-    String marker1;
-    String marker2;
-    String method;
-    String lod;
-    String parent1;
-    String parent2;
-    String ref;
-    String author;
-    String geneStart;
-    String geneEnd;
-    String markerlg;
-    int genesNum;
-    String version;
-
-    public String getVersion() {
-        return version;
-    }
-
-    public void setVersion(String version) {
-        this.version = version;
-    }
+/**
+ * QTL搜索结果
+ */
+public class QtlSearchResult {
+    private int id;
+    private String qtlName;
+    private String trait;
+    private String type;
+    private String marker1;
+    private String marker2;
+    private String method;
+    private String lod;
+    private String parent1;
+    private String parent2;
+    private String ref;
+    private String author;
+    private String geneStart;
+    private String geneEnd;
+    private String markerlg;
+    private int genesNum;
+    private String chr;
+    private String lg;
+    private int associateGeneId;
+    private String associateGenes;
+    private String version;
 
     public int getGenesNum() {
         return genesNum;
@@ -171,6 +170,14 @@ public class AsObjectForQtlTableEntity {
         this.lg = lg;
     }
 
+    public int getAssociateGeneId() {
+        return associateGeneId;
+    }
+
+    public void setAssociateGeneId(int associateGeneId) {
+        this.associateGeneId = associateGeneId;
+    }
+
     public String getAssociateGenes() {
         return associateGenes;
     }
@@ -179,7 +186,11 @@ public class AsObjectForQtlTableEntity {
         this.associateGenes = associateGenes;
     }
 
-    String chr;
-    String lg;
-    String associateGenes;
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
 }
