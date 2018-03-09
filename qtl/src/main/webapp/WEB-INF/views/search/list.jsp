@@ -571,7 +571,7 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <%--弹出框--%>
 <div id="mid"></div>
-<div class="tab-detail">
+<div class="tab-detail genesTanc">
     <div class="tab-detail-thead">
         <p><span>genes</span>
             <a href="javascript:void(0)">X</a></p>
@@ -612,6 +612,16 @@
         <a href="#">X</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
+</div>
+
+<div class="author-pop-tab tab-detail" style="display: none">
+   <div class="information-title tab-detail-thead">
+        <p style=" padding: 0px;">REFERENCE<a href="#" class="close-pop">X</a></p>
+
+       <%--<button class="close-pop">X</button>--%>
+   </div>
+    <div class="information-tab"> <table> </table>
+    </div>
 </div>
 <script src="${ctxStatic}/js/layout.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
@@ -750,9 +760,7 @@
             str += '<td class="t_genomeStart">' + eleData[i].geneStart + '</td>';
             str += '<td class="t_genomeEnd">' + eleData[i].geneEnd + '</td>';
             str += '<td class="t_author"> <a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=' + eleData[i].qtlName + '">' + eleData[i].author + '</a>';
-            str += '<div class="author-pop-tab" style="display: none">';
-            str += '<div class="information-title">';
-            str += '<p>REFERENCE</p> <button class="close-pop">X</button> </div> <div class="information-tab"> <table> </table> </div> </div> </td>';
+            str += '</td>';
             str += '</tr>';
         }
         $("#tableBody > tbody").empty().append(str);
@@ -796,7 +804,8 @@
 
             var url = $(this).attr("data-src");
             $("#mid").show()
-            $(this).siblings().show();
+//            $(this).siblings().show();
+            $('.author-pop-tab').show();
             var _qtl = $("a.qtlName").html();
             $.ajax({
                 url: url,
@@ -919,7 +928,7 @@
         $(".js-pop-genes").click(function (e) {
             e.preventDefault();
             $("#mid").show();
-            $(".tab-detail").show();
+            $(".genesTanc").show();
             $(".tab-category-list").html("");
             var text = $(this).attr("data-txt");
             var t = text.split(",")
@@ -1328,6 +1337,7 @@
     });
     /*基因详情拖动弹框*/
     $(".genesInfo").draggable({containment: "body"});
+    $(".author-pop-tab").draggable({containment: "body"});
 </script>
 </body>
 </html>
