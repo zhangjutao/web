@@ -188,6 +188,33 @@
             padding:20px 10px;
             text-align:left;
         }
+
+       body .checkbox-tab{    margin: 20px 30px 0px 10px;}
+        .genesInfo .genesInfo-head{
+            height: 40px;
+            line-height: 40px;
+            background-color: #386cca;
+            color: #fff;
+            cursor: move;
+        }
+        .genesInfo{
+            border: none;
+        }
+        .genesInfo .genesInfo-head p{
+            position: relative;
+            float: inherit;
+            text-align: center;
+        }
+        .genesInfo .genesInfo-head a{
+            color: #fff;
+            float: right;
+            padding: 0 20px;
+            font-size: 20px;
+            position: absolute;
+            right: 0px;
+            top: 0;
+        }
+
     </style>
 </head>
 <body>
@@ -582,7 +609,7 @@
 <div class="genesInfo" style="display: none">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="#">x</a>
+        <a href="#">X</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
@@ -646,7 +673,7 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var currNum = obj.curr;
-                                initTables(currNum, pageSizeNum);
+                                initTables(currNum, pageSizeNum,type_select,key_input,version,cdt);
                             }
                         }
                     });
@@ -662,11 +689,13 @@
         var total = $("#total-page-count span").text();
         var mathCeil = Math.ceil(total / curr);
         page.pageSize = Number($(this).val());
+
+        var cdt=getParamsString()
         if (pageSize > mathCeil) {
             page.curr = 1;
-            initTables(1, pageSize)
+            initTables(1, pageSize,type_select,key_input,version,cdt);
         } else {
-            initTables(curr, pageSize)
+            initTables(curr, pageSize,type_select,key_input,version,cdt);
         }
     });
 
@@ -679,6 +708,7 @@
     });
     // 注册 enter 事件的元素
     $(document).keyup(function (event) {
+        var cdt=getParamsString()
         var _page_skip = $('#pagination .laypage_skip');
         if (_page_skip.hasClass("isFocus")) {
             if (event.keyCode == 13) {
@@ -689,10 +719,10 @@
                 var mathCeil = Math.ceil(total / pageSizeNum);
                 if (curr > mathCeil) {
                     page.curr = 1;
-                    initTables(1, pageSizeNum)
+                    initTables(1, pageSizeNum,type_select,key_input,version,cdt);
                 } else {
                     page.curr = curr;
-                    initTables(curr, pageSizeNum)
+                    initTables(curr, pageSizeNum,type_select,key_input,version,cdt);
                 }
             }
         }
@@ -713,13 +743,13 @@
             str += '<td class="t_method">' + eleData[i].method + '</td>';
             str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker1 + '">' + eleData[i].marker1 + '</a> </td>';
             str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2+ '</a> </td>';
-            str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].genes + '">' + eleData[i].genesNum + '</a></td>';
+            str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].associateGenes + '">' + eleData[i].genesNum + '</a></td>';
             str += '<td class="t_lod">' + eleData[i].lod + '</td>';
             str += '<td class="t_parent1">' + eleData[i].parent1 + '</td>';
             str += '<td class="t_parent2">' + eleData[i].parent2 + '</td>';
             str += '<td class="t_genomeStart">' + eleData[i].geneStart + '</td>';
             str += '<td class="t_genomeEnd">' + eleData[i].geneEnd + '</td>';
-            str += '<td class="t_author"> <a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=' + eleData[i].author + '">' + eleData[i].author + '</a>';
+            str += '<td class="t_author"> <a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=' + eleData[i].qtlName + '">' + eleData[i].author + '</a>';
             str += '<div class="author-pop-tab" style="display: none">';
             str += '<div class="information-title">';
             str += '<p>REFERENCE</p> <button class="close-pop">X</button> </div> <div class="information-tab"> <table> </table> </div> </div> </td>';

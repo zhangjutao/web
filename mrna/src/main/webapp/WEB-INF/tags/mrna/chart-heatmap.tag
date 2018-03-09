@@ -5,7 +5,7 @@
 <%@ attribute name="gaHeight" type="java.lang.String" required="false" description="" %>
 <c:set var="id" value="${java.util.UUID.randomUUID()}"/>
 
-<div id="heatmap_${id}" style=" margin: auto; min-width: 310px; width: 100%; height: ${gaHeight}px;"></div>
+<div id="heatmap_${id}" style=" margin: auto; min-width: 310px; width: 100%; height: 900px;"></div>
 
 <div class="genesInfo" style="display: none;">
     <div class="genesInfo-head">
@@ -113,12 +113,8 @@
 
     var chart;
     (function () {
-
-
         var g_cate;
-
         var heatmapdata, heatmapcategory;
-
         // 分类英文转中文显示
         window.en2cn = function (str) {
             var name = "";
@@ -154,29 +150,31 @@
         }
 
         if ("${isAjax}" == "true") {
-            window.pageSize = 10;
+//            window.pageSize = 10;
             window.getHeatMap = function (genes, curr) {
                 var innergenes = genes.split(",");
                 innergenes = innergenes.sort();
-                curr = curr || 1;
-                var len = innergenes.length;
-                var pageTotal = Math.ceil(specificGenes.length / pageSize);
+//                curr = curr || 1;
+//                var len = innergenes.length;
 
-                $(".lay-per-page-count-select").val(window.pageSize);
+//                var pageTotal = Math.ceil(specificGenes.length / pageSize);
 
-                var start = 1 + (curr - 1) * pageSize - 1;
-                var end = curr * pageSize;
-                if (end > len) {
-                    end = len;
-                }
-                innergenes = innergenes.slice(start, end);
-                innergenesStr = innergenes.join(",");
+//                $(".lay-per-page-count-select").val(window.pageSize);
 
+//                var start = 1 + (curr - 1) * pageSize - 1;
+//                var end = curr * pageSize;
+//                if (end > len) {
+//                    end = len;
+//                }
+//                innergenes = innergenes.slice(start, end);
+                innergenesStr = innergenes.join(",");0
 //                热图数据获取
-                initHeatmap();
+                initHeatmap(1,10);
+                console.log(1)
                 var page = {curr: 1, pageSize: 10};
-
+                $(".lay-per-page-count-select").val(page.pageSize);
                 function initHeatmap(currNum, pageSizeNum) {
+                    console.log(2)
                     $.ajax({
                         url: "${ctxroot}/specific/hitmap",
                         type: "POST",
@@ -187,14 +185,17 @@
                         },
                         dataType: "json",
                         success: function (res) {
-                            if (res.cate.length == 0) {
+                            if (res.gens.length == 0) {
                                 $('#heatmap_').empty().html("<p class='zwsj'>暂无数据</p>");
                             } else {
+                               var heatmapHeigth= $('.heatmapHeigth').height();
+                                console.log(heatmapHeigth)
                                 var dd = res;
                                 heatmapdata = _.orderBy(dd.cate, ["name"]);
                                 heatmapcategory = dd.gens;
                                 g_cate = initCategories();
                                 <%--$("#heatmap_${id}").css({"min-height": (70 * innergenes.length + 120) + "px"});--%>
+                                $('#heatmap_').empty();
                                 renderChart(heatmapcategory, g_cate, getChartData(g_cate));
                                 $("#total-page-count span").html(res.gensTotal);
                                 // 显示分页
@@ -215,21 +216,6 @@
                                             initHeatmap(currNum, pageSizeNum);
                                         }
                                     }
-
-//                                    cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-//                                    pages: pageTotal, //通过后台拿到的总页数
-//                                    curr: curr || 1, //当前页
-//                                    skin: '#5c8de5',
-//                                    skip: true,
-//                                    prev: '<',
-//                                    next: '>',
-//                                    groups: 3, //连续显示分页数
-//                                    jump: function (obj, first) { //触发分页后的回调
-//                                        $("#total-page-count > span").html(specificGenes.length);
-//                                        if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-////                                            getHeatMap(genes, obj.curr);
-//                                        }
-//                                    }
                                 });
                             }
                         }
@@ -237,17 +223,17 @@
                 }
 
                 // 修改每页显示条数
-                $(".tissue-specificity-chartstab").on("change", ".lay-per-page-count-select", function () {
-                    var curr = Number($(".laypage_curr").text());
-                    var pageSize = Number($(this).val());
-                    var total = $("#total-page-count span").text();
-                    var mathCeil = Math.ceil(total / curr);
+                $(".ga-ctrl-footer").on("change", ".lay-per-page-count-select", function () {
+                    var currNum = Number($(".ga-ctrl-footer .laypage_curr").text());
+                    var pageSizeNum = Number($(this).val());
+                    var totalNum = $("#total-page-count span").text();
+                    var mathCeilNum = Math.ceil(totalNum / currNum);
                     page.pageSize = Number($(this).val());
-                    if (pageSize > mathCeil) {
+                    if (pageSizeNum > mathCeilNum) {
                         page.curr = 1;
-                        initHeatmap(1, pageSize)
+                        initHeatmap(1, pageSizeNum)
                     } else {
-                        initHeatmap(curr, pageSize)
+                        initHeatmap(currNum, pageSizeNum)
                     }
                 });
 
@@ -260,7 +246,7 @@
                 });
                 // 注册 enter 事件的元素
                 $(document).keyup(function (event) {
-                    var _page_skip = $('#pagination .laypage_skip');
+                    var _page_skip = $('.ga-ctrl-footer #pagination .laypage_skip');
                     if (_page_skip.hasClass("isFocus")) {
                         if (event.keyCode == 13) {
                             var _page_skip = $('#pagination .laypage_skip');
@@ -287,6 +273,8 @@
             g_cate = initCategories();
             renderChart(heatmapcategory, g_cate, getChartData(g_cate));
         }
+
+
 
         // 初始化显示的种类数据，默认显示第一级
         function initCategories() {
