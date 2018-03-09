@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.qtl.dao.QtlDao">
+    <cache size="512" flushInterval="60000" eviction="LRU" readOnly="true" />
 
     <select id="findQTLList" resultType="com.gooalgene.entity.Qtl">
         SELECT a.id,a.`qtl_name` AS
@@ -217,7 +218,7 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
         </foreach>
     </insert>
 
-    <select id="findByCondition" resultType="com.gooalgene.qtl.entity.AsObjectForQtlTableEntity">
+    <select id="findByCondition" resultType="com.gooalgene.qtl.entity.QtlSearchResult">
         SELECT
             a.id,
             a.qtl_name AS qtlName,
@@ -233,18 +234,12 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
             a.author,
             a.genome_start AS geneStart,
             a.genome_end   AS geneEnd,
+            a.associatedGenes_id AS associateGeneId,
             b.lgAndMarker AS markerlg,
             b.chr,
-            b.lg,
-            c.associated_genes AS associateGenes,
-            c.version
+            b.lg
         FROM qtl a
         LEFT JOIN chrlg b ON a.chrlg_id = b.id
-        LEFT JOIN (SELECT * FROM associatedgenes WHERE 1 = 1
-            <if test="version!=null">
-              AND version = #{version}
-            </if>
-            ) c ON a.qtl_name = c.qtl_name
         WHERE 1=1
         <if test="keywords!=null">
             AND ( a.qtl_name LIKE CONCAT('%',#{keywords},'%') OR trait LIKE CONCAT('%',#{keywords},'%')

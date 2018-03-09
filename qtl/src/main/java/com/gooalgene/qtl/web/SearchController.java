@@ -78,21 +78,12 @@ public class SearchController {
         ModelAndView modelAndView = new ModelAndView("/search/list");
         //搜索框：包含ALL、Trait、QTL Name、marker、parent、reference，ALL是全局搜索，
         String type = request.getParameter("type");
-//        String keywords = request.getParameter("keywords");
-//        String version = request.getParameter("version");
-//        String parameters = request.getParameter("condition");
         if (type == null) {
             return new ModelAndView("redirect:/search/index");
         }
-//        Page<Qtl> page = new Page<Qtl>(request, response);
-//        int pageNo = page.getPageNo();
-//        int pageSize = page.getPageSize();
         modelAndView.addObject("types", queryService.queryAll());  // 搜索结果侧边栏
         modelAndView.addObject("versions", queryService.queryVersions());  // 可选的所有基因版本
-
-//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize));
         modelAndView.addObject("condition", "{}");
-//        modelAndView.addObject("page", page);
         return modelAndView;
     }
 
