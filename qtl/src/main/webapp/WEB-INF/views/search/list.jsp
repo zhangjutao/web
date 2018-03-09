@@ -1326,7 +1326,8 @@
 
         }
     });
-
+    /*基因详情拖动弹框*/
+    $(".genesInfo").draggable({containment: "body"});
 </script>
 </body>
 </html>
