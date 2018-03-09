@@ -186,7 +186,13 @@
                             if (res.gens.length == 0) {
                                 $('#heatmap_').empty().html("<p class='zwsj'>暂无数据</p>");
                             } else {
-                               var heatmapHeigth= $('.heatmapHeigth').height();
+//                               var heatmapHeigth= $('.heatmapHeigth').height();
+//                                var heatmapHeigth= $('.heatmapHeigth').height();
+                                if(res.gens.length>30){
+                                    var heatmapHeigth= 900;
+                                }else{
+                                    var heatmapHeigth= 600;
+                                }
                                 var dd = res;
                                 heatmapdata = _.orderBy(dd.cate, ["name"]);
                                 heatmapcategory = dd.gens;
