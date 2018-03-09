@@ -5,7 +5,7 @@
 <%@ attribute name="gaHeight" type="java.lang.String" required="false" description="" %>
 <c:set var="id" value="${java.util.UUID.randomUUID()}"/>
 
-<div id="heatmap_${id}" style=" margin: auto; min-width: 310px; width: 100%; height: 900px;"></div>
+<div id="heatmap_${id}" style=" margin: auto; min-width: 310px; width: 100%;"></div>
 
 <div class="genesInfo" style="display: none;">
     <div class="genesInfo-head">
@@ -170,11 +170,9 @@
                 innergenesStr = innergenes.join(",");0
 //                热图数据获取
                 initHeatmap(1,10);
-                console.log(1)
                 var page = {curr: 1, pageSize: 10};
                 $(".lay-per-page-count-select").val(page.pageSize);
                 function initHeatmap(currNum, pageSizeNum) {
-                    console.log(2)
                     $.ajax({
                         url: "${ctxroot}/specific/hitmap",
                         type: "POST",
@@ -189,12 +187,12 @@
                                 $('#heatmap_').empty().html("<p class='zwsj'>暂无数据</p>");
                             } else {
                                var heatmapHeigth= $('.heatmapHeigth').height();
-                                console.log(heatmapHeigth)
                                 var dd = res;
                                 heatmapdata = _.orderBy(dd.cate, ["name"]);
                                 heatmapcategory = dd.gens;
                                 g_cate = initCategories();
                                 <%--$("#heatmap_${id}").css({"min-height": (70 * innergenes.length + 120) + "px"});--%>
+                                $("#heatmap_${id}").css({"height": heatmapHeigth + "px"});
                                 $('#heatmap_').empty();
                                 renderChart(heatmapcategory, g_cate, getChartData(g_cate));
                                 $("#total-page-count span").html(res.gensTotal);
@@ -316,9 +314,6 @@
 
         // 绘制热力图
         function renderChart(gene, cate, data) {
-//            console.log("gene: ", gene);
-//            console.log("cate: ", cate);
-//            console.log("data: ", data);
             if (chart) {
                 chart.destroy();
             }
@@ -340,7 +335,6 @@
                             enabled: false,
                             menuItems: null,
                             onclick: function () {
-                                console.log(this);
                                 this.exportChart();
                             }
                         }
@@ -449,7 +443,7 @@
                                     } else {
                                         $("#specificForm").find("input").val(heatmapcategory.join(","));
                                         $("#specificForm").submit();
-                                        console.log(this.value, this.series.xAxis.categories[this.x]["name"], this.series.yAxis.categories[this.y]);
+//                                        console.log(this.value, this.series.xAxis.categories[this.x]["name"], this.series.yAxis.categories[this.y]);
                                     }
                                 }
                             }
