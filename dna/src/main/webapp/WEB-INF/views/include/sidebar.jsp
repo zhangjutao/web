@@ -1507,7 +1507,7 @@
         $(".tab-detail").draggable({ containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false });
         window.onscroll = scroll;
         function scroll() {
-            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, window.screen.availHeight] });//滚动后重新计算弹框边界
+            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, document.body.clientHeigh] });//滚动后重新计算弹框边界
         }
 
         var popuSamples = {}; // 存储选中的样本数据
