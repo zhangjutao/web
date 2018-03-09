@@ -1580,13 +1580,19 @@
             var percetageArray = ["oil", "protein", "linoleic", "linolenic", "oleic", "palmitic", "stearic"];
             var name = $(this).attr("data-name");
             var _prev = $(this).prev();
-            var val1 = _prev.find("input").first().val() * 1;
-            var val2 = _prev.find("input").last().val() * 1;
+            // var val1 = _prev.find("input").first().val() * 1;
+            // var val2 = _prev.find("input").last().val() * 1;
+            var val1 = _prev.find("input").first()[0].value;
+            var val2 = _prev.find("input").last()[0].value;
             var str = val1 + "-" + val2;
+            //输入框颜色
+            var input1 = _prev.find("input").first()[0];
+            var input2 = _prev.find("input").last()[0];
             if((val1 != ""  && val2 != "") || (val1== "0" ||  val2 == "0") && (val1 != "" ||  val2 != "")) {
                 if($.inArray($(this).attr("data-name"), percetageArray) > -1) {
                     if((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
-                        alert("添加的区间数据不合理,如果是百分比则要小于100");
+                        input1.style.borderColor = "red";
+                        input2.style.borderColor = "red";
                     } else {
                         var spans = $(this).parent().siblings("label").find("span:not('.hidden')");
                         var arr = [];
@@ -1595,15 +1601,21 @@
                         });
                         if ($.inArray(str, arr) > -1) {
                             alert("添加区间重复");
+                            input1.style.borderColor = "red";
+                            input2.style.borderColor = "red";
                         } else {
                             var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                             $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                             ss.trigger("click");
+                            input1.style.borderColor = "";
+                            input2.style.borderColor = "";
                         }
                     }
                 } else {
                     if ((val1 < 0 || val2 < 0) || val1 > val2) {
                         alert("添加的区间数据不合理");
+                        input1.style.borderColor = "red";
+                        input2.style.borderColor = "red";
                     } else {
                         var spans = $(this).parent().siblings("label").find("span:not('.hidden')");
                         var arr = [];
@@ -1612,14 +1624,28 @@
                         });
                         if ($.inArray(str, arr) > -1) {
                             alert("添加区间重复");
+                            input1.style.borderColor = "red";
+                            input2.style.borderColor = "red";
                         } else {
                             var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                             $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                             ss.trigger("click");
+                            input1.style.borderColor = "";
+                            input2.style.borderColor = "";
                         }
                     }
                 }
             } else {
+                if(val1 == "" && val2 !=""){
+                    input1.style.borderColor = "red";
+                    input2.style.borderColor = "";
+                }else if(val1 != "" && val2 ==""){
+                    input1.style.borderColor = "";
+                    input2.style.borderColor = "red";
+                }else{
+                    input1.style.borderColor = "red";
+                    input2.style.borderColor = "red";
+                }
                 alert("输入不能为空");
             }
         });
