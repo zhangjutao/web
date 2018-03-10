@@ -1,0 +1,73 @@
+*{
+	margin : 0;
+	padding : 0;
+}
+
+#wrap{
+	position : relative;
+	margin : 20px auto;
+	width : 500px;
+	height : 333px;
+}
+
+
+#banner li{
+	list-style : none;
+	position : absolute;
+	top : 0;
+	width : 100%;
+	height : 100%;
+	opacity : 0;
+	transition : opacity 1s;
+}
+#tab {
+	position : absolute;
+	bottom : 10px;
+	left : 203px;
+}
+
+#tab li{
+	list-style : none;
+	display : inline-block;
+	width : 6px;
+	height : 6px;
+	margin : 3px;
+	background : rgba(105, 105, 105, 0.5);
+	border-radius : 50%;
+	cursor : pointer;
+	border : solid 2px #887B6E;
+}
+
+#tab li.on{
+	background : #E2CEB7;
+}
+
+#tab li:hover{
+	background : #E3CEB7;
+}
+
+#wrap .prev{
+	position : absolute;
+	left : 0px;
+	top : 100px;
+	width : 128px;
+	height : 128px;
+	background : url("../images/left.png") no-repeat;
+	cursor : pointer;
+}
+#wrap .prev:hover{
+	background : url("../images/left.png");
+}
+
+#wrap .next{
+	position : absolute;
+	right : 0px;
+	top : 100px;
+	width : 128px;
+	height : 128px;
+	background : url("../images/right.png") no-repeat;
+	cursor : pointer;
+}
+#wrap .next:hover{
+	background : url("../images/right.png");
+}
