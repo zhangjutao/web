@@ -32,6 +32,11 @@ public class TraitCategoryWithinMultipleTraitList {
     private String qtlOthername;
 
     /**
+     * trait_category表中qtl_name字段，大性状名字
+     */
+    private String maxTraitName;
+
+    /**
      * 改trait category对应的trait_list集合
      */
     private List<TraitList> traitLists;
@@ -66,6 +71,14 @@ public class TraitCategoryWithinMultipleTraitList {
 
     public void setQtlOthername(String qtlOthername) {
         this.qtlOthername = qtlOthername;
+    }
+
+    public String getMaxTraitName() {
+        return maxTraitName;
+    }
+
+    public void setMaxTraitName(String maxTraitName) {
+        this.maxTraitName = maxTraitName;
     }
 
     public List<TraitList> getTraitLists() {

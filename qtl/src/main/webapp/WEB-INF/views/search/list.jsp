@@ -613,6 +613,7 @@
     // 获取表格数据+分页
     function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
         // 开启遮罩层
+        $('.mengc,.imgHTML').remove();
         var imgHTML="<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>" ;
         $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
         $('.checkbox-tab').append(imgHTML);
@@ -630,23 +631,23 @@
             dataType: "json",
             success: function (res) {
                 //显示表格内容
-                if (res.data.data.length == 0) {
+                if (res.data.length == 0) {
                     $('#all-paginate').hide();
                     $("#tableBody>tbody").empty().html("<p class='zwsj'>暂无数据</p>");
                 } else {
                     renderTable(res);
                     $('#all-paginate').show();
-                    $("#total-page-count > span").html(res.data.total);
+                    $("#total-page-count > span").html(res.total);
 
                     //显示分页
                     laypage({
                         cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数
+                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                         curr: currNum || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                         prev: '<',
                         next: '>',
                         groups: 3, //连续显示分页数
@@ -710,8 +711,8 @@
         }
     });
 
-    function renderTable(data) {
-        var eleData = data.data.data;
+    function renderTable(qtlTableEntity) {
+        var eleData = qtlTableEntity.data;
         //表格数据填充
         var str = '';
         for (var i = 0; i < eleData.length; i++) {
@@ -738,20 +739,20 @@
         $("#tableBody > tbody").empty().append(str);
 
         //表头chr添加内容
-        var chrData = data.data.chrs;
+        var chrData = qtlTableEntity.chrs;
         var strChr = "";
         for (var j = 0; j < chrData.length; j++) {
             strChr += '<a href="#">' + chrData[j] + '</a>';
         }
-        $('.chr-item').append(strChr);
+        $('.chr-item').empty().append(strChr);
 
         //表头lg添加内容
-        var lgData = data.data.lgs;
+        var lgData = qtlTableEntity.lgs;
         var strLg = "";
         for (var m = 0; m < chrData.length; m++) {
             strLg += '<a href="#">' + lgData[m] + '</a>';
         }
-        $('.lg-item').append(strLg);
+        $('.lg-item').empty().append(strLg);
 
         //chr点击事件
         $(".chr-item a").click(function () {
@@ -1125,7 +1126,6 @@
         var type = $(".js-search-select").val();
         var key = $(".js-search-text").val();
         var cdt = getParamsString()
-        console.log(cdt)
         initTables(1, 10, type, key, version, cdt)
     }
 

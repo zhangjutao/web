@@ -1,10 +1,15 @@
 package com.gooalgene.qtl.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.NullSerializer;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
+import com.gooalgene.qtl.service.handler.NullSerializerImpl;
 import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.Result;
 import java.util.Collection;
 import java.util.Map;
 
@@ -89,7 +95,7 @@ public class SearchController {
 
     @RequestMapping(value = "/list/page",method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<QtlTableEntity> lista(HttpServletRequest request) {
+    public String lista(HttpServletRequest request) throws JsonProcessingException {
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String version = request.getParameter("version");
@@ -97,7 +103,12 @@ public class SearchController {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         QtlTableEntity result = queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize);
-        return ResultUtil.success(result);
+        ObjectMapper mapper = new ObjectMapper();
+        DefaultSerializerProvider.Impl provider = new DefaultSerializerProvider.Impl();
+        provider.setNullValueSerializer(new NullSerializerImpl());
+        mapper.setSerializerProvider(provider);
+        String jsonOutputResult = mapper.writeValueAsString(result);
+        return jsonOutputResult;
     }
 
 

@@ -19,7 +19,11 @@
                 <div class="arrow-right"><img src="${ctxStatic}/images/arrow-right.png"></div>
             </a>
             <div class="nav-right-border" style=" "></div>
-            <div class="second-text" style="display:none " ><c:forEach items="${item.data}" var="item1"><a href="${ctxroot}/search/list?type=Trait&keywords=${item1}&version=Gmax_275_v2.0">${item1}</a></c:forEach></div>
+            <div class="second-text" style="display:none ">
+                <c:forEach items="${item.data}" var="item1">
+                    <a href="${ctxroot}/search/list?type=Trait&keywords=${item1.traitName}&version=Gmax_275_v2.0">${item1.traitName}</a>
+                </c:forEach>
+            </div>
         </li>
     </c:forEach>
 </ul>
