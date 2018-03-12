@@ -183,29 +183,36 @@
         .js-pop-head, .information-title, .tab-detail-thead {
             cursor: move;
         }
-        .zwsj{
+
+        .zwsj {
             width: 200px;
-            padding:20px 10px;
-            text-align:left;
+            padding: 20px 10px;
+            text-align: left;
         }
 
-       body .checkbox-tab{    margin: 20px 30px 0px 10px;}
-        .genesInfo .genesInfo-head{
+        body .checkbox-tab {
+            margin: 20px 30px 0px 10px;
+        }
+
+        .genesInfo .genesInfo-head {
             height: 40px;
             line-height: 40px;
             background-color: #386cca;
             color: #fff;
             cursor: move;
         }
-        .genesInfo{
+
+        .genesInfo {
             border: none;
         }
-        .genesInfo .genesInfo-head p{
+
+        .genesInfo .genesInfo-head p {
             position: relative;
             float: inherit;
             text-align: center;
         }
-        .genesInfo .genesInfo-head a{
+
+        .genesInfo .genesInfo-head a {
             color: #fff;
             float: right;
             padding: 0 20px;
@@ -215,6 +222,20 @@
             top: 0;
         }
 
+        .imgHTML{
+            top:50%;
+            left: 50%;
+            position: absolute;
+            margin-left: -18.5px;
+            margin-top: -18.5px;
+        }
+        .mengc{
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        }
     </style>
 </head>
 <body>
@@ -318,7 +339,7 @@
 
         </aside>
         <article class="">
-            <div class="checkbox-tab">
+            <div class="checkbox-tab" style="position:relative;">
                 <table class="checkbox-list-item" id="tableBody" style="width:1090px">
                     <thead>
                     <tr>
@@ -354,7 +375,7 @@
                             <input class="js-chr" type="hidden">
                             <div class="chr-item">
                                 <%--<c:forEach items="${chrs}" var="item">--%>
-                                    <%--<a href="#">${item}</a>--%>
+                                <%--<a href="#">${item}</a>--%>
                                 <%--</c:forEach>--%>
                             </div>
                         </td>
@@ -559,12 +580,13 @@
 </div>
 
 <div class="author-pop-tab tab-detail" style="display: none">
-   <div class="information-title tab-detail-thead">
+    <div class="information-title tab-detail-thead">
         <p style=" padding: 0px;">REFERENCE<a href="#" class="close-pop">X</a></p>
 
-       <%--<button class="close-pop">X</button>--%>
-   </div>
-    <div class="information-tab"> <table> </table>
+        <%--<button class="close-pop">X</button>--%>
+    </div>
+    <div class="information-tab">
+        <table></table>
     </div>
 </div>
 <script src="${ctxStatic}/js/layout.js"></script>
@@ -583,13 +605,18 @@
     var version = $.getUrlParam('version');
     var type_select = $.getUrlParam('type');
     var key_input = $.getUrlParam('keywords');
-//    初始化列表
-    initTables(1,10,type_select,key_input,version);
+    //    初始化列表
+    initTables(1, 10, type_select, key_input, version);
     var page = {curr: 1, pageSize: 10};
     $(".lay-per-page-count-select").val(page.pageSize);
 
     // 获取表格数据+分页
-    function initTables(currNum, pageSizeNum,type_select,key_input,version,cdt) {
+    function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
+        // 开启遮罩层
+        $('.mengc,.imgHTML').remove();
+        var imgHTML="<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>" ;
+        $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
+        $('.checkbox-tab').append(imgHTML);
         $.ajax({
             url: "${ctxroot}/search/list/page",
             type: "POST",
@@ -627,10 +654,12 @@
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var currNum = obj.curr;
-                                initTables(currNum, pageSizeNum,type_select,key_input,version,cdt);
+                                initTables(currNum, pageSizeNum, type_select, key_input, version, cdt);
                             }
                         }
                     });
+                    // 关闭遮罩层
+                    $(".imgHTML,.mengc").remove();
                 }
             }
         });
@@ -644,12 +673,12 @@
         var mathCeil = Math.ceil(total / curr);
         page.pageSize = Number($(this).val());
 
-        var cdt=getParamsString()
+        var cdt = getParamsString()
         if (pageSize > mathCeil) {
             page.curr = 1;
-            initTables(1, pageSize,type_select,key_input,version,cdt);
+            initTables(1, pageSize, type_select, key_input, version, cdt);
         } else {
-            initTables(curr, pageSize,type_select,key_input,version,cdt);
+            initTables(curr, pageSize, type_select, key_input, version, cdt);
         }
     });
 
@@ -662,7 +691,7 @@
     });
     // 注册 enter 事件的元素
     $(document).keyup(function (event) {
-        var cdt=getParamsString()
+        var cdt = getParamsString()
         var _page_skip = $('#pagination .laypage_skip');
         if (_page_skip.hasClass("isFocus")) {
             if (event.keyCode == 13) {
@@ -673,10 +702,10 @@
                 var mathCeil = Math.ceil(total / pageSizeNum);
                 if (curr > mathCeil) {
                     page.curr = 1;
-                    initTables(1, pageSizeNum,type_select,key_input,version,cdt);
+                    initTables(1, pageSizeNum, type_select, key_input, version, cdt);
                 } else {
                     page.curr = curr;
-                    initTables(curr, pageSizeNum,type_select,key_input,version,cdt);
+                    initTables(curr, pageSizeNum, type_select, key_input, version, cdt);
                 }
             }
         }
@@ -689,14 +718,14 @@
         for (var i = 0; i < eleData.length; i++) {
             str += '<tr>'
             str += '<td class="t_id">' + eleData[i].id + '</td>';
-            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=' + version+ '">' + eleData[i].qtlName + '</a> </td>';
+            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=' + version + '">' + eleData[i].qtlName + '</a> </td>';
             str += '<td class="t_trait">' + eleData[i].trait + '</td>';
             str += '<td class="t_type">' + eleData[i].type + '</td>';
-            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version+ '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].chr + '</a></td>';
-            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version+ '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].lg + '</a> </td>';
+            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].chr + '</a></td>';
+            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].lg + '</a> </td>';
             str += '<td class="t_method">' + eleData[i].method + '</td>';
             str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker1 + '">' + eleData[i].marker1 + '</a> </td>';
-            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2+ '</a> </td>';
+            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2 + '</a> </td>';
             str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].associateGenes + '">' + eleData[i].genesNum + '</a></td>';
             str += '<td class="t_lod">' + eleData[i].lod + '</td>';
             str += '<td class="t_parent1">' + eleData[i].parent1 + '</td>';
@@ -715,7 +744,7 @@
         for (var j = 0; j < chrData.length; j++) {
             strChr += '<a href="#">' + chrData[j] + '</a>';
         }
-        $('.chr-item').append(strChr);
+        $('.chr-item').empty().append(strChr);
 
         //表头lg添加内容
         var lgData = qtlTableEntity.lgs;
@@ -723,12 +752,12 @@
         for (var m = 0; m < chrData.length; m++) {
             strLg += '<a href="#">' + lgData[m] + '</a>';
         }
-        $('.lg-item').append(strLg);
+        $('.lg-item').empty().append(strLg);
 
         //chr点击事件
         $(".chr-item a").click(function () {
             $(".js-chr").val($(this).html());
-        $(".js-lg").val("");
+            $(".js-lg").val("");
 //        $("#pageNo").val(1);
 //        $("#search3").val(getParamsString());
 //        $("#searchForm").submit();
@@ -1076,36 +1105,36 @@
     $(".js-search-btn").click(function () {
 //        $("#search2").val($(".js-search-text").val());
         $(".btn-toggle").trigger("click");
-        var type=$(".js-search-select").val();
-        var key=$(".js-search-text").val();
+        var type = $(".js-search-select").val();
+        var key = $(".js-search-text").val();
 //        initTables(1,10,type,key,cdt)
 //        $("#search3").val("{}");
 //        $("#search6").val("{}");
 //        $("#searchForm").submit();
 
-        initTables(1,10,type,key,version);
+        initTables(1, 10, type, key, version);
     });
-//    $(".btn-confirm-info").click(function(){
-////        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
-//        var cdt=getParamsString()
-//        console.log(cdt)
-//    })
+    //    $(".btn-confirm-info").click(function(){
+    ////        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
+    //        var cdt=getParamsString()
+    //        console.log(cdt)
+    //    })
 
     /*表头条件搜索*/
-    function thSearch(){
+    function thSearch() {
         $(".btn-toggle").trigger("click");
-        var type=$(".js-search-select").val();
-        var key=$(".js-search-text").val();
-        var cdt=getParamsString()
-        console.log(cdt)
-        initTables(1,10,type,key,version,cdt)
+        var type = $(".js-search-select").val();
+        var key = $(".js-search-text").val();
+        var cdt = getParamsString()
+        initTables(1, 10, type, key, version, cdt)
     }
-    $(".btn-confirm-info").click(function(){
+
+    $(".btn-confirm-info").click(function () {
         $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
         thSearch();
     })
     /*筛选取消*/
-    $(".btn-cancel").click(function() {
+    $(".btn-cancel").click(function () {
         $(this).parent("p").siblings("input").val("");
         $(this).siblings(".btn-confirm-info").trigger("click");
     });
@@ -1171,13 +1200,12 @@
     };
 
 
-
-//
-//    $(".btn-confirm-info").click(function () {
-//        $("#pageNo").val(1);
-//        $("#search3").val(getParamsString());
-//        $("#searchForm").submit();
-//    });
+    //
+    //    $(".btn-confirm-info").click(function () {
+    //        $("#pageNo").val(1);
+    //        $("#search3").val(getParamsString());
+    //        $("#searchForm").submit();
+    //    });
 
     $(".btn-cancel").click(function () {
         $(this).parent("p").siblings("input").val("");
@@ -1246,8 +1274,6 @@
         $(".table-item").css({"width": "1125px", "margin-bottom": "1px"});
         $(".nav_ac").show();
     })
-
-
 
 
     $(".js-search-text").on("focus", function () {
