@@ -74,8 +74,8 @@ public class SoybeanController {
         String json = "{}";
         logger.info("hitmap:genes{" + genes + "}");
         if (StringUtils.isNotBlank(genes)) {
-            if (pageSize >= total) {
-                String[] gens = Arrays.copyOfRange(genes.split(","), 0, total);
+            if (pageSize*pageNo >= total) {
+                String[] gens = Arrays.copyOfRange(genes.split(","), (pageNo-1)*pageSize, total);
                 GenResult genResult = tService.generateData(gens);
                 genResult.setGensTotal(total);
                 json = JsonUtils.Bean2Json(genResult);
@@ -101,10 +101,26 @@ public class SoybeanController {
         String genes = request.getParameter("genes");
         String json = "{}";
         logger.info("line:genes{" + genes + "}");
+//        if (StringUtils.isNotBlank(genes)) {
+//            String[] gens = genes.split(",");
+//            GenResult genResult = tService.generateData(gens);
+//            json = JsonUtils.Bean2Json(genResult);
+//        }
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        int total = genes.split(",").length;
         if (StringUtils.isNotBlank(genes)) {
-            String[] gens = genes.split(",");
-            GenResult genResult = tService.generateData(gens);
-            json = JsonUtils.Bean2Json(genResult);
+            if (pageSize*pageNo >= total) {
+                String[] gens = Arrays.copyOfRange(genes.split(","), (pageNo-1)*pageSize, total);
+                GenResult genResult = tService.generateData(gens);
+                genResult.setGensTotal(total);
+                json = JsonUtils.Bean2Json(genResult);
+            }else {
+                String[] gens = Arrays.copyOfRange(genes.split(","), pageNo * pageSize - pageSize, pageNo * pageSize);
+                GenResult genResult = tService.generateData(gens);
+                genResult.setGensTotal(total);
+                json = JsonUtils.Bean2Json(genResult);
+            }
         }
         return json;
     }
@@ -125,10 +141,18 @@ public class SoybeanController {
     @ResponseBody
     public String boxplot(HttpServletRequest request) {
         String genes = request.getParameter("genes");
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        int total = genes.split(",").length;
         logger.info("boxplot:genes{" + genes + "}");
         JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(genes)) {
-            String[] gens = genes.split(",");
+            String[] gens = null;
+            if (pageSize*pageNo >= total) {
+                gens = Arrays.copyOfRange(genes.split(","), (pageNo-1)*pageSize, total);
+            }else {
+                gens = Arrays.copyOfRange(genes.split(","), pageNo * pageSize - pageSize, pageNo * pageSize);
+            }
             Criteria criteria = new Criteria();
             criteria.and("gene").in(gens);
             long start = System.currentTimeMillis();
