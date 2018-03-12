@@ -799,7 +799,6 @@
                 type: "get",
                 dataType: "json",
                 success: function (data) {
-                    console.log(data)
                     var tbody = "";
                     tbody += "<tbody>"
                     tbody += "   <tr>"
@@ -828,7 +827,7 @@
                         $("#mid").show();
                         $(".links-pop").show();
                         var txt = $(this).attr("data-txt");
-                        console.log(txt + "----");
+//                        console.log(txt + "----");
                         $(".links-text").html("<p>" + txt + "</p>")
 
 
@@ -873,7 +872,7 @@
                     type: "get",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
+//                        console.log(data);
                         var pop = "";
                         pop += "<tr>"
                         pop += "  <td>Name</td>"
@@ -1266,11 +1265,6 @@
         return JSON.stringify(tmp);
     }
 
-    $(".js-search-text").keydown(function (event) {
-        if (event.keyCode == 13) {
-            console.log(event.keyCode)
-        }
-    })
     $(".nav_ac .icon-right").click(function () {
         $(".nav_ac").hide();
         $("article").css({"width": "895px"})
