@@ -222,19 +222,37 @@
             top: 0;
         }
 
-        .imgHTML{
-            top:50%;
+        .imgHTML {
+            top: 50%;
             left: 50%;
             position: absolute;
             margin-left: -18.5px;
             margin-top: -18.5px;
         }
-        .mengc{
+
+        .mengc {
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             position: fixed;
+        }
+
+        body .ga-ctrl-footer {
+            padding: 20px !important;
+        }
+
+        body .pagination {
+            display: inline-table !important;
+        }
+
+        .per-page-count {
+            vertical-align: top !important;
+        }
+
+        .total-page-count {
+            vertical-align: bottom !important;
+            top: -1px !important;
         }
     </style>
 </head>
@@ -336,7 +354,6 @@
                 <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
             </div>
             <%@ include file="/WEB-INF/views/include/nav.jsp" %>
-
         </aside>
         <article class="">
             <div class="checkbox-tab" style="position:relative;">
@@ -508,27 +525,24 @@
                     <tbody class="item-tab">
                     </tbody>
                 </table>
-                <form id="searchForm" action="${ctxroot}/search/listByResult" method="get">
-                    <input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search2" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search3" name="condition" type="hidden" value='${condition}'/>
-                    <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-                    <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-                    <input id="version" name="version" type="hidden" value="">
-                </form>
-                <form id="exportForm" action="${ctxroot}/query/dataExport" method="get">
-                    <input id="search7" name="version" type="hidden" value="${version}"/>
-                    <input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search5" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search6" name="condition" type="hidden" value='${condition}'/>
-                    <input id="search8" name="choices" type="hidden"/>
-                </form>
+                <%--<form id="searchForm" action="${ctxroot}/search/listByResult" method="get">--%>
+                <%--<input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search2" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search3" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>--%>
+                <%--<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
+                <%--<input id="version" name="version" type="hidden" value="">--%>
+                <%--</form>--%>
+                <%--<form id="exportForm" action="${ctxroot}/query/dataExport" method="get">--%>
+                <%--<input id="search7" name="version" type="hidden" value="${version}"/>--%>
+                <%--<input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search5" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search6" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="search8" name="choices" type="hidden"/>--%>
+                <%--</form>--%>
             </div>
             <div class="checkbox-item-tab" id="all-paginate">
                 <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-            </div>
-            <div class="ktPaginate">
-                ${page}
             </div>
         </article>
     </div>
@@ -544,7 +558,6 @@
     <div class="tab-detail-tbody">
         <div class="tab-category">Genes</div>
         <div class="tab-category-list">
-
         </div>
     </div>
 </div>
@@ -555,7 +568,6 @@
         </p>
     </div>
     <div class="links-text">
-
     </div>
 </div>
 <div class="js-pop">
@@ -614,7 +626,7 @@
     function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
         // 开启遮罩层
         $('.mengc,.imgHTML').remove();
-        var imgHTML="<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>" ;
+        var imgHTML = "<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>";
         $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
         $('.checkbox-tab').append(imgHTML);
         $.ajax({
@@ -632,6 +644,8 @@
             success: function (res) {
                 //显示表格内容
                 if (res.data.data.length == 0) {
+                    // 关闭遮罩层
+                    $(".imgHTML,.mengc").remove();
                     $('#all-paginate').hide();
                     $("#tableBody>tbody").empty().html("<p class='zwsj'>暂无数据</p>");
                 } else {
@@ -927,8 +941,6 @@
             e.preventDefault();
             $(".genesInfo").hide();
         })
-
-
     }
 
     /*清除搜索框内容*/
@@ -987,7 +999,6 @@
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
-                console.log($(this).val());
                 for (var i = 0; i < cols.length; i++) {
                     if ($(this).val() == cols[i]) {
                         $(this).prop("checked", false);
@@ -996,7 +1007,6 @@
                     }
                 }
             });
-
         }
 
 
@@ -1013,7 +1023,6 @@
                     $(".t_" + $(this).val()).show();
                 }
             });
-
             setCookie('showedCols', colArr.join("-"));
         });
 
@@ -1031,25 +1040,25 @@
         });
     });
 
-    function page(n, s) {
-        if (n) $("#pageNo").val(n);
-        if (s) $("#pageSize").val(s);
-        $("#searchForm").submit();
-        return false;
-    }
-
-    function PressPage(e, n, s, p) {
-        var c = e.keyCode || e.which;
-        if (c == 13) {
-            page(n, s);
-        }
-    }
-
-    function SelectPage(e, n, s, p) {
-        if ($("#pageSize").val() != s) {
-            page(n, s);
-        }
-    }
+    //    function page(n, s) {
+    //        if (n) $("#pageNo").val(n);
+    //        if (s) $("#pageSize").val(s);
+    //        $("#searchForm").submit();
+    //        return false;
+    //    }
+    //
+    //    function PressPage(e, n, s, p) {
+    //        var c = e.keyCode || e.which;
+    //        if (c == 13) {
+    //            page(n, s);
+    //        }
+    //    }
+    //
+    //    function SelectPage(e, n, s, p) {
+    //        if ($("#pageSize").val() != s) {
+    //            page(n, s);
+    //        }
+    //    }
 
     /*版本号选择*/
     $(".version-num select").change(function () {
@@ -1224,7 +1233,7 @@
             }
         });
         var choices = colArr.join(",");
-        console.log(choices)
+//        console.log(choices)
         $("#search8").val(choices);
         $("#exportForm").submit();
     });
