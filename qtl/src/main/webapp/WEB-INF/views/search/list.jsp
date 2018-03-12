@@ -744,7 +744,7 @@
         for (var j = 0; j < chrData.length; j++) {
             strChr += '<a href="#">' + chrData[j] + '</a>';
         }
-        $('.chr-item').append(strChr);
+        $('.chr-item').empty().append(strChr);
 
         //表头lg添加内容
         var lgData = data.data.lgs;
@@ -752,7 +752,7 @@
         for (var m = 0; m < chrData.length; m++) {
             strLg += '<a href="#">' + lgData[m] + '</a>';
         }
-        $('.lg-item').append(strLg);
+        $('.lg-item').empty().append(strLg);
 
         //chr点击事件
         $(".chr-item a").click(function () {
