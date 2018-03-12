@@ -643,7 +643,7 @@
             dataType: "json",
             success: function (res) {
                 //显示表格内容
-                if (res.data.data.length == 0) {
+                if (res.data.length == 0) {
                     // 关闭遮罩层
                     $(".imgHTML,.mengc").remove();
                     $('#all-paginate').hide();
@@ -651,17 +651,17 @@
                 } else {
                     renderTable(res);
                     $('#all-paginate').show();
-                    $("#total-page-count > span").html(res.data.total);
+                    $("#total-page-count > span").html(res.total);
 
                     //显示分页
                     laypage({
                         cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数
+                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                         curr: currNum || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                         prev: '<',
                         next: '>',
                         groups: 3, //连续显示分页数
@@ -726,7 +726,7 @@
     });
 
     function renderTable(data) {
-        var eleData = data.data.data;
+        var eleData = data.data;
         //表格数据填充
         var str = '';
         for (var i = 0; i < eleData.length; i++) {
@@ -753,7 +753,7 @@
         $("#tableBody > tbody").empty().append(str);
 
         //表头chr添加内容
-        var chrData = data.data.chrs;
+        var chrData = data.chrs;
         var strChr = "";
         for (var j = 0; j < chrData.length; j++) {
             strChr += '<a href="#">' + chrData[j] + '</a>';
@@ -761,7 +761,7 @@
         $('.chr-item').empty().append(strChr);
 
         //表头lg添加内容
-        var lgData = data.data.lgs;
+        var lgData = data.lgs;
         var strLg = "";
         for (var m = 0; m < chrData.length; m++) {
             strLg += '<a href="#">' + lgData[m] + '</a>';
