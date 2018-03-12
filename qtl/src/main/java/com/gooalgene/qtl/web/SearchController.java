@@ -117,13 +117,8 @@ public class SearchController {
         if (type == null || version == null) {
             return new ModelAndView("redirect:/search/index");
         }
-//        String keywords = request.getParameter("keywords");
-//        String parameters = request.getParameter("condition");
-//        Page<Qtl> page = new Page<Qtl>(request, response);
         modelAndView.addObject("versions", queryService.queryVersions());
         modelAndView.addObject("types", queryService.queryAll());
-//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
-//        modelAndView.addObject("page", page);
         return modelAndView;
     }
 }
