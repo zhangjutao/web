@@ -613,6 +613,7 @@
     // 获取表格数据+分页
     function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
         // 开启遮罩层
+        $('.mengc,.imgHTML').remove();
         var imgHTML="<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>" ;
         $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
         $('.checkbox-tab').append(imgHTML);
@@ -1125,7 +1126,6 @@
         var type = $(".js-search-select").val();
         var key = $(".js-search-text").val();
         var cdt = getParamsString()
-        console.log(cdt)
         initTables(1, 10, type, key, version, cdt)
     }
 
