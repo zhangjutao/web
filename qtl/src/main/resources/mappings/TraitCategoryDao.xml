@@ -5,6 +5,7 @@
     <resultMap id="traitCategoryResultMap" type="com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList">
         <id property="traitCategoryId" column="traitCategoryId" jdbcType="INTEGER" javaType="int" />
         <result property="qtlDesc" column="qtl_desc" javaType="String" jdbcType="VARCHAR"/>
+        <result property="maxTraitName" column="maxTraitName" javaType="String" jdbcType="VARCHAR"/>
         <collection property="traitLists" column="qtl_id" ofType="com.gooalgene.qtl.views.TraitListWithinMultipleQtlName">
             <result property="traitListId" column="traitListId" javaType="int" />
             <result property="qtlId" column="qtl_id" javaType="int" jdbcType="INTEGER" />
@@ -56,6 +57,7 @@
     <select id="findAllTraitCategoryAndItsTraitList" resultMap="traitCategoryResultMap">
         SELECT
             a.id as traitCategoryId,
+            a.qtl_name AS maxTraitName,
             a.qtl_desc,
             b.id as traitListId,
             b.trait_name,
