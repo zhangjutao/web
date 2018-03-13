@@ -33,8 +33,10 @@
                     <tr style="background:#F5F8FF;">
                         <td style="height:45px;">待审核用户</td>
                         <td style="height:45px;">注册邮箱</td>
-                        <td style="height:45px;">状态</td>
-                        <td style="height:45px;">确认审核</td>
+                        <td style="height:45px;">从事行业</td>
+                        <td style="height:45px;">所属院校</td>
+                        <td style="height:45px;" class="trStatus">状态</td>
+                        <td style="height:45px; width:114px;" class="sureStatus">确认审核</td>
                     </tr>
                 </table>
             </div>

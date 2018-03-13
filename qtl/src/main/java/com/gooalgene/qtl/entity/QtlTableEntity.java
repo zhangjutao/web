@@ -1,7 +1,5 @@
 package com.gooalgene.qtl.entity;
 
-import net.sf.json.JSONObject;
-
 import java.util.List;
 
 public class QtlTableEntity {

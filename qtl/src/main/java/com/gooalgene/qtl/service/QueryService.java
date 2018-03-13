@@ -7,6 +7,7 @@ import com.gooalgene.entity.*;
 import com.gooalgene.qtl.dao.*;
 import com.gooalgene.qtl.entity.QtlSearchResult;
 import com.gooalgene.qtl.entity.QtlTableEntity;
+import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import net.sf.json.JSONArray;
@@ -148,23 +149,40 @@ public class QueryService {
         return m;
     }
 
-    public JSONArray queryAll() {
-        JSONArray result = new JSONArray();
-        List<TraitCategory> traitCategories = traitCategoryDao.findList(new TraitCategory());
-        List<TraitList> one = null;
-        for (TraitCategory t : traitCategories) {
-            JSONObject jsonObject = new JSONObject();
-            JSONArray jsonArray = new JSONArray();
-            one = traitListDao.getTraitListsByQtlId(t.getId());
-            for (TraitList traitList : one) {
-                jsonArray.add(traitList.getTraitName());
+    /**
+     * 所有大组织对应小组织
+     * @return name、desc、data(每一个大性状对应小的trait_list性状信息)
+     */
+    public List<TraitGroup> queryAll() {
+        List<TraitCategoryWithinMultipleTraitList> allTraitCategoryAndItsTraitList =
+                traitCategoryDao.findAllTraitCategoryAndItsTraitList();
+        // 从原始查询结果中对结果集进行过滤
+        Collection<TraitGroup> resultGroup = Collections2.transform(allTraitCategoryAndItsTraitList, new Function<TraitCategoryWithinMultipleTraitList, TraitGroup>() {
+            @Override
+            public TraitGroup apply(TraitCategoryWithinMultipleTraitList input) {
+                String maxTraitName = input.getMaxTraitName();
+                String maxTraitDesc = input.getQtlDesc();
+                List<TraitList> associatedTraitList = input.getTraitLists();
+                return new TraitGroup(maxTraitName, maxTraitDesc, associatedTraitList);
             }
-            jsonObject.put("name", t.getQtlName());
-            jsonObject.put("desc", t.getQtlDesc());
-            jsonObject.put("data", jsonArray);
-            result.add(jsonObject);
-        }
-        return result;
+        });
+        return new ArrayList<>(resultGroup);
+//        JSONArray result = new JSONArray();
+//        List<TraitCategory> traitCategories = traitCategoryDao.findList(new TraitCategory());
+//        List<TraitList> one = null;
+//        for (TraitCategory t : traitCategories) {
+//            JSONObject jsonObject = new JSONObject();
+//            JSONArray jsonArray = new JSONArray();
+//            one = traitListDao.getTraitListsByQtlId(t.getId());
+//            for (TraitList traitList : one) {
+//                jsonArray.add(traitList.getTraitName());
+//            }
+//            jsonObject.put("name", t.getQtlName());
+//            jsonObject.put("desc", t.getQtlDesc());
+//            jsonObject.put("data", jsonArray);
+//            result.add(jsonObject);
+//        }
+//        return result;
     }
 
     public JSONObject queryBySoybeanName(String name) {
@@ -735,11 +753,7 @@ public class QueryService {
         getByPara(qtl, fixParam(type, keywords, param));
         qtl.setVersion(version);//匹配版本信息
         List<QtlSearchResult> list = null;
-//        if ("all".equalsIgnoreCase(type)) {//all的时候需要全文匹配，查询字段使用or进行关联
-//            list = qtlDao.findByTypeAll(qtl);
-//        } else {//其他的字段查询是对应的and关联
         list = qtlDao.findByCondition(qtl);
-//        }
         for (QtlSearchResult qtlSearchResult : list) {
             String qtlName = qtlSearchResult.getQtlName();
             String genes = null;
@@ -747,6 +761,7 @@ public class QueryService {
             if (associatedgenes != null) {
                 genes = associatedgenes.getAssociatedGenes();
             }
+            qtlSearchResult.setAssociateGenes(genes);
             qtlSearchResult.setGenesNum(genes == null ? 0 : genes.split(",").length);
         }
         return list;
@@ -938,5 +953,44 @@ public class QueryService {
         result.put("total", pageInfo.getTotal());
         result.put("data", data);
         return result;
+    }
+
+    /**
+     * qtl数据库侧边栏
+     */
+    public static class TraitGroup {
+        private String name;
+        private String desc;
+        private List<TraitList> data;
+
+        public TraitGroup(String name, String desc, List<TraitList> data) {
+            this.name = name;
+            this.desc = desc;
+            this.data = data;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public List<TraitList> getData() {
+            return data;
+        }
+
+        public void setData(List<TraitList> data) {
+            this.data = data;
+        }
     }
 }
