@@ -38,7 +38,7 @@ body {
 
 #containerAdmin #tblhead tr td:first-child,
 #containerAdmin #tblbody tr td:first-child {
-    width: 300px;
+    width: 185px;
     height: 50px;
 }
 
@@ -46,20 +46,23 @@ body {
 
 #containerAdmin #tblhead tr td:nth-child(2),
 #containerAdmin #tblbody tr td:nth-child(2) {
-    width: 460px;
+    width: 300px;
     height: 50px;
 }
 
 #containerAdmin #tblhead tr td:nth-child(3),
 #containerAdmin #tblbody tr td:nth-child(3) {
-    width: 180px;
+    width: 130px;
     height: 50px;
 }
 
 #containerAdmin #tblhead tr td:nth-child(4),
 #containerAdmin #tblbody tr td:nth-child(4) {
-    width: 185px;
+    width: 233px;
     height: 50px;
+}
+#tblhead .trStatus,#tblbody .trStatus #tblhead .sureStatus,#tblbody .sureStatus{
+    width:130px;
 }
 /*#containerAdmin #tblhead tr td:first-child,#containerAdmin #tblhead tr td:nth-child(2),#containerAdmin #tblhead tr td:nth-child(3)，#containerAdmin #tblhead tr td:nth-child(4){*/
     /*height:45px;*/

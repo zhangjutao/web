@@ -13,6 +13,7 @@ $(function (){
     var groupVal10="含80份材料，主要为中、韩、美地区的地方和栽培品种，蛋白含量40-50%，含油量7-15%，株高50-100cm，百粒重10-25g，种皮多黄，少棕黑色，紫色和白色花朵，成熟期组以I-V为主。";
 
     $("#groups li").click(function (e){
+        debugger;
         var val = $(this).find("p").text();
         $("#popTips").show();
         $(".tipTopCnt").text(val);
