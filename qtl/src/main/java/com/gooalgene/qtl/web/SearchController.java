@@ -1,11 +1,15 @@
 package com.gooalgene.qtl.web;
 
-import com.gooalgene.common.Page;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.NullSerializer;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
-import com.gooalgene.entity.Qtl;
+import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
+import com.gooalgene.qtl.service.handler.NullSerializerImpl;
 import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.transform.Result;
 import java.util.Collection;
 import java.util.Map;
 
@@ -79,33 +84,31 @@ public class SearchController {
         ModelAndView modelAndView = new ModelAndView("/search/list");
         //搜索框：包含ALL、Trait、QTL Name、marker、parent、reference，ALL是全局搜索，
         String type = request.getParameter("type");
-//        String keywords = request.getParameter("keywords");
-//        String version = request.getParameter("version");
-//        String parameters = request.getParameter("condition");
         if (type == null) {
             return new ModelAndView("redirect:/search/index");
         }
-//        Page<Qtl> page = new Page<Qtl>(request, response);
         modelAndView.addObject("types", queryService.queryAll());  // 搜索结果侧边栏
         modelAndView.addObject("versions", queryService.queryVersions());  // 可选的所有基因版本
-
-//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, page));
         modelAndView.addObject("condition", "{}");
-//        modelAndView.addObject("page", page);
         return modelAndView;
     }
 
     @RequestMapping(value = "/list/page",method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<Map> lista(HttpServletRequest request) {
+    public String lista(HttpServletRequest request) throws JsonProcessingException {
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String version = request.getParameter("version");
         String parameters = request.getParameter("condition");
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        Map result = queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize);
-        return ResultUtil.success(result);
+        QtlTableEntity result = queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize);
+        ObjectMapper mapper = new ObjectMapper();
+        DefaultSerializerProvider.Impl provider = new DefaultSerializerProvider.Impl();
+        provider.setNullValueSerializer(new NullSerializerImpl());
+        mapper.setSerializerProvider(provider);
+        String jsonOutputResult = mapper.writeValueAsString(result);
+        return jsonOutputResult;
     }
 
 

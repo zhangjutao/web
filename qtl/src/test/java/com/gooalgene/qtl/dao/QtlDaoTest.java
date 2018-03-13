@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.qtl.entity.QtlSearchResult;
 import junit.framework.TestCase;
 import org.junit.Before;
 import org.junit.Test;
@@ -16,7 +17,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 /**
  * qtl查询相关单元测试代码
@@ -70,9 +70,9 @@ public class QtlDaoTest extends TestCase {
         Qtl qtl = new Qtl();
         qtl.setKeywords("Trait");
         // 外包直接将结果放到map中，很奇怪！不过也可以用Jackson转
-        List<Map> result = qtlDao.findByCondition(qtl);
+        List<QtlSearchResult> result = qtlDao.findByCondition(qtl);
         // 查看第一个值
-        Map firstValue = result.get(0);
+        QtlSearchResult firstValue = result.get(0);
 
         try {
             String normalMapResult = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(firstValue);

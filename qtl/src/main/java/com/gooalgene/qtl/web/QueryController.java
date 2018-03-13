@@ -2,6 +2,7 @@ package com.gooalgene.qtl.web;
 
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.qtl.entity.QtlSearchResult;
 import com.gooalgene.qtl.service.QueryService;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONObject;
@@ -97,7 +98,7 @@ public class QueryController {
                 if (columns.contains("author")) {
                     columns = columns.replace("author", "reference");
                 }
-                List<Map> result = queryService.qtlSearchbyResultExport(version, type, keywords, parameters);
+                List<QtlSearchResult> result = queryService.qtlSearchbyResultExport(version, type, keywords, parameters);
                 sb = serialList(result, columns.split(","));
             }
             String fileName = "SoyBean-" + version + "-" + type + "(" + keywords + ")";
@@ -156,7 +157,7 @@ public class QueryController {
      * @param titles
      * @return
      */
-    private String serialList(List<Map> result, String[] titles) {
+    private String serialList(List<QtlSearchResult> result, String[] titles) {
         StringBuilder sb = new StringBuilder();
         Map<String, Integer> map = new HashMap<String, Integer>();
         Map<String, String> titlesMap = changeCloumn2Web();
@@ -175,60 +176,60 @@ public class QueryController {
             }
         }
         if (!result.isEmpty() && !map.isEmpty()) {
-            Iterator<Map> it = result.iterator();
+            Iterator<QtlSearchResult> it = result.iterator();
             while (it.hasNext()) {
-                Map data = it.next();
+                QtlSearchResult data = it.next();
                 if (map.containsKey("id")) {
-                    sb.append((data.get("id") == null ? "" : data.get("id"))).append(",");
+                    sb.append((data.getId())).append(",");
                 }
                 if (map.containsKey("qtlName")) {
-                    sb.append((data.get("qtlName") == null ? "" : Tools.getRightContent((String) data.get("qtlName")))).append(",");
+                    sb.append((data.getQtlName() == null ? "" : Tools.getRightContent(data.getQtlName()))).append(",");
                 }
                 if (map.containsKey("trait")) {
-                    sb.append((data.get("trait") == null ? "" : Tools.getRightContent((String) data.get("trait")))).append(",");
+                    sb.append((data.getTrait() == null ? "" : Tools.getRightContent(data.getTrait()))).append(",");
                 }
                 if (map.containsKey("type")) {
-                    sb.append((data.get("type") == null ? "" : Tools.getRightContent((String) data.get("type")))).append(",");
+                    sb.append((data.getType() == null ? "" : Tools.getRightContent(data.getType()))).append(",");
                 }
                 if (map.containsKey("chr")) {
-                    sb.append((data.get("chr") == null ? "" : data.get("chr"))).append(",");
+                    sb.append((data.getChr() == null ? "" : data.getChr())).append(",");
                 }
                 if (map.containsKey("lg")) {
-                    sb.append((data.get("lg") == null ? "" : data.get("lg"))).append(",");
+                    sb.append((data.getLg() == null ? "" : data.getLg())).append(",");
                 }
                 if (map.containsKey("version")) {
-                    sb.append((data.get("version") == null ? "" : Tools.getRightContent((String) data.get("version")))).append(",");
+                    sb.append((data.getVersion() == null ? "" : Tools.getRightContent(data.getVersion()))).append(",");
                 }
                 if (map.containsKey("method")) {
-                    sb.append((data.get("method") == null ? "" : Tools.getRightContent((String) data.get("method")))).append(",");
+                    sb.append((data.getMethod() == null ? "" : Tools.getRightContent(data.getMethod()))).append(",");
                 }
                 if (map.containsKey("marker1")) {
-                    sb.append((data.get("marker1") == null ? "" : Tools.getRightContent((String) data.get("marker1")))).append(",");
+                    sb.append((data.getMarker1() == null ? "" : Tools.getRightContent((String) data.getMarker1()))).append(",");
                 }
                 if (map.containsKey("marker2")) {
-                    sb.append((data.get("marker2") == null ? "" : Tools.getRightContent((String) data.get("marker2")))).append(",");
+                    sb.append((data.getMarker2() == null ? "" : Tools.getRightContent((String) data.getMarker2()))).append(",");
                 }
                 if (map.containsKey("genesNum")) {
-                    Integer gensNum = (Integer) data.get("genesNum");
+                    Integer gensNum = (data.getGenesNum());
                     sb.append(gensNum).append(",");
                 }
                 if (map.containsKey("lod")) {
-                    sb.append((data.get("lod") == null ? "" : data.get("lod"))).append(",");
+                    sb.append((data.getLod() == null ? "" : data.getLod())).append(",");
                 }
                 if (map.containsKey("parent1")) {
-                    sb.append((data.get("parent1") == null ? "" : Tools.getRightContent((String) data.get("parent1")))).append(",");
+                    sb.append((data.getParent1() == null ? "" : Tools.getRightContent((String) data.getParent1()))).append(",");
                 }
                 if (map.containsKey("parent2")) {
-                    sb.append((data.get("parent2") == null ? "" : Tools.getRightContent((String) data.get("parent2")))).append(",");
+                    sb.append((data.getParent2() == null ? "" : Tools.getRightContent((String) data.getParent2()))).append(",");
                 }
                 if (map.containsKey("genomeStart")) {
-                    sb.append((data.get("geneStart") == null ? "" : data.get("geneStart"))).append(",");
+                    sb.append((data.getGeneStart() == null ? "" : data.getGeneStart())).append(",");
                 }
                 if (map.containsKey("genomeEnd")) {
-                    sb.append((data.get("geneEnd") == null ? "" : data.get("geneEnd"))).append(",");
+                    sb.append((data.getGeneEnd() == null ? "" : data.getGeneEnd())).append(",");
                 }
                 if (map.containsKey("reference")) {
-                    sb.append((data.get("ref") == null ? "" : Tools.getRightContent((String) data.get("ref")))).append(",");
+                    sb.append((data.getRef() == null ? "" : Tools.getRightContent((String) data.getRef()))).append(",");
 //                    sb.append((data.get("author") == null ? "" : data.get("author"))).append(",");
                 }
                 sb.append("\n");

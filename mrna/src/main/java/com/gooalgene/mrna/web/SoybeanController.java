@@ -24,11 +24,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Array;
 import java.text.DecimalFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 大豆热图相关接口
@@ -70,13 +68,23 @@ public class SoybeanController {
     @ResponseBody
     public String hitmap(HttpServletRequest request) {
         String genes = request.getParameter("genes");
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        int total = genes.split(",").length;
         String json = "{}";
         logger.info("hitmap:genes{" + genes + "}");
         if (StringUtils.isNotBlank(genes)) {
-            String[] gens = genes.split(",");
-            GenResult genResult = tService.generateData(gens);
-            json = JsonUtils.Bean2Json(genResult);
-//            System.out.println(json);
+            if (pageSize >= total) {
+                String[] gens = Arrays.copyOfRange(genes.split(","), 0, total);
+                GenResult genResult = tService.generateData(gens);
+                genResult.setGensTotal(total);
+                json = JsonUtils.Bean2Json(genResult);
+            }else {
+                String[] gens = Arrays.copyOfRange(genes.split(","), pageNo * pageSize - pageSize, pageNo * pageSize);
+                GenResult genResult = tService.generateData(gens);
+                genResult.setGensTotal(total);
+                json = JsonUtils.Bean2Json(genResult);
+            }
         }
         return json;
     }
@@ -97,7 +105,6 @@ public class SoybeanController {
             String[] gens = genes.split(",");
             GenResult genResult = tService.generateData(gens);
             json = JsonUtils.Bean2Json(genResult);
-//            System.out.println(json);
         }
         return json;
     }

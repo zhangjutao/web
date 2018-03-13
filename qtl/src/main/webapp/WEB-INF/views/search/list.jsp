@@ -19,6 +19,7 @@
         .nav li {
             position: relative;
         }
+
         .nav .second-text a {
             display: block;
             margin-right: 15px;;
@@ -31,9 +32,11 @@
             color: #5c8ce6;
             border-radius: 2px;
         }
+
         .nav li:nth-child(8) .second-text:before {
             height: 59px;
         }
+
         .checkbox-tab table .lg-item a, .checkbox-tab table .chr-item a {
             display: block;
             height: 30px;;
@@ -150,6 +153,7 @@
             text-align: center;
             position: relative;
         }
+
         .information-title p {
             color: #fff;
             padding: 0 30px;
@@ -157,6 +161,7 @@
             text-transform: uppercase;
             background-color: #386cca;
         }
+
         .author-pop-tab .information-tab {
             padding: 20px;
         }
@@ -174,7 +179,81 @@
             right: 0;
             top: 6px;
         }
-        .js-pop-head,.information-title,.tab-detail-thead{cursor: move;}
+
+        .js-pop-head, .information-title, .tab-detail-thead {
+            cursor: move;
+        }
+
+        .zwsj {
+            width: 200px;
+            padding: 20px 10px;
+            text-align: left;
+        }
+
+        body .checkbox-tab {
+            margin: 20px 30px 0px 10px;
+        }
+
+        .genesInfo .genesInfo-head {
+            height: 40px;
+            line-height: 40px;
+            background-color: #386cca;
+            color: #fff;
+            cursor: move;
+        }
+
+        .genesInfo {
+            border: none;
+        }
+
+        .genesInfo .genesInfo-head p {
+            position: relative;
+            float: inherit;
+            text-align: center;
+        }
+
+        .genesInfo .genesInfo-head a {
+            color: #fff;
+            float: right;
+            padding: 0 20px;
+            font-size: 20px;
+            position: absolute;
+            right: 0px;
+            top: 0;
+        }
+
+        .imgHTML {
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            margin-left: -18.5px;
+            margin-top: -18.5px;
+        }
+
+        .mengc {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        }
+
+        body .ga-ctrl-footer {
+            padding: 20px !important;
+        }
+
+        body .pagination {
+            display: inline-table !important;
+        }
+
+        .per-page-count {
+            vertical-align: top !important;
+        }
+
+        .total-page-count {
+            vertical-align: bottom !important;
+            top: -1px !important;
+        }
     </style>
 </head>
 <body>
@@ -274,119 +353,104 @@
                 <div class="icon-left"><img src="${ctxStatic}/images/bookmarks.png">性状<i class="">TRAITS</i></div>
                 <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
             </div>
-
             <%@ include file="/WEB-INF/views/include/nav.jsp" %>
-
         </aside>
         <article class="">
-            <div class="checkbox-tab">
-                <table class="checkbox-list-item">
+            <div class="checkbox-tab" style="position:relative;">
+                <table class="checkbox-list-item" id="tableBody" style="width:1090px">
                     <thead>
                     <tr>
                         <td class="param t_id">ID</td>
                         <td class="param t_qtlName">QTL Name<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component qtl-name-component">
                                 <input type="text" placeholder="请输入" class="js-qtl-name">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param trait t_trait">Trait<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component trait-component">
                                 <input type="text" placeholder="请输入" class="js-trait">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_type">Type<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component type-component">
                                 <input type="text" placeholder="请输入" class="js-type">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
-
                         <td class="param chr t_chr">Chr<img src="${ctxStatic}/images/arrow-drop-down.png">
                             <input class="js-chr" type="hidden">
-
                             <div class="chr-item">
-                                <c:forEach items="${chrs}" var="item">
-                                    <a href="#">${item}</a>
-                                </c:forEach>
-                            </div>
-                        </td>
-                        <td class="param lg t_lg">LG<img src="${ctxStatic}/images/arrow-drop-down.png">
-                            <input class="js-lg" type="hidden">
-
-                            <div class="lg-item">
-                                <a href="#">D1a</a>
-                                <a href="#">D1b</a>
-                                <a href="#">N</a>
-                                <a href="#">C1</a>
-                                <a href="#">A1</a>
-                                <a href="#">C2</a>
-                                <a href="#">M</a>
-                                <a href="#">A2</a>
-                                <a href="#">K</a>
-                                <a href="#">O</a>
-                                <a href="#">B1</a>
-                                <a href="#">H</a>
-                                <a href="#">F</a>
-                                <a href="#">B2</a>
-                                <a href="#">E</a>
-                                <a href="#">J</a>
-                                <a href="#">D2</a>
-                                <a href="#">G</a>
-                                <a href="#">L</a>
-                                <a href="#">I</a>
-                                <%--<c:forEach items="${lgs}" var="item">--%>
+                                <%--<c:forEach items="${chrs}" var="item">--%>
                                 <%--<a href="#">${item}</a>--%>
                                 <%--</c:forEach>--%>
                             </div>
                         </td>
+                        <td class="param lg t_lg">LG<img src="${ctxStatic}/images/arrow-drop-down.png">
+                            <input class="js-lg" type="hidden">
+                            <div class="lg-item">
+                                <%--<a href="#">D1a</a>--%>
+                                <%--<a href="#">D1b</a>--%>
+                                <%--<a href="#">N</a>--%>
+                                <%--<a href="#">C1</a>--%>
+                                <%--<a href="#">A1</a>--%>
+                                <%--<a href="#">C2</a>--%>
+                                <%--<a href="#">M</a>--%>
+                                <%--<a href="#">A2</a>--%>
+                                <%--<a href="#">K</a>--%>
+                                <%--<a href="#">O</a>--%>
+                                <%--<a href="#">B1</a>--%>
+                                <%--<a href="#">H</a>--%>
+                                <%--<a href="#">F</a>--%>
+                                <%--<a href="#">B2</a>--%>
+                                <%--<a href="#">E</a>--%>
+                                <%--<a href="#">J</a>--%>
+                                <%--<a href="#">D2</a>--%>
+                                <%--<a href="#">G</a>--%>
+                                <%--<a href="#">L</a>--%>
+                                <%--<a href="#">I</a>--%>
+                            </div>
+                        </td>
                         <td class="param t_method">Method<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component method-component">
                                 <input type="text" placeholder="请输入" class="js-method">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_marker1">Marker1<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component marker1-component">
                                 <input type="text" placeholder="请输入" class="js-marker1">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_marker2">Marker2<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component marker2-component">
                                 <input type="text" placeholder="请输入" class="js-marker2">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_genesNum">Genes
                         </td>
                         <td class="param t_lod">LOD<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component genome-start-component">
                                 <select class="js-lod-select">
                                     <option value="<">&lt;</option>
@@ -394,35 +458,32 @@
                                     <option value=">">&gt;</option>
                                 </select>
                                 <input type="text" class="js-lod">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_parent1">Parent1<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component parent1-component">
                                 <input type="text" placeholder="请输入" class="js-parent1">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_parent2">Parent2<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component parent2-component">
                                 <input type="text" placeholder="请输入" class="js-parent2">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_genomeStart">Genome start(cM)<img
                                 src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component genome-start-component">
                                 <select class="js-genome-start-select">
                                     <option value="<">&lt;</option>
@@ -430,14 +491,13 @@
                                     <option value=">">&gt;</option>
                                 </select>
                                 <input type="text" class="js-genome-start">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_genomeEnd">Genome end(cM)<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component genome-start-component">
                                 <select class="js-genome-end-select">
                                     <option value="<">&lt;</option>
@@ -445,103 +505,44 @@
                                     <option value=">">&gt;</option>
                                 </select>
                                 <input type="text" class="js-genome-end">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                         <td class="param t_author">Reference<img src="${ctxStatic}/images/arrow-drop-down.png">
-
                             <div class="input-component author-component">
                                 <input type="text" placeholder="请输入" class="js-author">
-
-                                <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);"
-                                                                                             class="btn-confirm-info">确定</a>
+                                <p>
+                                    <a class="btn-cancel" href="javascript:void(0);">取消</a>
+                                    <a href="javascript:void(0);" class="btn-confirm-info">确定</a>
                                 </p>
                             </div>
                         </td>
                     </tr>
                     </thead>
                     <tbody class="item-tab">
-                    <c:forEach items="${data}" var="item">
-                        <tr>
-                            <td class="t_id">${item.id}</td>
-                            <td class="t_qtlName"><a class="qtlname"
-                                                     href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>
-                            </td>
-                            <td class="t_trait">${item.trait}</td>
-                            <td class="t_type">${item.type}</td>
-                            <c:set var="chrStr" value="${item.chr}"></c:set>
-                            <c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>
-                            <c:choose>
-                                <c:when test="${fn:startsWith(num, '0')}">
-                                    <c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>
-                                </c:when>
-                                <c:when test="${fn:startsWith(num, '0') == false}">
-                                    <c:set var="lg" value="${num}"></c:set>
-                                </c:when>
-                            </c:choose>
-                            <td class="t_chr"><a
-                                    href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>
-                            </td>
-                            <td class="t_lg"><a
-                                    href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>
-                            </td>
-                                <%--<td class="t_version">${item.version}</td>--%>
-                            <td class="t_method">${item.method}</td>
-                            <td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"
-                                                     data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>
-                            </td>
-                            <td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"
-                                                     data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>
-                            </td>
-                            <td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"
-                                                      data-txt="${item.genes}">${item.genesNum}</a></td>
-                            <td class="t_lod">${item.lod}</td>
-                            <td class="t_parent1">${item.parent1}</td>
-                            <td class="t_parent2">${item.parent2}</td>
-                            <td class="t_genomeStart">${item.geneStart}</td>
-                            <td class="t_genomeEnd">${item.geneEnd}</td>
-                            <td class="t_author">
-                                <a class="js-author-pop" href="javascript:;"
-                                   data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>
-
-                                <div class="author-pop-tab" style="display: none">
-                                    <div class="information-title">
-                                        <p>REFERENCE</p>
-                                        <button class="close-pop">X</button>
-                                    </div>
-                                    <div class="information-tab">
-                                        <table>
-                                        </table>
-                                    </div>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:forEach>
                     </tbody>
                 </table>
-
-                <form id="searchForm" action="${ctxroot}/search/listByResult" method="get">
-                    <input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search2" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search3" name="condition" type="hidden" value='${condition}'/>
-                    <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-                    <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-                    <input id="version" name="version" type="hidden" value="">
-                </form>
-
-                <form id="exportForm" action="${ctxroot}/query/dataExport" method="get">
-                    <input id="search7" name="version" type="hidden" value="${version}"/>
-                    <input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search5" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search6" name="condition" type="hidden" value='${condition}'/>
-                    <input id="search8" name="choices" type="hidden"/>
-                </form>
+                <%--<form id="searchForm" action="${ctxroot}/search/listByResult" method="get">--%>
+                <%--<input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search2" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search3" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>--%>
+                <%--<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
+                <%--<input id="version" name="version" type="hidden" value="">--%>
+                <%--</form>--%>
+                <%--<form id="exportForm" action="${ctxroot}/query/dataExport" method="get">--%>
+                <%--<input id="search7" name="version" type="hidden" value="${version}"/>--%>
+                <%--<input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search5" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search6" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="search8" name="choices" type="hidden"/>--%>
+                <%--</form>--%>
             </div>
-            <div class="ktPaginate">
-                ${page}
+            <div class="checkbox-item-tab" id="all-paginate">
+                <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
             </div>
         </article>
     </div>
@@ -549,7 +550,7 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <%--弹出框--%>
 <div id="mid"></div>
-<div class="tab-detail">
+<div class="tab-detail genesTanc">
     <div class="tab-detail-thead">
         <p><span>genes</span>
             <a href="javascript:void(0)">X</a></p>
@@ -557,7 +558,6 @@
     <div class="tab-detail-tbody">
         <div class="tab-category">Genes</div>
         <div class="tab-category-list">
-
         </div>
     </div>
 </div>
@@ -568,7 +568,6 @@
         </p>
     </div>
     <div class="links-text">
-
     </div>
 </div>
 <div class="js-pop">
@@ -587,24 +586,375 @@
 <div class="genesInfo" style="display: none">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="#">x</a>
+        <a href="#">X</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
+
+<div class="author-pop-tab tab-detail" style="display: none">
+    <div class="information-title tab-detail-thead">
+        <p style=" padding: 0px;">REFERENCE<a href="#" class="close-pop">X</a></p>
+
+        <%--<button class="close-pop">X</button>--%>
+    </div>
+    <div class="information-tab">
+        <table></table>
+    </div>
+</div>
 <script src="${ctxStatic}/js/layout.js"></script>
+<script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 <script>
+    //获取URL参数
+    (function ($) {
+        $.getUrlParam = function (name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+            var r = window.location.search.substr(1).match(reg);
+            if (r != null) return unescape(r[2]);
+            return null;
+        }
+    })(jQuery);
+    var version = $.getUrlParam('version');
+    var type_select = $.getUrlParam('type');
+    var key_input = $.getUrlParam('keywords');
+    //    初始化列表
+    initTables(1, 10, type_select, key_input, version);
+    var page = {curr: 1, pageSize: 10};
+    $(".lay-per-page-count-select").val(page.pageSize);
+
+    // 获取表格数据+分页
+    function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
+        // 开启遮罩层
+        $('.mengc,.imgHTML').remove();
+        var imgHTML = "<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>";
+        $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
+        $('.checkbox-tab').append(imgHTML);
+        $.ajax({
+            url: "${ctxroot}/search/list/page",
+            type: "POST",
+            data: {
+                version: version,
+                type: type_select,
+                keywords: key_input,
+                condition: cdt,
+                pageNo: currNum || 1,
+                pageSize: pageSizeNum || 10
+            },
+            dataType: "json",
+            success: function (res) {
+                //显示表格内容
+                if (res.data.length == 0) {
+                    // 关闭遮罩层
+                    $(".imgHTML,.mengc").remove();
+                    $('#all-paginate').hide();
+                    $("#tableBody>tbody").empty().html("<p class='zwsj'>暂无数据</p>");
+                } else {
+                    renderTable(res);
+                    $('#all-paginate').show();
+                    $("#total-page-count > span").html(res.total);
+
+                    //显示分页
+                    laypage({
+                        cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
+                        curr: currNum || 1, //当前页
+                        skin: '#5c8de5',
+                        skip: true,
+                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        prev: '<',
+                        next: '>',
+                        groups: 3, //连续显示分页数
+                        jump: function (obj, first) { //触发分页后的回调
+                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                var currNum = obj.curr;
+                                initTables(currNum, pageSizeNum, type_select, key_input, version, cdt);
+                            }
+                        }
+                    });
+                    // 关闭遮罩层
+                    $(".imgHTML,.mengc").remove();
+                }
+            }
+        });
+    }
+
+    // 修改每页显示条数
+    $("#all-paginate").on("change", ".lay-per-page-count-select", function () {
+        var curr = Number($(".laypage_curr").text());
+        var pageSize = Number($(this).val());
+        var total = $("#total-page-count span").text();
+        var mathCeil = Math.ceil(total / curr);
+        page.pageSize = Number($(this).val());
+
+        var cdt = getParamsString()
+        if (pageSize > mathCeil) {
+            page.curr = 1;
+            initTables(1, pageSize, type_select, key_input, version, cdt);
+        } else {
+            initTables(curr, pageSize, type_select, key_input, version, cdt);
+        }
+    });
+
+    // 分页跳转
+    $("#pagination").on("focus", ".laypage_total .laypage_skip", function () {
+        $(this).addClass("isFocus");
+    });
+    $("#pagination").on("blur", ".laypage_total .laypage_skip", function () {
+        $(this).removeClass("isFocus");
+    });
+    // 注册 enter 事件的元素
+    $(document).keyup(function (event) {
+        var cdt = getParamsString()
+        var _page_skip = $('#pagination .laypage_skip');
+        if (_page_skip.hasClass("isFocus")) {
+            if (event.keyCode == 13) {
+                var _page_skip = $('#pagination .laypage_skip');
+                var curr = Number(_page_skip.val());
+                var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
+                var total = $("#total-page-count span").text();
+                var mathCeil = Math.ceil(total / pageSizeNum);
+                if (curr > mathCeil) {
+                    page.curr = 1;
+                    initTables(1, pageSizeNum, type_select, key_input, version, cdt);
+                } else {
+                    page.curr = curr;
+                    initTables(curr, pageSizeNum, type_select, key_input, version, cdt);
+                }
+            }
+        }
+    });
+
+    function renderTable(data) {
+        var eleData = data.data;
+        //表格数据填充
+        var str = '';
+        for (var i = 0; i < eleData.length; i++) {
+            str += '<tr>'
+            str += '<td class="t_id">' + eleData[i].id + '</td>';
+            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=' + version + '">' + eleData[i].qtlName + '</a> </td>';
+            str += '<td class="t_trait">' + eleData[i].trait + '</td>';
+            str += '<td class="t_type">' + eleData[i].type + '</td>';
+            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].chr + '</a></td>';
+            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].lg + '</a> </td>';
+            str += '<td class="t_method">' + eleData[i].method + '</td>';
+            str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker1 + '">' + eleData[i].marker1 + '</a> </td>';
+            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2 + '</a> </td>';
+            str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].associateGenes + '">' + eleData[i].genesNum + '</a></td>';
+            str += '<td class="t_lod">' + eleData[i].lod + '</td>';
+            str += '<td class="t_parent1">' + eleData[i].parent1 + '</td>';
+            str += '<td class="t_parent2">' + eleData[i].parent2 + '</td>';
+            str += '<td class="t_genomeStart">' + eleData[i].geneStart + '</td>';
+            str += '<td class="t_genomeEnd">' + eleData[i].geneEnd + '</td>';
+            str += '<td class="t_author"> <a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=' + eleData[i].qtlName + '">' + eleData[i].author + '</a>';
+            str += '</td>';
+            str += '</tr>';
+        }
+        $("#tableBody > tbody").empty().append(str);
+
+        //表头chr添加内容
+        var chrData = data.chrs;
+        var strChr = "";
+        for (var j = 0; j < chrData.length; j++) {
+            strChr += '<a href="#">' + chrData[j] + '</a>';
+        }
+        $('.chr-item').empty().append(strChr);
+
+        //表头lg添加内容
+        var lgData = data.lgs;
+        var strLg = "";
+        for (var m = 0; m < chrData.length; m++) {
+            strLg += '<a href="#">' + lgData[m] + '</a>';
+        }
+        $('.lg-item').empty().append(strLg);
+
+        //chr点击事件
+        $(".chr-item a").click(function () {
+            $(".js-chr").val($(this).html());
+            $(".js-lg").val("");
+//        $("#pageNo").val(1);
+//        $("#search3").val(getParamsString());
+//        $("#searchForm").submit();
+            thSearch();
+        });
+
+        $(".lg-item a").click(function () {
+            $(".js-lg").val($(this).html());
+            $(".js-chr").val("");
+//            $("#pageNo").val(1);
+//            $("#search3").val(getParamsString());
+//            $("#searchForm").submit();
+            thSearch();
+        });
+
+        $(".js-author-pop").click(function (e) {
+
+            var url = $(this).attr("data-src");
+            $("#mid").show()
+//            $(this).siblings().show();
+            $('.author-pop-tab').show();
+            var _qtl = $("a.qtlName").html();
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    var tbody = "";
+                    tbody += "<tbody>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Title:</td>"
+                    tbody += "       <td>" + data.title + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Authors:</td>"
+                    tbody += "       <td>" + data.authors + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Source:</td>"
+                    tbody += "       <td>" + data.source + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Abstract:</td>"
+                    tbody += "       <td>"
+                    tbody += "               <p>" + data.abs + "</a>"
+                    tbody += "       </td>"
+                    tbody += "   </tr>"
+                    tbody += "</tbody>"
+                    $(".information-tab table").html(tbody);
+                    /*data.abs*/
+                    $(".abstract").click(function (e) {
+                        e.preventDefault();
+                        $("#mid").show();
+                        $(".links-pop").show();
+                        var txt = $(this).attr("data-txt");
+//                        console.log(txt + "----");
+                        $(".links-text").html("<p>" + txt + "</p>")
+
+
+                    })
+                }
+            });
+
+            var xx = e.pageX;
+            var yy = e.pageY
+
+        })
+        $(".close-pop").click(function (e) {
+            $(".author-pop-tab").hide();
+            $("#mid").hide();
+        })
+
+
+        /*表头*/
+        $(".btn-confirm").click(function () {
+            var str = "";
+            $("input[type='checkbox']").each(function (index) {
+                if (!$(this).is(":checked")) {
+                    $(".t_" + $(this).val()).hide();
+                } else {
+                    $(".t_" + $(this).val()).show();
+                    str += $(this).val() + "-";
+                }
+            })
+
+            setCookie('showedCols', str);
+        })
+
+        function pop(id, name) {
+            $(id).click(function (e) {
+                e.preventDefault();
+                $("#mid").show();
+                $(".js-pop").show();
+                $(".tname").text(name)
+                var url = $(this).attr("data-src");
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+//                        console.log(data);
+                        var pop = "";
+                        pop += "<tr>"
+                        pop += "  <td>Name</td>"
+                        pop += "  <td>" + data.name + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Type</td>"
+                        pop += "  <td>" + data.type + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>LG(Chr)</td>"
+                        pop += "  <td>" + data.lg + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Position</td>"
+                        pop += "  <td>" + data.position + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Amplification Info</td>"
+                        pop += "  <td>" + data.amplificationInfo + "</td>"
+                        pop += "</tr>"
+                        pop += "  <td>Providers</td>"
+                        pop += "  <td>" + data.provider + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>References</td>"
+                        pop += "  <td>" + data.refference + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        $(".js-pop-body tbody").html(pop)
+                    }
+                })
+            })
+        }
+
+        pop(".js-pop-marker1", "marker1")
+        pop(".js-pop-marker2", "marker2")
+        /*genes 弹框*/
+        $(".js-pop-genes").click(function (e) {
+            e.preventDefault();
+            $("#mid").show();
+            $(".genesTanc").show();
+            $(".tab-category-list").html("");
+            var text = $(this).attr("data-txt");
+            var t = text.split(",")
+
+            for (var i = 0; i < t.length; i++) {
+                var span = "";
+                span += "<span><a class='js-gene-info' data-gene-name='" + t[i] + "' href='javascript:void(0);'>" + t[i] + "</a></span>"
+                $(".tab-category-list").append(span)
+            }
+        });
+
+        $("body").on("click", ".js-gene-info", function (e) {
+            var version = getUrlParam("version");
+            var geneName = $(this).attr("data-gene-name");
+            $(".js-gene-head-name").html(geneName);
+            $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
+            e.preventDefault();
+//        console.log($(this).html())
+            $(".genesInfo").show();
+
+        });
+        $(".genesInfo a").click(function (e) {
+            e.preventDefault();
+            $(".genesInfo").hide();
+        })
+    }
+
     /*清除搜索框内容*/
     $(".clear-input").click(function () {
         $(".js-search-text").val("");
         return false
     })
+
     function getUrlParam(name) {
         var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
         var r = window.location.search.substr(1).match(reg);  //匹配目标参数
         if (r != null) return unescape(r[2]);
         return null; //返回参数值
     }
+
     $(".js-search-text").bind({
         focus: function () {
             $(".clear-input").css({"display": "inline-block"});
@@ -617,6 +967,7 @@
             }
         }
     });
+
     /**
      *  初始化时读取 cookie 还原需要显示的列表项
      */
@@ -626,6 +977,7 @@
         exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
         document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
     }
+
     function getCookie(name) {
         var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
         if (arr = document.cookie.match(reg))
@@ -634,20 +986,18 @@
             return null;
     }
 
-    console.log(getCookie('showedCols'));
     $(function () {
 //        var currentPage = getParamsString("pageNo");
 //        if(!currentPage && currentPage*1 > 1) {
 //
 //        }
         /*拖动弹框*/
-        $(".js-pop").draggable({ containment: "body",cancel:".js-pop-body" });
-        $( ".author-pop-tab" ).draggable({ containment: "body",cancel:".js-pop-body,.information-tab" });
-        $( ".tab-detail" ).draggable({ containment: "body",cancel:".tab-detail-tbody" });
+        $(".js-pop").draggable({containment: "body", cancel: ".js-pop-body"});
+        $(".author-pop-tab").draggable({containment: "body", cancel: ".js-pop-body,.information-tab"});
+        $(".tab-detail").draggable({containment: "body", cancel: ".tab-detail-tbody"});
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
-                console.log($(this).val());
                 for (var i = 0; i < cols.length; i++) {
                     if ($(this).val() == cols[i]) {
                         $(this).prop("checked", false);
@@ -656,7 +1006,6 @@
                     }
                 }
             });
-
         }
 
 
@@ -673,7 +1022,6 @@
                     $(".t_" + $(this).val()).show();
                 }
             });
-
             setCookie('showedCols', colArr.join("-"));
         });
 
@@ -691,35 +1039,40 @@
         });
     });
 
-    function page(n, s) {
-        if (n) $("#pageNo").val(n);
-        if (s) $("#pageSize").val(s);
-        $("#searchForm").submit();
-        return false;
-    }
-    function PressPage(e, n, s, p) {
-        var c = e.keyCode || e.which;
-        if (c == 13) {
-            page(n, s);
-        }
-    }
-    function SelectPage(e, n, s, p) {
-        if ($("#pageSize").val() != s) {
-            page(n, s);
-        }
-    }
+    //    function page(n, s) {
+    //        if (n) $("#pageNo").val(n);
+    //        if (s) $("#pageSize").val(s);
+    //        $("#searchForm").submit();
+    //        return false;
+    //    }
+    //
+    //    function PressPage(e, n, s, p) {
+    //        var c = e.keyCode || e.which;
+    //        if (c == 13) {
+    //            page(n, s);
+    //        }
+    //    }
+    //
+    //    function SelectPage(e, n, s, p) {
+    //        if ($("#pageSize").val() != s) {
+    //            page(n, s);
+    //        }
+    //    }
+
     /*版本号选择*/
     $(".version-num select").change(function () {
         var option = $(".version-num option:selected").text();
 
         $(".version-num span").text(option);
     })
+
     /*全选*/
     function checkall() {
         $(".btn-chooseAll").click(function () {
             $("input[type='checkbox']").prop("checked", true);
         });
     }
+
     checkall()
     $(".set-up").click(function () {
         $(".checkbox-list").show();
@@ -727,26 +1080,26 @@
         $(".set-up").hide();
     })
     $(".lg").hover(
-            function (e) {
-                $(".lg-item").show();
-                $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
-            },
-            function (e) {
-                $(".lg-item").hide();
-                $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
+        function (e) {
+            $(".lg-item").show();
+            $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
+        },
+        function (e) {
+            $(".lg-item").hide();
+            $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
 
-            }
+        }
     );
     $(".chr").hover(
-            function (e) {
-                $(".chr-item").show();
-                $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
-            },
-            function (e) {
-                $(".chr-item").hide();
-                $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
+        function (e) {
+            $(".chr-item").show();
+            $(this).find("img").finish().animate({"transform": "rotate(180deg)"}, 100)
+        },
+        function (e) {
+            $(".chr-item").hide();
+            $(this).find("img").finish().animate({"transform": "rotate(0deg)"}, 100)
 
-            }
+        }
     );
     var search_select = '${type}';
     if (search_select) {
@@ -758,92 +1111,109 @@
     });
 
     $(".js-search-btn").click(function () {
-        $("#search2").val($(".js-search-text").val());
-        $("#search3").val("{}");
-        $("#search6").val("{}");
-        $("#searchForm").submit();
-    });
+//        $("#search2").val($(".js-search-text").val());
+        $(".btn-toggle").trigger("click");
+        var type = $(".js-search-select").val();
+        var key = $(".js-search-text").val();
+//        initTables(1,10,type,key,cdt)
+//        $("#search3").val("{}");
+//        $("#search6").val("{}");
+//        $("#searchForm").submit();
 
-    var restoreParamString = function () {
-        if ($("#search3").val()) {
-            var obj = JSON.parse($("#search3").val());
-            obj.qtlName ? $(".js-qtl-name").val(obj.qtlName) : "";
-            obj.trait ? $(".js-trait").val(obj.trait) : "";
-            obj.type ? $(".js-type").val(obj.type) : "";
-            obj.chr ? $(".js-chr").val(obj.chr) : "";
-            obj.lg ? $(".js-lg").val(obj.lg) : "";
-            obj.version ? $(".js-version").val(obj.version) : "";
-            obj.method ? $(".js-method").val(obj.method) : "";
-            obj.marker1 ? $(".js-marker1").val(obj.marker1) : "";
-            obj.marker2 ? $(".js-marker2").val(obj.marker2) : "";
-            if (obj.lod) {
-                if (obj.lod.indexOf(">") > -1) {
-                    $(".js-lod-select").val(">");
-                    $(".js-lod").val(obj.lod.split(">")[1]);
-                }
-                if (obj.lod.indexOf("=") > -1) {
-                    $(".js-lod-select").val("=");
-                    $(".js-lod").val(obj.lod.split("=")[1]);
-                }
-                if (obj.lod.indexOf("<") > -1) {
-                    $(".js-lod-select").val("<");
-                    $(".js-lod").val(obj.lod.split("<")[1]);
-                }
-            }
-            obj.parent1 ? $(".js-parent1").val(obj.parent1) : "";
-            obj.parent2 ? $(".js-parent2").val(obj.parent2) : "";
-            if (obj.geneStart) {
-                if (obj.geneStart.indexOf(">") > -1) {
-                    $(".js-genome-start-select").val(">");
-                    $(".js-genome-start").val(obj.geneStart.split(">")[1]);
-                }
-                if (obj.geneStart.indexOf("=") > -1) {
-                    $(".js-genome-start-select").val("=");
-                    $(".js-genome-start").val(obj.geneStart.split("=")[1]);
-                }
-                if (obj.geneStart.indexOf("<") > -1) {
-                    $(".js-genome-start-select").val("<");
-                    $(".js-genome-start").val(obj.geneStart.split("<")[1]);
-                }
-            }
-            if (obj.geneEnd) {
-                if (obj.geneEnd.indexOf(">") > -1) {
-                    $(".js-genome-end-select").val(">");
-                    $(".js-genome-end").val(obj.geneEnd.split(">")[1]);
-                }
-                if (obj.geneEnd.indexOf("=") > -1) {
-                    $(".js-genome-end-select").val("=");
-                    $(".js-genome-end").val(obj.geneEnd.split("=")[1]);
-                }
-                if (obj.geneEnd.indexOf("<") > -1) {
-                    $(".js-genome-end-select").val("<");
-                    $(".js-genome-end").val(obj.geneEnd.split("<")[1]);
-                }
-            }
-            obj.ref ? $(".js-ref").val(obj.ref) : "";
-            obj.author ? $(".js-author").val(obj.author) : "";
-        }
-    }();
-    $(".chr-item a").click(function () {
-        $(".js-chr").val($(this).html());
-        $(".js-lg").val("");
-        $("#pageNo").val(1);
-        $("#search3").val(getParamsString());
-        $("#searchForm").submit();
+        initTables(1, 10, type, key, version);
     });
-    $(".lg-item a").click(function () {
-        $(".js-lg").val($(this).html());
-        $(".js-chr").val("");
-        $("#pageNo").val(1);
-        $("#search3").val(getParamsString());
-        $("#searchForm").submit();
-    });
+    //    $(".btn-confirm-info").click(function(){
+    ////        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
+    //        var cdt=getParamsString()
+    //        console.log(cdt)
+    //    })
+
+    /*表头条件搜索*/
+    function thSearch() {
+        $(".btn-toggle").trigger("click");
+        var type = $(".js-search-select").val();
+        var key = $(".js-search-text").val();
+        var cdt = getParamsString()
+        initTables(1, 10, type, key, version, cdt)
+    }
 
     $(".btn-confirm-info").click(function () {
-        $("#pageNo").val(1);
-        $("#search3").val(getParamsString());
-        $("#searchForm").submit();
+        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
+        thSearch();
+    })
+    /*筛选取消*/
+    $(".btn-cancel").click(function () {
+        $(this).parent("p").siblings("input").val("");
+        $(this).siblings(".btn-confirm-info").trigger("click");
     });
+
+    function getParamsString() {
+        var tmp = {};
+        $(".js-qtl-name").val() ? tmp.QTLName = $(".js-qtl-name").val() : "";
+        $(".js-trait").val() ? tmp.trait = $(".js-trait").val() : "";
+        $(".js-type").val() ? tmp.type = $(".js-type").val() : "";
+        $(".js-method").val() ? tmp.method = $(".js-method").val() : "";
+        $(".js-marker1").val() ? tmp.marker1 = $(".js-marker1").val() : "";
+        $(".js-marker2").val() ? tmp.marker2 = $(".js-marker2").val() : "";
+        var lods = $(".js-lod").val();
+        if (lods) {
+            if (lods.indexOf(">") > -1) {
+                $(".js-lod-select").val(">");
+                $(".js-lod").val(lods.split(">")[1]);
+            }
+            if (lods.indexOf("=") > -1) {
+                $(".js-lod-select").val("=");
+                $(".js-lod").val(lods.split("=")[1]);
+            }
+            if (lods.indexOf("<") > -1) {
+                $(".js-lod-select").val("<");
+                $(".js-lod").val(lods.split("<")[1]);
+            }
+        }
+        $(".js-parent1").val() ? tmp.parent1 = $(".js-parent1").val() : "";
+        $(".js-parent2").val() ? tmp.parent2 = $(".js-parent2").val() : "";
+        var geneStarts = $(".js-geneStart").val();
+        if (geneStarts) {
+            if (geneStarts.indexOf(">") > -1) {
+                $(".js-genome-start-select").val(">");
+                $(".js-genome-start").val(geneStarts.split(">")[1]);
+            }
+            if (geneStarts.indexOf("=") > -1) {
+                $(".js-genome-start-select").val("=");
+                $(".js-genome-start").val(geneStarts.split("=")[1]);
+            }
+            if (geneStarts.indexOf("<") > -1) {
+                $(".js-genome-start-select").val("<");
+                $(".js-genome-start").val(geneStarts.split("<")[1]);
+            }
+        }
+        var geneEnds = $(".js-geneEnd").val();
+        if (geneEnds) {
+            if (geneEnds.indexOf(">") > -1) {
+                $(".js-genome-end-select").val(">");
+                $(".js-genome-end").val(geneEnds.split(">")[1]);
+            }
+            if (geneEnds.indexOf("=") > -1) {
+                $(".js-genome-end-select").val("=");
+                $(".js-genome-end").val(geneEnds.split("=")[1]);
+            }
+            if (geneEnds.indexOf("<") > -1) {
+                $(".js-genome-end-select").val("<");
+                $(".js-genome-end").val(geneEnds.split("<")[1]);
+            }
+        }
+        $(".js-ref").val() ? tmp.ref = $(".js-ref").val() : "";
+        $(".js-author").val() ? tmp.author = $(".js-author").val() : "";
+        return JSON.stringify(tmp);
+    };
+
+
+    //
+    //    $(".btn-confirm-info").click(function () {
+    //        $("#pageNo").val(1);
+    //        $("#search3").val(getParamsString());
+    //        $("#searchForm").submit();
+    //    });
 
     $(".btn-cancel").click(function () {
         $(this).parent("p").siblings("input").val("");
@@ -862,7 +1232,7 @@
             }
         });
         var choices = colArr.join(",");
-        console.log(choices)
+//        console.log(choices)
         $("#search8").val(choices);
         $("#exportForm").submit();
     });
@@ -895,11 +1265,6 @@
         return JSON.stringify(tmp);
     }
 
-    $(".js-search-text").keydown(function (event) {
-        if (event.keyCode == 13) {
-            console.log(event.keyCode)
-        }
-    })
     $(".nav_ac .icon-right").click(function () {
         $(".nav_ac").hide();
         $("article").css({"width": "895px"})
@@ -913,187 +1278,39 @@
         $(".nav_ac").show();
     })
 
-    $(".js-author-pop").click(function (e) {
 
-        var url = $(this).attr("data-src");
-        $("#mid").show()
-        $(this).siblings().show();
-        var _qtl = $("a.qtlName").html();
-        $.ajax({
-            url: url,
-            type: "get",
-            dataType: "json",
-            success: function (data) {
-                console.log(data)
-                var tbody = "";
-                tbody += "<tbody>"
-                tbody += "   <tr>"
-                tbody += "       <td>Title:</td>"
-                tbody += "       <td>" + data.title + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Authors:</td>"
-                tbody += "       <td>" + data.authors + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Source:</td>"
-                tbody += "       <td>" + data.source + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Abstract:</td>"
-                tbody += "       <td>"
-                tbody += "               <p>" + data.abs + "</a>"
-                tbody += "       </td>"
-                tbody += "   </tr>"
-                tbody += "</tbody>"
-                $(".information-tab table").html(tbody);
-                /*data.abs*/
-                $(".abstract").click(function (e) {
-                    e.preventDefault();
-                    $("#mid").show();
-                    $(".links-pop").show();
-                    var txt = $(this).attr("data-txt");
-                    console.log(txt + "----");
-                    $(".links-text").html("<p>" + txt + "</p>")
-
-
-                })
-            }
-        });
-
-        var xx = e.pageX;
-        var yy = e.pageY
-
-    })
-    $(".close-pop").click(function (e) {
-        $(".author-pop-tab").hide();
-        $("#mid").hide();
-    })
-
-
-    /*表头*/
-    $(".btn-confirm").click(function () {
-        var str = "";
-        $("input[type='checkbox']").each(function (index) {
-            if (!$(this).is(":checked")) {
-                $(".t_" + $(this).val()).hide();
-            } else {
-                $(".t_" + $(this).val()).show();
-                str += $(this).val() + "-";
-            }
-        })
-
-        setCookie('showedCols', str);
-    })
-    function pop(id, name) {
-        $(id).click(function (e) {
-            e.preventDefault();
-            $("#mid").show();
-            $(".js-pop").show();
-            $(".tname").text(name)
-            var url = $(this).attr("data-src");
-            $.ajax({
-                url: url,
-                type: "get",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var pop = "";
-                    pop += "<tr>"
-                    pop += "  <td>Name</td>"
-                    pop += "  <td>" + data.name + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Type</td>"
-                    pop += "  <td>" + data.type + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>LG(Chr)</td>"
-                    pop += "  <td>" + data.lg + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Position</td>"
-                    pop += "  <td>" + data.position + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Amplification Info</td>"
-                    pop += "  <td>" + data.amplificationInfo + "</td>"
-                    pop += "</tr>"
-                    pop += "  <td>Providers</td>"
-                    pop += "  <td>" + data.provider + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>References</td>"
-                    pop += "  <td>" + data.refference + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    $(".js-pop-body tbody").html(pop)
-                }
-            })
-        })
-    }
-    pop(".js-pop-marker1", "marker1")
-    pop(".js-pop-marker2", "marker2")
-    /*genes 弹框*/
-    $(".js-pop-genes").click(function (e) {
-        e.preventDefault();
-        $("#mid").show();
-        $(".tab-detail").show();
-        $(".tab-category-list").html("");
-        var text = $(this).attr("data-txt");
-        var t = text.split(",")
-
-        for (var i = 0; i < t.length; i++) {
-            var span = "";
-            span += "<span><a class='js-gene-info' data-gene-name='" + t[i] + "' href='javascript:void(0);'>" + t[i] + "</a></span>"
-            $(".tab-category-list").append(span)
-        }
-    });
-
-    $("body").on("click", ".js-gene-info", function (e) {
-        var version = getUrlParam("version");
-        var geneName = $(this).attr("data-gene-name");
-        $(".js-gene-head-name").html(geneName);
-        $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
-        e.preventDefault();
-//        console.log($(this).html())
-        $(".genesInfo").show();
-
-    });
-    $(".genesInfo a").click(function (e) {
-        e.preventDefault();
-        $(".genesInfo").hide();
-    })
-    $(".js-search-text").on("focus", function() {
-       $(this).addClass("isFocus");
-    });
-    $(".js-search-text").on("blur", function() {
-        $(this).removeClass("isFocus");
-    });
-    $(".input-component input").on("focus", function() {
+    $(".js-search-text").on("focus", function () {
         $(this).addClass("isFocus");
     });
-    $(".input-component input").on("blur", function() {
+    $(".js-search-text").on("blur", function () {
         $(this).removeClass("isFocus");
     });
-    $(document).keyup(function(event){
+    $(".input-component input").on("focus", function () {
+        $(this).addClass("isFocus");
+    });
+    $(".input-component input").on("blur", function () {
+        $(this).removeClass("isFocus");
+    });
+    $(document).keyup(function (event) {
         var _searchDom = $(".js-search-text");
         var _conditionDoms = $(".input-component input");
-        var e=e||event
+        var e = e || event
         var keycode = e.which;
-        if(keycode==13){
-            if(_searchDom.hasClass("isFocus")) {
+        if (keycode == 13) {
+            if (_searchDom.hasClass("isFocus")) {
                 $(".js-search-btn").trigger("click");
             }
-            $.each(_conditionDoms, function(idx, item) {
-                if($(item).hasClass("isFocus") ) {
+            $.each(_conditionDoms, function (idx, item) {
+                if ($(item).hasClass("isFocus")) {
                     $(this).siblings("p").find(".btn-confirm-info").trigger("click");
                 }
             });
 
         }
     });
-
+    /*基因详情拖动弹框*/
+    $(".genesInfo").draggable({containment: "body"});
+    $(".author-pop-tab").draggable({containment: "body"});
 </script>
 </body>
 </html>

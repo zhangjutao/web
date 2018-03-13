@@ -3,6 +3,7 @@ package com.gooalgene.qtl.dao;
 import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.entity.Qtl;
+import com.gooalgene.qtl.entity.QtlSearchResult;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface QtlDao extends CrudDao<Qtl> {
      * @param qtl
      * @return
      */
-    List<Map> findByCondition(Qtl qtl);
+    List<QtlSearchResult> findByCondition(Qtl qtl);
 
     /**
      * 根据qtlName查询对应详情(由于qtl数据不用区分版本，此方法对应的的version字段已经在xml文件中去掉)

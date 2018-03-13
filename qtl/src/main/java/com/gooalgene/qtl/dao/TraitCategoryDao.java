@@ -30,4 +30,6 @@ public interface TraitCategoryDao extends CrudDao<TraitCategory> {
      * 查找所有trait category以及所有trait list，trait list中包含的所有的qtl name
      */
     List<TraitCategoryWithinMultipleTraitList> findAllTraitCategoryAndItsTraitList();
+
+
 }

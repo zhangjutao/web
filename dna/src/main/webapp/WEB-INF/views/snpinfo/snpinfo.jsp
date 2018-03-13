@@ -603,6 +603,7 @@
         </div>
         <%--laypage 分页 end --%>
     </div>
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
 </body>
 <script>

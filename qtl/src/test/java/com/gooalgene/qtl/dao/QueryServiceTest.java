@@ -1,10 +1,16 @@
 package com.gooalgene.qtl.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
+import com.fasterxml.jackson.databind.ser.std.NullSerializer;
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.TraitCategory;
+import com.gooalgene.qtl.entity.QtlSearchResult;
+import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
+import com.gooalgene.qtl.service.handler.NullSerializerImpl;
 import junit.framework.TestCase;
-import net.sf.json.JSONArray;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +37,6 @@ public class QueryServiceTest extends TestCase {
 
     @Autowired
     private TraitCategoryDao traitCategoryDao;
-
-    @Test
-    public void testQueryAllTrait(){
-        JSONArray traitJsonArray = queryService.queryAll();
-        int resultSize = traitJsonArray.size();
-        assertEquals(15, resultSize);
-    }
 
     /**
      * 测试traitCategoryDao接口
@@ -67,14 +66,6 @@ public class QueryServiceTest extends TestCase {
         }
     }
 
-    /**
-     * 高级搜索中qtl选项需要的数据
-     */
-    @Test
-    public void testAdvanceSearchForQtlOption(){
-
-    }
-
     @Test
     public void testQtlSearchByKeywords(){
         String version = "Gmax_275_v2.0";
@@ -84,12 +75,24 @@ public class QueryServiceTest extends TestCase {
         page.setPageNo(0);
         page.setPageSize(10);
         Map result = queryService.qtlSearchbyKeywords(version, type, keywords, page);  //不做分页
-
     }
 
     @Test
-    public void testQuerySearchByResult() {
-        Map a = queryService.qtlSearchByResult("Glycine_max.V1.0.23.dna.genome", "type", "d", "{}", 1, 20);
-        System.out.println("success");
+    public void testQtlSearchByResult() throws JsonProcessingException {
+        QtlTableEntity entity = queryService.qtlSearchByResult("", "All", "Al", null, 7, 10);
+        List<QtlSearchResult> data = entity.getData();
+        ObjectMapper mapper = new ObjectMapper();
+        DefaultSerializerProvider.Impl provider = new DefaultSerializerProvider.Impl();
+        provider.setNullValueSerializer(new NullSerializerImpl());
+        mapper.setSerializerProvider(provider);
+        for (QtlSearchResult result : data){
+            String chr = result.getChr();
+            if (chr == null){
+                System.out.println(mapper.writeValueAsString(result));
+            }
+        }
+        System.out.println("\r\n============\r\n");
+        System.out.println(mapper.writeValueAsString(entity));
     }
+
 }
