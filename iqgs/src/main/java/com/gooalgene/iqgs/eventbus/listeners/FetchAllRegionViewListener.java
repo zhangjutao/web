@@ -1,7 +1,7 @@
 package com.gooalgene.iqgs.eventbus.listeners;
 
 import com.gooalgene.iqgs.dao.FPKMDao;
-import com.gooalgene.iqgs.eventbus.EventBusListener;
+import com.gooalgene.common.eventbus.EventBusListener;
 import com.gooalgene.iqgs.eventbus.events.AllQTLSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.google.common.eventbus.AllowConcurrentEvents;

@@ -55,4 +55,13 @@
         DELETE FROM associatedgenes WHERE id=#{id}
     </delete>
 
+    <select id="getAllAssociatedGene" parameterType="int" resultType="com.gooalgene.entity.Associatedgenes">
+        SELECT * FROM associatedgenes WHERE 1 = 1
+        <if test="associatedGenes != null and associatedGenes.size() > 0">
+            AND id IN
+            <foreach collection="associatedGenes" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </if>
+    </select>
 </mapper>

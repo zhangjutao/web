@@ -4,7 +4,7 @@ import com.gooalgene.iqgs.dao.UserAssociateTraitFpkmDao;
 import com.gooalgene.iqgs.entity.sort.CalculateScoreResult;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm;
-import com.gooalgene.iqgs.eventbus.EventBusListener;
+import com.gooalgene.common.eventbus.EventBusListener;
 import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.gooalgene.iqgs.service.sort.GeneSortUtils;
 import com.google.common.eventbus.AllowConcurrentEvents;

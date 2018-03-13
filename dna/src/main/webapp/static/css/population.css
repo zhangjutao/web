@@ -58,18 +58,18 @@
 }
 #popTips{
     width:600px;
-    margin:0 auto;
-    background:#fff;
-    -webkit-border-radius: 5px;
-    -moz-border-radius: 5px;
-    border-radius: 5px;
-    padding-left:0px;
-    border:1px solid #ccc;
-    position:absolute;
-    top:180px;
-    left:300px;
-    display:none;
-    cursor: pointer;
+    /*margin:0 auto;*/
+    /*background:#fff;*/
+    /*-webkit-border-radius: 5px;*/
+    /*-moz-border-radius: 5px;*/
+    /*border-radius: 5px;*/
+    /*padding-left:0px;*/
+    /*border:1px solid #ccc;*/
+    /*position:absolute;*/
+    /*top:180px;*/
+    /*left:300px;*/
+    /*display:none;*/
+    /*cursor: pointer;*/
 }
 .tipTop{
     height:40px;

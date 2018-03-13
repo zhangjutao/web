@@ -1,6 +1,6 @@
 package com.gooalgene.iqgs.eventbus.listeners;
 
-import com.gooalgene.iqgs.eventbus.EventBusListener;
+import com.gooalgene.common.eventbus.EventBusListener;
 import com.gooalgene.iqgs.eventbus.events.IDAndNameSearchViewEvent;
 import com.gooalgene.iqgs.service.DNAGenBaseInfoService;
 import com.google.common.eventbus.AllowConcurrentEvents;

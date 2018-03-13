@@ -85,7 +85,7 @@
 
     <dubbo:reference id="dubboService" interface="com.gooalgene.primer.interfaces.DubboService"/>
 
-    <bean id="eventBusRegister" class="com.gooalgene.iqgs.eventbus.EventBusRegister">
+    <bean id="eventBusRegister" class="com.gooalgene.common.eventbus.EventBusRegister">
         <constructor-arg index="0" value="searchResultCache" />
         <constructor-arg index="1">
             <list></list>

@@ -16,6 +16,7 @@ import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.eventbus.events.*;
 import com.gooalgene.iqgs.service.FPKMService;
 import com.gooalgene.iqgs.service.GeneRegexpService;
+import com.gooalgene.iqgs.service.sort.GeneSortUtils;
 import com.gooalgene.iqgs.service.sort.GeneSortViewService;
 import com.gooalgene.qtl.service.TraitCategoryService;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
@@ -32,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.guava.GuavaCache;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -68,6 +70,9 @@ public class SortController implements InitializingBean {
 
     @Autowired
     private FPKMService fpkmService;
+
+    @Autowired
+    private GeneSortUtils geneSortUtils;
 
     private Cache cache;
 
@@ -301,22 +306,13 @@ public class SortController implements InitializingBean {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String scheme = request.getScheme();                // http
-            String serverName = request.getServerName();        // gooalgene.com
-            int serverPort = request.getServerPort();           // 8080
             String contextPath = request.getContextPath();      // /dna
             //重构请求URL
             StringBuilder builder = new StringBuilder();
-            /*builder.append(scheme).append("://").append(serverName);
-            //针对nginx反向代理、https请求重定向，不需要加端口
-            if (serverPort != 80 && serverPort != 443) {
-                builder.append(":").append(serverPort);
-            }*/
             builder.append(contextPath);
             String path = builder.toString() + "/tempFile/" + fileName;
             logger.info(path);
             return ResultUtil.success(path);
-            //Tools.toDownload(System.currentTimeMillis()+"_"+ UUID.randomUUID().toString(), content, response);
         }else {
             logger.warn("缓存数据已清空，请重新查询后排序");
             return ResultUtil.error(-1, "数据已过期，请重新搜索获取数据");
@@ -351,7 +347,8 @@ public class SortController implements InitializingBean {
 
     @Override
     public void afterPropertiesSet() throws Exception {
-        cache = cacheManager.getCache("sortCache");
+        // 在MVC容器中拿Root容器中注册的Bean
+        cache = geneSortUtils.getCacheInsideContextContainer();
         mapper = new ObjectMapper();
         //使私有变量或私有类对JsonMapper可见
         mapper.setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY);
