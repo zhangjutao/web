@@ -1589,6 +1589,8 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
+                        //modified by zjt 2018-3-13
+                        /*--------raw
                         if ($.inArray(str, arr) > -1) {
                             alert("添加区间重复");
                         } else {
@@ -1596,6 +1598,11 @@
                             $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                             ss.trigger("click");
                         }
+                        --------raw*/
+                        var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
+                        $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
+                        ss.trigger("click");
+                        //modified by zjt 2018-3-13
                     }
                 } else {
                     if ((val1 < 0 || val2 < 0) || val1 > val2) {
@@ -1606,6 +1613,8 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
+                        //modified by zjt 2018-3-13
+                        /*--------raw
                         if ($.inArray(str, arr) > -1) {
                             alert("添加区间重复");
                         } else {
@@ -1613,6 +1622,11 @@
                             $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                             ss.trigger("click");
                         }
+                        --------raw*/
+                        var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
+                        $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
+                        ss.trigger("click");
+                        //modified by zjt 2018-3-13
                     }
                 }
             } else {
