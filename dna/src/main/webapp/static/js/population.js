@@ -49,35 +49,49 @@ $(function (){
                 break;
 
         }
+
+        layer.open({
+            title:"",
+            type: 1,
+            content:$("#popTips"),
+            area: '600px',
+            shadeClose:true,
+            scrollbar:false,
+            move: '.tipTopCnt',
+            tips: 2,
+            closeBtn: 1
+
+        });
+
     })
     // 默认表格内容全选
 
-    $(".closeBtn img").click(function (){
-        $("#popTips").hide();
-    })
+    // $(".closeBtn img").click(function (){
+    //     $("#popTips").hide();
+    // })
     // 弹框移动
-   var x1,y1,x2,y2,offLeft,offTop,isClick = 0;
-
-    $("#popTips").mousedown(function (e){
-        // 点击时的坐标位置
-        x1 = e.pageX;
-        y1 = e.pageY;
-        // 点击时相对于屏幕左边和上边的距离
-        offLeft = parseInt($(this).css("left"));
-        offTop = parseInt($(this).css("top"));
-        isClick = 1;
-    }).mousemove(function (e){
-        if(isClick == 1){
-            x2 = e.pageX;
-            y2 = e.pageY;
-            var xx = x2 - x1 + offLeft;
-            var yy = y2 - y1 + offTop;
-            $("#popTips").css("left",xx+"px");
-            $("#popTips").css("top",yy+"px");
-        }
-    }).mouseup(function (){
-        isClick = 0;
-    });
+   // var x1,y1,x2,y2,offLeft,offTop,isClick = 0;
+   //
+   //  $("#popTips").mousedown(function (e){
+   //      // 点击时的坐标位置
+   //      x1 = e.pageX;
+   //      y1 = e.pageY;
+   //      // 点击时相对于屏幕左边和上边的距离
+   //      offLeft = parseInt($(this).css("left"));
+   //      offTop = parseInt($(this).css("top"));
+   //      isClick = 1;
+   //  }).mousemove(function (e){
+   //      if(isClick == 1){
+   //          x2 = e.pageX;
+   //          y2 = e.pageY;
+   //          var xx = x2 - x1 + offLeft;
+   //          var yy = y2 - y1 + offTop;
+   //          $("#popTips").css("left",xx+"px");
+   //          $("#popTips").css("top",yy+"px");
+   //      }
+   //  }).mouseup(function (){
+   //      isClick = 0;
+   //  });
 
     //选中状态代码封装
     function checkStatus(bool){
