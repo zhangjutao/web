@@ -180,6 +180,43 @@
             text-align: center;
             padding: 0px;
        }
+
+        .close-pop {
+            color: #fff;
+            position: absolute;
+            padding: 0 20px;
+            font-size: 20px;
+            right: 0;
+            top:-4px;
+        }
+
+        .genesInfo .genesInfo-head {
+            height: 40px;
+            line-height: 40px;
+            background-color: #386cca;
+            color: #fff;
+            cursor: move;
+        }
+
+        .genesInfo {
+            border: none;
+        }
+
+        .genesInfo .genesInfo-head p {
+            position: relative;
+            float: inherit;
+            text-align: center;
+        }
+
+        .genesInfo .genesInfo-head a {
+            color: #fff;
+            float: right;
+            padding: 0 20px;
+            font-size: 20px;
+            position: absolute;
+            right: 0px;
+            top: 0;
+        }
     </style>
 </head>
 <body>
@@ -334,10 +371,22 @@
 <div class="genesInfo" style="display: none">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="#">x</a>
+        <a href="#">X</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
+
+<div class="author-pop-tab" style="display: none">
+    <div class="information-title">
+        <p class="topTc">REFERENCE</p>
+        <a href="#" class="close-pop">X</a>
+        <%--<button class="close-pop">X</button>--%>
+    </div>
+    <div class="information-tab">
+        <table> </table>
+     </div>
+ </div>
+
 <script src="${ctxStatic}/js/layout.js"></script>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
@@ -393,6 +442,8 @@
         $(".js-pop").draggable({ containment: "body",cancel:".js-pop-body" });
         $( ".author-pop-tab" ).draggable({ containment: "body",cancel:".js-pop-body"  });
         $( ".tab-detail" ).draggable({ containment: "body",cancel:".tab-detail-tbody"  });
+        $( ".author-pop-tab" ).draggable({containment: "body", cancel: '.information-tab',});
+        $(".genesInfo").draggable({containment: "body"});
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
@@ -404,7 +455,6 @@
                     }
                 }
             });
-
         }
 
         /* 设置表头 */
@@ -664,7 +714,7 @@
 
         var url = $(this).attr("data-src");
         $("#mid").show()
-        $(this).siblings().show();
+        $(".author-pop-tab").show();
         var _qtl = $("a.qtlName").html();
         $.ajax({
             url: url,
@@ -954,15 +1004,6 @@
             str += '<td class="t_genomeEnd">'+ eleData[i].geneEnd +'</td>';
             str += '<td class="t_author">'
             str += '<a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName='+ eleData[i].qtlName +'">'+ eleData[i].author +'</a>'
-            str += '<div class="author-pop-tab" style="display: none">'
-            str += '<div class="information-title">'
-            str += '<p class="topTc">REFERENCE</p>'
-            str += '<button class="close-pop">X</button>'
-            str += '</div>'
-            str += '<div class="information-tab">'
-            str += '<table> </table>'
-            str += '</div>'
-            str += '</div>'
             str += '</td>';
             str += '</tr>';
         }

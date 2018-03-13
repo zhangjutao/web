@@ -87,6 +87,10 @@ public class GeneSortUtils implements InitializingBean {
         return new ArrayList<>(filterResult).get(0);
     }
 
+    public Cache getCacheInsideContextContainer() {
+        return cacheManager.getCache("sortCache");
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         Cache configCache = cacheManager.getCache("config");

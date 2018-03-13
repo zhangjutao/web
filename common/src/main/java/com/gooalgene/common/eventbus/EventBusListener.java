@@ -1,4 +1,4 @@
-package com.gooalgene.iqgs.eventbus;
+package com.gooalgene.common.eventbus;
 
 public interface EventBusListener {
 }

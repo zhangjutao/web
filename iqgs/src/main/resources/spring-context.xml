@@ -14,7 +14,7 @@
 
     <!-- 使用Annotation自动注册Bean，解决事物失效问题：在主容器中不扫描@Controller注解，在SpringMvc中只扫描@Controller注解。  -->
     <context:component-scan base-package="com.gooalgene">
-        <context:exclude-filter type="regex" expression="com\.gooalgene\.iqgs\..*" />
+        <context:exclude-filter type="regex" expression="com\.gooalgene\.(iqgs|mrna|dna|qtl)\..*" />
     </context:component-scan>
 
     <!-- 扫描basePackage下所有以@MyBatisDao注解的接口 -->
@@ -77,5 +77,4 @@
     <task:annotation-driven executor="annotationExecutor" />
     <!-- 支持 @Async 注解 -->
     <task:executor id="annotationExecutor" pool-size="20" queue-capacity="25" />
-
 </beans>

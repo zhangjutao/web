@@ -32,7 +32,7 @@
             </dd>
         </dl>
 
-        <p>&copy 版权所有 古奥基因 GOOALGENE 2016 鄂ICP备16015451号-1</p>
+        <p>&copy 版权所有 古奥基因 GOOALGENE 2015-现在 鄂ICP备16015451号-1</p>
     </div>
 </footer>
 <script>

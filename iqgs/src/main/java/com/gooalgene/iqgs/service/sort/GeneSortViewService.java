@@ -7,7 +7,7 @@ import com.gooalgene.iqgs.entity.Tissue;
 import com.gooalgene.iqgs.entity.sort.CalculateScoreResult;
 import com.gooalgene.iqgs.entity.sort.SortedResult;
 import com.gooalgene.iqgs.entity.sort.UserAssociateTraitFpkm;
-import com.gooalgene.iqgs.eventbus.EventBusRegister;
+import com.gooalgene.common.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.AllSortedResultEvent;
 import com.gooalgene.iqgs.service.concurrent.ThreadManager;
 import com.gooalgene.iqgs.service.concurrent.TimeConsumingJob;

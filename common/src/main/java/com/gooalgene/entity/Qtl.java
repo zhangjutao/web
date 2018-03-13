@@ -1,6 +1,7 @@
 package com.gooalgene.entity;
 
 import com.gooalgene.common.DataEntity;
+import com.google.common.base.Objects;
 
 import javax.persistence.Column;
 import java.util.Date;
@@ -11,9 +12,9 @@ import java.util.Date;
 
 public class Qtl extends DataEntity<Qtl> {
 
-    public static final String NUM_TYPE_MORE = "MORE";//大于
-    public static final String NUM_TYPE_LESS = "LESS";//小于
-    public static final String NUM_TYPE_EQUAL = "EQUAL";//等于
+    public static final String NUM_TYPE_MORE = "MORE";  //大于
+    public static final String NUM_TYPE_LESS = "LESS";  //小于
+    public static final String NUM_TYPE_EQUAL = "EQUAL";  //等于
 
 
     /**
@@ -280,30 +281,42 @@ public class Qtl extends DataEntity<Qtl> {
     }
 
     @Override
-    public String toString() {
-        return "Qtl{" +
-                "qtlName='" + qtlName + '\'' +
-                ", trait='" + trait + '\'' +
-                ", type='" + type + '\'' +
-                ", chrlgId=" + chrlgId +
-                ", chr='" + chr + '\'' +
-                ", lg='" + lg + '\'' +
-                ", marker1='" + marker1 + '\'' +
-                ", marker2='" + marker2 + '\'' +
-                ", associatedGenesId=" + associatedGenesId +
-                ", version='" + version + '\'' +
-                ", method='" + method + '\'' +
-                ", genomeStart=" + genomeStart +
-                ", genomeStartType='" + genomeStartType + '\'' +
-                ", genomeEnd=" + genomeEnd +
-                ", genomeEndType='" + genomeEndType + '\'' +
-                ", lod=" + lod +
-                ", lodType='" + lodType + '\'' +
-                ", parent1='" + parent1 + '\'' +
-                ", parent2='" + parent2 + '\'' +
-                ", ref='" + ref + '\'' +
-                ", author='" + author + '\'' +
-                ", createtime=" + createtime +
-                '}';
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Qtl qtl = (Qtl) o;
+        return Objects.equal(qtlName, qtl.qtlName) &&
+                Objects.equal(trait, qtl.trait) &&
+                Objects.equal(type, qtl.type) &&
+                Objects.equal(chrlgId, qtl.chrlgId) &&
+                Objects.equal(chr, qtl.chr) &&
+                Objects.equal(lg, qtl.lg) &&
+                Objects.equal(marker1, qtl.marker1) &&
+                Objects.equal(marker2, qtl.marker2) &&
+                Objects.equal(marker, qtl.marker) &&
+                Objects.equal(associatedGenesId, qtl.associatedGenesId) &&
+                Objects.equal(version, qtl.version) &&
+                Objects.equal(method, qtl.method) &&
+                Objects.equal(genomeStart, qtl.genomeStart) &&
+                Objects.equal(genomeStartType, qtl.genomeStartType) &&
+                Objects.equal(genomeEnd, qtl.genomeEnd) &&
+                Objects.equal(genomeEndType, qtl.genomeEndType) &&
+                Objects.equal(lod, qtl.lod) &&
+                Objects.equal(lodType, qtl.lodType) &&
+                Objects.equal(parent1, qtl.parent1) &&
+                Objects.equal(parent2, qtl.parent2) &&
+                Objects.equal(parent, qtl.parent) &&
+                Objects.equal(ref, qtl.ref) &&
+                Objects.equal(author, qtl.author) &&
+                Objects.equal(keywords, qtl.keywords) &&
+                Objects.equal(createtime, qtl.createtime);
+    }
+
+    @Override
+    public int hashCode() {
+        return java.util.Objects.hash(qtlName, trait, type, chrlgId, chr, lg, marker1, marker2, marker,
+                associatedGenesId, version, method, genomeStart, genomeStartType, genomeEnd, genomeEndType, lod,
+                lodType, parent1, parent2, parent, ref, author, keywords, createtime);
     }
 }

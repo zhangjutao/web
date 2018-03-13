@@ -57,6 +57,4 @@
               <property name="maxUploadSize" value="${web.maxUploadSize}" />
        </bean>
 
-
-
 </beans>

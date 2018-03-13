@@ -4,27 +4,18 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.iqgs.dao.FPKMDao;
 import com.gooalgene.iqgs.entity.AdvanceSearchType;
 import com.gooalgene.iqgs.entity.DNAGenBaseInfo;
-import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
-import com.gooalgene.iqgs.eventbus.EventBusListener;
+import com.gooalgene.common.eventbus.EventBusListener;
 import com.gooalgene.iqgs.eventbus.events.AllAdvanceSearchViewEvent;
-import com.gooalgene.iqgs.eventbus.events.AllRegionSearchResultEvent;
 import com.gooalgene.iqgs.eventbus.events.GenePreFetchEvent;
 import com.gooalgene.mrna.service.TService;
 import com.gooalgene.mrna.vo.GenResult;
-import com.google.common.base.Function;
-import com.google.common.collect.Collections2;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 @Service("advanceListener")

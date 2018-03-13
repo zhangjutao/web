@@ -675,9 +675,21 @@
                     // 关闭遮罩层
                     $(".imgHTML,.mengc").remove();
                 }
+
+                //导出方法调用
+                $(".btn-export").off('click').click(function () {
+                    if (res.data.length !== 0) {
+                        exportData(cdt);
+                    } else {
+                        layer.msg("暂无数据，不可下载！")
+                    }
+                })
             }
         });
     }
+
+
+
 
     // 修改每页显示条数
     $("#all-paginate").on("change", ".lay-per-page-count-select", function () {
@@ -856,7 +868,6 @@
                     str += $(this).val() + "-";
                 }
             })
-
             setCookie('showedCols', str);
         })
 
@@ -1133,7 +1144,7 @@
         $(".btn-toggle").trigger("click");
         var type = $(".js-search-select").val();
         var key = $(".js-search-text").val();
-        var cdt = getParamsString()
+        var cdt = getParamsString();
         initTables(1, 10, type, key, version, cdt)
     }
 
@@ -1220,22 +1231,64 @@
         $(this).siblings(".btn-confirm-info").trigger("click");
     });
 
-    $(".btn-export").click(function () {
-        var option = $(".version-num option:selected").text();
-        $("#search7").val(option);
-        $("#search6").val(getParamsString());
-        var colArr = [];
+//    $(".btn-export").click(function () {
+//        var option = $(".version-num option:selected").text();
+//        $("#search7").val(option);
+//        $("#search6").val(getParamsString());
+//        var colArr = [];
+//        $("input[type='checkbox']").each(function (index) {
+//            if ($(this).is(":checked")) {
+//                var colName = $(this).val();
+//                colArr.push(colName);
+//            }
+//        });
+//        var choices = colArr.join(",");
+////        console.log(choices)
+//        $("#search8").val(choices);
+//        $("#exportForm").submit();
+//    });
+    // 表格导出
+    function exportData() {
+//        处理头部选项checked
+        var str = "";
         $("input[type='checkbox']").each(function (index) {
-            if ($(this).is(":checked")) {
-                var colName = $(this).val();
-                colArr.push(colName);
+            if (!$(this).is(":checked")) {
+                $(".t_" + $(this).val()).hide();
+            } else {
+                $(".t_" + $(this).val()).show();
+                str += $(this).val() + ",";
             }
         });
-        var choices = colArr.join(",");
-//        console.log(choices)
-        $("#search8").val(choices);
-        $("#exportForm").submit();
-    });
+        var cdt = getParamsString();
+        var topChecked=str.substring(0,str.length-1);
+        var keyInput=$(".js-search-text").val();
+        console.log(version)
+        console.log(type_select)
+        console.log(keyInput)
+        console.log(cdt)
+        console.log(topChecked)
+        // 修复tomcat8无法识别的JSON格式问题
+        $.ajax({
+            type: "POST",
+            url: "${ctxroot}/sort/download-sort",
+            data: {
+                version: version,
+                type: type_select,
+                keywords: keyInput,
+                condition: cdt,
+                checked:topChecked,
+            },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href = path + result.data;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
 
     function getParamsString() {
         var tmp = {};
