@@ -56,7 +56,15 @@
        <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
               <property name="maxUploadSize" value="${web.maxUploadSize}" />
        </bean>
-
-
-
+        <bean id="eventBusRegister" class="com.gooalgene.common.eventbus.EventBusRegister">
+            <constructor-arg index="0" value="qtlSearchResultCache" />
+            <constructor-arg index="1">
+                <list></list>
+            </constructor-arg>
+            <constructor-arg index="2">
+                <list>
+                    <ref bean="qtlSearchDownloadListener" />
+                </list>
+            </constructor-arg>
+        </bean>
 </beans>

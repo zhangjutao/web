@@ -31,6 +31,12 @@ public interface AssociatedgenesDao extends CrudDao<Associatedgenes> {
      */
     Associatedgenes getByNameAndVersion(@Param("name") String qtlName, @Param("version") String version);
 
+    /**
+     * 根据传入的关联基因ID查询它对应的关联基因
+     * @param allAssociatedGenes 关联基因ID
+     */
+    List<Associatedgenes> getAllAssociatedGene(@Param("associatedGenes") List<Integer> allAssociatedGenes);
+
     List<Associatedgenes> findList();
 
     boolean insert(Associatedgenes associatedgenes);
