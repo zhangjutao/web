@@ -629,6 +629,18 @@
         var imgHTML = "<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>";
         $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
         $('.checkbox-tab').append(imgHTML);
+
+        //        处理头部选项checked
+        var str = "";
+        $("input[type='checkbox']").each(function (index) {
+            if (!$(this).is(":checked")) {
+                $(".t_" + $(this).val()).hide();
+            } else {
+                $(".t_" + $(this).val()).show();
+                str += $(this).val() + ",";
+            }
+        });
+        var topChecked=str.substring(0,str.length-1);
         $.ajax({
             url: "${ctxroot}/search/list/page",
             type: "POST",
@@ -636,6 +648,7 @@
                 version: version,
                 type: type_select,
                 keywords: key_input,
+                choices:topChecked,
                 condition: cdt,
                 pageNo: currNum || 1,
                 pageSize: pageSizeNum || 10
@@ -679,9 +692,9 @@
                 //导出方法调用
                 $(".btn-export").off('click').click(function () {
                     if (res.data.length !== 0) {
-                        exportData(cdt);
+                        exportData();
                     } else {
-                        layer.msg("暂无数据，不可下载！")
+                        alert("暂无数据，不可下载！")
                     }
                 })
             }
@@ -1262,25 +1275,21 @@
         var cdt = getParamsString();
         var topChecked=str.substring(0,str.length-1);
         var keyInput=$(".js-search-text").val();
-        console.log(version)
-        console.log(type_select)
-        console.log(keyInput)
-        console.log(cdt)
-        console.log(topChecked)
         // 修复tomcat8无法识别的JSON格式问题
         $.ajax({
-            type: "POST",
-            url: "${ctxroot}/sort/download-sort",
+            type: "GET",
+            url: "${ctxroot}/query/dataExport",
             data: {
                 version: version,
                 type: type_select,
-                keywords: keyInput,
+                keywords: "",
                 condition: cdt,
-                checked:topChecked,
+                choices:topChecked,
             },
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
+                console.log(result)
                 var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
                 window.location.href = path + result.data;
             },
