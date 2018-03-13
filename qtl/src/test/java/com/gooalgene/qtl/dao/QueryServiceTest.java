@@ -3,7 +3,6 @@ package com.gooalgene.qtl.dao;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
-import com.fasterxml.jackson.databind.ser.std.NullSerializer;
 import com.gooalgene.common.Page;
 import com.gooalgene.entity.TraitCategory;
 import com.gooalgene.qtl.entity.QtlSearchResult;
@@ -79,7 +78,7 @@ public class QueryServiceTest extends TestCase {
 
     @Test
     public void testQtlSearchByResult() throws JsonProcessingException {
-        QtlTableEntity entity = queryService.qtlSearchByResult("", "All", "Al", null, 7, 10);
+        QtlTableEntity entity = queryService.qtlSearchByResult("", "All", "Al", null, 7, 10, null);
         List<QtlSearchResult> data = entity.getData();
         ObjectMapper mapper = new ObjectMapper();
         DefaultSerializerProvider.Impl provider = new DefaultSerializerProvider.Impl();

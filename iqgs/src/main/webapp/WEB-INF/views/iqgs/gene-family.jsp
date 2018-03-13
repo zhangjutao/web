@@ -86,7 +86,7 @@
                     </div>
                     <div class="explain-b" style="text-align: center">
                         <img src="${ctxStatic}/images/nodata.png">
-                        <div style="padding-top: 10px">无基因家族信息</div>
+                        <div style="padding-top: 10px;position: relative;left: -20px;">无基因家族信息</div>
                     </div>
                 </div>
             </div>
