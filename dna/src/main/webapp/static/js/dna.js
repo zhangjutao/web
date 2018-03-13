@@ -681,9 +681,10 @@ $(function () {
                     if(res.data.length > 0) {
                         renderSNPTable(SNPData, Major_Or_Minor_SNP);
                         $('#snp-paginate #total-page-count span').html(res.total)
-                        // renderSNPTable(SNPData);
+                        $('#snp-paginate').show();
                     } else {
-                        $(".js-snp-table>tbody").empty().append("<span>无数据</span>");
+                        $(".js-snp-table>tbody").empty().append("<p class='zwsj'>暂无数据</p>");
+                        $('#snp-paginate').hide();
                     }
 
                     laypage({
@@ -781,11 +782,13 @@ $(function () {
                     maskClose("#mask-test2");
                     INDELData = res.data;
                     if(res.data.length > 0) {
+                        $('#indel-paginate').show();
                         renderINDELTable(INDELData, Major_Or_Minor_INDEL);
                         $('#indel-paginate #total-page-count span').html(res.total)
                     } else {
                         //alert("无数据");
-                        $(".js-indel-table>tbody").empty().append("<span>无数据</span>");
+                        $(".js-indel-table>tbody").empty().append("<p class='zwsj'>暂无数据</p>");
+                        $('#indel-paginate').hide();
                     }
 
                     laypage({

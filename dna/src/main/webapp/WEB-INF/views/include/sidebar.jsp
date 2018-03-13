@@ -4,9 +4,10 @@
 
 <style>
     #popu-paginate .total-page-count {
-        display: inline-block!important;
+        display: inline-block !important;
         height: 28px;
     }
+
     .label-txt {
         cursor: pointer;
         display: inline-block;
@@ -20,6 +21,7 @@
         width: 15px;
         vertical-align: middle;
     }
+
     .inputComponent {
         margin-top: 6px;
         display: none;
@@ -35,9 +37,11 @@
     .inputStyle {
         width: 90px;
     }
+
     .inputComponent .selectOperate {
         width: 30px;
     }
+
     .inputComponent p a {
         padding: 2px 8px;
         display: inline-block;
@@ -49,27 +53,64 @@
         margin-right: 5px;
         color: #5c8ce6;
     }
+
     a {
         color: #000;
         text-decoration: none;
     }
+
     .inputComponent p {
         margin-top: 10px;
     }
+
     .btnConfirmInfo {
         background: #5c8ce6;
         color: #fff;
     }
+
     .js-cursom-add2 .label-txt {
         vertical-align: bottom;
     }
+
     .js-ad-dd {
         padding: 3px 8px;
     }
-    body .tab-detail{
+
+    body .tab-detail {
         left: 50%;
         margin-left: -450px;
-        border:none;
+        border: none;
+    }
+
+    #tableBody .zwsj {
+        padding: 20px 10px;
+        text-align: left;
+    }
+
+    #tableBody2 .zwsj {
+        padding: 20px 10px;
+        text-align: left;
+    }
+
+    .gene-search-list label {
+        display: flex!important;
+    }
+
+    .setRadio {
+        position: relative;
+        top: 10px;
+        width: 13px;
+        height: 13px;
+    }
+
+    .setLength {
+        cursor: pointer;
+        /*display: inline-block;*/
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        width: 220px;
+        padding-left: 3px;
     }
 </style>
 
@@ -115,8 +156,12 @@
                     <option value="Chr20" data-max="47904181">Chr20</option>
                 </select>
             </div>
-            <div class="item-bd-list"><span>Start Position</span><input onkeyup="this.value=this.value.replace(/\D/g,'')" type="number" min="0" placeholder="请输入数值" class="js-start-position" value="0"></div>
-            <div class="item-bd-list"><span>End Position</span><input onkeyup="this.value=this.value.replace(/\D/g,'')" type="number" min="0" placeholder="请输入数值" class="js-end-position"></div>
+            <div class="item-bd-list"><span>Start Position</span><input
+                    onkeyup="this.value=this.value.replace(/\D/g,'')" type="number" min="0" placeholder="请输入数值"
+                    class="js-start-position" value="0"></div>
+            <div class="item-bd-list"><span>End Position</span><input onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                                                      type="number" min="0" placeholder="请输入数值"
+                                                                      class="js-end-position"></div>
         </div>
     </div>
     <div class="select-item selcet-gene-function">
@@ -132,22 +177,18 @@
                 没有找到您要查询的内容，请尝试其他搜索词
             </div>
             <div class="gene-search-list">
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
-                <%--<label><span></span>GlYMA17G35620_CLE22</label>--%>
             </div>
         </div>
     </div>
     <div class="select-item selcet-set-length">
         <div class="select-item-hd">Set length</div>
         <div class="select-item-bd">
-            <div class="item-bd-list"><span>Upstream: </span><input onkeyup="this.value=this.value.replace(/\D/g,'')" type="number" min="0" class="js-up-stream" placeholder="bp"></div>
-            <div class="item-bd-list"><span>Downstream: </span><input onkeyup="this.value=this.value.replace(/\D/g,'')" type="number" min="0" class="js-down-stream" placeholder="bp"></div>
+            <div class="item-bd-list"><span>Upstream: </span><input onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                                                    type="number" min="0" class="js-up-stream"
+                                                                    placeholder="bp"></div>
+            <div class="item-bd-list"><span>Downstream: </span><input onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                                                      type="number" min="0" class="js-down-stream"
+                                                                      placeholder="bp"></div>
         </div>
     </div>
     <div class="select-item select-populations">
@@ -161,7 +202,8 @@
                         <label><b>样本></b></label>
                         <div class="sample-text"></div>
                         <div class="colse-sample">
-                            <button type="button" class="btn-fill sample-empty">清空</button><span>X</span></div>
+                            <button type="button" class="btn-fill sample-empty">清空</button>
+                            <span>X</span></div>
                     </div>
                     <%--// 新增选择品种 begin --%>
 
@@ -170,7 +212,6 @@
                         <span class="kindCnt1" id="kindSelect">选择品种</span>
                     </div>
                     <%--// 新增选择品种 end --%>
-
                     <div class="sample-screening">
                         <div class="sample-screening-title">样本筛选(共<span class="js-total-samples">0</span>个sample)</div>
                         <div class="sample-screening-btn">
@@ -181,7 +222,8 @@
                     </div>
                     <div class="sample-category popCnt1">
                         <div class="category-group" data-name="species">
-                            <label><b class="category-title">物种:</b><span>Glycine soja</span><span>Glycine gracilis</span><span>Landrace</span><span>Improved cultivar</span><span>Mutant cultivar</span></label>
+                            <label><b
+                                    class="category-title">物种:</b><span>Glycine soja</span><span>Glycine gracilis</span><span>Landrace</span><span>Improved cultivar</span><span>Mutant cultivar</span></label>
                             <%--<button class="multiselect"><i>+</i>多选</button>--%>
                         </div>
                         <div class="category-position" data-name="locality">
@@ -193,21 +235,29 @@
                                 <%--<span class="js-custom-add"></span>--%>
                             </label>
                             <div class="grain-weight-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')" class="js-category-start" style="ime-mode:disabled;" onpaste="return false;"> - <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0" class="js-category-end" style="ime-mode:disabled;" onpaste="return false;"></div>
-                                <button type="button" data-name="weightPer100seeds" class="btn js-customize-sample">确定</button>
+                                <div class="input-range">
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')" class="js-category-start" style="ime-mode:disabled;" onpaste="return false;">
+                                    - <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0" class="js-category-end" style="ime-mode:disabled;" onpaste="return false;">
+                                </div>
+                                <button type="button" data-name="weightPer100seeds" class="btn js-customize-sample">确定
+                                </button>
                             </div>
                         </div>
                         <div class="category-oil-content" data-name="oil">
                             <label class="category-content"><b class="category-title">含油量(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="oil" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                         <div class="category-protein " data-name="protein">
                             <label><b class="category-title">蛋白质含量(%):</b><span>30-40</span><span>40-50</span><span>50-60</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="protein" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
@@ -215,19 +265,29 @@
                         <%--<label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>--%>
                         <%--</div>--%>
                         <div class="mature-data " data-name="maturityDate">
-                            <label><b  class="category-title">熟期组 :</b><span>0</span><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span></label> </div>
+                            <label><b class="category-title">熟期组 :</b><span>0</span><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span></label>
+                        </div>
 
 
                         <div class="plant-height" data-name="height">
-                            <label  class="category-content"><b  class="category-title">株高(cm):</b><span>20-60</span><span>60-100</span><span>100-140</span><span>140-180</span></label>
+                            <label class="category-content">
+                                <b class="category-title">株高(cm):</b>
+                                <span>20-60</span>
+                                <span>60-100</span>
+                                <span>100-140</span>
+                                <span>140-180</span>
+                            </label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range">
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="height" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                         <div class="grain-color " data-name="seedCoatColor">
                             <label>
-                                <b  class="category-title">粒色(种皮色):</b>
+                                <b class="category-title">粒色(种皮色):</b>
                                 <p>
                                     <span>Bl - Black</span><span>Striped</span><span>Y - Yellow</span><span>Ggn - Grayish green</span>
                                     <span>Gn - Green</span><span>Rbr - Reddish brown</span><span>Br - Brown</span><span>Lgn - Light green</span>
@@ -238,7 +298,7 @@
                         </div>
                         <div class="hilum-color category-more" data-name="hilumColor">
                             <label>
-                                <b  class="category-title">种脐色:</b>
+                                <b class="category-title">种脐色:</b>
                                 <p>
                                     <span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark Brown</span><span>Lbf - Light buff</span>
                                     <span>Bf - Buff</span><span>Gn - Green</span><span>Y - Yellow</span><span>Dib - Dark imperfect black</span>
@@ -249,74 +309,115 @@
                             </label>
                         </div>
                         <div class="cotyledon-colour category-more" data-name="cotyledonColor">
-                            <label><b  class="category-title">子叶色:</b><span>Gn - Green</span><span>Y - Yellow</span></label>
+                            <label>
+                                <b class="category-title">子叶色:</b>
+                                <span>Gn - Green</span>
+                                <span>Y - Yellow</span>
+                            </label>
                         </div>
                         <div class="flower-colour category-more" data-name="flowerColor">
-                            <label><b  class="category-title">花色:</b><span>Lp - Light purple</span><span>P - Purple</span><span>W - White</span><span>Dp - Dark purple</span></label>
+                            <label>
+                                <b class="category-title">花色:</b>
+                                <span>Lp - Light purple</span>
+                                <span>P - Purple</span>
+                                <span>W - White</span>
+                                <span>Dp - Dark purple</span>
+                            </label>
                         </div>
                         <div class="pod-color category-more" data-name="podColor">
-                            <label><b  class="category-title">荚色:</b><span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark brown</span><span>Tn - Tan</span><span>Lbr - Light brown</span></label>
+                            <label><b class="category-title">荚色:</b><span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark brown</span><span>Tn - Tan</span><span>Lbr - Light brown</span></label>
                         </div>
                         <div class="hair-color category-more" data-name="pubescenceColor">
-                            <label><b  class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>
+                            <label><b class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>
                         </div>
                         <div class="yield category-more" data-name="yield">
-                            <label><b  class="category-title">产量(Mg/ha):</b><span>0-1</span><span>1-2</span><span>2-3</span><span>3-4</span><span>4-5</span></label>
+                            <label>
+                                <b class="category-title">产量(Mg/ha):</b>
+                                <span>0-1</span>
+                                <span>1-2</span>
+                                <span>2-3</span><span>3-4</span><span>4-5</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="yield" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                         <div class="apical-leaflet-length category-more" data-name="upperLeafletLength">
-                            <label><b  class="category-title">顶端小叶长度(mm):</b><span>20-30</span><span>30-40</span><span>40-50</span></label>
+                            <label><b class="category-title">顶端小叶长度(mm):</b><span>20-30</span><span>30-40</span><span>40-50</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
-                                <button type="button" data-name="upperLeafletLength" class="btn js-customize-sample">确定</button>
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
+                                <button type="button" data-name="upperLeafletLength" class="btn js-customize-sample">
+                                    确定
+                                </button>
                             </div>
                         </div>
                         <div class="fatty-acid-content category-more" data-name="linoleic">
-                            <label><b  class="category-title">亚油酸(%):</b><span>40-45</span><span>45-50</span><span>50-55</span><span>55-60</span></label>
+                            <label><b
+                                    class="category-title">亚油酸(%):</b><span>40-45</span><span>45-50</span><span>50-55</span><span>55-60</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="linoleic" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                         <div class="fatty-acid-content category-more" data-name="linolenic">
-                            <label><b  class="category-title">亚麻酸(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
+                            <label><b
+                                    class="category-title">亚麻酸(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="linolenic" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                         <div class="fatty-acid-content category-more" data-name="oleic">
-                            <label><b  class="category-title">油酸(%):</b><span>5-15</span><span>15-25</span><span>25-35</span></label>
+                            <label><b
+                                    class="category-title">油酸(%):</b><span>5-15</span><span>15-25</span><span>25-35</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="oleic" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                         <div class="fatty-acid-content category-more" data-name="palmitic">
-                            <label><b  class="category-title">软脂酸(%):</b><span>9-15</span><span>15-21</span></label>
+                            <label><b class="category-title">软脂酸(%):</b><span>9-15</span><span>15-21</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="palmitic" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                         <div class="fatty-acid-content category-more" data-name="stearic">
-                            <label><b  class="category-title">硬脂酸(%):</b><span>2-3</span><span>3-6</span></label>
+                            <label><b class="category-title">硬脂酸(%):</b><span>2-3</span><span>3-6</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> - <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"></div>
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
+                                </div>
                                 <button type="button" data-name="stearic" class="btn js-customize-sample">确定</button>
                             </div>
                         </div>
                     </div>
-                    <div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p></div>
+                    <div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p>
+                    </div>
                     <div id="tagKind" class="kindCnt1">
                         <div style="overflow-x: scroll;height: 419px;">
                             <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
                                 <thead style="overflow-x: scroll;width:730px;">
                                 <tr>
-                                    <th class="paramTag" style="width:42px;">    </th>
+                                    <th class="paramTag" style="width:42px;"></th>
                                     <th class="paramTag">品种名
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
@@ -328,7 +429,8 @@
                                         </div>
                                     </th>
                                     <th class="paramTag popMoveOn" style="position:relative;">群体
-                                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
+                                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo"
+                                             style="width: 15px;vertical-align: middle;">
                                         <div class="popNames">
                                             <ul>
                                                 <li>Q1</li>
@@ -379,9 +481,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="weightPer100seedsI inputStyle">
@@ -396,9 +498,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="proteinI inputStyle">
@@ -413,9 +515,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="oilI inputStyle">
@@ -440,9 +542,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="heightI inputStyle">
@@ -517,9 +619,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="yieldI inputStyle">
@@ -534,9 +636,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="upperLeafletLengthI inputStyle">
@@ -551,9 +653,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="linoleicI inputStyle">
@@ -568,9 +670,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="linolenicI inputStyle">
@@ -585,9 +687,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="oleicI inputStyle">
@@ -602,9 +704,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="palmiticI inputStyle">
@@ -619,9 +721,9 @@
                                         <div class="inputComponent">
                                             <select class="selectOperate">
                                                 <option value="" selected="selected"></option>
-                                                <option value="<"> < </option>
-                                                <option value="="> = </option>
-                                                <option value=">"> > </option>
+                                                <option value="<"> <</option>
+                                                <option value="="> =</option>
+                                                <option value=">"> ></option>
                                             </select>
                                             <br>
                                             <input type="text" placeholder="请输入" class="stearicI inputStyle">
@@ -672,35 +774,81 @@
             <div class="che-list ">
                 <span class="tab-title">表格内容:</span>
                 <dl class="table_header_setting js-table-header-setting-popu">
-                    <dd><label for="species" class="checkbox-ac"><span id="species" data-value="species"></span>物种</label></dd>
-                    <dd><label for="locality" class="checkbox-ac"><span id="locality" data-value="locality"></span>位置</label></dd>
-                    <dd><label for="sampleName" class="checkbox-ac"><span id="sampleName" data-value="sampleName"></span>样品名</label></dd>
-                    <dd><label for="cultivar" class="checkbox-ac"><span id="cultivar" data-value="cultivar"></span>品种名</label></dd>
-                    <dd><label for="weightPer100seeds" class="checkbox-ac"><span id="weightPer100seeds" data-value="weightPer100seeds"></span>百粒重(g)</label></dd>
+                    <dd><label for="species" class="checkbox-ac"><span id="species"
+                                                                       data-value="species"></span>物种</label></dd>
+                    <dd><label for="locality" class="checkbox-ac"><span id="locality"
+                                                                        data-value="locality"></span>位置</label></dd>
+                    <dd><label for="sampleName" class="checkbox-ac"><span id="sampleName"
+                                                                          data-value="sampleName"></span>样品名</label>
+                    </dd>
+                    <dd><label for="cultivar" class="checkbox-ac"><span id="cultivar"
+                                                                        data-value="cultivar"></span>品种名</label></dd>
+                    <dd><label for="weightPer100seeds" class="checkbox-ac"><span id="weightPer100seeds"
+                                                                                 data-value="weightPer100seeds"></span>百粒重(g)</label>
+                    </dd>
                     <dd><label for="oil" class="checkbox-ac"><span id="oil" data-value="oil"></span>含油量(%)</label></dd>
-                    <dd><label for="protein" class="checkbox-ac"><span id="protein" data-value="protein"></span>蛋白质含量(%)</label></dd>
+                    <dd><label for="protein" class="checkbox-ac"><span id="protein" data-value="protein"></span>蛋白质含量(%)</label>
+                    </dd>
                     <%--<dd><label for="floweringDate" class="checkbox-ac"><span id="floweringDate" data-value="floweringDate"></span>开花日期</label></dd><span></span>--%>
-                    <dd><label for="maturityDate" class="checkbox-ac"><span id="maturityDate" data-value="maturityDate"></span>成熟日期</label></dd><span></span>
-                    <dd><label for="height" class="checkbox-ac"><span id="height" data-value="height"></span>株高</label></dd><span></span>
-                    <dd><label for="seedCoatColor" class="checkbox-ac"><span id="seedCoatColor" data-value="seedCoatColor"></span>种皮色</label></dd><span></span>
-                    <dd><label for="hilumColor" class="checkbox-ac"><span id="hilumColor" data-value="hilumColor"></span>种脐色</label></dd><span></span>
-                    <dd><label for="cotyledonColor" class="checkbox-ac"><span id="cotyledonColor" data-value="cotyledonColor"></span>子叶色</label></dd><span></span>
-                    <dd><label for="flowerColor" class="checkbox-ac"><span id="flowerColor" data-value="flowerColor"></span>花色</label></dd><span></span>
-                    <dd><label for="podColor" class="checkbox-ac"><span id="podColor" data-value="podColor"></span>荚色</label></dd><span></span>
-                    <dd><label for="pubescenceColor" class="checkbox-ac"><span id="pubescenceColor" data-value="pubescenceColor"></span>茸毛色</label></dd><span></span>
-                    <dd><label for="yield" class="checkbox-ac"><span id="yield" data-value="yield"></span>产量</label></dd><span></span>
-                    <dd><label for="upperLeafletLength" class="checkbox-ac"><span id="upperLeafletLength" data-value="upperLeafletLength"></span>顶端小叶长度</label></dd><span></span>
-                    <dd><label for="linoleic" class="checkbox-ac"><span id="linoleic" data-value="linoleic"></span>亚油酸</label></dd><span></span>
-                    <dd><label for="linolenic" class="checkbox-ac"><span id="linolenic" data-value="linolenic"></span>亚麻酸</label></dd><span></span>
-                    <dd><label for="oleic" class="checkbox-ac"><span id="oleic" data-value="oleic"></span>油酸</label></dd><span></span>
-                    <dd><label for="palmitic" class="checkbox-ac"><span id="palmitic" data-value="palmitic"></span>软脂酸</label></dd><span></span>
-                    <dd><label for="stearic" class="checkbox-ac"><span id="stearic" data-value="stearic"></span>硬脂酸</label></dd><span></span>
+                    <dd><label for="maturityDate" class="checkbox-ac"><span id="maturityDate"
+                                                                            data-value="maturityDate"></span>成熟日期</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="height" class="checkbox-ac"><span id="height" data-value="height"></span>株高</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="seedCoatColor" class="checkbox-ac"><span id="seedCoatColor"
+                                                                             data-value="seedCoatColor"></span>种皮色</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="hilumColor" class="checkbox-ac"><span id="hilumColor"
+                                                                          data-value="hilumColor"></span>种脐色</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="cotyledonColor" class="checkbox-ac"><span id="cotyledonColor"
+                                                                              data-value="cotyledonColor"></span>子叶色</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="flowerColor" class="checkbox-ac"><span id="flowerColor"
+                                                                           data-value="flowerColor"></span>花色</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="podColor" class="checkbox-ac"><span id="podColor"
+                                                                        data-value="podColor"></span>荚色</label></dd>
+                    <span></span>
+                    <dd><label for="pubescenceColor" class="checkbox-ac"><span id="pubescenceColor"
+                                                                               data-value="pubescenceColor"></span>茸毛色</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="yield" class="checkbox-ac"><span id="yield" data-value="yield"></span>产量</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="upperLeafletLength" class="checkbox-ac"><span id="upperLeafletLength"
+                                                                                  data-value="upperLeafletLength"></span>顶端小叶长度</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="linoleic" class="checkbox-ac"><span id="linoleic"
+                                                                        data-value="linoleic"></span>亚油酸</label></dd>
+                    <span></span>
+                    <dd><label for="linolenic" class="checkbox-ac"><span id="linolenic" data-value="linolenic"></span>亚麻酸</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="oleic" class="checkbox-ac"><span id="oleic" data-value="oleic"></span>油酸</label>
+                    </dd>
+                    <span></span>
+                    <dd><label for="palmitic" class="checkbox-ac"><span id="palmitic"
+                                                                        data-value="palmitic"></span>软脂酸</label></dd>
+                    <span></span>
+                    <dd><label for="stearic" class="checkbox-ac"><span id="stearic"
+                                                                       data-value="stearic"></span>硬脂酸</label></dd>
+                    <span></span>
                 </dl>
             </div>
         </div>
         <div class="export-data">
             <p class="btn-export-set">
-                <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
+                <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据
+                </button>
             </p>
         </div>
         <div class="choose-default">
@@ -718,7 +866,8 @@
     <div class="export-data">
         <p class="btn-export-set">
             <button type="button" class="btn popu-set-up"><img src="${ctxStatic}/images/set.png">表格设置</button>
-            <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据</button>
+            <button type="button" class="btn btn-export js-export-popu"><img src="${ctxStatic}/images/export.png">导出数据
+            </button>
         </p>
     </div>
     <div class="tab-detail-tbody" style="max-height: 500px; overflow-y: auto;">
@@ -737,13 +886,13 @@
                 <td class="height" rowspan="2">株高(cm)</td>
                 <td class="seedCoatColor" rowspan="2">种皮色</td>
                 <td class="hilumColor" rowspan="2">种脐色</td>
-                <td class="cotyledonColor"  rowspan="2">子叶色</td>
+                <td class="cotyledonColor" rowspan="2">子叶色</td>
                 <td class="flowerColor" rowspan="2">花色</td>
                 <td class="podColor" rowspan="2">荚色</td>
                 <td class="pubescenceColor" rowspan="2">茸毛色</td>
                 <td class="yield" rowspan="2">产量(Mg/ha)</td>
                 <td class="upperLeafletLength" rowspan="2">顶端小叶长度(mm)</td>
-                <td colspan="5" >脂肪酸(%)</td>
+                <td colspan="5">脂肪酸(%)</td>
             </tr>
             <tr>
                 <td class="linoleic">亚油酸</td>
@@ -772,18 +921,20 @@
 </div>
 
 <script>
-    $(function(){
-        if(window.localStorage){
+    $(function () {
+        if (window.localStorage) {
             var storage = window.localStorage;
-        }else{
+        } else {
             alert('This browser does NOT support localStorage');
         }
+
         function setCookie(name, value) {
             var Days = 30;
             var exp = new Date();
             exp.setTime(exp.getTime() + Days * 24 * 60 * 60 * 1000);
             document.cookie = name + "=" + escape(value) + ";expires=" + exp.toGMTString();
         }
+
         function getCookie(name) {
             var arr, reg = new RegExp("(^| )" + name + "=([^;]*)(;|$)");
             if (arr = document.cookie.match(reg))
@@ -806,27 +957,29 @@
         });
 
         /* 侧边栏收起和展开 */
-        $(".icon-right").click(function() {
-            if($(".snp-content").hasClass("js-nav-ac")){
+        $(".icon-right").click(function () {
+            if ($(".snp-content").hasClass("js-nav-ac")) {
                 $(".snp-content").removeClass("js-nav-ac");
-            }else{
+            } else {
                 $(".snp-content").addClass("js-nav-ac");
             }
         });
+
         /* search for SNPs or INDELs in Region or Gene SELECT LOGIC */
-        function select(){
-            var  _val = $(".selcet select option:selected").attr("data-value");
-            if(_val=="gene"){
+        function select() {
+            var _val = $(".selcet select option:selected").attr("data-value");
+            if (_val == "gene") {
                 $(".selcet-gene-function").show();
                 $(".selcet-set-length").show();
                 $(".select-chorosome").hide();
-            }else if(_val=="region"){
+            } else if (_val == "region") {
                 $(".selcet-gene-function").hide();
                 $(".selcet-set-length").hide();
                 $(".select-chorosome").show();
             }
         }
-        $(".selcet select").change(function(){
+
+        $(".selcet select").change(function () {
             select();
         });
         select();
@@ -837,64 +990,82 @@
         })
 
         /* 自定义群体-展开 */
-        $(".custom-groups-btn").click( function(){
+        $(".custom-groups-btn").click(function () {
             $(".custom-groups-content").show();
             $(".cover").show();
         });
 
         /* 自定义群体-关闭 */
-        $(".colse-sample span").click(function(){
+        $(".colse-sample span").click(function () {
             $(".custom-groups-content").hide();
             $(".cover").hide();
 //            $(".sample-text").empty();
         });
 
         /* 自定义群体-"更多"展现 */
-        $(".retract p").click(function(){
-            var _dis=$(".hilum-color").css("display");
-            if(_dis=="block"){
+        $(".retract p").click(function () {
+            var _dis = $(".hilum-color").css("display");
+            if (_dis == "block") {
                 $(".category-more").hide();
                 $(".retract p").html("更多选项(开花日期、成熟日期、株高等)<img src='${ctxStatic}/images/more_unfold.png'>")
-            }else {
+            } else {
                 $(".category-more").show();
                 $(".retract p").html("收起<img src='${ctxStatic}/images/less.png'>")
             }
         });
 
         var populations = []; // 存储自定义群体信息
-        var defineDefault = [{"name":"物种Glycine soja","id": 001, "condition":{"species":"Glycine soja"}},{"name":"物种Glycine gracilis","id": 002, "condition":{"species":"Glycine gracilis"}},{"name":"物种Landrace", "id": 003, "condition":{"species":"Landrace"}},{"name":"位置China","id": 004, "condition":{"locality":"China"}},{"name":"位置United States","id":005, "condition":{"locality":"United States"}},{"name":"位置Japan","id": 006, "condition":{"locality":"Japan"}}];
+        var defineDefault = [{
+            "name": "物种Glycine soja",
+            "id": 001,
+            "condition": {"species": "Glycine soja"}
+        }, {
+            "name": "物种Glycine gracilis",
+            "id": 002,
+            "condition": {"species": "Glycine gracilis"}
+        }, {"name": "物种Landrace", "id": 003, "condition": {"species": "Landrace"}}, {
+            "name": "位置China",
+            "id": 004,
+            "condition": {"locality": "China"}
+        }, {"name": "位置United States", "id": 005, "condition": {"locality": "United States"}}, {
+            "name": "位置Japan",
+            "id": 006,
+            "condition": {"locality": "Japan"}
+        }];
         var defaultPopulations2 = defineDefault.concat();
 
         // 从cookie中读取群体信息并渲染
         function initPopulations() {
-            if(getCookie("populations")) {
+            if (getCookie("populations")) {
                 populations = JSON.parse(getCookie("populations"));
                 var str = "";
-                $.each(populations, function(idx, popu) {
-                    str +="<div class='js-ad-dd'>"
-                    str +="    <label class='species-add' title='" + popu.name + "' data-index='"+ popu.id +"'>"
-                    str +="         <span></span><div class='label-txt'>"+ popu.name + "</div>";
-                    str +="    </label>"
-                    str +="    <i class='js-del-dd' data-index='" + popu.id + "'>X</i>"
-                    str +="</div>"
+                $.each(populations, function (idx, popu) {
+                    str += "<div class='js-ad-dd'>"
+                    str += "    <label class='species-add' title='" + popu.name + "' data-index='" + popu.id + "'>"
+                    str += "         <span></span><div class='label-txt'>" + popu.name + "</div>";
+                    str += "    </label>"
+                    str += "    <i class='js-del-dd' data-index='" + popu.id + "'>X</i>"
+                    str += "</div>"
                 });
                 $(".js-cursom-add").empty().append(str);
             }
         }
+
         initPopulations();
 
         function renderDefaultPopulations() {
             var str = "";
-            $.each(defaultPopulations2, function(idx, popu) {
-                str +="<div class='js-ad-dd'>"
-                str +="    <label class='species-add' title='" + popu.name + "' data-index='"+ popu.id +"'>"
-                str +="         <span></span><div class='label-txt'>"+ popu.name + "</div>";
-                str +="    </label>"
-                str +="    <i class='js-del-dd' data-index='" + popu.id + "'>X</i>"
-                str +="</div>"
+            $.each(defaultPopulations2, function (idx, popu) {
+                str += "<div class='js-ad-dd'>"
+                str += "    <label class='species-add' title='" + popu.name + "' data-index='" + popu.id + "'>"
+                str += "         <span></span><div class='label-txt'>" + popu.name + "</div>";
+                str += "    </label>"
+                str += "    <i class='js-del-dd' data-index='" + popu.id + "'>X</i>"
+                str += "</div>"
             });
             $(".js-cursom-add2").empty().append(str);
         }
+
         renderDefaultPopulations();
 
         var defaultPopulations = [];
@@ -923,7 +1094,7 @@
 //        getDefaultPopulations();
 
         // 获取样本中文名
-        function getKeyName (key) {
+        function getKeyName(key) {
             switch (key) {
                 case 'species':
                     return "物种";
@@ -974,7 +1145,7 @@
 
         function getUnitValue(obj) {
             var key = Object.keys(obj)[0];
-            if(obj[key].indexOf("-") > -1) {
+            if (obj[key].indexOf("-") > -1) {
                 var vs = obj[key].split("-");
                 var unit = "";
                 switch (key) {
@@ -1033,7 +1204,7 @@
         }
 
         function replaceUnvalideChar(str) {
-            return str.replace(/[\%,\/]/g,"_");
+            return str.replace(/[\%,\/]/g, "_");
         }
 
         // 生成后台需要的单个群体数据结构
@@ -1041,8 +1212,8 @@
             // 定义有范围的样本属性
             var rangeCondition = ['weightPer100seeds', 'oil', 'protein', 'height', 'yield', 'upperLeafletLength', 'linoleic', 'linolenic', 'oleic', 'palmitic', 'stearic'];
             var condition = {};
-            for(key in obj) {
-                if($.inArray(key, rangeCondition) > -1) {
+            for (key in obj) {
+                if ($.inArray(key, rangeCondition) > -1) {
                     condition[key] = {};
                     condition[key]["min"] = obj[key].split("-")[0];
                     condition[key]["max"] = obj[key].split("-")[1];
@@ -1054,22 +1225,26 @@
         }
 
         /* 保存群体 */
-        $(".sample-screening-btn button").click(function(){
-            var sampleTexts=$(".sample-text").text();
-            if(sampleTexts.length==0){
+        $(".sample-screening-btn button").click(function () {
+            var sampleTexts = $(".sample-text").text();
+            if (sampleTexts.length == 0) {
                 alert("请选择群体!")
                 return;
             }
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
-            if(populations.length + defaultLen < 10){
+            if (populations.length + defaultLen < 10) {
                 var arr = [];
                 // popuSamples 存储保存的样本数据
-                for(var i in popuSamples) {
+                for (var i in popuSamples) {
                     var obj = {};
                     obj[i] = popuSamples[i];
                     arr.push(getKeyName(i) + getUnitValue(obj));
                 }
-                var o = {"name":arr.join(","), "id": new Date().getTime(), "condition":getStandardPopulation(popuSamples)};
+                var o = {
+                    "name": arr.join(","),
+                    "id": new Date().getTime(),
+                    "condition": getStandardPopulation(popuSamples)
+                };
 //                initPopulations();
                 appendPopulation(o);
 
@@ -1083,12 +1258,12 @@
         // 向自定义群体添加
         function appendPopulation(obj) {
             var str = "";
-            str +="<div class='js-ad-dd'>"
-            str +="    <label class='species-add' title='" + obj.name + "' data-index='"+ obj.id +"'>"
-            str +="         <span></span><div class='label-txt'>"+ obj.name + "</div>";
-            str +="    </label>"
-            str +="    <i class='js-del-dd' data-index='" + obj.id + "'>X</i>"
-            str +="</div>"
+            str += "<div class='js-ad-dd'>"
+            str += "    <label class='species-add' title='" + obj.name + "' data-index='" + obj.id + "'>"
+            str += "         <span></span><div class='label-txt'>" + obj.name + "</div>";
+            str += "    </label>"
+            str += "    <i class='js-del-dd' data-index='" + obj.id + "'>X</i>"
+            str += "</div>"
             $(".js-cursom-add").append(str);
             populations.push(obj);
             setCookie('populations', JSON.stringify(populations));
@@ -1096,8 +1271,8 @@
 
         // 向自定义群体删除
         function deletePopulation(id) {
-            $.each(populations, function(idx,ele) {
-                if(ele.id == id) {
+            $.each(populations, function (idx, ele) {
+                if (ele.id == id) {
                     populations.splice(idx, 1);
                     return false;
                 }
@@ -1106,8 +1281,8 @@
         }
 
         function deleteDefaultPopulation(id) {
-            $.each(defaultPopulations2, function(idx,ele) {
-                if(ele.id == id) {
+            $.each(defaultPopulations2, function (idx, ele) {
+                if (ele.id == id) {
                     defaultPopulations2.splice(idx, 1);
                     return false;
                 }
@@ -1117,8 +1292,8 @@
         // 勾选的群体数组
         var selectedPopulations = [];
         /* 选择自定义群体 */
-        $("body").on("click",".js-ad-dd label span",function(){
-            if($(this).parent().hasClass("cur")){
+        $("body").on("click", ".js-ad-dd label span", function () {
+            if ($(this).parent().hasClass("cur")) {
                 $(this).parent().removeClass("cur");
             } else {
                 $(this).parent().addClass("cur");
@@ -1134,83 +1309,83 @@
         // 根据群体生成表格内容设置，和表头
         window.renderTableHead = function () {
             var str = '', str2 = '';
-            var commonStr = '<li data-value="all">ALL</li>'+
-                '<li data-type="type" data-value="downstream">Downstream</li>'+
-                '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
-                '<li data-type="effect" data-value="nonsynonymous SNV">Exonic_nonsynonymous SNV</li>'+
-                '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
+            var commonStr = '<li data-value="all">ALL</li>' +
+                '<li data-type="type" data-value="downstream">Downstream</li>' +
+                '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>' +
+                '<li data-type="effect" data-value="nonsynonymous SNV">Exonic_nonsynonymous SNV</li>' +
+                '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>' +
                 '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>' +
                 '<li data-type="effect" data-value="synonymous SNV">Exonic_synonymous SNV</li>' +
-                '<li data-type="type" data-value="intergenic">Intergenic</li>'+
-                '<li data-type="type" data-value="intronic">Intronic</li>'+
-                '<li data-type="type" data-value="splicing">Splicing</li>'+
-                '<li data-type="type" data-value="upstream">Upstream</li>'+
-                '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>'+
-                '<li data-type="type" data-value="UTR3">3&acute;UTR</li>'+
+                '<li data-type="type" data-value="intergenic">Intergenic</li>' +
+                '<li data-type="type" data-value="intronic">Intronic</li>' +
+                '<li data-type="type" data-value="splicing">Splicing</li>' +
+                '<li data-type="type" data-value="upstream">Upstream</li>' +
+                '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>' +
+                '<li data-type="type" data-value="UTR3">3&acute;UTR</li>' +
                 '<li data-type="type" data-value="UTR5">5&acute;UTR</li>' +
                 '<li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>';
-            var commonStr2 = '<li data-value="all">ALL</li>'+
-                '<li data-type="type" data-value="downstream">Downstream</li>'+
-                '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>'+
-                '<li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>'+
-                '<li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>'+
-                '<li data-type="effect" data-value="frameshift insertion">Exonic_nonframeshift deletion</li>'+
-                '<li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>'+
-                '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>'+
-                '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>'+
-                '<li data-type="type" data-value="intergenic">Intergenic</li>'+
-                '<li data-type="type" data-value="intronic">Intronic</li>'+
-                '<li data-type="type" data-value="splicing">Splicing</li>'+
-                '<li data-type="type" data-value="upstream">Upstream</li>'+
-                '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>'+
-                '<li data-type="type" data-value="UTR3">3&acute;UTR</li>'+
-                '<li data-type="type" data-value="UTR5">5&acute;UTR</li>'+
+            var commonStr2 = '<li data-value="all">ALL</li>' +
+                '<li data-type="type" data-value="downstream">Downstream</li>' +
+                '<li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>' +
+                '<li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>' +
+                '<li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>' +
+                '<li data-type="effect" data-value="frameshift insertion">Exonic_nonframeshift deletion</li>' +
+                '<li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>' +
+                '<li data-type="effect" data-value="stopgain">Exonic_stopgain</li>' +
+                '<li data-type="effect" data-value="stoploss">Exonic_stoploss</li>' +
+                '<li data-type="type" data-value="intergenic">Intergenic</li>' +
+                '<li data-type="type" data-value="intronic">Intronic</li>' +
+                '<li data-type="type" data-value="splicing">Splicing</li>' +
+                '<li data-type="type" data-value="upstream">Upstream</li>' +
+                '<li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>' +
+                '<li data-type="type" data-value="UTR3">3&acute;UTR</li>' +
+                '<li data-type="type" data-value="UTR5">5&acute;UTR</li>' +
                 '<li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>';
 
             var headStr = '<td class="t_snpid">SNP ID</td>' +
-                '<td class="param t_consequenceType">Consequence Type'+
-                '<img src="${ctxStatic}/images/down.png">'+
-                '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">'+ commonStr +
-                '</ul> </div></td>'+
-                '<td class="param t_snpchromosome">Chromosome</td>'+
-                '<td class="param t_position">Position</td>'+
-                '<td class="param t_snpreference">Reference</td>'+
-                '<td class="param t_majorAllele">Major Allele</td>'+
-                '<td class="param t_minorAllele">Minor Allele</td>'+
+                '<td class="param t_consequenceType">Consequence Type' +
+                '<img src="${ctxStatic}/images/down.png">' +
+                '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">' + commonStr +
+                '</ul> </div></td>' +
+                '<td class="param t_snpchromosome">Chromosome</td>' +
+                '<td class="param t_position">Position</td>' +
+                '<td class="param t_snpreference">Reference</td>' +
+                '<td class="param t_majorAllele">Major Allele</td>' +
+                '<td class="param t_minorAllele">Minor Allele</td>' +
                 '<td class="param t_fmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
-                '<option value="minor">Frequency of Minor Allele</option></select></td>'+
+                '<option value="minor">Frequency of Minor Allele</option></select></td>' +
                 '<td class="param t_genoType">Genotype</td>';
             var headStr2 = '<td class="t_indels">INDEL ID</td>' +
-                '<td class="param t_iconsequenceType">Consequence Type'+
-                '<img src="${ctxStatic}/images/down.png">'+
-                '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">'+ commonStr2 +
-                '</ul> </div></td>'+
-                '<td class="param t_indelchromosome">Chromosome</td>'+
-                '<td class="param t_iposition">Position</td>'+
-                '<td class="param t_indelreference">Reference</td>'+
-                '<td class="param t_imajorAllele">Major Allele</td>'+
-                '<td class="param t_iminorAllele">Minor Allele</td>'+
+                '<td class="param t_iconsequenceType">Consequence Type' +
+                '<img src="${ctxStatic}/images/down.png">' +
+                '<input type="hidden" class="js-consequence-type"> <div class="input-component "> <ul class="consequence-type ">' + commonStr2 +
+                '</ul> </div></td>' +
+                '<td class="param t_indelchromosome">Chromosome</td>' +
+                '<td class="param t_iposition">Position</td>' +
+                '<td class="param t_indelreference">Reference</td>' +
+                '<td class="param t_imajorAllele">Major Allele</td>' +
+                '<td class="param t_iminorAllele">Minor Allele</td>' +
                 '<td class="param t_ifmajorAllele"><select class="f-ma"><option value="major">Frequency of Major Allele</option>' +
                 '<option value="minor">Frequency of Minor Allele</option></select></td>';
-            if(selectedPopulations.length > 0) {
+            if (selectedPopulations.length > 0) {
                 var resultPopulations = selectedPopulations;
             } else {
                 var resultPopulations = defaultPopulations;
             }
-            $.each(resultPopulations, function(idx, item) {
-                str += '<dd><label title="'+item.name+'" data-col-name="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_") +'" for="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" class="checkbox-ac">'+
-                    '<span id="fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'" data-value="fmajorAllelein'+ item.name +'"></span>Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</label></dd>'
+            $.each(resultPopulations, function (idx, item) {
+                str += '<dd><label title="' + item.name + '" data-col-name="fmajorAllelein' + replaceUnvalideChar(item.name).split(",").join("_") + '" for="fmajorAllelein' + replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g, "") + '" class="checkbox-ac">' +
+                    '<span id="fmajorAllelein' + replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g, "") + '" data-value="fmajorAllelein' + item.name + '"></span>Frequency of Major Allele in ' + item.name.substr(0, 20) + '...</label></dd>'
 
-                headStr += '<td title="'+ item.name +'" class="param t_fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'">' +
+                headStr += '<td title="' + item.name + '" class="param t_fmajorAllelein' + replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g, "") + '">' +
                     '<select class="f-ma">' +
-                    '<option value="major">Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                    '<option value="minor">Frequency of Minor Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                    '</select>' +'</td>'
-                headStr2 += '<td title="'+ item.name +'" class="param t_fmajorAllelein'+ replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g,"") +'">' +
+                    '<option value="major">Frequency of Major Allele in ' + item.name.substr(0, 20) + '...</option>' +
+                    '<option value="minor">Frequency of Minor Allele in ' + item.name.substr(0, 20) + '...</option>' +
+                    '</select>' + '</td>'
+                headStr2 += '<td title="' + item.name + '" class="param t_fmajorAllelein' + replaceUnvalideChar(item.name).split(",").join("_").replace(/\s/g, "") + '">' +
                     '<select class="f-ma">' +
-                    '<option value="major">Frequency of Major Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                    '<option value="minor">Frequency of Minor Allele in '+ item.name.substr(0, 20) +'...</option>' +
-                    '</select>' +'</td>'
+                    '<option value="major">Frequency of Major Allele in ' + item.name.substr(0, 20) + '...</option>' +
+                    '<option value="minor">Frequency of Minor Allele in ' + item.name.substr(0, 20) + '...</option>' +
+                    '</select>' + '</td>'
             });
             $(".js-table-header-setting-snp > span").empty().append(str);
             $(".js-table-header-setting-indel > span").empty().append(str);
@@ -1221,23 +1396,23 @@
         }
 
         // 封装手动删除品种名/localStorage 中的值
-        function deleteLocalKind (kindId,self){
+        function deleteLocalKind(kindId, self) {
             // 判断删除的是不是品种
-            var currPval = $(self).prev().find("div").text().substring(0,3);
-            if (currPval == "品种名"){
+            var currPval = $(self).prev().find("div").text().substring(0, 3);
+            if (currPval == "品种名") {
                 var kindStorage = JSON.parse(storage.getItem("kind"));
                 var sdKinds = kindStorage.name;
-                for (var i=0;i<sdKinds.length;i++){
-                    if(sdKinds[i].id == kindId){
-                        sdKinds.splice(i,1);
+                for (var i = 0; i < sdKinds.length; i++) {
+                    if (sdKinds[i].id == kindId) {
+                        sdKinds.splice(i, 1);
                     }
                 }
                 storage.removeItem("kind");
-                storage.setItem("kind",JSON.stringify(kindStorage));
+                storage.setItem("kind", JSON.stringify(kindStorage));
             }
         };
         /* 删除手动添加的自定义群体 */
-        $("body").on("click",".js-del-dd",function(){
+        $("body").on("click", ".js-del-dd", function () {
             var self = this;
             $(this).parent().remove();
             var id = $(this).attr("data-index");
@@ -1247,9 +1422,9 @@
             getSelectedPopulations();
             // 手动删除品种名时，需要删除localStorage中的值
             var kindId = $(this).prev().attr("data-index");
-            deleteLocalKind(kindId,self);
+            deleteLocalKind(kindId, self);
         });
-        $(".js-cursom-add2").on("click",".js-del-dd",function(){
+        $(".js-cursom-add2").on("click", ".js-del-dd", function () {
             $(this).parent().remove();
             getSelectedPopulations();
         });
@@ -1259,18 +1434,18 @@
         var currVal = "";
 
         /* 显示群体信息、弹框 */
-        $(".js-cursom-add").on("click",".label-txt",function(){
-            currVal = $(this).text().split(",")[0].substring(0,3);
+        $(".js-cursom-add").on("click", ".label-txt", function () {
+            currVal = $(this).text().split(",")[0].substring(0, 3);
             var currKindList = $(this).text().split(",");
             kindNames = [];
-            for (var i=0;i<currKindList.length;i++){
-                var name = currKindList[i].substring(3,currKindList[i].length);
+            for (var i = 0; i < currKindList.length; i++) {
+                var name = currKindList[i].substring(3, currKindList[i].length);
                 kindNames.push(name);
             }
-            var label=$(this).parent().find("label");
-            if(label.hasClass("cur")){
+            var label = $(this).parent().find("label");
+            if (label.hasClass("cur")) {
                 label.addClass("cur");
-            }else{
+            } else {
                 label.removeClass("cur");
             }
             $(".tab-detail").show();
@@ -1279,44 +1454,45 @@
 
             popId = $(this).parent("label").attr("data-index");
 //            currPopu = selectPopulation(id)[0];
-            if(currVal == "品种名"){
+            if (currVal == "品种名") {
                 currPopu = selectKindVal(popId)[0];
                 var data = {
-                    names:kindNames.join(",")
+                    names: kindNames.join(",")
                 };
                 currFlag = "cultivar";
                 getKindInfos(1);
-            }else{
+            } else {
                 currFlag = "group"
                 currPopu = selectPopulation(popId)[0];
                 getPopuTable(1);
             }
             // 弹框所有表头都显示
             var trs = $(".popu-table thead").find("tr");
-            for(var i=0;i<trs.length;i++){
+            for (var i = 0; i < trs.length; i++) {
                 var trChildrens = $(trs[i]).find("td");
-                for(var j=0;j<trChildrens.length;j++){
-                    if($(trChildrens[j]).is(":hidden")){
+                for (var j = 0; j < trChildrens.length; j++) {
+                    if ($(trChildrens[j]).is(":hidden")) {
                         $(trChildrens[j]).show();
                     }
                 }
             }
         });
         var currFlag;
+
         // 选则品种 之后 详情页
-        function getKindInfos(curr){
+        function getKindInfos(curr) {
             $.ajax({
-                type:'GET',
-                url:CTXROOT + "/dna/getByCultivar",
+                type: 'GET',
+                url: CTXROOT + "/dna/getByCultivar",
 //                data:data,
-                data:{
-                    names:kindNames.join(","),
-                    pageNum:curr || 1,
-                    pageSize:pageSizePopu
+                data: {
+                    names: kindNames.join(","),
+                    pageNum: curr || 1,
+                    pageSize: pageSizePopu
                 },
-                contentType:"application/json",
-                dataType:"json",
-                success:function (result){
+                contentType: "application/json",
+                dataType: "json",
+                success: function (result) {
                     popCount = result.total;
                     renderPopuTable(result.data.list);
                     laypage({
@@ -1338,33 +1514,33 @@
                     });
                     $("#popu-paginate .total-page-count > span").html(result.data.total);
                 },
-                error:function (error){
+                error: function (error) {
                     console.log(error);
                 }
             })
         };
 
-        $(".js-cursom-add2").on("click",".label-txt",function(){
+        $(".js-cursom-add2").on("click", ".label-txt", function () {
             currFlag = "group";
-            var label=$(this).parent().find("label");
-            if(label.hasClass("cur")){
+            var label = $(this).parent().find("label");
+            if (label.hasClass("cur")) {
                 label.addClass("cur");
-            }else{
+            } else {
                 label.removeClass("cur");
             }
             $(".tab-detail").show();
             $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
-            popId  = $(this).parent("label").attr("data-index");
+            popId = $(this).parent("label").attr("data-index");
             currPopu = selectDefaulPopulation(popId)[0];
             getPopuTable(1);
             // 弹框所有表头都显示
             var trs = $(".popu-table thead").find("tr");
-            for(var i=0;i<trs.length;i++){
+            for (var i = 0; i < trs.length; i++) {
                 var trChildrens = $(trs[i]).find("td");
-                for(var j=0;j<trChildrens.length;j++){
-                    if($(trChildrens[j]).is(":hidden")){
+                for (var j = 0; j < trChildrens.length; j++) {
+                    if ($(trChildrens[j]).is(":hidden")) {
                         $(trChildrens[j]).show();
                     }
                 }
@@ -1374,25 +1550,25 @@
         var popPageNum = 1;
         var popCount;
         // 获取焦点添加样式：
-        $("#popu-paginate").on("focus", ".laypage_skip", function() {
+        $("#popu-paginate").on("focus", ".laypage_skip", function () {
             $(this).addClass("isFocus");
         });
-        $("#popu-paginate").on("blur", ".laypage_skip", function() {
+        $("#popu-paginate").on("blur", ".laypage_skip", function () {
             $(this).removeClass("isFocus");
         });
 
-        $("#popu-paginate #per-page-count").on("change",".lay-per-page-count-select", function() {
+        $("#popu-paginate #per-page-count").on("change", ".lay-per-page-count-select", function () {
             var curr = Number($(".laypage_curr").text());
             var pageSize = Number($(this).val());
-            var total= Number($("#popu-paginate #total-page-count span").text());
-            var mathCeil=  Math.ceil(total/curr);
+            var total = Number($("#popu-paginate #total-page-count span").text());
+            var mathCeil = Math.ceil(total / curr);
             pageSizePopu = $(this).val();
-            if(pageSize>mathCeil){
-                var pageSizeNum=$(this).val();
-                getPopuTable(1,pageSizeNum)
-            }else{
-                var pageSizeNum=$(this).val();
-                getPopuTable(curr,pageSizeNum)
+            if (pageSize > mathCeil) {
+                var pageSizeNum = $(this).val();
+                getPopuTable(1, pageSizeNum)
+            } else {
+                var pageSizeNum = $(this).val();
+                getPopuTable(curr, pageSizeNum)
             }
         });
 
@@ -1404,25 +1580,26 @@
                     var _page_skip = $('#popu-paginate .laypage_skip');
                     var currNum = Number(_page_skip.val());
                     var pageSizeNum = Number($('#popu-paginate #per-page-count .lay-per-page-count-select').val());
-                    var total= Number($("#popu-paginate #total-page-count span").text());
-                    var mathCeil=  Math.ceil(total/pageSizeNum);
-                    if(currNum>mathCeil){
-                        getPopuTable(1,pageSizeNum)
-                    }else{
-                        getPopuTable(currNum,pageSizeNum)
+                    var total = Number($("#popu-paginate #total-page-count span").text());
+                    var mathCeil = Math.ceil(total / pageSizeNum);
+                    if (currNum > mathCeil) {
+                        getPopuTable(1, pageSizeNum)
+                    } else {
+                        getPopuTable(currNum, pageSizeNum)
                     }
                 }
             }
         });
 
         var pageSizePopu = 10;
+
         function getPopuTable(curr) {
             $.ajax({
                 url: CTXROOT + "/dna/queryByGroup",
                 data: {group: JSON.stringify(currPopu), pageNo: curr || 1, pageSize: pageSizePopu},
                 type: "POST",
                 dataType: "json",
-                success: function(res) {
+                success: function (res) {
                     popCount = res.total;
                     renderPopuTable(res.data);
                     laypage({
@@ -1440,7 +1617,7 @@
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var pageSizeNum = Number($('#per-page-count .lay-per-page-count-select').val());
                                 console.log(pageSizeNum)
-                                getPopuTable(obj.curr,currPopu);
+                                getPopuTable(obj.curr, currPopu);
                             }
                         }
                     });
@@ -1453,67 +1630,69 @@
         function renderPopuTable(data) {
             $(".js-table-header-setting-popu").find("label").addClass("checkbox-ac");
             var str = '';
-            $.each(data, function(idx, item) {
+            $.each(data, function (idx, item) {
                 str += '<tr>'
-                str += '<td class="species">'+ item.species +'</td><td class="locality">'+ item.locality +'</td><td class="sampleName">'+ item.sampleName +'</td>'
-                str += '<td class="cultivar">'+ item.cultivar +'</td><td class="weightPer100seeds">'+ item.weightPer100seeds +'</td><td class="oil">'+ item.oil +'</td>'
-                str += '<td class="protein">'+ item.protein +'</td>'
+                str += '<td class="species">' + item.species + '</td><td class="locality">' + item.locality + '</td><td class="sampleName">' + item.sampleName + '</td>'
+                str += '<td class="cultivar">' + item.cultivar + '</td><td class="weightPer100seeds">' + item.weightPer100seeds + '</td><td class="oil">' + item.oil + '</td>'
+                str += '<td class="protein">' + item.protein + '</td>'
 //                str += '<td class="protein">'+ item.protein +'</td><td class="floweringDate">'+ item.floweringDate +'</td>'
-                str += '<td class="maturityDate">'+ item.maturityDate +'</td><td class="height">'+item.height+'</td><td class="seedCoatColor">'+item.seedCoatColor+'</td>'
-                str += '<td class="hilumColor">'+item.hilumColor+'</td><td class="cotyledonColor">'+item.cotyledonColor+'</td><td class="flowerColor">'+item.flowerColor+'</td>'
-                str += '<td class="podColor">'+item.podColor+'</td><td class="pubescenceColor">'+item.pubescenceColor+'</td>'
-                str += '<td class="yield">'+item.yield+'</td><td class="upperLeafletLength">'+item.upperLeafletLength+'</td>'
-                str += '<td class="linoleic">'+item.linoleic+'</td><td class="linolenic">'+item.linolenic+'</td><td class="oleic">'+item.oleic+'</td>'
-                str += '<td class="palmitic">'+item.palmitic+'</td><td class="stearic">'+item.stearic+'</td>'
+                str += '<td class="maturityDate">' + item.maturityDate + '</td><td class="height">' + item.height + '</td><td class="seedCoatColor">' + item.seedCoatColor + '</td>'
+                str += '<td class="hilumColor">' + item.hilumColor + '</td><td class="cotyledonColor">' + item.cotyledonColor + '</td><td class="flowerColor">' + item.flowerColor + '</td>'
+                str += '<td class="podColor">' + item.podColor + '</td><td class="pubescenceColor">' + item.pubescenceColor + '</td>'
+                str += '<td class="yield">' + item.yield + '</td><td class="upperLeafletLength">' + item.upperLeafletLength + '</td>'
+                str += '<td class="linoleic">' + item.linoleic + '</td><td class="linolenic">' + item.linolenic + '</td><td class="oleic">' + item.oleic + '</td>'
+                str += '<td class="palmitic">' + item.palmitic + '</td><td class="stearic">' + item.stearic + '</td>'
                 str += '</tr>'
             });
             $(".popu-table > tbody").empty().append(str);
         }
+
         // 弹框 筛选确认按钮
 
-        $(".js-popu-setting-btn").click(function(){
+        $(".js-popu-setting-btn").click(function () {
             var _labels = $(".js-table-header-setting-popu").find("label");
-            $.each(_labels, function(idx, item) {
+            $.each(_labels, function (idx, item) {
                 var cls = "." + $(item).attr("for");
-                if(!$(item).hasClass("checkbox-ac")) {
+                if (!$(item).hasClass("checkbox-ac")) {
                     $(".popu-table").find(cls).hide();
                 } else {
                     $(".popu-table").find(cls).show();
                 }
             });
             // 判断脂肪酸是否显示
-            var linoleic1 ,linolenic1,oleic1,palmitic1,stearic1;
-            var linoleic2 =  $(".js-table-header-setting-popu").find("label[for='linoleic']").attr("class");
-            var linolenic2 =  $(".js-table-header-setting-popu").find("label[for='linolenic']").attr("class");
-            var oleic2 =  $(".js-table-header-setting-popu").find("label[for='oleic']").attr("class");
-            var palmitic2 =  $(".js-table-header-setting-popu").find("label[for='palmitic']").attr("class");
-            var stearic2 =  $(".js-table-header-setting-popu").find("label[for='stearic']").attr("class");
-            if(!linoleic2 && !linolenic2 && !oleic2 && !palmitic2 && !stearic2){
+            var linoleic1, linolenic1, oleic1, palmitic1, stearic1;
+            var linoleic2 = $(".js-table-header-setting-popu").find("label[for='linoleic']").attr("class");
+            var linolenic2 = $(".js-table-header-setting-popu").find("label[for='linolenic']").attr("class");
+            var oleic2 = $(".js-table-header-setting-popu").find("label[for='oleic']").attr("class");
+            var palmitic2 = $(".js-table-header-setting-popu").find("label[for='palmitic']").attr("class");
+            var stearic2 = $(".js-table-header-setting-popu").find("label[for='stearic']").attr("class");
+            if (!linoleic2 && !linolenic2 && !oleic2 && !palmitic2 && !stearic2) {
                 $(".popu-table thead").find("td[colspan='5']").hide();
-            }else {
-                if( $(".popu-table thead").find("td[colspan='5']").is(":hidden")){
+            } else {
+                if ($(".popu-table thead").find("td[colspan='5']").is(":hidden")) {
                     $(".popu-table thead").find("td[colspan='5']").show();
                 }
             }
         });
 
         /* 关闭群体信息、弹框 */
-        $(".tab-detail-thead p a").click(function(){
+        $(".tab-detail-thead p a").click(function () {
             $(".tab-detail").hide();
             $("#mid").hide();
         });
 
         /* 群体信息弹框可拖动 ,且弹窗边界动态改变*/
-        $(".tab-detail").draggable({ containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false });
+        $(".tab-detail").draggable({containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false});
         window.onscroll = scroll;
+
         function scroll() {
-            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, document.body.clientHeigh] });//滚动后重新计算弹框边界
+            $(".tab-detail").draggable({containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, document.body.clientHeigh]});//滚动后重新计算弹框边界
         }
 
         var popuSamples = {}; // 存储选中的样本数据
 
         /* 自定义样本选中 */
-        $("body").on("click", ".sample-category > div span", function(){
+        $("body").on("click", ".sample-category > div span", function () {
 
             $(this).parent().find("span").removeClass("js-span-ac");
             $(this).addClass("js-span-ac");
@@ -1528,35 +1707,36 @@
 
         function renderSampleCount() {
             var arr = [];
-            for(var i in popuSamples) {
+            for (var i in popuSamples) {
                 arr.push(getKeyName(i) + popuSamples[i]);
             }
-            var obj = {"name":arr.join(","), "condition":getStandardPopulation(popuSamples)};
+            var obj = {"name": arr.join(","), "condition": getStandardPopulation(popuSamples)};
             $.ajax({
                 url: CTXROOT + "/dna/queryByGroup",
                 data: {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10},
                 type: "POST",
                 dataType: "json",
-                success: function(res) {
+                success: function (res) {
                     $(".js-total-samples").html(res.total);
                 }
             });
         }
+
         renderSampleCount();
 
         // 生成样本文字
         function renderSampleText() {
             var str = '';
-            for(var name in popuSamples) {
-                str += '<span data-name="'+ name +'">'+ getKeyName(name) + popuSamples[name] +'<i class="js-colse-text">X</i></span>'
+            for (var name in popuSamples) {
+                str += '<span data-name="' + name + '">' + getKeyName(name) + popuSamples[name] + '<i class="js-colse-text">X</i></span>'
             }
             $(".sample-text").empty().append(str);
         }
 
         /* 样本清空 */
-        $(".sample-empty").click(function(){
+        $(".sample-empty").click(function () {
             var samples = $(".sample-text").find("span");
-            $.each(samples, function(idx, item) {
+            $.each(samples, function (idx, item) {
                 $(item).find(".js-colse-text").trigger("click");
             });
             renderSampleCount();
@@ -1564,14 +1744,14 @@
         });
 
         /* 删除单个样本条件 */
-        $(".sample-text").on("click", ".js-colse-text", function(){
+        $(".sample-text").on("click", ".js-colse-text", function () {
             $(this).parent().remove();
             var name = $(this).parent().attr("data-name");
             delete(popuSamples[name]);
 
             renderSampleCount();
 
-            $(".sample-category").find("div[data-name='"+name+"']").find("span").removeClass("js-span-ac");
+            $(".sample-category").find("div[data-name='" + name + "']").find("span").removeClass("js-span-ac");
         });
 
         /* 自定义 样本 */
@@ -1663,16 +1843,16 @@
                 obj[sampleName] = sampleValue;
 
                 var arr = [];
-                for(var i in obj) {
+                for (var i in obj) {
                     arr.push(getKeyName(i) + popuSamples[i]);
                 }
-                var obj = {"name":arr.join(","), "condition":getStandardPopulation(obj)};
+                var obj = {"name": arr.join(","), "condition": getStandardPopulation(obj)};
                 $.ajax({
                     url: CTXROOT + "/dna/queryByGroup",
                     data: {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10},
                     type: "POST",
                     dataType: "json",
-                    success: function(res) {
+                    success: function (res) {
                         content += "<div>" + res.total + "</div>";
                         $.pt({
                             target: self,
@@ -1688,16 +1868,16 @@
             } else {
                 $(".pt").remove();
             }
-        },function () {
+        }, function () {
             $(".pt").remove();
         });
 
         /* 选择搜索基因 */
-        $("body").on("click",".gene-search-list label", function() {
+        $("body").on("click", ".gene-search-list label", function () {
             $(".gene-search-list label").removeClass("checkbox-ac");
 //            var span = $(this).find("span");
-            var val=$('input:radio[name="sex"]:checked');
-            if($(this).hasClass("checkbox-ac")){
+            var val = $('input:radio[name="sex"]:checked');
+            if ($(this).hasClass("checkbox-ac")) {
                 $(this).removeClass("checkbox-ac");
             } else {
                 $(this).addClass("checkbox-ac");
@@ -1705,7 +1885,7 @@
             }
         });
 
-        $(".js-search-gene-btn").click(function() {
+        $(".js-search-gene-btn").click(function () {
             var gene = $(".js-search-gene-text").val();
             $.ajax({
                 url: "${ctxroot}/dna/queryByGene",
@@ -1713,19 +1893,20 @@
                 type: "GET",
                 dataType: "json",
                 timeout: 10000,
-                success: function(res) {
-                    if(res.data.length > 0) {
+                success: function (res) {
+                    if (res.data.length > 0) {
 
-                        if($(".gene-search input").hasClass("inputError")){
+                        if ($(".gene-search input").hasClass("inputError")) {
                             $(".gene-search input").removeClass("inputError");
-                        };
-                        if( !$(".errorBoxShow").is(":hidden")){
+                        }
+                        ;
+                        if (!$(".errorBoxShow").is(":hidden")) {
                             $(".errorBoxShow").hide();
                         }
                         var len = res.data.length;
                         var str = '';
                         for(var i = 0; i < len; i++) {
-                            str += '<label><input type="radio" name="radio" style="vertical-align: middle">'+ res.data[i].gene +'_'+ res.data[i].geneName +'<i style="display:none">_'+ res.data[i].geneFunction+'</i></label>'
+                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">'+ res.data[i].gene +'_'+ res.data[i].geneName +'</div><i style="display:none">_'+ res.data[i].geneFunction+'</i></label>'
                         }
                         $(".gene-search-list").empty().append(str);
                     } else {
@@ -1733,12 +1914,12 @@
                         $(".gene-search input").addClass("inputError")
                         $(".errorBoxShow").show();
                     }
-                    $(document).on("mouseover mouseout",".gene-search-list label",function(e){
-                        var e= e||event;
-                        if(e.type == "mouseover"){
-                            var _text=$(this).text()
+                    $(document).on("mouseover mouseout", ".gene-search-list label", function (e) {
+                        var e = e || event;
+                        if (e.type == "mouseover") {
+                            var _text = $(this).text()
                             var self = this;
-                            var content = "<p>"+_text+"</p>";
+                            var content = "<p>" + _text + "</p>";
                             $.pt({
                                 target: self,
                                 position: 't',
@@ -1747,24 +1928,24 @@
                                 content: content
                             });
                             $(".pt").css("left", $(".pt").position().left);
-                        }else if(e.type == "mouseout"){
+                        } else if (e.type == "mouseout") {
                             $(".pt").remove();
                         }
 
                     })
                 },
-                error: function(err){
+                error: function (err) {
                     window.location.href = '${ctxroot}/login'
                 }
             });
         });
 
         /* 导出 */
-        $(".js-export-popu").click(function() {
+        $(".js-export-popu").click(function () {
             var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
             var choiceArr = [];
-            $.each(_labels, function(idx, item) {
-                if($(item).hasClass("checkbox-ac")) {
+            $.each(_labels, function (idx, item) {
+                if ($(item).hasClass("checkbox-ac")) {
                     choiceArr.push($(item).attr("for"));
                 }
             });
@@ -1781,10 +1962,11 @@
 
         function linkEndPosition() {
             var chromosomeMax = $(".js-chorosome option:selected").attr("data-max");
-            $(".js-end-position").attr("placeholder", "<="+chromosomeMax);
+            $(".js-end-position").attr("placeholder", "<=" + chromosomeMax);
         }
+
         linkEndPosition();
-        $(".js-chorosome").change(function() {
+        $(".js-chorosome").change(function () {
             linkEndPosition();
         });
 
@@ -1800,31 +1982,34 @@
         };
 
 //        根据id获取选中的品种名
-        function selectKindVal (id){
-            var o=[];
+        function selectKindVal(id) {
+            var o = [];
             var kindStor = JSON.parse(storage.getItem("kind"));
-            for (var i=0;i<kindStor.name.length;i++){
-                if(kindStor.name[i].id == id){
+            for (var i = 0; i < kindStor.name.length; i++) {
+                if (kindStor.name[i].id == id) {
                     o.push(kindStor.name[i]);
                 }
-            };
+            }
+            ;
             return o;
         }
+
         // 根据ID获取选中的population
         function selectPopulation(id) {
             var o = [];
 
-            $.each(populations, function(idx, ele) {
-                if(ele.id == id) {
+            $.each(populations, function (idx, ele) {
+                if (ele.id == id) {
                     o.push(ele);
                 }
             });
             return o;
         }
+
         function selectDefaulPopulation(id) {
             var o = [];
-            $.each(defaultPopulations2, function(idx, ele) {
-                if(ele.id == id) {
+            $.each(defaultPopulations2, function (idx, ele) {
+                if (ele.id == id) {
                     o.push(ele);
                 }
             });
@@ -1833,22 +2018,22 @@
 
         function getSelectedPopulations() {
             selectedPopulations = [];
-            $.each($(".js-cursom-add").find(".js-ad-dd"), function(idx, element) {
-                if($(element).find("label").hasClass("cur")) {
+            $.each($(".js-cursom-add").find(".js-ad-dd"), function (idx, element) {
+                if ($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
 //                    var selectedItem = populations.slice(idx*1, idx*1+1);
 //                    modify by wjshan begin
-                    if($(element).find("label").find("div").text().substring(0,3) == "品种名"){
+                    if ($(element).find("label").find("div").text().substring(0, 3) == "品种名") {
                         var selectedItem = selectKindVal(id);
-                    }else {
+                    } else {
                         var selectedItem = selectPopulation(id);
                     }
 //                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
                 }
             });
-            $.each($(".js-cursom-add2").find(".js-ad-dd"), function(idx, element) {
-                if($(element).find("label").hasClass("cur")) {
+            $.each($(".js-cursom-add2").find(".js-ad-dd"), function (idx, element) {
+                if ($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
                     var selectedItem = selectDefaulPopulation(id);
                     selectedPopulations.push(selectedItem[0]);
@@ -1857,31 +2042,31 @@
         }
 
         window.GetPanelParams = {
-            getPanelType: function() {
+            getPanelType: function () {
                 return $(".selcet select option:selected").attr("data-value");
             },
-            getRegionParams : function() {
+            getRegionParams: function () {
                 RegionObj.chromosome = $(".js-chorosome").val();
                 RegionObj.start = $(".js-start-position").val();
                 RegionObj.end = $(".js-end-position").val();
                 var chromosomeMax = $(".js-chorosome option:selected").attr("data-max");
-                if(selectedPopulations.length > 0) {
+                if (selectedPopulations.length > 0) {
                     RegionObj["group"] = JSON.stringify(selectedPopulations);
                 } else {
 //                    RegionObj["group"] = JSON.stringify(defaultPopulations);
                     RegionObj["group"] = JSON.stringify([]);
                 }
-                if(RegionObj.start == "" || RegionObj.end == "") {
+                if (RegionObj.start == "" || RegionObj.end == "") {
                     return alert("输入不能为空");
                 }
-                if(!isNaN(RegionObj.start*1) && !isNaN(RegionObj.end*1)) {
-                    if(RegionObj.start*1 < 0 || RegionObj.end*1 < 0) {
+                if (!isNaN(RegionObj.start * 1) && !isNaN(RegionObj.end * 1)) {
+                    if (RegionObj.start * 1 < 0 || RegionObj.end * 1 < 0) {
                         return alert("输入数字应大于0");
                     }
-                    if(RegionObj.start*1 > chromosomeMax*1 || RegionObj.end*1 > chromosomeMax*1) {
+                    if (RegionObj.start * 1 > chromosomeMax * 1 || RegionObj.end * 1 > chromosomeMax * 1) {
                         return alert("输入值超过该基因最大值");
                     }
-                    if(RegionObj.start*1 > RegionObj.end*1) {
+                    if (RegionObj.start * 1 > RegionObj.end * 1) {
                         return alert("StartPosition应小于EndPosition");
                     }
 //                    if(RegionObj.end*1 - RegionObj.start*1 > 100000) {
@@ -1892,20 +2077,20 @@
                     alert("请输入数字");
                 }
             },
-            getGeneParams: function() {
+            getGeneParams: function () {
                 GeneObj.upstream = $(".js-up-stream").val();
                 GeneObj.downstream = $(".js-down-stream").val();
-                if(selectedPopulations.length > 0) {
+                if (selectedPopulations.length > 0) {
                     GeneObj["group"] = JSON.stringify(selectedPopulations);
                 } else {
                     GeneObj["group"] = JSON.stringify(defaultPopulations);
 //                    GeneObj["group"] = JSON.stringify([]);
                 }
 //
-                if(GeneObj.upstream == "") {
+                if (GeneObj.upstream == "") {
                     delete GeneObj["upstream"];
                 } else {
-                    if(!isNaN(GeneObj.upstream * 1)) {
+                    if (!isNaN(GeneObj.upstream * 1)) {
                         if (GeneObj.upstream * 1 > 20000) {
                             return alert("输入范围值要小于20kb");
                         } else if (GeneObj.upstream * 1 < 0) {
@@ -1915,10 +2100,10 @@
                         return alert("请输入数字");
                     }
                 }
-                if(GeneObj.downstream == "") {
+                if (GeneObj.downstream == "") {
                     delete GeneObj["downstream"];
                 } else {
-                    if(!isNaN(GeneObj.downstream * 1)) {
+                    if (!isNaN(GeneObj.downstream * 1)) {
                         if (GeneObj.downstream * 1 > 20000) {
                             return alert("输入范围值要小于20kb");
                         } else if (GeneObj.downstream * 1 < 0) {
