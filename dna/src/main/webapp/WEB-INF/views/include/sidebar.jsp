@@ -1621,6 +1621,9 @@
             var val1 = _prev.find("input").first()[0].value;
             var val2 = _prev.find("input").last()[0].value;
             var str = val1 + "-" + val2;
+            if(val1.toString() != "" && val2.toString() != "") {
+                if($.inArray($(this).attr("data-name"), percetageArray) > -1) {
+                    if((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
             //输入框颜色
             var input1 = _prev.find("input").first()[0];
             var input2 = _prev.find("input").last()[0];
@@ -1636,6 +1639,8 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
+                        //modified by zjt 2018-3-13
+                        /*--------raw
                         if ($.inArray(str, arr) > -1) {
                             alert("添加区间重复");
                             input1.style.borderColor = "red";
@@ -1647,6 +1652,11 @@
                             input1.style.borderColor = "";
                             input2.style.borderColor = "";
                         }
+                        --------raw*/
+                        var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
+                        $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
+                        ss.trigger("click");
+                        //modified by zjt 2018-3-13
                     }
                 } else {
                     if ((val1 < 0 || val2 < 0) || val1 > val2) {
@@ -1659,6 +1669,8 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
+                        //modified by zjt 2018-3-13
+                        /*--------raw
                         if ($.inArray(str, arr) > -1) {
                             alert("添加区间重复");
                             input1.style.borderColor = "red";
@@ -1670,6 +1682,11 @@
                             input1.style.borderColor = "";
                             input2.style.borderColor = "";
                         }
+                        --------raw*/
+                        var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
+                        $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
+                        ss.trigger("click");
+                        //modified by zjt 2018-3-13
                     }
                 }
             } else {
