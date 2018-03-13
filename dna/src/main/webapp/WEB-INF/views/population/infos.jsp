@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
+
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
@@ -516,7 +518,7 @@
         <div id="popTips">
             <div class="tipTop">
                 <p class="tipTopCnt">Group 1</p>
-                <p class="closeBtn"><img src="${ctxStatic}/images/close.png"></p>
+                <%--<p class="closeBtn"><img src="${ctxStatic}/images/close.png"></p>--%>
             </div>
             <p class="titCnt">群体分类生物学意义</p>
             <p class="groupCnt">
