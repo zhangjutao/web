@@ -19,6 +19,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
