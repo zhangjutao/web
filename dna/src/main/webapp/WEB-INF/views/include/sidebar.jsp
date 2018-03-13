@@ -924,7 +924,6 @@
     $(function () {
         if (window.localStorage) {
             var storage = window.localStorage;
-<<<<<<< HEAD
         }else{
 //            alert('This browser does NOT support localStorage');
             layer.open({
@@ -933,10 +932,7 @@
                 content:"This browser does NOT support localStorage",
                 shadeClose:true,
             });
-=======
-        } else {
-            alert('This browser does NOT support localStorage');
->>>>>>> b6ab49c0a9ddc63346154737b4aea75eba02b0d2
+
         }
 
         function setCookie(name, value) {
@@ -1236,7 +1232,6 @@
         }
 
         /* 保存群体 */
-<<<<<<< HEAD
         $(".sample-screening-btn button").click(function(){
             var sampleTexts=$(".sample-text").text();
             if(sampleTexts.length==0){
@@ -1247,12 +1242,7 @@
                     content:"请选择群体",
                     shadeClose:true,
                 });
-=======
-        $(".sample-screening-btn button").click(function () {
-            var sampleTexts = $(".sample-text").text();
-            if (sampleTexts.length == 0) {
-                alert("请选择群体!")
->>>>>>> b6ab49c0a9ddc63346154737b4aea75eba02b0d2
+
                 return;
             }
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
@@ -2151,7 +2141,6 @@
 //                    RegionObj["group"] = JSON.stringify(defaultPopulations);
                     RegionObj["group"] = JSON.stringify([]);
                 }
-<<<<<<< HEAD
                 if(RegionObj.start == "" || RegionObj.end == "") {
 //                    return alert("输入不能为空");
                     layer.open({
@@ -2192,20 +2181,7 @@
                             shadeClose:true,
                         });
                         return;
-=======
-                if (RegionObj.start == "" || RegionObj.end == "") {
-                    return alert("输入不能为空");
-                }
-                if (!isNaN(RegionObj.start * 1) && !isNaN(RegionObj.end * 1)) {
-                    if (RegionObj.start * 1 < 0 || RegionObj.end * 1 < 0) {
-                        return alert("输入数字应大于0");
-                    }
-                    if (RegionObj.start * 1 > chromosomeMax * 1 || RegionObj.end * 1 > chromosomeMax * 1) {
-                        return alert("输入值超过该基因最大值");
-                    }
-                    if (RegionObj.start * 1 > RegionObj.end * 1) {
-                        return alert("StartPosition应小于EndPosition");
->>>>>>> b6ab49c0a9ddc63346154737b4aea75eba02b0d2
+
                     }
 //                    if(RegionObj.end*1 - RegionObj.start*1 > 100000) {
 //                        return alert("区间应小于100 kb");
