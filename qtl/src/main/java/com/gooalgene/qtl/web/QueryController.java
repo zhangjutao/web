@@ -230,7 +230,7 @@ public class QueryController {
                     sb.append((data.getGeneEnd() == null ? "" : data.getGeneEnd())).append("\t");
                 }
                 if (map.containsKey("reference")) {
-                    sb.append((data.getRef() == null ? "" : data.getRef())).append("\t");
+                    sb.append((data.getRef() == null ? "" : data.getRef()));
                 }
                 sb.append("\n");
             }
