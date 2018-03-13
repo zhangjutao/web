@@ -70,6 +70,7 @@
         left: 50%;
         margin-left: -450px;
         border:none;
+        /*top: -356px;*/
     }
 </style>
 
@@ -660,7 +661,7 @@
 <div id="mid"></div>
 <div id="tab-detail" class="tab-detail ui-widget-content">
     <div class="tab-detail-thead">
-        <p style="position:relative;">
+        <p style="position:relative;" id="tabDetailTitle">
             <span style="display:inline-block;text-align:center;max-width:600px;overflow:hidden;text-overflow: ellipsis; white-space: nowrap;">1</span>
             <i style="position:relative;top:-15px;color:#fff;">号群体/品种属性信息</i>
 
@@ -1236,6 +1237,7 @@
                 storage.setItem("kind",JSON.stringify(kindStorage));
             }
         };
+        var index1,index2;
         /* 删除手动添加的自定义群体 */
         $("body").on("click",".js-del-dd",function(){
             var self = this;
@@ -1274,7 +1276,7 @@
                 label.removeClass("cur");
             }
             $(".tab-detail").show();
-            $("#mid").show();
+//            $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             popId = $(this).parent("label").attr("data-index");
@@ -1301,6 +1303,23 @@
                     }
                 }
             }
+
+            //             修改拖拽样式
+            index1 = layer.open({
+                title:"",
+                type: 1,
+                content: $("#tab-detail"),
+                area: ['900px','300'],
+                shade: [0.8, '#393D49'],
+                shadeClose:true,
+                scrollbar:false,
+                move: '#tabDetailTitle',
+                closeBtn: 0,
+                offset:['200px', '500px']
+
+            });
+
+
         });
         var currFlag;
         // 选则品种 之后 详情页
@@ -1353,7 +1372,7 @@
                 label.removeClass("cur");
             }
             $(".tab-detail").show();
-            $("#mid").show();
+//            $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             popId  = $(this).parent("label").attr("data-index");
@@ -1369,6 +1388,21 @@
                     }
                 }
             }
+
+//             修改拖拽样式
+           index2 = layer.open({
+                title:"",
+                type: 1,
+                content: $("#tab-detail"),
+                area: ['900px','300'],
+                shade: [0.8, '#393D49'],
+                shadeClose:true,
+                scrollbar:false,
+                move: '#tabDetailTitle',
+                closeBtn: 0,
+                offset:['200px', '500px']
+
+            });
 
         });
         var popPageNum = 1;
@@ -1499,16 +1533,18 @@
 
         /* 关闭群体信息、弹框 */
         $(".tab-detail-thead p a").click(function(){
-            $(".tab-detail").hide();
-            $("#mid").hide();
+//            $(".tab-detail").hide();
+//            $("#mid").hide();
+            layer.close(index1);
+            layer.close(index2);
         });
 
         /* 群体信息弹框可拖动 ,且弹窗边界动态改变*/
-        $(".tab-detail").draggable({ containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false });
-        window.onscroll = scroll;
-        function scroll() {
-            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, document.body.clientHeigh] });//滚动后重新计算弹框边界
-        }
+//        $(".tab-detail").draggable({ containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false });
+//        window.onscroll = scroll;
+//        function scroll() {
+//            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, document.body.clientHeigh] });//滚动后重新计算弹框边界
+//        }
 
         var popuSamples = {}; // 存储选中的样本数据
 
