@@ -617,6 +617,18 @@
     var version = $.getUrlParam('version');
     var type_select = $.getUrlParam('type');
     var key_input = $.getUrlParam('keywords');
+    //        处理头部选项checked
+    var str = "";
+    $("input[type='checkbox']").each(function (index) {
+//        if (!$(this).is(":checked")) {
+//            $(".t_" + $(this).val()).hide();
+//        } else {
+//            $(".t_" + $(this).val()).show();
+            str += $(this).val() + ",";
+//        }
+    });
+    var topChecked=str.substring(0,str.length-1);
+    console.log(topChecked)
     //    初始化列表
     initTables(1, 10, type_select, key_input, version);
     var page = {curr: 1, pageSize: 10};
@@ -629,18 +641,6 @@
         var imgHTML = "<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>";
         $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
         $('.checkbox-tab').append(imgHTML);
-
-        //        处理头部选项checked
-        var str = "";
-        $("input[type='checkbox']").each(function (index) {
-            if (!$(this).is(":checked")) {
-                $(".t_" + $(this).val()).hide();
-            } else {
-                $(".t_" + $(this).val()).show();
-                str += $(this).val() + ",";
-            }
-        });
-        var topChecked=str.substring(0,str.length-1);
         $.ajax({
             url: "${ctxroot}/search/list/page",
             type: "POST",
@@ -692,7 +692,36 @@
                 //导出方法调用
                 $(".btn-export").off('click').click(function () {
                     if (res.data.length !== 0) {
-                        exportData();
+//                        exportData();
+                        // 表格导出
+                        // 修复tomcat8无法识别的JSON格式问题
+                        var cdt = getParamsString();
+                        console.log(version)
+                        console.log(type_select)
+                        console.log(cdt)
+                        console.log(topChecked)
+                        $.ajax({
+                            type: "GET",
+                            url: "${ctxroot}/query/dataExport",
+                            data: {
+                                version: version,
+                                type: type_select,
+                                keywords: "",
+                                condition: cdt,
+                                choices:topChecked,
+                            },
+                            dataType: "json",
+                            contentType: "application/json",
+                            success: function (result) {
+//                console.log(result)
+                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href = path + result.data;
+//                                window.location.href = result;
+                            },
+                            error: function (error) {
+                                console.log(error);
+                            }
+                        })
                     } else {
                         alert("暂无数据，不可下载！")
                     }
@@ -1284,12 +1313,11 @@
                 type: type_select,
                 keywords: "",
                 condition: cdt,
-                choices:"id,qtlName,trait,type,chr,lg,method,marker1,marker2,genesNum,lod,parent1,parent2,genomeStart,genomeEnd,author"
+                choices: topChecked
             },
             dataType: "json",
             contentType: "application/json",
             success: function (result) {
-                console.log(result)
                 var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
                 window.location.href = path + result.data;
             },
@@ -1312,6 +1340,7 @@
         //find & remove "?"
         hostname = hostname.split('?')[0];
         return hostname;
+    }
 
     function getParamsString() {
         var tmp = {};
@@ -1387,6 +1416,7 @@
     /*基因详情拖动弹框*/
     $(".genesInfo").draggable({containment: "body"});
     $(".author-pop-tab").draggable({containment: "body"});
+
 </script>
 </body>
 </html>

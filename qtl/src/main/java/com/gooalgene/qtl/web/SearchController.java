@@ -96,7 +96,7 @@ public class SearchController {
         String version = request.getParameter("version");
         String parameters = request.getParameter("condition");
         // 表格设置中用户选择的check box
-        String checkedOption = request.getParameter("checked");
+        String checkedOption = request.getParameter("choices");
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         QtlTableEntity result =
