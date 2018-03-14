@@ -701,15 +701,13 @@
             var cdt = getParamsString();
         //处理头部选项checked
         var str = "";
-//        $("input[type='checkbox']").each(function (index) {
-//            str += $(this).val() + ",";
-//        });
         $("input[type='checkbox']").each(function (index) {
             if ($(this).is(":checked")) {
                 str += $(this).val() + ",";
             }
         })
         var topCheckeds=str.substring(0,str.length-1);
+        var key_input=$('.js-search-text').val();
             $.ajax({
                 type: "GET",
                 url: "${ctxroot}/query/dataExport",
@@ -723,16 +721,13 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (result) {
-//                console.log(result)
                     var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
                     window.location.href = path + result.data;
-//                                window.location.href = result;
                 },
                 error: function (error) {
                     console.log(error);
                 }
             })
-
     })
 
 
@@ -990,7 +985,6 @@
             $(".js-gene-head-name").html(geneName);
             $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
             e.preventDefault();
-//        console.log($(this).html())
             $(".genesInfo").show();
 
         });
