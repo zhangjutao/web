@@ -727,22 +727,19 @@
         $(".lay-per-page-count-select").val(page.pageSize);
 
         function initTable(curr,pageSizeNum) {
+            console.log(page.pageSize)
             var max;
             var params = getParams();
-            params['pageNo'] = curr || 1;
-            params['pageSize'] = pageSizeNum||20;
-
-           loadMask ("#mask-test");
-
+            params['pageNo'] = curr;
+            params['pageSize'] = pageSizeNum;
+//           loadMask ("#mask-test");
             return $.ajax({
                 url: "${ctxroot}/diffgene/studyExpression",
                 type: "get",
                 dataType: "json",
                 data: params,
                 success: function(res) {
-
-                    maskClose();
-
+//                    maskClose();
                     if(res.data.length > 0) {
                         $(".js-heat-table > thead,.ga-ctrl-footer").show();
                         //显示表格内容
@@ -771,12 +768,11 @@
                         $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")
                     }
                     $("#total-page-count > span").html(res.total);
-
                     //显示分页
                     laypage({
                         cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
-                        curr: page.curr || 1, //当前页
+                        curr: curr|| 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
@@ -824,8 +820,9 @@
         // 搜索
         $(".js-search-gene-button").click(function() {
             page.curr=1;
-            initTable(1);
+            page.pageSize=20;
             $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
+            initTable(1,20);
             $('.zwsj').remove();
         });
 
@@ -868,6 +865,7 @@
                     }
                 } else if (_search_gene_dom.hasClass("isFocus")) {
                     $('.zwsj').remove();
+                    page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
                     if(currNum>mathCeil){
                         page.curr = 1;
@@ -878,6 +876,7 @@
                     }
                 } else if(_expression_dom.hasClass("isFocus")) {
                     $('.zwsj').remove();
+                    page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
                     if(currNum>mathCeil){
                         page.curr = 1;
@@ -976,7 +975,7 @@
             basic_promise = initBasicInfo();
 
             basic_promise.then(function() {
-                table_promise = initTable();
+                table_promise = initTable(1,20);
 
                 // 样本 多选
                 $(".js-samples").on("click", ".js-checkbox", function() {

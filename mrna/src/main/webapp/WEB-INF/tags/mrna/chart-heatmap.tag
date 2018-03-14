@@ -186,19 +186,24 @@
                             if (res.gens.length == 0) {
                                 $('#heatmap_').empty().html("<p class='zwsj'>暂无数据</p>");
                             } else {
-                                if(res.gens.length>30){
-                                    var heatmapHeigth= 900;
-                                }else if(res.gens.length<5){
-                                    var heatmapHeigth= 300;
-                                }else{
-                                    var heatmapHeigth= 600;
-                                }
+//                                if(res.gens.length>30){
+//                                    var heatmapHeigth= 900;
+//                                }else if(res.gens.length<5){
+//                                    var heatmapHeigth= 300;
+//                                }else{
+//                                    var heatmapHeigth= 600;
+//                                }
                                 var dd = res;
                                 heatmapdata = _.orderBy(dd.cate, ["name"]);
                                 heatmapcategory = dd.gens;
                                 g_cate = initCategories();
-                                <%--$("#heatmap_${id}").css({"min-height": (70 * innergenes.length + 120) + "px"});--%>
-                                $("#heatmap_${id}").css({"height": heatmapHeigth + "px"});
+                                if(res.gens.length<=5){
+                                   $("#heatmap_${id}").css({"height": (50 * 5+100) + "px"});
+                               }else{
+                                   $("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});
+                                }
+                                <%--$("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});--%>
+                                <%--$("#heatmap_${id}").css({"height": heatmapHeigth + "px"});--%>
                                 $('#heatmap_').empty();
                                 renderChart(heatmapcategory, g_cate, getChartData(g_cate));
                                 $("#total-page-count span").html(res.gensTotal);
