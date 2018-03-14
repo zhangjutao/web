@@ -714,10 +714,16 @@ public class QueryService implements InitializingBean {
         PageHelper.startPage(pageNo, pageSize);
         List<QtlSearchResult> list = qtlDao.findByCondition(qtl);
         // 发布异步事件，预加载查询下载结果
-        AsyncEventBus asyncEventBus = register.getAsyncEventBus();
         QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
         event.setCheckedOption(checkedOption);
-        asyncEventBus.post(event);
+        // 预构建缓存key值
+        String preConstructCachedKey = event.getClass().getSimpleName() + "-" + keywords;
+        Cache.ValueWrapper valueWrapper = cache.get(preConstructCachedKey);
+        // 如果缓存中不存在该值，发布异步事件重新查询该值，有效控制后台预加载性能消耗
+        if (valueWrapper == null){
+            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
+            asyncEventBus.post(event);
+        }
         qtlTableEntity.setTotal((int) new PageInfo<>(list).getTotal());
         for (QtlSearchResult qtlSearchResult : list) {
             int associateGeneId = qtlSearchResult.getAssociateGeneId();
@@ -744,7 +750,8 @@ public class QueryService implements InitializingBean {
         Qtl qtl = constructQtlSearchCondition(version, type, keywords, param);
         QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
         event.setCheckedOption(checkedOption);
-        String key = event.getClass().getSimpleName() + checkedOption;
+        String key = event.getClass().getSimpleName() +"-" + keywords;
+        logger.info("下载时接受的缓存值为：" + key);
         Cache.ValueWrapper valueWrapper = cache.get(key);
         if (valueWrapper == null) {
             logger.warn("该数据未缓存，请重新查询");

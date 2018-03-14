@@ -289,8 +289,7 @@
                     <span>表格内容:</span>
                     <dl>
                         <dd><label for="id"><input id="id" type="checkbox" name="" value="id" checked>ID</label></dd>
-                        <dd><label for="qtlName"><input id="qtlName" type="checkbox" name="" value="qtlName" checked>QTL
-                            Name</label></dd>
+                        <dd><label for="qtlName"><input id="qtlName" type="checkbox" name="" value="qtlName" checked>QTL Name</label></dd>
                         <dd><label for="trait"><input id="trait" type="checkbox" name="" value="trait"
                                                       checked>Trait</label></dd>
                         <dd><label for="type"><input id="type" type="checkbox" name="" value="type" checked>Type</label>
@@ -615,20 +614,24 @@
         }
     })(jQuery);
     var version = $.getUrlParam('version');
-    var type_select = $.getUrlParam('type');
-    var key_input = $.getUrlParam('keywords');
-    //        处理头部选项checked
+    var type_selects = $.getUrlParam('type');
+    var key_inputs = $.getUrlParam('keywords');
+
+    //    给搜索框赋值
+    $('.js-search-text').val(key_inputs);
+    //    给搜索下拉框赋值
+    $('.js-search-select').val(type_selects);
+
+    var type_select=$('.js-search-select').val();
+    var key_input=$('.js-search-text').val();
+    // 处理头部选项checked
     var str = "";
     $("input[type='checkbox']").each(function (index) {
-//        if (!$(this).is(":checked")) {
-//            $(".t_" + $(this).val()).hide();
-//        } else {
-//            $(".t_" + $(this).val()).show();
+        //页面打开，表头选项默认全选
+        //$("#id").attr("checked", true);
             str += $(this).val() + ",";
-//        }
     });
     var topChecked=str.substring(0,str.length-1);
-    console.log(topChecked)
     //    初始化列表
     initTables(1, 10, type_select, key_input, version);
     var page = {curr: 1, pageSize: 10};
@@ -688,48 +691,44 @@
                     // 关闭遮罩层
                     $(".imgHTML,.mengc").remove();
                 }
-
-                //导出方法调用
-                $(".btn-export").off('click').click(function () {
-                    if (res.data.length !== 0) {
-//                        exportData();
-                        // 表格导出
-                        // 修复tomcat8无法识别的JSON格式问题
-                        var cdt = getParamsString();
-                        console.log(version)
-                        console.log(type_select)
-                        console.log(cdt)
-                        console.log(topChecked)
-                        $.ajax({
-                            type: "GET",
-                            url: "${ctxroot}/query/dataExport",
-                            data: {
-                                version: version,
-                                type: type_select,
-                                keywords: "",
-                                condition: cdt,
-                                choices:topChecked,
-                            },
-                            dataType: "json",
-                            contentType: "application/json",
-                            success: function (result) {
-//                console.log(result)
-                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
-                window.location.href = path + result.data;
-//                                window.location.href = result;
-                            },
-                            error: function (error) {
-                                console.log(error);
-                            }
-                        })
-                    } else {
-                        alert("暂无数据，不可下载！")
-                    }
-                })
             }
         });
     }
 
+    //导出方法调用
+    $(".btn-export").off('click').click(function () {
+            //表格导出 修复tomcat8无法识别的JSON格式问题
+            var cdt = getParamsString();
+        //处理头部选项checked
+        var str = "";
+        $("input[type='checkbox']").each(function (index) {
+            if ($(this).is(":checked")) {
+                str += $(this).val() + ",";
+            }
+        })
+        var topCheckeds=str.substring(0,str.length-1);
+        var key_input=$('.js-search-text').val();
+            $.ajax({
+                type: "GET",
+                url: "${ctxroot}/query/dataExport",
+                data: {
+                    version: version,
+                    type: type_select,
+                    keywords: key_input,
+                    condition: cdt,
+                    choices:topCheckeds,
+                },
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                    window.location.href = path + result.data;
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+    })
 
 
 
@@ -900,18 +899,19 @@
 
 
         /*表头*/
-        $(".btn-confirm").click(function () {
-            var str = "";
-            $("input[type='checkbox']").each(function (index) {
-                if (!$(this).is(":checked")) {
-                    $(".t_" + $(this).val()).hide();
-                } else {
-                    $(".t_" + $(this).val()).show();
-                    str += $(this).val() + "-";
-                }
-            })
-            setCookie('showedCols', str);
-        })
+//        $(".btn-confirm").click(function () {
+//            var str = "";
+//            $("input[type='checkbox']").each(function (index) {
+//                if (!$(this).is(":checked")) {
+//                    $(".t_" + $(this).val()).hide();
+//                } else {
+//                    $(".t_" + $(this).val()).show();
+//                    str += $(this).val() + "-";
+//                }
+//            })
+//            setCookie('showedCols', str);
+//            console.log(str)
+//        })
 
         function pop(id, name) {
             $(id).click(function (e) {
@@ -985,7 +985,6 @@
             $(".js-gene-head-name").html(geneName);
             $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
             e.preventDefault();
-//        console.log($(this).html())
             $(".genesInfo").show();
 
         });
@@ -1048,18 +1047,18 @@
         $(".js-pop").draggable({containment: "body", cancel: ".js-pop-body"});
         $(".author-pop-tab").draggable({containment: "body", cancel: ".js-pop-body,.information-tab"});
         $(".tab-detail").draggable({containment: "body", cancel: ".tab-detail-tbody"});
-        if (getCookie('showedCols')) {
-            var cols = getCookie('showedCols').split("-");
-            $("input[type='checkbox']").each(function (index, el) {
-                for (var i = 0; i < cols.length; i++) {
-                    if ($(this).val() == cols[i]) {
-                        $(this).prop("checked", false);
-                        $(".t_" + $(this).val()).hide();
-                        break;
-                    }
-                }
-            });
-        }
+//        if (getCookie('showedCols')) {
+//            var cols = getCookie('showedCols').split("-");
+//            $("input[type='checkbox']").each(function (index, el) {
+//                for (var i = 0; i < cols.length; i++) {
+//                    if ($(this).val() == cols[i]) {
+//                        $(this).prop("checked", false);
+//                        $(".t_" + $(this).val()).hide();
+//                        break;
+//                    }
+//                }
+//            });
+//        }
 
 
         /* 设置表头 */
@@ -1289,7 +1288,58 @@
 //        $("#search8").val(choices);
 //        $("#exportForm").submit();
 //    });
+    // 表格导出
+    function exportData() {
+//        处理头部选项checked
+        var str = "";
+        $("input[type='checkbox']").each(function (index) {
+            if (!$(this).is(":checked")) {
+                $(".t_" + $(this).val()).hide();
+            } else {
+                $(".t_" + $(this).val()).show();
+                str += $(this).val() + ",";
+            }
+        });
+        var cdt = getParamsString();
+        var topChecked=str.substring(0,str.length-1);
+        var keyInput=$(".js-search-text").val();
+        // 修复tomcat8无法识别的JSON格式问题
+        $.ajax({
+            type: "GET",
+            url: "${ctxroot}/query/dataExport",
+            data: {
+                version: version,
+                type: type_select,
+                keywords: "",
+                condition: cdt,
+                choices: topChecked
+            },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href = path + result.data;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
 
+    function extractHostname(url) {
+        var hostname;
+        if (url.indexOf("://") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+        return hostname;
+    }
 
     function getParamsString() {
         var tmp = {};
@@ -1365,6 +1415,7 @@
     /*基因详情拖动弹框*/
     $(".genesInfo").draggable({containment: "body"});
     $(".author-pop-tab").draggable({containment: "body"});
+
 </script>
 </body>
 </html>
