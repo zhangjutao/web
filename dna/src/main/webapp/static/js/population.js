@@ -232,6 +232,7 @@ $(function (){
 
     // 获取表格数据
     $(".btnConfirmInfo").click(function (){
+        $(".lay-per-page-count-select option:nth-child(1)").prop("selected", 'selected');
         var data = getParamas();
         getData(data,page.pageNum);
     })
@@ -315,10 +316,12 @@ $(function (){
                     $("#tableShow table tbody tr").remove();
                     $("#errorImg").show();
                     $("#containerAdmin").css("height","754px");
-                    $("#per-page-count").hide();
+                    $(".ga-ctrl-footer").hide();
+                    $("#tableShow table tbody").html("<div class='zwsj' style='padding: 20px 10px;'>暂无数据</div>")
                 }else{
+                    $('.zwsj').remove();
                     if($("#per-page-count").is(":hidden")){
-                        $("#per-page-count").show();
+                        $(".ga-ctrl-footer").show();
                     }
                     totalDatas = result.data.list;
                     $("#tableShow table tbody tr").remove();
@@ -466,6 +469,7 @@ $(function (){
     })
     // 点击群体时触发请求，跟后端协调字段名成是否正确
     $(".popNamesNewAdd li").click(function (){
+        $(".lay-per-page-count-select option:nth-child(1)").prop("selected", 'selected');
         $(".popNamesNewAdd").hide();
         popuSelectedVal = $(this).text();
         var data = getParamas();
