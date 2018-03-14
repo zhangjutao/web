@@ -131,7 +131,7 @@ public class QueryController {
      */
     private Map<String, String> changeColumn2Web() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("id", "ID");
+        map.put("id", "id");
         map.put("qtlName", "QTL Name");
         map.put("trait", "Trait");
         map.put("type", "Type");

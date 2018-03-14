@@ -63,7 +63,7 @@ public class QueryService implements InitializingBean {
     @Autowired
     private MarkerPositionDao markerPositionDao;
 
-    @Autowired
+    @Autowired(required = false)
     private EventBusRegister register;
 
     @Autowired
