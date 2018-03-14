@@ -754,8 +754,22 @@ public class QueryService implements InitializingBean {
         logger.info("下载时接受的缓存值为：" + key);
         Cache.ValueWrapper valueWrapper = cache.get(key);
         if (valueWrapper == null) {
-            logger.warn("该数据未缓存，请重新查询");
-            return null;
+            long start = System.currentTimeMillis();
+            long end = 0;
+            // 定时从缓存中取最新的缓存值
+            while (valueWrapper == null) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                valueWrapper = cache.get(key);
+                end = System.currentTimeMillis();
+                if (end - start > 40 * 1000) {
+                    logger.warn("该数据未缓存，请重新查询");
+                    return null;
+                }
+            }
         }
         List<QtlSearchResult> cachedResult = (List<QtlSearchResult>) valueWrapper.get();
         return cachedResult;
