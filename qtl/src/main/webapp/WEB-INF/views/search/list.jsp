@@ -222,19 +222,37 @@
             top: 0;
         }
 
-        .imgHTML{
-            top:50%;
+        .imgHTML {
+            top: 50%;
             left: 50%;
             position: absolute;
             margin-left: -18.5px;
             margin-top: -18.5px;
         }
-        .mengc{
+
+        .mengc {
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
             position: fixed;
+        }
+
+        body .ga-ctrl-footer {
+            padding: 20px !important;
+        }
+
+        body .pagination {
+            display: inline-table !important;
+        }
+
+        .per-page-count {
+            vertical-align: top !important;
+        }
+
+        .total-page-count {
+            vertical-align: bottom !important;
+            top: -1px !important;
         }
     </style>
 </head>
@@ -271,8 +289,7 @@
                     <span>表格内容:</span>
                     <dl>
                         <dd><label for="id"><input id="id" type="checkbox" name="" value="id" checked>ID</label></dd>
-                        <dd><label for="qtlName"><input id="qtlName" type="checkbox" name="" value="qtlName" checked>QTL
-                            Name</label></dd>
+                        <dd><label for="qtlName"><input id="qtlName" type="checkbox" name="" value="qtlName" checked>QTL Name</label></dd>
                         <dd><label for="trait"><input id="trait" type="checkbox" name="" value="trait"
                                                       checked>Trait</label></dd>
                         <dd><label for="type"><input id="type" type="checkbox" name="" value="type" checked>Type</label>
@@ -336,7 +353,6 @@
                 <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
             </div>
             <%@ include file="/WEB-INF/views/include/nav.jsp" %>
-
         </aside>
         <article class="">
             <div class="checkbox-tab" style="position:relative;">
@@ -508,27 +524,24 @@
                     <tbody class="item-tab">
                     </tbody>
                 </table>
-                <form id="searchForm" action="${ctxroot}/search/listByResult" method="get">
-                    <input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search2" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search3" name="condition" type="hidden" value='${condition}'/>
-                    <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-                    <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-                    <input id="version" name="version" type="hidden" value="">
-                </form>
-                <form id="exportForm" action="${ctxroot}/query/dataExport" method="get">
-                    <input id="search7" name="version" type="hidden" value="${version}"/>
-                    <input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search5" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search6" name="condition" type="hidden" value='${condition}'/>
-                    <input id="search8" name="choices" type="hidden"/>
-                </form>
+                <%--<form id="searchForm" action="${ctxroot}/search/listByResult" method="get">--%>
+                <%--<input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search2" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search3" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>--%>
+                <%--<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
+                <%--<input id="version" name="version" type="hidden" value="">--%>
+                <%--</form>--%>
+                <%--<form id="exportForm" action="${ctxroot}/query/dataExport" method="get">--%>
+                <%--<input id="search7" name="version" type="hidden" value="${version}"/>--%>
+                <%--<input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search5" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search6" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="search8" name="choices" type="hidden"/>--%>
+                <%--</form>--%>
             </div>
             <div class="checkbox-item-tab" id="all-paginate">
                 <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-            </div>
-            <div class="ktPaginate">
-                ${page}
             </div>
         </article>
     </div>
@@ -544,7 +557,6 @@
     <div class="tab-detail-tbody">
         <div class="tab-category">Genes</div>
         <div class="tab-category-list">
-
         </div>
     </div>
 </div>
@@ -555,7 +567,6 @@
         </p>
     </div>
     <div class="links-text">
-
     </div>
 </div>
 <div class="js-pop">
@@ -603,8 +614,24 @@
         }
     })(jQuery);
     var version = $.getUrlParam('version');
-    var type_select = $.getUrlParam('type');
-    var key_input = $.getUrlParam('keywords');
+    var type_selects = $.getUrlParam('type');
+    var key_inputs = $.getUrlParam('keywords');
+
+    //    给搜索框赋值
+    $('.js-search-text').val(key_inputs);
+    //    给搜索下拉框赋值
+    $('.js-search-select').val(type_selects);
+
+    var type_select=$('.js-search-select').val();
+    var key_input=$('.js-search-text').val();
+    // 处理头部选项checked
+    var str = "";
+    $("input[type='checkbox']").each(function (index) {
+        //页面打开，表头选项默认全选
+        //$("#id").attr("checked", true);
+            str += $(this).val() + ",";
+    });
+    var topChecked=str.substring(0,str.length-1);
     //    初始化列表
     initTables(1, 10, type_select, key_input, version);
     var page = {curr: 1, pageSize: 10};
@@ -614,7 +641,7 @@
     function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
         // 开启遮罩层
         $('.mengc,.imgHTML').remove();
-        var imgHTML="<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>" ;
+        var imgHTML = "<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>";
         $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
         $('.checkbox-tab').append(imgHTML);
         $.ajax({
@@ -624,6 +651,7 @@
                 version: version,
                 type: type_select,
                 keywords: key_input,
+                choices:topChecked,
                 condition: cdt,
                 pageNo: currNum || 1,
                 pageSize: pageSizeNum || 10
@@ -632,6 +660,8 @@
             success: function (res) {
                 //显示表格内容
                 if (res.data.length == 0) {
+                    // 关闭遮罩层
+                    $(".imgHTML,.mengc").remove();
                     $('#all-paginate').hide();
                     $("#tableBody>tbody").empty().html("<p class='zwsj'>暂无数据</p>");
                 } else {
@@ -664,6 +694,43 @@
             }
         });
     }
+
+    //导出方法调用
+    $(".btn-export").off('click').click(function () {
+            //表格导出 修复tomcat8无法识别的JSON格式问题
+            var cdt = getParamsString();
+        //处理头部选项checked
+        var str = "";
+        $("input[type='checkbox']").each(function (index) {
+            if ($(this).is(":checked")) {
+                str += $(this).val() + ",";
+            }
+        })
+        var topCheckeds=str.substring(0,str.length-1);
+        var key_input=$('.js-search-text').val();
+            $.ajax({
+                type: "GET",
+                url: "${ctxroot}/query/dataExport",
+                data: {
+                    version: version,
+                    type: type_select,
+                    keywords: key_input,
+                    condition: cdt,
+                    choices:topCheckeds,
+                },
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                    window.location.href = path + result.data;
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+    })
+
+
 
     // 修改每页显示条数
     $("#all-paginate").on("change", ".lay-per-page-count-select", function () {
@@ -711,8 +778,8 @@
         }
     });
 
-    function renderTable(qtlTableEntity) {
-        var eleData = qtlTableEntity.data;
+    function renderTable(data) {
+        var eleData = data.data;
         //表格数据填充
         var str = '';
         for (var i = 0; i < eleData.length; i++) {
@@ -739,7 +806,7 @@
         $("#tableBody > tbody").empty().append(str);
 
         //表头chr添加内容
-        var chrData = qtlTableEntity.chrs;
+        var chrData = data.chrs;
         var strChr = "";
         for (var j = 0; j < chrData.length; j++) {
             strChr += '<a href="#">' + chrData[j] + '</a>';
@@ -747,7 +814,7 @@
         $('.chr-item').empty().append(strChr);
 
         //表头lg添加内容
-        var lgData = qtlTableEntity.lgs;
+        var lgData = data.lgs;
         var strLg = "";
         for (var m = 0; m < chrData.length; m++) {
             strLg += '<a href="#">' + lgData[m] + '</a>';
@@ -785,7 +852,6 @@
                 type: "get",
                 dataType: "json",
                 success: function (data) {
-                    console.log(data)
                     var tbody = "";
                     tbody += "<tbody>"
                     tbody += "   <tr>"
@@ -814,7 +880,7 @@
                         $("#mid").show();
                         $(".links-pop").show();
                         var txt = $(this).attr("data-txt");
-                        console.log(txt + "----");
+//                        console.log(txt + "----");
                         $(".links-text").html("<p>" + txt + "</p>")
 
 
@@ -833,19 +899,19 @@
 
 
         /*表头*/
-        $(".btn-confirm").click(function () {
-            var str = "";
-            $("input[type='checkbox']").each(function (index) {
-                if (!$(this).is(":checked")) {
-                    $(".t_" + $(this).val()).hide();
-                } else {
-                    $(".t_" + $(this).val()).show();
-                    str += $(this).val() + "-";
-                }
-            })
-
-            setCookie('showedCols', str);
-        })
+//        $(".btn-confirm").click(function () {
+//            var str = "";
+//            $("input[type='checkbox']").each(function (index) {
+//                if (!$(this).is(":checked")) {
+//                    $(".t_" + $(this).val()).hide();
+//                } else {
+//                    $(".t_" + $(this).val()).show();
+//                    str += $(this).val() + "-";
+//                }
+//            })
+//            setCookie('showedCols', str);
+//            console.log(str)
+//        })
 
         function pop(id, name) {
             $(id).click(function (e) {
@@ -859,7 +925,7 @@
                     type: "get",
                     dataType: "json",
                     success: function (data) {
-                        console.log(data);
+//                        console.log(data);
                         var pop = "";
                         pop += "<tr>"
                         pop += "  <td>Name</td>"
@@ -919,7 +985,6 @@
             $(".js-gene-head-name").html(geneName);
             $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
             e.preventDefault();
-//        console.log($(this).html())
             $(".genesInfo").show();
 
         });
@@ -927,8 +992,6 @@
             e.preventDefault();
             $(".genesInfo").hide();
         })
-
-
     }
 
     /*清除搜索框内容*/
@@ -984,20 +1047,18 @@
         $(".js-pop").draggable({containment: "body", cancel: ".js-pop-body"});
         $(".author-pop-tab").draggable({containment: "body", cancel: ".js-pop-body,.information-tab"});
         $(".tab-detail").draggable({containment: "body", cancel: ".tab-detail-tbody"});
-        if (getCookie('showedCols')) {
-            var cols = getCookie('showedCols').split("-");
-            $("input[type='checkbox']").each(function (index, el) {
-                console.log($(this).val());
-                for (var i = 0; i < cols.length; i++) {
-                    if ($(this).val() == cols[i]) {
-                        $(this).prop("checked", false);
-                        $(".t_" + $(this).val()).hide();
-                        break;
-                    }
-                }
-            });
-
-        }
+//        if (getCookie('showedCols')) {
+//            var cols = getCookie('showedCols').split("-");
+//            $("input[type='checkbox']").each(function (index, el) {
+//                for (var i = 0; i < cols.length; i++) {
+//                    if ($(this).val() == cols[i]) {
+//                        $(this).prop("checked", false);
+//                        $(".t_" + $(this).val()).hide();
+//                        break;
+//                    }
+//                }
+//            });
+//        }
 
 
         /* 设置表头 */
@@ -1013,7 +1074,6 @@
                     $(".t_" + $(this).val()).show();
                 }
             });
-
             setCookie('showedCols', colArr.join("-"));
         });
 
@@ -1031,25 +1091,25 @@
         });
     });
 
-    function page(n, s) {
-        if (n) $("#pageNo").val(n);
-        if (s) $("#pageSize").val(s);
-        $("#searchForm").submit();
-        return false;
-    }
-
-    function PressPage(e, n, s, p) {
-        var c = e.keyCode || e.which;
-        if (c == 13) {
-            page(n, s);
-        }
-    }
-
-    function SelectPage(e, n, s, p) {
-        if ($("#pageSize").val() != s) {
-            page(n, s);
-        }
-    }
+    //    function page(n, s) {
+    //        if (n) $("#pageNo").val(n);
+    //        if (s) $("#pageSize").val(s);
+    //        $("#searchForm").submit();
+    //        return false;
+    //    }
+    //
+    //    function PressPage(e, n, s, p) {
+    //        var c = e.keyCode || e.which;
+    //        if (c == 13) {
+    //            page(n, s);
+    //        }
+    //    }
+    //
+    //    function SelectPage(e, n, s, p) {
+    //        if ($("#pageSize").val() != s) {
+    //            page(n, s);
+    //        }
+    //    }
 
     /*版本号选择*/
     $(".version-num select").change(function () {
@@ -1125,7 +1185,7 @@
         $(".btn-toggle").trigger("click");
         var type = $(".js-search-select").val();
         var key = $(".js-search-text").val();
-        var cdt = getParamsString()
+        var cdt = getParamsString();
         initTables(1, 10, type, key, version, cdt)
     }
 
@@ -1212,22 +1272,74 @@
         $(this).siblings(".btn-confirm-info").trigger("click");
     });
 
-    $(".btn-export").click(function () {
-        var option = $(".version-num option:selected").text();
-        $("#search7").val(option);
-        $("#search6").val(getParamsString());
-        var colArr = [];
+//    $(".btn-export").click(function () {
+//        var option = $(".version-num option:selected").text();
+//        $("#search7").val(option);
+//        $("#search6").val(getParamsString());
+//        var colArr = [];
+//        $("input[type='checkbox']").each(function (index) {
+//            if ($(this).is(":checked")) {
+//                var colName = $(this).val();
+//                colArr.push(colName);
+//            }
+//        });
+//        var choices = colArr.join(",");
+////        console.log(choices)
+//        $("#search8").val(choices);
+//        $("#exportForm").submit();
+//    });
+    // 表格导出
+    function exportData() {
+//        处理头部选项checked
+        var str = "";
         $("input[type='checkbox']").each(function (index) {
-            if ($(this).is(":checked")) {
-                var colName = $(this).val();
-                colArr.push(colName);
+            if (!$(this).is(":checked")) {
+                $(".t_" + $(this).val()).hide();
+            } else {
+                $(".t_" + $(this).val()).show();
+                str += $(this).val() + ",";
             }
         });
-        var choices = colArr.join(",");
-        console.log(choices)
-        $("#search8").val(choices);
-        $("#exportForm").submit();
-    });
+        var cdt = getParamsString();
+        var topChecked=str.substring(0,str.length-1);
+        var keyInput=$(".js-search-text").val();
+        // 修复tomcat8无法识别的JSON格式问题
+        $.ajax({
+            type: "GET",
+            url: "${ctxroot}/query/dataExport",
+            data: {
+                version: version,
+                type: type_select,
+                keywords: "",
+                condition: cdt,
+                choices: topChecked
+            },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href = path + result.data;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    function extractHostname(url) {
+        var hostname;
+        if (url.indexOf("://") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+        return hostname;
+    }
 
     function getParamsString() {
         var tmp = {};
@@ -1257,11 +1369,6 @@
         return JSON.stringify(tmp);
     }
 
-    $(".js-search-text").keydown(function (event) {
-        if (event.keyCode == 13) {
-            console.log(event.keyCode)
-        }
-    })
     $(".nav_ac .icon-right").click(function () {
         $(".nav_ac").hide();
         $("article").css({"width": "895px"})
@@ -1308,6 +1415,7 @@
     /*基因详情拖动弹框*/
     $(".genesInfo").draggable({containment: "body"});
     $(".author-pop-tab").draggable({containment: "body"});
+
 </script>
 </body>
 </html>

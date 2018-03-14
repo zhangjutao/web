@@ -1,4 +1,4 @@
-package com.gooalgene.iqgs.eventbus;
+package com.gooalgene.common.eventbus;
 
 import com.google.common.eventbus.AsyncEventBus;
 import com.google.common.eventbus.EventBus;

@@ -1,0 +1,10 @@
+diff a/dna/src/main/webapp/WEB-INF/views/include/sidebar.jsp b/dna/src/main/webapp/WEB-INF/views/include/sidebar.jsp	(rejected hunks)
+@@ -1613,6 +1613,8 @@
+                         $.each(spans, function (idx, ele) {
+                             arr.push($(ele).text());
+                         });
++                        //modified by zjt 2018-3-13
++                        /*--------raw
+                         if ($.inArray(str, arr) > -1) {
+                             alert("添加区间重复");
+                         } else {

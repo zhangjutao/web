@@ -375,7 +375,13 @@
     if (window.sessionStorage) {
         var storage = window.sessionStorage;
     } else {
-        alert('This browser does NOT support localStorage');
+//        alert('This browser does NOT support localStorage');
+        layer.open({
+            type:0,
+            title:"温馨提示:",
+            content:"This browser does NOT support localStorage",
+            shadeClose:true,
+        });
     }
     ;
     window.DOMAIN = "${ctxroot}/iqgs";

@@ -1,9 +1,11 @@
 package com.gooalgene.qtl.web;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.qtl.entity.QtlSearchResult;
 import com.gooalgene.qtl.service.QueryService;
+import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -16,12 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 /**
  * 此控制器用于古奥基因搜索相关接口
@@ -79,49 +77,53 @@ public class QueryController {
         String parameters = request.getParameter("condition");
         String version = request.getParameter("version");
         Page<Qtl> page = new Page<Qtl>(request, response);
-        return queryService.qtlSearchByResult(version, type, keywords, parameters, page.getPageNo(),page.getPageSize()).toString();
+        return queryService.qtlSearchByResult(version, type, keywords, parameters, page.getPageNo(),page.getPageSize(), null).toString();
     }
 
     @RequestMapping("/dataExport")
     @ResponseBody
-    public void qtlSearchResultExport(HttpServletRequest request, HttpServletResponse response) {
-        //搜索框：包含ALL、Trait、QTL Name、marker、parent、reference，ALL是全局搜索，
+    public ResultVO<String> qtlSearchResultExport(HttpServletRequest request) {
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String parameters = request.getParameter("condition");
         String version = request.getParameter("version");
         String columns = request.getParameter("choices");
-        logger.info("type:" + type + ",keywords:" + keywords + ",condition:" + parameters + ",colums:" + columns);
-        try {
-            String sb = null;
-            if (StringUtils.isNoneBlank(columns)) {
-                if (columns.contains("author")) {
-                    columns = columns.replace("author", "reference");
-                }
-                List<QtlSearchResult> result = queryService.qtlSearchbyResultExport(version, type, keywords, parameters);
-                sb = serialList(result, columns.split(","));
+        String sb = null;
+        if (StringUtils.isNoneBlank(columns)) {
+            if (columns.contains("author")) {
+//                    columns = columns.replace("author", "reference");
             }
-            String fileName = "SoyBean-" + version + "-" + type + "(" + keywords + ")";
-            System.out.println(fileName);
-            if (sb != null) {
-                byte[] buffer = sb.getBytes("gbk");
-                // 清空response
-                response.reset();
-                // 设置response的Header
-                String filename = java.net.URLEncoder.encode(fileName, "UTF-8") + ".csv";
-                System.out.println("f:" + filename);
-                filename = filename.replace("+", "%20");//空格会被转义为+
-                response.addHeader("Content-Disposition", "attachment; filename=" + filename + "; filename*=utf-8''" + filename);
-                response.addHeader("Content-Length", "" + buffer.length);
-                OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-                response.setContentType("application/octet-stream");
-                toClient.write(buffer);
-                toClient.flush();
-                toClient.close();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            List<QtlSearchResult> result = queryService.downloadQtlSearchResult(version, type, keywords, parameters, columns);
+            sb = serialList(result, columns.split(","));
         }
+        StringBuilder fileNameBuilder = new StringBuilder("SoyBean-");
+        fileNameBuilder.append(version).append("-");
+        if (!StringUtils.isBlank(keywords)){
+            fileNameBuilder.append("(").append(keywords).append(")");
+        }
+        fileNameBuilder.append(".csv");
+        String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
+        // 通过IO，将输出内容写入到文件中
+        File tempFile = new File(filePath + fileNameBuilder.toString());
+        if (!tempFile.getParentFile().exists()) {
+            boolean dir = tempFile.getParentFile().mkdirs();
+            if (dir) {
+                logger.info("成功创建临时目录");
+            }
+        }
+        try {
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            fos.write(sb.getBytes("gbk"));
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String contextPath = request.getContextPath();
+        String path = contextPath + "/tempFile/" + fileNameBuilder.toString();
+        return ResultUtil.success(path);
     }
 
     /**
@@ -129,9 +131,9 @@ public class QueryController {
      *
      * @return
      */
-    private Map<String, String> changeCloumn2Web() {
+    private Map<String, String> changeColumn2Web() {
         Map<String, String> map = new HashMap<String, String>();
-        map.put("id", "ID");
+        map.put("id", "id");
         map.put("qtlName", "QTL Name");
         map.put("trait", "Trait");
         map.put("type", "Type");
@@ -147,6 +149,7 @@ public class QueryController {
         map.put("genomeStart", "Genome start");
         map.put("genomeEnd", "Genome end");
         map.put("reference", "Reference");
+        map.put("author", "Reference");
         return map;
     }
 
@@ -160,7 +163,7 @@ public class QueryController {
     private String serialList(List<QtlSearchResult> result, String[] titles) {
         StringBuilder sb = new StringBuilder();
         Map<String, Integer> map = new HashMap<String, Integer>();
-        Map<String, String> titlesMap = changeCloumn2Web();
+        Map<String, String> titlesMap = changeColumn2Web();
         if (titles != null) {
             sb = new StringBuilder();
             int len = titles.length;
@@ -168,7 +171,7 @@ public class QueryController {
                 String title = titles[i];
                 sb.append(titlesMap.get(title));
                 if (i != (len - 1)) {
-                    sb.append(",");
+                    sb.append("\t");
                 } else {
                     sb.append("\n");
                 }
@@ -180,57 +183,56 @@ public class QueryController {
             while (it.hasNext()) {
                 QtlSearchResult data = it.next();
                 if (map.containsKey("id")) {
-                    sb.append((data.getId())).append(",");
+                    sb.append((data.getId())).append("\t");
                 }
                 if (map.containsKey("qtlName")) {
-                    sb.append((data.getQtlName() == null ? "" : Tools.getRightContent(data.getQtlName()))).append(",");
+                    sb.append((data.getQtlName() == null ? "" : data.getQtlName())).append("\t");
                 }
                 if (map.containsKey("trait")) {
-                    sb.append((data.getTrait() == null ? "" : Tools.getRightContent(data.getTrait()))).append(",");
+                    sb.append((data.getTrait() == null ? "" : data.getTrait())).append("\t");
                 }
                 if (map.containsKey("type")) {
-                    sb.append((data.getType() == null ? "" : Tools.getRightContent(data.getType()))).append(",");
+                    sb.append((data.getType() == null ? "" : data.getType())).append("\t");
                 }
                 if (map.containsKey("chr")) {
-                    sb.append((data.getChr() == null ? "" : data.getChr())).append(",");
+                    sb.append((data.getChr() == null ? "" : data.getChr())).append("\t");
                 }
                 if (map.containsKey("lg")) {
-                    sb.append((data.getLg() == null ? "" : data.getLg())).append(",");
+                    sb.append((data.getLg() == null ? "" : data.getLg())).append("\t");
                 }
                 if (map.containsKey("version")) {
-                    sb.append((data.getVersion() == null ? "" : Tools.getRightContent(data.getVersion()))).append(",");
+                    sb.append((data.getVersion() == null ? "" : data.getVersion())).append("\t");
                 }
                 if (map.containsKey("method")) {
-                    sb.append((data.getMethod() == null ? "" : Tools.getRightContent(data.getMethod()))).append(",");
+                    sb.append((data.getMethod() == null ? "" : data.getMethod())).append("\t");
                 }
                 if (map.containsKey("marker1")) {
-                    sb.append((data.getMarker1() == null ? "" : Tools.getRightContent((String) data.getMarker1()))).append(",");
+                    sb.append((data.getMarker1() == null ? "" : data.getMarker1())).append("\t");
                 }
                 if (map.containsKey("marker2")) {
-                    sb.append((data.getMarker2() == null ? "" : Tools.getRightContent((String) data.getMarker2()))).append(",");
+                    sb.append((data.getMarker2() == null ? "" : data.getMarker2())).append("\t");
                 }
                 if (map.containsKey("genesNum")) {
-                    Integer gensNum = (data.getGenesNum());
-                    sb.append(gensNum).append(",");
+                    Integer gensNum = data.getGenesNum();
+                    sb.append(gensNum).append("\t");
                 }
                 if (map.containsKey("lod")) {
-                    sb.append((data.getLod() == null ? "" : data.getLod())).append(",");
+                    sb.append((data.getLod() == null ? "" : data.getLod())).append("\t");
                 }
                 if (map.containsKey("parent1")) {
-                    sb.append((data.getParent1() == null ? "" : Tools.getRightContent((String) data.getParent1()))).append(",");
+                    sb.append((data.getParent1() == null ? "" : data.getParent1())).append("\t");
                 }
                 if (map.containsKey("parent2")) {
-                    sb.append((data.getParent2() == null ? "" : Tools.getRightContent((String) data.getParent2()))).append(",");
+                    sb.append((data.getParent2() == null ? "" : data.getParent2())).append("\t");
                 }
                 if (map.containsKey("genomeStart")) {
-                    sb.append((data.getGeneStart() == null ? "" : data.getGeneStart())).append(",");
+                    sb.append((data.getGeneStart() == null ? "" : data.getGeneStart())).append("\t");
                 }
                 if (map.containsKey("genomeEnd")) {
-                    sb.append((data.getGeneEnd() == null ? "" : data.getGeneEnd())).append(",");
+                    sb.append((data.getGeneEnd() == null ? "" : data.getGeneEnd())).append("\t");
                 }
                 if (map.containsKey("reference")) {
-                    sb.append((data.getRef() == null ? "" : Tools.getRightContent((String) data.getRef()))).append(",");
-//                    sb.append((data.get("author") == null ? "" : data.get("author"))).append(",");
+                    sb.append((data.getRef() == null ? "" : data.getRef()));
                 }
                 sb.append("\n");
             }

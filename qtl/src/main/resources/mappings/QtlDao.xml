@@ -235,9 +235,9 @@ VALUES (#{qtlName,jdbcType=VARCHAR},
             a.genome_start AS geneStart,
             a.genome_end   AS geneEnd,
             a.associatedGenes_id AS associateGeneId,
-            COALESCE(b.lgAndMarker, '') AS markerlg,
-            COALESCE(b.chr, ''),
-            COALESCE(b.lg, '')
+            b.lgAndMarker AS markerlg,
+            b.chr,
+            b.lg
         FROM qtl a
         LEFT JOIN chrlg b ON a.chrlg_id = b.id
         WHERE 1=1

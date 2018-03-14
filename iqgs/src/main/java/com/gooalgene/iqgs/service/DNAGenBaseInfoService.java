@@ -13,7 +13,7 @@ import com.gooalgene.iqgs.entity.condition.AdvanceSearchResultView;
 import com.gooalgene.iqgs.entity.condition.DNAGeneSearchResult;
 import com.gooalgene.iqgs.entity.condition.GeneExpressionConditionEntity;
 import com.gooalgene.iqgs.entity.condition.RangeSearchResult;
-import com.gooalgene.iqgs.eventbus.EventBusRegister;
+import com.gooalgene.common.eventbus.EventBusRegister;
 import com.gooalgene.iqgs.eventbus.events.GenePreFetchEvent;
 import com.gooalgene.mrna.vo.GenResult;
 import com.gooalgene.qtl.dao.AssociatedgenesDao;

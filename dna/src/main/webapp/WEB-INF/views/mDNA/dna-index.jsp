@@ -19,6 +19,7 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
@@ -86,7 +87,7 @@
                     <span>搜索条件: <span class="js-search-desc"></span></span>
                     <i>></i>
                 </div>
-                <div class="icon-right">
+                <div class="icon-right" style="display: none">
                     <p class="page-num-tab-snp">共<span class="total-page-count-snp">0</span>条结果</p>
                     <p class="page-num-tab-indel" style="display: none;">共<span class="total-page-count-indel">0</span>条结果</p>
                 </div>

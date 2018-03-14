@@ -3,21 +3,29 @@ package com.gooalgene.qtl.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
+import com.gooalgene.common.eventbus.EventBusRegister;
 import com.gooalgene.entity.*;
 import com.gooalgene.qtl.dao.*;
 import com.gooalgene.qtl.entity.QtlSearchResult;
 import com.gooalgene.qtl.entity.QtlTableEntity;
+import com.gooalgene.qtl.listeners.events.QtlSearchResultEvent;
 import com.gooalgene.qtl.views.TraitCategoryWithinMultipleTraitList;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
+import com.google.common.eventbus.AsyncEventBus;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
+import org.springframework.cache.CacheManager;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
-import java.awt.*;
 import java.util.*;
 import java.util.List;
 
@@ -25,13 +33,11 @@ import java.util.List;
  * Created by ShiYun on 2017/7/10 0010.
  */
 @Service
-public class QueryService {
+public class QueryService implements InitializingBean {
+    private static final Logger logger = LoggerFactory.getLogger(QueryService.class);
 
     @Autowired
     private TraitCategoryDao traitCategoryDao;
-
-    @Autowired
-    private TraitListDao traitListDao;
 
     @Autowired
     private SoybeanDao soybeanDao;
@@ -57,6 +63,21 @@ public class QueryService {
     @Autowired
     private MarkerPositionDao markerPositionDao;
 
+    @Autowired(required = false)
+    private EventBusRegister register;
+
+    @Autowired
+    private ApplicationContext applicationContext;
+
+    @Autowired
+    private CacheManager cacheManager;
+
+    private Cache cache;
+
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        cache = cacheManager.getCache("sortCache");
+    }
 
     /**
      * 获取染色体编号和版本集合
@@ -167,22 +188,6 @@ public class QueryService {
             }
         });
         return new ArrayList<>(resultGroup);
-//        JSONArray result = new JSONArray();
-//        List<TraitCategory> traitCategories = traitCategoryDao.findList(new TraitCategory());
-//        List<TraitList> one = null;
-//        for (TraitCategory t : traitCategories) {
-//            JSONObject jsonObject = new JSONObject();
-//            JSONArray jsonArray = new JSONArray();
-//            one = traitListDao.getTraitListsByQtlId(t.getId());
-//            for (TraitList traitList : one) {
-//                jsonArray.add(traitList.getTraitName());
-//            }
-//            jsonObject.put("name", t.getQtlName());
-//            jsonObject.put("desc", t.getQtlDesc());
-//            jsonObject.put("data", jsonArray);
-//            result.add(jsonObject);
-//        }
-//        return result;
     }
 
     public JSONObject queryBySoybeanName(String name) {
@@ -688,7 +693,7 @@ public class QueryService {
         return jsonObject;
     }
 
-    public QtlTableEntity qtlSearchByResult(String version, String type, String keywords, String param, int pageNo, int pageSize) {
+    public QtlTableEntity qtlSearchByResult(String version, String type, String keywords, String param, int pageNo, int pageSize, String checkedOption) {
         Map<String, Collection<String>> resultMap = queryChrlg(version);
         // 获取所有chr字段
         Collection<String> allChromosome = resultMap.get("All_Chr");
@@ -704,19 +709,22 @@ public class QueryService {
         qtlTableEntity.setLgs(new ArrayList<>(allLg));
         // 所有QTL查询结果
         List<QtlSearchResult> data = new ArrayList<>();
-        Qtl qtl = new Qtl();
-        // 空白查询所有
-        if ("all".equalsIgnoreCase(type)) {
-            qtl.setVersion(version);
-            if (!StringUtils.isBlank(keywords)) {
-                qtl.setKeywords(keywords);
-            }
-        }
-        getByPara(qtl, fixParam(type, keywords, param));
-        qtl.setVersion(version);
+        // 构建QTL查询条件
+        Qtl qtl = constructQtlSearchCondition(version, type, keywords, param);
         PageHelper.startPage(pageNo, pageSize);
         List<QtlSearchResult> list = qtlDao.findByCondition(qtl);
-        qtlTableEntity.setTotal((int) new PageInfo<>(list).getTotal ());
+        // 发布异步事件，预加载查询下载结果
+        QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
+        event.setCheckedOption(checkedOption);
+        // 预构建缓存key值
+        String preConstructCachedKey = event.getClass().getSimpleName() + "-" + keywords;
+        Cache.ValueWrapper valueWrapper = cache.get(preConstructCachedKey);
+        // 如果缓存中不存在该值，发布异步事件重新查询该值，有效控制后台预加载性能消耗
+        if (valueWrapper == null){
+            AsyncEventBus asyncEventBus = register.getAsyncEventBus();
+            asyncEventBus.post(event);
+        }
+        qtlTableEntity.setTotal((int) new PageInfo<>(list).getTotal());
         for (QtlSearchResult qtlSearchResult : list) {
             int associateGeneId = qtlSearchResult.getAssociateGeneId();
             Associatedgenes associatedGene = associatedgenesDao.findAssociatedgenesById(associateGeneId);
@@ -736,35 +744,21 @@ public class QueryService {
     }
 
     /**
-     * 查询数据导出接口
-     *
-     * @param type
-     * @param keywords
-     * @param param
-     * @return
+     * 查询数据导出接口，目前在用户查询时已启动数据预加载，这里可以直接从缓存中取值
      */
-    public List<QtlSearchResult> qtlSearchbyResultExport(String version, String type, String keywords, String param) {
-        Qtl qtl = new Qtl();
-        if ("all".equalsIgnoreCase(type)) {
-            if (!StringUtils.isBlank(keywords)) {
-                qtl.setKeywords(keywords);
-            }//空白查询所有
+    public List<QtlSearchResult> downloadQtlSearchResult(String version, String type, String keywords, String param, String checkedOption) {
+        Qtl qtl = constructQtlSearchCondition(version, type, keywords, param);
+        QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
+        event.setCheckedOption(checkedOption);
+        String key = event.getClass().getSimpleName() +"-" + keywords;
+        logger.info("下载时接受的缓存值为：" + key);
+        Cache.ValueWrapper valueWrapper = cache.get(key);
+        if (valueWrapper == null) {
+            logger.warn("该数据未缓存，请重新查询");
+            return null;
         }
-        getByPara(qtl, fixParam(type, keywords, param));
-        qtl.setVersion(version);//匹配版本信息
-        List<QtlSearchResult> list = null;
-        list = qtlDao.findByCondition(qtl);
-        for (QtlSearchResult qtlSearchResult : list) {
-            String qtlName = qtlSearchResult.getQtlName();
-            String genes = null;
-            Associatedgenes associatedgenes = associatedgenesDao.getByNameAndVersion(qtlName, version);
-            if (associatedgenes != null) {
-                genes = associatedgenes.getAssociatedGenes();
-            }
-            qtlSearchResult.setAssociateGenes(genes);
-            qtlSearchResult.setGenesNum(genes == null ? 0 : genes.split(",").length);
-        }
-        return list;
+        List<QtlSearchResult> cachedResult = (List<QtlSearchResult>) valueWrapper.get();
+        return cachedResult;
     }
 
     private String fixParam(String type, String keywords, String param) {
@@ -953,6 +947,20 @@ public class QueryService {
         result.put("total", pageInfo.getTotal());
         result.put("data", data);
         return result;
+    }
+
+    private Qtl constructQtlSearchCondition(String version, String type, String keywords, String param) {
+        Qtl qtl = new Qtl();
+        // 空白查询所有
+        if ("all".equalsIgnoreCase(type)) {
+            qtl.setVersion(version);
+            if (!StringUtils.isBlank(keywords)) {
+                qtl.setKeywords(keywords);
+            }
+        }
+        getByPara(qtl, fixParam(type, keywords, param));
+        qtl.setVersion(version);
+        return qtl;
     }
 
     /**
