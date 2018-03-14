@@ -100,6 +100,12 @@ public class QueryController {
         String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
         // 通过IO，将输出内容写入到文件中
         File tempFile = new File(filePath + fileName);
+        if (!tempFile.getParentFile().exists()) {
+            boolean dir = tempFile.getParentFile().mkdirs();
+            if (dir) {
+                logger.info("成功创建临时目录");
+            }
+        }
         try {
             FileOutputStream fos = new FileOutputStream(tempFile);
             fos.write(sb.getBytes("gbk"));
