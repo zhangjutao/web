@@ -469,6 +469,7 @@
 
 
         $('.primer3-submit-btn').on('click', function () {
+            var newTab = window.open('', '_blank');
             if(!primer3.checkPrimer3()){
                 return;
             }
@@ -527,11 +528,14 @@
                         localStorage.setItem('param',JSON.stringify(data));
                         $('.error-message').hide();
                         $('.peimer3-input-item>input').removeClass('red-border');
-                        //window.open(ctxRoot+"/primer3out");
-                        var a = $('<a href="${ctxroot}/primer3out" class="to-primer3-out" target="_blank">Welcome</a>').get(0);
+                        //var windowOpen =window.open(ctxRoot+"/primer3out");
+                        newTab.location =ctxRoot+"/primer3out";
+
+                        /*var a = $('<a href="${ctxroot}/primer3out" class="to-primer3-out" target="_blank">Welcome</a>').get(0);
                         var e = document.createEvent('MouseEvents');
                         e.initEvent('click', true, true);
-                        a.dispatchEvent(e);
+                        a.dispatchEvent(e);*/
+
                         /*var form = document.createElement('form');
                         form.action = ctxRoot+"/primer3out";
                         form.target = '_blank';
@@ -541,7 +545,7 @@
                     },
                     function (error) {
                         console.log(error);
-                        alert("序列输入错误！(￣ε(#￣)")
+                        alert("序列输入错误！")
                     }
                 );
             }
