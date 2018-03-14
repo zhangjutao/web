@@ -751,6 +751,7 @@ public class QueryService implements InitializingBean {
         QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
         event.setCheckedOption(checkedOption);
         String key = event.getClass().getSimpleName() +"-" + keywords;
+        logger.info("下载时接受的缓存值为：" + key);
         Cache.ValueWrapper valueWrapper = cache.get(key);
         if (valueWrapper == null) {
             logger.warn("该数据未缓存，请重新查询");
