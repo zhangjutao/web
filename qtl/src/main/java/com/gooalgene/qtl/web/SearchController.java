@@ -1,12 +1,13 @@
 package com.gooalgene.qtl.web;
 
-import com.gooalgene.common.Page;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ser.DefaultSerializerProvider;
 import com.gooalgene.common.authority.Role;
 import com.gooalgene.common.service.IndexExplainService;
-import com.gooalgene.common.vo.ResultVO;
-import com.gooalgene.entity.Qtl;
+import com.gooalgene.qtl.entity.QtlTableEntity;
 import com.gooalgene.qtl.service.QueryService;
-import com.gooalgene.utils.ResultUtil;
+import com.gooalgene.qtl.service.handler.NullSerializerImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collection;
-import java.util.Map;
 
 /**
  * Created by Administrator on 2017/07/08.
@@ -38,14 +38,6 @@ public class SearchController {
 
     @RequestMapping("/index")
     public ModelAndView login(HttpServletRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            // 拿到当前用户角色
-            Collection<Role> authorities = (Collection<Role>) authentication.getAuthorities();
-            for (Role authority : authorities) {
-                logger.info("当前用户拥有的权限为：" + authority.getAuthority());
-            }
-        }
         ModelAndView modelAndView = new ModelAndView("/search/index");
         String version = "Gmax_275_v2.0";
         modelAndView.addObject("types", queryService.queryAll());
@@ -79,35 +71,34 @@ public class SearchController {
         ModelAndView modelAndView = new ModelAndView("/search/list");
         //搜索框：包含ALL、Trait、QTL Name、marker、parent、reference，ALL是全局搜索，
         String type = request.getParameter("type");
-//        String keywords = request.getParameter("keywords");
-//        String version = request.getParameter("version");
-//        String parameters = request.getParameter("condition");
         if (type == null) {
             return new ModelAndView("redirect:/search/index");
         }
-//        Page<Qtl> page = new Page<Qtl>(request, response);
-//        int pageNo = page.getPageNo();
-//        int pageSize = page.getPageSize();
         modelAndView.addObject("types", queryService.queryAll());  // 搜索结果侧边栏
         modelAndView.addObject("versions", queryService.queryVersions());  // 可选的所有基因版本
-
-//        modelAndView.addAllObjects(queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize));
         modelAndView.addObject("condition", "{}");
-//        modelAndView.addObject("page", page);
         return modelAndView;
     }
 
     @RequestMapping(value = "/list/page",method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<Map> lista(HttpServletRequest request) {
+    public String searchForQtl(HttpServletRequest request) throws JsonProcessingException {
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String version = request.getParameter("version");
         String parameters = request.getParameter("condition");
+        // 表格设置中用户选择的check box
+        String checkedOption = request.getParameter("choices");
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
-        Map result = queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize);
-        return ResultUtil.success(result);
+        QtlTableEntity result =
+                queryService.qtlSearchByResult(version, type, keywords, parameters, pageNo, pageSize, checkedOption);
+        ObjectMapper mapper = new ObjectMapper();
+        DefaultSerializerProvider.Impl provider = new DefaultSerializerProvider.Impl();
+        provider.setNullValueSerializer(new NullSerializerImpl());
+        mapper.setSerializerProvider(provider);
+        String jsonOutputResult = mapper.writeValueAsString(result);
+        return jsonOutputResult;
     }
 
 

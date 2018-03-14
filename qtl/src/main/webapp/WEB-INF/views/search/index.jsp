@@ -113,7 +113,8 @@
     $("#search-btn").click(function(){
         var s_option=$(".search select").val();
         var i_input=$.trim($("#search-input").val());
-        window.location.href = "${ctxroot}/search/list?version=Glycine_max.V1.0.23.dna.genome&type="+s_option+"&keywords="+i_input;
+        var choices="id,qtlName,trait,type,chr,lg,method,marker1,marker2,genesNum,lod,parent1,parent2,genomeStart,genomeEnd,author";
+        window.location.href = "${ctxroot}/search/list?version=Glycine_max.V1.0.23.dna.genome&type="+s_option+"&choices="+choices+"&keywords="+i_input;
     })
     $("#search-input").bind({
         focus:function(){

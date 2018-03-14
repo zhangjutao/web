@@ -105,9 +105,9 @@
             dataType: "json",
             success: function (res) {
                 //显示表格内容
-                if (res.data.list.length == 0) {
+                if (res.data.list.length !== 0) {
                     $('#tyjy-paginate').hide();
-                    $("#tableBody").html("<div class='explain-b' style='text-align: center'><img src='${ctxStatic}/images/nodata.png'><div style='padding-top: 10px'>无同源基因信息</div></div>")
+                    $("#tableBody").html("<div class='explain-b' style='text-align: center;width:797px;'><img src='${ctxStatic}/images/nodata.png'><div style='padding-top: 10px;position: relative;left: -20px;'>无同源基因信息</div></div>")
                 } else {
                     renderTable(res);
                     $('#tyjy-paginate').show();

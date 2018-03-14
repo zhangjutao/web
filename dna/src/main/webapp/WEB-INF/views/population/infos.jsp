@@ -18,6 +18,8 @@
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
+
     <script>
         var CTXROOT = "${ctxroot}";
     </script>
@@ -513,7 +515,7 @@
         </div>
         <%--laypage 分页 end --%>
         <%--弹出框--%>
-        <div id="popTips">
+        <div id="popTips" style="display: none;">
             <div class="tipTop">
                 <p class="tipTopCnt">Group 1</p>
                 <p class="closeBtn"><img src="${ctxStatic}/images/close.png"></p>
@@ -524,6 +526,7 @@
             </p>
         </div>
     </div>
-
+<%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<!--footer-->
 </body>
 </html>

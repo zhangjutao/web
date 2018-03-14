@@ -66,8 +66,8 @@
         <div class="item-header">
             <div class="icon-left"><img src="${ctxStatic}/images/Linkage-group.png">组织特异性表达热图</div>
         </div>
-        <div class="index-highcharts">
-            <mrna:chart-heatmap data="${data}"></mrna:chart-heatmap>
+        <div class="index-highcharts heatmapHeigth" style="height: 400px;" >
+            <mrna:chart-heatmap data="${data}" gaHeight="400"></mrna:chart-heatmap>
         </div>
     </article>
 </section>

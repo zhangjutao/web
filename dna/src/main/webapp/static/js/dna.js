@@ -157,7 +157,14 @@ $(function () {
                 globelType = "Gene";
                 globelGeneId = obj.params.gene;
                 if(obj.params.gene == ""){
-                    return alert("请选择一个基因");
+                    // return alert("请选择一个基因");
+                    layer.open({
+                        type:0,
+                        title:"温馨提示:",
+                        content:"请选择一个基因",
+                        shadeClose:true,
+                    });
+                    return;
                 };
                 // 点击基因查询 搜索的时候， 显示当前选择的基因
                 if($("#GlyIds").is(":hidden")){
@@ -681,9 +688,10 @@ $(function () {
                     if(res.data.length > 0) {
                         renderSNPTable(SNPData, Major_Or_Minor_SNP);
                         $('#snp-paginate #total-page-count span').html(res.total)
-                        // renderSNPTable(SNPData);
+                        $('#snp-paginate').show();
                     } else {
-                        $(".js-snp-table>tbody").empty().append("<span>无数据</span>");
+                        $(".js-snp-table>tbody").empty().append("<p class='zwsj'>暂无数据</p>");
+                        $('#snp-paginate').hide();
                     }
 
                     laypage({
@@ -781,11 +789,13 @@ $(function () {
                     maskClose("#mask-test2");
                     INDELData = res.data;
                     if(res.data.length > 0) {
+                        $('#indel-paginate').show();
                         renderINDELTable(INDELData, Major_Or_Minor_INDEL);
                         $('#indel-paginate #total-page-count span').html(res.total)
                     } else {
                         //alert("无数据");
-                        $(".js-indel-table>tbody").empty().append("<span>无数据</span>");
+                        $(".js-indel-table>tbody").empty().append("<p class='zwsj'>暂无数据</p>");
+                        $('#indel-paginate').hide();
                     }
 
                     laypage({

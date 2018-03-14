@@ -139,7 +139,7 @@
     <div id="mid"></div>
     <div class="tab-detail">
         <div class="tab-detail-thead">
-            <p>qtl #${name}<span>(版本号)${version}</span>
+            <p class="tabDetailTheadTitle">qtl #${name}<span>(版本号)${version}</span>
             <a href="javascript:void(0)">X</a></p>
         </div>
         <div class="tab-detail-tbody">
@@ -189,27 +189,46 @@
     </div>
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
+
+
     <script src="${ctxStatic}/js/layout.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
         /*拖动弹框*/
-        $(".js-pop").draggable({ containment: "parent"});
-        $( ".links-pop" ).draggable({ containment: "parent"});
-        $( ".tab-detail" ).draggable({ containment: "parent"});
+////        $(".js-pop").draggable({ containment: ".js-pop-head"});
+//        $(".js-pop").draggable({ containment: "parent"});
+//        $( ".links-pop" ).draggable({ containment: "parent"});
+//        $( ".tab-detail" ).draggable({ containment: "parent"});
         function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
             if (r != null) return unescape(r[2]); return null; //返回参数值
         }
+        var index1,index2;
         /*maker1  --maker2*/
         function pop(name,title){
             $(name).click(function(e){
                 $(".js-pop-head span").html(title)
                 e.preventDefault();
-                $("#mid").show();
+//                $("#mid").show();
                 $(".js-pop").show();
 //                $(".js-pop-body tbody").html();
                 var url=$(this).attr("data-src");
+                //定义拖拽
+                index2 = layer.open({
+                    title:"",
+                    type: 1,
+                    content:$(".js-pop"),
+                    area: '800px',
+                    shadeClose:true,
+                    scrollbar:false,
+                    move: '.js-pop-head',
+                    tips: 2,
+                    closeBtn: 0,
+                    offset: ['250px', '350px']
+
+                });
                 $.ajax({
                     url:url,
                     type:"get",
@@ -248,14 +267,31 @@
                         $(".js-pop-body tbody").html(pop)
                     }
                 })
+
             })
+
+
         }
         pop(".js-pop-marker1","marker1")
         pop(".js-pop-marker2","marker2")
+
         $(".js-pop-genes").click(function(e){
             e.preventDefault();
-            $("#mid").show();
+//            $("#mid").show();
             $(".tab-detail").show();
+           index1 = layer.open({
+                title:"",
+                type: 1,
+                content:$(".tab-detail"),
+                area: '800px',
+                shadeClose:true,
+                scrollbar:false,
+                move: '.tabDetailTheadTitle',
+                tips: 2,
+                closeBtn: 0,
+                offset: ['250px', '350px']
+
+            });
         })
         $(".tab-category-list span").click(function(){
             $(".genesInfo").show()
@@ -263,7 +299,18 @@
         $(".genesInfo a").click(function(e){
             e.preventDefault();
             $(".genesInfo").hide();
+//            layer.close(index1);
+//            layer.close(index2);
+
+
         })
+        $(".js-pop-head a").click(function (){
+            layer.close(index2);
+        })
+        $(".tabDetailTheadTitle a").click(function (){
+            layer.close(index1);
+        })
+
 
         $("body").on("click", ".js-gene-info", function(e) {
             var version = getUrlParam("version");

@@ -6,7 +6,7 @@
     <display-name>QTLDB</display-name>
     <context-param>
         <param-name>contextConfigLocation</param-name>
-        <param-value>classpath*:/spring-context.xml, classpath:spring-security.xml</param-value>
+        <param-value>classpath:spring-context.xml, classpath:spring-security.xml</param-value>
     </context-param>
     <listener>
         <listener-class>com.gooalgene.listener.WebContextListener</listener-class>
@@ -17,7 +17,7 @@
         <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
         <init-param>
             <param-name>contextConfigLocation</param-name>
-            <param-value>classpath*:/spring-mvc.xml</param-value>
+            <param-value>classpath:spring-mvc.xml</param-value>
         </init-param>
         <load-on-startup>1</load-on-startup>
     </servlet>

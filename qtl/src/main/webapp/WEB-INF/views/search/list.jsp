@@ -183,6 +183,77 @@
         .js-pop-head, .information-title, .tab-detail-thead {
             cursor: move;
         }
+
+        .zwsj {
+            width: 200px;
+            padding: 20px 10px;
+            text-align: left;
+        }
+
+        body .checkbox-tab {
+            margin: 20px 30px 0px 10px;
+        }
+
+        .genesInfo .genesInfo-head {
+            height: 40px;
+            line-height: 40px;
+            background-color: #386cca;
+            color: #fff;
+            cursor: move;
+        }
+
+        .genesInfo {
+            border: none;
+        }
+
+        .genesInfo .genesInfo-head p {
+            position: relative;
+            float: inherit;
+            text-align: center;
+        }
+
+        .genesInfo .genesInfo-head a {
+            color: #fff;
+            float: right;
+            padding: 0 20px;
+            font-size: 20px;
+            position: absolute;
+            right: 0px;
+            top: 0;
+        }
+
+        .imgHTML {
+            top: 50%;
+            left: 50%;
+            position: absolute;
+            margin-left: -18.5px;
+            margin-top: -18.5px;
+        }
+
+        .mengc {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            position: fixed;
+        }
+
+        body .ga-ctrl-footer {
+            padding: 20px !important;
+        }
+
+        body .pagination {
+            display: inline-table !important;
+        }
+
+        .per-page-count {
+            vertical-align: top !important;
+        }
+
+        .total-page-count {
+            vertical-align: bottom !important;
+            top: -1px !important;
+        }
     </style>
 </head>
 <body>
@@ -218,8 +289,7 @@
                     <span>表格内容:</span>
                     <dl>
                         <dd><label for="id"><input id="id" type="checkbox" name="" value="id" checked>ID</label></dd>
-                        <dd><label for="qtlName"><input id="qtlName" type="checkbox" name="" value="qtlName" checked>QTL
-                            Name</label></dd>
+                        <dd><label for="qtlName"><input id="qtlName" type="checkbox" name="" value="qtlName" checked>QTL Name</label></dd>
                         <dd><label for="trait"><input id="trait" type="checkbox" name="" value="trait"
                                                       checked>Trait</label></dd>
                         <dd><label for="type"><input id="type" type="checkbox" name="" value="type" checked>Type</label>
@@ -283,11 +353,10 @@
                 <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
             </div>
             <%@ include file="/WEB-INF/views/include/nav.jsp" %>
-
         </aside>
         <article class="">
-            <div class="checkbox-tab">
-                <table class="checkbox-list-item" id="tableBody">
+            <div class="checkbox-tab" style="position:relative;">
+                <table class="checkbox-list-item" id="tableBody" style="width:1090px">
                     <thead>
                     <tr>
                         <td class="param t_id">ID</td>
@@ -322,7 +391,7 @@
                             <input class="js-chr" type="hidden">
                             <div class="chr-item">
                                 <%--<c:forEach items="${chrs}" var="item">--%>
-                                    <%--<a href="#">${item}</a>--%>
+                                <%--<a href="#">${item}</a>--%>
                                 <%--</c:forEach>--%>
                             </div>
                         </td>
@@ -453,85 +522,26 @@
                     </tr>
                     </thead>
                     <tbody class="item-tab">
-                    <%--<c:forEach items="${data}" var="item">--%>
-                    <%--<tr>--%>
-                    <%--<td class="t_id">${item.id}</td>--%>
-                    <%--<td class="t_qtlName"><a class="qtlname"--%>
-                    <%--href="${ctxroot}/search/aboutus?name=${item.qtlName}&version=${item.version}"> ${item.qtlName}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_trait">${item.trait}</td>--%>
-                    <%--<td class="t_type">${item.type}</td>--%>
-                    <%--<c:set var="chrStr" value="${item.chr}"></c:set>--%>
-                    <%--<c:set var="num" value="${fn:split(chrStr,'Chr')[0]}"></c:set>--%>
-                    <%--<c:choose>--%>
-                    <%--<c:when test="${fn:startsWith(num, '0')}">--%>
-                    <%--<c:set var="lg" value="${fn:split(num,'0')[0]}"></c:set>--%>
-                    <%--</c:when>--%>
-                    <%--<c:when test="${fn:startsWith(num, '0') == false}">--%>
-                    <%--<c:set var="lg" value="${num}"></c:set>--%>
-                    <%--</c:when>--%>
-                    <%--</c:choose>--%>
-                    <%--<td class="t_chr"><a--%>
-                    <%--href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.chr}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_lg"><a--%>
-                    <%--href="${ctxroot}/gene?chr=${item.chr}&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">${item.lg}</a>--%>
-                    <%--</td>--%>
-                    <%--&lt;%&ndash;<td class="t_version">${item.version}</td>&ndash;%&gt;--%>
-                    <%--<td class="t_method">${item.method}</td>--%>
-                    <%--<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;"--%>
-                    <%--data-src="${ctxroot}/query/marker?markerName=${item.marker1}">${item.marker1}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;"--%>
-                    <%--data-src="${ctxroot}/query/marker?markerName=${item.marker2}">${item.marker2}</a>--%>
-                    <%--</td>--%>
-                    <%--<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;"--%>
-                    <%--data-txt="${item.genes}">${item.genesNum}</a></td>--%>
-                    <%--<td class="t_lod">${item.lod}</td>--%>
-                    <%--<td class="t_parent1">${item.parent1}</td>--%>
-                    <%--<td class="t_parent2">${item.parent2}</td>--%>
-                    <%--<td class="t_genomeStart">${item.geneStart}</td>--%>
-                    <%--<td class="t_genomeEnd">${item.geneEnd}</td>--%>
-                    <%--<td class="t_author">--%>
-                    <%--<a class="js-author-pop" href="javascript:;"--%>
-                    <%--data-src="${ctxroot}/query/reference?qtlName=${item.qtlName}">${item.author}</a>--%>
-
-                    <%--<div class="author-pop-tab" style="display: none">--%>
-                    <%--<div class="information-title">--%>
-                    <%--<p>REFERENCE</p>--%>
-                    <%--<button class="close-pop">X</button>--%>
-                    <%--</div>--%>
-                    <%--<div class="information-tab">--%>
-                    <%--<table>--%>
-                    <%--</table>--%>
-                    <%--</div>--%>
-                    <%--</div>--%>
-                    <%--</td>--%>
-                    <%--</tr>--%>
-                    <%--</c:forEach>--%>
                     </tbody>
                 </table>
-                <form id="searchForm" action="${ctxroot}/search/listByResult" method="get">
-                    <input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search2" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search3" name="condition" type="hidden" value='${condition}'/>
-                    <input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
-                    <input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>
-                    <input id="version" name="version" type="hidden" value="">
-                </form>
-                <form id="exportForm" action="${ctxroot}/query/dataExport" method="get">
-                    <input id="search7" name="version" type="hidden" value="${version}"/>
-                    <input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>
-                    <input id="search5" name="keywords" type="hidden" value="${keywords}"/>
-                    <input id="search6" name="condition" type="hidden" value='${condition}'/>
-                    <input id="search8" name="choices" type="hidden"/>
-                </form>
+                <%--<form id="searchForm" action="${ctxroot}/search/listByResult" method="get">--%>
+                <%--<input id="search1" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search2" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search3" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>--%>
+                <%--<input id="pageSize" name="pageSize" type="hidden" value="${page.pageSize}"/>--%>
+                <%--<input id="version" name="version" type="hidden" value="">--%>
+                <%--</form>--%>
+                <%--<form id="exportForm" action="${ctxroot}/query/dataExport" method="get">--%>
+                <%--<input id="search7" name="version" type="hidden" value="${version}"/>--%>
+                <%--<input id="search4" class="search-type" name="type" type="hidden" value="${type}"/>--%>
+                <%--<input id="search5" name="keywords" type="hidden" value="${keywords}"/>--%>
+                <%--<input id="search6" name="condition" type="hidden" value='${condition}'/>--%>
+                <%--<input id="search8" name="choices" type="hidden"/>--%>
+                <%--</form>--%>
             </div>
             <div class="checkbox-item-tab" id="all-paginate">
                 <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-            </div>
-            <div class="ktPaginate">
-                ${page}
             </div>
         </article>
     </div>
@@ -539,7 +549,7 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 <%--弹出框--%>
 <div id="mid"></div>
-<div class="tab-detail">
+<div class="tab-detail genesTanc">
     <div class="tab-detail-thead">
         <p><span>genes</span>
             <a href="javascript:void(0)">X</a></p>
@@ -547,7 +557,6 @@
     <div class="tab-detail-tbody">
         <div class="tab-category">Genes</div>
         <div class="tab-category-list">
-
         </div>
     </div>
 </div>
@@ -558,7 +567,6 @@
         </p>
     </div>
     <div class="links-text">
-
     </div>
 </div>
 <div class="js-pop">
@@ -577,9 +585,20 @@
 <div class="genesInfo" style="display: none">
     <div class="genesInfo-head">
         <p>基因<span class="js-gene-head-name"></span>信息</p>
-        <a href="#">x</a>
+        <a href="#">X</a>
     </div>
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
+</div>
+
+<div class="author-pop-tab tab-detail" style="display: none">
+    <div class="information-title tab-detail-thead">
+        <p style=" padding: 0px;">REFERENCE<a href="#" class="close-pop">X</a></p>
+
+        <%--<button class="close-pop">X</button>--%>
+    </div>
+    <div class="information-tab">
+        <table></table>
+    </div>
 </div>
 <script src="${ctxStatic}/js/layout.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
@@ -595,15 +614,36 @@
         }
     })(jQuery);
     var version = $.getUrlParam('version');
-    var type_select = $.getUrlParam('type');
-    var key_input = $.getUrlParam('keywords');
-//    初始化列表
-    initTables(1,10,type_select,key_input,version);
+    var type_selects = $.getUrlParam('type');
+    var key_inputs = $.getUrlParam('keywords');
+
+    //    给搜索框赋值
+    $('.js-search-text').val(key_inputs);
+    //    给搜索下拉框赋值
+    $('.js-search-select').val(type_selects);
+
+    var type_select=$('.js-search-select').val();
+    var key_input=$('.js-search-text').val();
+    // 处理头部选项checked
+    var str = "";
+    $("input[type='checkbox']").each(function (index) {
+        //页面打开，表头选项默认全选
+        //$("#id").attr("checked", true);
+            str += $(this).val() + ",";
+    });
+    var topChecked=str.substring(0,str.length-1);
+    //    初始化列表
+    initTables(1, 10, type_select, key_input, version);
     var page = {curr: 1, pageSize: 10};
     $(".lay-per-page-count-select").val(page.pageSize);
 
     // 获取表格数据+分页
-    function initTables(currNum, pageSizeNum,type_select,key_input,version,cdt) {
+    function initTables(currNum, pageSizeNum, type_select, key_input, version, cdt) {
+        // 开启遮罩层
+        $('.mengc,.imgHTML').remove();
+        var imgHTML = "<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>";
+        $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
+        $('.checkbox-tab').append(imgHTML);
         $.ajax({
             url: "${ctxroot}/search/list/page",
             type: "POST",
@@ -611,45 +651,86 @@
                 version: version,
                 type: type_select,
                 keywords: key_input,
+                choices:topChecked,
                 condition: cdt,
                 pageNo: currNum || 1,
                 pageSize: pageSizeNum || 10
             },
             dataType: "json",
             success: function (res) {
-                console.log(res)
                 //显示表格内容
-                if (res.data.data.length == 0) {
+                if (res.data.length == 0) {
+                    // 关闭遮罩层
+                    $(".imgHTML,.mengc").remove();
                     $('#all-paginate').hide();
-                    $("#tableBody").html("<div class='explain-b' style='text-align: center'><img src='${ctxStatic}/images/nodata.png'><div style='padding-top: 10px'>无同源基因信息</div></div>")
+                    $("#tableBody>tbody").empty().html("<p class='zwsj'>暂无数据</p>");
                 } else {
                     renderTable(res);
                     $('#all-paginate').show();
-                    $("#total-page-count > span").html(res.data.total);
+                    $("#total-page-count > span").html(res.total);
 
                     //显示分页
                     laypage({
                         cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.data.total / page.pageSize), //通过后台拿到的总页数
+                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                         curr: currNum || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.data.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                         prev: '<',
                         next: '>',
                         groups: 3, //连续显示分页数
                         jump: function (obj, first) { //触发分页后的回调
                             if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                                 var currNum = obj.curr;
-                                initTables(currNum, pageSizeNum);
+                                initTables(currNum, pageSizeNum, type_select, key_input, version, cdt);
                             }
                         }
                     });
+                    // 关闭遮罩层
+                    $(".imgHTML,.mengc").remove();
                 }
             }
         });
     }
+
+    //导出方法调用
+    $(".btn-export").off('click').click(function () {
+            //表格导出 修复tomcat8无法识别的JSON格式问题
+            var cdt = getParamsString();
+        //处理头部选项checked
+        var str = "";
+        $("input[type='checkbox']").each(function (index) {
+            if ($(this).is(":checked")) {
+                str += $(this).val() + ",";
+            }
+        })
+        var topCheckeds=str.substring(0,str.length-1);
+        var key_input=$('.js-search-text').val();
+            $.ajax({
+                type: "GET",
+                url: "${ctxroot}/query/dataExport",
+                data: {
+                    version: version,
+                    type: type_select,
+                    keywords: key_input,
+                    condition: cdt,
+                    choices:topCheckeds,
+                },
+                dataType: "json",
+                contentType: "application/json",
+                success: function (result) {
+                    var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                    window.location.href = path + result.data;
+                },
+                error: function (error) {
+                    console.log(error);
+                }
+            })
+    })
+
+
 
     // 修改每页显示条数
     $("#all-paginate").on("change", ".lay-per-page-count-select", function () {
@@ -658,11 +739,13 @@
         var total = $("#total-page-count span").text();
         var mathCeil = Math.ceil(total / curr);
         page.pageSize = Number($(this).val());
+
+        var cdt = getParamsString()
         if (pageSize > mathCeil) {
             page.curr = 1;
-            initTables(1, pageSize)
+            initTables(1, pageSize, type_select, key_input, version, cdt);
         } else {
-            initTables(curr, pageSize)
+            initTables(curr, pageSize, type_select, key_input, version, cdt);
         }
     });
 
@@ -675,6 +758,7 @@
     });
     // 注册 enter 事件的元素
     $(document).keyup(function (event) {
+        var cdt = getParamsString()
         var _page_skip = $('#pagination .laypage_skip');
         if (_page_skip.hasClass("isFocus")) {
             if (event.keyCode == 13) {
@@ -685,64 +769,62 @@
                 var mathCeil = Math.ceil(total / pageSizeNum);
                 if (curr > mathCeil) {
                     page.curr = 1;
-                    initTables(1, pageSizeNum)
+                    initTables(1, pageSizeNum, type_select, key_input, version, cdt);
                 } else {
                     page.curr = curr;
-                    initTables(curr, pageSizeNum)
+                    initTables(curr, pageSizeNum, type_select, key_input, version, cdt);
                 }
             }
         }
     });
 
     function renderTable(data) {
-        var eleData = data.data.data;
+        var eleData = data.data;
         //表格数据填充
         var str = '';
         for (var i = 0; i < eleData.length; i++) {
             str += '<tr>'
             str += '<td class="t_id">' + eleData[i].id + '</td>';
-            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=${item.version}">' + eleData[i].qtlName + '</a> </td>';
+            str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=' + version + '">' + eleData[i].qtlName + '</a> </td>';
             str += '<td class="t_trait">' + eleData[i].trait + '</td>';
             str += '<td class="t_type">' + eleData[i].type + '</td>';
-            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">' + eleData[i].chr + '</a></td>';
-            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=${item.version}&markerlg=${item.lg}(${lg})&qtl=${item.qtlName}">' + eleData[i].lg + '</a> </td>';
+            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].chr + '</a></td>';
+            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].lg + '</a> </td>';
             str += '<td class="t_method">' + eleData[i].method + '</td>';
             str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker1 + '">' + eleData[i].marker1 + '</a> </td>';
-            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2+ '</a> </td>';
-            str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].genes + '">' + eleData[i].genesNum + '</a></td>';
+            str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2 + '</a> </td>';
+            str += '<td class="t_genesNum"><a class="js-pop-genes" href="javascript:;" data-txt="' + eleData[i].associateGenes + '">' + eleData[i].genesNum + '</a></td>';
             str += '<td class="t_lod">' + eleData[i].lod + '</td>';
             str += '<td class="t_parent1">' + eleData[i].parent1 + '</td>';
             str += '<td class="t_parent2">' + eleData[i].parent2 + '</td>';
             str += '<td class="t_genomeStart">' + eleData[i].geneStart + '</td>';
             str += '<td class="t_genomeEnd">' + eleData[i].geneEnd + '</td>';
-            str += '<td class="t_author"> <a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=' + eleData[i].author + '">' + eleData[i].author + '</a>';
-            str += '<div class="author-pop-tab" style="display: none">';
-            str += '<div class="information-title">';
-            str += '<p>REFERENCE</p> <button class="close-pop">X</button> </div> <div class="information-tab"> <table> </table> </div> </div> </td>';
+            str += '<td class="t_author"> <a class="js-author-pop" href="javascript:;" data-src="${ctxroot}/query/reference?qtlName=' + eleData[i].qtlName + '">' + eleData[i].author + '</a>';
+            str += '</td>';
             str += '</tr>';
         }
         $("#tableBody > tbody").empty().append(str);
 
         //表头chr添加内容
-        var chrData = data.data.chrs;
+        var chrData = data.chrs;
         var strChr = "";
         for (var j = 0; j < chrData.length; j++) {
             strChr += '<a href="#">' + chrData[j] + '</a>';
         }
-        $('.chr-item').append(strChr);
+        $('.chr-item').empty().append(strChr);
 
         //表头lg添加内容
-        var lgData = data.data.lgs;
+        var lgData = data.lgs;
         var strLg = "";
         for (var m = 0; m < chrData.length; m++) {
             strLg += '<a href="#">' + lgData[m] + '</a>';
         }
-        $('.lg-item').append(strLg);
+        $('.lg-item').empty().append(strLg);
 
         //chr点击事件
         $(".chr-item a").click(function () {
             $(".js-chr").val($(this).html());
-        $(".js-lg").val("");
+            $(".js-lg").val("");
 //        $("#pageNo").val(1);
 //        $("#search3").val(getParamsString());
 //        $("#searchForm").submit();
@@ -758,6 +840,158 @@
             thSearch();
         });
 
+        $(".js-author-pop").click(function (e) {
+
+            var url = $(this).attr("data-src");
+            $("#mid").show()
+//            $(this).siblings().show();
+            $('.author-pop-tab').show();
+            var _qtl = $("a.qtlName").html();
+            $.ajax({
+                url: url,
+                type: "get",
+                dataType: "json",
+                success: function (data) {
+                    var tbody = "";
+                    tbody += "<tbody>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Title:</td>"
+                    tbody += "       <td>" + data.title + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Authors:</td>"
+                    tbody += "       <td>" + data.authors + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Source:</td>"
+                    tbody += "       <td>" + data.source + "</td>"
+                    tbody += "   </tr>"
+                    tbody += "   <tr>"
+                    tbody += "       <td>Abstract:</td>"
+                    tbody += "       <td>"
+                    tbody += "               <p>" + data.abs + "</a>"
+                    tbody += "       </td>"
+                    tbody += "   </tr>"
+                    tbody += "</tbody>"
+                    $(".information-tab table").html(tbody);
+                    /*data.abs*/
+                    $(".abstract").click(function (e) {
+                        e.preventDefault();
+                        $("#mid").show();
+                        $(".links-pop").show();
+                        var txt = $(this).attr("data-txt");
+//                        console.log(txt + "----");
+                        $(".links-text").html("<p>" + txt + "</p>")
+
+
+                    })
+                }
+            });
+
+            var xx = e.pageX;
+            var yy = e.pageY
+
+        })
+        $(".close-pop").click(function (e) {
+            $(".author-pop-tab").hide();
+            $("#mid").hide();
+        })
+
+
+        /*表头*/
+//        $(".btn-confirm").click(function () {
+//            var str = "";
+//            $("input[type='checkbox']").each(function (index) {
+//                if (!$(this).is(":checked")) {
+//                    $(".t_" + $(this).val()).hide();
+//                } else {
+//                    $(".t_" + $(this).val()).show();
+//                    str += $(this).val() + "-";
+//                }
+//            })
+//            setCookie('showedCols', str);
+//            console.log(str)
+//        })
+
+        function pop(id, name) {
+            $(id).click(function (e) {
+                e.preventDefault();
+                $("#mid").show();
+                $(".js-pop").show();
+                $(".tname").text(name)
+                var url = $(this).attr("data-src");
+                $.ajax({
+                    url: url,
+                    type: "get",
+                    dataType: "json",
+                    success: function (data) {
+//                        console.log(data);
+                        var pop = "";
+                        pop += "<tr>"
+                        pop += "  <td>Name</td>"
+                        pop += "  <td>" + data.name + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Type</td>"
+                        pop += "  <td>" + data.type + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>LG(Chr)</td>"
+                        pop += "  <td>" + data.lg + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Position</td>"
+                        pop += "  <td>" + data.position + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>Amplification Info</td>"
+                        pop += "  <td>" + data.amplificationInfo + "</td>"
+                        pop += "</tr>"
+                        pop += "  <td>Providers</td>"
+                        pop += "  <td>" + data.provider + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        pop += "  <td>References</td>"
+                        pop += "  <td>" + data.refference + "</td>"
+                        pop += "</tr>"
+                        pop += "<tr>"
+                        $(".js-pop-body tbody").html(pop)
+                    }
+                })
+            })
+        }
+
+        pop(".js-pop-marker1", "marker1")
+        pop(".js-pop-marker2", "marker2")
+        /*genes 弹框*/
+        $(".js-pop-genes").click(function (e) {
+            e.preventDefault();
+            $("#mid").show();
+            $(".genesTanc").show();
+            $(".tab-category-list").html("");
+            var text = $(this).attr("data-txt");
+            var t = text.split(",")
+
+            for (var i = 0; i < t.length; i++) {
+                var span = "";
+                span += "<span><a class='js-gene-info' data-gene-name='" + t[i] + "' href='javascript:void(0);'>" + t[i] + "</a></span>"
+                $(".tab-category-list").append(span)
+            }
+        });
+
+        $("body").on("click", ".js-gene-info", function (e) {
+            var version = getUrlParam("version");
+            var geneName = $(this).attr("data-gene-name");
+            $(".js-gene-head-name").html(geneName);
+            $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
+            e.preventDefault();
+            $(".genesInfo").show();
+
+        });
+        $(".genesInfo a").click(function (e) {
+            e.preventDefault();
+            $(".genesInfo").hide();
+        })
     }
 
     /*清除搜索框内容*/
@@ -813,20 +1047,18 @@
         $(".js-pop").draggable({containment: "body", cancel: ".js-pop-body"});
         $(".author-pop-tab").draggable({containment: "body", cancel: ".js-pop-body,.information-tab"});
         $(".tab-detail").draggable({containment: "body", cancel: ".tab-detail-tbody"});
-        if (getCookie('showedCols')) {
-            var cols = getCookie('showedCols').split("-");
-            $("input[type='checkbox']").each(function (index, el) {
-                console.log($(this).val());
-                for (var i = 0; i < cols.length; i++) {
-                    if ($(this).val() == cols[i]) {
-                        $(this).prop("checked", false);
-                        $(".t_" + $(this).val()).hide();
-                        break;
-                    }
-                }
-            });
-
-        }
+//        if (getCookie('showedCols')) {
+//            var cols = getCookie('showedCols').split("-");
+//            $("input[type='checkbox']").each(function (index, el) {
+//                for (var i = 0; i < cols.length; i++) {
+//                    if ($(this).val() == cols[i]) {
+//                        $(this).prop("checked", false);
+//                        $(".t_" + $(this).val()).hide();
+//                        break;
+//                    }
+//                }
+//            });
+//        }
 
 
         /* 设置表头 */
@@ -842,7 +1074,6 @@
                     $(".t_" + $(this).val()).show();
                 }
             });
-
             setCookie('showedCols', colArr.join("-"));
         });
 
@@ -860,25 +1091,25 @@
         });
     });
 
-    function page(n, s) {
-        if (n) $("#pageNo").val(n);
-        if (s) $("#pageSize").val(s);
-        $("#searchForm").submit();
-        return false;
-    }
-
-    function PressPage(e, n, s, p) {
-        var c = e.keyCode || e.which;
-        if (c == 13) {
-            page(n, s);
-        }
-    }
-
-    function SelectPage(e, n, s, p) {
-        if ($("#pageSize").val() != s) {
-            page(n, s);
-        }
-    }
+    //    function page(n, s) {
+    //        if (n) $("#pageNo").val(n);
+    //        if (s) $("#pageSize").val(s);
+    //        $("#searchForm").submit();
+    //        return false;
+    //    }
+    //
+    //    function PressPage(e, n, s, p) {
+    //        var c = e.keyCode || e.which;
+    //        if (c == 13) {
+    //            page(n, s);
+    //        }
+    //    }
+    //
+    //    function SelectPage(e, n, s, p) {
+    //        if ($("#pageSize").val() != s) {
+    //            page(n, s);
+    //        }
+    //    }
 
     /*版本号选择*/
     $(".version-num select").change(function () {
@@ -934,36 +1165,36 @@
     $(".js-search-btn").click(function () {
 //        $("#search2").val($(".js-search-text").val());
         $(".btn-toggle").trigger("click");
-        var type=$(".js-search-select").val();
-        var key=$(".js-search-text").val();
+        var type = $(".js-search-select").val();
+        var key = $(".js-search-text").val();
 //        initTables(1,10,type,key,cdt)
 //        $("#search3").val("{}");
 //        $("#search6").val("{}");
 //        $("#searchForm").submit();
 
-        initTables(1,10,type,key,version);
+        initTables(1, 10, type, key, version);
     });
-//    $(".btn-confirm-info").click(function(){
-////        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
-//        var cdt=getParamsString()
-//        console.log(cdt)
-//    })
+    //    $(".btn-confirm-info").click(function(){
+    ////        $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
+    //        var cdt=getParamsString()
+    //        console.log(cdt)
+    //    })
 
     /*表头条件搜索*/
-    function thSearch(){
+    function thSearch() {
         $(".btn-toggle").trigger("click");
-        var type=$(".js-search-select").val();
-        var key=$(".js-search-text").val();
-        var cdt=getParamsString()
-        console.log(cdt)
-        initTables(1,10,type,key,version,cdt)
+        var type = $(".js-search-select").val();
+        var key = $(".js-search-text").val();
+        var cdt = getParamsString();
+        initTables(1, 10, type, key, version, cdt)
     }
-    $(".btn-confirm-info").click(function(){
+
+    $(".btn-confirm-info").click(function () {
         $("#per-page-count .lay-per-page-count-select option:first").prop("selected", 'selected');
         thSearch();
     })
     /*筛选取消*/
-    $(".btn-cancel").click(function() {
+    $(".btn-cancel").click(function () {
         $(this).parent("p").siblings("input").val("");
         $(this).siblings(".btn-confirm-info").trigger("click");
     });
@@ -1029,35 +1260,86 @@
     };
 
 
-
-//
-//    $(".btn-confirm-info").click(function () {
-//        $("#pageNo").val(1);
-//        $("#search3").val(getParamsString());
-//        $("#searchForm").submit();
-//    });
+    //
+    //    $(".btn-confirm-info").click(function () {
+    //        $("#pageNo").val(1);
+    //        $("#search3").val(getParamsString());
+    //        $("#searchForm").submit();
+    //    });
 
     $(".btn-cancel").click(function () {
         $(this).parent("p").siblings("input").val("");
         $(this).siblings(".btn-confirm-info").trigger("click");
     });
 
-    $(".btn-export").click(function () {
-        var option = $(".version-num option:selected").text();
-        $("#search7").val(option);
-        $("#search6").val(getParamsString());
-        var colArr = [];
+//    $(".btn-export").click(function () {
+//        var option = $(".version-num option:selected").text();
+//        $("#search7").val(option);
+//        $("#search6").val(getParamsString());
+//        var colArr = [];
+//        $("input[type='checkbox']").each(function (index) {
+//            if ($(this).is(":checked")) {
+//                var colName = $(this).val();
+//                colArr.push(colName);
+//            }
+//        });
+//        var choices = colArr.join(",");
+////        console.log(choices)
+//        $("#search8").val(choices);
+//        $("#exportForm").submit();
+//    });
+    // 表格导出
+    function exportData() {
+//        处理头部选项checked
+        var str = "";
         $("input[type='checkbox']").each(function (index) {
-            if ($(this).is(":checked")) {
-                var colName = $(this).val();
-                colArr.push(colName);
+            if (!$(this).is(":checked")) {
+                $(".t_" + $(this).val()).hide();
+            } else {
+                $(".t_" + $(this).val()).show();
+                str += $(this).val() + ",";
             }
         });
-        var choices = colArr.join(",");
-        console.log(choices)
-        $("#search8").val(choices);
-        $("#exportForm").submit();
-    });
+        var cdt = getParamsString();
+        var topChecked=str.substring(0,str.length-1);
+        var keyInput=$(".js-search-text").val();
+        // 修复tomcat8无法识别的JSON格式问题
+        $.ajax({
+            type: "GET",
+            url: "${ctxroot}/query/dataExport",
+            data: {
+                version: version,
+                type: type_select,
+                keywords: "",
+                condition: cdt,
+                choices: topChecked
+            },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href = path + result.data;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
+
+    function extractHostname(url) {
+        var hostname;
+        if (url.indexOf("://") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+        return hostname;
+    }
 
     function getParamsString() {
         var tmp = {};
@@ -1087,11 +1369,6 @@
         return JSON.stringify(tmp);
     }
 
-    $(".js-search-text").keydown(function (event) {
-        if (event.keyCode == 13) {
-            console.log(event.keyCode)
-        }
-    })
     $(".nav_ac .icon-right").click(function () {
         $(".nav_ac").hide();
         $("article").css({"width": "895px"})
@@ -1105,159 +1382,7 @@
         $(".nav_ac").show();
     })
 
-    $(".js-author-pop").click(function (e) {
 
-        var url = $(this).attr("data-src");
-        $("#mid").show()
-        $(this).siblings().show();
-        var _qtl = $("a.qtlName").html();
-        $.ajax({
-            url: url,
-            type: "get",
-            dataType: "json",
-            success: function (data) {
-                console.log(data)
-                var tbody = "";
-                tbody += "<tbody>"
-                tbody += "   <tr>"
-                tbody += "       <td>Title:</td>"
-                tbody += "       <td>" + data.title + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Authors:</td>"
-                tbody += "       <td>" + data.authors + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Source:</td>"
-                tbody += "       <td>" + data.source + "</td>"
-                tbody += "   </tr>"
-                tbody += "   <tr>"
-                tbody += "       <td>Abstract:</td>"
-                tbody += "       <td>"
-                tbody += "               <p>" + data.abs + "</a>"
-                tbody += "       </td>"
-                tbody += "   </tr>"
-                tbody += "</tbody>"
-                $(".information-tab table").html(tbody);
-                /*data.abs*/
-                $(".abstract").click(function (e) {
-                    e.preventDefault();
-                    $("#mid").show();
-                    $(".links-pop").show();
-                    var txt = $(this).attr("data-txt");
-                    console.log(txt + "----");
-                    $(".links-text").html("<p>" + txt + "</p>")
-
-
-                })
-            }
-        });
-
-        var xx = e.pageX;
-        var yy = e.pageY
-
-    })
-    $(".close-pop").click(function (e) {
-        $(".author-pop-tab").hide();
-        $("#mid").hide();
-    })
-
-
-    /*表头*/
-    $(".btn-confirm").click(function () {
-        var str = "";
-        $("input[type='checkbox']").each(function (index) {
-            if (!$(this).is(":checked")) {
-                $(".t_" + $(this).val()).hide();
-            } else {
-                $(".t_" + $(this).val()).show();
-                str += $(this).val() + "-";
-            }
-        })
-
-        setCookie('showedCols', str);
-    })
-
-    function pop(id, name) {
-        $(id).click(function (e) {
-            e.preventDefault();
-            $("#mid").show();
-            $(".js-pop").show();
-            $(".tname").text(name)
-            var url = $(this).attr("data-src");
-            $.ajax({
-                url: url,
-                type: "get",
-                dataType: "json",
-                success: function (data) {
-                    console.log(data);
-                    var pop = "";
-                    pop += "<tr>"
-                    pop += "  <td>Name</td>"
-                    pop += "  <td>" + data.name + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Type</td>"
-                    pop += "  <td>" + data.type + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>LG(Chr)</td>"
-                    pop += "  <td>" + data.lg + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Position</td>"
-                    pop += "  <td>" + data.position + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>Amplification Info</td>"
-                    pop += "  <td>" + data.amplificationInfo + "</td>"
-                    pop += "</tr>"
-                    pop += "  <td>Providers</td>"
-                    pop += "  <td>" + data.provider + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    pop += "  <td>References</td>"
-                    pop += "  <td>" + data.refference + "</td>"
-                    pop += "</tr>"
-                    pop += "<tr>"
-                    $(".js-pop-body tbody").html(pop)
-                }
-            })
-        })
-    }
-
-    pop(".js-pop-marker1", "marker1")
-    pop(".js-pop-marker2", "marker2")
-    /*genes 弹框*/
-    $(".js-pop-genes").click(function (e) {
-        e.preventDefault();
-        $("#mid").show();
-        $(".tab-detail").show();
-        $(".tab-category-list").html("");
-        var text = $(this).attr("data-txt");
-        var t = text.split(",")
-
-        for (var i = 0; i < t.length; i++) {
-            var span = "";
-            span += "<span><a class='js-gene-info' data-gene-name='" + t[i] + "' href='javascript:void(0);'>" + t[i] + "</a></span>"
-            $(".tab-category-list").append(span)
-        }
-    });
-
-    $("body").on("click", ".js-gene-info", function (e) {
-        var version = getUrlParam("version");
-        var geneName = $(this).attr("data-gene-name");
-        $(".js-gene-head-name").html(geneName);
-        $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
-        e.preventDefault();
-//        console.log($(this).html())
-        $(".genesInfo").show();
-
-    });
-    $(".genesInfo a").click(function (e) {
-        e.preventDefault();
-        $(".genesInfo").hide();
-    })
     $(".js-search-text").on("focus", function () {
         $(this).addClass("isFocus");
     });
@@ -1287,6 +1412,9 @@
 
         }
     });
+    /*基因详情拖动弹框*/
+    $(".genesInfo").draggable({containment: "body"});
+    $(".author-pop-tab").draggable({containment: "body"});
 
 </script>
 </body>

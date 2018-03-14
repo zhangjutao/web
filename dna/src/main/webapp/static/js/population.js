@@ -11,11 +11,12 @@ $(function (){
     var groupVal8="含102份材料，多为加拿大及少数巴西、美国地区的栽培品种，蛋白含量40-50%，含油量15-25%，株高80-120cm，百粒重10-20g，种皮黄，紫色花朵，成熟期0-IV为主。";
     var groupVal9="含138份材料，主要为中韩地区的半野生品种和美洲地区的栽培品种，蛋白含量40-50%，含油量15-25%，株高50-120cm，百粒重10-20g，种皮黄，花朵紫和白，成熟期组以III/IV为主。";
     var groupVal10="含80份材料，主要为中、韩、美地区的地方和栽培品种，蛋白含量40-50%，含油量7-15%，株高50-100cm，百粒重10-25g，种皮多黄，少棕黑色，紫色和白色花朵，成熟期组以I-V为主。";
-
+    var layerIndex;
     $("#groups li").click(function (e){
         var val = $(this).find("p").text();
         $("#popTips").show();
         $(".tipTopCnt").text(val);
+
         switch (val){
             case "Group 1":
                 $(".groupCnt").text(groupVal1);
@@ -49,35 +50,50 @@ $(function (){
                 break;
 
         }
+
+        layerIndex = layer.open({
+            title:"",
+            type: 1,
+            content:$("#popTips"),
+            area: '600px',
+            shadeClose:true,
+            scrollbar:false,
+            move: '.tipTopCnt',
+            tips: 2,
+            closeBtn: 0
+
+        });
+
     })
     // 默认表格内容全选
 
     $(".closeBtn img").click(function (){
-        $("#popTips").hide();
+        // $("#popTips").hide();
+        layer.close(layerIndex);
     })
     // 弹框移动
-   var x1,y1,x2,y2,offLeft,offTop,isClick = 0;
-
-    $("#popTips").mousedown(function (e){
-        // 点击时的坐标位置
-        x1 = e.pageX;
-        y1 = e.pageY;
-        // 点击时相对于屏幕左边和上边的距离
-        offLeft = parseInt($(this).css("left"));
-        offTop = parseInt($(this).css("top"));
-        isClick = 1;
-    }).mousemove(function (e){
-        if(isClick == 1){
-            x2 = e.pageX;
-            y2 = e.pageY;
-            var xx = x2 - x1 + offLeft;
-            var yy = y2 - y1 + offTop;
-            $("#popTips").css("left",xx+"px");
-            $("#popTips").css("top",yy+"px");
-        }
-    }).mouseup(function (){
-        isClick = 0;
-    });
+   // var x1,y1,x2,y2,offLeft,offTop,isClick = 0;
+   //
+   //  $("#popTips").mousedown(function (e){
+   //      // 点击时的坐标位置
+   //      x1 = e.pageX;
+   //      y1 = e.pageY;
+   //      // 点击时相对于屏幕左边和上边的距离
+   //      offLeft = parseInt($(this).css("left"));
+   //      offTop = parseInt($(this).css("top"));
+   //      isClick = 1;
+   //  }).mousemove(function (e){
+   //      if(isClick == 1){
+   //          x2 = e.pageX;
+   //          y2 = e.pageY;
+   //          var xx = x2 - x1 + offLeft;
+   //          var yy = y2 - y1 + offTop;
+   //          $("#popTips").css("left",xx+"px");
+   //          $("#popTips").css("top",yy+"px");
+   //      }
+   //  }).mouseup(function (){
+   //      isClick = 0;
+   //  });
 
     //选中状态代码封装
     function checkStatus(bool){
