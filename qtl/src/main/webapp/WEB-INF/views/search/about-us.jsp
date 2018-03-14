@@ -197,9 +197,9 @@
     <script>
         /*拖动弹框*/
 ////        $(".js-pop").draggable({ containment: ".js-pop-head"});
-       $(".js-pop").draggable({ containment: "#mid"});
-       $( ".links-pop" ).draggable({ containment: "#mid"});
-       $( ".tab-detail" ).draggable({ containment: "#mid"});
+       $(".js-pop").draggable({ containment: "#mid", cancel : ".js-pop-body", scroll: false});
+       $( ".links-pop" ).draggable({ containment: "#mid", cancel : ".links-text", scroll: false});
+       $( ".tab-detail" ).draggable({ containment: "#mid", cancel : ".tab-detail-tbody", scroll: false});
         function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
@@ -215,8 +215,11 @@
                $("#mid").show();
                $("#mid").height($(window).height());
                $("#mid").width($(window).width());
-                $(".js-pop").show();
-
+               $(".js-pop").show();
+               $("#mid").bind('click', function(){
+                   $("#mid").hide();
+                   $(".js-pop").hide();
+               });
 //              $(".js-pop-body tbody").html();
                 var url=$(this).attr("data-src");
                 //定义拖拽
@@ -283,6 +286,10 @@
             e.preventDefault();
            $("#mid").show();
            $(".tab-detail").show();
+           $("#mid").bind('click', function(){
+               $("#mid").hide();
+               $(".tab-detail").hide();
+           });
            // index1 = layer.open({
            //      title:"",
            //      type: 1,
