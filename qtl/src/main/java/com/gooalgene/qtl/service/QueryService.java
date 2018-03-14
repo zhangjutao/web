@@ -715,7 +715,7 @@ public class QueryService implements InitializingBean {
         List<QtlSearchResult> list = qtlDao.findByCondition(qtl);
         // 发布异步事件，预加载查询下载结果
         QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
-        event.setCheckedOption(checkedOption);
+        event.setAlternativeKeyWord(keywords);
         // 预构建缓存key值
         String preConstructCachedKey = event.getClass().getSimpleName() + "-" + keywords;
         Cache.ValueWrapper valueWrapper = cache.get(preConstructCachedKey);
@@ -749,13 +749,27 @@ public class QueryService implements InitializingBean {
     public List<QtlSearchResult> downloadQtlSearchResult(String version, String type, String keywords, String param, String checkedOption) {
         Qtl qtl = constructQtlSearchCondition(version, type, keywords, param);
         QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
-        event.setCheckedOption(checkedOption);
+        event.setAlternativeKeyWord(keywords);
         String key = event.getClass().getSimpleName() +"-" + keywords;
         logger.info("下载时接受的缓存值为：" + key);
         Cache.ValueWrapper valueWrapper = cache.get(key);
         if (valueWrapper == null) {
-            logger.warn("该数据未缓存，请重新查询");
-            return null;
+            long start = System.currentTimeMillis();
+            long end = 0;
+            // 定时从缓存中取最新的缓存值
+            while (valueWrapper == null) {
+                try {
+                    Thread.sleep(2000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                valueWrapper = cache.get(key);
+                end = System.currentTimeMillis();
+                if (end - start > 40 * 1000) {
+                    logger.warn("该数据未缓存，请重新查询");
+                    return null;
+                }
+            }
         }
         List<QtlSearchResult> cachedResult = (List<QtlSearchResult>) valueWrapper.get();
         return cachedResult;

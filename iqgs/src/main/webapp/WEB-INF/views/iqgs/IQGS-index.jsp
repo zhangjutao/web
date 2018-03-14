@@ -163,8 +163,8 @@
 <script type="text/javascript">
     window.DOMAIN = "${ctxroot}/iqgs";
     window.ctxROOT = "${ctxroot}";
-    window.ctxStatic = "${ctxStatic}"
-    var exampleQtlId = "${exampleQtlId}";
+    window.ctxStatic = "${ctxStatic}";
+    sessionStorage.exampleQtlId = "${exampleQtlId}";
 </script>
 
 <script src="${ctxStatic}/js/mock/mock.js"></script>

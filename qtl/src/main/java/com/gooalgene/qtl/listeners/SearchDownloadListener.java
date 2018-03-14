@@ -55,7 +55,7 @@ public class SearchDownloadListener implements EventBusListener, InitializingBea
             return;
         }
         Qtl qtl = (Qtl) target;
-        String searchedKeyWord = qtl.getKeywords() == null ? "" : qtl.getKeywords();
+        String alternativeKeyWord = searchResult.getAlternativeKeyWord();
         List<QtlSearchResult> allSearchResult = qtlDao.findByCondition(qtl);
         // 拿到所有关联Qtl ID
         Collection<Integer> allAssociatedQtlId = Collections2.transform(allSearchResult, new Function<QtlSearchResult, Integer>() {
@@ -74,7 +74,7 @@ public class SearchDownloadListener implements EventBusListener, InitializingBea
                 result.setAssociateGenes(associatedGenes.getAssociatedGenes());
             }
         }
-        String key = searchResult.getClass().getSimpleName() + "-" + searchedKeyWord;
+        String key = searchResult.getClass().getSimpleName() + "-" + alternativeKeyWord;
         logger.info("当前写入缓存的key值为：" + key);
         // 将预加载的值放入缓存中，缓存两小时
         cache.putIfAbsent(key, allSearchResult);
