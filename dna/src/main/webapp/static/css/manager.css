@@ -38,7 +38,7 @@ body {
 
 #containerAdmin #tblhead tr td:first-child,
 #containerAdmin #tblbody tr td:first-child {
-    width: 300px;
+    width: 190px;
     height: 50px;
 }
 
@@ -46,19 +46,29 @@ body {
 
 #containerAdmin #tblhead tr td:nth-child(2),
 #containerAdmin #tblbody tr td:nth-child(2) {
-    width: 460px;
+    width: 320px;
     height: 50px;
 }
 
 #containerAdmin #tblhead tr td:nth-child(3),
 #containerAdmin #tblbody tr td:nth-child(3) {
-    width: 180px;
+    width: 160px;
     height: 50px;
 }
 
 #containerAdmin #tblhead tr td:nth-child(4),
 #containerAdmin #tblbody tr td:nth-child(4) {
-    width: 185px;
+    width: 160px;
+    height: 50px;
+}
+#containerAdmin #tblhead tr td:nth-child(5),
+#containerAdmin #tblbody tr td:nth-child(5) {
+    width: 140px;
+    height: 50px;
+}
+#containerAdmin #tblhead tr td:nth-child(6),
+#containerAdmin #tblbody tr td:nth-child(6) {
+    width: 123px;
     height: 50px;
 }
 /*#containerAdmin #tblhead tr td:first-child,#containerAdmin #tblhead tr td:nth-child(2),#containerAdmin #tblhead tr td:nth-child(3)，#containerAdmin #tblhead tr td:nth-child(4){*/

@@ -287,18 +287,13 @@ public class SortController implements InitializingBean {
             String content=getExportContent(sortedResults);
             String fileName=System.currentTimeMillis()+"_"+ UUID.randomUUID().toString()+".csv";
             String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
-            File tempfile = new File(filePath + fileName);
-            if (!tempfile.getParentFile().exists()) {
-                if (!tempfile.getParentFile().mkdirs()) {
-                    //return "文件目录创建失败";
-                }
-            }
-            FileOutputStream tempFile = null;
+            // 通过IO，将输出内容写入到文件中
+            File tempFile = new File(filePath + fileName);
             try {
-                tempFile = new FileOutputStream(tempfile);
-                tempFile.write(content.getBytes("gbk"));
-                tempFile.flush();
-                tempFile.close();
+                FileOutputStream fos = new FileOutputStream(tempFile);
+                fos.write(content.getBytes("gbk"));
+                fos.flush();
+                fos.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
             } catch (UnsupportedEncodingException e) {
@@ -306,7 +301,7 @@ public class SortController implements InitializingBean {
             } catch (IOException e) {
                 e.printStackTrace();
             }
-            String contextPath = request.getContextPath();      // /dna
+            String contextPath = request.getContextPath();
             //重构请求URL
             StringBuilder builder = new StringBuilder();
             builder.append(contextPath);

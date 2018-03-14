@@ -924,8 +924,15 @@
     $(function () {
         if (window.localStorage) {
             var storage = window.localStorage;
-        } else {
-            alert('This browser does NOT support localStorage');
+        }else{
+//            alert('This browser does NOT support localStorage');
+            layer.open({
+                type:0,
+                title:"温馨提示:",
+                content:"This browser does NOT support localStorage",
+                shadeClose:true,
+            });
+
         }
 
         function setCookie(name, value) {
@@ -1225,13 +1232,22 @@
         }
 
         /* 保存群体 */
-        $(".sample-screening-btn button").click(function () {
+
+        $(".sample-screening-btn button").click(function(){
             //修改输入框border-color modified by zjt 2018-3-14
             $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
             //修改输入框border-color modified by zjt 2018-3-14
-            var sampleTexts = $(".sample-text").text();
-            if (sampleTexts.length == 0) {
-                alert("请选择群体!")
+
+            var sampleTexts=$(".sample-text").text();
+            if(sampleTexts.length==0){
+//                alert("请选择群体!")
+                layer.open({
+                    type:0,
+                    title:"温馨提示:",
+                    content:"请选择群体",
+                    shadeClose:true,
+                });
+
                 return;
             }
             var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
@@ -1253,7 +1269,13 @@
 
                 $(".sample-empty").trigger("click");
             } else {
-                alert("最多可添加10个群体");
+//                alert("最多可添加10个群体");
+                layer.open({
+                    type:0,
+                    title:"温馨提示:",
+                    content:"最多可添加10个群体",
+                    shadeClose:true,
+                });
             }
 
         });
@@ -1814,7 +1836,13 @@
             if ((val1 != "" && val2 != "") || (val1 == "0" || val2 == "0") && (val1 != "" || val2 != "")) {
                 if ($.inArray($(this).attr("data-name"), percetageArray) > -1) {
                     if ((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
-                        alert("添加的区间数据不合理,如果是百分比则要小于100");
+//                        alert("添加的区间数据不合理,如果是百分比则要小于100");
+                        layer.open({
+                            type:0,
+                            title:"温馨提示:",
+                            content:"添加的区间数据不合理,如果是百分比则要小于100",
+                            shadeClose:true,
+                        });
                         input1.style.borderColor = "red";
                         input2.style.borderColor = "red";
                     } else {
@@ -1846,7 +1874,13 @@
                     }
                 } else {
                     if ((val1 < 0 || val2 < 0) || val1 > val2) {
-                        alert("添加的区间数据不合理");
+//                        alert("添加的区间数据不合理");
+                        layer.open({
+                            type:0,
+                            title:"温馨提示:",
+                            content:"添加的区间数据不合理",
+                            shadeClose:true,
+                        });
                         input1.style.borderColor = "red";
                         input2.style.borderColor = "red";
                     } else {
@@ -1888,7 +1922,13 @@
                     input1.style.borderColor = "red";
                     input2.style.borderColor = "red";
                 }
-                alert("输入不能为空");
+//                alert("输入不能为空");
+                layer.open({
+                    type:0,
+                    title:"温馨提示:",
+                    content:"输入不能为空",
+                    shadeClose:true,
+                });
             }
         });
 
@@ -2124,25 +2164,60 @@
 //                    RegionObj["group"] = JSON.stringify(defaultPopulations);
                     RegionObj["group"] = JSON.stringify([]);
                 }
-                if (RegionObj.start == "" || RegionObj.end == "") {
-                    return alert("输入不能为空");
+                if(RegionObj.start == "" || RegionObj.end == "") {
+//                    return alert("输入不能为空");
+                    layer.open({
+                        type:0,
+                        title:"温馨提示:",
+                        content:"输入不能为空",
+                        shadeClose:true,
+                    });
+                    return;
                 }
-                if (!isNaN(RegionObj.start * 1) && !isNaN(RegionObj.end * 1)) {
-                    if (RegionObj.start * 1 < 0 || RegionObj.end * 1 < 0) {
-                        return alert("输入数字应大于0");
+                if(!isNaN(RegionObj.start*1) && !isNaN(RegionObj.end*1)) {
+                    if(RegionObj.start*1 < 0 || RegionObj.end*1 < 0) {
+//                        return alert("输入数字应大于0");
+                        layer.open({
+                            type:0,
+                            title:"温馨提示:",
+                            content:"输入数字应大于0",
+                            shadeClose:true,
+                        });
+                        return;
                     }
-                    if (RegionObj.start * 1 > chromosomeMax * 1 || RegionObj.end * 1 > chromosomeMax * 1) {
-                        return alert("输入值超过该基因最大值");
+                    if(RegionObj.start*1 > chromosomeMax*1 || RegionObj.end*1 > chromosomeMax*1) {
+//                        return alert("输入值超过该基因最大值");
+                        layer.open({
+                            type:0,
+                            title:"温馨提示:",
+                            content:"输入值超过该基因最大值",
+                            shadeClose:true,
+                        });
+                        return;
                     }
-                    if (RegionObj.start * 1 > RegionObj.end * 1) {
-                        return alert("StartPosition应小于EndPosition");
+                    if(RegionObj.start*1 > RegionObj.end*1) {
+//                        return alert("StartPosition应小于EndPosition");
+                        layer.open({
+                            type:0,
+                            title:"温馨提示:",
+                            content:"StartPosition应小于EndPosition",
+                            shadeClose:true,
+                        });
+                        return;
+
                     }
 //                    if(RegionObj.end*1 - RegionObj.start*1 > 100000) {
 //                        return alert("区间应小于100 kb");
 //                    }
                     return RegionObj;
                 } else {
-                    alert("请输入数字");
+//                    alert("请输入数字");
+                    layer.open({
+                        type:0,
+                        title:"温馨提示:",
+                        content:"请输入数字",
+                        shadeClose:true,
+                    });
                 }
             },
             getGeneParams: function () {
@@ -2160,12 +2235,33 @@
                 } else {
                     if (!isNaN(GeneObj.upstream * 1)) {
                         if (GeneObj.upstream * 1 > 20000) {
-                            return alert("输入范围值要小于20kb");
+//                            return alert("输入范围值要小于20kb");
+                            layer.open({
+                                type:0,
+                                title:"温馨提示:",
+                                content:"输入范围值要小于20kb",
+                                shadeClose:true,
+                            });
+                            return;
                         } else if (GeneObj.upstream * 1 < 0) {
-                            return alert("输入数字应大于0");
+//                            return alert("输入数字应大于0");
+                            layer.open({
+                                type:0,
+                                title:"温馨提示:",
+                                content:"输入数字应大于0",
+                                shadeClose:true,
+                            });
+                            return;
                         }
                     } else {
-                        return alert("请输入数字");
+//                        return alert("请输入数字");
+                        layer.open({
+                            type:0,
+                            title:"温馨提示:",
+                            content:"请输入数字",
+                            shadeClose:true,
+                        });
+                        return;
                     }
                 }
                 if (GeneObj.downstream == "") {
@@ -2173,12 +2269,33 @@
                 } else {
                     if (!isNaN(GeneObj.downstream * 1)) {
                         if (GeneObj.downstream * 1 > 20000) {
-                            return alert("输入范围值要小于20kb");
+//                            return alert("输入范围值要小于20kb");
+                            layer.open({
+                                type:0,
+                                title:"温馨提示:",
+                                content:"输入范围值要小于20kb",
+                                shadeClose:true,
+                            });
+                            return;
                         } else if (GeneObj.downstream * 1 < 0) {
-                            return alert("输入数字应大于0");
+//                            return alert("输入数字应大于0");
+                            layer.open({
+                                type:0,
+                                title:"温馨提示:",
+                                content:"输入数字应大于0",
+                                shadeClose:true,
+                            });
+                            return;
                         }
                     } else {
-                        return alert("请输入数字");
+//                        return alert("请输入数字");
+                        layer.open({
+                            type:0,
+                            title:"温馨提示:",
+                            content:"请输入数字",
+                            shadeClose:true,
+                        });
+                        return;
                     }
                 }
 //                if(GeneObj.upstream*1 < GeneObj.downstream*1) {

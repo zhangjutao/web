@@ -518,7 +518,7 @@
         <div id="popTips" style="display: none;">
             <div class="tipTop">
                 <p class="tipTopCnt">Group 1</p>
-                <%--<p class="closeBtn"><img src="${ctxStatic}/images/close.png"></p>--%>
+                <p class="closeBtn"><img src="${ctxStatic}/images/close.png"></p>
             </div>
             <p class="titCnt">群体分类生物学意义</p>
             <p class="groupCnt">
