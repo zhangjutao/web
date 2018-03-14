@@ -16,11 +16,20 @@ else {
 <html>
 <head>
 	<title>404 - 页面不存在</title>
-	<%@include file="/WEB-INF/views/include/header-bar.jsp" %>
+	<%--<%@include file="/WEB-INF/views/include/header-bar.jsp" %>--%>
 </head>
 <body>
-	<div class="container-fluid">
-		<div class="page-header"><h1>页面不存在.</h1></div>
+	<div style="width:1200px;text-align:center;margin:60px auto;">
+		<%@include file="/WEB-INF/views/include/header-bar.jsp" %>
+
+	</div>
+	<div class="container-fluid" style="width:1200px;text-align:center;margin:0 auto;">
+		<div class="page-header" style="padding-bottom:30px;">
+			<img id="errorPage" src="${ctxStatic}/images/430.jpg"/>
+			<%--<img style="width:600px;height:300px;" id="errorPage" src="${ctxStatic}/images/430.jpg"/>--%>
+
+		</div>
+		<div style="margin-bottom:20px;">您访问的页面不存在</div>
 		<div><a href="javascript:" onclick="history.go(-1);" class="btn">返回上一页</a></div>
 		<script>try{top.$.jBox.closeTip();}catch(e){}</script>
 	</div>
