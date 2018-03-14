@@ -717,7 +717,7 @@ public class QueryService implements InitializingBean {
         QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
         event.setCheckedOption(checkedOption);
         // 预构建缓存key值
-        String preConstructCachedKey = event.getClass().getSimpleName() + "-" + checkedOption + "-" + keywords;
+        String preConstructCachedKey = event.getClass().getSimpleName() + "-" + keywords;
         Cache.ValueWrapper valueWrapper = cache.get(preConstructCachedKey);
         // 如果缓存中不存在该值，发布异步事件重新查询该值，有效控制后台预加载性能消耗
         if (valueWrapper == null){
@@ -750,7 +750,8 @@ public class QueryService implements InitializingBean {
         Qtl qtl = constructQtlSearchCondition(version, type, keywords, param);
         QtlSearchResultEvent<Qtl> event = new QtlSearchResultEvent<>(qtl);
         event.setCheckedOption(checkedOption);
-        String key = event.getClass().getSimpleName() + "-" + checkedOption + "-" + keywords;
+        String key = event.getClass().getSimpleName() +"-" + keywords;
+        logger.info("下载时接受的缓存值为：" + key);
         Cache.ValueWrapper valueWrapper = cache.get(key);
         if (valueWrapper == null) {
             logger.warn("该数据未缓存，请重新查询");
