@@ -22,7 +22,13 @@
             });
             return promise;
         } else {
-            alert("sorry,你的浏览器不支持Promise 对象")
+            // alert("sorry,你的浏览器不支持Promise 对象")
+            layer.open({
+                type:0,
+                title:"温馨提示:",
+                content:"sorry,你的浏览器不支持Promise 对象",
+                shadeClose:true,
+            });
         };
     };
 // 每个qtlname列表的点击选中事件
@@ -105,7 +111,13 @@ var globleObject = {};
     if(window.sessionStorage){
         var storage = window.sessionStorage;
     }else{
-        alert('This browser does NOT support localStorage');
+        // alert('This browser does NOT support localStorage');
+        layer.open({
+            type:0,
+            title:"温馨提示:",
+            content:"This browser does NOT support localStorage",
+            shadeClose:true,
+        });
     };
     // 根据选择的qtl 搜索 -- > sureBtn
     $("#qtlAdd .sureBtn").click(function (){
@@ -116,7 +128,13 @@ var globleObject = {};
         var num = globleObject.selectedQtl.length;
         var qtlNameArr = globleObject.selectedQtl;
         if(num>5) {
-            alert("最多只能选择 5 个");
+            // alert("最多只能选择 5 个");
+            layer.open({
+                type:0,
+                title:"温馨提示:",
+                content:"最多只能选择 5 个",
+                shadeClose:true,
+            });
             return;
         } else {
             var qtlName="";

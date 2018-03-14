@@ -11,9 +11,8 @@ $(function (){
     var groupVal8="含102份材料，多为加拿大及少数巴西、美国地区的栽培品种，蛋白含量40-50%，含油量15-25%，株高80-120cm，百粒重10-20g，种皮黄，紫色花朵，成熟期0-IV为主。";
     var groupVal9="含138份材料，主要为中韩地区的半野生品种和美洲地区的栽培品种，蛋白含量40-50%，含油量15-25%，株高50-120cm，百粒重10-20g，种皮黄，花朵紫和白，成熟期组以III/IV为主。";
     var groupVal10="含80份材料，主要为中、韩、美地区的地方和栽培品种，蛋白含量40-50%，含油量7-15%，株高50-100cm，百粒重10-25g，种皮多黄，少棕黑色，紫色和白色花朵，成熟期组以I-V为主。";
-
+    var layerIndex;
     $("#groups li").click(function (e){
-        debugger;
         var val = $(this).find("p").text();
         $("#popTips").show();
         $(".tipTopCnt").text(val);
@@ -51,7 +50,7 @@ $(function (){
 
         }
 
-        layer.open({
+        layerIndex = layer.open({
             title:"",
             type: 1,
             content:$("#popTips"),
@@ -60,16 +59,17 @@ $(function (){
             scrollbar:false,
             move: '.tipTopCnt',
             tips: 2,
-            closeBtn: 1
+            closeBtn: 0
 
         });
 
     })
     // 默认表格内容全选
 
-    // $(".closeBtn img").click(function (){
-    //     $("#popTips").hide();
-    // })
+    $(".closeBtn img").click(function (){
+        // $("#popTips").hide();
+        layer.close(layerIndex);
+    })
     // 弹框移动
    // var x1,y1,x2,y2,offLeft,offTop,isClick = 0;
    //

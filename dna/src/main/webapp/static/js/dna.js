@@ -157,7 +157,14 @@ $(function () {
                 globelType = "Gene";
                 globelGeneId = obj.params.gene;
                 if(obj.params.gene == ""){
-                    return alert("请选择一个基因");
+                    // return alert("请选择一个基因");
+                    layer.open({
+                        type:0,
+                        title:"温馨提示:",
+                        content:"请选择一个基因",
+                        shadeClose:true,
+                    });
+                    return;
                 };
                 // 点击基因查询 搜索的时候， 显示当前选择的基因
                 if($("#GlyIds").is(":hidden")){
