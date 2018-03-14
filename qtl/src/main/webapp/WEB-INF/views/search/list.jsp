@@ -617,6 +617,18 @@
     var version = $.getUrlParam('version');
     var type_select = $.getUrlParam('type');
     var key_input = $.getUrlParam('keywords');
+    //        处理头部选项checked
+    var str = "";
+    $("input[type='checkbox']").each(function (index) {
+//        if (!$(this).is(":checked")) {
+//            $(".t_" + $(this).val()).hide();
+//        } else {
+//            $(".t_" + $(this).val()).show();
+            str += $(this).val() + ",";
+//        }
+    });
+    var topChecked=str.substring(0,str.length-1);
+    console.log(topChecked)
     //    初始化列表
     initTables(1, 10, type_select, key_input, version);
     var page = {curr: 1, pageSize: 10};
@@ -629,18 +641,6 @@
         var imgHTML = "<img src='${ctxStatic}/images/loading-1.gif' class='imgHTML'>";
         $("body").append('<div class="mengc"  style="z-index:19891014; background-color:#000; opacity:0.2; filter:alpha(opacity=1);"></div>')
         $('.checkbox-tab').append(imgHTML);
-
-        //        处理头部选项checked
-        var str = "";
-        $("input[type='checkbox']").each(function (index) {
-            if (!$(this).is(":checked")) {
-                $(".t_" + $(this).val()).hide();
-            } else {
-                $(".t_" + $(this).val()).show();
-                str += $(this).val() + ",";
-            }
-        });
-        var topChecked=str.substring(0,str.length-1);
         $.ajax({
             url: "${ctxroot}/search/list/page",
             type: "POST",
