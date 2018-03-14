@@ -38,14 +38,6 @@ public class SearchController {
 
     @RequestMapping("/index")
     public ModelAndView login(HttpServletRequest request) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null) {
-            // 拿到当前用户角色
-            Collection<Role> authorities = (Collection<Role>) authentication.getAuthorities();
-            for (Role authority : authorities) {
-                logger.info("当前用户拥有的权限为：" + authority.getAuthority());
-            }
-        }
         ModelAndView modelAndView = new ModelAndView("/search/index");
         String version = "Gmax_275_v2.0";
         modelAndView.addObject("types", queryService.queryAll());
