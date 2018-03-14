@@ -1,9 +1,11 @@
 package com.gooalgene.qtl.web;
 
 import com.gooalgene.common.Page;
+import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.entity.Qtl;
 import com.gooalgene.qtl.entity.QtlSearchResult;
 import com.gooalgene.qtl.service.QueryService;
+import com.gooalgene.utils.ResultUtil;
 import com.gooalgene.utils.Tools;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -16,12 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.BufferedOutputStream;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.io.*;
+import java.util.*;
 
 /**
  * 此控制器用于古奥基因搜索相关接口
@@ -84,44 +82,42 @@ public class QueryController {
 
     @RequestMapping("/dataExport")
     @ResponseBody
-    public void qtlSearchResultExport(HttpServletRequest request, HttpServletResponse response) {
-        //搜索框：包含ALL、Trait、QTL Name、marker、parent、reference，ALL是全局搜索，
+    public ResultVO<String> qtlSearchResultExport(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String parameters = request.getParameter("condition");
         String version = request.getParameter("version");
         String columns = request.getParameter("choices");
-        logger.info("type:" + type + ",keywords:" + keywords + ",condition:" + parameters + ",colums:" + columns);
-        try {
-            String sb = null;
-            if (StringUtils.isNoneBlank(columns)) {
-                if (columns.contains("author")) {
+        String sb = null;
+        if (StringUtils.isNoneBlank(columns)) {
+            if (columns.contains("author")) {
 //                    columns = columns.replace("author", "reference");
-                }
-                List<QtlSearchResult> result = queryService.downloadQtlSearchResult(version, type, keywords, parameters, columns);
-                sb = serialList(result, columns.split(","));
             }
-            String fileName = "SoyBean-" + version + "-" + type + "(" + keywords + ")";
-            System.out.println(fileName);
-            if (sb != null) {
-                byte[] buffer = sb.getBytes("gbk");
-                // 清空response
-                response.reset();
-                // 设置response的Header
-                String filename = java.net.URLEncoder.encode(fileName, "UTF-8") + ".csv";
-                System.out.println("f:" + filename);
-                filename = filename.replace("+", "%20");//空格会被转义为+
-                response.addHeader("Content-Disposition", "attachment; filename=\"" + filename + "\"");
-                response.addHeader("Content-Length", "" + buffer.length);
-                OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
-                response.setContentType("text/csv");
-                toClient.write(buffer);
-                toClient.flush();
-                toClient.close();
-            }
-        } catch (Exception ex) {
-            ex.printStackTrace();
+            List<QtlSearchResult> result = queryService.downloadQtlSearchResult(version, type, keywords, parameters, columns);
+            sb = serialList(result, columns.split(","));
         }
+        String fileName = "SoyBean-" + version + "-" + type + "(" + keywords + ").csv";
+        String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
+        // 通过IO，将输出内容写入到文件中
+        File tempFile = new File(filePath + fileName);
+        try {
+            FileOutputStream fos = new FileOutputStream(tempFile);
+            fos.write(sb.getBytes("gbk"));
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        String contextPath = request.getContextPath();
+        //重构请求URL
+        StringBuilder builder = new StringBuilder();
+        builder.append(contextPath);
+        String path = builder.toString() + "/tempFile/" + fileName;
+        return ResultUtil.success(path);
     }
 
     /**
