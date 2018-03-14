@@ -74,7 +74,7 @@ public class SearchDownloadListener implements EventBusListener, InitializingBea
                 result.setAssociateGenes(associatedGenes.getAssociatedGenes());
             }
         }
-        String key = searchResult.getClass().getSimpleName() + "-" + searchResult.getCheckedOption() + "-" + searchedKeyWord;
+        String key = searchResult.getClass().getSimpleName() + "-" +"-" + searchedKeyWord;
         logger.info("当前写入缓存的key值为：" + key);
         // 将预加载的值放入缓存中，缓存两小时
         cache.putIfAbsent(key, allSearchResult);
