@@ -3,6 +3,8 @@ package com.gooalgene.iqgs.web;
 import com.gooalgene.primer.bean.Primer;
 import com.gooalgene.primer.interfaces.Primer3Service;
 import org.apache.ibatis.annotations.Param;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -21,11 +23,13 @@ import java.util.Map;
 @RestController
 @RequestMapping(value = "/primer")
 public class Primer3Controller {
+    Logger logger= LoggerFactory.getLogger(Primer3Controller.class);
     @Autowired
     private Primer3Service primer3Service;
 
     @RequestMapping(value = "/getPrimer", method = RequestMethod.POST)
     public Map<Integer,List<Primer>> getPrimer(String sequence, @RequestParam("primerPairOKRegionList") String primerPairOkRegionList, String primerSizeMin, String primerSizeOpt, String primerSizeMax, String primerTmMin, String primerTmOpt, String primerTmMax, String primerGCMin, String primerGCOpt, String primerGCMax, String productSizeMin, String productSizeMax) {
+        logger.info("primer3开始");
         String param1 = "PRIMER_TASK=generic&PRIMER_MASK_KMERLIST_PREFIX=&PRIMER_MASK_FAILURE_RATE=0.1&PRIMER_MASK_5P_DIRECTION=1&PRIMER_MASK_3P_DIRECTION=1&PRIMER_MISPRIMING_LIBRARY=NONE&";
         if (primerPairOkRegionList != null || primerPairOkRegionList!="") {
             primerPairOkRegionList = "SEQUENCE_PRIMER_PAIR_OK_REGION_LIST=" + primerPairOkRegionList + "&";
@@ -53,7 +57,8 @@ public class Primer3Controller {
                 primerOptSize + primerMaxSize + primerMinTm +
                 primerOptTm + primerMaxTm + param3 + primerMinGc +
                 primerPotGc + primerMaxGc + primerProductSizeRange + param5;
-        Map<Integer,List<Primer>> primerList = primer3Service.getPrimer("http://180.76.160.204:90/cgi-bin/primer3web_results.cgi?", params);
+        Map<Integer,List<Primer>> primerList = primer3Service.getPrimer("http://172.168.1.117:82/cgi-bin/primer3web_results.cgi?", params);
+        logger.info("primer3完成");
         return primerList;
     }
 }
