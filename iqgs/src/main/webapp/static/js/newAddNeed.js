@@ -151,7 +151,7 @@ var globleObject = {};
         var qtlNameArr = [];
         qtlNameArr.push(qtlNames);
         storage.setItem("qtlSearchNames",JSON.stringify(qtlNameArr));
-        window.location = DOMAIN + "/search/list?keyword=" + exampleQtlId + "&searchType=4" ;
+        window.location = DOMAIN + "/search/list?keyword=" + sessionStorage.getItem("exampleQtlId") + "&searchType=4" ;
     });
 
     // geneID 示例搜索
