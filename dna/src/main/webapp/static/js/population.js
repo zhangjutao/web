@@ -16,6 +16,7 @@ $(function (){
         var val = $(this).find("p").text();
         $("#popTips").show();
         $(".tipTopCnt").text(val);
+
         switch (val){
             case "Group 1":
                 $(".groupCnt").text(groupVal1);

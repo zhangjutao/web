@@ -1294,7 +1294,58 @@
 //        $("#search8").val(choices);
 //        $("#exportForm").submit();
 //    });
+    // 表格导出
+    function exportData() {
+//        处理头部选项checked
+        var str = "";
+        $("input[type='checkbox']").each(function (index) {
+            if (!$(this).is(":checked")) {
+                $(".t_" + $(this).val()).hide();
+            } else {
+                $(".t_" + $(this).val()).show();
+                str += $(this).val() + ",";
+            }
+        });
+        var cdt = getParamsString();
+        var topChecked=str.substring(0,str.length-1);
+        var keyInput=$(".js-search-text").val();
+        // 修复tomcat8无法识别的JSON格式问题
+        $.ajax({
+            type: "GET",
+            url: "${ctxroot}/query/dataExport",
+            data: {
+                version: version,
+                type: type_select,
+                keywords: "",
+                condition: cdt,
+                choices: topChecked
+            },
+            dataType: "json",
+            contentType: "application/json",
+            success: function (result) {
+                var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
+                window.location.href = path + result.data;
+            },
+            error: function (error) {
+                console.log(error);
+            }
+        })
+    }
 
+    function extractHostname(url) {
+        var hostname;
+        if (url.indexOf("://") > -1) {
+            hostname = url.split('/')[2];
+        }
+        else {
+            hostname = url.split('/')[0];
+        }
+        //find & remove port number
+        hostname = hostname.split(':')[0];
+        //find & remove "?"
+        hostname = hostname.split('?')[0];
+        return hostname;
+    }
 
     function getParamsString() {
         var tmp = {};
@@ -1370,6 +1421,7 @@
     /*基因详情拖动弹框*/
     $(".genesInfo").draggable({containment: "body"});
     $(".author-pop-tab").draggable({containment: "body"});
+
 </script>
 </body>
 </html>

@@ -82,7 +82,7 @@ public class QueryController {
 
     @RequestMapping("/dataExport")
     @ResponseBody
-    public ResultVO<String> qtlSearchResultExport(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO<String> qtlSearchResultExport(HttpServletRequest request) {
         String type = request.getParameter("type");
         String keywords = request.getParameter("keywords");
         String parameters = request.getParameter("condition");
@@ -96,27 +96,33 @@ public class QueryController {
             List<QtlSearchResult> result = queryService.downloadQtlSearchResult(version, type, keywords, parameters, columns);
             sb = serialList(result, columns.split(","));
         }
-        String fileName = "SoyBean-" + version + "-" + type + "(" + keywords + ").csv";
+        StringBuilder fileNameBuilder = new StringBuilder("SoyBean-");
+        fileNameBuilder.append(version).append("-");
+        if (!StringUtils.isBlank(keywords)){
+            fileNameBuilder.append("(").append(keywords).append(")");
+        }
+        fileNameBuilder.append(".csv");
         String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
         // 通过IO，将输出内容写入到文件中
-        File tempFile = new File(filePath + fileName);
+        File tempFile = new File(filePath + fileNameBuilder.toString());
+        if (!tempFile.getParentFile().exists()) {
+            boolean dir = tempFile.getParentFile().mkdirs();
+            if (dir) {
+                logger.info("成功创建临时目录");
+            }
+        }
         try {
             FileOutputStream fos = new FileOutputStream(tempFile);
             fos.write(sb.getBytes("gbk"));
             fos.flush();
             fos.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (UnsupportedEncodingException e) {
+        } catch (FileNotFoundException | UnsupportedEncodingException e) {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
         }
         String contextPath = request.getContextPath();
-        //重构请求URL
-        StringBuilder builder = new StringBuilder();
-        builder.append(contextPath);
-        String path = builder.toString() + "/tempFile/" + fileName;
+        String path = contextPath + "/tempFile/" + fileNameBuilder.toString();
         return ResultUtil.success(path);
     }
 

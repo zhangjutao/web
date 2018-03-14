@@ -11,6 +11,8 @@ import com.google.common.base.Function;
 import com.google.common.collect.Collections2;
 import com.google.common.eventbus.AllowConcurrentEvents;
 import com.google.common.eventbus.Subscribe;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
@@ -23,6 +25,8 @@ import java.util.List;
 
 @Component("qtlSearchDownloadListener")
 public class SearchDownloadListener implements EventBusListener, InitializingBean {
+    private final static Logger logger = LoggerFactory.getLogger(SearchDownloadListener.class);
+
     @Autowired
     private QtlDao qtlDao;
 
@@ -39,6 +43,10 @@ public class SearchDownloadListener implements EventBusListener, InitializingBea
         cache = cacheManager.getCache("sortCache");
     }
 
+    /**
+     * 缓存key规则：事件名称 + "-" + 用户已选择的表头 + "-" + 搜索关键字
+     * @param searchResult 事件参数
+     */
     @AllowConcurrentEvents
     @Subscribe
     public void listenQtlSearch(QtlSearchResultEvent<?> searchResult){
@@ -47,6 +55,7 @@ public class SearchDownloadListener implements EventBusListener, InitializingBea
             return;
         }
         Qtl qtl = (Qtl) target;
+        String searchedKeyWord = qtl.getKeywords();
         List<QtlSearchResult> allSearchResult = qtlDao.findByCondition(qtl);
         // 拿到所有关联Qtl ID
         Collection<Integer> allAssociatedQtlId = Collections2.transform(allSearchResult, new Function<QtlSearchResult, Integer>() {
@@ -65,7 +74,8 @@ public class SearchDownloadListener implements EventBusListener, InitializingBea
                 result.setAssociateGenes(associatedGenes.getAssociatedGenes());
             }
         }
-        String key = searchResult.getClass().getSimpleName() + searchResult.getCheckedOption();
+        String key = searchResult.getClass().getSimpleName() + "-" + searchResult.getCheckedOption() + "-" + searchedKeyWord;
+        logger.info("当前写入缓存的key值为：" + key);
         // 将预加载的值放入缓存中，缓存两小时
         cache.putIfAbsent(key, allSearchResult);
     }

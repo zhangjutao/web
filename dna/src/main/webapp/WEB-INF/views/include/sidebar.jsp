@@ -1232,7 +1232,12 @@
         }
 
         /* 保存群体 */
+
         $(".sample-screening-btn button").click(function(){
+            //修改输入框border-color modified by zjt 2018-3-14
+            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+            //修改输入框border-color modified by zjt 2018-3-14
+
             var sampleTexts=$(".sample-text").text();
             if(sampleTexts.length==0){
 //                alert("请选择群体!")
@@ -1788,6 +1793,9 @@
 
         /* 样本清空 */
         $(".sample-empty").click(function () {
+            //修改输入框border-color modified by zjt 2018-3-14
+            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+            //修改输入框border-color modified by zjt 2018-3-14
             var samples = $(".sample-text").find("span");
             $.each(samples, function (idx, item) {
                 $(item).find(".js-colse-text").trigger("click");
@@ -1818,6 +1826,10 @@
             var val1 = _prev.find("input").first()[0].value;
             var val2 = _prev.find("input").last()[0].value;
             var str = val1 + "-" + val2;
+            //恢复输入框border-colormodified by zjt 2018-3-14
+            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+            //恢复输入框border-colormodified by zjt 2018-3-14
+            
             //输入框颜色
             var input1 = _prev.find("input").first()[0];
             var input2 = _prev.find("input").last()[0];
@@ -1856,6 +1868,8 @@
                         var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                         $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                         ss.trigger("click");
+                        input1.style.borderColor = "";
+                        input2.style.borderColor = "";
                         //modified by zjt 2018-3-13
                     }
                 } else {
@@ -1892,6 +1906,8 @@
                         var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                         $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                         ss.trigger("click");
+                        input1.style.borderColor = "";
+                        input2.style.borderColor = "";
                         //modified by zjt 2018-3-13
                     }
                 }
@@ -1916,6 +1932,13 @@
             }
         });
 
+        /* 输入框获取焦点则将border-color恢复原样 */
+        //modified by zjt 2018-3-13
+        //先将页面中所有的input输入框borderColor恢复
+        $(".custom-groups-content input[type=number]").focus(function(){
+            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+        });
+        //modified by zjt 2018-3-13
 
         /* 显示Samples详细文本 */
         $(".sample-category div span").hover(function () {
