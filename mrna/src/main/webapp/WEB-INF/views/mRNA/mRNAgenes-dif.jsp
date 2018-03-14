@@ -1048,6 +1048,7 @@
         // up or down regulated
         $(".js-regulated").change(function() {
             page.curr=1;
+            page.pageSize=20;
            initTable(1);
             $(".ga-ctrl-footer .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
         });
@@ -1055,6 +1056,7 @@
         // 搜索
         $(".js-search-gene-button").click(function() {
             page.curr=1;
+            page.pageSize=20;
             initTable(1);
             $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             $('.zwsj').remove();
@@ -1106,6 +1108,7 @@
                     }
 //                    initTable(_page_skip.val() * 1);
                 } else if (_search_gene_dom.hasClass("isFocus")) {
+                    page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
                     if(currNum>mathCeil){
                         page.curr = 1;
@@ -1115,6 +1118,7 @@
                         initTable(currNum,pageSizeNum);
                     }
                 } else if (_adjusted_pvalue_dom.hasClass("isFocus")) {
+                    page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
                     if(currNum>mathCeil){
                         page.curr = 1;
@@ -1124,6 +1128,7 @@
                         initTable(currNum,pageSizeNum);
                     }
                 } else if(_log_fold_change_dom.hasClass("isFocus")) {
+                    page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
                     if(currNum>mathCeil){
                         page.curr = 1;
@@ -1427,6 +1432,7 @@
                 var num = $(this).siblings("input").val();
                 $(this).siblings("input").val(num*1+1);
                 page.curr=1;
+                page.pageSize=20;
                 initTable(1);
                 $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
@@ -1439,6 +1445,7 @@
                 $(this).siblings("input").val(num);
                 page.curr=1;
                 initTable(1);
+                page.pageSize=20;
                 $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
 
@@ -1446,6 +1453,7 @@
                 var num = $(this).siblings("input").val();
                 $(this).siblings("input").val( ((num*100 + 1)/100).toFixed(2) );
                 page.curr=1;
+                page.pageSize=20;
                 initTable(1);
                 $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
@@ -1454,6 +1462,7 @@
                 num = ((num*100 - 1)/100).toFixed(2);
                 $(this).siblings("input").val(num);
                 page.curr=1;
+                page.pageSize=20;
                 initTable(1);
                 $(" .lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
             });
