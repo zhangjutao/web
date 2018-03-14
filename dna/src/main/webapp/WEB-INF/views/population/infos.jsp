@@ -27,6 +27,15 @@
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
     <script src="${ctxStatic}/js/population.js"></script>
+    <style>
+        #tableShow>table{
+            border: none;
+        }
+        .total-page-count{
+            position: relative;
+            top:-4px;
+        }
+    </style>
 </head>
 <body>
 <dna:dna-header />
