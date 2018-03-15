@@ -150,7 +150,7 @@ public class DNARunService {
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<DNARunSearchResult> list=dnaRunDao.getListByConditionWithTypeHandler(sampleInfo);
+        List<DNARunSearchResult> list=dnaRunDao.getListByConditionWithTypeHandler(sampleInfoDto);
         PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
         return pageInfo;
     }
@@ -223,7 +223,7 @@ public class DNARunService {
             sampleInfo.setTreat(jsonObject.getString("treat"));
         }
         if (jsonObject.containsKey("definitionTime")) {
-            sampleInfo.setdefinitionTime(jsonObject.getString("definitionTime"));
+            sampleInfo.setDefinitionTime(jsonObject.getString("definitionTime"));
         }
         if (jsonObject.containsKey("taxonomy")) {
             sampleInfo.setTaxonomy(jsonObject.getString("taxonomy"));
