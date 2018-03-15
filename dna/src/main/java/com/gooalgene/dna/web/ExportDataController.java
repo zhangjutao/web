@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
 import java.util.concurrent.ConcurrentHashMap;
@@ -571,7 +572,11 @@ public class ExportDataController {
                     titles[i] = "frequencyOfMinorAllele";
                     sb.append("frequencyOfMinorAllele");
                 } else {
-                    sb.append(titles[i]);
+                    if(StringUtils.equals(titles[i],"definitionTime")){
+                        sb.append("time");
+                    }else {
+                        sb.append(titles[i]);
+                    }
                 }
                 if (i != (len - 1)) {
                     sb.append(",");
@@ -593,98 +598,167 @@ public class ExportDataController {
             int size = data.size();
             for (int i = 0; i < size; i++) {
                 JSONObject one = data.getJSONObject(i);
-                if (map.containsKey("species")) {
-                    String species = one.getString("species");
-                    sb.append((species != null && !species.toString().equals("") ? species : "-")).append(",");
+                Field[] fields = SampleInfo.class.getDeclaredFields();
+                for (Field field:fields){
+                    String name = field.getName();
+                    if(map.containsKey(name)){
+                        String str = one.getString(name);
+                        sb.append((StringUtils.isNotEmpty(str)? str.replace(",", "，") : "-")).append(",");
+                    }
+                }
+                /*if (map.containsKey("scientificName")) {
+                    String scientificName = one.getString("scientificName");
+                    sb.append((scientificName != null && !scientificName.toString().equals("") ? scientificName : "-")).append(",");
                 }
                 if (map.containsKey("locality")) {
                     String locality = one.getString("locality");
                     sb.append((locality != null && !locality.toString().equals("") ? locality.replace(",", "，") : "-")).append(",");
                 }
-                if (map.containsKey("sampleName")) {
-                    String sampleName = one.getString("sampleName");
-                    sb.append((sampleName != null && !sampleName.toString().equals("") ? sampleName : "-")).append(",");
+                if (map.containsKey("sampleId")) {
+                    String sampleId = one.getString("sampleId");
+                    sb.append((sampleId != null && !sampleId.toString().equals("") ? sampleId : "-")).append(",");
                 }
-                if (map.containsKey("cultivar")) {
-                    String cultivar = one.getString("cultivar");
-                    sb.append((cultivar != null && !cultivar.toString().equals("") ? cultivar : "-")).append(",");
+                if (map.containsKey("strainName")) {
+                    String strainName = one.getString("strainName");
+                    sb.append((strainName != null && !strainName.toString().equals("") ? strainName : "-")).append(",");
                 }
-                if (map.containsKey("weightPer100seeds")) {
-                    Object weightPer100seeds = one.get("weightPer100seeds");
-                    sb.append((weightPer100seeds != null && !weightPer100seeds.toString().equals("") ? weightPer100seeds : "-")).append(",");
+                if (map.containsKey("preservationLocation")) {
+                    Object preservationLocation = one.get("preservationLocation");
+                    sb.append((preservationLocation != null && !preservationLocation.toString().equals("") ? preservationLocation : "-")).append(",");
                 }
-                if (map.containsKey("oil")) {
-                    Object oil = one.get("oil");
-                    sb.append((oil != null && !oil.toString().equals("") ? oil : "-")).append(",");
+                if (map.containsKey("type")) {
+                    Object type = one.get("type");
+                    sb.append((type != null && !type.toString().equals("") ? type : "-")).append(",");
                 }
-                if (map.containsKey("protein")) {
-                    Object protein = one.get("protein");
-                    sb.append((protein != null && !protein.toString().equals("") ? protein : "-")).append(",");
+                if (map.containsKey("environment")) {
+                    Object environment = one.get("environment");
+                    sb.append((environment != null && !environment.toString().equals("") ? environment : "-")).append(",");
                 }
-                if (map.containsKey("floweringDate")) {
-                    Object floweringDate = one.get("floweringDate");
-                    sb.append((floweringDate != null && !floweringDate.toString().equals("") ? floweringDate : "-")).append(",");
+                if (map.containsKey("materials")) {
+                    Object materials = one.get("materials");
+                    sb.append((materials != null && !materials.toString().equals("") ? materials : "-")).append(",");
                 }
-                if (map.containsKey("maturityDate")) {
-                    Object maturityDate = one.get("maturityDate");
-                    sb.append((maturityDate != null && !maturityDate.toString().equals("") ? maturityDate : "-")).append(",");
+                if (map.containsKey("treat")) {
+                    Object treat = one.get("treat");
+                    sb.append((treat != null && !treat.toString().equals("") ? treat : "-")).append(",");
                 }
-                if (map.containsKey("height")) {
-                    Object height = one.get("height");
-                    sb.append((height != null && !height.toString().equals("") ? height : "-")).append(",");
+                if (map.containsKey("definitionTime")) {
+                    Object definitionTime = one.get("definitionTime");
+                    sb.append((definitionTime != null && !definitionTime.toString().equals("") ? definitionTime : "-")).append(",");
                 }
-                if (map.containsKey("seedCoatColor")) {
-                    Object seedCoatColor = one.get("seedCoatColor");
-                    sb.append((seedCoatColor != null && !seedCoatColor.toString().equals("") ? seedCoatColor : "-")).append(",");
+                if (map.containsKey("taxonomy")) {
+                    Object taxonomy = one.get("taxonomy");
+                    sb.append((taxonomy != null && !taxonomy.toString().equals("") ? taxonomy : "-")).append(",");
                 }
-                if (map.containsKey("hilumColor")) {
-                    Object hilumColor = one.get("hilumColor");
-                    sb.append((hilumColor != null && !hilumColor.toString().equals("") ? hilumColor : "-")).append(",");
+                if (map.containsKey("myceliaPhenotype")) {
+                    Object myceliaPhenotype = one.get("myceliaPhenotype");
+                    sb.append((myceliaPhenotype != null && !myceliaPhenotype.toString().equals("") ? myceliaPhenotype : "-")).append(",");
                 }
-                if (map.containsKey("cotyledonColor")) {
-                    Object cotyledonColor = one.get("cotyledonColor");
-                    sb.append((cotyledonColor != null && !cotyledonColor.toString().equals("") ? cotyledonColor : "-")).append(",");
+                if (map.containsKey("myceliaDiameter")) {
+                    Object myceliaDiameter = one.get("myceliaDiameter");
+                    sb.append((myceliaDiameter != null && !myceliaDiameter.toString().equals("") ? myceliaDiameter : "-")).append(",");
                 }
-                if (map.containsKey("flowerColor")) {
-                    Object flowerColor = one.get("flowerColor");
-                    sb.append((flowerColor != null && !flowerColor.toString().equals("") ? flowerColor : "-")).append(",");
+                if (map.containsKey("myceliaColor")) {
+                    Object myceliaColor = one.get("myceliaColor");
+                    sb.append((myceliaColor != null && !myceliaColor.toString().equals("") ? myceliaColor : "-")).append(",");
                 }
-                if (map.containsKey("podColor")) {
-                    Object podColor = one.get("podColor");
-                    sb.append((podColor != null && !podColor.toString().equals("") ? podColor : "-")).append(",");
+                if (map.containsKey("sporesColor")) {
+                    Object sporesColor = one.get("sporesColor");
+                    sb.append((sporesColor != null && !sporesColor.toString().equals("") ? sporesColor : "-")).append(",");
                 }
-                if (map.containsKey("pubescenceColor")) {
-                    Object pubescenceColor = one.get("pubescenceColor");
-                    sb.append((pubescenceColor != null && !pubescenceColor.toString().equals("") ? pubescenceColor : "-")).append(",");
+                if (map.containsKey("sporesShape")) {
+                    Object sporesShape = one.get("sporesShape");
+                    sb.append((sporesShape != null && !sporesShape.toString().equals("") ? sporesShape : "-")).append(",");
                 }
-                if (map.containsKey("yield")) {
-                    Object yield = one.get("yield");
-                    sb.append((yield != null && !yield.toString().equals("") ? yield : "-")).append(",");
+                if (map.containsKey("clampConnection")) {
+                    Object clampConnection = one.get("clampConnection");
+                    sb.append((clampConnection != null && !clampConnection.toString().equals("") ? clampConnection : "-")).append(",");
                 }
-                if (map.containsKey("upperLeafletLength")) {
-                    Object upperLeafletLength = one.get("upperLeafletLength");
-                    sb.append((upperLeafletLength != null && !upperLeafletLength.toString().equals("") ? upperLeafletLength : "-")).append(",");
+                if (map.containsKey("pileusPhenotype")) {
+                    Object pileusPhenotype = one.get("pileusPhenotype");
+                    sb.append((pileusPhenotype != null && !pileusPhenotype.toString().equals("") ? pileusPhenotype : "-")).append(",");
                 }
-                if (map.containsKey("linoleic")) {
-                    Object linoleic = one.get("linoleic");
-                    sb.append((linoleic != null && !linoleic.toString().equals("") ? linoleic : "-")).append(",");
+                if (map.containsKey("pileusColor")) {
+                    Object pileusColor = one.get("pileusColor");
+                    sb.append((pileusColor != null && !pileusColor.toString().equals("") ? pileusColor : "-")).append(",");
                 }
-                if (map.containsKey("linolenic")) {
-                    Object linolenic = one.get("linolenic");
-                    sb.append((linolenic != null && !linolenic.toString().equals("") ? linolenic : "-")).append(",");
+                if (map.containsKey("stipePhenotype")) {
+                    Object stipePhenotype = one.get("stipePhenotype");
+                    sb.append((stipePhenotype != null && !stipePhenotype.toString().equals("") ? stipePhenotype : "-")).append(",");
                 }
-                if (map.containsKey("oleic")) {
-                    Object oleic = one.get("oleic");
-                    sb.append((oleic != null && !oleic.toString().equals("") ? oleic : "-")).append(",");
+                if (map.containsKey("stipeColor")) {
+                    Object stipeColor = one.get("stipeColor");
+                    sb.append((stipeColor != null && !stipeColor.toString().equals("") ? stipeColor : "-")).append(",");
                 }
-                if (map.containsKey("palmitic")) {
-                    Object palmitic = one.get("palmitic");
-                    sb.append((palmitic != null && !palmitic.toString().equals("") ? palmitic : "-")).append(",");
+                if (map.containsKey("fruitbodyColor")) {
+                    Object fruitbodyColor = one.get("fruitbodyColor");
+                    sb.append((fruitbodyColor != null && !fruitbodyColor.toString().equals("") ? fruitbodyColor : "-")).append(",");
                 }
-                if (map.containsKey("stearic")) {
-                    Object stearic = one.get("stearic");
-                    sb.append((stearic != null && !stearic.toString().equals("") ? stearic : "-")).append(",");
+                if (map.containsKey("fruitbodyType")) {
+                    Object fruitbodyType = one.get("fruitbodyType");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
                 }
+                if (map.containsKey("illumination")) {
+                    Object illumination = one.get("illumination");
+                    sb.append((illumination != null && !illumination.toString().equals("") ? illumination : "-")).append(",");
+                }
+                if (map.containsKey("collarium")) {
+                    Object collarium = one.get("collarium");
+                    sb.append((collarium != null && !collarium.toString().equals("") ? collarium : "-")).append(",");
+                }
+                if (map.containsKey("volva")) {
+                    Object volva = one.get("volva");
+                    sb.append((volva != null && !volva.toString().equals("") ? volva : "-")).append(",");
+                }
+                if (map.containsKey("velum")) {
+                    Object velum = one.get("velum");
+                    sb.append((velum != null && !velum.toString().equals("") ? velum : "-")).append(",");
+                }
+                if (map.containsKey("sclerotium")) {
+                    Object fruitbodyType = one.get("sclerotium");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("strainMedium")) {
+                    Object fruitbodyType = one.get("strainMedium");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("mainSubstrate")) {
+                    Object fruitbodyType = one.get("mainSubstrate");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("afterRipeningStage")) {
+                    Object fruitbodyType = one.get("afterRipeningStage");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("primordialStimulationFruitbody")) {
+                    Object fruitbodyType = one.get("primordialStimulationFruitbody");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("reproductiveMode")) {
+                    Object fruitbodyType = one.get("reproductiveMode");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("lifestyle")) {
+                    Object fruitbodyType = one.get("lifestyle");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("preservation")) {
+                    Object fruitbodyType = one.get("preservation");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("domestication")) {
+                    Object fruitbodyType = one.get("domestication");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("nuclearPhase")) {
+                    Object fruitbodyType = one.get("nuclearPhase");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }
+                if (map.containsKey("matingType")) {
+                    Object fruitbodyType = one.get("matingType");
+                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
+                }*/
+
                 sb.append("\n");
             }
         } else if ("SNP".equals(model)) {

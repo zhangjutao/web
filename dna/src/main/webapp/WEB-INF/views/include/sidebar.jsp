@@ -93,7 +93,7 @@
     }
 
     .gene-search-list label {
-        display: flex!important;
+        display: flex !important;
     }
 
     .setRadio {
@@ -111,6 +111,11 @@
         white-space: nowrap;
         width: 220px;
         padding-left: 3px;
+    }
+
+    .total-page-count {
+        position: relative;
+        top: 1px;
     }
 </style>
 
@@ -236,8 +241,10 @@
                             </label>
                             <div class="grain-weight-section">
                                 <div class="input-range">
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')" class="js-category-start" style="ime-mode:disabled;" onpaste="return false;">
-                                    - <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0" class="js-category-end" style="ime-mode:disabled;" onpaste="return false;">
+                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                           class="js-category-start" style="ime-mode:disabled;" onpaste="return false;">
+                                    - <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0"
+                                             class="js-category-end" style="ime-mode:disabled;" onpaste="return false;">
                                 </div>
                                 <button type="button" data-name="weightPer100seeds" class="btn js-customize-sample">确定
                                 </button>
@@ -246,7 +253,8 @@
                         <div class="category-oil-content" data-name="oil">
                             <label class="category-content"><b class="category-title">含油量(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
                                     <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
                                 </div>
                                 <button type="button" data-name="oil" class="btn js-customize-sample">确定</button>
@@ -255,7 +263,8 @@
                         <div class="category-protein " data-name="protein">
                             <label><b class="category-title">蛋白质含量(%):</b><span>30-40</span><span>40-50</span><span>50-60</span></label>
                             <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> -
+                                <div class="input-range"><input type="number" min="0"
+                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
                                     <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
                                 </div>
                                 <button type="button" data-name="protein" class="btn js-customize-sample">确定</button>
@@ -473,7 +482,8 @@
                                     <th class="paramTag">保藏地点
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
-                                            <input type="text" placeholder="请输入" class="preservationLocation inputStyle">
+                                            <input type="text" placeholder="请输入"
+                                                   class="preservationLocation inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -774,7 +784,8 @@
                                     <th class="paramTag">原基刺激&子实体
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
-                                            <input type="text" placeholder="请输入" class="primordialStimulationFruitbody inputStyle">
+                                            <input type="text" placeholder="请输入"
+                                                   class="primordialStimulationFruitbody inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -887,74 +898,109 @@
             <div class="che-list ">
                 <span class="tab-title">表格内容:</span>
                 <dl class="table_header_setting js-table-header-setting-popu">
-                    <dd><label for="species" class="checkbox-ac"><span id="species"
-                                                                       data-value="species"></span>物种</label></dd>
-                    <dd><label for="locality" class="checkbox-ac"><span id="locality"
-                                                                        data-value="locality"></span>位置</label></dd>
-                    <dd><label for="sampleName" class="checkbox-ac"><span id="sampleName"
-                                                                          data-value="sampleName"></span>样品名</label>
+                    <dd><label for="runNo" class="checkbox-ac"><span id="runNo" data-value="runNo"></span>测序样品编号</label>
                     </dd>
-                    <dd><label for="cultivar" class="checkbox-ac"><span id="cultivar"
-                                                                        data-value="cultivar"></span>品种名</label></dd>
-                    <dd><label for="weightPer100seeds" class="checkbox-ac"><span id="weightPer100seeds"
-                                                                                 data-value="weightPer100seeds"></span>百粒重(g)</label>
+                    <dd><label for="scientificName" class="checkbox-ac"><span id="scientificName"
+                                                                              data-value="scientificName"></span>物种名称</label>
                     </dd>
-                    <dd><label for="oil" class="checkbox-ac"><span id="oil" data-value="oil"></span>含油量(%)</label></dd>
-                    <dd><label for="protein" class="checkbox-ac"><span id="protein" data-value="protein"></span>蛋白质含量(%)</label>
+                    <dd><label for="sampleId" class="checkbox-ac"><span id="sampleId"
+                                                                        data-value="sampleId"></span>编号</label></dd>
+                    <dd><label for="strainName" class="checkbox-ac"><span id="strainName"
+                                                                          data-value="strainName"></span>菌株名称</label>
                     </dd>
+                    <dd><label for="locality" class="checkbox-ac"><span id="locality" data-value="locality"></span>地理位置</label>
+                    </dd>
+                    <dd><label for="preservationLocation" class="checkbox-ac"><span id="preservationLocation"
+                                                                                    data-value="preservationLocation"></span>保藏地点</label>
+                    </dd>
+                    <dd><label for="type" class="checkbox-ac"><span id="type" data-value="type"></span>类型</label></dd>
                     <%--<dd><label for="floweringDate" class="checkbox-ac"><span id="floweringDate" data-value="floweringDate"></span>开花日期</label></dd><span></span>--%>
-                    <dd><label for="maturityDate" class="checkbox-ac"><span id="maturityDate"
-                                                                            data-value="maturityDate"></span>成熟日期</label>
+                    <dd><label for="environment" class="checkbox-ac"><span id="environment"
+                                                                           data-value="environment"></span>培养环境</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="height" class="checkbox-ac"><span id="height" data-value="height"></span>株高</label>
+                    <dd><label for="materials" class="checkbox-ac"><span id="materials" data-value="materials"></span>材料</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="seedCoatColor" class="checkbox-ac"><span id="seedCoatColor"
-                                                                             data-value="seedCoatColor"></span>种皮色</label>
+                    <dd><label for="treat" class="checkbox-ac"><span id="treat" data-value="treat"></span>处理</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="hilumColor" class="checkbox-ac"><span id="hilumColor"
-                                                                          data-value="hilumColor"></span>种脐色</label>
+                    <dd><label for="time" class="checkbox-ac"><span id="time" data-value="time"></span>时间</label></dd>
+                    <dd><label for="taxonomy" class="checkbox-ac"><span id="taxonomy" data-value="taxonomy"></span>分类地位</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="cotyledonColor" class="checkbox-ac"><span id="cotyledonColor"
-                                                                              data-value="cotyledonColor"></span>子叶色</label>
+                    <dd><label for="myceliaPhenotype" class="checkbox-ac"><span id="myceliaPhenotype"
+                                                                                data-value="myceliaPhenotype"></span>菌丝形态</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="flowerColor" class="checkbox-ac"><span id="flowerColor"
-                                                                           data-value="flowerColor"></span>花色</label>
+                    <dd><label for="myceliaDiameter" class="checkbox-ac"><span id="myceliaDiameter"
+                                                                               data-value="myceliaDiameter"></span>菌丝直径</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="podColor" class="checkbox-ac"><span id="podColor"
-                                                                        data-value="podColor"></span>荚色</label></dd>
-                    <span></span>
-                    <dd><label for="pubescenceColor" class="checkbox-ac"><span id="pubescenceColor"
-                                                                               data-value="pubescenceColor"></span>茸毛色</label>
+                    <dd><label for="myceliaColor" class="checkbox-ac"><span id="myceliaColor"
+                                                                            data-value="myceliaColor"></span>菌丝颜色</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="yield" class="checkbox-ac"><span id="yield" data-value="yield"></span>产量</label>
+                    <dd><label for="sporesColor" class="checkbox-ac"><span id="sporesColor"
+                                                                           data-value="sporesColor"></span>孢子颜色</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="upperLeafletLength" class="checkbox-ac"><span id="upperLeafletLength"
-                                                                                  data-value="upperLeafletLength"></span>顶端小叶长度</label>
+                    <dd><label for="sporesShape" class="checkbox-ac"><span id="sporesShape"
+                                                                           data-value="sporesShape"></span>孢子形态</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="linoleic" class="checkbox-ac"><span id="linoleic"
-                                                                        data-value="linoleic"></span>亚油酸</label></dd>
-                    <span></span>
-                    <dd><label for="linolenic" class="checkbox-ac"><span id="linolenic" data-value="linolenic"></span>亚麻酸</label>
+                    <dd><label for="clampConnection" class="checkbox-ac"><span id="clampConnection"
+                                                                               data-value="clampConnection"></span>锁状联合</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="oleic" class="checkbox-ac"><span id="oleic" data-value="oleic"></span>油酸</label>
+                    <dd><label for="pileusPhenotype" class="checkbox-ac"><span id="pileusPhenotype"
+                                                                               data-value="pileusPhenotype"></span>菌盖形态</label>
                     </dd>
-                    <span></span>
-                    <dd><label for="palmitic" class="checkbox-ac"><span id="palmitic"
-                                                                        data-value="palmitic"></span>软脂酸</label></dd>
-                    <span></span>
-                    <dd><label for="stearic" class="checkbox-ac"><span id="stearic"
-                                                                       data-value="stearic"></span>硬脂酸</label></dd>
-                    <span></span>
+                    <dd><label for="pileusColor" class="checkbox-ac"><span id="pileusColor"
+                                                                           data-value="pileusColor"></span>菌盖颜色</label>
+                    </dd>
+                    <dd><label for="stipePhenotype" class="checkbox-ac"><span id="stipePhenotype"
+                                                                              data-value="stipePhenotype"></span>菌柄形态</label>
+                    </dd>
+                    <dd><label for="stipeColor" class="checkbox-ac"><span id="stipeColor"
+                                                                          data-value="stipeColor"></span>菌柄颜色</label>
+                    </dd>
+                    <dd><label for="fruitbodyColor" class="checkbox-ac"><span id="fruitbodyColor"
+                                                                              data-value="fruitbodyColor"></span>子实体颜色</label>
+                    </dd>
+                    <dd><label for="fruitbodyType" class="checkbox-ac"><span id="fruitbodyType"
+                                                                             data-value="fruitbodyType"></span>子实体形态</label>
+                    </dd>
+                    <dd><label for="illumination" class="checkbox-ac"><span id="illumination"
+                                                                            data-value="illumination"></span>光照</label>
+                    </dd>
+                    <dd><label for="collarium" class="checkbox-ac"><span id="collarium" data-value="collarium"></span>菌环</label>
+                    </dd>
+                    <dd><label for="volva" class="checkbox-ac"><span id="volva" data-value="volva"></span>菌托</label>
+                    </dd>
+                    <dd><label for="velum" class="checkbox-ac"><span id="velum" data-value="velum"></span>菌幕</label>
+                    </dd>
+                    <dd><label for="sclerotium" class="checkbox-ac"><span id="sclerotium"
+                                                                          data-value="sclerotium"></span>菌核</label></dd>
+                    <dd><label for="strainMedium" class="checkbox-ac"><span id="strainMedium"
+                                                                            data-value="strainMedium"></span>菌种培养基</label>
+                    </dd>
+                    <dd><label for="mainSubstrate" class="checkbox-ac"><span id="mainSubstrate"
+                                                                             data-value="mainSubstrate"></span>主要栽培基质</label>
+                    </dd>
+                    <dd><label for="afterRipeningStage" class="checkbox-ac"><span id="afterRipeningStage"
+                                                                                  data-value="afterRipeningStage"></span>后熟期</label>
+                    </dd>
+                    <dd><label for="primordialStimulationFruitbody" class="checkbox-ac"><span
+                            id="primordialStimulationFruitbody" data-value="primordialStimulationFruitbody"></span>原基刺激&子实体</label>
+                    </dd>
+                    <dd><label for="reproductiveMode" class="checkbox-ac"><span id="reproductiveMode"
+                                                                                data-value="reproductiveMode"></span>生殖方式</label>
+                    </dd>
+                    <dd><label for="lifestyle" class="checkbox-ac"><span id="lifestyle" data-value="lifestyle"></span>生活方式</label>
+                    </dd>
+                    <dd><label for="preservation" class="checkbox-ac"><span id="preservation"
+                                                                            data-value="preservation"></span>保藏方法</label>
+                    </dd>
+                    <dd><label for="domestication" class="checkbox-ac"><span id="domestication"
+                                                                             data-value="domestication"></span>驯化</label>
+                    </dd>
+                    <dd><label for="nuclearPhase" class="checkbox-ac"><span id="nuclearPhase"
+                                                                            data-value="nuclearPhase"></span>核相</label>
+                    </dd>
+                    <dd><label for="matingType" class="checkbox-ac"><span id="matingType"
+                                                                          data-value="matingType"></span>交配型</label>
+                    </dd>
                 </dl>
             </div>
         </div>
@@ -1050,13 +1096,13 @@
     $(function () {
         if (window.localStorage) {
             var storage = window.localStorage;
-        }else{
+        } else {
 //            alert('This browser does NOT support localStorage');
             layer.open({
-                type:0,
-                title:"温馨提示:",
-                content:"This browser does NOT support localStorage",
-                shadeClose:true,
+                type: 0,
+                title: "温馨提示:",
+                content: "This browser does NOT support localStorage",
+                shadeClose: true,
             });
 
         }
@@ -1149,21 +1195,28 @@
 
         var populations = []; // 存储自定义群体信息
         var defineDefault = [{
-            "name": "物种Glycine soja",
+            "name": "物种名称Pleurotus tuoliensis",
             "id": 001,
-            "condition": {"species": "Glycine soja"}
+            "condition": {"scientificName": "Pleurotus tuoliensis"}
         }, {
-            "name": "物种Glycine gracilis",
+            "name": "菌株名称Zhongnongduanqi1hao",
             "id": 002,
-            "condition": {"species": "Glycine gracilis"}
-        }, {"name": "物种Landrace", "id": 003, "condition": {"species": "Landrace"}}, {
-            "name": "位置China",
+            "condition": {"strainName": "Zhongnongduanqi1hao"}
+        }, {
+            "name": "地理位置Beijing,China",
+            "id": 003, "condition": {"locality": "Beijing,China"}
+        }, {
+            "name": "保藏地点Jilin agricultural university",
             "id": 004,
-            "condition": {"locality": "China"}
-        }, {"name": "位置United States", "id": 005, "condition": {"locality": "United States"}}, {
-            "name": "位置Japan",
+            "condition": {"environment": "Jilin agricultural university"}
+        }, {
+            "name": "培养环境indoorcultivation",
+            "id": 005,
+            "condition": {"environment": "indoorcultivation"}
+        }, {
+            "name": "材料mycelium",
             "id": 006,
-            "condition": {"locality": "Japan"}
+            "condition": {"materials": "mycelium"}
         }];
         var defaultPopulations2 = defineDefault.concat();
 
@@ -1359,19 +1412,21 @@
 
         /* 保存群体 */
 
-        $(".sample-screening-btn button").click(function(){
+        $(".sample-screening-btn button").click(function () {
             //修改输入框border-color modified by zjt 2018-3-14
-            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+            $(".custom-groups-content input[type=number]").each(function () {
+                $(this).css('border-color', '');
+            });
             //修改输入框border-color modified by zjt 2018-3-14
 
-            var sampleTexts=$(".sample-text").text();
-            if(sampleTexts.length==0){
+            var sampleTexts = $(".sample-text").text();
+            if (sampleTexts.length == 0) {
 //                alert("请选择群体!")
                 layer.open({
-                    type:0,
-                    title:"温馨提示:",
-                    content:"请选择群体",
-                    shadeClose:true,
+                    type: 0,
+                    title: "温馨提示:",
+                    content: "请选择群体",
+                    shadeClose: true,
                 });
 
                 return;
@@ -1397,10 +1452,10 @@
             } else {
 //                alert("最多可添加10个群体");
                 layer.open({
-                    type:0,
-                    title:"温馨提示:",
-                    content:"最多可添加10个群体",
-                    shadeClose:true,
+                    type: 0,
+                    title: "温馨提示:",
+                    content: "最多可添加10个群体",
+                    shadeClose: true,
                 });
             }
 
@@ -1630,23 +1685,24 @@
 
             //             修改拖拽样式
             index1 = layer.open({
-                title:"",
+                title: "",
                 type: 1,
                 content: $("#tab-detail"),
-                area: ['860px','250px'],
+                area: ['860px', '250px'],
 //                shade: [0.8, '#393D49'],
-                shadeClose:true,
-                scrollbar:false,
+                shadeClose: true,
+                scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
                 //offset:['200px', '500px']
-                offset:['135px', '320px']
+                offset: ['135px', '320px']
             });
 
 
         });
         var currFlag;
-        var index1,index2;
+        var index1, index2;
+
         // 选则品种 之后 详情页
         function getKindInfos(curr) {
             $.ajax({
@@ -1715,18 +1771,18 @@
             }
 
 //             修改拖拽样式
-            index2 =  layer.open({
-                title:"",
+            index2 = layer.open({
+                title: "",
                 type: 1,
                 content: $("#tab-detail"),
-               area: ['860px','250px'],
+                area: ['860px', '250px'],
 //                shade: [0.8, '#393D49'],
-                shadeClose:true,
-                scrollbar:false,
+                shadeClose: true,
+                scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
                 //offset:['200px', '500px']
-               offset:['135px', '320px']
+                offset: ['135px', '320px']
 
             });
 
@@ -1950,7 +2006,9 @@
         /* 样本清空 */
         $(".sample-empty").click(function () {
             //修改输入框border-color modified by zjt 2018-3-14
-            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+            $(".custom-groups-content input[type=number]").each(function () {
+                $(this).css('border-color', '');
+            });
             //修改输入框border-color modified by zjt 2018-3-14
             var samples = $(".sample-text").find("span");
             $.each(samples, function (idx, item) {
@@ -1961,7 +2019,7 @@
         });
 
         /* 删除单个样本条件 */
-            $(".sample-text").on("click", ".js-colse-text", function () {
+        $(".sample-text").on("click", ".js-colse-text", function () {
             $(this).parent().remove();
             var name = $(this).parent().attr("data-name");
             delete(popuSamples[name]);
@@ -1983,7 +2041,9 @@
             var val2 = _prev.find("input").last()[0].value;
             var str = val1 + "-" + val2;
             //恢复输入框border-colormodified by zjt 2018-3-14
-            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+            $(".custom-groups-content input[type=number]").each(function () {
+                $(this).css('border-color', '');
+            });
             //恢复输入框border-colormodified by zjt 2018-3-14
 
             //输入框颜色
@@ -1994,10 +2054,10 @@
                     if ((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
 //                        alert("添加的区间数据不合理,如果是百分比则要小于100");
                         layer.open({
-                            type:0,
-                            title:"温馨提示:",
-                            content:"添加的区间数据不合理,如果是百分比则要小于100",
-                            shadeClose:true,
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "添加的区间数据不合理,如果是百分比则要小于100",
+                            shadeClose: true,
                         });
                         input1.style.borderColor = "red";
                         input2.style.borderColor = "red";
@@ -2032,10 +2092,10 @@
                     if ((val1 < 0 || val2 < 0) || val1 > val2) {
 //                        alert("添加的区间数据不合理");
                         layer.open({
-                            type:0,
-                            title:"温馨提示:",
-                            content:"添加的区间数据不合理",
-                            shadeClose:true,
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "添加的区间数据不合理",
+                            shadeClose: true,
                         });
                         input1.style.borderColor = "red";
                         input2.style.borderColor = "red";
@@ -2080,10 +2140,10 @@
                 }
 //                alert("输入不能为空");
                 layer.open({
-                    type:0,
-                    title:"温馨提示:",
-                    content:"输入不能为空",
-                    shadeClose:true,
+                    type: 0,
+                    title: "温馨提示:",
+                    content: "输入不能为空",
+                    shadeClose: true,
                 });
             }
         });
@@ -2091,8 +2151,10 @@
         /* 输入框获取焦点则将border-color恢复原样 */
         //modified by zjt 2018-3-13
         //先将页面中所有的input输入框borderColor恢复
-        $(".custom-groups-content input[type=number]").focus(function(){
-            $(".custom-groups-content input[type=number]").each(function(){$(this).css('border-color','');});
+        $(".custom-groups-content input[type=number]").focus(function () {
+            $(".custom-groups-content input[type=number]").each(function () {
+                $(this).css('border-color', '');
+            });
         });
         //modified by zjt 2018-3-13
 
@@ -2169,8 +2231,8 @@
                         }
                         var len = res.data.length;
                         var str = '';
-                        for(var i = 0; i < len; i++) {
-                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">'+ res.data[i].gene +'_'+ res.data[i].geneName +'</div><i style="display:none">_'+ res.data[i].geneFunction+'</i></label>'
+                        for (var i = 0; i < len; i++) {
+                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">' + res.data[i].gene + '_' + res.data[i].geneName + '</div><i style="display:none">_' + res.data[i].geneFunction + '</i></label>'
                         }
                         $(".gene-search-list").empty().append(str);
                     } else {
@@ -2210,7 +2272,11 @@
             var choiceArr = [];
             $.each(_labels, function (idx, item) {
                 if ($(item).hasClass("checkbox-ac")) {
-                    choiceArr.push($(item).attr("for"));
+                    var title = $(item).attr("for");
+                    if(title=='time'){
+                        title='definitionTime';
+                    }
+                    choiceArr.push(title);
                 }
             });
             $("#exportForm").find(".group").val(JSON.stringify(currPopu));
@@ -2320,44 +2386,44 @@
 //                    RegionObj["group"] = JSON.stringify(defaultPopulations);
                     RegionObj["group"] = JSON.stringify([]);
                 }
-                if(RegionObj.start == "" || RegionObj.end == "") {
+                if (RegionObj.start == "" || RegionObj.end == "") {
 //                    return alert("输入不能为空");
                     layer.open({
-                        type:0,
-                        title:"温馨提示:",
-                        content:"输入不能为空",
-                        shadeClose:true,
+                        type: 0,
+                        title: "温馨提示:",
+                        content: "输入不能为空",
+                        shadeClose: true,
                     });
                     return;
                 }
-                if(!isNaN(RegionObj.start*1) && !isNaN(RegionObj.end*1)) {
-                    if(RegionObj.start*1 < 0 || RegionObj.end*1 < 0) {
+                if (!isNaN(RegionObj.start * 1) && !isNaN(RegionObj.end * 1)) {
+                    if (RegionObj.start * 1 < 0 || RegionObj.end * 1 < 0) {
 //                        return alert("输入数字应大于0");
                         layer.open({
-                            type:0,
-                            title:"温馨提示:",
-                            content:"输入数字应大于0",
-                            shadeClose:true,
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "输入数字应大于0",
+                            shadeClose: true,
                         });
                         return;
                     }
-                    if(RegionObj.start*1 > chromosomeMax*1 || RegionObj.end*1 > chromosomeMax*1) {
+                    if (RegionObj.start * 1 > chromosomeMax * 1 || RegionObj.end * 1 > chromosomeMax * 1) {
 //                        return alert("输入值超过该基因最大值");
                         layer.open({
-                            type:0,
-                            title:"温馨提示:",
-                            content:"输入值超过该基因最大值",
-                            shadeClose:true,
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "输入值超过该基因最大值",
+                            shadeClose: true,
                         });
                         return;
                     }
-                    if(RegionObj.start*1 > RegionObj.end*1) {
+                    if (RegionObj.start * 1 > RegionObj.end * 1) {
 //                        return alert("StartPosition应小于EndPosition");
                         layer.open({
-                            type:0,
-                            title:"温馨提示:",
-                            content:"StartPosition应小于EndPosition",
-                            shadeClose:true,
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "StartPosition应小于EndPosition",
+                            shadeClose: true,
                         });
                         return;
 
@@ -2369,10 +2435,10 @@
                 } else {
 //                    alert("请输入数字");
                     layer.open({
-                        type:0,
-                        title:"温馨提示:",
-                        content:"请输入数字",
-                        shadeClose:true,
+                        type: 0,
+                        title: "温馨提示:",
+                        content: "请输入数字",
+                        shadeClose: true,
                     });
                 }
             },
@@ -2393,29 +2459,29 @@
                         if (GeneObj.upstream * 1 > 20000) {
 //                            return alert("输入范围值要小于20kb");
                             layer.open({
-                                type:0,
-                                title:"温馨提示:",
-                                content:"输入范围值要小于20kb",
-                                shadeClose:true,
+                                type: 0,
+                                title: "温馨提示:",
+                                content: "输入范围值要小于20kb",
+                                shadeClose: true,
                             });
                             return;
                         } else if (GeneObj.upstream * 1 < 0) {
 //                            return alert("输入数字应大于0");
                             layer.open({
-                                type:0,
-                                title:"温馨提示:",
-                                content:"输入数字应大于0",
-                                shadeClose:true,
+                                type: 0,
+                                title: "温馨提示:",
+                                content: "输入数字应大于0",
+                                shadeClose: true,
                             });
                             return;
                         }
                     } else {
 //                        return alert("请输入数字");
                         layer.open({
-                            type:0,
-                            title:"温馨提示:",
-                            content:"请输入数字",
-                            shadeClose:true,
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "请输入数字",
+                            shadeClose: true,
                         });
                         return;
                     }
@@ -2427,29 +2493,29 @@
                         if (GeneObj.downstream * 1 > 20000) {
 //                            return alert("输入范围值要小于20kb");
                             layer.open({
-                                type:0,
-                                title:"温馨提示:",
-                                content:"输入范围值要小于20kb",
-                                shadeClose:true,
+                                type: 0,
+                                title: "温馨提示:",
+                                content: "输入范围值要小于20kb",
+                                shadeClose: true,
                             });
                             return;
                         } else if (GeneObj.downstream * 1 < 0) {
 //                            return alert("输入数字应大于0");
                             layer.open({
-                                type:0,
-                                title:"温馨提示:",
-                                content:"输入数字应大于0",
-                                shadeClose:true,
+                                type: 0,
+                                title: "温馨提示:",
+                                content: "输入数字应大于0",
+                                shadeClose: true,
                             });
                             return;
                         }
                     } else {
 //                        return alert("请输入数字");
                         layer.open({
-                            type:0,
-                            title:"温馨提示:",
-                            content:"请输入数字",
-                            shadeClose:true,
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "请输入数字",
+                            shadeClose: true,
                         });
                         return;
                     }
