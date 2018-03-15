@@ -10,9 +10,9 @@ public class QtlSearchResultEvent<T> {
     private T t;
 
     /**
-     * 用户已选择的check box
+     * 如果用户选择的不是All而是Trait或其它时，qtl对象本身是不存在keyword属性的
      */
-    private String checkedOption;
+    private String alternativeKeyWord;
 
     public QtlSearchResultEvent(T t) {
         this.t = t;
@@ -26,12 +26,12 @@ public class QtlSearchResultEvent<T> {
         this.t = t;
     }
 
-    public String getCheckedOption() {
-        return checkedOption;
+    public String getAlternativeKeyWord() {
+        return alternativeKeyWord;
     }
 
-    public void setCheckedOption(String checkedOption) {
-        this.checkedOption = checkedOption;
+    public void setAlternativeKeyWord(String alternativeKeyWord) {
+        this.alternativeKeyWord = alternativeKeyWord;
     }
 
     @Override

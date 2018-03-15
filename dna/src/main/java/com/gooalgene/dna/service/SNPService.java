@@ -43,7 +43,8 @@ public class SNPService {
     private DNAGenStructureService dnaGenStructureService;
     @Autowired
     private DNAGensDao dnaGensDao;
-
+    @Autowired
+    private DNAGensService dnaGensService;
 
     /**
      * 将samples中的genotype格式（0/0、0/1、1/1字符串）对应转换为ref+ref、ref+alt、alt+alt字符串
@@ -430,7 +431,10 @@ public class SNPService {
 
     public Map searchSNPByGene(String type, String[] ctypeList, String gene, Page<DNAGens> page) {
 
-        List<SNP> snps = dnaMongoService.searchByGene(type, ctypeList, gene, page);
+        DNAGens dnaGens = dnaGensService.findByGene(gene);
+        String start = Long.toString(dnaGens.getGeneStart() - 2000 < 0 ? 0 : dnaGens.getGeneStart() - 2000);
+        String end = Long.toString(dnaGens.getGeneEnd() + 2000);
+        List<SNP> snps = dnaMongoService.searchInGene(type,ctypeList[0],gene,start,end,page);
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());

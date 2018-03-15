@@ -20,6 +20,9 @@
             position: relative;
             top:-4px;
         }
+        .box-shadow{
+            box-shadow: none;
+        }
     </style>
 </head>
 
