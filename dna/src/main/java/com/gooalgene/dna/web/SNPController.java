@@ -7,6 +7,7 @@ import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
+import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
@@ -114,24 +115,14 @@ public class SNPController {
     public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
-        Page<DNARunSearchResult> page = new Page<>(request, response);
+        Page<SampleInfoDto> page = new Page<>(request, response);
         return dnaRunService.queryDNARunByGroup(group, page);
     }
 
     /**
      * 按基因条件搜索
      */
-    @RequestMapping(value = "/condition", method = RequestMethod.GET)
-    @ResponseBody
-    public ResultVO getByExample(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                 @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                 @RequestParam(value = "isPage", required = false) String isPage,
-                                 DnaRunDto dnaRunDto) {
-        logger.info(dnaRunDto.getGroup());
-        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
-        return ResultUtil.success(dnaRunPageInfo);
 
-    }
 
     /**
      * 查询默认群体

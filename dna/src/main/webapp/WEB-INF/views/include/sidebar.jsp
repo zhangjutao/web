@@ -1633,14 +1633,14 @@
                 title:"",
                 type: 1,
                 content: $("#tab-detail"),
-                area: ['900px','300'],
+                area: ['860px','250px'],
 //                shade: [0.8, '#393D49'],
                 shadeClose:true,
                 scrollbar:false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                offset:['200px', '500px']
-
+                //offset:['200px', '500px']
+                offset:['135px', '320px']
             });
 
 
@@ -1719,13 +1719,14 @@
                 title:"",
                 type: 1,
                 content: $("#tab-detail"),
-                area: ['900px','300'],
+               area: ['860px','250px'],
 //                shade: [0.8, '#393D49'],
                 shadeClose:true,
                 scrollbar:false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                offset:['200px', '500px']
+                //offset:['200px', '500px']
+               offset:['135px', '320px']
 
             });
 

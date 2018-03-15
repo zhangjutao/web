@@ -31,7 +31,7 @@
         <result column="yield" property="yield" jdbcType="REAL" />
         <result column="category" property="group" jdbcType="VARCHAR" />
     </resultMap>
-    <resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
+    <!--<resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="run_no" property="runNo" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
         <result column="species" property="species" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
@@ -58,7 +58,8 @@
         <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="yield" property="yield" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
         <result column="category" property="group" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
-    </resultMap>
+    </resultMap>-->
+
     <sql id="Base_Column_List" >
         id, run_no, species, sample_name, cultivar, plant_name, locality, protein, oil, linoleic,
         linolenic, oleic, palmitic, stearic, height, flower_color, hilum_color, pod_color,
@@ -233,7 +234,7 @@
         </trim>
     </select>
 
-    <select id="getListByConditionWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
+    <select id="getListByConditionWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.entity.SampleInfo">
         select
         <include refid="Base_Column_List" />
         from dna_run
@@ -244,221 +245,122 @@
                     #{runNo}
                 </foreach>
             </if>
-            <if test="species!=null and species!=''">
-                AND species like CONCAT('%',#{species},'%' )
+            <if test="runNo!=null and runNo!=''">
+                AND run_no like CONCAT('%',#{runNo},'%' )
             </if>
-            <if test="sampleName!=null and sampleName!=''">
-                AND sample_name like CONCAT('%',#{sampleName},'%' )
+            <if test="scientificName!=null and scientificName!=''">
+                AND scientific_name like CONCAT('%',#{scientificName},'%' )
             </if>
-            <if test="cultivar!=null and cultivar!=''">
-                AND cultivar like CONCAT('%',#{cultivar},'%' )
+            <if test="sampleId!=null and sampleId!=''">
+                AND sample_id like CONCAT('%',#{sampleId},'%' )
             </if>
-            <if test="plantName!=null and plantName!=''">
-                AND plant_name like CONCAT('%',#{plantName},'%' )
+            <if test="strainName!=null and strainName!=''">
+                AND strain_name like CONCAT('%',#{strainName},'%' )
+            </if>
+            <if test="preservationLocation!=null and preservationLocation!=''">
+                AND preservation_location like CONCAT('%',#{preservationLocation},'%' )
             </if>
             <if test="locality!=null and locality!=''">
                 AND locality like CONCAT('%',#{locality},'%' )
             </if>
-            <if test="protein!=null">
-                <if test="protein.operation!=null and protein.operation!=''">
-                    <choose>
-                        <when test="protein.operation=='eq'">
-                            AND protein =#{protein.value}
-                        </when>
-                        <when test="protein.operation=='lt'">
-                            AND protein <![CDATA[ < ]]>#{protein.value}
-                        </when>
-                        <when test="protein.operation=='gt'">
-                            AND protein  >#{protein.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="type!=null and type!=''">
+                AND type like CONCAT('%',#{type},'%')
             </if>
-            <if test="oil!=null">
-                <if test="oil.operation!=null and oil.operation!=''">
-                    <choose>
-                        <when test="oil.operation=='eq'">
-                            AND oil =#{oil.value}
-                        </when>
-                        <when test="oil.operation=='lt'">
-                            AND oil <![CDATA[ < ]]>#{oil.value}
-                        </when>
-                        <when test="oil.operation=='gt'">
-                            AND oil >#{oil.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="environment!=null and environment!=''">
+                AND environment like CONCAT('%',#{environment},'%')
             </if>
-            <if test="linoleic!=null">
-                <if test="linoleic.operation!=null and linoleic.operation!=''">
-                    <choose>
-                        <when test="linoleic.operation=='eq'">
-                            AND linoleic =#{linoleic.value}
-                        </when>
-                        <when test="linoleic.operation=='lt'">
-                            AND linoleic <![CDATA[ < ]]>#{linoleic.value}
-                        </when>
-                        <when test="linoleic.operation=='gt'">
-                            AND linoleic >#{linoleic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="materials!=null and materials!=''">
+                AND materials like CONCAT('%',#{materials},'%')
             </if>
-            <if test="linolenic!=null">
-                <if test="linolenic.operation!=null and linolenic.operation!=''">
-                    <choose>
-                        <when test="linolenic.operation=='eq'">
-                            AND linolenic =#{linolenic.value}
-                        </when>
-                        <when test="linolenic.operation=='lt'">
-                            AND linolenic <![CDATA[ < ]]>#{linolenic.value}
-                        </when>
-                        <when test="linolenic.operation=='gt'">
-                            AND linolenic >#{linolenic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="treat!=null and treat!=''">
+                AND treat like CONCAT('%',#{treat},'%')
             </if>
-
-            <if test="oleic!=null">
-                <if test="oleic.operation!=null and oleic.operation!=''">
-                    <choose>
-                        <when test="oleic.operation=='eq'">
-                            AND oleic =#{oleic.value}
-                        </when>
-                        <when test="oleic.operation=='lt'">
-                            AND oleic <![CDATA[ < ]]>#{oleic.value}
-                        </when>
-                        <when test="oleic.operation=='gt'">
-                            AND oleic >#{oleic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="definitionTime!=null and definitionTime!=''">
+                AND definition_time like CONCAT('%',#{definitionTime},'%')
             </if>
-            <if test="palmitic!=null">
-                <if test="palmitic.operation!=null and palmitic.operation!=''">
-                    <choose>
-                        <when test="palmitic.operation=='eq'">
-                            AND palmitic =#{palmitic.value}
-                        </when>
-                        <when test="palmitic.operation=='lt'">
-                            AND palmitic <![CDATA[ < ]]>#{palmitic.value}
-                        </when>
-                        <when test="palmitic.operation=='gt'">
-                            AND palmitic >#{palmitic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="taxonomy!=null and taxonomy!=''">
+                AND taxonomy like CONCAT('%',#{taxonomy},'%')
             </if>
-
-            <if test="stearic!=null">
-                <if test="stearic.operation!=null and stearic.operation!=''">
-                    <choose>
-                        <when test="stearic.operation=='eq'">
-                            AND stearic =#{stearic.value}
-                        </when>
-                        <when test="stearic.operation=='lt'">
-                            AND stearic <![CDATA[ < ]]>#{stearic.value}
-                        </when>
-                        <when test="stearic.operation=='gt'">
-                            AND stearic >#{stearic.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="myceliaPhenotype!=null and myceliaPhenotype!=''">
+                AND mycelia_phenotype like CONCAT('%',#{myceliaPhenotype},'%')
             </if>
-            <if test="height!=null">
-                <if test="height.operation!=null and height.operation!=''">
-                    <choose>
-                        <when test="height.operation=='eq'">
-                            AND height =#{height.value}
-                        </when>
-                        <when test="height.operation=='lt'">
-                            AND height <![CDATA[ < ]]>#{height.value}
-                        </when>
-                        <when test="height.operation=='gt'">
-                            AND height >#{height.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="myceliaDiameter!=null and myceliaDiameter!=''">
+                AND mycelia_diameter like CONCAT('%',#{myceliaDiameter},'%')
             </if>
-            <if test="flowerColor!=null and flowerColor!=''">
-                AND flower_color like CONCAT('%',#{flowerColor},'%')
+            <if test="myceliaColor!=null and myceliaColor!=''">
+                AND mycelia_color like CONCAT('%',#{myceliaColor},'%')
             </if>
-            <if test="hilumColor!=null and hilumColor!=''">
-                AND hilum_color like CONCAT('%',#{hilumColor},'%')
+            <if test="sporesColor!=null and sporesColor!=''">
+                AND spores_color like CONCAT('%',#{sporesColor},'%')
             </if>
-            <if test="podColor!=null and podColor!=''">
-                AND pod_color like CONCAT('%',#{podColor},'%')
+            <if test="sporesShape!=null and sporesShape!=''">
+                AND spores_shape like CONCAT('%',#{sporesShape},'%')
             </if>
-            <if test="pubescenceColor!=null and pubescenceColor!=''">
-                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            <if test="clampConnection!=null and clampConnection!=''">
+                AND clamp_connection like CONCAT('%',#{clampConnection},'%')
             </if>
-            <if test="seedCoatColor!=null and seedCoatColor!=''">
-                AND seed_coat_color like CONCAT('%',#{seedCoatColor},'%')
+            <if test="pileusPhenotype!=null and pileusPhenotype!=''">
+                AND pileus_phenotype like CONCAT('%',#{pileusPhenotype},'%')
             </if>
-            <if test="cotyledonColor!=null and cotyledonColor!=''">
-                AND cotyledon_color like CONCAT('%',#{cotyledonColor},'%')
+            <if test="pileusColor!=null and pileusColor!=''">
+                AND pileus_color like CONCAT('%',#{pileusColor},'%')
             </if>
-            <if test="pubescenceColor!=null and pubescenceColor!=''">
-                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            <if test="stipePhenotype!=null and stipePhenotype!=''">
+                AND stipe_phenotype like CONCAT('%',#{stipePhenotype},'%')
             </if>
-
-            <if test="weightPer100seeds!=null">
-                <if test="weightPer100seeds.operation!=null and weightPer100seeds.operation!=''">
-                    <choose>
-                        <when test="weightPer100seeds.operation=='eq'">
-                            AND weight_per_100seeds =#{weightPer100seeds.value}
-                        </when>
-                        <when test="weightPer100seeds.operation=='lt'">
-                            AND weight_per_100seeds <![CDATA[ < ]]>#{weightPer100seeds.value}
-                        </when>
-                        <when test="weightPer100seeds.operation=='gt'">
-                            AND weight_per_100seeds >#{weightPer100seeds.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="stipeColor!=null and stipeColor!=''">
+                AND stipe_color like CONCAT('%',#{stipeColor},'%')
             </if>
-
-            <if test="upperLeafletLength!=null">
-                <if test="upperLeafletLength.operation!=null and upperLeafletLength.operation!=''">
-                    <choose>
-                        <when test="upperLeafletLength.operation=='eq'">
-                            AND upper_leaflet_length =#{upperLeafletLength.value}
-                        </when>
-                        <when test="upperLeafletLength.operation=='lt'">
-                            AND upper_leaflet_length <![CDATA[ < ]]>#{upperLeafletLength.value}
-                        </when>
-                        <when test="upperLeafletLength.operation=='gt'">
-                            AND upper_leaflet_length >#{upperLeafletLength.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="fruitbodyColor!=null and fruitbodyColor!=''">
+                AND fruitbody_color like CONCAT('%',#{fruitbodyColor},'%')
             </if>
-
-            <if test="floweringDate!=null and floweringDate!=''">
-                AND flowering_date like CONCAT('%',#{floweringDate},'%')
+            <if test="fruitbodyType!=null and fruitbodyType!=''">
+                AND fruitbody_type like CONCAT('%',#{fruitbodyType},'%')
             </if>
-            <if test="maturityDate!=null and maturityDate!=''">
-                AND maturity_date like CONCAT('%',#{maturityDate},'%')
+            <if test="illumination!=null and illumination!=''">
+                AND illumination like CONCAT('%',#{illumination},'%')
             </if>
-
-            <if test="yield!=null">
-                <if test="yield.operation!=null and yield.operation!=''">
-                    <choose>
-                        <when test="yield.operation=='eq'">
-                            AND yield =#{yield.value}
-                        </when>
-                        <when test="yield.operation=='lt'">
-                            AND yield <![CDATA[ < ]]>#{yield.value}
-                        </when>
-                        <when test="yield.operation=='gt'">
-                            AND yield >#{yield.value}
-                        </when>
-                    </choose>
-                </if>
+            <if test="collarium!=null and collarium!=''">
+                AND collarium like CONCAT('%',#{collarium},'%')
             </if>
-            <if test="group!=null and group!=''">
-                AND category =#{group}
+            <if test="volva!=null and volva!=''">
+                AND volva like CONCAT('%',#{volva},'%')
+            </if>
+            <if test="velum!=null and velum!=''">
+                AND velum like CONCAT('%',#{velum},'%')
+            </if>
+            <if test="sclerotium!=null and sclerotium!=''">
+                AND volva like CONCAT('%',#{volva},'%')
+            </if>
+            <if test="strainMedium!=null and strainMedium!=''">
+                AND strain_medium like CONCAT('%',#{strainMedium},'%')
+            </if>
+            <if test="mainSubstrate!=null and mainSubstrate!=''">
+                AND main_substrate like CONCAT('%',#{mainSubstrate},'%')
+            </if>
+            <if test="afterRipeningStage!=null and afterRipeningStage!=''">
+                AND after_ripening_stage like CONCAT('%',#{afterRipeningStage},'%')
+            </if>
+            <if test="primordialStimulationFruitbody!=null and primordialStimulationFruitbody!=''">
+                AND primordial_stimulation_fruitbody like CONCAT('%',#{primordialStimulationFruitbody},'%')
+            </if>
+            <if test="reproductiveMode!=null and reproductiveMode!=''">
+                AND reproductive_mode like CONCAT('%',#{reproductiveMode},'%')
+            </if>
+            <if test="lifestyle!=null and lifestyle!=''">
+                AND lifestyle like CONCAT('%',#{lifestyle},'%')
+            </if>
+            <if test="preservation!=null and preservation!=''">
+                AND preservation like CONCAT('%',#{preservation},'%')
+            </if>
+            <if test="domestication!=null and domestication!=''">
+                AND domestication like CONCAT('%',#{domestication},'%')
+            </if>
+            <if test="nuclearPhase!=null and nuclearPhase!=''">
+                AND nuclear_phase like CONCAT('%',#{nuclearPhase},'%')
+            </if>
+            <if test="matingType!=null and matingType!=''">
+                AND mating_type like CONCAT('%',#{matingType},'%')
             </if>
         </trim>
     </select>
@@ -555,7 +457,7 @@
         </if>
     </select>
 
-    <select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
+    <!--<select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
         SELECT * from dna_run
         WHERE 1=1
         <if test="keywords!=null">
@@ -651,6 +553,205 @@
         </if>
         <if test="sampleName!=null">
             AND sample_name=#{sampleName}
+        </if>
+    </select>-->
+    <resultMap id="HandlerResultMap" type="com.gooalgene.dna.dto.SampleInfoDto" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="run_no" property="runNo" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="scientific_name" property="scientificName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="sample_id" property="sampleId" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="strain_name" property="strainName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="preservation_location" property="preservationLocation" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="locality" property="locality" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="type" property="type" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="environment" property="environment" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"  />
+        <result column="materials" property="materials" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="treat" property="treat" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"  />
+        <result column="time" property="time" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="taxonomy" property="taxonomy" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="mycelia_phenotype" property="myceliaPhenotype" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="mycelia_diameter" property="myceliaDiameter" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="mycelia_color" property="myceliaColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="spores_color" property="sporesColor" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="spores_shape" property="sporesShape" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="clamp_connection" property="clampConnection" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="pileus_phenotype" property="pileusPhenotype" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="pileus_color" property="pileusColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="stipe_phenotype" property="stipePhenotype" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="stipe_color" property="stipeColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="fruitbody_color" property="fruitbodyColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+
+
+        <result column="fruitbody_type" property="fruitbodyType" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="illumination" property="illumination" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="collarium" property="collarium" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="volva" property="volva" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="velum" property="velum" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="sclerotium" property="sclerotium" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="strain_medium" property="strainMedium" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="main_substrate" property="mainSubstrate" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="after_ripening_stage" property="afterRipeningStage" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="primordial_stimulation_fruitbody" property="primordialStimulationFruitbody" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="reproductive_mode" property="reproductiveMode" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="lifestyle" property="lifestyle" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="preservation" property="preservation" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="domestication" property="domestication" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="nuclearPhase" property="nuclearPhase" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="matingType" property="matingType" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+    </resultMap>
+    <select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.SampleInfoDto">
+        SELECT * from dna_run
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND (
+            run_no LIKE CONCAT('%',#{keywords},'%') OR scientific_name LIKE CONCAT('%',#{keywords},'%') OR sample_id LIKE CONCAT('%',#{keywords},'%')
+            OR strain_name LIKE CONCAT('%',#{keywords},'%') OR
+            preservation_location LIKE CONCAT('%',#{keywords},'%') OR locality LIKE CONCAT('%',#{keywords},'%') OR type LIKE CONCAT('%',#{keywords},'%')
+            OR environment LIKE CONCAT('%',#{keywords},'%') OR
+            materials LIKE CONCAT('%',#{keywords},'%') OR treat LIKE CONCAT('%',#{keywords},'%') OR time LIKE CONCAT('%',#{keywords},'%')
+            OR taxonomy LIKE CONCAT('%',#{keywords},'%') OR
+            mycelia_phenotype LIKE CONCAT('%',#{keywords},'%') OR mycelia_diameter LIKE CONCAT('%',#{keywords},'%') OR mycelia_color LIKE CONCAT('%',#{keywords},'%')
+            OR spores_color LIKE CONCAT('%',#{keywords},'%') OR
+            spores_shape LIKE CONCAT('%',#{keywords},'%') OR clamp_connection LIKE CONCAT('%',#{keywords},'%')
+            OR pileus_phenotype LIKE CONCAT('%',#{keywords},'%') OR pileus_color LIKE CONCAT('%',#{keywords},'%') OR
+            stipe_phenotype LIKE CONCAT('%',#{keywords},'%') OR stipe_color LIKE CONCAT('%',#{keywords},'%') OR
+            fruitbody_color LIKE CONCAT('%',#{keywords},'%')
+            OR fruitbody_type LIKE CONCAT('%',#{keywords},'%') OR illumination LIKE CONCAT('%',#{keywords},'%')
+            OR collarium LIKE CONCAT('%',#{keywords},'%')
+            OR volva LIKE CONCAT('%',#{keywords},'%')
+            OR velum LIKE CONCAT('%',#{keywords},'%')
+            OR sclerotium LIKE CONCAT('%',#{keywords},'%')
+            OR strain_medium LIKE CONCAT('%',#{keywords},'%')
+            OR main_substrate LIKE CONCAT('%',#{keywords},'%')
+            OR after_ripening_stage LIKE CONCAT('%',#{keywords},'%')
+            OR primordial_stimulation_fruitbody LIKE CONCAT('%',#{keywords},'%')
+            OR reproductive_mode LIKE CONCAT('%',#{keywords},'%')
+            OR lifestyle LIKE CONCAT('%',#{keywords},'%')
+            OR preservation LIKE CONCAT('%',#{keywords},'%')
+            OR domestication LIKE CONCAT('%',#{keywords},'%')
+            OR nuclearPhase LIKE CONCAT('%',#{keywords},'%')
+            OR matingType LIKE CONCAT('%',#{keywords},'%')
+            )
+        </if>
+        <if test="scientificName!=null">
+            AND scientific_name = #{scientificName}
+        </if>
+        <if test="sampleId!=null">
+            AND sample_id = #{sampleId}
+        </if>
+        <if test="strainName!=null">
+            AND strain_name = #{strainName}
+        </if>
+        <if test="locality!=null">
+            <choose>
+                <when test="locality=='Other'">
+                    AND locality NOT REGEXP 'China|United States|Japan|Korea|Brazil'
+                </when>
+                <otherwise>
+                    AND locality LIKE CONCAT('%',#{locality},'%')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="preservationLocation!=null">
+            AND preservation_location = #{preservationLocation}
+        </if>
+        <if test="type!=null">
+            AND type = #{type}
+        </if>
+        <if test="environment!=null">
+            AND environment =#{environment}
+        </if>
+        <if test="materials!=null">
+            AND materials =#{materials}
+        </if>
+        <if test="treat!=null">
+            AND treat = #{treat}
+        </if>
+
+
+        <if test="time!=null">
+            AND time=#{time}
+        </if>
+        <if test="myceliaPhenotype!=null">
+            AND mycelia_phenotype=#{myceliaPhenotype}
+        </if>
+        <if test="myceliaDiameter!=null">
+            AND mycelia_diameter=#{myceliaDiameter}
+        </if>
+        <if test="myceliaColor!=null">
+            AND mycelia_color=#{myceliaColor}
+        </if>
+        <if test="sporesColor!=null">
+            AND spores_color=#{sporesColor}
+        </if>
+        <if test="sporesShape!=null">
+            AND spores_shape=#{sporesShape}
+        </if>
+        <if test="clampConnection!=null">
+            AND clamp_connection=#{clampConnection}
+        </if>
+        <if test="pileusPhenotype!=null">
+            AND pileus_phenotype=#{pileusPhenotype}
+        </if>
+        <if test="pileusColor!=null">
+            AND pileus_color=#{pileusColor}
+        </if>
+        <if test="stipePhenotype!=null">
+            AND stipe_phenotype=#{stipePhenotype}
+        </if>
+        <if test="stipeColor!=null">
+            AND stipe_color=#{stipeColor}
+        </if>
+        <if test="fruitbodyColor!=null">
+            AND fruitbody_color=#{fruitbodyColor}
+        </if>
+        <if test="fruitbodyType!=null">
+            AND fruitbody_type=#{fruitbodyType}
+        </if>
+        <if test="illumination!=null">
+            AND illumination=#{illumination}
+        </if>
+        <if test="collarium!=null">
+            AND collarium=#{collarium}
+        </if>
+        <if test="volva!=null">
+            AND volva=#{volva}
+        </if>
+        <if test="velum!=null">
+            AND velum=#{velum}
+        </if>
+        <if test="sclerotium!=null">
+            AND sclerotium=#{sclerotium}
+        </if>
+        <if test="strainMedium!=null">
+            AND strain_medium=#{strainMedium}
+        </if>
+        <if test="mainSubstrate!=null">
+            AND main_substrate=#{mainSubstrate}
+        </if>
+        <if test="afterRipeningStage!=null">
+            AND after_ripening_stage=#{afterRipeningStage}
+        </if>
+        <if test="primordialStimulationFruitbody!=null">
+            AND primordial_stimulation_fruitbody=#{primordialStimulationFruitbody}
+        </if>
+        <if test="reproductiveMode!=null">
+            AND reproductive_mode=#{reproductiveMode}
+        </if>
+        <if test="lifestyle!=null">
+            AND lifestyle=#{lifestyle}
+        </if>
+        <if test="preservation!=null">
+            AND preservation=#{preservation}
+        </if>
+        <if test="domestication!=null">
+            AND domestication=#{domestication}
+        </if>
+        <if test="nuclearPhase!=null">
+            AND nuclear_phase=#{nuclearPhase}
+        </if>
+        <if test="matingType!=null">
+            AND mating_type=#{matingType}
         </if>
     </select>
 

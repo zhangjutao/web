@@ -641,6 +641,7 @@
     opacity:0.4;                        /*背景的透明度:(Firefox适用；）*/
     filter:alpha(opacity =40);         /*背景的透明度:(IE适用)；*/
 }
+
 .tab-detail,.links-pop,.js-pop{
     display:none;
     width:900px;
@@ -668,7 +669,7 @@
     font-size: 20px;
 }
 .tab-detail-tbody ,.js-pop-body{
-    margin: 30px;
+    padding: 30px;
 }
 .links-text{
     padding: 20px;
