@@ -160,6 +160,17 @@
     border-radius: 3px;
     border: none;
 }
+.btn-export-set .btn-exportR{
+    background: #ccc;
+    width: 120px;
+    height: 34px;
+    line-height: 30px;
+    color: #ffffff;
+    border-radius: 3px;
+    border: none;
+    display: none;
+}
+
 
 .btn-confirm{
     border: none;

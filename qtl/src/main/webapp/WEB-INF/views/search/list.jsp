@@ -15,6 +15,7 @@
 
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
     <style>
         .nav li {
             position: relative;
@@ -337,6 +338,7 @@
             <div class="export-data">
                 <p class="btn-export-set">
                     <button class="btn btn-export"><img src="${ctxStatic}/images/export.png">导出数据</button>
+                    <button class="btn btn-exportR">数据准备中...</button>
                     <button class="btn set-up"><img src="${ctxStatic}/images/set.png">表格设置</button>
                 </p>
                 <p class="btn-group">
@@ -699,6 +701,8 @@
     $(".btn-export").off('click').click(function () {
             //表格导出 修复tomcat8无法识别的JSON格式问题
             var cdt = getParamsString();
+        $(".btn-export-set .btn-export").hide();
+        $(".btn-export-set .btn-exportR").show();
         //处理头部选项checked
         var str = "";
         $("input[type='checkbox']").each(function (index) {
@@ -721,10 +725,22 @@
                 dataType: "json",
                 contentType: "application/json",
                 success: function (result) {
+                    if(result.code == 0){
+                        $(".btn-export-set .btn-export").show();
+                        $(".btn-export-set .btn-exportR").hide();
+                    }
                     var path = 'http://' + extractHostname(window.location.href) + ':' + window.location.port;
                     window.location.href = path + result.data;
                 },
                 error: function (error) {
+                    $(".btn-export-set .btn-export").show();
+                    $(".btn-export-set .btn-exportR").hide();
+                    layer.open({
+                        type:0,
+                        titile:"温馨提示:",
+                        content:"因意外情况导出中断，请重新开始..."
+                    })
+
                     console.log(error);
                 }
             })
