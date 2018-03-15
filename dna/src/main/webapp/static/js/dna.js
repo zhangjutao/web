@@ -363,9 +363,7 @@ $(function () {
         function initFirstStyle (){
             $("#GlyIds ul li:first-child").addClass("GlyColor");
         };
-    $(".genesInfo a").click(function (){
-        $(".genesInfo").hide();
-    });
+
     var isPop = 0;
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (e){
@@ -376,7 +374,28 @@ $(function () {
             $(".js-gene-head-name").html(geneName);
             $("#geneIframe").attr("src", ctxRoot + "/dnagens/geneInfo?geneName=" + geneName + "&version=" + version);
             e.preventDefault();
-            $(".genesInfo").show();
+            //$(".genesInfo").show();
+
+            var genesInfoIndex;
+            genesInfoIndex =  layer.open({
+                title:"",
+                type: 1,
+                content: $(".genesInfo"),
+                area: ['980px','628px'],
+//                shade: [0.8, '#393D49'],
+                shadeClose:true,
+                scrollbar:false,
+                move: '.genesInfo-head',
+                closeBtn: 0,
+                offset:['135px', '320px'],
+                moveOut: false
+            });
+            $(".genesInfo-head>a").click(function (){
+                //$(".genesInfo").hide();
+                /* 关闭信息信息、弹框 */
+                layer.close(genesInfoIndex);
+            });
+        //修改拖拽样式 modified by zjt 2018-3-15
         // };
 
         if(!$(this).hasClass("GlyColor")){

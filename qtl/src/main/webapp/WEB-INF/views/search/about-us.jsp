@@ -195,6 +195,15 @@
     <script src="${ctxStatic}/js/layout.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+
+        //为mid绑定取消links-pop div事件 modified by zjt 2018-3-15
+        $("#mid").bind('click', function(){
+            $("#mid").hide();
+            $(".links-pop").hide();
+        });
+
+
+
         /*拖动弹框*/
 ////        $(".js-pop").draggable({ containment: ".js-pop-head"});
        $(".js-pop").draggable({ containment: "#mid", cancel : ".js-pop-body", scroll: false});
