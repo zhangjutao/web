@@ -57,7 +57,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     /**
      * 时间
      */
-    private String time;
+    private String definitionTime;
 
     /**
      * 分类地位
@@ -286,12 +286,12 @@ public class SampleInfo extends DataEntity<SampleInfo> {
         this.treat = treat == null ? null : treat.trim();
     }
 
-    public String getTime() {
-        return time;
+    public String getdefinitionTime() {
+        return definitionTime;
     }
 
-    public void setTime(String time) {
-        this.time = time == null ? null : time.trim();
+    public void setdefinitionTime(String definitionTime) {
+        this.definitionTime = definitionTime == null ? null : definitionTime.trim();
     }
 
     public String getTaxonomy() {
