@@ -121,17 +121,7 @@ public class SNPController {
     /**
      * 按基因条件搜索
      */
-    @RequestMapping(value = "/condition", method = RequestMethod.GET)
-    @ResponseBody
-    public ResultVO getByExample(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                 @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                 @RequestParam(value = "isPage", required = false) String isPage,
-                                 DnaRunDto dnaRunDto) {
-        logger.info(dnaRunDto.getGroup());
-        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
-        return ResultUtil.success(dnaRunPageInfo);
 
-    }
 
     /**
      * 查询默认群体
