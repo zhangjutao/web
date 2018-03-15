@@ -372,8 +372,8 @@ footer p{    clear: both;    text-align: center;padding-bottom: 25px}
 .genesInfo{
     position: fixed;
     z-index: 10000;
-    top:18%;
-    left: 18%;
+    top:auto;
+    left: auto;
     border: 1px solid #e6e6e6;
     background: #fff;
 }
