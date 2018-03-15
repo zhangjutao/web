@@ -275,8 +275,8 @@
             <if test="treat!=null and treat!=''">
                 AND treat like CONCAT('%',#{treat},'%')
             </if>
-            <if test="time!=null and time!=''">
-                AND time like CONCAT('%',#{time},'%')
+            <if test="definitionTime!=null and definitionTime!=''">
+                AND definition_time like CONCAT('%',#{definitionTime},'%')
             </if>
             <if test="taxonomy!=null and taxonomy!=''">
                 AND taxonomy like CONCAT('%',#{taxonomy},'%')
