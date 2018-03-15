@@ -195,40 +195,56 @@
     <script src="${ctxStatic}/js/layout.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
+
+        //为mid绑定取消links-pop div事件 modified by zjt 2018-3-15
+        $("#mid").bind('click', function(){
+            $("#mid").hide();
+            $(".links-pop").hide();
+        });
+
+
+
         /*拖动弹框*/
 ////        $(".js-pop").draggable({ containment: ".js-pop-head"});
-//        $(".js-pop").draggable({ containment: "parent"});
-//        $( ".links-pop" ).draggable({ containment: "parent"});
-//        $( ".tab-detail" ).draggable({ containment: "parent"});
+       $(".js-pop").draggable({ containment: "#mid", cancel : ".js-pop-body", scroll: false});
+       $( ".links-pop" ).draggable({ containment: "#mid", cancel : ".links-text", scroll: false});
+       $( ".tab-detail" ).draggable({ containment: "#mid", cancel : ".tab-detail-tbody", scroll: false});
         function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
             if (r != null) return unescape(r[2]); return null; //返回参数值
         }
+
         var index1,index2;
         /*maker1  --maker2*/
         function pop(name,title){
             $(name).click(function(e){
                 $(".js-pop-head span").html(title)
                 e.preventDefault();
-//                $("#mid").show();
-                $(".js-pop").show();
-//                $(".js-pop-body tbody").html();
+               $("#mid").show();
+               $("#mid").height($(window).height());
+               $("#mid").width($(window).width());
+               $(".js-pop").show();
+               $("#mid").bind('click', function(){
+                   $("#mid").hide();
+                   $(".js-pop").hide();
+               });
+//              $(".js-pop-body tbody").html();
                 var url=$(this).attr("data-src");
                 //定义拖拽
-                index2 = layer.open({
-                    title:"",
-                    type: 1,
-                    content:$(".js-pop"),
-                    area: '800px',
-                    shadeClose:true,
-                    scrollbar:false,
-                    move: '.js-pop-head',
-                    tips: 2,
-                    closeBtn: 0,
-                    offset: ['250px', '350px']
-
-                });
+                // index2 = layer.open({
+                //     title:"",
+                //     type: 1,
+                //     content:$(".js-pop"),
+                //     area: '800px',
+                //     shadeClose:true,
+                //     scrollbar:false,
+                //     move: '.js-pop-head',
+                //     tips: 2,
+                //     closeBtn: 0,
+                //     offset: ['250px', '350px']
+                //
+                // });
                 $.ajax({
                     url:url,
                     type:"get",
@@ -277,21 +293,25 @@
 
         $(".js-pop-genes").click(function(e){
             e.preventDefault();
-//            $("#mid").show();
-            $(".tab-detail").show();
-           index1 = layer.open({
-                title:"",
-                type: 1,
-                content:$(".tab-detail"),
-                area: '800px',
-                shadeClose:true,
-                scrollbar:false,
-                move: '.tabDetailTheadTitle',
-                tips: 2,
-                closeBtn: 0,
-                offset: ['250px', '350px']
-
-            });
+           $("#mid").show();
+           $(".tab-detail").show();
+           $("#mid").bind('click', function(){
+               $("#mid").hide();
+               $(".tab-detail").hide();
+           });
+           // index1 = layer.open({
+           //      title:"",
+           //      type: 1,
+           //      content:$(".tab-detail"),
+           //      area: '800px',
+           //      shadeClose:true,
+           //      scrollbar:false,
+           //      move: '.tabDetailTheadTitle',
+           //      tips: 2,
+           //      closeBtn: 0,
+           //      offset: ['250px', '350px']
+           //
+           //  });
         })
         $(".tab-category-list span").click(function(){
             $(".genesInfo").show()
@@ -304,12 +324,12 @@
 
 
         })
-        $(".js-pop-head a").click(function (){
-            layer.close(index2);
-        })
-        $(".tabDetailTheadTitle a").click(function (){
-            layer.close(index1);
-        })
+        // $(".js-pop-head a").click(function (){
+        //     layer.close(index2);
+        // })
+        // $(".tabDetailTheadTitle a").click(function (){
+        //     layer.close(index1);
+        // })
 
 
         $("body").on("click", ".js-gene-info", function(e) {
