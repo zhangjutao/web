@@ -66,12 +66,12 @@ public class FindSampleByIdTest extends TestCase{
         }
     }
 
-    @Test
+    /*@Test
     public void testFindListWithTypeHandler(){
         PageInfo<DNARunSearchResult> list = dnaRunService.findListWithTypeHandler(new DnaRunDto(), 1, 10, "1");
         assertNotNull(list);
         for (DNARunSearchResult result : list.getList()){
             System.out.println(result.getHilumColor());
         }
-    }
+    }*/
 }
