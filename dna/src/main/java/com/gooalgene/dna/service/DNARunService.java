@@ -17,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -146,11 +145,11 @@ public class DNARunService {
         return pageInfo;
     }
 
-    public PageInfo<DNARunSearchResult> getListByConditionWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
+    public PageInfo<DNARunSearchResult> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<DNARunSearchResult> list=dnaRunDao.getListByConditionWithTypeHandler(dnaRunDto);
+        List<DNARunSearchResult> list=dnaRunDao.getListByConditionWithTypeHandler(sampleInfo);
         PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
         return pageInfo;
     }

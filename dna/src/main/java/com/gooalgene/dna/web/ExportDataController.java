@@ -9,6 +9,7 @@ import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNARunService;
@@ -18,6 +19,8 @@ import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.Tools;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
+import com.google.gson.Gson;
+import com.jayway.jsonpath.JsonPath;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang3.StringUtils;
@@ -463,7 +466,7 @@ public class ExportDataController {
                 } else if ("SAMPLES".equals(model)) {
                     //增加两个字段  flag 和 cultivars
                     String group = request.getParameter("group");
-                    Page<SampleInfoDto> page = new Page<>(request, response);
+                    Page<DNARunSearchResult> page = new Page<>(request, response);
                     String temp = request.getParameter("total");       //获取数据的总数
                     //判断自定义群体使用的是按Group查询还是按品种名查询   group 表示按群体查询   cultivar表示按品种名查询
                     String flag = request.getParameter("flag");
@@ -811,23 +814,23 @@ public class ExportDataController {
     public String idDetailPageExport(@RequestParam("titles") String titles, @RequestParam("judgeAllele") String judgeAllele, HttpServletRequest request) {
 
         String condition = request.getParameter("condition");
-        JSONObject object = null;
+//        JSONObject object = null;
         boolean isINDEL = false;
         //dnaRunDto用来存储表头筛选的条件
-        DnaRunDto dnaRunDto = null;
+        SampleInfoDto sampleInfo = null;
         if (condition != null && !condition.equals("")) {
-            object = JSONObject.fromObject(condition);
-            dnaRunDto = Json2DnaRunDto.json2DnaRunDto(object);
+//            object = JSONObject.fromObject(condition);
+            sampleInfo = new Gson().fromJson(condition,SampleInfoDto.class);
         } else {
-            dnaRunDto = new DnaRunDto();
+            sampleInfo = new SampleInfoDto();
         }
         String snpId = "";
-        if (object != null && object.containsKey("snpId")) {
-            snpId = object.getString("snpId");
+        if (JsonPath.read(condition,"$.snpId")!="") {
+            snpId = JsonPath.read(condition,"$.snpId");
         }
         String changeParam = "";
-        if (object != null && object.containsKey("changeParam")) {
-            changeParam = object.getString("changeParam");
+        if (JsonPath.read(condition,"changeParam")!="") {
+            changeParam = JsonPath.read(condition,"changeParam");
         }
         Map result = snpService.findSampleById(snpId);
         SNP snpTemp = (SNP) result.get("snpData");
@@ -907,9 +910,9 @@ public class ExportDataController {
         }
         //查询结果集
         PageInfo<DNARunSearchResult> dnaRuns = null;
-        if (dnaRunDto != null && runNos.size() > 0) {
-            dnaRunDto.setRunNos(runNos);
-            dnaRuns = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+        if (sampleInfo != null && runNos.size() > 0) {
+            sampleInfo.setRunNos(runNos);
+            dnaRuns = dnaRunService.getListByConditionWithTypeHandler(sampleInfo, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
         }
         if(dnaRuns!=null){
             List<DNARunSearchResult> dnaRunSearchResultList= dnaRuns.getList();
@@ -1041,6 +1044,3 @@ public class ExportDataController {
         return JsonUtils.Bean2Json(path);
     }
 }
-
-
-

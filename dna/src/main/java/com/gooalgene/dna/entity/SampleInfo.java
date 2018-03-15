@@ -286,11 +286,11 @@ public class SampleInfo extends DataEntity<SampleInfo> {
         this.treat = treat == null ? null : treat.trim();
     }
 
-    public String getdefinitionTime() {
+    public String getDefinitionTime() {
         return definitionTime;
     }
 
-    public void setdefinitionTime(String definitionTime) {
+    public void setDefinitionTime(String definitionTime) {
         this.definitionTime = definitionTime == null ? null : definitionTime.trim();
     }
 

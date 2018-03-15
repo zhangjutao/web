@@ -234,7 +234,7 @@
         </trim>
     </select>
 
-    <select id="getListByConditionWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.entity.SampleInfo">
+    <select id="getListByConditionWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.SampleInfoDto">
         select
         <include refid="Base_Column_List" />
         from dna_run
