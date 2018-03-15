@@ -203,7 +203,7 @@ $(function (){
             environment:$(".environment").val(),//培养环境
             materials:$(".materials").val(), //材料
             treat:$(".treat").val(),//处理
-            time:$(".time").val(),//时间
+            definitionTime:$(".time").val(),//时间
             taxonomy:$(".taxonomy").val(),//分类地位
             myceliaPhenotype:$(".myceliaPhenotype").val(),//菌丝形态
             myceliaDiameter:$(".myceliaDiameter").val(),//菌丝直径
