@@ -31,7 +31,7 @@ public class SampleInfoDto {
 
     private String treat;//处理
 
-    private String time;//时间
+    private String definitionTime;//时间
 
     private String taxonomy;//分类地位
 
@@ -271,12 +271,12 @@ public class SampleInfoDto {
         this.treat = treat;
     }
 
-    public String getTime() {
-        return time;
+    public String getDefinitionTime() {
+        return definitionTime;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDefinitionTime(String definitionTime) {
+        this.definitionTime = definitionTime;
     }
 
     public String getTaxonomy() {

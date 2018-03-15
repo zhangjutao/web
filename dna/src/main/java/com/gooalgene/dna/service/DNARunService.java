@@ -7,6 +7,7 @@ import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
@@ -67,9 +68,9 @@ public class DNARunService {
                         }
                         result.put(groupName, runNoList);
                     } else {
-                        DNARun dnaRun = getQuery(condition);
+                        /*SampleInfo dnaRun = getQuery(condition);
                         List<String> list = querySamples(dnaRun);
-                        result.put(groupName, list);
+                        result.put(groupName, list);*/
                     }
                 }
             }
@@ -118,9 +119,9 @@ public class DNARunService {
             // 群组名字并未出现在查询中,为什么会使用到?
             String groupName = one.getString("name");
             String condition= one.getString("condition");
-            DNARun dnaRun=getQuery(condition);
+            SampleInfo sampleInfo=getQuery(condition);
             SampleInfoDto sampleInfoDto=new SampleInfoDto();
-            BeanUtils.copyProperties(dnaRun,sampleInfoDto);
+            BeanUtils.copyProperties(sampleInfo,sampleInfoDto);
             com.github.pagehelper.Page<Object> resultPage = PageHelper.startPage(page.getPageNo(), page.getPageSize());
             List<SampleInfoDto> list=dnaRunDao.findListWithTypeHandler(sampleInfoDto);
             page.setCount(resultPage.getTotal());
@@ -192,98 +193,52 @@ public class DNARunService {
      * @param conditions
      * @return
      */
-    private DNARun getQuery(String conditions) {
+    private SampleInfo getQuery(String conditions) {
         JSONObject jsonObject = JSONObject.fromObject(conditions);
-        DNARun dnaRun = new DNARun();
-        if (jsonObject.containsKey("species")) {
-            dnaRun.setSpecies(jsonObject.getString("species"));
+        SampleInfo sampleInfo = new SampleInfo();
+        if (jsonObject.containsKey("scientificName")) {
+            sampleInfo.setScientificName(jsonObject.getString("scientificName"));
         }
         if (jsonObject.containsKey("locality")) {
-            dnaRun.setLocality(jsonObject.getString("locality"));
+            sampleInfo.setLocality(jsonObject.getString("locality"));
         }
-        if (jsonObject.containsKey("weightPer100seeds")) {
-            JSONObject content = jsonObject.getJSONObject("weightPer100seeds");
-            dnaRun.setWeightPer100seeds_min(content.getString("min"));
-            dnaRun.setWeightPer100seeds_max(content.getString("max"));
+        if (jsonObject.containsKey("sampleId")) {
+            sampleInfo.setSampleId(jsonObject.getString("sampleId"));
         }
-        if (jsonObject.containsKey("oil")) {
-            JSONObject content = jsonObject.getJSONObject("oil");
-            dnaRun.setOil_min(content.getString("min"));
-            dnaRun.setOil_max(content.getString("max"));
+        if (jsonObject.containsKey("strainName")) {
+            sampleInfo.setStrainName(jsonObject.getString("strainName"));
         }
-        if (jsonObject.containsKey("protein")) {
-            JSONObject content = jsonObject.getJSONObject("protein");
-            dnaRun.setProtein_min(content.getString("min"));
-            dnaRun.setProtein_max(content.getString("max"));
+        if (jsonObject.containsKey("preservationLocation")) {
+            sampleInfo.setPreservationLocation(jsonObject.getString("preservationLocation"));
         }
-        if (jsonObject.containsKey("floweringDate")) {
-//            dnaRun.setFloweringDate(jsonObject.getString("floweringDate"));
+        if (jsonObject.containsKey("type")) {
+            sampleInfo.setType(jsonObject.getString("type"));
         }
-        if (jsonObject.containsKey("maturityDate")) {
-            dnaRun.setMaturityDate(jsonObject.getString("maturityDate"));
+        if (jsonObject.containsKey("environment")) {
+            sampleInfo.setEnvironment(jsonObject.getString("environment"));
         }
-        if (jsonObject.containsKey("height")) {
-            JSONObject content = jsonObject.getJSONObject("height");
-            dnaRun.setHeight_min(content.getString("min"));
-            dnaRun.setHeight_max(content.getString("max"));
+        if (jsonObject.containsKey("materials")) {
+            sampleInfo.setMaterials(jsonObject.getString("materials"));
         }
-        if (jsonObject.containsKey("seedCoatColor")) {
-            dnaRun.setSeedCoatColor(jsonObject.getString("seedCoatColor"));
+        if (jsonObject.containsKey("treat")) {
+            sampleInfo.setTreat(jsonObject.getString("treat"));
         }
-        if (jsonObject.containsKey("hilumColor")) {
-            dnaRun.setHilumColor(jsonObject.getString("hilumColor"));
+        if (jsonObject.containsKey("definitionTime")) {
+            sampleInfo.setdefinitionTime(jsonObject.getString("definitionTime"));
         }
-        if (jsonObject.containsKey("cotyledonColor")) {
-            dnaRun.setCotyledonColor(jsonObject.getString("cotyledonColor"));
+        if (jsonObject.containsKey("taxonomy")) {
+            sampleInfo.setTaxonomy(jsonObject.getString("taxonomy"));
         }
-        if (jsonObject.containsKey("flowerColor")) {
-            dnaRun.setFlowerColor(jsonObject.getString("flowerColor"));
+        if (jsonObject.containsKey("myceliaPhenotype")) {
+            sampleInfo.setMyceliaPhenotype(jsonObject.getString("myceliaPhenotype"));
         }
-        if (jsonObject.containsKey("podColor")) {
-            dnaRun.setPodColor(jsonObject.getString("podColor"));
+        if (jsonObject.containsKey("myceliaDiameter")) {
+            sampleInfo.setMyceliaDiameter(jsonObject.getString("myceliaDiameter"));
         }
-        if (jsonObject.containsKey("pubescenceColor")) {
-            dnaRun.setPubescenceColor(jsonObject.getString("pubescenceColor"));
+        if (jsonObject.containsKey("myceliaColor")) {
+            sampleInfo.setMyceliaColor(jsonObject.getString("myceliaColor"));
         }
-        if (jsonObject.containsKey("yield")) {
-            JSONObject content = jsonObject.getJSONObject("yield");
-            dnaRun.setYield_min(content.getString("min"));
-            dnaRun.setYield_max(content.getString("max"));
-        }
-        if (jsonObject.containsKey("upperLeafletLength")) {
-            JSONObject content = jsonObject.getJSONObject("upperLeafletLength");
-            dnaRun.setUpperLeafletLength_min(content.getString("min"));
-            dnaRun.setUpperLeafletLength_max(content.getString("max"));
-        }
-        if (jsonObject.containsKey("linoleic")) {
-            JSONObject content = jsonObject.getJSONObject("linoleic");
-            dnaRun.setLinoleic_min(content.getString("min"));
-            dnaRun.setLinoleic_max(content.getString("max"));
-        }
-        if (jsonObject.containsKey("linolenic")) {
-            JSONObject content = jsonObject.getJSONObject("linolenic");
-            dnaRun.setLinolenic_min(content.getString("min"));
-            dnaRun.setLinolenic_max(content.getString("max"));
-        }
-        if (jsonObject.containsKey("oleic")) {
-            JSONObject content = jsonObject.getJSONObject("oleic");
-            dnaRun.setOleic_min(content.getString("min"));
-            dnaRun.setOleic_max(content.getString("max"));
-        }
-        if (jsonObject.containsKey("palmitic")) {
-            JSONObject content = jsonObject.getJSONObject("palmitic");
-            dnaRun.setPalmitic_min(content.getString("min"));
-            dnaRun.setPalmitic_max(content.getString("max"));
-        }
-        if (jsonObject.containsKey("stearic")) {
-            JSONObject content = jsonObject.getJSONObject("stearic");
-            dnaRun.setStearic_min(content.getString("min"));
-            dnaRun.setStearic_max(content.getString("max"));
-        }
-        if (jsonObject.containsKey("cultivar")) {
-            dnaRun.setCultivar(jsonObject.getString("cultivar"));
-        }
-        return dnaRun;
+        return sampleInfo;
     }
 
     public JSONArray searchStudybyKeywords(String type, String keywords, Page<DNARun> page) {
