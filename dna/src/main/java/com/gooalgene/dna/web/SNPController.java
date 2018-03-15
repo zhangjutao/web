@@ -51,12 +51,6 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/dna")
 public class SNPController {
-    @RequestMapping("/me")
-    public Authentication auth() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication;
-    }
-
     Logger logger = LoggerFactory.getLogger(SNPController.class);
 
     @Autowired
@@ -126,8 +120,6 @@ public class SNPController {
 
     /**
      * 按基因条件搜索
-     *
-     * @return
      */
     @RequestMapping(value = "/condition", method = RequestMethod.GET)
     @ResponseBody
@@ -273,7 +265,6 @@ public class SNPController {
     @RequestMapping("/searchIdAndPosInGene")
     @ResponseBody
     public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) {
-        logger.info("请求接到了");
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String gene = request.getParameter("gene");
@@ -657,7 +648,7 @@ public class SNPController {
     }
 
     /**
-     * 区分mainor和majora
+     * 区分minor和major
      */
     @RequestMapping(value = "/changeByProportion", method = RequestMethod.GET)
     public ResultVO changeByProportion(@RequestParam("snpId") String snpId, @RequestParam("changeParam") String changeParam,
