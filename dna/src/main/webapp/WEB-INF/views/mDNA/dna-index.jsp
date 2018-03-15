@@ -68,7 +68,7 @@
             padding: 0 20px;
             font-size: 20px;
             position: absolute;
-            right: 0px;
+            right: -15px;
             top: 0;
         }
     </style>
@@ -451,10 +451,16 @@
 <script src="${ctxStatic}/js/addTags.js"></script>
 <script>
     /* 详情信息弹框可拖动 */
+    /*
     $( ".genesInfo" ).draggable({
         containment: "body",
         cancel: '#mask-test',
-    });
+    });*/
+
+
+
+
+    //修改拖拽样式 modified by zjt 2018-3-15
 </script>
 
 </body>
