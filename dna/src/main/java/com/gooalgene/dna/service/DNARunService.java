@@ -5,6 +5,7 @@ import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
+import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.google.common.collect.Lists;
@@ -118,10 +119,10 @@ public class DNARunService {
             String groupName = one.getString("name");
             String condition= one.getString("condition");
             DNARun dnaRun=getQuery(condition);
-            DnaRunDto dnaRunDto=new DnaRunDto();
-            BeanUtils.copyProperties(dnaRun,dnaRunDto);
+            SampleInfoDto sampleInfoDto=new SampleInfoDto();
+            BeanUtils.copyProperties(dnaRun,sampleInfoDto);
             com.github.pagehelper.Page<Object> resultPage = PageHelper.startPage(page.getPageNo(), page.getPageSize());
-            List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
+            List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(sampleInfoDto);
             page.setCount(resultPage.getTotal());
             page.setList(list);
             for (DNARunSearchResult dnaRunSearchResult : list) {
@@ -154,14 +155,14 @@ public class DNARunService {
         return pageInfo;
     }
 
-    public PageInfo<DNARunSearchResult> findListWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
+    /*public PageInfo<DNARunSearchResult> findListWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
         List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
         PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
         return pageInfo;
-    }
+    }*/
 
     public  List<DNARun> getAll(){
         return dnaRunDao.getListByCondition(new DnaRunDto());

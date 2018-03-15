@@ -8,7 +8,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>大豆基因表达量数据库</title>
+    <title>蘑菇基因表达量数据库</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
@@ -38,7 +38,7 @@
 <section class="container">
     <div class="banner">
         <div class="plant-pic">
-            <%@ include file="/WEB-INF/views/include/soybean-mnra.jsp" %>
+            <img src="${ctxStatic}/images/mRNA-banner-mogu-bg.jpg">
         </div>
         <div class="search">
             <select class="js-search-select">

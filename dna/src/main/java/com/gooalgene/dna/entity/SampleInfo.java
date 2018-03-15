@@ -114,7 +114,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
      */
     private String stipeColor;
 
-    private Float yield;
+    //private Float yield;
 
     /**
      * 子实体颜色
@@ -200,6 +200,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
      * 交配型
      */
     private String matingType;
+    private String keywords;//后台管理搜索
 
     public SampleInfo() {
         super();
@@ -381,14 +382,6 @@ public class SampleInfo extends DataEntity<SampleInfo> {
         this.stipeColor = stipeColor == null ? null : stipeColor.trim();
     }
 
-    public Float getYield() {
-        return yield;
-    }
-
-    public void setYield(Float yield) {
-        this.yield = yield;
-    }
-
     public String getFruitbodyColor() {
         return fruitbodyColor;
     }
@@ -523,5 +516,13 @@ public class SampleInfo extends DataEntity<SampleInfo> {
 
     public void setMatingType(String matingType) {
         this.matingType = matingType == null ? null : matingType.trim();
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
     }
 }

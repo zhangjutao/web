@@ -31,7 +31,7 @@
         <result column="yield" property="yield" jdbcType="REAL" />
         <result column="category" property="group" jdbcType="VARCHAR" />
     </resultMap>
-    <resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
+    <!--<resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="run_no" property="runNo" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
         <result column="species" property="species" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
@@ -58,7 +58,8 @@
         <result column="maturity_date" property="maturityDate" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="yield" property="yield" jdbcType="DOUBLE"  typeHandler="com.gooalgene.dna.util.ZeroDecimalToNullHandler"/>
         <result column="category" property="group" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
-    </resultMap>
+    </resultMap>-->
+
     <sql id="Base_Column_List" >
         id, run_no, species, sample_name, cultivar, plant_name, locality, protein, oil, linoleic,
         linolenic, oleic, palmitic, stearic, height, flower_color, hilum_color, pod_color,
@@ -456,7 +457,7 @@
         </if>
     </select>
 
-    <select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
+    <!--<select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.DnaRunDto">
         SELECT * from dna_run
         WHERE 1=1
         <if test="keywords!=null">
@@ -552,6 +553,205 @@
         </if>
         <if test="sampleName!=null">
             AND sample_name=#{sampleName}
+        </if>
+    </select>-->
+    <resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
+        <id column="id" property="id" jdbcType="INTEGER" />
+        <result column="run_no" property="runNo" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="scientific_name" property="scientificName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="sample_id" property="sampleId" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="strain_name" property="strainName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="preservation_location" property="preservationLocation" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="locality" property="locality" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="type" property="type" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="environment" property="environment" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"  />
+        <result column="materials" property="materials" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="treat" property="treat" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"  />
+        <result column="time" property="time" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="taxonomy" property="taxonomy" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="mycelia_phenotype" property="myceliaPhenotype" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="mycelia_diameter" property="myceliaDiameter" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="mycelia_color" property="myceliaColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="spores_color" property="sporesColor" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
+        <result column="spores_shape" property="sporesShape" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="clamp_connection" property="clampConnection" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="pileus_phenotype" property="pileusPhenotype" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="pileus_color" property="pileusColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="stipe_phenotype" property="stipePhenotype" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="stipe_color" property="stipeColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="fruitbody_color" property="fruitbodyColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="yield" property="yield" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+
+        <result column="fruitbody_type" property="fruitbodyType" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="illumination" property="illumination" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="collarium" property="collarium" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="volva" property="volva" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="velum" property="velum" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="sclerotium" property="sclerotium" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="strain_medium" property="strainMedium" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="main_substrate" property="mainSubstrate" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="after_ripening_stage" property="afterRipeningStage" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="primordial_stimulation_fruitbody" property="primordialStimulationFruitbody" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="reproductive_mode" property="reproductiveMode" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="lifestyle" property="lifestyle" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="preservation" property="preservation" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="domestication" property="domestication" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="nuclearPhase" property="nuclearPhase" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+        <result column="matingType" property="matingType" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+    </resultMap>
+    <select id="findListWithTypeHandler" resultMap="HandlerResultMap" parameterType="com.gooalgene.dna.dto.SampleInfoDto">
+        SELECT * from dna_run
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND (
+            run_no LIKE CONCAT('%',#{keywords},'%') OR scientific_name LIKE CONCAT('%',#{keywords},'%') OR sample_id LIKE CONCAT('%',#{keywords},'%')
+            OR strain_name LIKE CONCAT('%',#{keywords},'%') OR
+            preservation_location LIKE CONCAT('%',#{keywords},'%') OR locality LIKE CONCAT('%',#{keywords},'%') OR type LIKE CONCAT('%',#{keywords},'%')
+            OR environment LIKE CONCAT('%',#{keywords},'%') OR
+            materials LIKE CONCAT('%',#{keywords},'%') OR treat LIKE CONCAT('%',#{keywords},'%') OR time LIKE CONCAT('%',#{keywords},'%')
+            OR taxonomy LIKE CONCAT('%',#{keywords},'%') OR
+            mycelia_phenotype LIKE CONCAT('%',#{keywords},'%') OR mycelia_diameter LIKE CONCAT('%',#{keywords},'%') OR mycelia_color LIKE CONCAT('%',#{keywords},'%')
+            OR spores_color LIKE CONCAT('%',#{keywords},'%') OR
+            spores_shape LIKE CONCAT('%',#{keywords},'%') OR clamp_connection LIKE CONCAT('%',#{keywords},'%')
+            OR pileus_phenotype LIKE CONCAT('%',#{keywords},'%') OR pileus_color LIKE CONCAT('%',#{keywords},'%') OR
+            stipe_phenotype LIKE CONCAT('%',#{keywords},'%') OR stipe_color LIKE CONCAT('%',#{keywords},'%') OR
+            fruitbody_color LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%')
+            OR fruitbody_type LIKE CONCAT('%',#{keywords},'%') OR illumination LIKE CONCAT('%',#{keywords},'%')
+            OR collarium LIKE CONCAT('%',#{keywords},'%')
+            OR volva LIKE CONCAT('%',#{keywords},'%')
+            OR velum LIKE CONCAT('%',#{keywords},'%')
+            OR sclerotium LIKE CONCAT('%',#{keywords},'%')
+            OR strain_medium LIKE CONCAT('%',#{keywords},'%')
+            OR main_substrate LIKE CONCAT('%',#{keywords},'%')
+            OR after_ripening_stage LIKE CONCAT('%',#{keywords},'%')
+            OR primordial_stimulation_fruitbody LIKE CONCAT('%',#{keywords},'%')
+            OR reproductive_mode LIKE CONCAT('%',#{keywords},'%')
+            OR lifestyle LIKE CONCAT('%',#{keywords},'%')
+            OR preservation LIKE CONCAT('%',#{keywords},'%')
+            OR domestication LIKE CONCAT('%',#{keywords},'%')
+            OR nuclearPhase LIKE CONCAT('%',#{keywords},'%')
+            OR matingType LIKE CONCAT('%',#{keywords},'%')
+            )
+        </if>
+        <if test="scientificName!=null">
+            AND scientific_name = #{scientificName}
+        </if>
+        <if test="sampleId!=null">
+            AND sample_id = #{sampleId}
+        </if>
+        <if test="strainName!=null">
+            AND strain_name = #{strainName}
+        </if>
+        <if test="locality!=null">
+            <choose>
+                <when test="locality=='Other'">
+                    AND locality NOT REGEXP 'China|United States|Japan|Korea|Brazil'
+                </when>
+                <otherwise>
+                    AND locality LIKE CONCAT('%',#{locality},'%')
+                </otherwise>
+            </choose>
+        </if>
+        <if test="preservationLocation!=null">
+            AND preservation_location = #{preservationLocation}
+        </if>
+        <if test="type!=null">
+            AND type = #{type}
+        </if>
+        <if test="environment!=null">
+            AND environment =#{environment}
+        </if>
+        <if test="materials!=null">
+            AND materials =#{materials}
+        </if>
+        <if test="treat!=null">
+            AND treat = #{treat}
+        </if>
+
+
+        <if test="time!=null">
+            AND time=#{time}
+        </if>
+        <if test="myceliaPhenotype!=null">
+            AND mycelia_phenotype=#{myceliaPhenotype}
+        </if>
+        <if test="myceliaDiameter!=null">
+            AND mycelia_diameter=#{myceliaDiameter}
+        </if>
+        <if test="myceliaColor!=null">
+            AND mycelia_color=#{myceliaColor}
+        </if>
+        <if test="sporesColor!=null">
+            AND spores_color=#{sporesColor}
+        </if>
+        <if test="sporesShape!=null">
+            AND spores_shape=#{sporesShape}
+        </if>
+        <if test="clampConnection!=null">
+            AND clamp_connection=#{clampConnection}
+        </if>
+        <if test="pileusPhenotype!=null">
+            AND pileus_phenotype=#{pileusPhenotype}
+        </if>
+        <if test="pileusColor!=null">
+            AND pileus_color=#{pileusColor}
+        </if>
+        <if test="stipePhenotype!=null">
+            AND stipe_phenotype=#{stipePhenotype}
+        </if>
+        <if test="stipeColor!=null">
+            AND stipe_color=#{stipeColor}
+        </if>
+        <if test="fruitbodyColor!=null">
+            AND fruitbody_color=#{fruitbodyColor}
+        </if>
+        <if test="fruitbodyType!=null">
+            AND fruitbody_type=#{fruitbodyType}
+        </if>
+        <if test="illumination!=null">
+            AND illumination=#{illumination}
+        </if>
+        <if test="collarium!=null">
+            AND collarium=#{collarium}
+        </if>
+        <if test="volva!=null">
+            AND volva=#{volva}
+        </if>
+        <if test="velum!=null">
+            AND velum=#{velum}
+        </if>
+        <if test="sclerotium!=null">
+            AND sclerotium=#{sclerotium}
+        </if>
+        <if test="strainMedium!=null">
+            AND strain_medium=#{strainMedium}
+        </if>
+        <if test="mainSubstrate!=null">
+            AND main_substrate=#{mainSubstrate}
+        </if>
+        <if test="afterRipeningStage!=null">
+            AND after_ripening_stage=#{afterRipeningStage}
+        </if>
+        <if test="primordialStimulationFruitbody!=null">
+            AND primordial_stimulation_fruitbody=#{primordialStimulationFruitbody}
+        </if>
+        <if test="reproductiveMode!=null">
+            AND reproductive_mode=#{reproductiveMode}
+        </if>
+        <if test="lifestyle!=null">
+            AND lifestyle=#{lifestyle}
+        </if>
+        <if test="preservation!=null">
+            AND preservation=#{preservation}
+        </if>
+        <if test="domestication!=null">
+            AND domestication=#{domestication}
+        </if>
+        <if test="nuclearPhase!=null">
+            AND nuclear_phase=#{nuclearPhase}
+        </if>
+        <if test="matingType!=null">
+            AND mating_type=#{matingType}
         </if>
     </select>
 
