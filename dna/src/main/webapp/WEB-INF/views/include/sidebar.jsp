@@ -2272,7 +2272,11 @@
             var choiceArr = [];
             $.each(_labels, function (idx, item) {
                 if ($(item).hasClass("checkbox-ac")) {
-                    choiceArr.push($(item).attr("for"));
+                    var title = $(item).attr("for");
+                    if(title=='time'){
+                        title='definitionTime';
+                    }
+                    choiceArr.push(title);
                 }
             });
             $("#exportForm").find(".group").val(JSON.stringify(currPopu));

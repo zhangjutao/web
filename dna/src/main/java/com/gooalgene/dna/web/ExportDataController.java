@@ -570,7 +570,11 @@ public class ExportDataController {
                     titles[i] = "frequencyOfMinorAllele";
                     sb.append("frequencyOfMinorAllele");
                 } else {
-                    sb.append(titles[i]);
+                    if(StringUtils.equals(titles[i],"definitionTime")){
+                        sb.append("time");
+                    }else {
+                        sb.append(titles[i]);
+                    }
                 }
                 if (i != (len - 1)) {
                     sb.append(",");
