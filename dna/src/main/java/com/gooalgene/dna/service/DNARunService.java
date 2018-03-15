@@ -107,7 +107,7 @@ public class DNARunService {
      * @param page
      * @return
      */
-    public Map queryDNARunByGroup(String group, Page<DNARunSearchResult> page) {
+    public Map queryDNARunByGroup(String group, Page<SampleInfoDto> page) {
         Map result = new HashMap();
         result.put("group", group);
         result.put("pageNo", page.getPageNo());
@@ -122,11 +122,11 @@ public class DNARunService {
             SampleInfoDto sampleInfoDto=new SampleInfoDto();
             BeanUtils.copyProperties(dnaRun,sampleInfoDto);
             com.github.pagehelper.Page<Object> resultPage = PageHelper.startPage(page.getPageNo(), page.getPageSize());
-            List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(sampleInfoDto);
+            List<SampleInfoDto> list=dnaRunDao.findListWithTypeHandler(sampleInfoDto);
             page.setCount(resultPage.getTotal());
             page.setList(list);
-            for (DNARunSearchResult dnaRunSearchResult : list) {
-                data.add(dnaRunSearchResult.toJSON());
+            for (SampleInfoDto sampleInfoDtoItem : list) {
+                data.add(sampleInfoDtoItem);
             }
         }
         result.put("total", page.getCount());

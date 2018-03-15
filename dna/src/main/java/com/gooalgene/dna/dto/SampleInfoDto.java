@@ -7,6 +7,8 @@ public class SampleInfoDto {
     public static final String GT="gt";
     public static final String LT="lt";
 
+    private String id;
+
     private String runNo;//run编号
 
     private List<String> runNos;
@@ -43,6 +45,14 @@ public class SampleInfoDto {
 
 
     private String keywords;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * 孢子颜色

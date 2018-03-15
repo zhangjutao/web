@@ -27,5 +27,5 @@ public interface DNARunDao extends CrudDao<DNARun> {
 
     List<DNARun> getByCultivarForExport(List<String> list);
 
-    List<DNARunSearchResult> findListWithTypeHandler(SampleInfoDto sampleInfoDto);
+    List<SampleInfoDto> findListWithTypeHandler(SampleInfoDto sampleInfoDto);
 }

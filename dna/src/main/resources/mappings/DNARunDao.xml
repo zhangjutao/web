@@ -555,7 +555,7 @@
             AND sample_name=#{sampleName}
         </if>
     </select>-->
-    <resultMap id="HandlerResultMap" type="com.gooalgene.dna.entity.result.DNARunSearchResult" >
+    <resultMap id="HandlerResultMap" type="com.gooalgene.dna.dto.SampleInfoDto" >
         <id column="id" property="id" jdbcType="INTEGER" />
         <result column="run_no" property="runNo" jdbcType="VARCHAR" typeHandler="com.gooalgene.dna.util.StringlToNullHandler" />
         <result column="scientific_name" property="scientificName" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
@@ -580,7 +580,7 @@
         <result column="stipe_phenotype" property="stipePhenotype" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="stipe_color" property="stipeColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="fruitbody_color" property="fruitbodyColor" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
-        <result column="yield" property="yield" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
+
 
         <result column="fruitbody_type" property="fruitbodyType" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
         <result column="illumination" property="illumination" jdbcType="VARCHAR"  typeHandler="com.gooalgene.dna.util.StringlToNullHandler"/>
@@ -615,7 +615,7 @@
             spores_shape LIKE CONCAT('%',#{keywords},'%') OR clamp_connection LIKE CONCAT('%',#{keywords},'%')
             OR pileus_phenotype LIKE CONCAT('%',#{keywords},'%') OR pileus_color LIKE CONCAT('%',#{keywords},'%') OR
             stipe_phenotype LIKE CONCAT('%',#{keywords},'%') OR stipe_color LIKE CONCAT('%',#{keywords},'%') OR
-            fruitbody_color LIKE CONCAT('%',#{keywords},'%') OR yield LIKE CONCAT('%',#{keywords},'%')
+            fruitbody_color LIKE CONCAT('%',#{keywords},'%')
             OR fruitbody_type LIKE CONCAT('%',#{keywords},'%') OR illumination LIKE CONCAT('%',#{keywords},'%')
             OR collarium LIKE CONCAT('%',#{keywords},'%')
             OR volva LIKE CONCAT('%',#{keywords},'%')
