@@ -2,156 +2,204 @@ package com.gooalgene.dna.entity;
 
 import com.gooalgene.common.DataEntity;
 
-import java.math.BigDecimal;
-
 public class SampleInfo extends DataEntity<SampleInfo> {
 
+    /**
+     * 样本编号
+     */
     private String runNo;
 
+    /**
+     * 物种名称
+     */
     private String scientificName;
 
+    /**
+     * 编号
+     */
     private String sampleId;
 
+    /**
+     * 菌株名称
+     */
     private String strainName;
 
+    /**
+     * 地理位置
+     */
     private String locality;
 
+    /**
+     * 保藏地点
+     */
     private String preservationLocation;
 
+    /**
+     * 类型
+     */
     private String type;
 
+    /**
+     * 培养环境
+     */
     private String environment;
 
+    /**
+     * 材料
+     */
     private String materials;
 
+    /**
+     * 处理
+     */
     private String treat;
 
+    /**
+     * 时间
+     */
     private String time;
 
+    /**
+     * 分类地位
+     */
     private String taxonomy;
 
+    /**
+     * 菌丝形态
+     */
     private String myceliaPhenotype;
 
+    /**
+     * 菌丝直径
+     */
     private String myceliaDiameter;
 
+    /**
+     * 菌丝颜色
+     */
     private String myceliaColor;
 
-    private Float myceliumGrowthRate;
-
-    private String gillPhenotype;
-
-    private String gillColor;
-
+    /**
+     * 孢子颜色
+     */
     private String sporesColor;
 
+    /**
+     * 孢子形态
+     */
     private String sporesShape;
 
+    /**
+     * 锁状联合
+     */
     private String clampConnection;
 
-    private Float pileusLength;
-
-    private Float pileusWidth;
-
-    private Float pileusThickness;
-
+    /**
+     * 菌盖形态
+     */
     private String pileusPhenotype;
 
+    /**
+     * 菌盖颜色
+     */
     private String pileusColor;
 
-    private Float stipeLength;
-
-    private Float stipeDiameter;
-
+    /**
+     * 菌柄形态
+     */
     private String stipePhenotype;
 
+    /**
+     * 菌柄颜色
+     */
     private String stipeColor;
 
     private Float yield;
 
+    /**
+     * 子实体颜色
+     */
     private String fruitbodyColor;
 
+    /**
+     * 子实体形态
+     */
     private String fruitbodyType;
 
+    /**
+     * 光照
+     */
     private String illumination;
 
+    /**
+     * 菌环
+     */
     private String collarium;
 
+    /**
+     * 菌托
+     */
     private String volva;
 
+    /**
+     * 菌幕
+     */
     private String velum;
 
+    /**
+     * 菌核
+     */
     private String sclerotium;
 
+    /**
+     * 菌种培养基
+     */
     private String strainMedium;
 
+    /**
+     * 主要栽培基质
+     */
     private String mainSubstrate;
 
+    /**
+     * 后熟期
+     */
     private String afterRipeningStage;
 
+    /**
+     * 原基刺激以及子实体
+     */
     private String primordialStimulationFruitbody;
 
+    /**
+     * 生殖方式
+     */
     private String reproductiveMode;
 
+    /**
+     * 生活方式
+     */
     private String lifestyle;
 
+    /**
+     * 保藏方法
+     */
     private String preservation;
 
+    /**
+     * 驯化
+     */
     private String domestication;
 
+    /**
+     * 核相
+     */
     private String nuclearPhase;
 
+    /**
+     * 交配型
+     */
     private String matingType;
-
-    public SampleInfo(String runNo, String scientificName, String sampleId, String strainName, String locality, String preservationLocation, String type, String environment, String materials, String treat, String time, String taxonomy, String myceliaPhenotype, String myceliaDiameter, String myceliaColor, Float myceliumGrowthRate, String gillPhenotype, String gillColor, String sporesColor, String sporesShape, String clampConnection, Float pileusLength, Float pileusWidth, Float pileusThickness, String pileusPhenotype, String pileusColor, Float stipeLength, Float stipeDiameter, String stipePhenotype, String stipeColor, Float yield, String fruitbodyColor, String fruitbodyType, String illumination, String collarium, String volva, String velum, String sclerotium, String strainMedium, String mainSubstrate, String afterRipeningStage, String primordialStimulationFruitbody, String reproductiveMode, String lifestyle, String preservation, String domestication, String nuclearPhase, String matingType) {
-        this.runNo = runNo;
-        this.scientificName = scientificName;
-        this.sampleId = sampleId;
-        this.strainName = strainName;
-        this.locality = locality;
-        this.preservationLocation = preservationLocation;
-        this.type = type;
-        this.environment = environment;
-        this.materials = materials;
-        this.treat = treat;
-        this.time = time;
-        this.taxonomy = taxonomy;
-        this.myceliaPhenotype = myceliaPhenotype;
-        this.myceliaDiameter = myceliaDiameter;
-        this.myceliaColor = myceliaColor;
-        this.myceliumGrowthRate = myceliumGrowthRate;
-        this.gillPhenotype = gillPhenotype;
-        this.gillColor = gillColor;
-        this.sporesColor = sporesColor;
-        this.sporesShape = sporesShape;
-        this.clampConnection = clampConnection;
-        this.pileusLength = pileusLength;
-        this.pileusWidth = pileusWidth;
-        this.pileusThickness = pileusThickness;
-        this.pileusPhenotype = pileusPhenotype;
-        this.pileusColor = pileusColor;
-        this.stipeLength = stipeLength;
-        this.stipeDiameter = stipeDiameter;
-        this.stipePhenotype = stipePhenotype;
-        this.stipeColor = stipeColor;
-        this.yield = yield;
-        this.fruitbodyColor = fruitbodyColor;
-        this.fruitbodyType = fruitbodyType;
-        this.illumination = illumination;
-        this.collarium = collarium;
-        this.volva = volva;
-        this.velum = velum;
-        this.sclerotium = sclerotium;
-        this.strainMedium = strainMedium;
-        this.mainSubstrate = mainSubstrate;
-        this.afterRipeningStage = afterRipeningStage;
-        this.primordialStimulationFruitbody = primordialStimulationFruitbody;
-        this.reproductiveMode = reproductiveMode;
-        this.lifestyle = lifestyle;
-        this.preservation = preservation;
-        this.domestication = domestication;
-        this.nuclearPhase = nuclearPhase;
-        this.matingType = matingType;
-    }
 
     public SampleInfo() {
         super();
@@ -277,30 +325,6 @@ public class SampleInfo extends DataEntity<SampleInfo> {
         this.myceliaColor = myceliaColor == null ? null : myceliaColor.trim();
     }
 
-    public Float getMyceliumGrowthRate() {
-        return myceliumGrowthRate;
-    }
-
-    public void setMyceliumGrowthRate(Float myceliumGrowthRate) {
-        this.myceliumGrowthRate = myceliumGrowthRate;
-    }
-
-    public String getGillPhenotype() {
-        return gillPhenotype;
-    }
-
-    public void setGillPhenotype(String gillPhenotype) {
-        this.gillPhenotype = gillPhenotype == null ? null : gillPhenotype.trim();
-    }
-
-    public String getGillColor() {
-        return gillColor;
-    }
-
-    public void setGillColor(String gillColor) {
-        this.gillColor = gillColor == null ? null : gillColor.trim();
-    }
-
     public String getSporesColor() {
         return sporesColor;
     }
@@ -325,30 +349,6 @@ public class SampleInfo extends DataEntity<SampleInfo> {
         this.clampConnection = clampConnection == null ? null : clampConnection.trim();
     }
 
-    public Float getPileusLength() {
-        return pileusLength;
-    }
-
-    public void setPileusLength(Float pileusLength) {
-        this.pileusLength = pileusLength;
-    }
-
-    public Float getPileusWidth() {
-        return pileusWidth;
-    }
-
-    public void setPileusWidth(Float pileusWidth) {
-        this.pileusWidth = pileusWidth;
-    }
-
-    public Float getPileusThickness() {
-        return pileusThickness;
-    }
-
-    public void setPileusThickness(Float pileusThickness) {
-        this.pileusThickness = pileusThickness;
-    }
-
     public String getPileusPhenotype() {
         return pileusPhenotype;
     }
@@ -363,22 +363,6 @@ public class SampleInfo extends DataEntity<SampleInfo> {
 
     public void setPileusColor(String pileusColor) {
         this.pileusColor = pileusColor == null ? null : pileusColor.trim();
-    }
-
-    public Float getStipeLength() {
-        return stipeLength;
-    }
-
-    public void setStipeLength(Float stipeLength) {
-        this.stipeLength = stipeLength;
-    }
-
-    public Float getStipeDiameter() {
-        return stipeDiameter;
-    }
-
-    public void setStipeDiameter(Float stipeDiameter) {
-        this.stipeDiameter = stipeDiameter;
     }
 
     public String getStipePhenotype() {
