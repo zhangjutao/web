@@ -15,3 +15,6 @@ CREATE PROCEDURE checkUserLoginInfo(IN advance INT)
       ORDER BY a.logintime DESC ;
     END IF;
   END;
+
+#用户登录信息表中增加ip字段
+ALTER TABLE login_info ADD COLUMN ip VARCHAR(20);
