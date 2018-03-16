@@ -140,7 +140,7 @@ public class SNPService {
 
 
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
-        List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
+        // List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
