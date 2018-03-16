@@ -1622,12 +1622,13 @@ $(function () {
             })
         }
         // snp 位点基因查询
-        function getSnpPointGene(tabid){
+        function getSnpPointGene(tabid,currSNP,pageSizeSNP){
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
                 singleData.index = snpIndex;
                 singleData.id = tabid;
                 singleData.type = type;
+                singleData.pageNum = currSNP;
                 singleData.pageSize = pageSizeSNP;
                 singleData.ctype = snpPintDatasGene.ctype;
                 singleData.upstream = snpPintDatasGene.upstream;
@@ -1641,9 +1642,32 @@ $(function () {
                 contentType:"application/json",
                 dataType:"json",
                 success:function (result){
+
                     if(type == "SNP"){
+                        console.log(result)
                         renderSNPTable(result.data);
-                        clickToId (tabid)
+                        clickToId (tabid);
+
+                        laypage({
+                            cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                            pages: Math.ceil(result.total / pageSizeSNP), //通过后台拿到的总页数
+                            curr: currSNP || 1, //当前页
+                            skin: '#5c8de5',
+                            skip: true,
+                            first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                            last: Math.ceil(result.total / pageSizeSNP), //将尾页显示为总页数。若不显示，设置false即可
+                            prev: '<',
+                            next: '>',
+                            groups: 3, //连续显示分页数
+                            jump: function (obj, first) { //触发分页后的回调
+                                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                    var currNum = obj.curr;
+                                    getSnpPointGene(tabid,currNum, pageSizeSNP);
+                                }
+                            }
+                        });
+                        $("#snp-paginate #total-page-count span").empty().html(result.total);
+
                     }else if(type="INDEL"){
                         renderINDELTable(result.data)
                         clickToId (tabid)
@@ -1710,7 +1734,7 @@ $(function () {
                     getSnpPoint(tabid);
                 }else if (globelType == "Gene"){
                     snpPintDatasGene.url = "/dna//drawSNPTableInGene";
-                    getSnpPointGene(tabid);
+                    getSnpPointGene(tabid,1,10);
                 }
         })
     }
