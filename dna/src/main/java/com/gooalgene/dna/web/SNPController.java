@@ -800,10 +800,10 @@ public class SNPController {
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        List<SNP> snps = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
+        PageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
-        for (SNP snp : snps) {
+        for (SNP snp : snpPageInfo.getList()) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
@@ -819,7 +819,10 @@ public class SNPController {
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
-        return ResultUtil.success(data);
+        PageInfo<SNPDto> snpDtoPageInfo = new PageInfo<>();
+        BeanUtils.copyProperties(snpPageInfo,snpDtoPageInfo);
+        snpDtoPageInfo.setList(data);
+        return ResultUtil.success(snpDtoPageInfo);
     }
 
     @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)

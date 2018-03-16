@@ -1,10 +1,12 @@
 package com.gooalgene.dna.service;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.utils.CommonUtil;
+import com.gooalgene.utils.ResultUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import org.apache.commons.io.FileUtils;
@@ -247,7 +249,7 @@ public class DNAMongoService {
         }
     }
 
-    public List<SNP> findDataByIndexInGene(String type, String gene, String id, Integer index, Integer pageSize, String upstream, String downstream, String ctype) {
+    public PageInfo<SNP> findDataByIndexInGene(String type, String gene, String id, Integer index, Integer pageSize, String upstream, String downstream, String ctype) {
         int i = gene.indexOf(".") + 1;//Glyma.17G187600
         String chr = "Chr" + gene.substring(i, i + 2);
         String collectionName = type + "_" + chr;
@@ -286,10 +288,15 @@ public class DNAMongoService {
             query.fields().exclude("samples");
             logger.info("Query:{},pageNum:{}, offect:{},pageSize:{}", query.toString(), pageable.getPageNumber(), pageable.getOffset(), pageable.getPageSize());
             result = mongoTemplate.find(query, SNP.class, collectionName);
+            PageInfo pageInfo = new PageInfo(result);
+            pageInfo.setPageSize(pageSize);
+            pageInfo.setPageNum(pageNum+1);
+            pageInfo.setTotal(all);
+            return pageInfo;
         } else {
             logger.info(collectionName + " is not exist.");
+            return new PageInfo<>();
         }
-        return result;
     }
 
     // TODO: 11/27/17 为什么这个地方传入的是分页对象,结果也应该是分页的形式,而这里返回的确实一个list集合???
