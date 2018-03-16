@@ -196,10 +196,6 @@ public class SNPController {
 
     /**
      * 按群组条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping("/searchSNPinRegion")
     @ResponseBody
@@ -218,10 +214,6 @@ public class SNPController {
 
     /**
      * 在范围中查询所有位点
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping("/searchIdAndPosInRegion")
     @ResponseBody
@@ -232,9 +224,7 @@ public class SNPController {
         String startPos = request.getParameter("start");
         String endPos = request.getParameter("end");
         String group = request.getParameter("group");
-//      String conditions = request.getParameter("conditions");
         logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
-        //Page<DNARun> page = new Page<DNARun>(request, response);
         Map result = Maps.newHashMap();
         List<SNP> snps = dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
         List<SNPDto> snpDtos = Lists.newArrayList();
@@ -253,6 +243,7 @@ public class SNPController {
             snpDtos.add(snpDto);
         }
         result.put("snps", snpDtos);
+        // 获取范围内所有基因
         List<String> geneIds = dnaGensService.getByRegionNoCompare(chr, startPos, endPos);
         List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos), geneIds);
         result.put("dnaGenStructures", dnaGenStructures);
@@ -800,10 +791,10 @@ public class SNPController {
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        List<SNP> snps = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
+        PageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
-        for (SNP snp : snps) {
+        for (SNP snp : snpPageInfo.getList()) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
@@ -819,7 +810,10 @@ public class SNPController {
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
-        return ResultUtil.success(data);
+        PageInfo<SNPDto> snpDtoPageInfo = new PageInfo<>();
+        BeanUtils.copyProperties(snpPageInfo,snpDtoPageInfo);
+        snpDtoPageInfo.setList(data);
+        return ResultUtil.success(snpDtoPageInfo);
     }
 
     @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)

@@ -76,6 +76,20 @@ public class CacheController implements InitializingBean {
         return mapper.writeValueAsString(found);
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    @ResponseBody
+    public String searchCacheContent(@RequestParam("key") String key){
+        String result = null;
+        Cache advanceSearchCache = cacheManager.getCache("advanceSearch");
+        Cache.ValueWrapper valueWrapper = advanceSearchCache.get(key);
+        if (valueWrapper != null){
+            result = valueWrapper.get().toString();
+        } else if (cache.get(key) != null){
+            result = cache.get(key).get().toString();
+        }
+        return result;
+    }
+
     @Override
     public void afterPropertiesSet() throws Exception {
         cache = cacheManager.getCache("sortCache");

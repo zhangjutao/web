@@ -5,6 +5,7 @@
 <html>
 <head>
     <title>Cache Admin Management</title>
+    <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <style type="text/css">
         body {
             font-size: 14px;
@@ -46,6 +47,7 @@
             background-color: aliceblue;
         }
     </style>
+
 </head>
 <body>
     <div class="container">
@@ -65,6 +67,8 @@
         </div>
     </div>
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+    <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+    <script src="${ctxStatic}/js/layer/layer.js"></script>
     <script type="application/javascript">
         $(".remove").click(function () {
             var $currentElement = $(this);
@@ -83,6 +87,26 @@
                 console.log("后台报错");
             });
         });
+        $(".key").click(function(){
+            var hoverElement = $(this);
+            var key = hoverElement.text();
+            var searchResult;
+            $.ajax({
+                method: 'GET',
+                url: '${ctxroot}/cache/search',
+                data: {
+                    key: key
+                }
+            }).done(function (data) {
+                searchResult = data;
+                layer.open({
+                    title: hoverElement.text(),
+                    content: searchResult
+                });
+            }).error(function () {
+                console.log("无法查询");
+            });
+        })
     </script>
 </body>
 </html>
