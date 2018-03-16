@@ -295,7 +295,6 @@ public class DNAMongoService {
     // TODO: 11/27/17 为什么这个地方传入的是分页对象,结果也应该是分页的形式,而这里返回的确实一个list集合???
     public List<SNP> findDataByIndexInRegion(String type, String chr, String id, Integer index, Integer pageSize, String startPos, String endPos, String ctype) {
         String collectionName = type + "_" + chr;
-
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
@@ -380,9 +379,7 @@ public class DNAMongoService {
             Query query = new Query();
             query.addCriteria(criteria);
             query.fields().include("pos").include("consequencetype");
-            logger.info("Query:" + query.toString());
-            total = mongoTemplate.count(query, Integer.class, collectionName);//总记录数
-            logger.info(collectionName + " searchInRegin:" + query.toString() + ",total:" + total);
+            total = mongoTemplate.count(query, Integer.class, collectionName);
             if (page != null) {
                 Integer pageNo = page.getPageNo();
                 Integer pageSize = page.getPageSize();
@@ -394,7 +391,6 @@ public class DNAMongoService {
                 query.limit(pageSize);
                 page.setCount(total);
             }
-            logger.info("Query By Page:" + query.toString());
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");

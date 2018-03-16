@@ -100,11 +100,11 @@
 
     <select id="getByStartEnd" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
         SELECT
-        stru.*, c.bps
+        stru.*
         FROM
-        gens_structure stru,chrlg c
+        gens_structure stru
         WHERE
-        stru.chromosome=c.chr and stru.chromosome=#{chromosome}
+        stru.chromosome=#{chromosome}
         <if test="geneIds!=null and geneIds.size>0">
             AND stru.gene_id IN
             <foreach collection="geneIds" item="geneId" separator="," open="(" close=")">
