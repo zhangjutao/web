@@ -14,15 +14,6 @@ public class DNAGenStructureDto {
     private String strand;
     private long maxLength;
     private long offset;
-    private Integer bps;
-
-    public Integer getBps() {
-        return bps;
-    }
-
-    public void setBps(Integer bps) {
-        this.bps = bps;
-    }
 
     public String getChromosome() {
         return chromosome;
