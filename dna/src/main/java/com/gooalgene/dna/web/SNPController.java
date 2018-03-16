@@ -711,7 +711,7 @@ public class SNPController {
         }
         Map response = Maps.newHashMap();
         SampleInfoDto.setRunNos(runNos);
-        PageInfo<DNARunSearchResult> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(SampleInfoDto, pageNum, pageSize, isPage);
+        PageInfo<SampleInfoDto> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(SampleInfoDto, pageNum, pageSize, isPage);
         response.put("dnaRuns", dnaRuns);
         response.put("samples", samples);
         return ResultUtil.success(response);

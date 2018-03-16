@@ -146,12 +146,12 @@ public class DNARunService {
         return pageInfo;
     }
 
-    public PageInfo<DNARunSearchResult> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
+    public PageInfo<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<DNARunSearchResult> list=dnaRunDao.getListByConditionWithTypeHandler(sampleInfoDto);
-        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
+        List<SampleInfoDto> list=dnaRunDao.getListByConditionWithTypeHandler(sampleInfoDto);
+        PageInfo<SampleInfoDto> pageInfo=new PageInfo<>(list);
         return pageInfo;
     }
 

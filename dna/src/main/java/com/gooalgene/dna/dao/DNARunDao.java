@@ -21,7 +21,7 @@ public interface DNARunDao extends CrudDao<DNARun> {
 
     List<DNARun> getListByCondition(DnaRunDto dnaRunDto);
 
-    List<DNARunSearchResult> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto);
+    List<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto);
 
     List<DNARun> getByCultivar(List<String> list);
 
