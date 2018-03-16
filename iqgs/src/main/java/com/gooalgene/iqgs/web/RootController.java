@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
 public class RootController {
+
     @RequestMapping("/")
     public String index(){
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();

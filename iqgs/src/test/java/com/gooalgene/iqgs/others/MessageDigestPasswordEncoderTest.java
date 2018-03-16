@@ -9,7 +9,7 @@ public class MessageDigestPasswordEncoderTest extends TestCase {
     @Test
     public void testEncodePassUsingMD5(){
         MessageDigestPasswordEncoder encoder = new MessageDigestPasswordEncoder("MD5");
-        String encodeResult = encoder.encodePassword("123456", null);
-        assertEquals("e10adc3949ba59abbe56e057f20f883e", encodeResult);
+        String encodeResult = encoder.encodePassword("gooalgene", null);
+        assertEquals("158b8e42415a522d9b991ea3d5899dff", encodeResult);
     }
 }

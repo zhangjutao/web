@@ -23,7 +23,6 @@ public class DNAGenStructureService {
         return dnaGensStructureDao.getByGeneId(geneId);
     }
 
-
     public List<DNAGenStructureDto> getByStartEnd(String chr, Integer startPos, Integer endPos,List<String> geneIds) {
         return dnaGensStructureDao.getByStartEnd(chr,startPos,endPos,geneIds);
     }

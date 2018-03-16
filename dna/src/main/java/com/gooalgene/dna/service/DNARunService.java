@@ -7,6 +7,7 @@ import com.gooalgene.dna.dao.DNARunDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.utils.CommonUtil;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -16,7 +17,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -37,39 +37,40 @@ public class DNARunService {
 
     /**
      * 根据页面分组查询对应的样本信息
-     *
-     * @param group
-     * @return
+     * @param group 用户可能一次选择多个分组
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
-        if (group.equals("[{}]")) {
-            group = "[]";
+        Map<String, List<String>> result = new HashMap<>();
+        boolean valid = CommonUtil.isJSONValid(group);
+        if (!valid) {
+            logger.warn("传入无效的group: " + group);
+            return result;
         }
-        Map<String, List<String>> result = new HashMap();
-        if (StringUtils.isNotBlank(group)) {
-            logger.info(group);
-            JSONArray data = JSONArray.fromObject(group);
-            int len = data.size();
-            for (int i = 0; i < len; i++) {
-                JSONObject one = data.getJSONObject(i);
-                String groupName = one.getString("name");
-                if (one.containsKey("condition")) {
-                    String condition = one.getString("condition");
-                    if (condition.indexOf("{\"”cultivar") != -1) {
-                        List<String> runNoList = new ArrayList<String>();
-                        List<DNARun> dnaRunList = getQueryList(condition);
-                        for (DNARun dnaRun : dnaRunList) {
-                            List<String> list = querySamples(dnaRun);
-                            for (String runNo : list) {
-                                runNoList.add(runNo);
-                            }
-                        }
-                        result.put(groupName, runNoList);
-                    } else {
-                        DNARun dnaRun = getQuery(condition);
+        logger.info("当前分组信息为: " + group);
+        JSONArray data = JSONArray.fromObject(group);
+        int len = data.size();
+        for (int i = 0; i < len; i++) {
+            JSONObject one = data.getJSONObject(i);
+            // 群体名字
+            String groupName = one.getString("name");
+            if (one.containsKey("condition")) {
+                String condition = one.getString("condition");
+                // 判断用户选择的是群体还是品种,只有品种中才有cultivar字段
+                if (condition.contains("cultivar")) {
+                    List<String> runNoList = new ArrayList<String>();
+                    List<DNARun> dnaRunList = getQueryList(condition);
+                    // 根据前端传入的所有samplerun,获取相应的run_no
+                    for (DNARun dnaRun : dnaRunList) {
                         List<String> list = querySamples(dnaRun);
-                        result.put(groupName, list);
+                        for (String runNo : list) {
+                            runNoList.add(runNo);
+                        }
                     }
+                    result.put(groupName, runNoList);
+                } else {
+                    DNARun dnaRun = getQuery(condition);
+                    List<String> list = querySamples(dnaRun);
+                    result.put(groupName, list);
                 }
             }
         }
@@ -77,10 +78,7 @@ public class DNARunService {
     }
 
     /**
-     * 根据条件获取对应样本编号
-     *
-     * @param dnaRun
-     * @return
+     * 根据条件获取对应样本编号(run_no)
      */
     public List<String> querySamples(DNARun dnaRun) {
         List<String> result = new ArrayList<String>();
@@ -167,9 +165,16 @@ public class DNARunService {
         return dnaRunDao.getListByCondition(new DnaRunDto());
     }
 
+    /**
+     * 根据查询条件中的cultivar,获取该群组中所有品种
+     * @param conditions "condition": {"species": "Improved cultivar","weightPer100seeds": {
+     * "min": "0","max": "10"}}
+     * @return 该cultivar中对应的所有DNARun实体
+     */
     public List<DNARun> getQueryList(String conditions) {
         JSONObject jsonObject = JSONObject.fromObject(conditions);
         List<DNARun> dnaRunList = new ArrayList<DNARun>();
+        // 如果用户选择多个sample时,这里cultivar数目就有多个
         List<String> cultivarList = Arrays.asList(jsonObject.getString("cultivar").split(","));
         for (String cultivar:cultivarList) {
             DNARun dnaRun = new DNARun();
