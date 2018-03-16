@@ -51,7 +51,7 @@
     <div class="contant">
         <div class="tissue-specificity-charts">
             <div class="item-header">
-                <div class="icon-left"><img src="${ctxStatic}/images/Linkage-group.png">组织特异性表达热图</div>
+                <div class="icon-left"><img src="${ctxStatic}/images/heatmap.png">组织特异性表达热图</div>
             </div>
             <div class="tissue-specificity-chartstab">
                 <div class="genes-search">

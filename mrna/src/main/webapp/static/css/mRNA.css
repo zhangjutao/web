@@ -158,7 +158,8 @@ button {
     display: block;
     width: 0;
     height: 0;
-    border-top: 25px solid #3C69D0;
+    /*border-top: 25px solid #3C69D0;*/
+    border-top: 25px solid #0F9145;
     border-bottom: 25px solid transparent;
     border-left: 25px solid transparent;
 }
@@ -207,7 +208,8 @@ button {
 }
 
 .genes-tab tbody tr td p a{
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color : #0F9145;
 }
 
 .genes-tab tbody tr td.t_phenoType p,.genes-tab tbody tr td.t_geneType p,.genes-tab tbody tr td.t_study p,.genes-tab tbody tr td.t_reference p,.genes-tab tbody tr td.t_stage p,.genes-tab tbody tr td.t_treat p,.genes-tab tbody tr td.t_environment p{
@@ -228,7 +230,8 @@ button {
 /*}*/
 
 td.gene-expression:after{
-    border-top: 15px solid  #3C69D0;
+    /*border-top: 15px solid  #3C69D0;*/
+    border-top: 15px solid #0F9145;
     border-bottom: 15px solid transparent;
     border-left: 15px solid transparent;
 }
@@ -367,7 +370,8 @@ td.dif-gene:after{
     float: right;
 }
 .export-data .btn-export-set button {
-    background-color: #5c8ce6;
+    /*background-color: #5c8ce6;*/
+    background-color: #0F9145;
     width: 120px;
     height: 34px;
     line-height: 30px;

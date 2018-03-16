@@ -58,13 +58,13 @@
     </div>
     <aside>
         <div class="item-header">
-            <div class="icon-left"><img src="${ctxStatic}/images/bookmarks.png">组织<i class="">TISSUE</i></div>
+            <div class="icon-left"><img src="${ctxStatic}/images/tissue.png">组织<i class="">TISSUE</i></div>
         </div>
         <%@ include file="/WEB-INF/views/include/nav-mnra.jsp" %>
     </aside>
     <article style="height: 503px;">
         <div class="item-header">
-            <div class="icon-left"><img src="${ctxStatic}/images/Linkage-group.png">组织特异性表达热图</div>
+            <div class="icon-left"><img src="${ctxStatic}/images/heatmap.png">组织特异性表达热图</div>
         </div>
         <div class="index-highcharts heatmapHeigth" style="height: 400px;" >
             <mrna:chart-heatmap data="${data}" gaHeight="400"></mrna:chart-heatmap>
