@@ -35,7 +35,6 @@ public class SampleInfoDto {
 
     private String taxonomy;//分类地位
 
-
     private String myceliaPhenotype;//菌丝形态
 
     private String myceliaDiameter;//菌丝直径
@@ -45,14 +44,6 @@ public class SampleInfoDto {
 
 
     private String keywords;
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 
     /**
      * 孢子颜色
@@ -175,6 +166,16 @@ public class SampleInfoDto {
      * 交配型
      */
     private String matingType;
+
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getKeywords() {
         return keywords;
     }

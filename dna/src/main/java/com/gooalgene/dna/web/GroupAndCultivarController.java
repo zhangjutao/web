@@ -30,7 +30,7 @@ public class GroupAndCultivarController {
                                  @RequestParam(value = "isPage", required = false) String isPage,
                                  SampleInfoDto sampleInfoDto) {
         logger.info(sampleInfoDto.getRunNo());
-        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(sampleInfoDto, pageNum, pageSize, isPage);
+        PageInfo<SampleInfoDto> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(sampleInfoDto, pageNum, pageSize, isPage);
         return ResultUtil.success(dnaRunPageInfo);
 
     }

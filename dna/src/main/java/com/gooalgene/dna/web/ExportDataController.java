@@ -983,90 +983,138 @@ public class ExportDataController {
             }
         }
         //查询结果集
-        PageInfo<DNARunSearchResult> dnaRuns = null;
+        PageInfo<SampleInfoDto> dnaRuns = null;
         if (sampleInfoDto != null && runNos.size() > 0) {
             sampleInfoDto.setRunNos(runNos);
             dnaRuns = dnaRunService.getListByConditionWithTypeHandler(sampleInfoDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
         }
         if(dnaRuns!=null){
-            List<DNARunSearchResult> dnaRunSearchResultList= dnaRuns.getList();
-            for (DNARunSearchResult dnaRunSearchResult : dnaRunSearchResultList) {
+            List<SampleInfoDto> sampleInfoDtoList= dnaRuns.getList();
+            for (SampleInfoDto sampleInfoDto1 : sampleInfoDtoList) {
                 for (String titleItem : title) {
-                    if (titleItem.equals("cultivar")) {
-                        String cultivar = dnaRunSearchResult.getCultivar();
-                        stringBuilder.append(!cultivar.equals("") ? cultivar : "-");
-                    } else if (titleItem.equals("genoType")) {
-                        String genoType = (String) samples.get(dnaRunSearchResult.getRunNo());
-                        stringBuilder.append(genoType != null && !genoType.equals("") ? genoType : "-");
-                    } else if (titleItem.equals("group")) {
-                        String group = dnaRunSearchResult.getGroup();
-                        stringBuilder.append(!group.equals("") ? group : "-");
-                    } else if (titleItem.equals("species")) {
-                        String species = dnaRunSearchResult.getSpecies();
-                        stringBuilder.append(!species.equals("") ? species : "-");
+                    if (titleItem.equals("id")) {
+                        String id = sampleInfoDto1.getId();
+                        stringBuilder.append(!id.equals("") ? id : "-");
+                    } else if (titleItem.equals("runNo")) {
+                        String runNo = sampleInfoDto1.getRunNo();
+                        stringBuilder.append(!runNo.equals("") ? runNo : "-");
+                    } else if (titleItem.equals("scientificName")) {
+                        String scientificName = sampleInfoDto1.getScientificName();
+                        stringBuilder.append(scientificName != null && !scientificName.equals("") ? scientificName : "-");
+                    } else if (titleItem.equals("sampleId")) {
+                        String sampleId = sampleInfoDto1.getSampleId();
+                        stringBuilder.append(!sampleId.equals("") ? sampleId : "-");
+                    } else if (titleItem.equals("strainName")) {
+                        String strainName = sampleInfoDto1.getStrainName();
+                        stringBuilder.append(!strainName.equals("") ? strainName : "-");
                     } else if (titleItem.equals("locality")) {
-                        String locality = dnaRunSearchResult.getLocality();
+                        String locality = sampleInfoDto1.getLocality();
                         if (locality != null && locality.contains(",")) {
                             locality = locality.replaceAll(",", "，");
                         }
                         stringBuilder.append(locality != null && !locality.equals("") ? locality : "-");
-                    } else if (titleItem.equals("sampleName")) {
-                        String sampleName = dnaRunSearchResult.getSampleName();
-                        stringBuilder.append(!sampleName.equals("") ? sampleName : "-");
-                    } else if (titleItem.equals("weightPer100seeds")) {
-                        String weight = dnaRunSearchResult.getWeightPer100seeds();
-                        stringBuilder.append(weight != null && !weight.equals("") ? weight : "-");
-                    } else if (titleItem.equals("protein")) {
-                        String protein = dnaRunSearchResult.getProtein();
-                        stringBuilder.append(!protein.equals("") ? protein : "-");
-                    } else if (titleItem.equals("oil")) {
-                        String oil = dnaRunSearchResult.getOil();
-                        stringBuilder.append(!oil.equals("") ? oil : "-");
-                    } else if (titleItem.equals("maturityDate")) {
-                        String maturityDate = dnaRunSearchResult.getMaturityDate();
-                        stringBuilder.append(!maturityDate.equals("") ? maturityDate : "-");
-                    } else if (titleItem.equals("height")) {
-                        String height = dnaRunSearchResult.getHeight();
-                        stringBuilder.append(!height.equals("") ? height : "-");
-                    } else if (titleItem.equals("seedCoatColor")) {
-                        String seedCoatColor = dnaRunSearchResult.getSeedCoatColor();
-                        stringBuilder.append(!seedCoatColor.equals("") ? seedCoatColor : "-");
-                    } else if (titleItem.equals("hilumColor")) {
-                        String hilumColor = dnaRunSearchResult.getHilumColor();
-                        stringBuilder.append(!hilumColor.equals("") ? hilumColor : "-");
-                    } else if (titleItem.equals("cotyledonColor")) {
-                        String cotyledonColor = dnaRunSearchResult.getCotyledonColor();
-                        stringBuilder.append(!cotyledonColor.equals("") ? cotyledonColor : "-");
-                    } else if (titleItem.equals("flowerColor")) {
-                        String flowerColor = dnaRunSearchResult.getFlowerColor();
-                        stringBuilder.append(!flowerColor.equals("") ? flowerColor : "-");
-                    } else if (titleItem.equals("podColor")) {
-                        String podColor = dnaRunSearchResult.getPodColor();
-                        stringBuilder.append(!podColor.equals("") ? podColor : "-");
-                    } else if (titleItem.equals("pubescenceColor")) {
-                        String pubscenceColor = dnaRunSearchResult.getPubescenceColor();
-                        stringBuilder.append(!pubscenceColor.equals("") ? pubscenceColor : "-");
-                    } else if (titleItem.equals("yield")) {
-                        String yield = dnaRunSearchResult.getYield();
-                        stringBuilder.append(!yield.equals("") ? yield : "-");
-                    } else if (titleItem.equals("upperLeafletLength")) {
-                        String upperLeafletLength = dnaRunSearchResult.getUpperLeafletLength();
-                        stringBuilder.append(!upperLeafletLength.equals("") ? upperLeafletLength : "-");
-                    } else if (titleItem.equals("linoleic")) {
-                        String linoleic = dnaRunSearchResult.getLinoleic();
-                        stringBuilder.append(!linoleic.equals("") ? linoleic : "-");
-                    } else if (titleItem.equals("linolenic")) {
-                        String linolenic = dnaRunSearchResult.getLinolenic();
-                        stringBuilder.append(!linolenic.equals("") ? linolenic : "-");
-                    } else if (titleItem.equals("oleic")) {
-                        String oleic = dnaRunSearchResult.getOleic();
-                        stringBuilder.append(!oleic.equals("") ? oleic : "-");
-                    } else if (titleItem.equals("palmitic")) {
-                        String palmitic = dnaRunSearchResult.getPalmitic();
-                        stringBuilder.append(!palmitic.equals("") ? palmitic : "-");
-                    } else if (titleItem.equals("stearic")) {
-                        String stearic = dnaRunSearchResult.getStearic();
-                        stringBuilder.append(!stearic.equals("") ? stearic : "-");
+                    } else if (titleItem.equals("preservationLocation")) {
+                        String preservationLocation = sampleInfoDto1.getPreservationLocation();
+                        stringBuilder.append(!preservationLocation.equals("") ? preservationLocation : "-");
+                    } else if (titleItem.equals("type")) {
+                        String type = sampleInfoDto1.getType();
+                        stringBuilder.append(type != null && !type.equals("") ? type : "-");
+                    } else if (titleItem.equals("environment")) {
+                        String environment = sampleInfoDto1.getEnvironment();
+                        stringBuilder.append(!environment.equals("") ? environment : "-");
+                    } else if (titleItem.equals("materials")) {
+                        String materials = sampleInfoDto1.getMaterials();
+                        stringBuilder.append(!materials.equals("") ? materials : "-");
+                    } else if (titleItem.equals("treat")) {
+                        String treat = sampleInfoDto1.getTreat();
+                        stringBuilder.append(!treat.equals("") ? treat : "-");
+                    } else if (titleItem.equals("definitionTime")) {
+                        String definitionTime = sampleInfoDto1.getDefinitionTime();
+                        stringBuilder.append(!definitionTime.equals("") ? definitionTime : "-");
+                    } else if (titleItem.equals("taxonomy")) {
+                        String taxonomy = sampleInfoDto1.getTaxonomy();
+                        stringBuilder.append(!taxonomy.equals("") ? taxonomy : "-");
+                    } else if (titleItem.equals("myceliaPhenotype")) {
+                        String myceliaPhenotype = sampleInfoDto1.getMyceliaPhenotype();
+                        stringBuilder.append(!myceliaPhenotype.equals("") ? myceliaPhenotype : "-");
+                    } else if (titleItem.equals("myceliaDiameter")) {
+                        String myceliaDiameter = sampleInfoDto1.getMyceliaDiameter();
+                        stringBuilder.append(!myceliaDiameter.equals("") ? myceliaDiameter : "-");
+                    } else if (titleItem.equals("myceliaColor")) {
+                        String myceliaColor = sampleInfoDto1.getMyceliaColor();
+                        stringBuilder.append(!myceliaColor.equals("") ? myceliaColor : "-");
+                    } else if (titleItem.equals("sporesColor")) {
+                        String sporesColor = sampleInfoDto1.getSporesColor();
+                        stringBuilder.append(!sporesColor.equals("") ? sporesColor : "-");
+                    } else if (titleItem.equals("sporesShape")) {
+                        String sporesShape = sampleInfoDto1.getSporesShape();
+                        stringBuilder.append(!sporesShape.equals("") ? sporesShape : "-");
+                    } else if (titleItem.equals("clampConnection")) {
+                        String clampConnection = sampleInfoDto1.getClampConnection();
+                        stringBuilder.append(!clampConnection.equals("") ? clampConnection : "-");
+                    } else if (titleItem.equals("pileusPhenotype")) {
+                        String pileusPhenotype = sampleInfoDto1.getPileusPhenotype();
+                        stringBuilder.append(!pileusPhenotype.equals("") ? pileusPhenotype : "-");
+                    } else if (titleItem.equals("pileusColor")) {
+                        String pileusColor = sampleInfoDto1.getPileusColor();
+                        stringBuilder.append(!pileusColor.equals("") ? pileusColor : "-");
+                    } else if (titleItem.equals("stipePhenotype")) {
+                        String stipePhenotype = sampleInfoDto1.getStipePhenotype();
+                        stringBuilder.append(!stipePhenotype.equals("") ? stipePhenotype : "-");
+                    } else if (titleItem.equals("stipeColor")) {
+                        String stipeColor = sampleInfoDto1.getStipeColor();
+                        stringBuilder.append(!stipeColor.equals("") ? stipeColor : "-");
+                    } else if (titleItem.equals("fruitbodyColor")) {
+                        String fruitbodyColor = sampleInfoDto1.getFruitbodyColor();
+                        stringBuilder.append(!fruitbodyColor.equals("") ? fruitbodyColor : "-");
+                    } else if (titleItem.equals("fruitbodyType")) {
+                        String fruitbodyType = sampleInfoDto1.getFruitbodyType();
+                        stringBuilder.append(!fruitbodyType.equals("") ? fruitbodyType : "-");
+                    } else if (titleItem.equals("illumination")) {
+                        String illumination = sampleInfoDto1.getIllumination();
+                        stringBuilder.append(!illumination.equals("") ? illumination : "-");
+                    } else if (titleItem.equals("collarium")) {
+                        String collarium = sampleInfoDto1.getCollarium();
+                        stringBuilder.append(!collarium.equals("") ? collarium : "-");
+                    } else if (titleItem.equals("volva")) {
+                        String volva = sampleInfoDto1.getVolva();
+                        stringBuilder.append(!volva.equals("") ? volva : "-");
+                    } else if (titleItem.equals("velum")) {
+                        String velum = sampleInfoDto1.getVelum();
+                        stringBuilder.append(!velum.equals("") ? velum : "-");
+                    } else if (titleItem.equals("sclerotium")) {
+                        String sclerotium = sampleInfoDto1.getSclerotium();
+                        stringBuilder.append(!sclerotium.equals("") ? sclerotium : "-");
+                    } else if (titleItem.equals("strainMedium")) {
+                        String strainMedium = sampleInfoDto1.getStrainMedium();
+                        stringBuilder.append(!strainMedium.equals("") ? strainMedium : "-");
+                    } else if (titleItem.equals("mainSubstrate")) {
+                        String mainSubstrate = sampleInfoDto1.getMainSubstrate();
+                        stringBuilder.append(!mainSubstrate.equals("") ? mainSubstrate : "-");
+                    } else if (titleItem.equals("afterRipeningStage")) {
+                        String afterRipeningStage = sampleInfoDto1.getAfterRipeningStage();
+                        stringBuilder.append(!afterRipeningStage.equals("") ? afterRipeningStage : "-");
+                    } else if (titleItem.equals("primordialStimulationFruitbody")) {
+                        String primordialStimulationFruitbody = sampleInfoDto1.getPrimordialStimulationFruitbody();
+                        stringBuilder.append(!primordialStimulationFruitbody.equals("") ? primordialStimulationFruitbody : "-");
+                    } else if (titleItem.equals("reproductiveMode")) {
+                        String reproductiveMode = sampleInfoDto1.getReproductiveMode();
+                        stringBuilder.append(!reproductiveMode.equals("") ? reproductiveMode : "-");
+                    } else if (titleItem.equals("lifestyle")) {
+                        String lifestyle = sampleInfoDto1.getLifestyle();
+                        stringBuilder.append(!lifestyle.equals("") ? lifestyle : "-");
+                    } else if (titleItem.equals("preservation")) {
+                        String preservation = sampleInfoDto1.getPreservation();
+                        stringBuilder.append(!preservation.equals("") ? preservation : "-");
+                    } else if (titleItem.equals("domestication")) {
+                        String domestication = sampleInfoDto1.getDomestication();
+                        stringBuilder.append(!domestication.equals("") ? domestication : "-");
+                    } else if (titleItem.equals("nuclearPhase")) {
+                        String nuclearPhase = sampleInfoDto1.getNuclearPhase();
+                        stringBuilder.append(!nuclearPhase.equals("") ? nuclearPhase : "-");
+                    } else if (titleItem.equals("matingType")) {
+                        String matingType = sampleInfoDto1.getMatingType();
+                        stringBuilder.append(!matingType.equals("") ? matingType : "-");
                     }
                     stringBuilder.append(",");
                 }
