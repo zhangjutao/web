@@ -352,17 +352,18 @@
         function render2ndCheckboxGene() {
             var str = '';
             for(var i in secondSpecificGenes) {
-                str += '<label class="choose-tab-ac js-2nd-choose-item"><span></span>'+ secondSpecificGenes[i] +'</label>'
+                var geneO = secondSpecificGenes[i].split(".")[0] + secondSpecificGenes[i].split(".")[1] ;
+                str += '<label data-geneO = "'+geneO+'" class="choose-tab-ac js-2nd-choose-item"><span></span>'+ secondSpecificGenes[i] +'</label>'
             }
             $(".js-2nd-choose-gene").empty().append(str);
         }
 
         $(".js-checkbox-list").on("click", ".js-2nd-choose-item", function() {
-            debugger;
-            var gene = $(this).text()
+            var gene = $(this).text();
+            var geneO = $(this).attr("data-geneO").trim();
             _.pull(secondSpecificGenes, gene);
             render2ndCheckboxGene();
-            var cls = ".cls_" + gene;
+            var cls = ".cls_" + geneO;
             $(".js-2nd-choose-gene").find(cls).parents("dd").remove();
             $(".js-checkbox-gene").find(cls).removeClass("choose-tab-ac");
             renderChooseText();
