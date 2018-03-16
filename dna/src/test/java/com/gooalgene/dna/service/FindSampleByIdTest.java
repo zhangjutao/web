@@ -60,10 +60,9 @@ public class FindSampleByIdTest extends TestCase{
 
     @Test
     public void testGetListByConditionWithTypeHandler(){
-        PageInfo<DNARunSearchResult> list = dnaRunService.getListByConditionWithTypeHandler(new SampleInfoDto(), 1, 10, "1");
+        PageInfo<SampleInfoDto> list = dnaRunService.getListByConditionWithTypeHandler(new SampleInfoDto(), 1, 10, "1");
         assertNotNull(list);
-        for (DNARunSearchResult result : list.getList()){
-            System.out.println(result.getHeight());
+        for (SampleInfoDto result : list.getList()){
         }
     }
 
