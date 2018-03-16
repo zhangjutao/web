@@ -1347,6 +1347,7 @@ $(function () {
                 _form.find(".ctype").val(CTypeSnp);
                 var _labels = $(".js-table-header-setting-snp").find("label");
             } else {
+
                 _form.find(".total").val(totalIndel);
                 _form.find(".ctype").val(CTypeIndel);
                 var _labels = $(".js-table-header-setting-indel").find("label");
@@ -1593,6 +1594,7 @@ $(function () {
 
         // 点击每个snp位点重新获取数据  -->根据范围
         function getSnpPoint(tabid){
+
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
                     singleData.index = snpIndex;
@@ -1602,7 +1604,8 @@ $(function () {
                     singleData.pageSize = pageSizeSNP;
                     singleData.start = snpPintDatas.start;
                     singleData.end = snpPintDatas.end;
-                    singleData.ctype = snpPintDatas.ctype;
+                    // singleData.ctype = snpPintDatas.ctype;
+                    singleData.ctype = "all";
                     singleData.group = snpGroup.group;
             $.ajax({
                 type:'GET',
@@ -1640,7 +1643,8 @@ $(function () {
                 }
                 // singleData.pageNum = currSNP;
                 singleData.pageSize = pageSizeSNP;
-                singleData.ctype = snpPintDatasGene.ctype;
+                // singleData.ctype = snpPintDatasGene.ctype;
+                singleData.ctype = "all";
                 singleData.upstream = snpPintDatasGene.upstream;
                 singleData.downstream = snpPintDatasGene.downstream;
                 singleData.group = params.group;
@@ -1733,6 +1737,8 @@ $(function () {
             var snpIndex;
         // 每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
+                CTypeSnp = "all";
+                CTypeIndel = "all";
                 var id = $(this).parent().attr("href").substring(1);
                 var snps = result.data.snps;
                 if(type=="SNP"){

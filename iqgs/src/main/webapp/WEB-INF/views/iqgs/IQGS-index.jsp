@@ -86,8 +86,8 @@
                         <option value="Chr20" data-max="">Chr20</option>
                     </select>
                     <div>
-                        <input onkeyup="this.value=this.value.replace(/\D/g,'')" min="0" id="rg_begin" class="region-input region-s" type="number" name="search" placeholder="输入您要查找的数值"><span class="s-line"></span>
-                        <input onkeyup="this.value=this.value.replace(/\D/g,'')" min="0"  id="rg_end" class="region-input region-e" type="number" name="search" placeholder="输入您要查找的数值">
+                        <input onkeyup="this.value=this.value.replace(/\D/g,'')" min="0" id="rg_begin" class="region-input region-s" type="number" name="search" value="0"><span class="s-line"></span>
+                        <input onkeyup="this.value=this.value.replace(/\D/g,'')" min="0"  id="rg_end" class="region-input region-e" type="number" name="search" placeholder="<=56831624">
                         <span class="clear-input" style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
                         <button id="btn_range" class="btn region-search"><img src="${ctxStatic}/images/search.png">搜索</button>
                     </div>

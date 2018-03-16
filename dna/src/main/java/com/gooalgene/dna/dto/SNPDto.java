@@ -245,28 +245,4 @@ public class SNPDto {
         jsonObject.put("minor", minor);
         return jsonObject;
     }
-
-    @Override
-    public String toString() {
-        return "SNP{" +
-                "id='" + id + '\'' +
-                ", chr='" + chr + '\'' +
-                ", pos=" + pos +
-                ", ref='" + ref + '\'' +
-                ", alt='" + alt + '\'' +
-                ", qual=" + qual +
-                ", maf=" + maf +
-                ", lenght=" + lenght +
-                ", type='" + type + '\'' +
-                ", gene='" + gene + '\'' +
-                ", genecontent='" + genecontent + '\'' +
-                ", effect='" + effect + '\'' +
-                ", consequencetype='" + consequencetype + '\'' +
-                ", samples=" + samples.size() +
-                ", majorallen='" + majorallen + '\'' +
-                ", minorallen='" + minorallen + '\'' +
-                ", major=" + major +
-                ", minor=" + minor +
-                '}';
-    }
 }
