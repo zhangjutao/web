@@ -1601,7 +1601,8 @@ $(function () {
                     singleData.pageSize = pageSizeSNP;
                     singleData.start = snpPintDatas.start;
                     singleData.end = snpPintDatas.end;
-                    singleData.ctype = snpPintDatas.ctype;
+                    // singleData.ctype = snpPintDatas.ctype;
+                    singleData.ctype = "all";
                     singleData.group = snpGroup.group;
             $.ajax({
                 type:'GET',
@@ -1633,10 +1634,10 @@ $(function () {
                 singleData.id = tabid;
                 singleData.type = type;
                 singleData.pageNum =Math.ceil(snpIndex/pageSizeSNP);
-                console.log(singleData.pageNum)
                 // singleData.pageNum = currSNP;
                 singleData.pageSize = pageSizeSNP;
-                singleData.ctype = snpPintDatasGene.ctype;
+                // singleData.ctype = snpPintDatasGene.ctype;
+                singleData.ctype = "all";
                 singleData.upstream = snpPintDatasGene.upstream;
                 singleData.downstream = snpPintDatasGene.downstream;
                 singleData.group = params.group;
