@@ -250,7 +250,7 @@ public class DNAMongoService {
         }
     }
 
-    public CustomizedPageInfo<SNP> findDataByIndexInGene(String type, String gene, String id, Integer index, Integer pageSize, String upstream, String downstream, String ctype) {
+    public CustomizedPageInfo<SNP> findDataByIndexInGene(String type, String gene, String id, Integer index, Integer pageNo, Integer pageSize, String upstream, String downstream, String ctype) {
         int i = gene.indexOf(".") + 1;//Glyma.17G187600
         String chr = "Chr" + gene.substring(i, i + 2);
         String collectionName = type + "_" + chr;
@@ -292,7 +292,7 @@ public class DNAMongoService {
             //TODO 这里考虑到前端固定使用的调用data字段，故先自己封一个PageInfo，后面要统一成原生PageInfo
             CustomizedPageInfo<SNP> pageInfo = new CustomizedPageInfo(result);
             pageInfo.setPageSize(pageSize);
-            pageInfo.setPageNum(pageNum+1);
+            pageInfo.setPageNum(pageNo);
             pageInfo.setTotal(all);
             return pageInfo;
         } else {
@@ -302,7 +302,7 @@ public class DNAMongoService {
     }
 
     // TODO: 11/27/17 为什么这个地方传入的是分页对象,结果也应该是分页的形式,而这里返回的确实一个list集合???
-    public CustomizedPageInfo<SNP> findDataByIndexInRegion(String type, String chr, String id, Integer index, Integer pageSize, String startPos, String endPos, String ctype) {
+    public CustomizedPageInfo<SNP> findDataByIndexInRegion(String type, String chr, String id, Integer index,Integer pageNo, Integer pageSize, String startPos, String endPos, String ctype) {
         String collectionName = type + "_" + chr;
 
         List<SNP> result = new ArrayList<SNP>();
@@ -329,7 +329,7 @@ public class DNAMongoService {
             //TODO 这里考虑到前端固定使用的调用data字段，故先自己封一个PageInfo，后面要统一成原生PageInfo
             CustomizedPageInfo<SNP> pageInfo = new CustomizedPageInfo<>(result);
             pageInfo.setTotal(all);
-            pageInfo.setPageNum(pageNum + 1);
+            pageInfo.setPageNum(pageNo);
             pageInfo.setPageSize(pageSize);
             return pageInfo;
         } else {

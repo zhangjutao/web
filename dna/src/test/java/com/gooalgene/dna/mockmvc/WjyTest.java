@@ -91,7 +91,7 @@ public class WjyTest extends TestCase {
     public void testMongo() throws Exception{
         //List<SNP> snps = dnaMongoService.searchIdAndPosInRegin("INDEL", "all", "Chr01", "0", "100000",null);
         //List<SNP> snps = dnaMongoService.findDataByIndexInRegion("SNP","Chr01","GlyS001055310",1430,10,"0","55555","all");
-        PageInfo<SNP> snps=dnaMongoService.findDataByIndexInGene("SNP","Glyma.20G250000","",1430,10,
+        PageInfo<SNP> snps=dnaMongoService.findDataByIndexInGene("SNP","Glyma.20G250000","",1430,1,10,
                 "47863582","47888358","all");
         assertEquals(10, snps.getTotal());
     }

@@ -233,11 +233,11 @@ public class SNPController {
             SNP snp = snps.get(i);
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+            if (StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(), "Exonic_nonsynonymous SNV")) {
                 snpDto.setConsequencetypeColor(1);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+            } else if (StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(), "Exonic_frameshift deletion")) {
                 snpDto.setConsequencetypeColor(2);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+            } else if (StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(), "Exonic_frameshift insertion")) {
                 snpDto.setConsequencetypeColor(3);
             }
             snpDto.setIndex(i);
@@ -297,11 +297,11 @@ public class SNPController {
             SNP snp = snps.get(i);
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
+            if (StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(), "Exonic_nonsynonymous SNV")) {
                 snpDto.setConsequencetypeColor(1);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
+            } else if (StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(), "Exonic_frameshift deletion")) {
                 snpDto.setConsequencetypeColor(2);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
+            } else if (StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(), "Exonic_frameshift insertion")) {
                 snpDto.setConsequencetypeColor(3);
             }
             snpDto.setIndex(i);
@@ -656,7 +656,7 @@ public class SNPController {
                                        @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                        @RequestParam(value = "pageSize", required = false) String isPage,
-                                       @RequestParam("judgeAllele")String judgeAllele,
+                                       @RequestParam("judgeAllele") String judgeAllele,
                                        DnaRunDto dnaRunDto) {
         Map result = snpService.findSampleById(snpId);
         SNP snpTemp = (SNP) result.get("snpData");
@@ -673,7 +673,7 @@ public class SNPController {
             String value = (String) entry.getValue();
             if (StringUtils.isNotBlank(changeParam)) {
                 if (type.equals("indel")) {
-                    String majAndchangePa= snpTemp.getMajorallen() + changeParam;
+                    String majAndchangePa = snpTemp.getMajorallen() + changeParam;
                     String changePaAndMin = changeParam + snpTemp.getMinorallen();
                     if (value.equalsIgnoreCase(majAndchangePa) || value.equalsIgnoreCase(changePaAndMin)) {
                         String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
@@ -686,8 +686,8 @@ public class SNPController {
                         samples.put(entry.getKey(), entry.getValue());
                     }
                 } else {
-                    if(StringUtils.equalsIgnoreCase(judgeAllele,"major")){
-                        if(value.contains(snpTemp.getMajorallen())){
+                    if (StringUtils.equalsIgnoreCase(judgeAllele, "major")) {
+                        if (value.contains(snpTemp.getMajorallen())) {
                             if (StringUtils.containsIgnoreCase(value, changeParam)) {
                                 String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                                 Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
@@ -699,8 +699,8 @@ public class SNPController {
                                 samples.put(entry.getKey(), entry.getValue());
                             }
                         }
-                    }else {
-                        if(value.contains(snpTemp.getMinorallen())){
+                    } else {
+                        if (value.contains(snpTemp.getMinorallen())) {
                             if (StringUtils.containsIgnoreCase(value, changeParam)) {
                                 String singleRunNo = (String) entry.getKey(); // 从966sample中拿到每个runNo
                                 Pattern regexp = Pattern.compile("[a-zA-Z]"); // 匹配是否含有字母
@@ -716,7 +716,7 @@ public class SNPController {
                 }
             }
         }
-        if (samples.size() <= 0||runNos.size()<=0) {
+        if (samples.size() <= 0 || runNos.size() <= 0) {
             Map response = Maps.newHashMap();
             PageInfo<DNARunSearchResult> dnaRuns = new PageInfo<>();
             response.put("dnaRuns", dnaRuns);
@@ -732,13 +732,14 @@ public class SNPController {
 
     @RequestMapping(value = "/drawSNPTableInRegion", method = RequestMethod.GET)
     public CustomizedPageInfo<SNPDto> drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
-                                         @RequestParam("chr") String chr, @RequestParam("type") String type,
-                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                         @RequestParam("start") String start, @RequestParam("end") String end,
-                                         @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                                           @RequestParam("chr") String chr, @RequestParam("type") String type,
+                                                           @RequestParam(value = "pageNo", defaultValue = "1", required = false) Integer pageNo,
+                                                           @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                                           @RequestParam("start") String start, @RequestParam("end") String end,
+                                                           @RequestParam("ctype") String ctype,
+                                                           @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
 
-        CustomizedPageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
+        CustomizedPageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageNo, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
         for (SNP snp : snpPageInfo.getList()) {
@@ -774,12 +775,13 @@ public class SNPController {
 
     @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
     public CustomizedPageInfo<SNPDto> drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
-                                       @RequestParam("gene") String gene, @RequestParam("type") String type,
-                                       @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                       @RequestParam(value = "upstream", required = false) String upstream,
-                                       @RequestParam(value = "downstream", required = false) String downstream,
-                                       @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                                         @RequestParam("gene") String gene, @RequestParam("type") String type,
+                                                         @RequestParam(value = "pageNo", defaultValue = "1", required = false) Integer pageNo,
+                                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
+                                                         @RequestParam(value = "upstream", required = false) String upstream,
+                                                         @RequestParam(value = "downstream", required = false) String downstream,
+                                                         @RequestParam("ctype") String ctype,
+                                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
@@ -797,7 +799,7 @@ public class SNPController {
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        CustomizedPageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
+        CustomizedPageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageNo, pageSize, upstream, downstream, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
         for (SNP snp : snpPageInfo.getList()) {
@@ -818,16 +820,16 @@ public class SNPController {
         }
         //TODO 这里考虑到前端固定使用的调用data字段，故先自己封一个PageInfo，后面要统一成原生PageInfo
         CustomizedPageInfo<SNPDto> snpDtoPageInfo = new CustomizedPageInfo<>();
-        BeanUtils.copyProperties(snpPageInfo,snpDtoPageInfo);
+        BeanUtils.copyProperties(snpPageInfo, snpDtoPageInfo);
         snpDtoPageInfo.setList(data);
         return snpDtoPageInfo;
     }
 
-    @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)
+    @RequestMapping(value = "/getByCultivar", method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO getByCultivar(HttpServletRequest request,@RequestParam("names")List<String> names,
-                                  @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
-                                  @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
-        return ResultUtil.success(dnaRunService.getByCultivar(names,pageNum,pageSize));
+    public ResultVO getByCultivar(HttpServletRequest request, @RequestParam("names") List<String> names,
+                                  @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
+                                  @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize) {
+        return ResultUtil.success(dnaRunService.getByCultivar(names, pageNum, pageSize));
     }
 }
