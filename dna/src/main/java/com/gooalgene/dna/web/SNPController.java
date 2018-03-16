@@ -736,10 +736,11 @@ public class SNPController {
                                          @RequestParam("start") String start, @RequestParam("end") String end,
                                          @RequestParam("ctype") String ctype,
                                          @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
-        List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
+
+        PageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
-        for (SNP snp : snps) {
+        for (SNP snp : snpPageInfo.getList()) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map map = snpService.findSampleById(snp.getId());
@@ -763,7 +764,10 @@ public class SNPController {
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
-        return ResultUtil.success(data);
+        PageInfo<SNPDto> snpDtoPageInfo = new PageInfo<>();
+        BeanUtils.copyProperties(snpPageInfo, snpDtoPageInfo);
+        snpDtoPageInfo.setList(data);
+        return ResultUtil.success(snpDtoPageInfo);
     }
 
     @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
