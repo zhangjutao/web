@@ -203,7 +203,7 @@ $(function (){
             environment:$(".environment").val(),//培养环境
             materials:$(".materials").val(), //材料
             treat:$(".treat").val(),//处理
-            definitionTime:$(".time").val(),//时间
+            definitionTime:$(".time").val(),//采集时间
             taxonomy:$(".taxonomy").val(),//分类地位
             myceliaPhenotype:$(".myceliaPhenotype").val(),//菌丝形态
             myceliaDiameter:$(".myceliaDiameter").val(),//菌丝直径
@@ -360,7 +360,7 @@ $(function (){
                         var environmentTV = totalDatas[i].environment==null?"":totalDatas[i].environment;  //培养环境
                         var materialsTV = totalDatas[i].materials==null?"":totalDatas[i].materials;  //材料
                         var treatTV = totalDatas[i].treat==null?"":totalDatas[i].treat  //处理
-                        var timeTV = totalDatas[i].time==null?"":totalDatas[i].time;  //时间
+                        var timeTV = totalDatas[i].time==null?"":totalDatas[i].definitionTime;  //采集时间
                         var taxonomyTV  = totalDatas[i].taxonomy==null?"":totalDatas[i].taxonomy;  //分类地位
                         var myceliaPhenotypeTV = totalDatas[i].myceliaPhenotype==null?"":totalDatas[i].myceliaPhenotype;  //菌丝形态
                         var myceliaDiameterTV = totalDatas[i].myceliaDiameter==null?"":totalDatas[i].myceliaDiameter;  //菌丝直径

@@ -550,7 +550,7 @@
                                     <%--</ul>--%>
                                     <%--</div>--%>
                                     <%--</th>--%>
-                                    <th class="paramTag">时间
+                                    <th class="paramTag">采集时间
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
                                             <input type="text" placeholder="请输入" class="time inputStyle">
@@ -922,7 +922,7 @@
                     </dd>
                     <dd><label for="treat" class="checkbox-ac"><span id="treat" data-value="treat"></span>处理</label>
                     </dd>
-                    <dd><label for="time" class="checkbox-ac"><span id="time" data-value="time"></span>时间</label></dd>
+                    <dd><label for="time" class="checkbox-ac"><span id="time" data-value="time"></span>采集时间</label></dd>
                     <dd><label for="taxonomy" class="checkbox-ac"><span id="taxonomy" data-value="taxonomy"></span>分类地位</label>
                     </dd>
                     <dd><label for="myceliaPhenotype" class="checkbox-ac"><span id="myceliaPhenotype"
@@ -1043,7 +1043,7 @@
                 <td class="environment">培养环境</td>
                 <td class="materials">材料</td>
                 <td class="treat">处理</td>
-                <td class="time">时间</td>
+                <td class="time">采集时间</td>
                 <td class="taxonomy">分类地位</td>
                 <td class="myceliaPhenotype">菌丝形态</td>
                 <td class="myceliaDiameter">菌丝直径</td>
@@ -1882,7 +1882,7 @@
                 str += '<td class="environment">' + item.environment + '</td>'
                 str += '<td class="materials">' + item.materials + '</td>'
                 str += '<td class="treat">' + item.treat + '</td>'
-                str += '<td class="time">' + item.time + '</td>'
+                str += '<td class="time">' + item.definitionTime + '</td>'
                 str += '<td class="taxonomy">' + item.taxonomy + '</td>'
                 str += '<td class="myceliaPhenotype">' + item.myceliaPhenotype + '</td>'
                 str += '<td class="myceliaDiameter">' + item.myceliaDiameter + '</td>'
