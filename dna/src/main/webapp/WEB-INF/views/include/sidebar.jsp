@@ -117,6 +117,10 @@
         position: relative;
         top: 1px;
     }
+    .label-txt {
+        vertical-align: bottom;
+    }
+   #tagsPagination #total-page-count{position: relative;top:-4px;}
 </style>
 
 <div class="nav_ac">
