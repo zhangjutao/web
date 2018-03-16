@@ -756,7 +756,7 @@
     </div>
     <div class="confirmed-btn">
         <!-- 该事件封到dna-index.jsp页面dna.js中 -->
-        <button type="button" class="btn /">确定</button>
+        <button type="button" class="btn js-panel-btn" />确定</button>
     </div>
 </div>
 <div id="mid"></div>
