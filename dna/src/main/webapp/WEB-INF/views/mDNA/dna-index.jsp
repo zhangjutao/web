@@ -361,6 +361,10 @@
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
                         </div>
                     </div>
+                     <%--位点分页--%>
+                    <div class="checkbox-item-tab" id="wd-paginate" style="display: none;">
+                        <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
+                    </div>
                 </div>
             </div>
         </div>

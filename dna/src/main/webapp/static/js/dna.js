@@ -1624,12 +1624,17 @@ $(function () {
             })
         }
         // snp 位点基因查询
-        function getSnpPointGene(tabid){
+        var page = {curr: 1, pageSize: 10};
+        $("#wd-paginate .lay-per-page-count-select").val(page.pageSize);
+        function getSnpPointGene(currSNP,pageSizeSNP,tabid){
             var allSnpNum =  $("#" + gsnpid + " a rect");
             var singleData = {};
                 singleData.index = snpIndex;
                 singleData.id = tabid;
                 singleData.type = type;
+                singleData.pageNum =Math.ceil(snpIndex/pageSizeSNP);
+                console.log(singleData.pageNum)
+                // singleData.pageNum = currSNP;
                 singleData.pageSize = pageSizeSNP;
                 singleData.ctype = snpPintDatasGene.ctype;
                 singleData.upstream = snpPintDatasGene.upstream;
@@ -1644,8 +1649,32 @@ $(function () {
                 dataType:"json",
                 success:function (result){
                     if(type == "SNP"){
+                        console.log(result)
                         renderSNPTable(result.data);
-                        clickToId (tabid)
+                        clickToId (tabid);
+
+                        $('#snp-paginate').hide();
+                        $('#wd-paginate').show();
+                        laypage({
+                            cont: $('#wd-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                            pages: Math.ceil(result.total / page.pageSize), //通过后台拿到的总页数
+                            curr: currSNP || 1, //当前页
+                            skin: '#5c8de5',
+                            skip: true,
+                            first: 1, //将首页显示为数字1,。若不显示，设置false即可
+                            last: Math.ceil(result.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                            prev: '<',
+                            next: '>',
+                            groups: 3, //连续显示分页数
+                            jump: function (obj, first) { //触发分页后的回调
+                                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                                    var currNum = obj.curr;
+                                    getSnpPointGene(currNum, pageSizeSNP,tabid);
+                                }
+                            }
+                        });
+                        $("#wd-paginate #total-page-count span").html(result.total);
+
                     }else if(type="INDEL"){
                         renderINDELTable(result.data)
                         clickToId (tabid)
@@ -1656,6 +1685,23 @@ $(function () {
                 }
             })
         }
+
+        // 位点-修改每页显示条数
+        $("#wd-paginate").on("change", ".lay-per-page-count-select", function () {
+            var curr = Number($(".laypage_curr").text());
+            var pageSize = Number($(this).val());
+            var total = $("#wd-paginate #total-page-count span").text();
+            var mathCeil = Math.ceil(total / curr);
+            page.pageSize = Number($(this).val());
+            if (pageSize > mathCeil) {
+                page.curr = 1;
+                getSnpPointGene(1, pageSize)
+            } else {
+                console.log(1)
+                getSnpPointGene(curr, pageSize)
+            }
+        });
+
         // 点击条状到锚点的封装
         function clickToId (tabid){
             var trlist = $("#" + tabId).find("tr");
@@ -1713,8 +1759,9 @@ $(function () {
                 if(globelType == "Regin"){
                     getSnpPoint(tabid);
                 }else if (globelType == "Gene"){
+                    $("#snp-paginate .lay-per-page-count-select option:first").prop("selected", 'selected');
                     snpPintDatasGene.url = "/dna//drawSNPTableInGene";
-                    getSnpPointGene(tabid);
+                    getSnpPointGene(1,10,tabid);
                 }
         })
     }

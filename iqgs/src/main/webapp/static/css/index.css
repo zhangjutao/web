@@ -646,8 +646,8 @@
     width:900px;
     background:#fff;
     position:fixed;
-    top:18%;
-    left:18%;
+    top:20%;
+    left:22.5%;
     z-index:1000;
 
 }
@@ -668,7 +668,7 @@
     font-size: 20px;
 }
 .tab-detail-tbody ,.js-pop-body{
-    margin: 30px;
+    padding: 30px;
 }
 .links-text{
     padding: 20px;
