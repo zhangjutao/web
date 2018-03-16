@@ -733,7 +733,7 @@ public class SNPController {
     @RequestMapping(value = "/drawSNPTableInRegion", method = RequestMethod.GET)
     public CustomizedPageInfo<SNPDto> drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
                                                            @RequestParam("chr") String chr, @RequestParam("type") String type,
-                                                           @RequestParam(value = "pageNo", defaultValue = "1", required = false) Integer pageNo,
+                                                           @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNo,
                                                            @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                                            @RequestParam("start") String start, @RequestParam("end") String end,
                                                            @RequestParam("ctype") String ctype,
@@ -776,7 +776,7 @@ public class SNPController {
     @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
     public CustomizedPageInfo<SNPDto> drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
                                                          @RequestParam("gene") String gene, @RequestParam("type") String type,
-                                                         @RequestParam(value = "pageNo", defaultValue = "1", required = false) Integer pageNo,
+                                                         @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNo,
                                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                                          @RequestParam(value = "upstream", required = false) String upstream,
                                                          @RequestParam(value = "downstream", required = false) String downstream,
