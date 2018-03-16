@@ -17,6 +17,11 @@
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <script src="${ctxStatic}/js/layer/layer.js"></script>
     <style>
+        
+        #btnExportR:hover{
+            background: #ccc;
+            pointer-events: none;
+        }
         .nav li {
             position: relative;
         }
@@ -338,7 +343,7 @@
             <div class="export-data">
                 <p class="btn-export-set">
                     <button class="btn btn-export"><img src="${ctxStatic}/images/export.png">导出数据</button>
-                    <button class="btn btn-exportR">数据准备中...</button>
+                    <button class="btn btn-exportR" id="btnExportR" style="background: #ccc;cursor:wait;color:#fff;">数据准备中...</button>
                     <button class="btn set-up"><img src="${ctxStatic}/images/set.png">表格设置</button>
                 </p>
                 <p class="btn-group">
