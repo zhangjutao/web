@@ -7,6 +7,7 @@ import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
+import com.gooalgene.dna.entity.CustomizedPageInfo;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
@@ -730,14 +731,14 @@ public class SNPController {
     }
 
     @RequestMapping(value = "/drawSNPTableInRegion", method = RequestMethod.GET)
-    public ResultVO drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
+    public CustomizedPageInfo<SNPDto> drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
                                          @RequestParam("chr") String chr, @RequestParam("type") String type,
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                          @RequestParam("start") String start, @RequestParam("end") String end,
                                          @RequestParam("ctype") String ctype,
                                          @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
 
-        PageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
+        CustomizedPageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
         for (SNP snp : snpPageInfo.getList()) {
@@ -764,14 +765,15 @@ public class SNPController {
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
-        PageInfo<SNPDto> snpDtoPageInfo = new PageInfo<>();
+        //TODO 这里考虑到前端固定使用的调用data字段，故先自己封一个PageInfo，后面要统一成原生PageInfo
+        CustomizedPageInfo<SNPDto> snpDtoPageInfo = new CustomizedPageInfo<>();
         BeanUtils.copyProperties(snpPageInfo, snpDtoPageInfo);
         snpDtoPageInfo.setList(data);
-        return ResultUtil.success(snpDtoPageInfo);
+        return snpDtoPageInfo;
     }
 
     @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
-    public ResultVO drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
+    public CustomizedPageInfo<SNPDto> drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
                                        @RequestParam("gene") String gene, @RequestParam("type") String type,
                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                        @RequestParam(value = "upstream", required = false) String upstream,
@@ -795,7 +797,7 @@ public class SNPController {
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        PageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
+        CustomizedPageInfo<SNP> snpPageInfo = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
         for (SNP snp : snpPageInfo.getList()) {
@@ -814,10 +816,11 @@ public class SNPController {
             snpDto.setGeneType(map);
             data.add(snpDto);
         }
-        PageInfo<SNPDto> snpDtoPageInfo = new PageInfo<>();
+        //TODO 这里考虑到前端固定使用的调用data字段，故先自己封一个PageInfo，后面要统一成原生PageInfo
+        CustomizedPageInfo<SNPDto> snpDtoPageInfo = new CustomizedPageInfo<>();
         BeanUtils.copyProperties(snpPageInfo,snpDtoPageInfo);
         snpDtoPageInfo.setList(data);
-        return ResultUtil.success(snpDtoPageInfo);
+        return snpDtoPageInfo;
     }
 
     @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)
