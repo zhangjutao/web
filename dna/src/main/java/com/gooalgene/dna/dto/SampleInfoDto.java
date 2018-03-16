@@ -1,83 +1,58 @@
-package com.gooalgene.dna.entity;
+package com.gooalgene.dna.dto;
 
-import com.gooalgene.common.DataEntity;
+import java.util.List;
 
-public class SampleInfo extends DataEntity<SampleInfo> {
+public class SampleInfoDto {
+    public static final String EQ="eq";
+    public static final String GT="gt";
+    public static final String LT="lt";
 
-    /**
-     * 样本编号
-     */
-    private String runNo;
+    private String id;
 
-    /**
-     * 物种名称
-     */
-    private String scientificName;
+    private String runNo;//run编号
 
-    /**
-     * 编号
-     */
-    private String sampleId;
+    private List<String> runNos;
 
-    /**
-     * 菌株名称
-     */
-    private String strainName;
+    private String scientificName;//物种名称
 
-    /**
-     * 地理位置
-     */
-    private String locality;
+    private String sampleId;//编号
 
-    /**
-     * 保藏地点
-     */
-    private String preservationLocation;
+    private String strainName;//菌株名称
 
-    /**
-     * 类型
-     */
-    private String type;
+    private String preservationLocation;//保藏地点
 
-    /**
-     * 培养环境
-     */
-    private String environment;
+    private String locality;//位置
 
-    /**
-     * 材料
-     */
-    private String materials;
+    private String type;//类型
 
-    /**
-     * 处理
-     */
-    private String treat;
+    private String environment;//培养环境
 
-    /**
-     * 时间
-     */
-    private String definitionTime;
+    private String materials;//材料
 
-    /**
-     * 分类地位
-     */
-    private String taxonomy;
+    private String treat;//处理
 
-    /**
-     * 菌丝形态
-     */
-    private String myceliaPhenotype;
+    private String definitionTime;//时间
 
-    /**
-     * 菌丝直径
-     */
-    private String myceliaDiameter;
+    private String taxonomy;//分类地位
 
-    /**
-     * 菌丝颜色
-     */
-    private String myceliaColor;
+
+    private String myceliaPhenotype;//菌丝形态
+
+    private String myceliaDiameter;//菌丝直径
+
+
+    private String myceliaColor; //菌丝颜色
+
+
+    private String keywords;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     /**
      * 孢子颜色
@@ -200,10 +175,20 @@ public class SampleInfo extends DataEntity<SampleInfo> {
      * 交配型
      */
     private String matingType;
-    private String keywords;//后台管理搜索
+    public String getKeywords() {
+        return keywords;
+    }
 
-    public SampleInfo() {
-        super();
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public List<String> getRunNos() {
+        return runNos;
+    }
+
+    public void setRunNos(List<String> runNos) {
+        this.runNos = runNos;
     }
 
     public String getRunNo() {
@@ -211,7 +196,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setRunNo(String runNo) {
-        this.runNo = runNo == null ? null : runNo.trim();
+        this.runNo = runNo;
     }
 
     public String getScientificName() {
@@ -219,7 +204,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setScientificName(String scientificName) {
-        this.scientificName = scientificName == null ? null : scientificName.trim();
+        this.scientificName = scientificName;
     }
 
     public String getSampleId() {
@@ -227,7 +212,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setSampleId(String sampleId) {
-        this.sampleId = sampleId == null ? null : sampleId.trim();
+        this.sampleId = sampleId;
     }
 
     public String getStrainName() {
@@ -235,15 +220,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setStrainName(String strainName) {
-        this.strainName = strainName == null ? null : strainName.trim();
-    }
-
-    public String getLocality() {
-        return locality;
-    }
-
-    public void setLocality(String locality) {
-        this.locality = locality == null ? null : locality.trim();
+        this.strainName = strainName;
     }
 
     public String getPreservationLocation() {
@@ -251,7 +228,15 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setPreservationLocation(String preservationLocation) {
-        this.preservationLocation = preservationLocation == null ? null : preservationLocation.trim();
+        this.preservationLocation = preservationLocation;
+    }
+
+    public String getLocality() {
+        return locality;
+    }
+
+    public void setLocality(String locality) {
+        this.locality = locality;
     }
 
     public String getType() {
@@ -259,7 +244,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setType(String type) {
-        this.type = type == null ? null : type.trim();
+        this.type = type;
     }
 
     public String getEnvironment() {
@@ -267,7 +252,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setEnvironment(String environment) {
-        this.environment = environment == null ? null : environment.trim();
+        this.environment = environment;
     }
 
     public String getMaterials() {
@@ -275,7 +260,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setMaterials(String materials) {
-        this.materials = materials == null ? null : materials.trim();
+        this.materials = materials;
     }
 
     public String getTreat() {
@@ -283,7 +268,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setTreat(String treat) {
-        this.treat = treat == null ? null : treat.trim();
+        this.treat = treat;
     }
 
     public String getDefinitionTime() {
@@ -291,7 +276,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setDefinitionTime(String definitionTime) {
-        this.definitionTime = definitionTime == null ? null : definitionTime.trim();
+        this.definitionTime = definitionTime;
     }
 
     public String getTaxonomy() {
@@ -299,7 +284,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setTaxonomy(String taxonomy) {
-        this.taxonomy = taxonomy == null ? null : taxonomy.trim();
+        this.taxonomy = taxonomy;
     }
 
     public String getMyceliaPhenotype() {
@@ -307,7 +292,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setMyceliaPhenotype(String myceliaPhenotype) {
-        this.myceliaPhenotype = myceliaPhenotype == null ? null : myceliaPhenotype.trim();
+        this.myceliaPhenotype = myceliaPhenotype;
     }
 
     public String getMyceliaDiameter() {
@@ -315,7 +300,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setMyceliaDiameter(String myceliaDiameter) {
-        this.myceliaDiameter = myceliaDiameter == null ? null : myceliaDiameter.trim();
+        this.myceliaDiameter = myceliaDiameter;
     }
 
     public String getMyceliaColor() {
@@ -323,7 +308,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setMyceliaColor(String myceliaColor) {
-        this.myceliaColor = myceliaColor == null ? null : myceliaColor.trim();
+        this.myceliaColor = myceliaColor;
     }
 
     public String getSporesColor() {
@@ -331,7 +316,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setSporesColor(String sporesColor) {
-        this.sporesColor = sporesColor == null ? null : sporesColor.trim();
+        this.sporesColor = sporesColor;
     }
 
     public String getSporesShape() {
@@ -339,7 +324,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setSporesShape(String sporesShape) {
-        this.sporesShape = sporesShape == null ? null : sporesShape.trim();
+        this.sporesShape = sporesShape;
     }
 
     public String getClampConnection() {
@@ -347,7 +332,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setClampConnection(String clampConnection) {
-        this.clampConnection = clampConnection == null ? null : clampConnection.trim();
+        this.clampConnection = clampConnection;
     }
 
     public String getPileusPhenotype() {
@@ -355,7 +340,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setPileusPhenotype(String pileusPhenotype) {
-        this.pileusPhenotype = pileusPhenotype == null ? null : pileusPhenotype.trim();
+        this.pileusPhenotype = pileusPhenotype;
     }
 
     public String getPileusColor() {
@@ -363,7 +348,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setPileusColor(String pileusColor) {
-        this.pileusColor = pileusColor == null ? null : pileusColor.trim();
+        this.pileusColor = pileusColor;
     }
 
     public String getStipePhenotype() {
@@ -371,7 +356,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setStipePhenotype(String stipePhenotype) {
-        this.stipePhenotype = stipePhenotype == null ? null : stipePhenotype.trim();
+        this.stipePhenotype = stipePhenotype;
     }
 
     public String getStipeColor() {
@@ -379,7 +364,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setStipeColor(String stipeColor) {
-        this.stipeColor = stipeColor == null ? null : stipeColor.trim();
+        this.stipeColor = stipeColor;
     }
 
     public String getFruitbodyColor() {
@@ -387,7 +372,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setFruitbodyColor(String fruitbodyColor) {
-        this.fruitbodyColor = fruitbodyColor == null ? null : fruitbodyColor.trim();
+        this.fruitbodyColor = fruitbodyColor;
     }
 
     public String getFruitbodyType() {
@@ -395,7 +380,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setFruitbodyType(String fruitbodyType) {
-        this.fruitbodyType = fruitbodyType == null ? null : fruitbodyType.trim();
+        this.fruitbodyType = fruitbodyType;
     }
 
     public String getIllumination() {
@@ -403,7 +388,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setIllumination(String illumination) {
-        this.illumination = illumination == null ? null : illumination.trim();
+        this.illumination = illumination;
     }
 
     public String getCollarium() {
@@ -411,7 +396,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setCollarium(String collarium) {
-        this.collarium = collarium == null ? null : collarium.trim();
+        this.collarium = collarium;
     }
 
     public String getVolva() {
@@ -419,7 +404,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setVolva(String volva) {
-        this.volva = volva == null ? null : volva.trim();
+        this.volva = volva;
     }
 
     public String getVelum() {
@@ -427,7 +412,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setVelum(String velum) {
-        this.velum = velum == null ? null : velum.trim();
+        this.velum = velum;
     }
 
     public String getSclerotium() {
@@ -435,7 +420,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setSclerotium(String sclerotium) {
-        this.sclerotium = sclerotium == null ? null : sclerotium.trim();
+        this.sclerotium = sclerotium;
     }
 
     public String getStrainMedium() {
@@ -443,7 +428,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setStrainMedium(String strainMedium) {
-        this.strainMedium = strainMedium == null ? null : strainMedium.trim();
+        this.strainMedium = strainMedium;
     }
 
     public String getMainSubstrate() {
@@ -451,7 +436,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setMainSubstrate(String mainSubstrate) {
-        this.mainSubstrate = mainSubstrate == null ? null : mainSubstrate.trim();
+        this.mainSubstrate = mainSubstrate;
     }
 
     public String getAfterRipeningStage() {
@@ -459,7 +444,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setAfterRipeningStage(String afterRipeningStage) {
-        this.afterRipeningStage = afterRipeningStage == null ? null : afterRipeningStage.trim();
+        this.afterRipeningStage = afterRipeningStage;
     }
 
     public String getPrimordialStimulationFruitbody() {
@@ -467,7 +452,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setPrimordialStimulationFruitbody(String primordialStimulationFruitbody) {
-        this.primordialStimulationFruitbody = primordialStimulationFruitbody == null ? null : primordialStimulationFruitbody.trim();
+        this.primordialStimulationFruitbody = primordialStimulationFruitbody;
     }
 
     public String getReproductiveMode() {
@@ -475,7 +460,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setReproductiveMode(String reproductiveMode) {
-        this.reproductiveMode = reproductiveMode == null ? null : reproductiveMode.trim();
+        this.reproductiveMode = reproductiveMode;
     }
 
     public String getLifestyle() {
@@ -483,7 +468,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setLifestyle(String lifestyle) {
-        this.lifestyle = lifestyle == null ? null : lifestyle.trim();
+        this.lifestyle = lifestyle;
     }
 
     public String getPreservation() {
@@ -491,7 +476,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setPreservation(String preservation) {
-        this.preservation = preservation == null ? null : preservation.trim();
+        this.preservation = preservation;
     }
 
     public String getDomestication() {
@@ -499,7 +484,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setDomestication(String domestication) {
-        this.domestication = domestication == null ? null : domestication.trim();
+        this.domestication = domestication;
     }
 
     public String getNuclearPhase() {
@@ -507,7 +492,7 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setNuclearPhase(String nuclearPhase) {
-        this.nuclearPhase = nuclearPhase == null ? null : nuclearPhase.trim();
+        this.nuclearPhase = nuclearPhase;
     }
 
     public String getMatingType() {
@@ -515,14 +500,6 @@ public class SampleInfo extends DataEntity<SampleInfo> {
     }
 
     public void setMatingType(String matingType) {
-        this.matingType = matingType == null ? null : matingType.trim();
-    }
-
-    public String getKeywords() {
-        return keywords;
-    }
-
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
+        this.matingType = matingType;
     }
 }

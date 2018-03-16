@@ -2,6 +2,7 @@ package com.gooalgene.dna.service;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.dna.dto.DnaRunDto;
+import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
@@ -59,19 +60,19 @@ public class FindSampleByIdTest extends TestCase{
 
     @Test
     public void testGetListByConditionWithTypeHandler(){
-        PageInfo<DNARunSearchResult> list = dnaRunService.getListByConditionWithTypeHandler(new DnaRunDto(), 1, 10, "1");
+        PageInfo<DNARunSearchResult> list = dnaRunService.getListByConditionWithTypeHandler(new SampleInfoDto(), 1, 10, "1");
         assertNotNull(list);
         for (DNARunSearchResult result : list.getList()){
             System.out.println(result.getHeight());
         }
     }
 
-    @Test
+    /*@Test
     public void testFindListWithTypeHandler(){
         PageInfo<DNARunSearchResult> list = dnaRunService.findListWithTypeHandler(new DnaRunDto(), 1, 10, "1");
         assertNotNull(list);
         for (DNARunSearchResult result : list.getList()){
             System.out.println(result.getHilumColor());
         }
-    }
+    }*/
 }

@@ -3,6 +3,7 @@ package com.gooalgene.dna.dao;
 import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.dto.DnaRunDto;
+import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 
@@ -20,11 +21,11 @@ public interface DNARunDao extends CrudDao<DNARun> {
 
     List<DNARun> getListByCondition(DnaRunDto dnaRunDto);
 
-    List<DNARunSearchResult> getListByConditionWithTypeHandler(DnaRunDto dnaRunDto);
+    List<DNARunSearchResult> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto);
 
     List<DNARun> getByCultivar(List<String> list);
 
     List<DNARun> getByCultivarForExport(List<String> list);
 
-    List<DNARunSearchResult> findListWithTypeHandler(DnaRunDto dnaRunDto);
+    List<SampleInfoDto> findListWithTypeHandler(SampleInfoDto sampleInfoDto);
 }

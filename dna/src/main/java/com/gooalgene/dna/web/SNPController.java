@@ -5,8 +5,8 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
-import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SNPDto;
+import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
@@ -27,8 +27,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -114,24 +112,14 @@ public class SNPController {
     public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
-        Page<DNARunSearchResult> page = new Page<>(request, response);
+        Page<SampleInfoDto> page = new Page<>(request, response);
         return dnaRunService.queryDNARunByGroup(group, page);
     }
 
     /**
      * 按基因条件搜索
      */
-    @RequestMapping(value = "/condition", method = RequestMethod.GET)
-    @ResponseBody
-    public ResultVO getByExample(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
-                                 @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                 @RequestParam(value = "isPage", required = false) String isPage,
-                                 DnaRunDto dnaRunDto) {
-        logger.info(dnaRunDto.getGroup());
-        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
-        return ResultUtil.success(dnaRunPageInfo);
 
-    }
 
     /**
      * 查询默认群体
@@ -656,7 +644,7 @@ public class SNPController {
                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                        @RequestParam(value = "pageSize", required = false) String isPage,
                                        @RequestParam("judgeAllele")String judgeAllele,
-                                       DnaRunDto dnaRunDto) {
+                                       SampleInfoDto SampleInfoDto) {
         Map result = snpService.findSampleById(snpId);
         SNP snpTemp = (SNP) result.get("snpData");
         String type = "snp";
@@ -722,8 +710,8 @@ public class SNPController {
             return ResultUtil.success(response);
         }
         Map response = Maps.newHashMap();
-        dnaRunDto.setRunNos(runNos);
-        PageInfo<DNARunSearchResult> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(dnaRunDto, pageNum, pageSize, isPage);
+        SampleInfoDto.setRunNos(runNos);
+        PageInfo<DNARunSearchResult> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(SampleInfoDto, pageNum, pageSize, isPage);
         response.put("dnaRuns", dnaRuns);
         response.put("samples", samples);
         return ResultUtil.success(response);
