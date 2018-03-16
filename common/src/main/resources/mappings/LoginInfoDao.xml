@@ -8,7 +8,7 @@
     </resultMap>
 
     <insert id="insertLoginInfo">
-        INSERT  INTO  login_info (userid,logintime,logouttime)VALUE (#{userId},#{loginTime},#{logoutTime})
+        INSERT  INTO  login_info (userid,logintime,logouttime,ip)VALUE (#{userId},#{loginTime},#{logoutTime},#{loginAddress})
     </insert>
 
     <select id="getLoginInfoById" resultMap="LoginInfo">
@@ -16,7 +16,7 @@
     </select>
 
     <select id="getAllLoginInfo" resultMap="LoginInfo">
-        SELECT  * FROM  login_info
+        SELECT  * FROM login_info
     </select>
 
 </mapper>

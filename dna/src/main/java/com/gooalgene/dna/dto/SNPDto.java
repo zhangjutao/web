@@ -44,6 +44,9 @@ public class SNPDto {
     private Object freq;
     private Map geneType;
     private Integer index;
+    /**
+     * 前端snp位点对应的三种不同consequencetype呈现的不同颜色
+     */
     private Integer consequencetypeColor=0;
 
     public Integer getConsequencetypeColor() {

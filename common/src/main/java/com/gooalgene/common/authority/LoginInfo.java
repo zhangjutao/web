@@ -9,6 +9,7 @@ public class LoginInfo {
 
     private int id;
     private Integer userId;
+    private String loginAddress;
     private Date loginTime;
     private Date logoutTime;
 
@@ -51,5 +52,13 @@ public class LoginInfo {
 
     public void setUserId(Integer userId) {
         this.userId = userId;
+    }
+
+    public String getLoginAddress() {
+        return loginAddress;
+    }
+
+    public void setLoginAddress(String loginAddress) {
+        this.loginAddress = loginAddress;
     }
 }

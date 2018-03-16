@@ -1,5 +1,8 @@
 package com.gooalgene.utils;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONException;
+import net.sf.json.JSONObject;
 import org.apache.commons.lang3.CharUtils;
 import org.apache.commons.lang3.StringUtils;
 
@@ -859,9 +862,6 @@ public class CommonUtil {
     }
 
     public static boolean isInteger(String value) {
-  	  /*Pattern p = Pattern.compile(CNUMBER_PATTERN);
-  	  Matcher m = p.matcher(value);
-  	  return m.find();*/
         try {
             Integer.parseInt(value);
         } catch (Exception e) {
@@ -890,68 +890,6 @@ public class CommonUtil {
             return false;
         }
 
-    }
-
-    public static void main(String[] args) {
-/*		BigDecimal b1 = new BigDecimal("4315813000");
-		BigDecimal b2 = new BigDecimal(1000);
-
-		BigDecimal b3 = b1.divide(b2, 0, BigDecimal.ROUND_HALF_UP);
-		System.out.println("b3===" + b3);
-		long[] hms = toHMS(b3.longValue());
-		System.out.println(hms[0] + "   D   " + hms[1] + "   H   " + hms[2]
-				+ "M" + hms[3] + "S");*/
-		/*
-		ArrayList list = new ArrayList();
-		String mib = "1.2.3";
-		list.add("1.2.3.1.0");
-		list.add("1.2.3.5");
-		list.add("1.2.3.3.0");
-		list.add("1.2.3.8");
-		list.add("1.2.3.12");
-		List lastvaluelt=  new ArrayList();
-		List lostlist = new ArrayList();
-		for(int i = 0;i<list.size();i++){
-		 String curmib = (String) list.get(i);
-		 String curvalue_andend = curmib.substring(mib.length() + 1,
-					curmib.length());
-		 String curvalue="";
-		 if(curvalue_andend.indexOf(".")!=-1){
-			 curvalue = curvalue_andend.substring(0, curvalue_andend
-					.indexOf("."));
-			 System.out.println("teststst=="+curvalue);
-		 }else{
-			 curvalue=curvalue_andend;
-		 }
-		 lastvaluelt.add(curvalue);
-		} 
-		
-		Comparator comp = new ContentComparator();
-		Collections.sort(lastvaluelt,comp); 
-		int theMaxValue = Integer.valueOf((String) lastvaluelt.get(lastvaluelt.size()-1));
-		for(int i = 1;i<theMaxValue;i++){
-			boolean flag = false;
-			for(int j = 0;j<lastvaluelt.size();j++){
-				String curval = (String) lastvaluelt.get(j);
-				if(Integer.parseInt(curval)==i){
-					flag = true;
-					break;
-				}
-				
-			}
-			if(!flag){
-				lostlist.add(i);
-			}
-			
-		}
-		
-		for (int i = 0; i < lostlist.size(); i++) {
-			System.out.println(lostlist.get(i));
-		}
-		*/
-        //MyUtil.getStartTimeStr();
-        String s=getStrIfNoPoint("wwwwwdd");
-        System.out.println(s);
     }
 
     public static Integer getCharPositionBeforNum(String str){
@@ -999,6 +937,22 @@ public class CommonUtil {
         return sb.toString();
     }
 
-
-
+    /**
+     * 判断为有效JSON字符串
+     * @param resolved 带检测的字符串
+     * @return 是否为有效JSON字符串
+     */
+    public static boolean isJSONValid(String resolved) {
+        try {
+            JSONObject.fromObject(resolved);
+        } catch (JSONException e) {
+            try {
+                // 判断是否为json数组
+                JSONArray.fromObject(resolved);
+            } catch (JSONException ex) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
