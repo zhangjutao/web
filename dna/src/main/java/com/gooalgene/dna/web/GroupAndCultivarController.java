@@ -2,7 +2,7 @@ package com.gooalgene.dna.web;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.vo.ResultVO;
-import com.gooalgene.dna.entity.SampleInfo;
+import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.utils.ResultUtil;
@@ -28,9 +28,9 @@ public class GroupAndCultivarController {
     public ResultVO getByExample(@RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                  @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                  @RequestParam(value = "isPage", required = false) String isPage,
-                                 SampleInfo sampleInfo) {
-        logger.info(sampleInfo.getRunNo());
-        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(sampleInfo, pageNum, pageSize, isPage);
+                                 SampleInfoDto sampleInfoDto) {
+        logger.info(sampleInfoDto.getRunNo());
+        PageInfo<DNARunSearchResult> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(sampleInfoDto, pageNum, pageSize, isPage);
         return ResultUtil.success(dnaRunPageInfo);
 
     }

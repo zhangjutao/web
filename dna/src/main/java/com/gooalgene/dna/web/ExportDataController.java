@@ -891,12 +891,12 @@ public class ExportDataController {
 //        JSONObject object = null;
         boolean isINDEL = false;
         //dnaRunDto用来存储表头筛选的条件
-        SampleInfoDto sampleInfo = null;
+        SampleInfoDto sampleInfoDto = null;
         if (condition != null && !condition.equals("")) {
 //            object = JSONObject.fromObject(condition);
-            sampleInfo = new Gson().fromJson(condition,SampleInfoDto.class);
+            sampleInfoDto = new Gson().fromJson(condition,SampleInfoDto.class);
         } else {
-            sampleInfo = new SampleInfoDto();
+            sampleInfoDto = new SampleInfoDto();
         }
         String snpId = "";
         if (JsonPath.read(condition,"$.snpId")!="") {
@@ -984,9 +984,9 @@ public class ExportDataController {
         }
         //查询结果集
         PageInfo<DNARunSearchResult> dnaRuns = null;
-        if (sampleInfo != null && runNos.size() > 0) {
-            sampleInfo.setRunNos(runNos);
-            dnaRuns = dnaRunService.getListByConditionWithTypeHandler(sampleInfo, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
+        if (sampleInfoDto != null && runNos.size() > 0) {
+            sampleInfoDto.setRunNos(runNos);
+            dnaRuns = dnaRunService.getListByConditionWithTypeHandler(sampleInfoDto, DEFAULT_PAGE_NUM, EXPORT_NUM, null);
         }
         if(dnaRuns!=null){
             List<DNARunSearchResult> dnaRunSearchResultList= dnaRuns.getList();
