@@ -61,11 +61,15 @@
     </resultMap>-->
 
     <sql id="Base_Column_List" >
-        id, run_no, species, sample_name, cultivar, plant_name, locality, protein, oil, linoleic,
-        linolenic, oleic, palmitic, stearic, height, flower_color, hilum_color, pod_color,
-        pubescence_color, seed_coat_color, cotyledon_color, weight_per_100seeds, upper_leaflet_length,
-        maturity_date, yield, category
-    </sql>
+    id, run_no, scientific_name, sample_id, strain_name, locality, preservation_location,
+    type, environment, materials, treat, definition_time, taxonomy, mycelia_phenotype, mycelia_diameter,
+    mycelia_color, mycelium_growth_rate, gill_phenotype, gill_color, spores_color, spores_shape,
+    clamp_connection, pileus_length, pileus_width, pileus_thickness, pileus_phenotype,
+    pileus_color, stipe_length, stipe_diameter, stipe_phenotype, stipe_color, yield,
+    fruitbody_color, fruitbody_type, illumination, collarium, volva, velum, sclerotium,
+    strain_medium, main_substrate, after_ripening_stage, primordial_stimulation_fruitbody,
+    reproductive_mode, lifestyle, preservation, domestication, nuclear_phase, mating_type
+  </sql>
 
     <sql id="Example_Where_Clause" >
         <where >
