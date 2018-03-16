@@ -299,6 +299,12 @@
                         <div class="checkbox-item-tab" id="snp-paginate">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
                         </div>
+
+                        <%--snp位点分页--%>
+                        <div class="checkbox-item-tab" id="wd-paginate" style="display: none;">
+                            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
+                        </div>
+
                     </div>
                     <%--indel 表格、--%>
                     <div class="tab-txt js-indel-tab">
@@ -360,11 +366,12 @@
                         <div class="checkbox-item-tab" id="indel-paginate">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
                         </div>
+                        <%--index位点分页--%>
+                        <div class="checkbox-item-tab" id="wdIndex-paginate" style="display: none;">
+                            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
+                        </div>
                     </div>
-                     <%--位点分页--%>
-                    <div class="checkbox-item-tab" id="wd-paginate" style="display: none;">
-                        <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-                    </div>
+
                 </div>
             </div>
         </div>
