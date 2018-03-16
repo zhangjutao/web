@@ -62,9 +62,11 @@ public class SNPService {
         int totalRefAndRef = 0;
         int totalRefAndAlt = 0;
         int totalAltAndAlt = 0;
+        // 所有dna_run中sample总数
         BigDecimal bigDecimalTotalSamples = BigDecimal.valueOf(snp.getSamples().size());
         for (Map.Entry<String, String> entry : originSamples.entrySet()) {
             if (entry.getValue().equals("0/0")) {
+                // SRR2173904对应0/0,实际转换后值为:AA
                 transformedSamples.put(entry.getKey(), ref + ref);
                 totalRefAndRef += 1;
             } else if (entry.getValue().equals("0/1")) {
@@ -76,7 +78,7 @@ public class SNPService {
             }
         }
         snp.setSamples(transformedSamples);
-        if(type=="INDEL"){
+        if(type.equals("INDEL")) {
             transformResult.put("INDELData", snp);
             return transformResult;
         }
@@ -95,9 +97,6 @@ public class SNPService {
 
     /**
      * 通过SNP或INDEL的id查找相应SNP或INDEL数据及相关sample数据
-     *
-     * @param id
-     * @return
      */
     public Map findSampleById(String id) {
         Map oneDataResult = new HashMap();
@@ -127,20 +126,15 @@ public class SNPService {
         StringBuffer stringMajorPercent = new DecimalFormat("###0.00").format(
                 majorDecimalToPercent, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD)
         );
-
+        // 计算SNP ref以及alt组合值所占的比例
         oneDataResult = genotypeTransform(oneData, type);
         oneDataResult.put("major", stringMajorPercent);
-        if (type.equals("INDEL")) {
-            oneDataResult.put("type", type);
-        } else {
-            oneDataResult.put("type", type);
-        }
+        oneDataResult.put("type", type);
         return oneDataResult;
     }
 
-
     public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
-        List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
+        // 查询设置区域内的所有SNP
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -156,6 +150,7 @@ public class SNPService {
             geneIds.add(snp.getGene());
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
+            // 计算该snp中alt、ref比例
             Map map = snpService.findSampleById(snp.getId());
             snpDto.setGeneType(map);
             JSONArray freqData;
@@ -386,11 +381,9 @@ public class SNPService {
             int num_0_1 = 0;
             int num_1_1 = 0;
             int num_total = 0;
-//            System.out.println("==========================");
             for (int j = 0; j < length; j++) {
                 String k = samples.get(j);
                 String s = sample.get(k);
-//                System.out.println(k + ":" + s);
                 if (s != null) {
                     if (s.equals(doubleRef)) {
                         num_0_0++;
@@ -404,11 +397,8 @@ public class SNPService {
                     } else {
 
                     }
-                } else {
-                    System.out.println(k + " is " + s);
                 }
             }
-//            System.out.println("G:" + group + "=====[1/1]:" + num_1_1 + "\t[0/0]:" + num_0_0 + "\t[0/1]:" + num_0_1 + "\tTotal" + num_total);
             double major = 0, minor = 0;//频率高的为Major,低的为Minor
             if (num_total != 0) {
                 Double a = (num_0_0 + 0.5 * num_0_1) / num_total;
@@ -421,7 +411,6 @@ public class SNPService {
                     minor = a;
                 }
             }
-//            System.out.println(major + "\t" + minor);
             jsonObject.put("major", major);
             jsonObject.put("minor", minor);
             jsonArray.add(jsonObject);

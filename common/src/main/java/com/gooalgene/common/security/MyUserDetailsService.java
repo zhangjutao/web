@@ -20,9 +20,9 @@ import java.util.List;
 
 @Component("myUserDetailsService")
 public class MyUserDetailsService implements UserDetailsService {
-    Logger logger= LoggerFactory.getLogger(MyUserDetailsService.class);
     @Autowired
     private UserDao userDao;
+
     @Autowired
     private RoleDao roleDao;
 
@@ -34,7 +34,6 @@ public class MyUserDetailsService implements UserDetailsService {
         User user=userDao.getByUsername(username);
 
         List<Role> roles=roleDao.getByUserId(user.getId());
-        logger.debug("得到其权限：{}", roles);
         if(System.currentTimeMillis()<user.getDue_time().getTime()){
             accountNonExpired=true;
         }

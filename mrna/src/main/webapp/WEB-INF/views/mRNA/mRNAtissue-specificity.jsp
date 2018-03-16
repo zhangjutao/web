@@ -309,8 +309,8 @@
         function renderGenesCheckBox() {
             var str = '';
             for(var i in specificGenes) {
-//                var gene = specificGenes[i].split(".")[0] + specificGenes[i].split(".")[1];
-                var gene = specificGenes[i];
+                var gene = specificGenes[i].split(".")[0] + specificGenes[i].split(".")[1];
+//                var gene = specificGenes[i];
                 str += '<dd><label class="ga-checkbox js-checkbox-item-gene cls_'+gene+'" for="'+ gene +'"><span id="'+ gene +'"></span>'+ gene +'</label></dd>'
             }
             $(".js-checkbox-gene > dl").empty().append(str);
@@ -355,7 +355,7 @@
         }
 
         $(".js-checkbox-list").on("click", ".js-2nd-choose-item", function() {
-            var gene = $(this).text();
+            var gene = $(this).text()
             _.pull(secondSpecificGenes, gene);
             render2ndCheckboxGene();
             var cls = ".cls_" + gene;
