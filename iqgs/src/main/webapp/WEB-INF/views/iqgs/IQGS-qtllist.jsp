@@ -127,8 +127,8 @@
             width: 730px;
             background-color: #fff;
             position: fixed;
-            top: 60px;
-            left: 25%;
+            top: 160px;
+            left: 28%;
             z-index: 11;
         }
 
@@ -439,11 +439,13 @@
 //
 //        }
         /*拖动弹框*/
-        $(".js-pop").draggable({ containment: "body",cancel:".js-pop-body" });
-        $( ".author-pop-tab" ).draggable({ containment: "body",cancel:".js-pop-body"  });
-        $( ".tab-detail" ).draggable({ containment: "body",cancel:".tab-detail-tbody"  });
-        $( ".author-pop-tab" ).draggable({containment: "body", cancel: '.information-tab',});
-        $(".genesInfo").draggable({containment: "body"});
+        $("#mid").height($(window).height());
+        $("#mid").width($(window).width());
+        $(".js-pop").draggable({ containment: "#mid", cancel:".js-pop-body", scroll: false});
+        $( ".author-pop-tab" ).draggable({ containment: "#mid", cancel:".js-pop-body", scroll: false});
+        $( ".tab-detail" ).draggable({ containment: "#mid", cancel:".tab-detail-tbody", scroll: false});
+        $( ".author-pop-tab" ).draggable({containment: "#mid", cancel: '.information-tab', scroll: false});
+        $(".genesInfo").draggable({containment: "#mid", scroll: false});
         if (getCookie('showedCols')) {
             var cols = getCookie('showedCols').split("-");
             $("input[type='checkbox']").each(function (index, el) {
@@ -713,8 +715,16 @@
     $(".js-author-pop").click(function (e) {
 
         var url = $(this).attr("data-src");
-        $("#mid").show()
+        $("#mid").show();
+        //modified by zjt 2018-3-16
+        $("#mid").height($(window).height());
+        $("#mid").width($(window).width());
         $(".author-pop-tab").show();
+        $("#mid").bind('click', function(){
+            $("#mid").hide();
+            $(".author-pop-tab").hide();
+        });
+        //modified by zjt 2018-3-16
         var _qtl = $("a.qtlName").html();
         $.ajax({
             url: url,
@@ -785,7 +795,15 @@
         $(id).click(function (e) {
             e.preventDefault();
             $("#mid").show();
+            //modified by zjt 2018-3-16
+            $("#mid").height($(window).height());
+            $("#mid").width($(window).width());
             $(".js-pop").show();
+            $("#mid").bind('click', function(){
+                $("#mid").hide();
+                $(".js-pop").hide();
+            });
+            //modified by zjt 2018-3-16
             $(".tname").text(name)
             var url = $(this).attr("data-src");
             $.ajax({
@@ -833,7 +851,15 @@
     $(".js-pop-genes").click(function (e) {
         e.preventDefault();
         $("#mid").show();
+        //modified by zjt 2018-3-16
+        $("#mid").height($(window).height());
+        $("#mid").width($(window).width());
         $(".tab-detail").show();
+        $("#mid").bind('click', function(){
+            $("#mid").hide();
+            $(".tab-detail").hide();
+        });
+        //modified by zjt 2018-3-16
         $(".tab-category-list").html("");
         var text = $(this).attr("data-txt");
         var t = text.split(",")

@@ -192,10 +192,20 @@
     <script src="${ctxStatic}/js/layout.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
     <script>
-        /*拖动弹框*/
-        $(".js-pop").draggable({ containment: "parent"});
-        $( ".links-pop" ).draggable({ containment: "parent"});
-        $( ".tab-detail" ).draggable({ containment: "parent"});
+        //为mid绑定取消links-pop div事件 modified by zjt 2018-3-15
+        $("#mid").bind('click', function(){
+            $("#mid").hide();
+            $(".links-pop").hide();
+        });
+
+        //拖动弹框 modified by zjt 2018-3-16
+        //$(".js-pop").draggable({ containment: "parent"});
+        //$( ".links-pop" ).draggable({ containment: "parent"});
+        //$( ".tab-detail" ).draggable({ containment: "parent"});*/
+        $(".js-pop").draggable({ containment: "#mid", cancel : ".js-pop-body", scroll: false});
+        $( ".links-pop" ).draggable({ containment: "#mid", cancel : ".links-text", scroll: false});
+        $( ".tab-detail" ).draggable({ containment: "#mid", cancel : ".tab-detail-tbody", scroll: false});
+        //拖动弹框 modified by zjt 2018-3-16
         function getUrlParam(name) {
             var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
             var r = window.location.search.substr(1).match(reg);  //匹配目标参数
@@ -207,7 +217,15 @@
                 $(".js-pop-head span").html(title)
                 e.preventDefault();
                 $("#mid").show();
+                //modifeid by zjt 2018-3-16
+                $("#mid").height($(window).height());
+                $("#mid").width($(window).width());
                 $(".js-pop").show();
+                $("#mid").bind('click', function(){
+                    $("#mid").hide();
+                    $(".js-pop").hide();
+                });
+                //modifeid by zjt 2018-3-16
 //                $(".js-pop-body tbody").html();
                 var url=$(this).attr("data-src");
                 $.ajax({
@@ -256,6 +274,12 @@
             e.preventDefault();
             $("#mid").show();
             $(".tab-detail").show();
+            //modifeid by zjt 2018-3-16
+            $("#mid").bind('click', function(){
+                $("#mid").hide();
+                $(".tab-detail").hide();
+            });
+            //modifeid by zjt 2018-3-16
         })
         $(".tab-category-list span").click(function(){
             $(".genesInfo").show()
