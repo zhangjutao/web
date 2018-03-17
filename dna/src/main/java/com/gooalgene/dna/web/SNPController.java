@@ -101,7 +101,7 @@ public class SNPController {
      */
     @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
         Page<SampleInfoDto> page = new Page<>(request, response);
@@ -114,7 +114,7 @@ public class SNPController {
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
-    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");
         // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String ctype = request.getParameter("ctype");
@@ -153,7 +153,7 @@ public class SNPController {
      */
     @RequestMapping("/searchSNPinRegion")
     @ResponseBody
-    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");  //区分snp和indel数据
         String ctype = request.getParameter("ctype");  //list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String chr = request.getParameter("chromosome");
@@ -419,7 +419,7 @@ public class SNPController {
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                          @RequestParam("start") String start, @RequestParam("end") String end,
                                          @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws IOException {
+                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
         List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
@@ -454,7 +454,7 @@ public class SNPController {
                                        @RequestParam(value = "upstream", required = false) String upstream,
                                        @RequestParam(value = "downstream", required = false) String downstream,
                                        @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws IOException {
+                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
