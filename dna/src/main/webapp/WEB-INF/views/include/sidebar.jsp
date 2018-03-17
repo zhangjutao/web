@@ -1839,9 +1839,12 @@
         var pageSizePopu = 10;
 
         function getPopuTable(curr) {
+            var currData=[];
+            currData.push(currPopu)
+            var datas={group: JSON.stringify(currData), pageNo: curr || 1, pageSize: pageSizePopu};
             $.ajax({
                 url: CTXROOT + "/dna/queryByGroup",
-                data: {group: JSON.stringify(currPopu), pageNo: curr || 1, pageSize: pageSizePopu},
+                data: datas,
                 type: "POST",
                 dataType: "json",
                 success: function (res) {

@@ -255,7 +255,6 @@ $(function (){
             $(item).val("");
         })
         var data = getParamas();
-        console.log(data)
        getData(data,paramData.pageNum,resetSaveStatus);
     });
     //表格筛选框显示隐藏
