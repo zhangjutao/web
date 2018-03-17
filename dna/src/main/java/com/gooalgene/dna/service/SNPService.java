@@ -96,9 +96,6 @@ public class SNPService {
 
     /**
      * 通过SNP或INDEL的id查找相应SNP或INDEL数据及相关sample数据
-     *
-     * @param id
-     * @return
      */
     public Map findSampleById(String id) {
         Map oneDataResult = new HashMap();
@@ -119,7 +116,6 @@ public class SNPService {
         if (oneData == null) {
             return oneDataResult;
         }
-
         //double类型精度处理
         double major = oneData.getMajor();
         BigDecimal decimalMajor = new BigDecimal(major);
@@ -140,7 +136,7 @@ public class SNPService {
     }
 
 
-    public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
+    public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) throws IOException {
         // List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
@@ -207,7 +203,7 @@ public class SNPService {
         return result;
     }
 
-    public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
+    public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) throws IOException {
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();

@@ -5,6 +5,7 @@ import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -46,11 +47,11 @@ public class FindSampleByIdTest extends TestCase{
 
     @Test
     public void testGetQueryList() {
-        List<DNARun> list= dnaRunService.getQueryList("{\"cultivar\":\"PI 339871A,PI 393551,ZJ-Y2300-1,?F1\"}");
-        for (DNARun dnaRun : list) {
-            List<String> list1 = dnaRunService.querySamples(dnaRun);
+        /*List<SampleInfo> list= dnaRunService.getQueryList("{\"cultivar\":\"PI 339871A,PI 393551,ZJ-Y2300-1,?F1\"}");
+        for (SampleInfo sampleInfo : list) {
+            List<String> list1 = dnaRunService.querySamples(sampleInfo);
             System.err.println(list1);
-        }
+        }*/
     }
 
     @Test

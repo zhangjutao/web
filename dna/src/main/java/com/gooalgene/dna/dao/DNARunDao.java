@@ -14,7 +14,7 @@ import java.util.List;
  * Created by ShiYun on 2017/9/6 0006.
  */
 @MyBatisDao
-public interface DNARunDao extends CrudDao<DNARun> {
+public interface DNARunDao extends CrudDao<SampleInfo> {
 
     int insertBatch(List<DNARun> list);
 
@@ -26,7 +26,7 @@ public interface DNARunDao extends CrudDao<DNARun> {
 
     List<DNARun> getByCultivar(List<String> list);
 
-    List<DNARun> getByCultivarForExport(List<String> list);
+    List<SampleInfoDto> getByCultivarForExport(List<String> list);
 
     List<SampleInfoDto> findListWithTypeHandler(SampleInfoDto sampleInfoDto);
 }
