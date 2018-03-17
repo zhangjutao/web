@@ -5,6 +5,7 @@ import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import junit.framework.TestCase;
 import org.junit.Test;
@@ -14,6 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -45,15 +47,15 @@ public class FindSampleByIdTest extends TestCase{
 
     @Test
     public void testGetQueryList() {
-        List<DNARun> list= dnaRunService.getQueryList("{\"cultivar\":\"PI 339871A,PI 393551,ZJ-Y2300-1,?F1\"}");
-        for (DNARun dnaRun : list) {
-            List<String> list1 = dnaRunService.querySamples(dnaRun);
+        /*List<SampleInfo> list= dnaRunService.getQueryList("{\"cultivar\":\"PI 339871A,PI 393551,ZJ-Y2300-1,?F1\"}");
+        for (SampleInfo sampleInfo : list) {
+            List<String> list1 = dnaRunService.querySamples(sampleInfo);
             System.err.println(list1);
-        }
+        }*/
     }
 
     @Test
-    public void testQueryDNARunByCondition() {
+    public void testQueryDNARunByCondition() throws IOException {
         Map<String, List<String>> result = dnaRunService.queryDNARunByCondition("[{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551,品种名ZJ-Y108,品种名ZJ-Y2300-1,品种名PI 366121,品种名PI 593983\",\"id\":1511837787324},{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551,品种名ZJ-Y108,品种名ZJ-Y2300-1,品种名PI 366121,品种名PI 59398\",\"id\":1511837787324,\"condition\":{\"cultivar\":\"PI 562565,PI 339871A,PI 393551,ZJ-Y108,ZJ-Y2300-1,PI 366121,PI 59398,?F1\"}}]");
         System.err.println(result);
     }

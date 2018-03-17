@@ -5,6 +5,7 @@ import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 
 import java.util.List;
@@ -13,7 +14,7 @@ import java.util.List;
  * Created by ShiYun on 2017/9/6 0006.
  */
 @MyBatisDao
-public interface DNARunDao extends CrudDao<DNARun> {
+public interface DNARunDao extends CrudDao<SampleInfo> {
 
     int insertBatch(List<DNARun> list);
 
