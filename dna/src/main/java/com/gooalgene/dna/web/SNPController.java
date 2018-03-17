@@ -1,5 +1,7 @@
 package com.gooalgene.dna.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
@@ -11,6 +13,7 @@ import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
@@ -70,6 +73,8 @@ public class SNPController {
     private DNAGenStructureService dnaGenStructureService;
 
 
+
+
     @RequestMapping("/index")
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
@@ -101,7 +106,7 @@ public class SNPController {
      */
     @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
+    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
         Page<SampleInfoDto> page = new Page<>(request, response);
@@ -417,7 +422,7 @@ public class SNPController {
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                          @RequestParam("start") String start, @RequestParam("end") String end,
                                          @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws IOException {
         List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
@@ -451,7 +456,7 @@ public class SNPController {
                                        @RequestParam(value = "upstream", required = false) String upstream,
                                        @RequestParam(value = "downstream", required = false) String downstream,
                                        @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws IOException {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();

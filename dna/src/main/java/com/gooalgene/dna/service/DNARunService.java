@@ -1,5 +1,6 @@
 package com.gooalgene.dna.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
@@ -9,6 +10,7 @@ import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.dna.entity.result.GroupCondition;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -20,6 +22,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -35,11 +38,13 @@ public class DNARunService {
         return dnaRunDao.insertBatch(list);
     }
 
-
+    private ObjectMapper objectMapper = new ObjectMapper();
     /**
      * 根据页面分组查询对应的样本信息
      */
-    public Map<String, List<String>> queryDNARunByCondition(String group) {
+    public Map<String, List<String>> queryDNARunByCondition(String group) throws IOException {
+        //List<GroupCondition> result = objectMapper.readValue(group, new TypeReference<List<GroupCondition>>() {});
+        GroupCondition entity = objectMapper.readValue(group, GroupCondition.class);
         if (group.equals("[{}]")) {
             group = "[]";
         }
