@@ -218,7 +218,6 @@ $(function (){
             domestication:$(".domesticationI").val(),//驯化
             nuclearPhase:$(".nuclearPhaseI").val(),//核相
             matingType:$(".matingTypeI").val(),//交配型
-            isPage:1  // 是否分页
         };
         return datas;
     };

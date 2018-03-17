@@ -104,6 +104,18 @@ public class JacksonTest {
     }
 
     @Test
+    public void testInterceptStringWithoutProperty() throws IOException {
+        String groupCondition = "{\n" +
+                "    \"name\": \"物种名称Pleurotus tuoliensis\",\n" +
+                "    \"condition\": {\n" +
+                "      \"scientificName\": \"Pleurotus tuoliensis\"\n" +
+                "    }\n" +
+                "  }";
+        GroupCondition entity = JacksonUtils.convertJsonToObject(groupCondition, GroupCondition.class);
+        System.out.println(entity.getName());
+    }
+
+    @Test
     public void testJacksonToClassList() throws IOException {
         String jsonArray = "[\n" +
                 "{\n" +

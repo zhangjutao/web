@@ -221,49 +221,4 @@ public class SNPDto {
     public void setId(String id) {
         this.id = id;
     }
-
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", id);
-        jsonObject.put("chr", chr);
-        jsonObject.put("pos", pos);
-        jsonObject.put("ref", ref);
-        jsonObject.put("alt", alt);
-        jsonObject.put("qual", qual);
-        jsonObject.put("maf", maf);
-        jsonObject.put("lenght", lenght);
-        jsonObject.put("type", type);
-        jsonObject.put("gene", genecontent);
-        jsonObject.put("effect", effect);
-        jsonObject.put("consequencetype", consequencetype);
-        jsonObject.put("majorallen", majorallen);
-        jsonObject.put("minorallen", minorallen);
-        jsonObject.put("major", major);
-        jsonObject.put("minor", minor);
-        return jsonObject;
-    }
-
-    @Override
-    public String toString() {
-        return "SNP{" +
-                "id='" + id + '\'' +
-                ", chr='" + chr + '\'' +
-                ", pos=" + pos +
-                ", ref='" + ref + '\'' +
-                ", alt='" + alt + '\'' +
-                ", qual=" + qual +
-                ", maf=" + maf +
-                ", lenght=" + lenght +
-                ", type='" + type + '\'' +
-                ", gene='" + gene + '\'' +
-                ", genecontent='" + genecontent + '\'' +
-                ", effect='" + effect + '\'' +
-                ", consequencetype='" + consequencetype + '\'' +
-                ", samples=" + samples.size() +
-                ", majorallen='" + majorallen + '\'' +
-                ", minorallen='" + minorallen + '\'' +
-                ", major=" + major +
-                ", minor=" + minor +
-                '}';
-    }
 }

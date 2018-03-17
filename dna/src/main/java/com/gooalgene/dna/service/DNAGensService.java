@@ -25,11 +25,6 @@ public class DNAGensService {
 
     /**
      * 后台管理查询MrnaGens分页处理
-     *
-     * @param type
-     * @param keywords
-     * @param page
-     * @return
      */
     public JSONArray searchDNAGensbyKeywords(String type, String keywords, Page<DNAGens> page) {
         JSONArray data = new JSONArray();
@@ -46,6 +41,10 @@ public class DNAGensService {
             data.add(dnaGens1.toJSON());
         }
         return data;
+    }
+
+    public DNAGens findByGeneId(String geneId) {
+        return dnaGensDao.findByGeneId(geneId);
     }
 
     @Transactional(readOnly = false)

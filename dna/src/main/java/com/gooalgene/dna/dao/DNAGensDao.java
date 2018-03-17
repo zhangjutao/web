@@ -19,6 +19,8 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
 
     DNAGens findById(int id);
 
+    DNAGens findByGeneId(String geneId);
+
     boolean deleteById(int id);
 
     int insertBatch(List<DNAGens> toInsert);
