@@ -5,6 +5,7 @@ import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.dna.entity.result.GroupCondition;
+import com.gooalgene.dna.util.JacksonUtils;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -123,6 +124,8 @@ public class JacksonTest {
         List<GroupCondition> result = objectMapper.readValue(jsonArray, new TypeReference<List<GroupCondition>>() {});
         System.out.println(result.size()); // 2
         System.out.println(result.get(1).getCondition().get("preservationLocation"));
+        List<GroupCondition> list = JacksonUtils.convertJsonToArray(jsonArray, GroupCondition.class);
+        System.out.println("输出结果：" + list.get(0).getName());
     }
 
     @After

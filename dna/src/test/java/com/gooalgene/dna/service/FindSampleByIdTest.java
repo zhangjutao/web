@@ -14,6 +14,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
@@ -53,7 +54,7 @@ public class FindSampleByIdTest extends TestCase{
     }
 
     @Test
-    public void testQueryDNARunByCondition() {
+    public void testQueryDNARunByCondition() throws IOException {
         Map<String, List<String>> result = dnaRunService.queryDNARunByCondition("[{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551,品种名ZJ-Y108,品种名ZJ-Y2300-1,品种名PI 366121,品种名PI 593983\",\"id\":1511837787324},{\"name\":\"品种名PI 562565,品种名PI 339871A,品种名PI 393551,品种名ZJ-Y108,品种名ZJ-Y2300-1,品种名PI 366121,品种名PI 59398\",\"id\":1511837787324,\"condition\":{\"cultivar\":\"PI 562565,PI 339871A,PI 393551,ZJ-Y108,ZJ-Y2300-1,PI 366121,PI 59398,?F1\"}}]");
         System.err.println(result);
     }
