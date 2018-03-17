@@ -28,7 +28,8 @@
         .input-component {
             display: none;
             position: absolute;
-            border: 1px solid #5c8ce6;
+            /*border: 1px solid #5c8ce6;*/
+            border : 1px solid #0F9145;
             z-index: 1;
         }
         .input-component {
@@ -36,7 +37,8 @@
             top: 38px;
             padding: 15px 10px;
             width: 110px;
-            border: 1px solid #5c8ce6;
+            /*border: 1px solid #5c8ce6;*/
+            border : 1px solid #0F9145;
             background-color: #fff;
             left: 0;
         }
@@ -51,7 +53,8 @@
             margin-top: 8px;
         }
         .input-component p a{
-            color: #5c8ce6;
+            /*color: #5c8ce6;*/
+            color : #0F9145;
         }
         .input-component p a.btn-cancel {
             margin-right: 5px;
@@ -59,11 +62,13 @@
         .input-component p a {
             padding: 2px 8px;
             display: inline-block;
-            border: 1px solid #5c8ce6;
+            /*border: 1px solid #5c8ce6;*/
+            border : 1px solid #0F9145;
             border-radius: 3px;
         }
         .input-component p a.btn-confirm-info {
-            background-color: #5c8ce6;
+            /*background-color: #5c8ce6;*/
+            background-color: #0F9145;
             color: #fff;
         }
         td.param:hover >.input-component{
@@ -217,7 +222,7 @@
     <!--table-item-->
     <aside style="display: none">
         <div class="item-header">
-            <div class="icon-left"><img src="${ctxStatic}/images/bookmarks.png">组织<i class="">TISSUE</i></div>
+            <div class="icon-left"><img src="${ctxStatic}/images/tissue.png">组织<i class="">TISSUE</i></div>
             <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
         </div>
         <%@ include file="/WEB-INF/views/include/nav-mnra.jsp" %>

@@ -35,7 +35,7 @@
                     <%--<div class="un-login">--%>
                         <%--<input type="checkbox" checked/>下次自动登录--%>
                     <%--</div>--%>
-                    <a href="${ctxroot}/signup/forget" class="forgetpwd" style="color:#5C8CE6;">忘记密码</a>
+                    <a href="${ctxroot}/signup/forget" class="forgetpwd" style="color:#0F9145;">忘记密码</a>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  style="line-height:36px;"/>
                 <button type="submit" href="javascript:;" class="loginbox">登录</button>

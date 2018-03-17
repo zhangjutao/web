@@ -48,8 +48,10 @@
         margin: 0 20px;
     }
     .pagination .laypageskin_molv .laypage_curr {
-        border-top: 1px solid #5c8de5;
-        border-bottom: 1px solid #5c8de5;
+        /*border-top: 1px solid #5c8de5;
+        border-bottom: 1px solid #5c8de5;*/
+        border-top: 1px solid #0F9145;
+        border-bottom : 1px solid #0F9145;
     }
     .pagination .laypage_main input {
         height: 33px;

@@ -120,7 +120,8 @@
     padding-bottom: 10px;
 }
 .explain-title {
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color : #0F9145;
     font-size: 24px;
 }
 .explain-title img {
@@ -515,7 +516,8 @@ input::-webkit-input-placeholder {
     text-align: center;
     padding: 20px 0 15px 0;
     font-size: 18px;
-    border-bottom: 2px solid #5c8ce6;
+    /*border-bottom: 2px solid #5c8ce6;*/
+    border-bottom: 2px solid #0F9145;
 }
 .form{position: relative}
 .form .er{
@@ -604,14 +606,16 @@ input::-webkit-input-placeholder {
     margin-bottom: 30px;
     height: 40px;
     line-height: 40px;
-    background: #5c8ce6;
+    /*background: #5c8ce6;*/
+    background : #0F9145;
     color: #fff;
     font-size: 16px;
     width: 100%;
-    border: 1px solid #5c8ce6;
+    /*border: 1px solid #5c8ce6;*/
+    border: 1px solid #0F9145;
 }
 .reg{text-align: center}
-.reg a{color: #5c8ce6}
+.reg a{color: #0F9145}
 /*--------------------------注册*/
 .signup{
     background-color: #fff;padding: 30px 40px;

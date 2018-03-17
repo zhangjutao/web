@@ -24,16 +24,23 @@ header{background: #fff;height: 80px;box-shadow: 0px 1px 3px rgba(0,0,0,0.2);mar
     display: inline-block;
     line-height: 14px;
     text-align: center;
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color : #0F9145;
 }
+/*
 .login-out a.register{color:#5c8ce6;padding:10px;border-radius:2px }
 button.btn:hover{background-color: #586cca!important;}
 button.btn-fill:hover{background-color:#5c8ce6;color:#fff}
+*/
+.login-out a.register{color:#0F9145;padding:10px;border-radius:2px }
+button.btn:hover{background-color: #0F9145!important;}
+button.btn-fill:hover{background-color:#0F9145;color:#fff}
 /*banner*/
 
 .search{
     height: 40px;
-    background-color: #e6ebf1;
+    /*background-color: #e6ebf1;*/
+    background-color: #e7f2ec;
     text-align: center;
     line-height: 40px;
     padding: 5px 0;
@@ -94,7 +101,8 @@ button.btn-fill:hover{background-color:#5c8ce6;color:#fff}
 }
 .search label button{
     width: 130px;
-    background-color:#5d8ce6 ;
+    /*background-color:#5d8ce6 ;*/
+    background-color:#0F9145;
     color: #fff;
     height: 35px;
     border: none;
@@ -104,7 +112,7 @@ button.btn-fill:hover{background-color:#5c8ce6;color:#fff}
     line-height: 35px;
 }
 .search label button:hover{
-    background-color: #586cca;
+    background-color: #0F9145;
     cursor: pointer;
 }
 .search label button img{
@@ -219,7 +227,8 @@ aside{
 .icon-left{
     float: left;
     font-size: 22px;
-    color: #386cca;
+    /*color: #386cca;*/
+    color : #0F9145;
 }
 .icon-left img{
     width: 27px;
@@ -278,7 +287,8 @@ section.container{
     box-shadow: 0 1px 5px rgba(0,0,0,0.4);
 }
 .explain-title {
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color : #0F9145;
     font-size: 24px;
 }
 .explain-text{
@@ -294,7 +304,8 @@ section.container{
 }
 
     /*footer*/
-footer{background-color: #386cca;color:#fff ;clear: both}
+/*footer{background-color: #386cca;color:#fff ;clear: both}*/
+footer{background-color: #0F9145;color:#fff ;clear: both}
 footer dl{ float: left;padding: 40px 90px; margin-left: 13px;}
 footer dl dt{line-height: 55px;font-size: 20px}
 footer dl dt  a,footer dl dd a{color:#fff}
@@ -469,7 +480,8 @@ footer p{    clear: both;    text-align: center;padding-bottom: 25px}
     /*border-radius: 2px;*/
 /*}*/
 .active{
-    background-color: rgb(92, 140, 230);
+    /*background-color: rgb(92, 140, 230);*/
+    background-color : rgb(15,145,69);
     color:#fff!important;
     padding: 10px;
     border-radius: 2px;
