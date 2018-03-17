@@ -38,15 +38,12 @@ public class DNARunService {
 
     /**
      * 根据页面分组查询对应的样本信息
-     *
-     * @param group
-     * @return
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
         if (group.equals("[{}]")) {
             group = "[]";
         }
-        Map<String, List<String>> result = new HashMap();
+        Map<String, List<String>> result = new HashMap<>();
         if (StringUtils.isNotBlank(group)) {
             logger.info(group);
             JSONArray data = JSONArray.fromObject(group);
@@ -56,7 +53,7 @@ public class DNARunService {
                 String groupName = one.getString("name");
                 if (one.containsKey("condition")) {
                     String condition = one.getString("condition");
-                    if (condition.indexOf("{\"”cultivar") != -1) {
+                    if (condition.indexOf("cultivar") != -1) {
                         List<String> runNoList = new ArrayList<String>();
                         List<DNARun> dnaRunList = getQueryList(condition);
                         for (DNARun dnaRun : dnaRunList) {

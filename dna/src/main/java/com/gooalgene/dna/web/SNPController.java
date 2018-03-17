@@ -71,16 +71,16 @@ public class SNPController {
 
 
     @RequestMapping("/index")
-    public ModelAndView index(HttpServletRequest request) {
+    public ModelAndView index() {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
         return model;
     }
 
+    // 群体信息跳转接口
     @RequestMapping("/populationInfos")
-    public ModelAndView populationInfos(HttpServletRequest request) {
-        ModelAndView model = new ModelAndView("population/infos");
-        return model;
+    public String populationInfos() {
+        return "population/infos";
     }
 
     /**
@@ -98,10 +98,6 @@ public class SNPController {
 
     /**
      * 按基因条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
@@ -113,45 +109,24 @@ public class SNPController {
     }
 
     /**
-     * 按基因条件搜索
-     */
-
-
-    /**
-     * 查询默认群体
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping("/defaultGroup")
-    @ResponseBody
-    public JSONArray QueryDefaultGroup(HttpServletRequest request, HttpServletResponse response) {
-        return dnaGroupsService.searchAll();
-    }
-
-    /**
      * 按群组条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
+     * 查询传入基因start、end，上下游分别加2000，找出该区域内的所有snp位点
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
     public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String type = request.getParameter("type");
+        // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String ctype = request.getParameter("ctype");
         String gene = request.getParameter("gene");
         String upstream = request.getParameter("upstream");
         String downstream = request.getParameter("downstream");
         String group = request.getParameter("group");
         DNAGens dnaGens = dnaGensService.findByGene(gene);
-        logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
             long end = dnaGens.getGeneEnd();
-            logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
+            logger.info("基因:" + gene + ",start:" + start + ",end:" + end);
             if (StringUtils.isNoneBlank(upstream)) {
                 start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
             } else {
@@ -165,7 +140,6 @@ public class SNPController {
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
         return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
     }

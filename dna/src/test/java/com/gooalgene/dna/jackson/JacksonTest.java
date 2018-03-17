@@ -2,13 +2,16 @@ package com.gooalgene.dna.jackson;
 
 import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gooalgene.dna.entity.result.GroupCondition;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class JacksonTest {
@@ -84,6 +87,42 @@ public class JacksonTest {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testGroupConditionJsonToBean() throws IOException {
+        String groupCondition = "{" +
+                "\t\"name\": \"Pleurotus tuoliensis\",\n" +
+                "\t\"condition\": {\n" +
+                "\t\t\"locality\": \"Beijing, China\",\n" +
+                "\t\t\"strainName\": \"Zhongnongduanqi1hao\"\n" +
+                "\t}\n" +
+                "}";
+        GroupCondition entity = objectMapper.readValue(groupCondition, GroupCondition.class);
+        System.out.println(entity.getName());
+    }
+
+    @Test
+    public void testJacksonToClassList() throws IOException {
+        String jsonArray = "[\n" +
+                "{\n" +
+                "\t\"name\": \"Pleurotus tuoliensis\",\n" +
+                "\t\"condition\": {\n" +
+                "\t\t\"locality\": \"Beijing, China\",\n" +
+                "\t\t\"strainName\": \"Zhongnongduanqi1hao\"\n" +
+                "\t}\n" +
+                "},\n" +
+                "{\n" +
+                "\t\"name\": \"Pleurotus tuoliensis\",\n" +
+                "\t\"condition\": {\n" +
+                "\t\t\"preservationLocation\": \"Jilin agricultural university\",\n" +
+                "\t\t\"strainName\": \"Zhongnongduanqi1hao\"\n" +
+                "\t}\n" +
+                "}\n" +
+                "]";
+        List<GroupCondition> result = objectMapper.readValue(jsonArray, new TypeReference<List<GroupCondition>>() {});
+        System.out.println(result.size()); // 2
+        System.out.println(result.get(1).getCondition().get("preservationLocation"));
     }
 
     @After
