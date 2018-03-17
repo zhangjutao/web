@@ -179,52 +179,45 @@ $(function (){
     // 获取当前参数 封装
     function getParamas (){
         var datas={
-            cultivar:$(".cultivarI").val(),  // 品种名
-            group:popuSelectedVal, // 群体
-            species:$(".speciesI").val(),// 物种
-            locality:$(".localityI").val(), // 位置
-            sampleName:$(".sampleNameI").val(), // 样品名
-            // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
-            "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "weightPer100seeds.value":$(".weightPer100seedsI").val(),
-            // protein:$(".proteinI").val(), //蛋白质含量
-            "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "protein.value":$(".proteinI").val(),
-            // 含油量
-            "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "oil.value":$(".oilI").val(),
-            maturityDate:$(".maturityDateI").val(), // 熟期
-            // height:$(".heightI").val(),//株高
-            "height.operation":$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":$(".heightI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "height.value":$(".heightI").val(),
-            seedCoatColor:$(".seedCoatColorI").val(),//种皮色
-            hilumColor:$(".hilumColorI").val(),//种脐色
-            cotyledonColor:$(".cotyledonColorI").val(), //子叶色
-            flowerColor:$(".flowerColorI").val(),//花色
-            podColor:$(".podColorI").val(),//荚色
-            pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
-            // yield:$(".yieldI").val(),// 产量
-            "yield.operation":$(".yieldI").parent().find("option:selected").text().trim() == ">"?"gt":$(".yieldI").parent().find("option:selected").text().trim()=="="?"eq":$(".yieldI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "yield.value":$(".yieldI").val(),
-            // upperLeafletLength:$(".upperLeaf
-            // letLengthI").val(), //顶端小叶长度
-            "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
-            // linoleic:$(".linoleicI").val(), //亚油酸
-            "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "linoleic.value":$(".linoleicI").val(),
-            // linolenic:$(".linolenicI").val(), //亚麻酸
-            "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "linolenic.value":$(".linolenicI").val(),
-            // oleic:$(".oleicI").val(), //油酸
-            "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "oleic.value":$(".oleicI").val(),
-            // palmitic:$(".palmiticI").val(),  //软脂酸
-            "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "palmitic.value":$(".palmiticI").val(),
-            // stearic:$(".stearicI").val(), //硬脂酸
-            "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-            "stearic.value":$(".stearicI").val(),
+            runNo:$(".runNoI").val(),  // 测序样品编号
+            scientificName:$(".scientificNameI").val(),// 物种名称
+            sampleId:$(".sampleIdI").val(), // 编号
+            strainName:$(".strainNameI").val(), // 菌株名称
+            locality:$(".localityI").val(), // 地理位置
+            preservationLocation:$(".preservationLocationI").val(),//保藏地点
+            type:$(".typeI").val(),//类型
+            environment:$(".environmentI").val(),//培养环境
+            materials:$(".materialsI").val(), //材料
+            treat:$(".treatI").val(),//处理
+            definitionTime:$(".timeI").val(),//采集时间
+            taxonomy:$(".taxonomyI").val(),//分类地位
+            myceliaPhenotype:$(".myceliaPhenotypeI").val(),//菌丝形态
+            myceliaDiameter:$(".myceliaDiameterI").val(),//菌丝直径
+            myceliaColor:$(".myceliaColorI").val(),//菌丝颜色
+            sporesColor:$(".sporesColorI").val(),//孢子颜色
+            sporesShape:$(".sporesShapeI").val(),//孢子形态
+            clampConnection:$(".clampConnectionI").val(),//锁状联合
+            pileusPhenotype:$(".pileusPhenotypeI").val(),//菌盖形态
+            pileusColor:$(".pileusColorI").val(),//菌盖颜色
+            stipePhenotype:$(".stipePhenotypeI").val(),//菌柄形态
+            stipeColor:$(".stipeColorI").val(),//菌柄颜色
+            fruitbodyColor:$(".fruitbodyColorI").val(),//子实体颜色
+            fruitbodyType:$(".fruitbodyTypeI").val(),//子实体形态
+            illumination:$(".illuminationI").val(),//光照
+            collarium:$(".collariumI").val(),//菌环
+            volva:$(".volvaI").val(),//菌托
+            velum:$(".velumI").val(),//菌幕
+            sclerotium:$(".sclerotiumI").val(),//菌核
+            strainMedium:$(".strainMediumI").val(),//菌种培养基
+            mainSubstrate:$(".mainSubstrateI").val(),//主要栽培基质
+            afterRipeningStage:$(".afterRipeningStageI").val(),//后熟期
+            primordialStimulationFruitbody:$(".primordialStimulationFruitbodyI").val(),//原基刺激&子实体
+            reproductiveMode:$(".reproductiveModeI").val(),//生殖方式
+            lifestyle:$(".lifestyleI").val(),//生活方式
+            preservation:$(".preservationI").val(),//保藏方法
+            domestication:$(".domesticationI").val(),//驯化
+            nuclearPhase:$(".nuclearPhaseI").val(),//核相
+            matingType:$(".matingTypeI").val(),//交配型
             isPage:1  // 是否分页
         };
         return datas;
@@ -329,87 +322,86 @@ $(function (){
                     //舍弃小数之后的取整
                     intNums = parseInt(count / page.pageSize);
                     for (var i=0;i<totalDatas.length;i++){
-                        var runNoTV = totalDatas[i].runNo==null?"":totalDatas[i].runNo;  // 测序样品编号
-                        var scientificNameTV = totalDatas[i].scientificName==null?"":totalDatas[i].scientificName;  // 物种名称
-                        var sampleIdTV = totalDatas[i].sampleId==null?"":totalDatas[i].sampleId;  // 编号
-                        var strainNameTV = totalDatas[i].strainName==null?"":totalDatas[i].strainName; // 菌株名称
-                        var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;  //地理位置
-                        var preservationLocationTV = totalDatas[i].preservationLocation==null?"":totalDatas[i].preservationLocation;  //保藏地点
-                        var typeTV = totalDatas[i].type==null?"":totalDatas[i].type;  //类型
-                        var environmentTV = totalDatas[i].environment==null?"":totalDatas[i].environment;  //培养环境
-                        var materialsTV = totalDatas[i].materials==null?"":totalDatas[i].materials;  //材料
-                        var treatTV = totalDatas[i].treat==null?"":totalDatas[i].treat  //处理
-                        var timeTV = totalDatas[i].definitionTime==null?"":totalDatas[i].definitionTime;  //采集时间
-                        var taxonomyTV  = totalDatas[i].taxonomy==null?"":totalDatas[i].taxonomy;  //分类地位
-                        var myceliaPhenotypeTV = totalDatas[i].myceliaPhenotype==null?"":totalDatas[i].myceliaPhenotype;  //菌丝形态
-                        var myceliaDiameterTV = totalDatas[i].myceliaDiameter==null?"":totalDatas[i].myceliaDiameter;  //菌丝直径
-                        var myceliaColorTV = totalDatas[i].myceliaColor==null?"":totalDatas[i].myceliaColor;  //菌丝颜色
-                        var sporesColorTV = totalDatas[i].sporesColor ==null?"":totalDatas[i].sporesColor;  //孢子颜色
-                        var sporesShapeTV = totalDatas[i].sporesShape==null?"":totalDatas[i].sporesShape;  //孢子形态
-                        var clampConnectionTV = totalDatas[i].clampConnection==null?"":totalDatas[i].clampConnection;   //锁状联合
-                        var pileusPhenotypeTV = totalDatas[i].pileusPhenotype==null?"":totalDatas[i].pileusPhenotype;  //菌盖形态
-                        var pileusColorTV = totalDatas[i].pileusColor==null?"":totalDatas[i].pileusColor;  //菌盖颜色
-                        var stipePhenotypeTV = totalDatas[i].stipePhenotype==null?"":totalDatas[i].stipePhenotype;  //菌柄形态
-                        var stipeColorTV = totalDatas[i].stipeColor==null?"":totalDatas[i].stipeColor;  //菌柄颜色
-                        var fruitbodyColorTV = totalDatas[i].fruitbodyColor==null?"":totalDatas[i].fruitbodyColor;  //子实体颜色
-                        var fruitbodyTypeTV = totalDatas[i].fruitbodyType==null?"":totalDatas[i].fruitbodyType;  //子实体形态
-                        var illuminationTV = totalDatas[i].illumination==null?"":totalDatas[i].illumination;  //光照
-                        var collariumTV = totalDatas[i].collarium==null?"":totalDatas[i].collarium;  //菌环
-                        var volvaTV = totalDatas[i].volva==null?"":totalDatas[i].volva;  //菌托
-                        var velumTV = totalDatas[i].velum==null?"":totalDatas[i].velum;  //菌幕
-                        var sclerotiumTV = totalDatas[i].sclerotium==null?"":totalDatas[i].sclerotium;  //菌核
-                        var strainMediumTV = totalDatas[i].strainMedium==null?"":totalDatas[i].strainMedium;  //菌种培养基
-                        var mainSubstrateTV = totalDatas[i].mainSubstrate==null?"":totalDatas[i].mainSubstrate;  //主要栽培基质
-                        var afterRipeningStageTV = totalDatas[i].afterRipeningStage==null?"":totalDatas[i].afterRipeningStage;  //后熟期
-                        var primordialStimulationFruitbodyTV = totalDatas[i].primordialStimulationFruitbody==null?"":totalDatas[i].primordialStimulationFruitbody;  //原基刺激&子实体
-                        var reproductiveModeTV = totalDatas[i].reproductiveMode==null?"":totalDatas[i].reproductiveMode;  //生殖方式
-                        var lifestyleTV = totalDatas[i].lifestyle==null?"":totalDatas[i].lifestyle;  //生活方式
-                        var preservationTV = totalDatas[i].preservation==null?"":totalDatas[i].preservation;  //保藏方法
-                        var domesticationTV = totalDatas[i].domestication==null?"":totalDatas[i].domestication;  //驯化
-                        var nuclearPhaseTV = totalDatas[i].nuclearPhase==null?"":totalDatas[i].nuclearPhase;  //核相
-                        var matingTypeTV = totalDatas[i].matingType==null?"":totalDatas[i].matingType;  //交配型
+                        var runNoT = totalDatas[i].runNo==null?"":totalDatas[i].runNo;  // 测序样品编号
+                        var scientificNameT = totalDatas[i].scientificName==null?"":totalDatas[i].scientificName;  // 物种名称
+                        var sampleIdT = totalDatas[i].sampleId==null?"":totalDatas[i].sampleId;  // 编号
+                        var strainNameT = totalDatas[i].strainName==null?"":totalDatas[i].strainName; // 菌株名称
+                        var localityT = totalDatas[i].locality==null?"":totalDatas[i].locality;  //地理位置
+                        var preservationLocationT = totalDatas[i].preservationLocation==null?"":totalDatas[i].preservationLocation;  //保藏地点
+                        var typeT = totalDatas[i].type==null?"":totalDatas[i].type;  //类型
+                        var environmentT = totalDatas[i].environment==null?"":totalDatas[i].environment;  //培养环境
+                        var materialsT = totalDatas[i].materials==null?"":totalDatas[i].materials;  //材料
+                        var treatT = totalDatas[i].treat==null?"":totalDatas[i].treat  //处理
+                        var timeT = totalDatas[i].definitionTime==null?"":totalDatas[i].definitionTime;  //采集时间
+                        var taxonomyT  = totalDatas[i].taxonomy==null?"":totalDatas[i].taxonomy;  //分类地位
+                        var myceliaPhenotypeT = totalDatas[i].myceliaPhenotype==null?"":totalDatas[i].myceliaPhenotype;  //菌丝形态
+                        var myceliaDiameterT = totalDatas[i].myceliaDiameter==null?"":totalDatas[i].myceliaDiameter;  //菌丝直径
+                        var myceliaColorT = totalDatas[i].myceliaColor==null?"":totalDatas[i].myceliaColor;  //菌丝颜色
+                        var sporesColorT = totalDatas[i].sporesColor ==null?"":totalDatas[i].sporesColor;  //孢子颜色
+                        var sporesShapeT = totalDatas[i].sporesShape==null?"":totalDatas[i].sporesShape;  //孢子形态
+                        var clampConnectionT = totalDatas[i].clampConnection==null?"":totalDatas[i].clampConnection;   //锁状联合
+                        var pileusPhenotypeT = totalDatas[i].pileusPhenotype==null?"":totalDatas[i].pileusPhenotype;  //菌盖形态
+                        var pileusColorT = totalDatas[i].pileusColor==null?"":totalDatas[i].pileusColor;  //菌盖颜色
+                        var stipePhenotypeT = totalDatas[i].stipePhenotype==null?"":totalDatas[i].stipePhenotype;  //菌柄形态
+                        var stipeColorT = totalDatas[i].stipeColor==null?"":totalDatas[i].stipeColor;  //菌柄颜色
+                        var fruitbodyColorT = totalDatas[i].fruitbodyColor==null?"":totalDatas[i].fruitbodyColor;  //子实体颜色
+                        var fruitbodyTypeT = totalDatas[i].fruitbodyType==null?"":totalDatas[i].fruitbodyType;  //子实体形态
+                        var illuminationT = totalDatas[i].illumination==null?"":totalDatas[i].illumination;  //光照
+                        var collariumT = totalDatas[i].collarium==null?"":totalDatas[i].collarium;  //菌环
+                        var volvaT = totalDatas[i].volva==null?"":totalDatas[i].volva;  //菌托
+                        var velumT = totalDatas[i].velum==null?"":totalDatas[i].velum;  //菌幕
+                        var sclerotiumT = totalDatas[i].sclerotium==null?"":totalDatas[i].sclerotium;  //菌核
+                        var strainMediumT = totalDatas[i].strainMedium==null?"":totalDatas[i].strainMedium;  //菌种培养基
+                        var mainSubstrateT = totalDatas[i].mainSubstrate==null?"":totalDatas[i].mainSubstrate;  //主要栽培基质
+                        var afterRipeningStageT = totalDatas[i].afterRipeningStage==null?"":totalDatas[i].afterRipeningStage;  //后熟期
+                        var primordialStimulationFruitbodyT = totalDatas[i].primordialStimulationFruitbody==null?"":totalDatas[i].primordialStimulationFruitbody;  //原基刺激&子实体
+                        var reproductiveModeT = totalDatas[i].reproductiveMode==null?"":totalDatas[i].reproductiveMode;  //生殖方式
+                        var lifestyleT = totalDatas[i].lifestyle==null?"":totalDatas[i].lifestyle;  //生活方式
+                        var preservationT = totalDatas[i].preservation==null?"":totalDatas[i].preservation;  //保藏方法
+                        var domesticationT = totalDatas[i].domestication==null?"":totalDatas[i].domestication;  //驯化
+                        var nuclearPhaseT = totalDatas[i].nuclearPhase==null?"":totalDatas[i].nuclearPhase;  //核相
+                        var matingTypeT = totalDatas[i].matingType==null?"":totalDatas[i].matingType;  //交配型
 
                         var tr = "<tr>" +
-                            "<td class='paramTag'><input type='checkbox'/></td>" +
-                            "<td class='paramTag runNoTV'>" + runNoTV+
-                            "</td><td class='paramTag scientificNameTV'>" + scientificNameTV+
-                            "</td><td class='paramTag sampleIdTV'>" + sampleIdTV+
-                            "</td><td class='paramTag strainNameTV'>" + strainNameTV +
-                            "</td><td class='paramTag localityTV'>" + localityTV +
-                            "</td><td class='paramTag preservationLocationTV'>" + preservationLocationTV +
-                            "</td><td class='paramTag typeTV'>" + typeTV +
-                            "</td><td class='paramTag environmentTV'>" + environmentTV +
-                            "</td><td class='paramTag materialsTV'>" + materialsTV +
-                            "</td><td class='paramTag treatTV'>" + treatTV +
-                            "</td><td class='paramTag timeTV'>" + timeTV +
-                            "</td><td class='paramTag taxonomyTV'>" + taxonomyTV +
-                            "</td><td class='paramTag myceliaPhenotypeTV'>" + myceliaPhenotypeTV +
-                            "</td><td class='paramTag myceliaDiameterTV'>" +myceliaDiameterTV +
-                            "</td><td class='paramTag myceliaColorTV'>" + myceliaColorTV +
-                            "</td><td class='paramTag sporesColorTV'>" + sporesColorTV +
-                            "</td><td class='paramTag sporesShapeTV'>" + sporesShapeTV +
-                            "</td><td class='paramTag clampConnectionTV'>" + clampConnectionTV +
-                            "</td><td class='paramTag pileusPhenotypeTV'>" + pileusPhenotypeTV +
-                            "</td><td class='paramTag pileusColorTV'>" + pileusColorTV +
-                            "</td><td class='paramTag stipePhenotypeTV'>" + stipePhenotypeTV +
-                            "</td><td class='paramTag stipeColorTV'>" + stipeColorTV +
-                            "</td><td class='paramTag fruitbodyColorTV'>" + fruitbodyColorTV +"</td>" +
-                            "<td class='paramTag fruitbodyTypeTV'>" + fruitbodyTypeTV +"</td>"+
-                            "<td class='paramTag illuminationTV'>" + illuminationTV +"</td>"+
-                            "<td class='paramTag collariumTV'>" + collariumTV +"</td>"+
-                            "<td class='paramTag volvaTV'>" + volvaTV +"</td>"+
-                            "<td class='paramTag velumTV'>" + velumTV +"</td>"+
-                            "<td class='paramTag sclerotiumTV'>" + sclerotiumTV +"</td>"+
-                            "<td class='paramTag strainMediumTV'>" + strainMediumTV +"</td>"+
-                            "<td class='paramTag mainSubstrateTV'>" + mainSubstrateTV +"</td>"+
-                            "<td class='paramTag afterRipeningStageTV'>" + afterRipeningStageTV +"</td>"+
-                            "<td class='paramTag primordialStimulationFruitbodyTV'>" + primordialStimulationFruitbodyTV +"</td>"+
-                            "<td class='paramTag reproductiveModeTV'>" + reproductiveModeTV +"</td>"+
-                            "<td class='paramTag lifestyleTV'>" + lifestyleTV +"</td>"+
-                            "<td class='paramTag domesticationTV'>" + domesticationTV +"</td>"+
-                            "<td class='paramTag nuclearPhaseTV'>" + nuclearPhaseTV +"</td>"+
-                            "<td class='paramTag preservationTV'>" + preservationTV +"</td>"+
-                            "<td class='paramTag matingTypeTV'>" + matingTypeTV +"</td>"+
+                            "<td class='paramTag runNoT'>" + runNoT+
+                            "</td><td class='paramTag scientificNameT'>" + scientificNameT+
+                            "</td><td class='paramTag sampleIdT'>" + sampleIdT+
+                            "</td><td class='paramTag strainNameT'>" + strainNameT +
+                            "</td><td class='paramTag localityT'>" + localityT +
+                            "</td><td class='paramTag preservationLocationT'>" + preservationLocationT +
+                            "</td><td class='paramTag typeT'>" + typeT +
+                            "</td><td class='paramTag environmentT'>" + environmentT +
+                            "</td><td class='paramTag materialsT'>" + materialsT +
+                            "</td><td class='paramTag treatT'>" + treatT +
+                            "</td><td class='paramTag timeT'>" + timeT +
+                            "</td><td class='paramTag taxonomyT'>" + taxonomyT +
+                            "</td><td class='paramTag myceliaPhenotypeT'>" + myceliaPhenotypeT +
+                            "</td><td class='paramTag myceliaDiameterT'>" +myceliaDiameterT +
+                            "</td><td class='paramTag myceliaColorT'>" + myceliaColorT +
+                            "</td><td class='paramTag sporesColorT'>" + sporesColorT +
+                            "</td><td class='paramTag sporesShapeT'>" + sporesShapeT +
+                            "</td><td class='paramTag clampConnectionT'>" + clampConnectionT +
+                            "</td><td class='paramTag pileusPhenotypeT'>" + pileusPhenotypeT +
+                            "</td><td class='paramTag pileusColorT'>" + pileusColorT +
+                            "</td><td class='paramTag stipePhenotypeT'>" + stipePhenotypeT +
+                            "</td><td class='paramTag stipeColorT'>" + stipeColorT +
+                            "</td><td class='paramTag fruitbodyColorT'>" + fruitbodyColorT +"</td>" +
+                            "<td class='paramTag fruitbodyTypeT'>" + fruitbodyTypeT +"</td>"+
+                            "<td class='paramTag illuminationT'>" + illuminationT +"</td>"+
+                            "<td class='paramTag collariumT'>" + collariumT +"</td>"+
+                            "<td class='paramTag volvaT'>" + volvaT +"</td>"+
+                            "<td class='paramTag velumT'>" + velumT +"</td>"+
+                            "<td class='paramTag sclerotiumT'>" + sclerotiumT +"</td>"+
+                            "<td class='paramTag strainMediumT'>" + strainMediumT +"</td>"+
+                            "<td class='paramTag mainSubstrateT'>" + mainSubstrateT +"</td>"+
+                            "<td class='paramTag afterRipeningStageT'>" + afterRipeningStageT +"</td>"+
+                            "<td class='paramTag primordialStimulationFruitbodyT'>" + primordialStimulationFruitbodyT +"</td>"+
+                            "<td class='paramTag reproductiveModeT'>" + reproductiveModeT +"</td>"+
+                            "<td class='paramTag lifestyleT'>" + lifestyleT +"</td>"+
+                            "<td class='paramTag domesticationT'>" + domesticationT +"</td>"+
+                            "<td class='paramTag nuclearPhaseT'>" + nuclearPhaseT +"</td>"+
+                            "<td class='paramTag preservationT'>" + preservationT +"</td>"+
+                            "<td class='paramTag matingTypeT'>" + matingTypeT +"</td>"+
                             "</tr>"
                         var $tbody = $("#tableShow table tbody");
                         $tbody.append(tr);

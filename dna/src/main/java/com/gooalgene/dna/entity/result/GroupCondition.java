@@ -4,7 +4,16 @@ import java.util.Map;
 
 public class GroupCondition {
     private String name;
+    private Integer id;
     private Map<String, Object> condition;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
     public String getName() {
         return name;
