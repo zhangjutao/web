@@ -469,7 +469,7 @@ public class ExportDataController {
 
     @RequestMapping("/dna/dataExport")
     @ResponseBody
-    public void searchResultExport(HttpServletRequest request, HttpServletResponse response) {
+    public void searchResultExport(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String model = request.getParameter("model");//区分导出数据类型：regin、gene、samples
         String columns = request.getParameter("choices");//表头列
         logger.info("model:" + model + ",colums:" + columns);

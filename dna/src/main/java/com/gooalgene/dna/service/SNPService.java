@@ -19,6 +19,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -139,7 +140,7 @@ public class SNPService {
     }
 
 
-    public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
+    public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) throws IOException {
         // List<String> list= dnaGensDao.getByRegion(chr,startPos,endPos);
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
@@ -176,7 +177,7 @@ public class SNPService {
     * @author 张衍平
     * 按范围查询导出数据使用
     * */
-    public Map searchSNPinRegionForExport(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page){
+    public Map searchSNPinRegionForExport(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) throws IOException {
 
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
@@ -206,7 +207,7 @@ public class SNPService {
         return result;
     }
 
-    public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
+    public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) throws IOException {
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         Map result = new HashMap();
@@ -234,7 +235,7 @@ public class SNPService {
     }
 
     //外包写的
-    public Map searchSNPinGene2(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) {
+    public Map searchSNPinGene2(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page) throws IOException {
         List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
         List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, upsteam, downsteam, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);

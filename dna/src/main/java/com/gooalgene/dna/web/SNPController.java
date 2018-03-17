@@ -119,7 +119,7 @@ public class SNPController {
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
-    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
+    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String type = request.getParameter("type");
         // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String ctype = request.getParameter("ctype");
@@ -158,7 +158,7 @@ public class SNPController {
      */
     @RequestMapping("/searchSNPinRegion")
     @ResponseBody
-    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) {
+    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String type = request.getParameter("type");  //区分snp和indel数据
         String ctype = request.getParameter("ctype");  //list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String chr = request.getParameter("chromosome");

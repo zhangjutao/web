@@ -139,11 +139,11 @@ public class DNARunService {
     /**
      * 动态查询dnarun
      */
-    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
+    public PageInfo<DNARun> getByCondition(SampleInfoDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
+        List<SampleInfo> list=dnaRunDao.getListByCondition(dnaRunDto);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
     }
@@ -166,8 +166,8 @@ public class DNARunService {
         return pageInfo;
     }*/
 
-    public  List<DNARun> getAll(){
-        return dnaRunDao.getListByCondition(new DnaRunDto());
+    public  List<SampleInfo> getAll(){
+        return dnaRunDao.getListByCondition(new SampleInfoDto());
     }
 
     public List<DNARun> getQueryList(String conditions) {
