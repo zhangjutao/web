@@ -16,36 +16,31 @@ import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import net.sf.json.JSONArray;
-import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.hssf.usermodel.HSSFCell;
-import org.apache.poi.hssf.usermodel.HSSFRow;
-import org.apache.poi.hssf.usermodel.HSSFSheet;
-import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-@RestController
+@Controller
 @RequestMapping("/dna")
 public class SNPController {
     Logger logger = LoggerFactory.getLogger(SNPController.class);
@@ -333,6 +328,7 @@ public class SNPController {
      * 区分minor和major
      */
     @RequestMapping(value = "/changeByProportion", method = RequestMethod.GET)
+    @ResponseBody
     public ResultVO changeByProportion(@RequestParam("snpId") String snpId, @RequestParam("changeParam") String changeParam,
                                        @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
@@ -412,6 +408,7 @@ public class SNPController {
     }
 
     @RequestMapping(value = "/drawSNPTableInRegion", method = RequestMethod.GET)
+    @ResponseBody
     public ResultVO drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
                                          @RequestParam("chr") String chr, @RequestParam("type") String type,
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
@@ -445,6 +442,7 @@ public class SNPController {
     }
 
     @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
+    @ResponseBody
     public ResultVO drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
                                        @RequestParam("gene") String gene, @RequestParam("type") String type,
                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,

@@ -9,6 +9,11 @@ import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.dna.entity.result.GroupCondition;
+import com.gooalgene.dna.util.JacksonUtils;
+import com.google.common.base.Function;
+import com.google.common.base.Predicate;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -20,6 +25,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 /**
@@ -40,37 +46,21 @@ public class DNARunService {
      * 根据页面分组查询对应的样本信息
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
-        if (group.equals("[{}]")) {
-            group = "[]";
+        try {
+            List<GroupCondition> groupConditions = JacksonUtils.convertJsonToArray(group, GroupCondition.class);
+            GroupCondition condition = null;
+            for (int i = 0; i < groupConditions.size(); i++) {
+                condition = groupConditions.get(i);
+                String groupName = condition.getName();
+                Map<String, Object> parameters = condition.getCondition();
+                Set<String> keySet = parameters.keySet();
+
+            }
+        } catch (IOException e) {
+            logger.error("传入JSON字符串：" + group + "异常", e.getCause());
+            e.printStackTrace();
         }
         Map<String, List<String>> result = new HashMap<>();
-        if (StringUtils.isNotBlank(group)) {
-            logger.info(group);
-            JSONArray data = JSONArray.fromObject(group);
-            int len = data.size();
-            for (int i = 0; i < len; i++) {
-                JSONObject one = data.getJSONObject(i);
-                String groupName = one.getString("name");
-                if (one.containsKey("condition")) {
-                    String condition = one.getString("condition");
-                    if (condition.indexOf("cultivar") != -1) {
-                        List<String> runNoList = new ArrayList<String>();
-                        List<DNARun> dnaRunList = getQueryList(condition);
-                        for (DNARun dnaRun : dnaRunList) {
-                            List<String> list = querySamples(dnaRun);
-                            for (String runNo : list) {
-                                runNoList.add(runNo);
-                            }
-                        }
-                        result.put(groupName, runNoList);
-                    } else {
-                        /*SampleInfo dnaRun = getQuery(condition);
-                        List<String> list = querySamples(dnaRun);
-                        result.put(groupName, list);*/
-                    }
-                }
-            }
-        }
         return result;
     }
 
