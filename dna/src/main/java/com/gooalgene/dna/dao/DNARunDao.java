@@ -14,7 +14,7 @@ import java.util.List;
  * Created by ShiYun on 2017/9/6 0006.
  */
 @MyBatisDao
-public interface DNARunDao extends CrudDao<DNARun> {
+public interface DNARunDao extends CrudDao<SampleInfo> {
 
     int insertBatch(List<DNARun> list);
 

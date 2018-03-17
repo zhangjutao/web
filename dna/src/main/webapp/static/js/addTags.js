@@ -255,7 +255,6 @@ $(function (){
             $(item).val("");
         })
         var data = getParamas();
-        console.log(data)
        getData(data,paramData.pageNum,resetSaveStatus);
     });
     //表格筛选框显示隐藏
@@ -350,6 +349,7 @@ $(function (){
                     //舍弃小数之后的取整
                     intNums = parseInt(count / page.pageSize);
                     for (var i=0;i<totalDatas.length;i++){
+                        var idTV = totalDatas[i].id==null?"":totalDatas[i].id;  // 测序样品编号
                         var runNoTV = totalDatas[i].runNo==null?"":totalDatas[i].runNo;  // 测序样品编号
                         var scientificNameTV = totalDatas[i].scientificName==null?"":totalDatas[i].scientificName;  // 物种名称
                         var sampleIdTV = totalDatas[i].sampleId==null?"":totalDatas[i].sampleId;  // 编号
@@ -391,7 +391,8 @@ $(function (){
                         var matingTypeTV = totalDatas[i].matingType==null?"":totalDatas[i].matingType;  //交配型
                         var tr = "<tr>" +
                             "<td class='paramTag'><input type='checkbox'/></td>" +
-                            "<td class='paramTag runNoTV'>" + runNoTV+
+                            "<td class='paramTag runNoTV'>" + idTV+
+                            "</td><td class='paramTag runNoTV'>" + runNoTV+
                             "</td><td class='paramTag scientificNameTV'>" + scientificNameTV+
                             "</td><td class='paramTag sampleIdTV'>" + sampleIdTV+
                             "</td><td class='paramTag strainNameTV'>" + strainNameTV +

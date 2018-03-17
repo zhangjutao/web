@@ -431,6 +431,7 @@
                                 <thead style="overflow-x: scroll;width:730px;">
                                 <tr>
                                     <th class="paramTag" style="width:42px;"></th>
+                                    <th class="paramTag" style="width:42px;">ID</th>
                                     <th class="paramTag">测序样品编号
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
@@ -1838,9 +1839,12 @@
         var pageSizePopu = 10;
 
         function getPopuTable(curr) {
+            var currData=[];
+            currData.push(currPopu)
+            var datas={group: JSON.stringify(currData), pageNo: curr || 1, pageSize: pageSizePopu};
             $.ajax({
                 url: CTXROOT + "/dna/queryByGroup",
-                data: {group: JSON.stringify(currPopu), pageNo: curr || 1, pageSize: pageSizePopu},
+                data: datas,
                 type: "POST",
                 dataType: "json",
                 success: function (res) {
@@ -1985,9 +1989,12 @@
                 arr.push(getKeyName(i) + popuSamples[i]);
             }
             var obj = {"name": arr.join(","), "condition": getStandardPopulation(popuSamples)};
+            var currData=[];
+            currData.push(obj)
+           var datas= {group: JSON.stringify(currData), pageNo: 1 || 1, pageSize: 10};
             $.ajax({
                 url: CTXROOT + "/dna/queryByGroup",
-                data: {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10},
+                data: datas,
                 type: "POST",
                 dataType: "json",
                 success: function (res) {

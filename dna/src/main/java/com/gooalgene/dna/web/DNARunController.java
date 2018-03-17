@@ -2,6 +2,7 @@ package com.gooalgene.dna.web;
 
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.service.DNARunService;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -43,7 +44,7 @@ public class DNARunController {
     public Map<String, Object> list(HttpServletRequest request, Model model, HttpServletResponse response) {
         Integer sEcho = Integer.valueOf(request.getParameter("sEcho"));// 记录操作的次数 每次加1
         JSONObject jsonobj = new JSONObject();
-        Page<DNARun> page = new Page<DNARun>(request, response);
+        Page<SampleInfo> page = new Page<SampleInfo>(request, response);
         Integer start = Integer.valueOf(request.getParameter("iDisplayStart"));
         Integer length = Integer.valueOf(request.getParameter("iDisplayLength"));
         System.out.println(start + "\t" + length + "\t" + (start / length + 1));
@@ -71,24 +72,24 @@ public class DNARunController {
     }
 
     @RequestMapping("/saveadd")
-    public String add(DNARun dnaRun) {
-        System.out.println(dnaRun.toString());
-        logger.info("toAdd:" + dnaRun.toString());
-        boolean flag = dnaRunService.add(dnaRun);
+    public String add(SampleInfo sampleInfo) {
+        System.out.println(sampleInfo.toString());
+        logger.info("toAdd:" + sampleInfo.toString());
+        boolean flag = dnaRunService.add(sampleInfo);
         logger.info("insert:" + flag);
         return "redirect:/dnarun/list";
     }
 
     @RequestMapping("/toedit")
     public String tiedit(int id, Model model) {
-        DNARun dnaRun = dnaRunService.findById(id);
-        model.addAttribute("dnaRun", dnaRun);
+        SampleInfo sampleInfo = dnaRunService.findById(id);
+        model.addAttribute("dnaRun", sampleInfo);
         return "dnarun/edit";
     }
 
     @RequestMapping("/saveedit")
-    public String saveedit(DNARun dnaRun) {
-        int flag = dnaRunService.update(dnaRun);
+    public String saveedit(SampleInfo sampleInfo) {
+        int flag = dnaRunService.update(sampleInfo);
         logger.info("update:" + flag);
         return "redirect:/dnarun/list";
     }
@@ -108,10 +109,10 @@ public class DNARunController {
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     @ResponseBody
-    public List<DNARun> getDunRuns(HttpServletRequest request, DNARun dnaRun,
+    public List<SampleInfo> getDunRuns(HttpServletRequest request, SampleInfo sampleInfo,
                                    @RequestParam(value = "pageNum", defaultValue = "1", required = false) Integer pageNum,
                                    @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize) {
-        return dnaRunService.queryByondition(dnaRun, pageNum, pageSize);
+        return dnaRunService.queryByondition(sampleInfo, pageNum, pageSize);
     }
 
 

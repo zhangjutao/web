@@ -250,11 +250,10 @@
             <table border="1" cellspacing="0" cellpadding="5" style="overflow: scroll; min-height:100px;">
                 <thead style="overflow-x: scroll;width:730px;">
                 <tr>
-                    <th class="param" style="width:42px;"></th>
-                    <th class="param">测序样品编号
+                    <th class="param runNoT">测序样品编号
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="runNo inputStyle">
+                            <input type="text" placeholder="请输入" class="runNoI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -262,30 +261,30 @@
                         </div>
                     </th>
 
-                    <th class="param">物种名称
+                    <th class="param scientificNameT">物种名称
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="scientificName inputStyle">
+                            <input type="text" placeholder="请输入" class="scientificNameI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">编号
+                    <th class="param sampleIdT">编号
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sampleId inputStyle">
+                            <input type="text" placeholder="请输入" class="sampleIdI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">菌株名称
+                    <th class="param strainNameT">菌株名称
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="strainName inputStyle">
+                            <input type="text" placeholder="请输入" class="strainNameI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -293,52 +292,31 @@
                         </div>
                     </th>
 
-                    <th class="param">地理位置
+                    <th class="param localityT">地理位置
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="locality inputStyle">
+                            <input type="text" placeholder="请输入" class="localityI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">保藏地点
+                    <th class="param preservationLocationT">保藏地点
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <input type="text" placeholder="请输入"
-                                   class="preservationLocation inputStyle">
+                                   class="preservationLocationI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">类型
+                    <th class="param typeT">类型
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="type inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-
-                    <th class="param">培养环境
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="environment inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param">材料
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="materials inputStyle">
+                            <input type="text" placeholder="请输入" class="typeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -346,10 +324,31 @@
                         </div>
                     </th>
 
-                    <th class="param">处理
+                    <th class="param environmentT">培养环境
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="treat inputStyle">
+                            <input type="text" placeholder="请输入" class="environmentI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+                    <th class="param materialsT">材料
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="materialsI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+
+                    <th class="param treatT">处理
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="treatI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -374,71 +373,50 @@
                     <%--</ul>--%>
                     <%--</div>--%>
                     <%--</th>--%>
-                    <th class="param">时间
+                    <th class="param timeT">时间
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="time inputStyle">
+                            <input type="text" placeholder="请输入" class="timeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">分类地位
+                    <th class="param taxonomyT">分类地位
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="taxonomy inputStyle">
+                            <input type="text" placeholder="请输入" class="taxonomyI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">菌丝形态
+                    <th class="param myceliaPhenotypeT">菌丝形态
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="myceliaPhenotype inputStyle">
+                            <input type="text" placeholder="请输入" class="myceliaPhenotypeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">菌丝直径
+                    <th class="param myceliaDiameterT">菌丝直径
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="myceliaDiameter inputStyle">
+                            <input type="text" placeholder="请输入" class="myceliaDiameterI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">菌丝颜色
+                    <th class="param myceliaColorT">菌丝颜色
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="myceliaColor inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-
-                    <th class="param">孢子颜色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sporesColor inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param">孢子形态
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sporesShape inputStyle">
+                            <input type="text" placeholder="请输入" class="myceliaColorI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -446,10 +424,20 @@
                         </div>
                     </th>
 
-                    <th class="param">锁状联合
+                    <th class="param sporesColorT">孢子颜色
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="clampConnection inputStyle">
+                            <input type="text" placeholder="请输入" class="sporesColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+                    <th class="param sporesShapeT">孢子形态
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="sporesShapeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -457,10 +445,10 @@
                         </div>
                     </th>
 
-                    <th class="param">菌盖形态
+                    <th class="param clampConnectionT">锁状联合
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="pileusPhenotype inputStyle">
+                            <input type="text" placeholder="请输入" class="clampConnectionI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -468,20 +456,10 @@
                         </div>
                     </th>
 
-                    <th class="param">菌盖颜色
+                    <th class="param pileusPhenotypeT">菌盖形态
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="pileusColor inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param">菌柄形态
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="stipePhenotype inputStyle">
+                            <input type="text" placeholder="请输入" class="pileusPhenotypeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -489,10 +467,20 @@
                         </div>
                     </th>
 
-                    <th class="param">菌柄颜色
+                    <th class="param pileusColorT">菌盖颜色
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="stipeColor inputStyle">
+                            <input type="text" placeholder="请输入" class="pileusColorI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+                    <th class="param stipePhenotypeT">菌柄形态
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="stipePhenotypeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -500,10 +488,10 @@
                         </div>
                     </th>
 
-                    <th class="param">子实体颜色
+                    <th class="param stipeColorT">菌柄颜色
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="fruitbodyColor inputStyle">
+                            <input type="text" placeholder="请输入" class="stipeColorI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -511,20 +499,10 @@
                         </div>
                     </th>
 
-                    <th class="param">子实体形态
+                    <th class="param fruitbodyColorT">子实体颜色
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="fruitbodyType inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param">光照
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="illumination inputStyle">
+                            <input type="text" placeholder="请输入" class="fruitbodyColorI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -532,41 +510,20 @@
                         </div>
                     </th>
 
-                    <th class="param">菌环
+                    <th class="param fruitbodyTypeT">子实体形态
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="collarium inputStyle">
+                            <input type="text" placeholder="请输入" class="fruitbodyTypeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">菌托
+                    <th class="param illuminationT">光照
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="volva inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-
-                    <th class="param">菌幕
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="velum inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param">菌核
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sclerotium inputStyle">
+                            <input type="text" placeholder="请输入" class="illuminationI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -574,10 +531,20 @@
                         </div>
                     </th>
 
-                    <th class="param">菌种培养基
+                    <th class="param collariumT">菌环
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="strainMedium inputStyle">
+                            <input type="text" placeholder="请输入" class="collariumI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+                    <th class="param volvaT">菌托
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="volvaI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -585,52 +552,73 @@
                         </div>
                     </th>
 
-                    <th class="param">主要栽培基质
+                    <th class="param velumT">菌幕
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="mainSubstrate inputStyle">
+                            <input type="text" placeholder="请输入" class="velumI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">后熟期
+                    <th class="param sclerotiumT">菌核
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="afterRipeningStage inputStyle">
+                            <input type="text" placeholder="请输入" class="sclerotiumI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">原基刺激&子实体
+
+                    <th class="param strainMediumT">菌种培养基
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="strainMediumI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+
+                    <th class="param mainSubstrateT">主要栽培基质
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="mainSubstrateI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+                    <th class="param afterRipeningStageT">后熟期
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="afterRipeningStageI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+                    <th class="param primordialStimulationFruitbodyT">原基刺激&子实体
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
                             <input type="text" placeholder="请输入"
-                                   class="primordialStimulationFruitbody inputStyle">
+                                   class="primordialStimulationFruitbodyI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">生殖方式
+                    <th class="param reproductiveModeT">生殖方式
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="reproductiveMode inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-
-                    <th class="param">生活方式
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="lifestyle inputStyle">
+                            <input type="text" placeholder="请输入" class="reproductiveModeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -638,10 +626,10 @@
                         </div>
                     </th>
 
-                    <th class="param">保藏方法
+                    <th class="param lifestyleT">生活方式
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="preservation inputStyle">
+                            <input type="text" placeholder="请输入" class="lifestyleI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -649,10 +637,10 @@
                         </div>
                     </th>
 
-                    <th class="param">驯化
+                    <th class="param preservationT">保藏方法
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="domestication inputStyle">
+                            <input type="text" placeholder="请输入" class="preservationI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -660,20 +648,31 @@
                         </div>
                     </th>
 
-                    <th class="param">核相
+                    <th class="param domesticationT">驯化
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="nuclearPhase inputStyle">
+                            <input type="text" placeholder="请输入" class="domesticationI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
                             </p>
                         </div>
                     </th>
-                    <th class="param">交配型
+
+                    <th class="param nuclearPhaseT">核相
                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                         <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="matingType inputStyle">
+                            <input type="text" placeholder="请输入" class="nuclearPhaseI inputStyle">
+                            <p>
+                                <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                            </p>
+                        </div>
+                    </th>
+                    <th class="param matingTypeT">交配型
+                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                        <div class="inputComponent">
+                            <input type="text" placeholder="请输入" class="matingTypeI inputStyle">
                             <p>
                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
