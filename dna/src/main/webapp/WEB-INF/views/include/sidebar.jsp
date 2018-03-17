@@ -117,6 +117,10 @@
         position: relative;
         top: 1px;
     }
+    .label-txt {
+        vertical-align: bottom;
+    }
+   #tagsPagination #total-page-count{position: relative;top:-4px;}
 </style>
 
 <div class="nav_ac">
@@ -2220,8 +2224,8 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function (res) {
+                    debugger;
                     if (res.data.length > 0) {
-
                         if ($(".gene-search input").hasClass("inputError")) {
                             $(".gene-search input").removeClass("inputError");
                         }
@@ -2232,7 +2236,7 @@
                         var len = res.data.length;
                         var str = '';
                         for (var i = 0; i < len; i++) {
-                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">' + res.data[i].gene + '_' + res.data[i].geneName + '</div><i style="display:none">_' + res.data[i].geneFunction + '</i></label>'
+                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">' + res.data[i].geneId + '_' + res.data[i].geneName + '</div><i style="display:none">_' + res.data[i].geneFunction + '</i></label>'
                         }
                         $(".gene-search-list").empty().append(str);
                     } else {

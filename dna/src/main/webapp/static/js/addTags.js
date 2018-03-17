@@ -360,7 +360,7 @@ $(function (){
                         var environmentTV = totalDatas[i].environment==null?"":totalDatas[i].environment;  //培养环境
                         var materialsTV = totalDatas[i].materials==null?"":totalDatas[i].materials;  //材料
                         var treatTV = totalDatas[i].treat==null?"":totalDatas[i].treat  //处理
-                        var timeTV = totalDatas[i].time==null?"":totalDatas[i].definitionTime;  //采集时间
+                        var timeTV = totalDatas[i].definitionTime==null?"":totalDatas[i].definitionTime;  //采集时间
                         var taxonomyTV  = totalDatas[i].taxonomy==null?"":totalDatas[i].taxonomy;  //分类地位
                         var myceliaPhenotypeTV = totalDatas[i].myceliaPhenotype==null?"":totalDatas[i].myceliaPhenotype;  //菌丝形态
                         var myceliaDiameterTV = totalDatas[i].myceliaDiameter==null?"":totalDatas[i].myceliaDiameter;  //菌丝直径
@@ -426,7 +426,6 @@ $(function (){
                             "<td class='paramTag primordialStimulationFruitbodyTV'>" + primordialStimulationFruitbodyTV +"</td>"+
                             "<td class='paramTag reproductiveModeTV'>" + reproductiveModeTV +"</td>"+
                             "<td class='paramTag lifestyleTV'>" + lifestyleTV +"</td>"+
-                            "<td class='paramTag preservationTV'>" + preservationTV +"</td>"+
                             "<td class='paramTag domesticationTV'>" + domesticationTV +"</td>"+
                             "<td class='paramTag nuclearPhaseTV'>" + nuclearPhaseTV +"</td>"+
                             "<td class='paramTag preservationTV'>" + preservationTV +"</td>"+
@@ -461,7 +460,7 @@ $(function (){
                     }
                 });
                 // $("#total-page-count span").html(result.data.total);
-                $(".js-total-samples").html(result.data.total);
+                $("#tagsPagination #total-page-count span").html(result.data.total);
             },
             error:function (error){
                 console.log(error);

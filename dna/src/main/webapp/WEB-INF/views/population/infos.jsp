@@ -35,6 +35,11 @@
             position: relative;
             top:-4px;
         }
+
+        #tableShow>table tbody>tr>td,#tableShow>table thead>tr>th{
+            white-space: nowrap;
+            padding: 15px;
+        }
     </style>
 </head>
 <body>

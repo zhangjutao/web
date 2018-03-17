@@ -1,5 +1,7 @@
 package com.gooalgene.dna.web;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
@@ -11,6 +13,7 @@ import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
@@ -70,45 +73,40 @@ public class SNPController {
     private DNAGenStructureService dnaGenStructureService;
 
 
+
+
     @RequestMapping("/index")
-    public ModelAndView index(HttpServletRequest request) {
+    public ModelAndView index() {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
         model.addObject("dnaDetail", indexExplainService.queryByType("dna").getDetail());
         return model;
     }
 
+    // 群体信息跳转接口
     @RequestMapping("/populationInfos")
-    public ModelAndView populationInfos(HttpServletRequest request) {
-        ModelAndView model = new ModelAndView("population/infos");
-        return model;
+    public String populationInfos() {
+        return "population/infos";
     }
 
     /**
      * 按基因条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping("/queryByGene")
     @ResponseBody
-    public Map QueryByGene(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> QueryByGene(HttpServletRequest request, HttpServletResponse response) {
         String gene = request.getParameter("gene");
         logger.info("Gene:" + gene);
-        Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return dnaGensService.queryDNAGenesByGenes(gene, page);
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        return dnaGensService.queryDNAGenesByGenes(gene, pageNo, pageSize);
     }
 
     /**
      * 按基因条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
+    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
         Page<SampleInfoDto> page = new Page<>(request, response);
@@ -116,45 +114,24 @@ public class SNPController {
     }
 
     /**
-     * 按基因条件搜索
-     */
-
-
-    /**
-     * 查询默认群体
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping("/defaultGroup")
-    @ResponseBody
-    public JSONArray QueryDefaultGroup(HttpServletRequest request, HttpServletResponse response) {
-        return dnaGroupsService.searchAll();
-    }
-
-    /**
      * 按群组条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
+     * 查询传入基因start、end，上下游分别加2000，找出该区域内的所有snp位点
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
     public Map queryByGene(HttpServletRequest request, HttpServletResponse response) {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String type = request.getParameter("type");
+        // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String ctype = request.getParameter("ctype");
         String gene = request.getParameter("gene");
         String upstream = request.getParameter("upstream");
         String downstream = request.getParameter("downstream");
         String group = request.getParameter("group");
         DNAGens dnaGens = dnaGensService.findByGene(gene);
-        logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
             long end = dnaGens.getGeneEnd();
-            logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
+            logger.info("基因:" + gene + ",start:" + start + ",end:" + end);
             if (StringUtils.isNoneBlank(upstream)) {
                 start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
             } else {
@@ -168,7 +145,6 @@ public class SNPController {
             upstream = String.valueOf(start);
             downstream = String.valueOf(end);
         }
-        logger.info("gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream);
         Page<DNAGens> page = new Page<DNAGens>(request, response);
         return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
     }
@@ -446,7 +422,7 @@ public class SNPController {
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                          @RequestParam("start") String start, @RequestParam("end") String end,
                                          @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws IOException {
         List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
@@ -480,7 +456,7 @@ public class SNPController {
                                        @RequestParam(value = "upstream", required = false) String upstream,
                                        @RequestParam(value = "downstream", required = false) String downstream,
                                        @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws IOException {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
@@ -522,9 +498,9 @@ public class SNPController {
 
     @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO getByCultivar(HttpServletRequest request,@RequestParam("names")List<String> names,
+    public ResultVO getByCultivar(HttpServletRequest request,@RequestParam("names")List<String> ids,
                                   @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
-        return ResultUtil.success(dnaRunService.getByCultivar(names,pageNum,pageSize));
+        return ResultUtil.success(dnaRunService.getByCultivar(ids,pageNum,pageSize));
     }
 }

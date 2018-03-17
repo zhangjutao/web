@@ -1,5 +1,6 @@
 package com.gooalgene.dna.service;
 
+import com.github.pagehelper.PageHelper;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNAGensDao;
 import com.gooalgene.dna.entity.DNAGens;
@@ -76,30 +77,21 @@ public class DNAGensService {
     }
 
     /**
-     * 前端页面查询结果
-     *
-     * @param gene
-     * @param page
-     * @return
+     * 侧边栏：根据输入基因，获取基因搜索结果
      */
-    public Map queryDNAGenesByGenes(String gene, Page<DNAGens> page) {
-        Map result = new HashMap();
-        result.put("gene", gene);
-        result.put("pageNo", page.getPageNo());
-        result.put("pageSize", page.getPageSize());
-        JSONArray data = new JSONArray();
+    public Map<String, Object> queryDNAGenesByGenes(String gene, int pageNo, int pageSize) {
+        Map<String, Object> result = new HashMap<>();
         if (StringUtils.isNotBlank(gene)) {
+            result.put("gene", gene);
+            result.put("pageNo", pageNo);
+            result.put("pageSize", pageSize);
             DNAGens dnaGens = new DNAGens();
             dnaGens.setKeywords(gene);
-            dnaGens.setPage(page);
+            PageHelper.startPage(pageNo, pageSize);
             List<DNAGens> list = dnaGensDao.findDNAGensList(dnaGens);
-            page.setList(list);
-            for (DNAGens dnaGens1 : list) {
-                data.add(dnaGens1.toJSON());
-            }
+            result.put("total", ((com.github.pagehelper.Page<DNAGens>) list).getTotal());
+            result.put("data", list);
         }
-        result.put("total", page.getCount());
-        result.put("data", data);
         return result;
     }
 

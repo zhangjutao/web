@@ -6,7 +6,9 @@ import net.sf.json.JSONObject;
 /**
  * 自定义群组　存储实体类
  * Created by ShiYun on 2017/9/18.
+ * Sample group is hard-coding in mushroom database.
  */
+@Deprecated
 public class DNAGroups extends DataEntity<DNAGroups> {
 
     private String name;

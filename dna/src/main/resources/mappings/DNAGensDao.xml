@@ -2,16 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gooalgene.dna.dao.DNAGensDao">
     <select id="findDNAGensList" resultType="com.gooalgene.dna.entity.DNAGens">
-        SELECT * from (SELECT id,gene_id,gene_name,description as geneFunction
-        FROM gens_baseinfo
-        WHERE 1=1
+        SELECT id,gene_id,gene_name,description as geneFunction
+            FROM gens_baseinfo
+            WHERE 1=1
         <if test="keywords != null">
-            AND ((gene_id REGEXP #{keywords})
-            OR gene_name REGEXP #{keywords}
-            OR description REGEXP #{keywords})
+            AND (gene_id LIKE concat('%', #{keywords},'%')
+            OR gene_name LIKE concat('%', #{keywords},'%')
+            OR description LIKE concat('%', #{keywords},'%'))
         </if>
-        ) c WHERE c.gene_id REGEXP 'Glyma.[0-9]'
-        ORDER BY id DESC
     </select>
 
     <select id="findDNAGensInfoByGene" parameterType="String" resultType="com.gooalgene.dna.entity.DNAGens">
