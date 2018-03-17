@@ -273,11 +273,11 @@ public class DNARunService {
         return dnaRunDao.deleteById(id);
     }
 
-    public PageInfo<DNARun> getByCultivar(List<String> cultivars,Integer pageNum,Integer pageSize){
+    public PageInfo<DNARun> getByCultivar(List<String> ids,Integer pageNum,Integer pageSize){
         List<DNARun> list= Lists.newArrayList();
         PageHelper.startPage(pageNum,pageSize);
-        if(CollectionUtils.isNotEmpty(cultivars)){
-            list=dnaRunDao.getByCultivar(cultivars);
+        if(CollectionUtils.isNotEmpty(ids)){
+            list=dnaRunDao.getByCultivar(ids);
         }
         return new PageInfo<>(list);
     }

@@ -793,18 +793,18 @@
     <select id="getByCultivar" resultMap="HandlerResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM dna_run WHERE replace(cultivar,' ','') IN
-        <foreach collection="list" item="cultivar" open="(" close=")" separator=",">
-            replace(#{cultivar},' ','')
+        FROM dna_run WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
         </foreach>
     </select>
 
     <select id="getByCultivarForExport" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
-        FROM dna_run WHERE replace(cultivar,' ','') IN
-        <foreach collection="list" item="cultivar" open="(" close=")" separator=",">
-            replace(#{cultivar},' ','')
+        FROM dna_run WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
         </foreach>
     </select>
 
