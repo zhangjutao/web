@@ -85,18 +85,15 @@ public class SNPController {
 
     /**
      * 按基因条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping("/queryByGene")
     @ResponseBody
-    public Map QueryByGene(HttpServletRequest request, HttpServletResponse response) {
+    public Map<String, Object> QueryByGene(HttpServletRequest request, HttpServletResponse response) {
         String gene = request.getParameter("gene");
         logger.info("Gene:" + gene);
-        Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return dnaGensService.queryDNAGenesByGenes(gene, page);
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
+        return dnaGensService.queryDNAGenesByGenes(gene, pageNo, pageSize);
     }
 
     /**
