@@ -47,21 +47,23 @@ public class DNARunService {
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
         Map<String, List<String>> result = new HashMap<>();
-        try {
-            List<GroupCondition> groupConditions = JacksonUtils.convertJsonToArray(group, GroupCondition.class);
-            for (GroupCondition input : groupConditions) {
-                String groupName = input.getName();
-                List<String> finalIdList = new ArrayList<>();
-                String idList = (String) input.getCondition().get("idList");
-                // 如果传入的id集合collection属性中包含idList字段且值包含多个sample_info ID值
-                if (!org.springframework.util.StringUtils.isEmpty(idList) && idList.contains(",")) {
-                    finalIdList = Arrays.asList(idList.split(","));
+        if (StringUtils.isNotBlank(group)) {
+            try {
+                List<GroupCondition> groupConditions = JacksonUtils.convertJsonToArray(group, GroupCondition.class);
+                for (GroupCondition input : groupConditions) {
+                    String groupName = input.getName();
+                    List<String> finalIdList = new ArrayList<>();
+                    String idList = (String) input.getCondition().get("idList");
+                    // 如果传入的id集合collection属性中包含idList字段且值包含多个sample_info ID值
+                    if (!org.springframework.util.StringUtils.isEmpty(idList) && idList.contains(",")) {
+                        finalIdList = Arrays.asList(idList.split(","));
+                    }
+                    result.put(groupName, finalIdList);
                 }
-                result.put(groupName, finalIdList);
+            } catch (IOException e) {
+                logger.error("传入JSON字符串：" + group + "异常", e.getCause());
+                e.printStackTrace();
             }
-        } catch (IOException e) {
-            logger.error("传入JSON字符串：" + group + "异常", e.getCause());
-            e.printStackTrace();
         }
         return result;
     }

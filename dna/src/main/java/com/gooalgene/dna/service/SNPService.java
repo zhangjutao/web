@@ -96,9 +96,6 @@ public class SNPService {
 
     /**
      * 通过SNP或INDEL的id查找相应SNP或INDEL数据及相关sample数据
-     *
-     * @param id
-     * @return
      */
     public Map findSampleById(String id) {
         Map oneDataResult = new HashMap();
@@ -119,7 +116,6 @@ public class SNPService {
         if (oneData == null) {
             return oneDataResult;
         }
-
         //double类型精度处理
         double major = oneData.getMajor();
         BigDecimal decimalMajor = new BigDecimal(major);

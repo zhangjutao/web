@@ -40,6 +40,9 @@ public class DNAMongoService {
     @Autowired
     private MongoTemplate mongoTemplate;
 
+    @Autowired
+    private DNAGensService geneService;
+
     /**
      * 批量写入数据到某个collection
      *
@@ -399,9 +402,10 @@ public class DNAMongoService {
     }
 
     public List<SNP> searchIdAndPosInGene(String type, String ctype, String gene, String upsteam, String downsteam, Page page) {
-        int index = gene.indexOf(".") + 1;//Glyma.17G187600
-        String chr = "Chr" + gene.substring(index, index + 2);
-        String collectionName = type + "_" + chr;
+        DNAGens dnaGens = geneService.findByGeneId(gene);
+        String chromosome = dnaGens.getChromosome();
+        // 获取到MongoDB中集合名字
+        String collectionName = type + "_" + chromosome;
         long total = 0;
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
@@ -494,9 +498,10 @@ public class DNAMongoService {
     }
 
     public List<SNP> searchInGene(String type, String ctype, String gene, String upsteam, String downsteam, Page page) {
-        int index = gene.indexOf(".") + 1;//Glyma.17G187600
-        String chr = "Chr" + gene.substring(index, index + 2);
-        String collectionName = type + "_" + chr;
+        DNAGens dnaGens = geneService.findByGeneId(gene);
+        String chromosome = dnaGens.getChromosome();
+        // 获取到MongoDB中集合名字
+        String collectionName = type + "_" + chromosome;
         long total = 0;
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
@@ -512,9 +517,8 @@ public class DNAMongoService {
                     criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upsteam)), Criteria.where("pos").lte(Long.parseLong(downsteam)));
                 }
             }
-            if (StringUtils.isNotBlank(gene)) {//不用匹配基因了--只是确认染色体和坐标
-//                criteria.and("gene").regex(Tools.getRegex(gene));//匹配基因
-//                criteria.and("gene").is(gene);//匹配基因
+            if (StringUtils.isNotBlank(gene)) {
+                criteria.and("gene").is(gene);
             }
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
                 String keywords = "";

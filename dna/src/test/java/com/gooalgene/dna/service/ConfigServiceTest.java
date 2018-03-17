@@ -39,10 +39,4 @@ public class ConfigServiceTest extends TestCase {
         Configuration configuration = configService.findKeyByValue("songsx@gooalgene.com");
         assertEquals("mail.administrator", configuration.getKey());
     }
-
-    @Test
-    public void testFindDNAGenesDao(){
-        DNAGens gene = dnaGensService.findById(3);
-        assertEquals("Glyma.01G000300", gene.getGeneId());
-    }
 }

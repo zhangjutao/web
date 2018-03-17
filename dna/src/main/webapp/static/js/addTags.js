@@ -111,7 +111,7 @@ $(function (){
             var ki = {name:selContents,
                      id:new Date().getTime(),
                      condition:{
-                            cultivar:newArrStr
+                            idList:newArrStr
                      }
             };
             kindStorage.name.push(ki);
