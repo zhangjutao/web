@@ -5,6 +5,7 @@ import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public interface DNARunDao extends CrudDao<DNARun> {
 
     boolean deleteById(int id);
 
-    List<DNARun> getListByCondition(DnaRunDto dnaRunDto);
+    List<SampleInfo> getListByCondition(SampleInfoDto sampleInfoDto);
 
     List<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto);
 

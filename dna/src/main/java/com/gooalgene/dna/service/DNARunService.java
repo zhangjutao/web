@@ -1,5 +1,6 @@
 package com.gooalgene.dna.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
@@ -11,9 +12,6 @@ import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.util.JacksonUtils;
-import com.google.common.base.Function;
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -41,11 +39,13 @@ public class DNARunService {
         return dnaRunDao.insertBatch(list);
     }
 
-
+    private ObjectMapper objectMapper = new ObjectMapper();
     /**
      * 根据页面分组查询对应的样本信息
      */
-    public Map<String, List<String>> queryDNARunByCondition(String group) {
+    public Map<String, List<String>> queryDNARunByCondition(String group) throws IOException {
+        //List<GroupCondition> result = objectMapper.readValue(group, new TypeReference<List<GroupCondition>>() {});
+        GroupCondition entity = objectMapper.readValue(group, GroupCondition.class);
         try {
             List<GroupCondition> groupConditions = JacksonUtils.convertJsonToArray(group, GroupCondition.class);
             GroupCondition condition = null;
@@ -124,11 +124,11 @@ public class DNARunService {
     /**
      * 动态查询dnarun
      */
-    public PageInfo<DNARun> getByCondition(DnaRunDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
+    public PageInfo<DNARun> getByCondition(SampleInfoDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<DNARun> list=dnaRunDao.getListByCondition(dnaRunDto);
+        List<SampleInfo> list=dnaRunDao.getListByCondition(dnaRunDto);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
     }
@@ -151,8 +151,8 @@ public class DNARunService {
         return pageInfo;
     }*/
 
-    public  List<DNARun> getAll(){
-        return dnaRunDao.getListByCondition(new DnaRunDto());
+    public  List<SampleInfo> getAll(){
+        return dnaRunDao.getListByCondition(new SampleInfoDto());
     }
 
     public List<DNARun> getQueryList(String conditions) {
