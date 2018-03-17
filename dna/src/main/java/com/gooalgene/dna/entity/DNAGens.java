@@ -16,7 +16,17 @@ public class DNAGens extends DataEntity<DNAGens> {
     private Long geneStart; //开始位置
     private Long geneEnd; //结束位置
 
+    private String chromosome;
+
     private String keywords; //当all查询时才存在
+
+    public String getChromosome() {
+        return chromosome;
+    }
+
+    public void setChromosome(String chromosome) {
+        this.chromosome = chromosome;
+    }
 
     public String getGeneFunction() {
         return geneFunction;
