@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -101,7 +102,7 @@ public class SNPController {
      */
     @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
+    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
         Page<SampleInfoDto> page = new Page<>(request, response);
