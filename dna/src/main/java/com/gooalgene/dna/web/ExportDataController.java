@@ -481,12 +481,12 @@ public class ExportDataController {
                     if (flag.equals("group")) {
                         result = dnaRunService.queryDNARunByGroup(group, page);
                     } else {
-                        String cultivars = request.getParameter("cultivar");
-                        String[] culltivarsArray = cultivars.split(",");
+                        String ids = request.getParameter("cultivar");
+                        String[] idArray = ids.split(",");
                         Map tempResult = new HashMap();
-                        List<String> cultivarList;
-                        cultivarList = Arrays.asList(culltivarsArray);
-                        List<DNARun> dnaRunList = dnaRunDao.getByCultivarForExport(cultivarList);
+                        List<String> idList;
+                        idList = Arrays.asList(idArray);
+                        List<DNARun> dnaRunList = dnaRunDao.getByCultivarForExport(idList);
                         JSONArray data = new JSONArray();
                         for (DNARun dnaRun : dnaRunList) {
                             data.add(dnaRun.toJSON());
