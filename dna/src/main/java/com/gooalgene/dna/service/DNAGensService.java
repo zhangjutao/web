@@ -61,6 +61,10 @@ public class DNAGensService {
         return dnaGensDao.findById(id);
     }
 
+    /**
+     * 根据基因ID,查询基因基本信息
+     * @param gene 基因ID
+     */
     public DNAGens findByGene(String gene) {
         return dnaGensDao.findDNAGensInfoByGene(gene);
     }
