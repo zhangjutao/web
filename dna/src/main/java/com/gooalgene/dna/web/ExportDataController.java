@@ -14,12 +14,12 @@ import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.dna.service.SNPService;
+import com.gooalgene.dna.util.JacksonUtils;
 import com.gooalgene.utils.CommonUtil;
 import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.Tools;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import com.google.gson.Gson;
 import com.jayway.jsonpath.JsonPath;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -32,7 +32,6 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
-import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -959,7 +958,7 @@ public class ExportDataController {
     * */
     @RequestMapping("/dna/IdDetailExport")
     @ResponseBody
-    public String idDetailPageExport(@RequestParam("titles") String titles, @RequestParam("judgeAllele") String judgeAllele, HttpServletRequest request) {
+    public String idDetailPageExport(@RequestParam("titles") String titles, @RequestParam("judgeAllele") String judgeAllele, HttpServletRequest request) throws IOException {
 
         String condition = request.getParameter("condition");
 //        JSONObject object = null;
@@ -967,8 +966,7 @@ public class ExportDataController {
         //dnaRunDto用来存储表头筛选的条件
         SampleInfoDto sampleInfoDto = null;
         if (condition != null && !condition.equals("")) {
-//            object = JSONObject.fromObject(condition);
-            sampleInfoDto = new Gson().fromJson(condition,SampleInfoDto.class);
+            sampleInfoDto = JacksonUtils.convertJsonToObject(condition, SampleInfoDto.class);
         } else {
             sampleInfoDto = new SampleInfoDto();
         }
