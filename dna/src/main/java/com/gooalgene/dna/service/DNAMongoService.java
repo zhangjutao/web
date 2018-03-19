@@ -513,7 +513,7 @@ public class DNAMongoService {
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
-            criteria.andOperator(Criteria.where("pos").gte(upstream), Criteria.where("pos").lte(downstream));
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
                 String keywords = "";
                 if (ctype.indexOf(' ') != -1) {
@@ -537,7 +537,6 @@ public class DNAMongoService {
             query.skip(skip);
             query.limit(pageSize);
             logger.info("Query By Page:" + query.toString());
-            query.fields().exclude("samples");
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");

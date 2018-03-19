@@ -1,5 +1,9 @@
 package com.gooalgene.dna.entity;
 
+import com.gooalgene.dna.entity.result.GroupCondition;
+
+import java.util.List;
+
 /**
  * SNP/INDEL查询条件，前端传入参数获取SNP/INDEL table数据时查询参数
  *
@@ -39,7 +43,7 @@ public class SearchCondition {
     /**
      * 用户所选择的群组
      */
-    private String group;
+    private List<GroupCondition> group;
 
     private int pageNo;
 
@@ -93,11 +97,11 @@ public class SearchCondition {
         this.end = end;
     }
 
-    public String getGroup() {
+    public List<GroupCondition> getGroup() {
         return group;
     }
 
-    public void setGroup(String group) {
+    public void setGroup(List<GroupCondition> group) {
         this.group = group;
     }
 

@@ -7,10 +7,7 @@ import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
-import com.gooalgene.dna.entity.DNAGens;
-import com.gooalgene.dna.entity.DNARun;
-import com.gooalgene.dna.entity.SNP;
-import com.gooalgene.dna.entity.SearchCondition;
+import com.gooalgene.dna.entity.*;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
@@ -112,17 +109,18 @@ public class SNPController {
      */
     @RequestMapping(value = "/queryForSNPTable", method = RequestMethod.POST)
     @ResponseBody
-    public Map<String, Object> queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
-        Map<String, Object> result = new HashMap<>();
+    public ResultVO<TableSearchResult> queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
+        TableSearchResult result = new TableSearchResult();
         String gene = condition.getGene();
         // Search in Region
         if (StringUtils.isEmpty(gene)) {
-            result = snpService.searchSNPinRegion(condition.getType(), condition.getCtype(),
+            result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
                     condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
-                    condition.getGroup(), new Page<DNARun>(condition.getPageNo(), condition.getPageSize()));
+                    condition.getGroup(), condition.getPageNo(), condition.getPageSize());
         } else { // Search in Gene
             DNAGens dnaGens = dnaGensService.findByGene(gene);
             if (dnaGens != null) {
+                String chromosome = dnaGens.getChromosome();
                 long start = dnaGens.getGeneStart();
                 long end = dnaGens.getGeneEnd();
                 Long upstream = condition.getStart();  // start此时为upstream
@@ -138,13 +136,13 @@ public class SNPController {
                 } else {
                     end = end + 2000;
                 }
-                result = snpService.searchSNPinGene(condition.getType(), condition.getCtype(), gene, String.valueOf(start),
-                        String.valueOf(end), condition.getGroup(), new Page<DNAGens>(condition.getPageNo(), condition.getPageSize()));
+                result = snpService.searchSNPResult(condition.getType(), condition.getCtype(), chromosome, String.valueOf(start),
+                        String.valueOf(end), condition.getGroup(), condition.getPageNo(), condition.getPageSize());
             } else {
                 logger.warn("传入基因" + gene + "不存在");
             }
         }
-        return result;
+        return ResultUtil.success(result);
     }
 
     /**

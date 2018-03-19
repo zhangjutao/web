@@ -1,13 +1,9 @@
 package com.gooalgene.dna.service;
 
 import com.gooalgene.common.Page;
-import com.gooalgene.dna.dao.DNAGensDao;
-import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
-import com.gooalgene.dna.entity.DNAGens;
-import com.gooalgene.dna.entity.DNARun;
-import com.gooalgene.dna.entity.SNP;
-import com.gooalgene.dna.entity.SampleFrequency;
+import com.gooalgene.dna.entity.*;
+import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.util.DataFormatUtils;
 import com.gooalgene.utils.CommonUtil;
 import com.google.common.collect.Lists;
@@ -45,21 +41,23 @@ public class SNPService {
      * 将samples中的genotype格式（0/0、0/1、1/1字符串）对应转换为ref+ref、ref+alt、alt+alt字符串
      * 计算单个snp中三种genotype的比率
      */
-    public Map genotypeTransform(SNP snp, String type) {
+    public Map<String, Object> genotypeTransform(SNP snp, String type) {
+        // 获取该SNP中所有sample->result关系
         Map<String, String> originSamples = snp.getSamples();
         Map<String, String> transformedSamples = new HashMap<>();
-        Map transformResult = new HashMap();
+        Map<String, Object> transformResult = new HashMap<>();
         String ref = snp.getRef();
         String alt = snp.getAlt();
         int totalRefAndRef = 0;
         int totalRefAndAlt = 0;
         int totalAltAndAlt = 0;
         BigDecimal bigDecimalTotalSamples = BigDecimal.valueOf(snp.getSamples().size());
+        // 将所有SNP中0、1关系转换为alt、ref关系
         for (Map.Entry<String, String> entry : originSamples.entrySet()) {
             if (entry.getValue().equals("0/0")) {
                 transformedSamples.put(entry.getKey(), ref + ref);
                 totalRefAndRef += 1;
-            } else if (entry.getValue().equals("0/1")) {
+            } else if (entry.getValue().equals("0/1")) {  // 生信数据无1/0格式
                 transformedSamples.put(entry.getKey(), ref + alt);
                 totalRefAndAlt += 1;
             } else {
@@ -67,6 +65,7 @@ public class SNPService {
                 totalAltAndAlt += 1;
             }
         }
+        // 将每一个样本中0/0转换为A/A等
         snp.setSamples(transformedSamples);
         if(type.equals("INDEL")) {
             transformResult.put("INDELData", snp);
@@ -76,6 +75,7 @@ public class SNPService {
         BigDecimal bigDecimalRAR = BigDecimal.valueOf(totalRefAndRef);
         BigDecimal bigDecimalRAA = BigDecimal.valueOf(totalRefAndAlt);
         BigDecimal bigDecimalAAA = BigDecimal.valueOf(totalAltAndAlt);
+        // 分别计算Alt/Ref之间组合占的比例
         transformResult.put("RefAndRefPercent", bigDecimalRAR.divide(
                 bigDecimalTotalSamples, 7, BigDecimal.ROUND_HALF_UP).doubleValue());
         transformResult.put("totalRefAndAltPercent", bigDecimalRAA.divide(
@@ -208,36 +208,37 @@ public class SNPService {
         return result;
     }
 
-    public Map searchSNPResult(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) throws IOException {
+    public TableSearchResult searchSNPResult(String type, String ctype, String chr, String startPos, String endPos,
+                                             List<GroupCondition> groupConditions, int pageNo, int pageSize) throws IOException {
+        TableSearchResult result = new TableSearchResult();
         long total = 0;
-        List<SNP> snps = dnaMongoService.querySNPByRegion(type, ctype, chr, startPos, endPos, page.getPageNo(), page.getPageSize(), total);
-        Map<String, List<String>> groupIdReflection = dnaRunService.queryDNARunByCondition(group);
-        Map result = new HashMap();
-        result.put("conditions", chr + "," + startPos + "," + endPos);
-        if (page != null) {
-            result.put("pageNo", page.getPageNo());
-            result.put("pageSize", page.getPageSize());
-            result.put("total", page.getCount());
-        }
+        List<SNP> snps = dnaMongoService.querySNPByRegion(type, ctype, chr, startPos, endPos, pageNo, pageSize, total);
+        // 返回前台查询总值
+        result.setTotal(total);
+        Map<String, List<String>> groupIdReflection = dnaRunService.queryDNARunByCondition(groupConditions);
+
         List<SNPDto> data = Lists.newArrayList();
         Set<String> geneIds = Sets.newHashSet();
         for (SNP snp : snps) {
             geneIds.add(snp.getGene());
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            Map map = snpService.findSampleById(snp);
+            Map<String, Object> map = snpService.findSampleById(snp);
             snpDto.setGeneType(map);
-            JSONArray freqData;
+            List<SampleFrequency> sampleFrequencyList = null;
             if(StringUtils.equals(type,"SNP")){
-                freqData = getFrequencyInSnp((SNP)map.get("snpData"), groupIdReflection);
+                sampleFrequencyList = getFrequency((SNP) map.get("snpData"), groupIdReflection);
+                map.remove("snpData");  // 前台无需返回该的数据
             }else {
-                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), groupIdReflection);
+                sampleFrequencyList = getFrequency((SNP) map.get("INDELData"), groupIdReflection);
+                map.remove("INDELData");
             }
-            snpDto.setFreq(freqData);
+            snpDto.setSamples(null);  // 减少前台数据返回量
+            snpDto.setFreq(sampleFrequencyList);
             data.add(snpDto);
         }
-        result.put("geneIds", geneIds);
-        result.put("data", data);
+        result.setGeneIds(geneIds);
+        result.setData(data);
         return result;
     }
 
@@ -363,7 +364,7 @@ public class SNPService {
                     System.out.println(k + " is " + s);
                 }
             }
-//            System.out.println("G:" + group + "=====[1/1]:" + num_1_1 + "\t[0/0]:" + num_0_0 + "\t[0/1]:" + num_0_1 + "\tTotal" + num_total);
+//            System.out.println("G:" + groupConditions + "=====[1/1]:" + num_1_1 + "\t[0/0]:" + num_0_0 + "\t[0/1]:" + num_0_1 + "\tTotal" + num_total);
             double major = 0, minor = 0;//频率高的为Major,低的为Minor
             if (num_total != 0) {
                 Double a = (num_0_0 + 0.5 * num_0_1) / num_total;
@@ -453,7 +454,7 @@ public class SNPService {
      * @param groups 用户勾选的群体
      * @return 返回一个包含major、minor的对象
      */
-    public List<SampleFrequency> getFrequency(SNP snp, Map<String, List<String>> groups) {
+    private List<SampleFrequency> getFrequency(SNP snp, Map<String, List<String>> groups) {
         Map<String, String> samples = snp.getSamples(); //先拿到SNP中的所有sample
         List<SampleFrequency> result = new ArrayList<>();
         String alt = snp.getAlt(); //次要变异位点表示1

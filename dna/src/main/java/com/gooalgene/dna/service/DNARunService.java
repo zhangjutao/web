@@ -99,6 +99,34 @@ public class DNARunService {
         return result;
     }
 
+    public Map<String, List<String>> queryDNARunByCondition(List<GroupCondition> groupConditions) {
+        Map<String, List<String>> result = new HashMap<>();
+        for (GroupCondition input : groupConditions) {
+            String groupName = input.getName();
+            List<String> finalIdList = new ArrayList<>();
+            String idList = (String) input.getCondition().get("idList");
+            // 如果传入的id集合collection属性中包含idList字段且值包含多个sample_info ID值
+            if (!org.springframework.util.StringUtils.isEmpty(idList) && idList.contains(",")) {
+                finalIdList = Arrays.asList(idList.split(","));
+                // TODO: 2018/3/19 这里需要将id转换为run_no
+            } else {
+                SampleInfoDto sampleInfoDto = FrontEndReflectionUtils.constructNewInstance("com.gooalgene.dna.dto.SampleInfoDto", input.getCondition());
+                // 获取所有符合条件的样本
+                List<SampleInfoDto> allProperSampleInfo = dnaRunDao.getListByCondition(sampleInfoDto);
+                // 从筛选的样本中获取它们的ID
+                Collection<String> allProperSampleInfoId = Collections2.transform(allProperSampleInfo, new Function<SampleInfoDto, String>() {
+                    @Override
+                    public String apply(SampleInfoDto input) {
+                        return input.getId();
+                    }
+                });
+                finalIdList = new ArrayList<>(allProperSampleInfoId);
+            }
+            result.put(groupName, finalIdList);
+        }
+        return result;
+    }
+
     /**
      * 根据条件获取对应样本编号
      *
