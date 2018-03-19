@@ -308,10 +308,10 @@ $(function (){
 
                 if (selectedNum>mathCeil) {
                     selectedDatas.pageNum = 1;
-                    getData(selectedDatas,1);
+                    getData(selectedDatas,1,filterCondition);
                 }else{
                     // page.curr = selectedNum;
-                    getData(selectedDatas,selectedDatas.pageNum);
+                    getData(selectedDatas,selectedDatas.pageNum,filterCondition);
                 }
             }
         }
@@ -474,11 +474,11 @@ $(function (){
         if(pageSize>mathCeil){
                 data.pageSize = pageSize;
                 data.pageNum = 1;
-                getData(data,1);
+                getData(data,1,filterCondition);
         }else{
             data.pageSize = pageSize;
             data.pageNum =curr;
-            getData(data,data.pageNum);
+            getData(data,data.pageNum,filterCondition);
 
         }
     });
