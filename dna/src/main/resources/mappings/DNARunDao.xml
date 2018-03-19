@@ -85,98 +85,128 @@
         <include refid="Base_Column_List" />
         from dna_run
         <trim prefix="where" prefixOverrides="and|or">
+            <if test="runNos!=null and runNos.size>0">
+                AND run_no IN
+                <foreach collection="runNos" item="runNo" open="(" close=")" separator=",">
+                    #{runNo}
+                </foreach>
+            </if>
             <if test="runNo!=null and runNo!=''">
                 AND run_no like CONCAT('%',#{runNo},'%' )
             </if>
-            <if test="species!=null and species!=''">
-                AND species like CONCAT('%',#{species},'%' )
+            <if test="scientificName!=null and scientificName!=''">
+                AND scientific_name like CONCAT('%',#{scientificName},'%' )
             </if>
-            <if test="sampleName!=null and sampleName!=''">
-                AND sample_name like CONCAT('%',#{sampleName},'%' )
+            <if test="sampleId!=null and sampleId!=''">
+                AND sample_id like CONCAT('%',#{sampleId},'%' )
             </if>
-            <if test="cultivar!=null and cultivar!=''">
-                AND cultivar like CONCAT('%',#{cultivar},'%' )
+            <if test="strainName!=null and strainName!=''">
+                AND strain_name like CONCAT('%',#{strainName},'%' )
             </if>
-            <if test="plantName!=null and plantName!=''">
-                AND plant_name like CONCAT('%',#{plantName},'%' )
+            <if test="preservationLocation!=null and preservationLocation!=''">
+                AND preservation_location like CONCAT('%',#{preservationLocation},'%' )
             </if>
             <if test="locality!=null and locality!=''">
                 AND locality like CONCAT('%',#{locality},'%' )
             </if>
-            <if test="protein_min!=null and protein_max!=null">
-                AND (protein BETWEEN #{protein_min} AND #{protein_max})
+            <if test="type!=null and type!=''">
+                AND type like CONCAT('%',#{type},'%')
             </if>
-            <if test="oil_min!=null and oil_max!=null">
-                AND (oil BETWEEN #{oil_min} AND #{oil_max})
+            <if test="environment!=null and environment!=''">
+                AND environment like CONCAT('%',#{environment},'%')
             </if>
-            <if test="linoleic_min!=null and linoleic_max!=null">
-                AND (linoleic BETWEEN #{linoleic_min} AND #{linoleic_max})
+            <if test="materials!=null and materials!=''">
+                AND materials like CONCAT('%',#{materials},'%')
             </if>
-            <if test="linolenic_min!=null and linolenic_max!=null">
-                AND (linolenic BETWEEN #{linolenic_min} AND #{linolenic_max})
+            <if test="treat!=null and treat!=''">
+                AND treat like CONCAT('%',#{treat},'%')
             </if>
-
-            <if test="oleic_min!=null and oleic_max!=null">
-                AND (oleic BETWEEN #{oleic_min} AND #{oleic_max})
+            <if test="definitionTime!=null and definitionTime!=''">
+                AND definition_time like CONCAT('%',#{definitionTime},'%')
             </if>
-            <if test="palmitic_min!=null and palmitic_max!=null">
-                AND (palmitic BETWEEN #{palmitic_min} AND #{palmitic_max})
+            <if test="taxonomy!=null and taxonomy!=''">
+                AND taxonomy like CONCAT('%',#{taxonomy},'%')
             </if>
-
-            <if test="stearic_min!=null and stearic_max!=null">
-                AND (stearic BETWEEN #{stearic_min} AND #{stearic_max})
+            <if test="myceliaPhenotype!=null and myceliaPhenotype!=''">
+                AND mycelia_phenotype like CONCAT('%',#{myceliaPhenotype},'%')
             </if>
-            <if test="height_min!=null and height_max!=null">
-                AND (height BETWEEN #{height_min} AND #{height_max})
+            <if test="myceliaDiameter!=null and myceliaDiameter!=''">
+                AND mycelia_diameter like CONCAT('%',#{myceliaDiameter},'%')
             </if>
-            <if test="flowerColor!=null and flowerColor!=''">
-                AND flower_color like CONCAT('%',#{flowerColor},'%')
+            <if test="myceliaColor!=null and myceliaColor!=''">
+                AND mycelia_color like CONCAT('%',#{myceliaColor},'%')
             </if>
-            <if test="hilumColor!=null and hilumColor!=''">
-                AND hilum_color like CONCAT('%',#{hilumColor},'%')
+            <if test="sporesColor!=null and sporesColor!=''">
+                AND spores_color like CONCAT('%',#{sporesColor},'%')
             </if>
-            <if test="podColor!=null and podColor!=''">
-                AND pod_color like CONCAT('%',#{podColor},'%')
+            <if test="sporesShape!=null and sporesShape!=''">
+                AND spores_shape like CONCAT('%',#{sporesShape},'%')
             </if>
-            <if test="pubescenceColor!=null and pubescenceColor!=''">
-                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            <if test="clampConnection!=null and clampConnection!=''">
+                AND clamp_connection like CONCAT('%',#{clampConnection},'%')
             </if>
-            <if test="seedCoatColor!=null and seedCoatColor!=''">
-                AND seed_coat_color like CONCAT('%',#{seedCoatColor},'%')
+            <if test="pileusPhenotype!=null and pileusPhenotype!=''">
+                AND pileus_phenotype like CONCAT('%',#{pileusPhenotype},'%')
             </if>
-            <if test="cotyledonColor!=null and cotyledonColor!=''">
-                AND cotyledon_color like CONCAT('%',#{cotyledonColor},'%')
+            <if test="pileusColor!=null and pileusColor!=''">
+                AND pileus_color like CONCAT('%',#{pileusColor},'%')
             </if>
-            <if test="pubescenceColor!=null and pubescenceColor!=''">
-                AND pubescence_color like CONCAT('%',#{pubescenceColor},'%')
+            <if test="stipePhenotype!=null and stipePhenotype!=''">
+                AND stipe_phenotype like CONCAT('%',#{stipePhenotype},'%')
             </if>
-
-            <if test="weightPer100seeds_min!=null and weightPer100seeds_max!=null">
-                AND (weight_per_100seeds BETWEEN #{weightPer100seeds_min} AND #{weightPer100seeds_max})
+            <if test="stipeColor!=null and stipeColor!=''">
+                AND stipe_color like CONCAT('%',#{stipeColor},'%')
             </if>
-            <if test="upperLeafletLength_min!=null and upperLeafletLength_max!=null">
-                AND (upper_leaflet_length BETWEEN #{upperLeafletLength_min} AND #{upperLeafletLength_max})
+            <if test="fruitbodyColor!=null and fruitbodyColor!=''">
+                AND fruitbody_color like CONCAT('%',#{fruitbodyColor},'%')
             </if>
-
-            <if test="floweringDate!=null and floweringDate!=''">
-                AND flowering_date like CONCAT('%',#{floweringDate},'%')
+            <if test="fruitbodyType!=null and fruitbodyType!=''">
+                AND fruitbody_type like CONCAT('%',#{fruitbodyType},'%')
             </if>
-            <if test="maturityDate!=null and maturityDate!=''">
-                <choose>
-                    <when test="maturityDate!='0'.toString()">
-                        AND maturity_date REGEXP CONCAT('^',#{maturityDate},' -')
-                    </when>
-                    <when test="maturityDate=='0'.toString()">
-                        AND maturity_date like CONCAT('',#{maturityDate},'%')
-                    </when>
-                </choose>
+            <if test="illumination!=null and illumination!=''">
+                AND illumination like CONCAT('%',#{illumination},'%')
             </if>
-
-            <if test="yield_min!=null and yield_max!=null">
-                AND (yield BETWEEN #{yield_min} AND #{yield_max})
+            <if test="collarium!=null and collarium!=''">
+                AND collarium like CONCAT('%',#{collarium},'%')
             </if>
-            <if test="group!=null and group!=''">
-                AND category =#{group}
+            <if test="volva!=null and volva!=''">
+                AND volva like CONCAT('%',#{volva},'%')
+            </if>
+            <if test="velum!=null and velum!=''">
+                AND velum like CONCAT('%',#{velum},'%')
+            </if>
+            <if test="sclerotium!=null and sclerotium!=''">
+                AND volva like CONCAT('%',#{volva},'%')
+            </if>
+            <if test="strainMedium!=null and strainMedium!=''">
+                AND strain_medium like CONCAT('%',#{strainMedium},'%')
+            </if>
+            <if test="mainSubstrate!=null and mainSubstrate!=''">
+                AND main_substrate like CONCAT('%',#{mainSubstrate},'%')
+            </if>
+            <if test="afterRipeningStage!=null and afterRipeningStage!=''">
+                AND after_ripening_stage like CONCAT('%',#{afterRipeningStage},'%')
+            </if>
+            <if test="primordialStimulationFruitbody!=null and primordialStimulationFruitbody!=''">
+                AND primordial_stimulation_fruitbody like CONCAT('%',#{primordialStimulationFruitbody},'%')
+            </if>
+            <if test="reproductiveMode!=null and reproductiveMode!=''">
+                AND reproductive_mode like CONCAT('%',#{reproductiveMode},'%')
+            </if>
+            <if test="lifestyle!=null and lifestyle!=''">
+                AND lifestyle like CONCAT('%',#{lifestyle},'%')
+            </if>
+            <if test="preservation!=null and preservation!=''">
+                AND preservation like CONCAT('%',#{preservation},'%')
+            </if>
+            <if test="domestication!=null and domestication!=''">
+                AND domestication like CONCAT('%',#{domestication},'%')
+            </if>
+            <if test="nuclearPhase!=null and nuclearPhase!=''">
+                AND nuclear_phase like CONCAT('%',#{nuclearPhase},'%')
+            </if>
+            <if test="matingType!=null and matingType!=''">
+                AND mating_type like CONCAT('%',#{matingType},'%')
             </if>
         </trim>
     </select>

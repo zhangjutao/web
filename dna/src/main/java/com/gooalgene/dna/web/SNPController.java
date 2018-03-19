@@ -113,7 +113,7 @@ public class SNPController {
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
-    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map queryByGene(HttpServletRequest request, HttpServletResponse response){
         String type = request.getParameter("type");
         // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String ctype = request.getParameter("ctype");

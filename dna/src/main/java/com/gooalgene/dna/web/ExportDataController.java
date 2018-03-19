@@ -1,5 +1,6 @@
 package com.gooalgene.dna.web;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
@@ -13,6 +14,7 @@ import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.service.DNAGensService;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.dna.service.SNPService;
+import com.gooalgene.utils.CommonUtil;
 import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.Tools;
 import com.google.common.collect.Lists;
@@ -30,6 +32,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.*;
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.text.DecimalFormat;
 import java.util.*;
@@ -76,30 +79,30 @@ public class ExportDataController {
 
         String titles = "";
         //此处condition 用来表示表头信息
-        String[] condition = null;
+        List condition = new ArrayList();
         if (choices != null && !choices.equals("")) {
             titles = choices.substring(0, choices.length() - 1);
-            condition = titles.split(",");
+            condition = Arrays.asList(titles.split(","));
         } else {
-            condition = ",".split(",");
+            condition = Arrays.asList(",".split(","));
         }
 
         String fileName = "";
         //生成文件名
-        if (condition.length > 5) {
+        if (condition.size() > 5) {
             for (int i = 0; i < 5; i++) {
-                fileName += condition[i] + "-";
+                fileName += condition.get(i) + "-";
             }
         } else {
-            for (int j = 0; j < condition.length; j++) {
-                fileName += condition[j] + "-";
+            for (int j = 0; j < condition.size(); j++) {
+                fileName += condition.get(j) + "-";
             }
         }
 
         fileName += UUID.randomUUID() + ".csv";
         String filePath = request.getSession().getServletContext().getRealPath("/") + "tempFile/";
         String csvStr = "";
-        List<SampleInfo> result = dnaRunDao.getListByCondition(sampleInfoDto);
+        List<SampleInfoDto> result = dnaRunDao.getListByCondition(sampleInfoDto);
         //使用csv进行导出
         if (choices == null || choices.equals("")) {
             csvStr = "请正确选择表格内容";
@@ -194,54 +197,52 @@ public class ExportDataController {
         return map;
     }
 
+
     //将列表中的数据  生成csv的格式
 
     /**
      * @param result 要导出的内容
      * @param titles 表头
      */
-    public static String createCsvStr(List<SampleInfo> result, String[] titles) {
+    public static String createCsvStr(List<SampleInfoDto> result, List<String> titles) throws JsonProcessingException {
         StringBuilder sb = new StringBuilder();
-        Map<String, Integer> map = new ConcurrentHashMap<>();
-        Map<String, String> titleMap = changeCloumn2Web();
-        int len = titles.length;
-        for (int i = 0; i < len; i++) {
-            String title = titles[i];
-            sb.append(titleMap.get(title));
-            if (i != len - 1) {
-                sb.append(",");
-            }
-            if (i == len - 1) {
-                sb.append("\n");
-            }
-            map.put(titles[i], i);
-        }
-
-        int size = result.size();
-        for (int j = 0; j < size; j++) {
-            SampleInfo sampleInfo = result.get(j);
-            //品种名
-            if (map.containsKey("runNo")) {
-                String runNo = sampleInfo.getRunNo();
+        Map<String, Integer> formTitles1 = new ConcurrentHashMap<>();
+        CommonUtil commonUtil = new CommonUtil();
+        String formTitles = commonUtil.camelListToTitle(titles);
+        sb.append(formTitles).append("\n");
+        ObjectMapper objectMapper = new ObjectMapper();
+        for (SampleInfoDto sampleInfoDto : result) {
+//            String sampleInfoDtoJson = objectMapper.writeValueAsString(sampleInfoDto);
+//            Field[] fields = SampleInfoDto.class.getDeclaredFields();
+//            for (Field field : fields) {
+//                String name = field.getName();
+//                if (titles.contains(name)) {
+//                    String a = "$." + name;
+//                    JsonPath.read(sampleInfoDtoJson, "$.runNo");
+//                    sb.append(JsonPath.read(sampleInfoDtoJson, a));
+//                }
+//            }
+            if (titles.contains("runNo")) {
+                String runNo = sampleInfoDto.getRunNo();
                 dnaList.add(runNo != null && !runNo.equals("") ? runNo : "-");
                 sb.append(runNo != null && !runNo.equals("") ? runNo : "-").append(",");
             }
             //组别
-            if (map.containsKey("scientificName")) {
-                String scientificName = sampleInfo.getScientificName();
+            if (titles.contains("scientificName")) {
+                String scientificName = sampleInfoDto.getScientificName();
                 dnaList.add(scientificName != null && !scientificName.equals("") ? scientificName : "-");
                 sb.append(scientificName != null && !scientificName.equals("") ? scientificName : "-").append(",");
             }
             //物种
-            if (map.containsKey("sampleId")) {
-                String sampleId = sampleInfo.getSampleId();
+            if (titles.contains("sampleId")) {
+                String sampleId = sampleInfoDto.getSampleId();
                 dnaList.add(sampleId != null && !sampleId.equals("") ? sampleId : "-");
                 sb.append(sampleId != null && !sampleId.equals("") ? sampleId : "-").append(",");
             }
 
             //地理位置
-            if (map.containsKey("locality")) {
-                String locality = sampleInfo.getLocality();
+            if (titles.contains("locality")) {
+                String locality = sampleInfoDto.getLocality();
                 if (locality != null && locality.contains(",")) {
                     locality = locality.replaceAll(",", "，");
                 }
@@ -250,210 +251,210 @@ public class ExportDataController {
             }
 
             //样本名
-            if (map.containsKey("strainName")) {
-                String strainName = sampleInfo.getStrainName();
+            if (titles.contains("strainName")) {
+                String strainName = sampleInfoDto.getStrainName();
                 dnaList.add(strainName != null && !strainName.equals("") ? strainName : "-");
                 sb.append(strainName != null && !strainName.equals("") ? strainName : "-").append(",");
             }
             //百粒重
-            if (map.containsKey("preservationLocation")) {
-                String preservationLocation = sampleInfo.getPreservationLocation();
+            if (titles.contains("preservationLocation")) {
+                String preservationLocation = sampleInfoDto.getPreservationLocation();
                 dnaList.add(!preservationLocation.equals("") ? preservationLocation : "-");
                 sb.append(preservationLocation != null ? preservationLocation : "-").append(",");
             }
             //蛋白质含量
-            if (map.containsKey("type")) {
-                String type = sampleInfo.getType();
+            if (titles.contains("type")) {
+                String type = sampleInfoDto.getType();
                 dnaList.add(!type.equals("") ? type : "-");
                 sb.append(type != null ? type : "-").append(",");
             }
             //含油量
-            if (map.containsKey("environment")) {
-                String environment = sampleInfo.getEnvironment();
+            if (titles.contains("environment")) {
+                String environment = sampleInfoDto.getEnvironment();
                 dnaList.add(!environment.equals("0") ? environment : "-");
                 sb.append(environment != null ? environment : "-").append(",");
             }
             //成熟期
-            if (map.containsKey("materials")) {
-                String materials = sampleInfo.getMaterials();
+            if (titles.contains("materials")) {
+                String materials = sampleInfoDto.getMaterials();
                 dnaList.add(!materials.equals("") ? materials : "-");
                 sb.append(materials != null && !materials.equals("") ? materials : "-").append(",");
             }
             //株高
-            if (map.containsKey("treat")) {
-                String treat = sampleInfo.getTreat();
+            if (titles.contains("treat")) {
+                String treat = sampleInfoDto.getTreat();
                 dnaList.add(!treat.equals("0") ? treat : "-");
                 sb.append(treat != null ? treat : "-").append(",");
             }
 
             //种皮色
-            if (map.containsKey("definitionTime")) {
-                String definitionTime = sampleInfo.getDefinitionTime();
+            if (titles.contains("definitionTime")) {
+                String definitionTime = sampleInfoDto.getDefinitionTime();
                 dnaList.add(definitionTime != null && !definitionTime.equals("") ? definitionTime : "-");
                 sb.append(definitionTime != null && !definitionTime.equals("") ? definitionTime : "-").append(",");
             }
             //种脐色
-            if (map.containsKey("taxonomy")) {
-                String taxonomy = sampleInfo.getTaxonomy();
+            if (titles.contains("taxonomy")) {
+                String taxonomy = sampleInfoDto.getTaxonomy();
                 dnaList.add(taxonomy != null && !taxonomy.equals("") ? taxonomy : "-");
                 sb.append(taxonomy != null && !taxonomy.equals("") ? taxonomy : "-").append(",");
             }
             //子叶色
-            if (map.containsKey("myceliaPhenotype")) {
-                String myceliaPhenotype = sampleInfo.getMyceliaPhenotype();
+            if (titles.contains("myceliaPhenotype")) {
+                String myceliaPhenotype = sampleInfoDto.getMyceliaPhenotype();
                 dnaList.add(myceliaPhenotype != null && !myceliaPhenotype.equals("") ? myceliaPhenotype : "-");
                 sb.append(myceliaPhenotype != null && !myceliaPhenotype.equals("") ? myceliaPhenotype : "-").append(",");
             }
 
             //花色
-            if (map.containsKey("myceliaDiameter")) {
-                String myceliaDiameter = sampleInfo.getMyceliaDiameter();
+            if (titles.contains("myceliaDiameter")) {
+                String myceliaDiameter = sampleInfoDto.getMyceliaDiameter();
                 dnaList.add(myceliaDiameter != null && !myceliaDiameter.equals("") ? myceliaDiameter : "-");
                 sb.append(myceliaDiameter != null && !myceliaDiameter.equals("") ? myceliaDiameter : "-").append(",");
             }
             //荚色
-            if (map.containsKey("myceliaColor")) {
-                String myceliaColor = sampleInfo.getMyceliaColor();
+            if (titles.contains("myceliaColor")) {
+                String myceliaColor = sampleInfoDto.getMyceliaColor();
                 dnaList.add(myceliaColor != null && !myceliaColor.equals("") ? myceliaColor : "-");
                 sb.append(myceliaColor != null && !myceliaColor.equals("") ? myceliaColor : "-").append(",");
             }
             //茸毛色
-            if (map.containsKey("sporesColor")) {
-                String sporesColor = sampleInfo.getSporesColor();
+            if (titles.contains("sporesColor")) {
+                String sporesColor = sampleInfoDto.getSporesColor();
                 dnaList.add(sporesColor != null && !sporesColor.equals("") ? sporesColor : "-");
                 sb.append(sporesColor != null && !sporesColor.equals("") ? sporesColor : "-").append(",");
             }
             //产量
-            if (map.containsKey("sporesShape")) {
-                String sporesShape = sampleInfo.getSporesShape();
+            if (titles.contains("sporesShape")) {
+                String sporesShape = sampleInfoDto.getSporesShape();
                 dnaList.add(!sporesShape.equals("0") ? sporesShape : "-");
                 sb.append(sporesShape != null ? sporesShape : "-").append(",");
             }
             //顶端小叶长度
-            if (map.containsKey("clampConnection")) {
-                String clampConnection = sampleInfo.getClampConnection();
+            if (titles.contains("clampConnection")) {
+                String clampConnection = sampleInfoDto.getClampConnection();
                 dnaList.add(!clampConnection.equals("") ? clampConnection : "-");
                 sb.append(clampConnection != null ? clampConnection : "-").append(",");
             }
             //脂肪酸的内容
             //亚油酸
-            if (map.containsKey("pileusPhenotype")) {
-                String pileusPhenotype = sampleInfo.getPileusPhenotype();
+            if (titles.contains("pileusPhenotype")) {
+                String pileusPhenotype = sampleInfoDto.getPileusPhenotype();
                 dnaList.add(!pileusPhenotype.equals("") ? pileusPhenotype : "-");
                 sb.append(pileusPhenotype != null ? pileusPhenotype : "-").append(",");
             }
             //亚麻酸
-            if (map.containsKey("pileusColor")) {
-                String pileusColor = sampleInfo.getPileusColor();
+            if (titles.contains("pileusColor")) {
+                String pileusColor = sampleInfoDto.getPileusColor();
                 dnaList.add(!pileusColor.equals("") ? pileusColor : "-");
                 sb.append(pileusColor != null ? pileusColor : "-").append(",");
             }
             //油酸
-            if (map.containsKey("stipePhenotype")) {
-                String stipePhenotype = sampleInfo.getStipePhenotype();
+            if (titles.contains("stipePhenotype")) {
+                String stipePhenotype = sampleInfoDto.getStipePhenotype();
                 dnaList.add(!stipePhenotype.equals("") ? stipePhenotype : "-");
                 sb.append(stipePhenotype != null ? stipePhenotype : "-").append(",");
             }
 
             //软脂酸
-            if (map.containsKey("stipeColor")) {
-                String palmitic = sampleInfo.getStipeColor();
+            if (titles.contains("stipeColor")) {
+                String palmitic = sampleInfoDto.getStipeColor();
                 dnaList.add(!palmitic.equals("") ? palmitic : "-");
                 sb.append(palmitic != null ? palmitic : "-").append(",");
             }
             //硬脂酸
-            if (map.containsKey("fruitbodyColor")) {
-                String fruitbodyColor = sampleInfo.getFruitbodyColor();
+            if (titles.contains("fruitbodyColor")) {
+                String fruitbodyColor = sampleInfoDto.getFruitbodyColor();
                 dnaList.add(!fruitbodyColor.equals("") ? fruitbodyColor : "-");
                 sb.append(fruitbodyColor != null ? fruitbodyColor : "-").append(",");
             }
-            if (map.containsKey("fruitbodyType")) {
-                String fruitbodyType = sampleInfo.getFruitbodyType();
+            if (titles.contains("fruitbodyType")) {
+                String fruitbodyType = sampleInfoDto.getFruitbodyType();
                 dnaList.add(!fruitbodyType.equals("") ? fruitbodyType : "-");
                 sb.append(fruitbodyType != null ? fruitbodyType : "-").append(",");
             }
-            if (map.containsKey("illumination")) {
-                String illumination = sampleInfo.getIllumination();
+            if (titles.contains("illumination")) {
+                String illumination = sampleInfoDto.getIllumination();
                 dnaList.add(!illumination.equals("") ? illumination : "-");
                 sb.append(illumination != null ? illumination : "-").append(",");
             }
-            if (map.containsKey("collarium")) {
-                String collarium = sampleInfo.getCollarium();
+            if (titles.contains("collarium")) {
+                String collarium = sampleInfoDto.getCollarium();
                 dnaList.add(!collarium.equals("") ? collarium : "-");
                 sb.append(collarium != null ? collarium : "-").append(",");
             }
-            if (map.containsKey("volva")) {
-                String volva = sampleInfo.getVolva();
+            if (titles.contains("volva")) {
+                String volva = sampleInfoDto.getVolva();
                 dnaList.add(!volva.equals("") ? volva : "-");
                 sb.append(volva != null ? volva : "-").append(",");
             }
-            if (map.containsKey("velum")) {
-                String velum = sampleInfo.getVelum();
+            if (titles.contains("velum")) {
+                String velum = sampleInfoDto.getVelum();
                 dnaList.add(!velum.equals("") ? velum : "-");
                 sb.append(velum != null ? velum : "-").append(",");
             }
-            if (map.containsKey("sclerotium")) {
-                String sclerotium = sampleInfo.getSclerotium();
+            if (titles.contains("sclerotium")) {
+                String sclerotium = sampleInfoDto.getSclerotium();
                 dnaList.add(!sclerotium.equals("") ? sclerotium : "-");
                 sb.append(sclerotium != null ? sclerotium : "-").append(",");
             }
-            if (map.containsKey("strainMedium")) {
-                String strainMedium = sampleInfo.getStrainMedium();
+            if (titles.contains("strainMedium")) {
+                String strainMedium = sampleInfoDto.getStrainMedium();
                 dnaList.add(!strainMedium.equals("") ? strainMedium : "-");
                 sb.append(strainMedium != null ? strainMedium : "-").append(",");
             }
-            if (map.containsKey("mainSubstrate")) {
-                String mainSubstrate = sampleInfo.getMainSubstrate();
+            if (titles.contains("mainSubstrate")) {
+                String mainSubstrate = sampleInfoDto.getMainSubstrate();
                 dnaList.add(!mainSubstrate.equals("") ? mainSubstrate : "-");
                 sb.append(mainSubstrate != null ? mainSubstrate : "-").append(",");
             }
-            if (map.containsKey("afterRipeningStage")) {
-                String afterRipeningStage = sampleInfo.getAfterRipeningStage();
+            if (titles.contains("afterRipeningStage")) {
+                String afterRipeningStage = sampleInfoDto.getAfterRipeningStage();
                 dnaList.add(!afterRipeningStage.equals("") ? afterRipeningStage : "-");
                 sb.append(afterRipeningStage != null ? afterRipeningStage : "-").append(",");
             }
-            if (map.containsKey("primordialStimulationFruitbody")) {
-                String primordialStimulationFruitbody = sampleInfo.getPrimordialStimulationFruitbody();
+            if (titles.contains("primordialStimulationFruitbody")) {
+                String primordialStimulationFruitbody = sampleInfoDto.getPrimordialStimulationFruitbody();
                 dnaList.add(!primordialStimulationFruitbody.equals("") ? primordialStimulationFruitbody : "-");
                 sb.append(primordialStimulationFruitbody != null ? primordialStimulationFruitbody : "-").append(",");
             }
-            if (map.containsKey("reproductiveMode")) {
-                String reproductiveMode = sampleInfo.getReproductiveMode();
+            if (titles.contains("reproductiveMode")) {
+                String reproductiveMode = sampleInfoDto.getReproductiveMode();
                 dnaList.add(!reproductiveMode.equals("") ? reproductiveMode : "-");
                 sb.append(reproductiveMode != null ? reproductiveMode : "-").append(",");
             }
 
             //前端数据不包含部分
             //编号
-            if (map.containsKey("lifestyle")) {
-                String lifestyle = sampleInfo.getLifestyle();
+            if (titles.contains("lifestyle")) {
+                String lifestyle = sampleInfoDto.getLifestyle();
                 dnaList.add(lifestyle);
                 sb.append(lifestyle != null ? lifestyle : "-").append(",");
             }
 
             //品种名称
-            if (map.containsKey("preservation")) {
-                String preservation = sampleInfo.getPreservation();
+            if (titles.contains("preservation")) {
+                String preservation = sampleInfoDto.getPreservation();
                 dnaList.add(String.valueOf(preservation));
                 sb.append(preservation != null ? preservation : "-").append(",");
             }
-            if (map.containsKey("domestication")) {
-                String domestication = sampleInfo.getDomestication();
+            if (titles.contains("domestication")) {
+                String domestication = sampleInfoDto.getDomestication();
                 dnaList.add(String.valueOf(domestication));
                 sb.append(domestication != null ? domestication : "-").append(",");
             }
-            if (map.containsKey("nuclearPhase")) {
-                String nuclearPhase = sampleInfo.getNuclearPhase();
+            if (titles.contains("nuclearPhase")) {
+                String nuclearPhase = sampleInfoDto.getNuclearPhase();
                 dnaList.add(String.valueOf(nuclearPhase));
                 sb.append(nuclearPhase != null ? nuclearPhase : "-").append(",");
             }
-            if (map.containsKey("matingType")) {
-                String matingType = sampleInfo.getMatingType();
+            if (titles.contains("matingType")) {
+                String matingType = sampleInfoDto.getMatingType();
                 dnaList.add(String.valueOf(matingType));
                 sb.append(matingType != null ? matingType : "-").append(",");
             }
-            if (map.containsKey("keywords")) {
-                String keywords = sampleInfo.getKeywords();
+            if (titles.contains("keywords")) {
+                String keywords = sampleInfoDto.getKeywords();
                 dnaList.add(String.valueOf(keywords));
                 sb.append(keywords != null ? keywords : "-").append(",");
             }

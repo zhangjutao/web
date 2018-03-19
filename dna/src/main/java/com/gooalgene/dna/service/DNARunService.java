@@ -129,21 +129,21 @@ public class DNARunService {
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<SampleInfo> list=dnaRunDao.getListByCondition(dnaRunDto);
+        List<SampleInfoDto> list=dnaRunDao.getListByCondition(dnaRunDto);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
     }
 
     public PageInfo<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
         if(!StringUtils.isBlank(isPage)){
-            PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum,pageSize);
         }
         List<SampleInfoDto> list=dnaRunDao.getListByConditionWithTypeHandler(sampleInfoDto);
         PageInfo<SampleInfoDto> pageInfo=new PageInfo<>(list);
         return pageInfo;
     }
 
-    public  List<SampleInfo> getAll(){
+    public  List<SampleInfoDto> getAll(){
         return dnaRunDao.getListByCondition(new SampleInfoDto());
     }
 
