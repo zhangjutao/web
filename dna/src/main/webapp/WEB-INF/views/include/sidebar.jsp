@@ -2183,6 +2183,7 @@
                 for (var i in obj) {
                     arr.push(getKeyName(i) + popuSamples[i]);
                 }
+                // 只传单个
                 var obj = {"name": arr.join(","), "condition": getStandardPopulation(obj)};
                 $.ajax({
                     url: CTXROOT + "/dna/queryByGroup",
