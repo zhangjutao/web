@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.util.JacksonUtils;
 import org.junit.After;
@@ -107,12 +108,26 @@ public class JacksonTest {
     public void testInterceptStringWithoutProperty() throws IOException {
         String groupCondition = "{\n" +
                 "    \"name\": \"物种名称Pleurotus tuoliensis\",\n" +
+                "\t\"randomProperty\": \"any value\",\n" +
                 "    \"condition\": {\n" +
                 "      \"scientificName\": \"Pleurotus tuoliensis\"\n" +
                 "    }\n" +
                 "  }";
         GroupCondition entity = JacksonUtils.convertJsonToObject(groupCondition, GroupCondition.class);
         System.out.println(entity.getName());
+    }
+
+    @Test
+    public void testIgnoreNonDeclaredProperty() throws IOException {
+        String groupCondition = "{\n" +
+                "    \"name\": \"物种名称Pleurotus tuoliensis\",\n" +
+                "\t\"randomProperty\": \"any value\",\n" +
+                "    \"condition\": {\n" +
+                "      \"scientificName\": \"Pleurotus tuoliensis\"\n" +
+                "    }\n" +
+                "  }";
+        GroupCondition condition = JacksonUtils.convertJsonToObject(groupCondition, GroupCondition.class);
+        System.out.println(condition.getName());
     }
 
     @Test
