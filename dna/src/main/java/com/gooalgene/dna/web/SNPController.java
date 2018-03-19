@@ -10,6 +10,7 @@ import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.SearchCondition;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
@@ -23,10 +24,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -36,6 +34,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -108,6 +107,47 @@ public class SNPController {
     }
 
     /**
+     * 查询SNP表格数据接口
+     * @return
+     */
+    @RequestMapping(value = "/queryForSNPTable", method = RequestMethod.POST)
+    @ResponseBody
+    public Map<String, Object> queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
+        Map<String, Object> result = new HashMap<>();
+        String gene = condition.getGene();
+        // Search in Region
+        if (StringUtils.isEmpty(gene)) {
+            result = snpService.searchSNPinRegion(condition.getType(), condition.getCtype(),
+                    condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
+                    condition.getGroup(), new Page<DNARun>(condition.getPageNo(), condition.getPageSize()));
+        } else { // Search in Gene
+            DNAGens dnaGens = dnaGensService.findByGene(gene);
+            if (dnaGens != null) {
+                long start = dnaGens.getGeneStart();
+                long end = dnaGens.getGeneEnd();
+                Long upstream = condition.getStart();  // start此时为upstream
+                Long downstream = condition.getEnd();  // end此时为downstream
+                // 判断用户是否有输入上下游区间
+                if (null != upstream) {
+                    start = start - upstream < 0 ? 0 : start - upstream;
+                } else {
+                    start = start - 2000 < 0 ? 0 : start - 2000;
+                }
+                if (null != downstream) {
+                    end = end + downstream;
+                } else {
+                    end = end + 2000;
+                }
+                result = snpService.searchSNPinGene(condition.getType(), condition.getCtype(), gene, String.valueOf(start),
+                        String.valueOf(end), condition.getGroup(), new Page<DNAGens>(condition.getPageNo(), condition.getPageSize()));
+            } else {
+                logger.warn("传入基因" + gene + "不存在");
+            }
+        }
+        return result;
+    }
+
+    /**
      * 按群组条件搜索
      * 查询传入基因start、end，上下游分别加2000，找出该区域内的所有snp位点
      */
@@ -115,7 +155,6 @@ public class SNPController {
     @ResponseBody
     public Map queryByGene(HttpServletRequest request, HttpServletResponse response){
         String type = request.getParameter("type");
-        // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String ctype = request.getParameter("ctype");
         String gene = request.getParameter("gene");
         String upstream = request.getParameter("upstream");
@@ -145,16 +184,12 @@ public class SNPController {
 
     /**
      * 按群组条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping("/searchSNPinRegion")
     @ResponseBody
     public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String type = request.getParameter("type");  //区分snp和indel数据
-        String ctype = request.getParameter("ctype");  //list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String type = request.getParameter("type");
+        String ctype = request.getParameter("ctype");
         String chr = request.getParameter("chromosome");
         String startPos = request.getParameter("start");
         String endPos = request.getParameter("end");

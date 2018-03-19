@@ -1,15 +1,12 @@
 package com.gooalgene.dna.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
-import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SampleInfo;
-import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.util.FrontEndReflectionUtils;
 import com.gooalgene.dna.util.JacksonUtils;
