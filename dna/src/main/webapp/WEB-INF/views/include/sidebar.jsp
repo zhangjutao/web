@@ -1841,7 +1841,7 @@
         function getPopuTable(curr) {
             var currData=[];
             currData.push(currPopu)
-            var datas={group: JSON.stringify(currData), pageNo: curr || 1, pageSize: pageSizePopu};
+            var datas={group: JSON.stringify(currPopu), pageNo: curr || 1, pageSize: pageSizePopu};
             $.ajax({
                 url: CTXROOT + "/dna/queryByGroup",
                 data: datas,
@@ -1991,7 +1991,7 @@
             var obj = {"name": arr.join(","), "condition": getStandardPopulation(popuSamples)};
             var currData=[];
             currData.push(obj)
-           var datas= {group: JSON.stringify(currData), pageNo: 1 || 1, pageSize: 10};
+           var datas= {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10};
             $.ajax({
                 url: CTXROOT + "/dna/queryByGroup",
                 data: datas,
