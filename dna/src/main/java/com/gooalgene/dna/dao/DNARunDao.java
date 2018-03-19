@@ -20,7 +20,7 @@ public interface DNARunDao extends CrudDao<SampleInfo> {
 
     boolean deleteById(int id);
 
-    List<SampleInfo> getListByCondition(SampleInfoDto sampleInfoDto);
+    List<SampleInfoDto> getListByCondition(SampleInfoDto sampleInfoDto);
 
     List<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto);
 

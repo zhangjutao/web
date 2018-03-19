@@ -104,8 +104,7 @@ public class DNARunService {
         result.put("pageSize", page.getPageSize());
         JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(group)) {
-            List<GroupCondition> groupConditions = JacksonUtils.convertJsonToArray(group, GroupCondition.class);
-            GroupCondition groupCondition=groupConditions.get(0);
+            GroupCondition groupCondition=JacksonUtils.convertJsonToObject(group,GroupCondition.class);
             SampleInfo sampleInfo=getQuery(groupCondition.getCondition());
             SampleInfoDto sampleInfoDto=new SampleInfoDto();
             BeanUtils.copyProperties(sampleInfo,sampleInfoDto);
@@ -129,21 +128,21 @@ public class DNARunService {
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<SampleInfo> list=dnaRunDao.getListByCondition(dnaRunDto);
+        List<SampleInfoDto> list=dnaRunDao.getListByCondition(dnaRunDto);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
     }
 
     public PageInfo<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
         if(!StringUtils.isBlank(isPage)){
-            PageHelper.startPage(pageNum,pageSize);
+        PageHelper.startPage(pageNum,pageSize);
         }
         List<SampleInfoDto> list=dnaRunDao.getListByConditionWithTypeHandler(sampleInfoDto);
         PageInfo<SampleInfoDto> pageInfo=new PageInfo<>(list);
         return pageInfo;
     }
 
-    public  List<SampleInfo> getAll(){
+    public  List<SampleInfoDto> getAll(){
         return dnaRunDao.getListByCondition(new SampleInfoDto());
     }
 
