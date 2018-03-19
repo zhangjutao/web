@@ -39,7 +39,6 @@ public class DNARunService {
         return dnaRunDao.insertBatch(list);
     }
 
-    private ObjectMapper objectMapper = new ObjectMapper();
     /**
      * 根据页面分组查询对应的样本信息
      * 在选择品种查询时，传入的一个group对应多个品种，前端传入的品种均为ID值，改ID集合存放在condition变量中，key为idList
@@ -105,15 +104,7 @@ public class DNARunService {
         result.put("pageSize", page.getPageSize());
         JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(group)) {
-            //JSONObject one = JSONObject.fromObject(group);
-            // 群组名字并未出现在查询中,为什么会使用到?
-            //String groupName = one.getString("name");
-            //String condition= one.getString("condition");
             List<GroupCondition> groupConditions = JacksonUtils.convertJsonToArray(group, GroupCondition.class);
-            /*for(GroupCondition groupCondition:groupConditions){
-                Map<String, Object> condition = groupCondition.getCondition();
-                System.out.println(1);
-            }*/
             GroupCondition groupCondition=groupConditions.get(0);
             SampleInfo sampleInfo=getQuery(groupCondition.getCondition());
             SampleInfoDto sampleInfoDto=new SampleInfoDto();
@@ -152,33 +143,17 @@ public class DNARunService {
         return pageInfo;
     }
 
-    /*public PageInfo<DNARunSearchResult> findListWithTypeHandler(DnaRunDto dnaRunDto, Integer pageNum, Integer pageSize, String isPage){
-        if(!StringUtils.isBlank(isPage)){
-            PageHelper.startPage(pageNum,pageSize);
-        }
-        List<DNARunSearchResult> list=dnaRunDao.findListWithTypeHandler(dnaRunDto);
-        PageInfo<DNARunSearchResult> pageInfo=new PageInfo<>(list);
-        return pageInfo;
-    }*/
-
     public  List<SampleInfoDto> getAll(){
         return dnaRunDao.getListByCondition(new SampleInfoDto());
     }
 
     public List<SampleInfo> getQueryList(Map<String,Object> conditions) {
-        //JSONObject jsonObject = JSONObject.fromObject(conditions);
         List<SampleInfo> sampleInfoList = new ArrayList<SampleInfo>();
         List<String> idList = Arrays.asList(((String)conditions.get("id")).split(","));
         for (String id:idList) {
             SampleInfo sampleInfo = new SampleInfo();
-            /*if (id.startsWith("?")) {
-                String cultivarToSampleName = id.substring(1);
-                sampleInfo.setSampleName(cultivarToSampleName);
-                sampleInfoList.add(dnaRun);
-            }else {*/
-                sampleInfo.setId(id);
-                sampleInfoList.add(sampleInfo);
-            //}
+            sampleInfo.setId(id);
+            sampleInfoList.add(sampleInfo);
         }
         return sampleInfoList;
     }
