@@ -11,7 +11,10 @@ import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.entity.result.GroupCondition;
+import com.gooalgene.dna.util.FrontEndReflectionUtils;
 import com.gooalgene.dna.util.JacksonUtils;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -42,7 +45,27 @@ public class DNARunService {
     /**
      * 根据页面分组查询对应的样本信息
      * 在选择品种查询时，传入的一个group对应多个品种，前端传入的品种均为ID值，改ID集合存放在condition变量中，key为idList
-     * 返回一个Map：key(群体名称), value(多个idList)
+     * 返回一个Map：key(群体名称), value(多个idList),
+     * 如果前端传入参数为：
+     * <pre>
+     *     group: [
+     *            {
+     *            "name": "品种名1,品种名2,品种名3",
+     *            "condition": {
+     *            "idList": "1,2,3"
+     *            }},{
+     *            "name": "物种Glycine soja,位置China,百粒重0g-10g,含油量0%-10%,蛋白质30%-40%",
+     *            "id": 1521441363524,
+     *            "condition": {
+     *            "species": "Glycine soja",
+     *            "locality": "China",
+     *            "weightPer100seeds": {
+     *            "min": "0",
+     *            "max": "10"
+     *            }}]
+     * </pre>
+     * 上述既包含多个品种构成的群体，也包含多个群体属性构成的群体，此时需要将属性构成的群体转换为SampleInfo对象，
+     * 然后获取该SampleInfo对象的id集合，保持最后返回值都一致
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
         Map<String, List<String>> result = new HashMap<>();
@@ -56,6 +79,18 @@ public class DNARunService {
                     // 如果传入的id集合collection属性中包含idList字段且值包含多个sample_info ID值
                     if (!org.springframework.util.StringUtils.isEmpty(idList) && idList.contains(",")) {
                         finalIdList = Arrays.asList(idList.split(","));
+                    } else {
+                        SampleInfoDto sampleInfoDto = FrontEndReflectionUtils.constructNewInstance("com.gooalgene.dna.entity.SampleInfoDto", input.getCondition());
+                        // 获取所有符合条件的样本
+                        List<SampleInfoDto> allProperSampleInfo = dnaRunDao.getListByCondition(sampleInfoDto);
+                        // 从筛选的样本中获取它们的ID
+                        Collection<String> allProperSampleInfoId = Collections2.transform(allProperSampleInfo, new Function<SampleInfoDto, String>() {
+                            @Override
+                            public String apply(SampleInfoDto input) {
+                                return input.getId();
+                            }
+                        });
+                        finalIdList = new ArrayList<>(allProperSampleInfoId);
                     }
                     result.put(groupName, finalIdList);
                 }

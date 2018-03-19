@@ -497,7 +497,11 @@ public class DNAMongoService {
         return result;
     }
 
-    public List<SNP> searchInGene(String type, String ctype, String gene, String upsteam, String downsteam, Page page) {
+    /**
+     * 整合searchInGene与searchInRegion两个方法，不管是在区间还是根据基因来搜索，最终到mongodb中查询都是根据pos来查询
+     * 这里需要传入geneId，通过基因ID来确定该基因染色体，然后到mongodb中查询
+     */
+    public List<SNP> searchInGene(String type, String ctype, String gene, String upstream, String downstream, Page page) {
         DNAGens dnaGens = geneService.findByGeneId(gene);
         String chromosome = dnaGens.getChromosome();
         // 获取到MongoDB中集合名字
@@ -506,20 +510,7 @@ public class DNAMongoService {
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
-            if (StringUtils.isBlank(upsteam)) {
-                if (StringUtils.isNotBlank(downsteam)) {
-                    criteria.and("pos").lte(Long.parseLong(downsteam));
-                }
-            } else {
-                if (StringUtils.isBlank(downsteam)) {
-                    criteria.and("pos").gte(Long.parseLong(upsteam));
-                } else {
-                    criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upsteam)), Criteria.where("pos").lte(Long.parseLong(downsteam)));
-                }
-            }
-            if (StringUtils.isNotBlank(gene)) {
-                criteria.and("gene").is(gene);
-            }
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
                 String keywords = "";
                 if (ctype.indexOf(' ') != -1) {
@@ -547,10 +538,9 @@ public class DNAMongoService {
                 query.skip(skip);
                 query.limit(pageSize);
             }
-            query.fields().exclude("samples");
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
-            logger.info(collectionName + " is not exist.");
+            logger.error(collectionName + " is not exist.");
         }
         page.setCount(total);
         return result;
