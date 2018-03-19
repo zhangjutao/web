@@ -1,7 +1,5 @@
 package com.gooalgene.dna.web;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
@@ -13,7 +11,6 @@ import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
-import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
@@ -23,6 +20,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -115,7 +113,7 @@ public class SNPController {
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
-    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map queryByGene(HttpServletRequest request, HttpServletResponse response){
         String type = request.getParameter("type");
         // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String ctype = request.getParameter("ctype");
@@ -176,7 +174,7 @@ public class SNPController {
      */
     @RequestMapping("/searchIdAndPosInRegion")
     @ResponseBody
-    public ResultVO searchIdAndPosInRegion(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO searchIdAndPosInRegion(HttpServletRequest request, HttpServletResponse response) throws BeansException {
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String chr = request.getParameter("chromosome");
@@ -218,7 +216,7 @@ public class SNPController {
      */
     @RequestMapping("/searchIdAndPosInGene")
     @ResponseBody
-    public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) throws BeansException {
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String gene = request.getParameter("gene");
@@ -420,7 +418,7 @@ public class SNPController {
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                          @RequestParam("start") String start, @RequestParam("end") String end,
                                          @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws BeansException {
         List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
@@ -455,7 +453,7 @@ public class SNPController {
                                        @RequestParam(value = "upstream", required = false) String upstream,
                                        @RequestParam(value = "downstream", required = false) String downstream,
                                        @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws BeansException {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
