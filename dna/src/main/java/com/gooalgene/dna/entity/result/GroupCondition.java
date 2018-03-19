@@ -1,7 +1,10 @@
 package com.gooalgene.dna.entity.result;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.Map;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class GroupCondition {
     private String name;
     private Integer id;

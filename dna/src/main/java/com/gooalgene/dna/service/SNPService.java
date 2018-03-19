@@ -7,13 +7,12 @@ import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.util.DataFormatUtils;
 import com.gooalgene.utils.CommonUtil;
-import com.google.common.base.Strings;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Sets;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,11 +20,10 @@ import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.math.BigDecimal;
-import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.NumberFormat;
-import java.text.ParseException;
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * Created by ShiYun on 2017/9/11 0011.
@@ -43,20 +41,15 @@ public class SNPService {
     @Autowired
     private DNAGenStructureService dnaGenStructureService;
     @Autowired
-    private DNAGensDao dnaGensDao;
-    @Autowired
     private DNAGensService dnaGensService;
 
     /**
      * 将samples中的genotype格式（0/0、0/1、1/1字符串）对应转换为ref+ref、ref+alt、alt+alt字符串
      * 计算单个snp中三种genotype的比率
-     *
-     * @param snp
-     * @return
      */
     public Map genotypeTransform(SNP snp, String type) {
         Map<String, String> originSamples = snp.getSamples();
-        Map<String, String> transformedSamples = new HashMap<String, String>();
+        Map<String, String> transformedSamples = new HashMap<>();
         Map transformResult = new HashMap();
         String ref = snp.getRef();
         String alt = snp.getAlt();
@@ -77,7 +70,7 @@ public class SNPService {
             }
         }
         snp.setSamples(transformedSamples);
-        if(type=="INDEL"){
+        if(type.equals("INDEL")) {
             transformResult.put("INDELData", snp);
             return transformResult;
         }
@@ -116,20 +109,31 @@ public class SNPService {
         if (oneData == null) {
             return oneDataResult;
         }
-        //double类型精度处理
         double major = oneData.getMajor();
-        BigDecimal decimalMajor = new BigDecimal(major);
-        BigDecimal majorDecimalToPercent = decimalMajor.multiply(new BigDecimal(100));
-        StringBuffer convertValue = new StringBuffer();
-        StringBuffer stringMajorPercent = new DecimalFormat("###0.00").format(
-                majorDecimalToPercent, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD)
-        );
-
+        double resultData = DataFormatUtils.keepTwoFraction(major);
         oneDataResult = genotypeTransform(oneData, type);
-        oneDataResult.put("major", stringMajorPercent);
+        oneDataResult.put("major", resultData);
         if (type.equals("INDEL")) {
             oneDataResult.put("type", type);
         } else {
+            oneDataResult.put("type", type);
+        }
+        return oneDataResult;
+    }
+
+    public Map<String, Object> findSampleById(SNP snp) {
+        Map<String, Object> oneDataResult = new HashMap<>();
+        String geneIdInMongo = snp.getId();
+        if (StringUtils.isNotBlank(geneIdInMongo)) {
+            String type = String.valueOf(geneIdInMongo.charAt(3));
+            if (type.equalsIgnoreCase("i")) {
+                type = "INDEL";
+            } else {
+                type = "SNP";
+            }
+            double majorResult = DataFormatUtils.keepTwoFraction(snp.getMajor());
+            oneDataResult = genotypeTransform(snp, type);
+            oneDataResult.put("major", majorResult);
             oneDataResult.put("type", type);
         }
         return oneDataResult;
