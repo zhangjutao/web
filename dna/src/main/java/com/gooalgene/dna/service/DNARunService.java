@@ -104,8 +104,7 @@ public class DNARunService {
         result.put("pageSize", page.getPageSize());
         JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(group)) {
-            List<GroupCondition> groupConditions = JacksonUtils.convertJsonToArray(group, GroupCondition.class);
-            GroupCondition groupCondition=groupConditions.get(0);
+            GroupCondition groupCondition=JacksonUtils.convertJsonToObject(group,GroupCondition.class);
             SampleInfo sampleInfo=getQuery(groupCondition.getCondition());
             SampleInfoDto sampleInfoDto=new SampleInfoDto();
             BeanUtils.copyProperties(sampleInfo,sampleInfoDto);
