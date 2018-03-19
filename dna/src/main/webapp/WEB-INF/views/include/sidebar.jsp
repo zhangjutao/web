@@ -2231,7 +2231,6 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function (res) {
-                    debugger;
                     if (res.data.length > 0) {
                         if ($(".gene-search input").hasClass("inputError")) {
                             $(".gene-search input").removeClass("inputError");

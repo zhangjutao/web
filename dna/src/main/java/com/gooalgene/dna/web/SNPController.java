@@ -68,9 +68,6 @@ public class SNPController {
     @Autowired
     private DNAGenStructureService dnaGenStructureService;
 
-
-
-
     @RequestMapping("/index")
     public ModelAndView index() {
         ModelAndView model = new ModelAndView("mDNA/dna-index");
