@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.util.JacksonUtils;
 import org.junit.After;

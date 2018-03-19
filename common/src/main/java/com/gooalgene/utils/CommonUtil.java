@@ -999,6 +999,11 @@ public class CommonUtil {
         return sb.toString();
     }
 
+    /**
+     * 返回标题格式
+     * @param strings 驼峰字符串列表:{ plantSpecies, studyDao, findByType, ...}
+     * @return 返回字符串："Plant Species,Study Dao,Find By Type, ..."
+     */
     public static String camelListToTitle(List<String> strings) {
         StringBuilder stringResult = new StringBuilder("");
         if (strings.size() > 0) {
