@@ -999,6 +999,17 @@ public class CommonUtil {
         return sb.toString();
     }
 
-
+    public static String camelListToTitle(List<String> strings) {
+        StringBuilder stringResult = new StringBuilder("");
+        if (strings.size() > 0) {
+            for (String string : strings) {
+                string = string.substring(0, 1).toUpperCase() + string.substring(1);
+                stringResult.append(string.replaceAll("(?<=[a-z])(?=[A-Z])"," ")).append(",");
+            }
+        } else {
+            return stringResult.toString();
+        }
+        return StringUtils.stripEnd(stringResult.toString(), ",");
+    }
 
 }

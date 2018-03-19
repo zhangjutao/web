@@ -138,7 +138,7 @@ public class DNARunService {
         if(!StringUtils.isBlank(isPage)){
             PageHelper.startPage(pageNum,pageSize);
         }
-        List<SampleInfo> list=dnaRunDao.getListByCondition(dnaRunDto);
+        List<SampleInfoDto> list=dnaRunDao.getListByCondition(dnaRunDto);
         PageInfo<DNARun> pageInfo=new PageInfo(list);
         return pageInfo;
     }
@@ -161,7 +161,7 @@ public class DNARunService {
         return pageInfo;
     }*/
 
-    public  List<SampleInfo> getAll(){
+    public  List<SampleInfoDto> getAll(){
         return dnaRunDao.getListByCondition(new SampleInfoDto());
     }
 

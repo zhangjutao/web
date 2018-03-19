@@ -33,6 +33,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
@@ -101,7 +102,7 @@ public class SNPController {
      */
     @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) {
+    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String group = request.getParameter("group");
         logger.info("QueryByGroup:" + group);
         Page<SampleInfoDto> page = new Page<>(request, response);
@@ -114,7 +115,7 @@ public class SNPController {
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
-    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map queryByGene(HttpServletRequest request, HttpServletResponse response){
         String type = request.getParameter("type");
         // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String ctype = request.getParameter("ctype");
