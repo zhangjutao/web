@@ -476,7 +476,7 @@ $(function (){
             url:CTXROOT + "/export",
             data:{
                   "titles":unSelectedLists,
-                  "condition":JSON.stringify(exportCondition)
+                  // "condition":JSON.stringify(exportCondition)
                 },
             dataType: "json",
             contentType: "application/json",
