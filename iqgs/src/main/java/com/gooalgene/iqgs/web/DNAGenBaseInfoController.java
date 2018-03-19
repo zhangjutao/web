@@ -442,7 +442,7 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     @RequestMapping("/searchDNAinGene")
     @ResponseBody
-    public Map searchSNPinGene(HttpServletRequest request, HttpServletResponse response) {
+    public Map searchSNPByGene(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
         String gene = request.getParameter("gene");//具体的gene
         String ctype = request.getParameter("ctype");
