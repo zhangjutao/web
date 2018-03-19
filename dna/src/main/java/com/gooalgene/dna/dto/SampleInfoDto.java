@@ -1,11 +1,11 @@
 package com.gooalgene.dna.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SampleInfoDto {
-    public static final String EQ="eq";
-    public static final String GT="gt";
-    public static final String LT="lt";
 
     private String id;
 

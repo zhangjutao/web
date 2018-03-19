@@ -1,7 +1,5 @@
 package com.gooalgene.dna.web;
 
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
@@ -9,11 +7,8 @@ import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
-import com.gooalgene.dna.entity.DNAGens;
-import com.gooalgene.dna.entity.DNARun;
-import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.*;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
-import com.gooalgene.dna.entity.result.GroupCondition;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
@@ -23,12 +18,10 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
+import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,6 +31,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -107,14 +101,55 @@ public class SNPController {
     }
 
     /**
+     * 查询SNP表格数据接口
+     * @return
+     */
+    @RequestMapping(value = "/queryForSNPTable", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO<TableSearchResult> queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
+        TableSearchResult result = new TableSearchResult();
+        String gene = condition.getGene();
+        // Search in Region
+        if (StringUtils.isEmpty(gene)) {
+            result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
+                    condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
+                    condition.getGroup(), condition.getPageNo(), condition.getPageSize());
+        } else { // Search in Gene
+            DNAGens dnaGens = dnaGensService.findByGene(gene);
+            if (dnaGens != null) {
+                String chromosome = dnaGens.getChromosome();
+                long start = dnaGens.getGeneStart();
+                long end = dnaGens.getGeneEnd();
+                Long upstream = condition.getStart();  // start此时为upstream
+                Long downstream = condition.getEnd();  // end此时为downstream
+                // 判断用户是否有输入上下游区间
+                if (null != upstream) {
+                    start = start - upstream < 0 ? 0 : start - upstream;
+                } else {
+                    start = start - 2000 < 0 ? 0 : start - 2000;
+                }
+                if (null != downstream) {
+                    end = end + downstream;
+                } else {
+                    end = end + 2000;
+                }
+                result = snpService.searchSNPResult(condition.getType(), condition.getCtype(), chromosome, String.valueOf(start),
+                        String.valueOf(end), condition.getGroup(), condition.getPageNo(), condition.getPageSize());
+            } else {
+                logger.warn("传入基因" + gene + "不存在");
+            }
+        }
+        return ResultUtil.success(result);
+    }
+
+    /**
      * 按群组条件搜索
      * 查询传入基因start、end，上下游分别加2000，找出该区域内的所有snp位点
      */
     @RequestMapping("/searchSNPinGene")
     @ResponseBody
-    public Map queryByGene(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public Map queryByGene(HttpServletRequest request, HttpServletResponse response){
         String type = request.getParameter("type");
-        // list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String ctype = request.getParameter("ctype");
         String gene = request.getParameter("gene");
         String upstream = request.getParameter("upstream");
@@ -144,16 +179,12 @@ public class SNPController {
 
     /**
      * 按群组条件搜索
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping("/searchSNPinRegion")
     @ResponseBody
     public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String type = request.getParameter("type");  //区分snp和indel数据
-        String ctype = request.getParameter("ctype");  //list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
+        String type = request.getParameter("type");
+        String ctype = request.getParameter("ctype");
         String chr = request.getParameter("chromosome");
         String startPos = request.getParameter("start");
         String endPos = request.getParameter("end");
@@ -173,7 +204,7 @@ public class SNPController {
      */
     @RequestMapping("/searchIdAndPosInRegion")
     @ResponseBody
-    public ResultVO searchIdAndPosInRegion(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO searchIdAndPosInRegion(HttpServletRequest request, HttpServletResponse response) throws BeansException {
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String chr = request.getParameter("chromosome");
@@ -215,7 +246,7 @@ public class SNPController {
      */
     @RequestMapping("/searchIdAndPosInGene")
     @ResponseBody
-    public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) throws BeansException {
         String type = request.getParameter("type");//区分snp和indel数据
         String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
         String gene = request.getParameter("gene");
@@ -417,7 +448,7 @@ public class SNPController {
                                          @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                          @RequestParam("start") String start, @RequestParam("end") String end,
                                          @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws BeansException {
         List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
         List<SNPDto> data = Lists.newArrayList();
@@ -452,7 +483,7 @@ public class SNPController {
                                        @RequestParam(value = "upstream", required = false) String upstream,
                                        @RequestParam(value = "downstream", required = false) String downstream,
                                        @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) {
+                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws BeansException {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
             long start = dnaGens.getGeneStart();
@@ -494,7 +525,7 @@ public class SNPController {
 
     @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO getByCultivar(HttpServletRequest request,@RequestParam("names")List<String> ids,
+    public ResultVO getByCultivar(@RequestParam("names") List<String> ids,
                                   @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
         return ResultUtil.success(dnaRunService.getByCultivar(ids,pageNum,pageSize));

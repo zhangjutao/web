@@ -497,7 +497,58 @@ public class DNAMongoService {
         return result;
     }
 
-    public List<SNP> searchInGene(String type, String ctype, String gene, String upsteam, String downsteam, Page page) {
+    /**
+     * 根据传入的染色体类型，查询region区间内的所有SNP
+     * @param type SNP/INDEL
+     * @param ctype consequence type
+     * @param chromosome 染色体名字
+     * @param upstream 染色体上游区间
+     * @param downstream 染色体下游区间
+     * @param total 待写入的数目总值
+     * @return 该范围内的所有SNP
+     */
+    public List<SNP> querySNPByRegion(String type, String ctype, String chromosome, String upstream, String downstream,
+                                      int pageNo, int pageSize, long total) {
+        String collectionName = type + "_" + chromosome;
+        List<SNP> result = new ArrayList<SNP>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
+            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+                String keywords = "";
+                if (ctype.indexOf(' ') != -1) {
+                    keywords = ctype.replace("_", ".*_");
+                } else if (ctype.indexOf(';') == -1 && ctype.endsWith("_")) {
+                    keywords = ctype.replace("_", "");
+                } else {
+                    keywords = ctype.replace("_", ".*");
+                }
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            logger.info("Query:" + query.toString());
+            total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
+            int skip = (pageNo - 1) * pageSize;
+            if (skip < 0) {
+                skip = 0;
+            }
+            query.skip(skip);
+            query.limit(pageSize);
+            logger.info("Query By Page:" + query.toString());
+            result = mongoTemplate.find(query, SNP.class, collectionName);
+        } else {
+            logger.info(collectionName + " is not exist.");
+        }
+        return result;
+    }
+
+    /**
+     * 整合searchInGene与searchInRegion两个方法，不管是在区间还是根据基因来搜索，最终到mongodb中查询都是根据pos来查询
+     * 这里需要传入geneId，通过基因ID来确定该基因染色体，然后到mongodb中查询
+     */
+    public List<SNP> searchInGene(String type, String ctype, String gene, String upstream, String downstream, Page page) {
         DNAGens dnaGens = geneService.findByGeneId(gene);
         String chromosome = dnaGens.getChromosome();
         // 获取到MongoDB中集合名字
@@ -506,20 +557,7 @@ public class DNAMongoService {
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
-            if (StringUtils.isBlank(upsteam)) {
-                if (StringUtils.isNotBlank(downsteam)) {
-                    criteria.and("pos").lte(Long.parseLong(downsteam));
-                }
-            } else {
-                if (StringUtils.isBlank(downsteam)) {
-                    criteria.and("pos").gte(Long.parseLong(upsteam));
-                } else {
-                    criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upsteam)), Criteria.where("pos").lte(Long.parseLong(downsteam)));
-                }
-            }
-            if (StringUtils.isNotBlank(gene)) {
-                criteria.and("gene").is(gene);
-            }
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
                 String keywords = "";
                 if (ctype.indexOf(' ') != -1) {
@@ -547,10 +585,9 @@ public class DNAMongoService {
                 query.skip(skip);
                 query.limit(pageSize);
             }
-            query.fields().exclude("samples");
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
-            logger.info(collectionName + " is not exist.");
+            logger.error(collectionName + " is not exist.");
         }
         page.setCount(total);
         return result;

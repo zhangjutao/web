@@ -39,7 +39,7 @@
             OR tissueForClassification LIKE CONCAT('%',#{keywords},'%') OR treat LIKE CONCAT('%',#{keywords},'%')
             OR stage LIKE CONCAT('%',#{keywords},'%') OR geneType LIKE CONCAT('%',#{keywords},'%')
             OR geoLoc LIKE CONCAT('%',#{keywords},'%') OR ecoType LIKE CONCAT('%',#{keywords},'%')
-            OR ccultivar LIKE CONCAT('%',#{keywords},'%') OR scientificName LIKE CONCAT('%',#{keywords},'%')
+           OR scientificName LIKE CONCAT('%',#{keywords},'%')
             OR reference LIKE CONCAT('%',#{keywords},'%') OR institution LIKE CONCAT('%',#{keywords},'%')
             OR libraryStrategy LIKE CONCAT('%',#{keywords},'%') OR librarySource LIKE CONCAT('%',#{keywords},'%')
             OR libraryLayout LIKE CONCAT('%',#{keywords},'%') OR experiment LIKE CONCAT('%',#{keywords},'%')
@@ -56,7 +56,7 @@
             OR tissueForClassification LIKE CONCAT('%',#{keywords},'%') OR treat LIKE CONCAT('%',#{keywords},'%')
             OR stage LIKE CONCAT('%',#{keywords},'%') OR geneType LIKE CONCAT('%',#{keywords},'%')
             OR geoLoc LIKE CONCAT('%',#{keywords},'%') OR ecoType LIKE CONCAT('%',#{keywords},'%')
-            OR ccultivar LIKE CONCAT('%',#{keywords},'%') OR scientificName LIKE CONCAT('%',#{keywords},'%')
+             OR scientificName LIKE CONCAT('%',#{keywords},'%')
             OR reference LIKE CONCAT('%',#{keywords},'%') OR institution LIKE CONCAT('%',#{keywords},'%')
             OR libraryStrategy LIKE CONCAT('%',#{keywords},'%') OR librarySource LIKE CONCAT('%',#{keywords},'%')
             OR libraryLayout LIKE CONCAT('%',#{keywords},'%') OR experiment LIKE CONCAT('%',#{keywords},'%')
@@ -73,7 +73,7 @@
             OR tissueForClassification LIKE CONCAT('%',#{keywords},'%') OR treat LIKE CONCAT('%',#{keywords},'%')
             OR stage LIKE CONCAT('%',#{keywords},'%') OR geneType LIKE CONCAT('%',#{keywords},'%')
             OR geoLoc LIKE CONCAT('%',#{keywords},'%') OR ecoType LIKE CONCAT('%',#{keywords},'%')
-            OR ccultivar LIKE CONCAT('%',#{keywords},'%') OR scientificName LIKE CONCAT('%',#{keywords},'%')
+            OR scientificName LIKE CONCAT('%',#{keywords},'%')
             OR reference LIKE CONCAT('%',#{keywords},'%') OR institution LIKE CONCAT('%',#{keywords},'%')
             OR libraryStrategy LIKE CONCAT('%',#{keywords},'%') OR librarySource LIKE CONCAT('%',#{keywords},'%')
             OR libraryLayout LIKE CONCAT('%',#{keywords},'%') OR experiment LIKE CONCAT('%',#{keywords},'%')
@@ -118,9 +118,6 @@
         </if>
         <if test="environment!=null">
             AND environment LIKE CONCAT('%',#{environment},'%')
-        </if>
-        <if test="ccultivar!=null">
-            AND ccultivar LIKE CONCAT('%',#{ccultivar},'%')
         </if>
         <if test="scientificName!=null">
             AND scientificName LIKE CONCAT('%',#{scientificName},'%')
@@ -148,7 +145,7 @@
             OR tissueForClassification LIKE CONCAT('%',#{keywords},'%') OR treat LIKE CONCAT('%',#{keywords},'%')
             OR stage LIKE CONCAT('%',#{keywords},'%') OR geneType LIKE CONCAT('%',#{keywords},'%')
             OR geoLoc LIKE CONCAT('%',#{keywords},'%') OR ecoType LIKE CONCAT('%',#{keywords},'%')
-            OR ccultivar LIKE CONCAT('%',#{keywords},'%') OR scientificName LIKE CONCAT('%',#{keywords},'%')
+            OR scientificName LIKE CONCAT('%',#{keywords},'%')
             OR reference LIKE CONCAT('%',#{keywords},'%') OR institution LIKE CONCAT('%',#{keywords},'%')
             OR libraryStrategy LIKE CONCAT('%',#{keywords},'%') OR librarySource LIKE CONCAT('%',#{keywords},'%')
             OR libraryLayout LIKE CONCAT('%',#{keywords},'%') OR experiment LIKE CONCAT('%',#{keywords},'%')
@@ -194,9 +191,7 @@
         <if test="environment!=null">
             AND environment LIKE CONCAT('%',#{environment},'%')
         </if>
-        <if test="ccultivar!=null">
-            AND ccultivar LIKE CONCAT('%',#{ccultivar},'%')
-        </if>
+
         <if test="scientificName!=null">
             AND scientificName LIKE CONCAT('%',#{scientificName},'%')
         </if>
@@ -237,7 +232,7 @@
         `ecoType` = #{ecoType},
         `collectionDate` = #{collectionDate},
         `coordinates` = #{coordinates},
-        `ccultivar` = #{ccultivar},
+
         `scientificName` = #{scientificName},
         `pedigree` = #{pedigree},
         `reference` = #{reference},
@@ -278,7 +273,7 @@
         `ecoType`,
         `collectionDate`,
         `coordinates`,
-        `ccultivar`,
+
         `scientificName`,
         `pedigree`,
         `reference`,
@@ -314,7 +309,7 @@
             #{item.ecoType,jdbcType=VARCHAR},
             #{item.collectionDate,jdbcType=VARCHAR},
             #{item.coordinates,jdbcType=VARCHAR},
-            #{item.ccultivar,jdbcType=VARCHAR},
+
             #{item.scientificName,jdbcType=VARCHAR},
             #{item.pedigree,jdbcType=VARCHAR},
             #{item.reference,jdbcType=VARCHAR},
@@ -352,7 +347,7 @@
              `ecoType`,
              `collectionDate`,
              `coordinates`,
-             `ccultivar`,
+
              `scientificName`,
              `pedigree`,
              `reference`,
@@ -386,7 +381,7 @@ VALUES (
         #{ecoType,jdbcType=VARCHAR},
         #{collectionDate,jdbcType=VARCHAR},
         #{coordinates,jdbcType=VARCHAR},
-        #{ccultivar,jdbcType=VARCHAR},
+
         #{scientificName,jdbcType=VARCHAR},
         #{pedigree,jdbcType=VARCHAR},
         #{reference,jdbcType=VARCHAR},
@@ -423,7 +418,7 @@ VALUES (
              `ecoType`,
              `collectionDate`,
              `coordinates`,
-             `ccultivar`,
+
              `scientificName`,
              `pedigree`,
              `reference`,
@@ -457,7 +452,7 @@ VALUES (
         #{ecoType,jdbcType=VARCHAR},
         #{collectionDate,jdbcType=VARCHAR},
         #{coordinates,jdbcType=VARCHAR},
-        #{ccultivar,jdbcType=VARCHAR},
+
         #{scientificName,jdbcType=VARCHAR},
         #{pedigree,jdbcType=VARCHAR},
         #{reference,jdbcType=VARCHAR},

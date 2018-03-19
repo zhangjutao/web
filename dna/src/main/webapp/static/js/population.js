@@ -150,16 +150,19 @@ $(function (){
         // $("#exportData").css("margin-right","20px")
     })
 
+
+
     // 确定按钮（过滤条件）
-    $("#operate .sure").click(function (){
+    // 过滤条件（封装）
+    function filterCondition(){
         var lists = $("#selectedDetails li");
         for(var i=0;i<lists.length;i++){
             var $input = $(lists[i]).find("input");
             if(!$input.is(":checked")){
-             var classVal = $input.attr("name");
-             var newClassVal = "." + classVal + "T";
-             $("#tableShow thead").find(newClassVal).hide();
-             $("#tableShow tbody").find(newClassVal).hide();
+                var classVal = $input.attr("name");
+                var newClassVal = "." + classVal + "T";
+                $("#tableShow thead").find(newClassVal).hide();
+                $("#tableShow tbody").find(newClassVal).hide();
             }
             else {
                 var classVal = $input.attr("name");
@@ -170,6 +173,27 @@ $(function (){
                 }
             }
         }
+    }
+    $("#operate .sure").click(function (){
+        filterCondition();
+        // var lists = $("#selectedDetails li");
+        // for(var i=0;i<lists.length;i++){
+        //     var $input = $(lists[i]).find("input");
+        //     if(!$input.is(":checked")){
+        //      var classVal = $input.attr("name");
+        //      var newClassVal = "." + classVal + "T";
+        //      $("#tableShow thead").find(newClassVal).hide();
+        //      $("#tableShow tbody").find(newClassVal).hide();
+        //     }
+        //     else {
+        //         var classVal = $input.attr("name");
+        //         var newClassVal = "." + classVal + "T";
+        //         if($("#tableShow thead").find(newClassVal).is(":hidden")){
+        //             $("#tableShow thead").find(newClassVal).show();
+        //             $("#tableShow tbody").find(newClassVal).show();
+        //         }
+        //     }
+        // }
     })
         // 点击群体信息进入页面初始化开始获取table数据
         var initData = getParamas()
@@ -218,6 +242,7 @@ $(function (){
             domestication:$(".domesticationI").val(),//驯化
             nuclearPhase:$(".nuclearPhaseI").val(),//核相
             matingType:$(".matingTypeI").val(),//交配型
+            isPage:1
         };
         return datas;
     };
@@ -283,10 +308,10 @@ $(function (){
 
                 if (selectedNum>mathCeil) {
                     selectedDatas.pageNum = 1;
-                    getData(selectedDatas,1);
+                    getData(selectedDatas,1,filterCondition);
                 }else{
                     // page.curr = selectedNum;
-                    getData(selectedDatas,selectedDatas.pageNum);
+                    getData(selectedDatas,selectedDatas.pageNum,filterCondition);
                 }
             }
         }
@@ -297,7 +322,7 @@ $(function (){
     var curr = 1;
     var currPageNumber = 1;
     //ajax 请求
-    function getData(data,curr){
+    function getData(data,curr,fn){
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
@@ -405,6 +430,7 @@ $(function (){
                         var $tbody = $("#tableShow table tbody");
                         $tbody.append(tr);
                     }
+                    fn&&fn();
                 }
                 // 分页
                 laypage({
@@ -425,7 +451,7 @@ $(function (){
                             tmp.pageNum = obj.curr;
                             currPageNumber = obj.curr;
                             tmp.pageSize = pageSizeNum;
-                            getData(tmp,obj.curr);
+                            getData(tmp,obj.curr,filterCondition);
                         }
                     }
                 });
@@ -448,11 +474,11 @@ $(function (){
         if(pageSize>mathCeil){
                 data.pageSize = pageSize;
                 data.pageNum = 1;
-                getData(data,1);
+                getData(data,1,filterCondition);
         }else{
             data.pageSize = pageSize;
             data.pageNum =curr;
-            getData(data,data.pageNum);
+            getData(data,data.pageNum,filterCondition);
 
         }
     });
