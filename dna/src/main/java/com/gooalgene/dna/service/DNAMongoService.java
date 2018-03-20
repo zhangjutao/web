@@ -5,18 +5,22 @@ import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.TableSearchResult;
+import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.utils.CommonUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.DocumentCallbackHandler;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
@@ -37,6 +41,10 @@ import java.util.regex.Pattern;
 public class DNAMongoService {
 
     Logger logger = LoggerFactory.getLogger(DNAMongoService.class);
+
+    private final String EXONIC_NONSYNONYMOUS_SNV = "exonic_nonsynonymous SNV";
+    private final String EXONIC_FRAMESHIFT_INSERTION = "exonic_frameshift deletion";
+    private final String EXONIC_FRAMESHIFT_DELETION = "Exonic_frameshift insertion";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -462,24 +470,32 @@ public class DNAMongoService {
      * @param endPos 染色体终点位置
      * @return 该染色体上指定位置的所有SNP位点
      */
-    public List<SNP> searchSNPIdAndPos(String type, String chr, long startPos, long endPos, int pageNo, int pageSize) {
+    public List<MinimumSNPResult> searchSNPIdAndPos(String type, String chr, long startPos, long endPos) {
         String collectionName = type + "_" + chr;
-        long total = 0;
-        List<SNP> result = new ArrayList<>();
+        final List<MinimumSNPResult> result = new ArrayList<>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
             criteria.andOperator(Criteria.where("pos").gte(startPos), Criteria.where("pos").lte(endPos));
             Query query = new Query();
             query.addCriteria(criteria);
             query.fields().include("pos").include("consequencetype");
-            total = mongoTemplate.count(query, Integer.class, collectionName);
-            int skip = (pageNo - 1) * pageSize;
-            if (skip < 0) {
-                skip = 0;
-            }
-            query.skip(skip);
-            query.limit(pageSize);
-            result = mongoTemplate.find(query, SNP.class, collectionName);
+            mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
+                @Override
+                public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                    long pos = (long) dbObject.get("pos");
+                    String consequenceType = (String) dbObject.get("consequencetype");
+                    MinimumSNPResult snpResult = new MinimumSNPResult(pos, consequenceType);
+                    // 根据不同的consequence type，前端进行相应描色
+                    if (consequenceType.equals(EXONIC_NONSYNONYMOUS_SNV)) {
+                        snpResult.setConsequenceTypeColor(1);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_DELETION)) {
+                        snpResult.setConsequenceTypeColor(2);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_INSERTION)) {
+                        snpResult.setConsequenceTypeColor(3);
+                    }
+                    result.add(snpResult);
+                }
+            });
         } else {
             logger.error(collectionName + " is not exist.");
         }

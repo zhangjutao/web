@@ -12,22 +12,9 @@ import java.util.Set;
  */
 public class TableSearchResult {
 
-    /**
-     * 如果查询结果中有基因，该集合不为空
-     */
-    private Set<String> geneIds;
-
     private List<SNPDto> data;
 
     private Long total;
-
-    public Set<String> getGeneIds() {
-        return geneIds;
-    }
-
-    public void setGeneIds(Set<String> geneIds) {
-        this.geneIds = geneIds;
-    }
 
     public List<SNPDto> getData() {
         return data;

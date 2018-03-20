@@ -6,6 +6,7 @@ import com.gooalgene.dna.entity.DNAGens;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 陈冬 on 2017/8/22.
@@ -27,5 +28,5 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
 
     DNAGens findDNAGensInfoByGene(String gene);
 
-    List<String> getByRegion(@Param("chr") String chr,@Param("start") long start, @Param("end") long end);
+    Set<String> getByRegion(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
 }

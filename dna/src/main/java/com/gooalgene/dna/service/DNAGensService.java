@@ -78,9 +78,9 @@ public class DNAGensService {
         return result;
     }
 
-    public List<String> getByRegionNoCompare(String chr,long start, long end){
-        List<String> list= dnaGensDao.getByRegion(chr,start,end);
-        return  list;
+    public Set<String> getByRegionNoCompare(String chr,long start, long end){
+        Set<String> list= dnaGensDao.getByRegion(chr,start,end);
+        return list;
     }
 
     private List<String> compareGeneIds(Map<Integer,String> map){
