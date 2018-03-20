@@ -19,7 +19,8 @@
 
     <style>
         .che-list .checkbox-ac span{
-            background-image: url(${ctxStatic}/images/contrast-ac.png);
+            /*background-image: url(${ctxStatic}/images/contrast-ac.png);*/
+            background-image: url(${ctxStatic}/images/checkbox.png);
         }
         .genes-tab tr td{
             position: relative;
@@ -80,7 +81,8 @@
             padding-left: 15px;
         }
         .btn-default-ac span{
-            background-image: url(${ctxStatic}/images/contrast-ac.png);
+            /*background-image: url(${ctxStatic}/images/contrast-ac.png);*/
+            background-image: url(${ctxStatic}/images/checkbox.png);
         }
         .js-r-ac dd:nth-child(15) label span,.js-r-ac  dd:nth-child(16) label span,.js-r-ac dd:nth-child(17) label span{
             background-image: url(${ctxStatic}/images/contrast.png);
@@ -430,7 +432,8 @@
                     cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
-                    skin: '#5c8de5',
+                    /*skin: '#5c8de5',*/
+                    skin: '#0F9145',
                     prev: '<',
                     next: '>',
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
@@ -605,7 +608,8 @@
         $(".js-choose-all").click(function(){
             $(".js-btn-default").removeClass("btn-default-ac");
             $("#table_header_setting").removeClass("js-r-ac");
-            $(this).css({"background-image":"url(${ctxStatic}/images/contrast-ac.png)"})
+            /*$(this).css({"background-image":"url(${ctxStatic}/images/contrast-ac.png)"})*/
+            $(this).css({"background-image":"url(${ctxStatic}/images/checkbox.png)"})
             $("#table_header_setting dd label").each(function(index){
                $(this).addClass("checkbox-ac");
             })

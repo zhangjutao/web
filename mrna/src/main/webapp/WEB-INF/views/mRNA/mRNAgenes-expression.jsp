@@ -348,7 +348,8 @@
     </div>
     <aside style=" ">
         <div class="item-header">
-            <div class="icon-left"><img src="${ctxStatic}/images/genes-pic.png">添加基因</div>
+            <!--<div class="icon-left"><img src="${ctxStatic}/images/genes-pic.png">添加基因</div>-->
+            <div class="icon-left"><img src="${ctxStatic}/images/geneselect.png">添加基因</div>
         </div>
         <div class="add-genes">
             <p>可以手动添加基因</p>
