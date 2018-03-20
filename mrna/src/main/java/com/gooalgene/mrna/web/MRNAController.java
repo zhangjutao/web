@@ -75,13 +75,15 @@ public class MRNAController {
 
         List<Classifys> tree = tService.getClassifyTree();
         for (Classifys classifys : tree) {
-            List<Map<String,Object>> listTemp = classifys.getChildren();
-            Map<String, Object> mapTemp = new HashMap();
-            mapTemp.put("chinese", classifys.getChinese());
-            mapTemp.put("children", 0);
-            mapTemp.put("name", classifys.getName());
-            listTemp.add(0, mapTemp);
-            classifys.setChildren(listTemp);
+            List<Map<String, Object>> listTemp = classifys.getChildren();
+            if (listTemp.size() == 0) {
+                Map<String, Object> mapTemp = new HashMap();
+                mapTemp.put("chinese", classifys.getChinese());
+                mapTemp.put("children", 0);
+                mapTemp.put("name", classifys.getName());
+                listTemp.add(0, mapTemp);
+                classifys.setChildren(listTemp);
+            }
         }
         model.addObject("tree", tree);
         String treejson = JsonUtils.Bean2Json(tree);
