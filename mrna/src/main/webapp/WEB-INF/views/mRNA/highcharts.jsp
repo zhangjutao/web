@@ -13,12 +13,14 @@
     <script src="https://cdn.hcharts.cn/highcharts/highcharts.js"></script>
     <script src="https://cdn.hcharts.cn/highcharts/highcharts-more.js"></script>
     <script src="https://cdn.hcharts.cn/highcharts/modules/exporting.js"></script>
-    <script src="https://cdn.hcharts.cn/highcharts/modules/heatmap.js"></script>
+    <!--<script src="https://cdn.hcharts.cn/highcharts/modules/heatmap.js"></script>-->
+    <script src="https://cdn.hcharts.cn/highcharts/modules/heatmap1.js"></script>
     <script src="https://cdn.hcharts.cn/highcharts-plugins/highcharts-zh_CN.js"></script>
 
   <style>
     .open {
-      color: #688be2;
+      /*color: #688be2;*/
+      color:
       font-weight: bold;
     }
     .js-label{
@@ -198,7 +200,8 @@
         colorAxis: {
           min: 0,
           minColor: '#ffffff',
-          maxColor: '#386cca'
+          /*maxColor: '#386cca'*/
+          maxColor: '#0F9145'
         },
         legend: {
           align: 'right',
@@ -243,9 +246,12 @@
             str += '    <div ><span style="display:inline-block; height:22px; width: 90px;">Cultivar :</span>AC colombe vs pagoda </div>'
             str += '    <div ><span style="display:inline-block; height:22px; width: 90px;">Phenotype :</span>High isoflavonaid content vs law isoflavonoid content. </div>'
             str += '<div style="border-top: 1px solid #DDD; margin: 10px 0;"></div>'
-            str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Log-fold change:</span> -5.5</div>'
-            str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Adjusted p-value:</span> <math><mtext>1.5658</mtext><mo>&times;</mo><msup><mtext>10</mtext><mtext selected="true">-111</mtext></msup></math></div>'
-            str += '</div>'
+            /*str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Log-fold change:</span> -5.5</div>'
+            str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Adjusted p-value:</span> <math><mtext>1.5658</mtext><mo>&times;</mo><msup><mtext>10</mtext><mtext selected="true">-111</mtext></msup></math></div>'*/
+            str += '<div><span style="display: inline-block; background-color: #0F9145; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Log-fold change:</span> -5.5</div>'
+            str += '<div><span style="display: inline-block; background-color: #0F9145; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Adjusted p-value:</span> <math><mtext>1.5658</mtext><mo>&times;</mo><msup><mtext>10</mtext><mtext selected="true">-111</mtext></msup></math></div>'*/
+
+              str += '</div>'
 
             return str;
             // return '<b>' + this.series.xAxis.categories[this.point.x]["name"] + '</b> sold <br><b>' +
@@ -436,7 +442,8 @@
           [724, 802, 806, 871, 950],
           [834, 836, 864, 882, 910]
         ],
-        fillColor: "#386cca",
+        /*fillColor: "#386cca",*/
+        fillColor: "#0F9145",
         tooltip: {
           headerFormat: '<em>实验号码： {point.key}</em><br/>'
         }

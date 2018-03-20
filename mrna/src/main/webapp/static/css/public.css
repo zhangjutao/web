@@ -337,7 +337,8 @@ footer p{    clear: both;    text-align: center;padding-bottom: 25px}
     background-color: #e4e4e4;
 }
 .ktPaginate ul li:hover a{
-    color: #007be9;
+    /*color: #007be9;*/
+    color: #0F9145;
 }
 .ktPaginate ul li a {
     text-decoration: none;
@@ -349,8 +350,10 @@ footer p{    clear: both;    text-align: center;padding-bottom: 25px}
     color: #fff;
 }
 .ktPaginate ul li.active{
-    background-color:#5c8ce6;
-    border: 1px solid #5c8ce6;
+    /*background-color:#5c8ce6;
+    border: 1px solid #5c8ce6;*/
+    background-color: #0F9145;
+    border: 1px solid #0F9145;;
 }
 .ktPaginate ul li.disabled a, .ktPaginate ul li.disabled:hover a, .ktPaginate ul li.disabled:active a{
     color:#666;
@@ -386,7 +389,7 @@ footer p{    clear: both;    text-align: center;padding-bottom: 25px}
 .genesInfo{
     position: fixed;
     z-index: 10000;
-    top:18%;
+    top:0;
     left: 18%;
     border: 1px solid #e6e6e6;
     background: #fff;
