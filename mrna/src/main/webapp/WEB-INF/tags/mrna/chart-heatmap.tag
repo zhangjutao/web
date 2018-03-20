@@ -70,7 +70,8 @@
         position: relative;
         height: 40px;
         line-height: 40px;
-        background: #386cca;
+        /*background: #386cca;*/
+        background: #07B34F;
         cursor: move;
     }
 
@@ -96,19 +97,34 @@
 </style>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
+<script src="${ctxStatic}/js/layer/layer.js"></script>
 <script>
-
+    var index;
     $("body").on("click", ".js-gene-info", function (e) {
         var version = 'gmx_ensembl_release23';
         var geneName = $(this).text();
         $(".js-gene-head-name").html(geneName);
         $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
         e.preventDefault();
-        $(".genesInfo").show();
+        //修改拖拽样式
+        /*$(".genesInfo").show();*/
+        index = layer.open({
+            title: "",
+            type: 1,
+            content: $(".genesInfo"),
+            area: ['980px', '640px'],
+            shadeClose: true,
+            scrollbar: false,
+            move: '.genesInfo-head',
+            closeBtn: 0,
+            //offset: ['135px', '320px']
+        });
+
 
     });
     $(".genesInfo-head > a").click(function () {
-        $(".genesInfo").hide();
+        /*$(".genesInfo").hide();*/
+        layer.close(index);
     });
 
     var chart;
@@ -429,7 +445,8 @@
                     min: 0,
                     max: 100,
                     minColor: '#ffffff',
-                    maxColor: '#386cca'
+                    /*maxColor: '#386cca'*/
+                    maxColor: '#0F9145'
                 },
                 legend: {
                     align: 'right',
@@ -637,5 +654,5 @@
 
 
     /*基因详情拖动弹框*/
-    $(".genesInfo").draggable({containment: "body"});
+    /*$(".genesInfo").draggable({containment: "body"});*/
 </script>
