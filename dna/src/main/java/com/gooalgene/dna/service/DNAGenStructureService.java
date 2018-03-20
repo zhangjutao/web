@@ -24,7 +24,7 @@ public class DNAGenStructureService {
     }
 
 
-    public List<DNAGenStructureDto> getByStartEnd(String chr, Integer startPos, Integer endPos,List<String> geneIds) {
+    public List<DNAGenStructureDto> getByStartEnd(String chr, long startPos, long endPos, List<String> geneIds) {
         return dnaGensStructureDao.getByStartEnd(chr,startPos,endPos,geneIds);
     }
 

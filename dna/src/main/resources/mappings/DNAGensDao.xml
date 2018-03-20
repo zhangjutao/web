@@ -77,7 +77,7 @@
     </delete>
 
     <select id="getByRegion" resultType="string">
-        SELECT * FROM gens_baseinfo WHERE chromosome = #{chr} AND
+        SELECT gene_id FROM gens_baseinfo WHERE chromosome = #{chr} AND
         ((start <![CDATA[ <= ]]> #{start} AND end <![CDATA[ >= ]]> #{start}) OR
          (start <![CDATA[ <= ]]> #{end} AND end <![CDATA[ >= ]]> #{end})
          OR (start <![CDATA[ >= ]]> #{start} AND end <![CDATA[ <= ]]> #{end}))

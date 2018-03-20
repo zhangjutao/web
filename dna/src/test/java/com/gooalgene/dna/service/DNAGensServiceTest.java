@@ -24,13 +24,6 @@ public class DNAGensServiceTest extends TestCase {
     private DNAGenStructureService dnaGenStructureService;
 
     @Test
-    public void testDNAGeneServiceNotNullAndGetRegionNotError(){
-        assertNotNull(dnaGensService);
-        List<String> geneResult = dnaGensService.getByRegion("Chr01", "0", "100000");
-        assertEquals(5, geneResult.size());
-    }
-
-    @Test
     public void testDNAGeneStructureFindById(){
         String geneId = "Glyma.01G000100";
         List<DNAGenStructureDto> structureResult = dnaGenStructureService.getByGeneId(geneId);
