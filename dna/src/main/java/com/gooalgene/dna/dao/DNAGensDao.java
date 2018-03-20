@@ -27,5 +27,5 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
 
     DNAGens findDNAGensInfoByGene(String gene);
 
-    List<String> getByRegion(@Param("chr") String chr,@Param("start") String start, @Param("end") String end);
+    List<String> getByRegion(@Param("chr") String chr,@Param("start") long start, @Param("end") long end);
 }
