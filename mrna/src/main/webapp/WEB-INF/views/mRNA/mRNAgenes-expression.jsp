@@ -342,7 +342,7 @@
             right:5px;
             top:14px;
         }
-        .select_default.rotate:after{
+        .select_default .rotate:after{
             -webkit-transform:rotate(180deg);
             -moz-transform:rotate(180deg);
             -ms-transform:rotate(180deg);
