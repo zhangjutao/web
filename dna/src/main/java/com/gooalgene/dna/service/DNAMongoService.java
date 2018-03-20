@@ -478,13 +478,14 @@ public class DNAMongoService {
             criteria.andOperator(Criteria.where("pos").gte(startPos), Criteria.where("pos").lte(endPos));
             Query query = new Query();
             query.addCriteria(criteria);
-            query.fields().include("pos").include("consequencetype");
+            query.fields().include("pos").include("consequencetype").include("index");
             mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
                 @Override
                 public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
                     long pos = (long) dbObject.get("pos");
                     String consequenceType = (String) dbObject.get("consequencetype");
-                    MinimumSNPResult snpResult = new MinimumSNPResult(pos, consequenceType);
+                    int index = (int) dbObject.get("index");
+                    MinimumSNPResult snpResult = new MinimumSNPResult(pos, consequenceType, index);
                     // 根据不同的consequence type，前端进行相应描色
                     if (consequenceType.equals(EXONIC_NONSYNONYMOUS_SNV)) {
                         snpResult.setConsequenceTypeColor(1);
@@ -620,7 +621,8 @@ public class DNAMongoService {
             }
             Query query = new Query();
             query.addCriteria(criteria);
-            Pageable page = new PageRequest(1, 1);
+            // Spring Data MongoDB分页查询从0页开始
+            Pageable page = new PageRequest(0, 1);
             query.with(page);
             logger.info("Query:" + query.toString());
             long snpNum = mongoTemplate.count(query, SNP.class, collectionName);
