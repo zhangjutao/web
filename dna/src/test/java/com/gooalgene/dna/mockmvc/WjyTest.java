@@ -94,13 +94,4 @@ public class WjyTest extends TestCase {
                 "47863582","47888358","all");
         assertEquals(10, snps.size());
     }
-    @Test
-    public void testNum() throws Exception{
-        /*String str= StringUtils.substring("GlyS001055310",4);
-        Integer num=Integer.parseInt(str);
-        System.out.println(num);*/
-        List<String> list=dnaGensService.getByRegion("Chr01","30000","130000");
-        System.out.println(list);
-    }
-
 }

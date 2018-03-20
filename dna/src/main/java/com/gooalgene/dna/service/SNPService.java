@@ -32,8 +32,7 @@ public class SNPService {
     private DNARunService dnaRunService;
     @Autowired
     private SNPService snpService;
-    @Autowired
-    private DNAGenStructureService dnaGenStructureService;
+
     @Autowired
     private DNAGensService dnaGensService;
 
@@ -208,19 +207,20 @@ public class SNPService {
         return result;
     }
 
+    /**
+     * 统一searchSNPinRegion与searchSNPInGene方法
+     *
+     * @return DNA数据库点击确定查询表格结果
+     * @throws IOException
+     */
     public TableSearchResult searchSNPResult(String type, String ctype, String chr, String startPos, String endPos,
                                              List<GroupCondition> groupConditions, int pageNo, int pageSize) throws IOException {
         TableSearchResult result = new TableSearchResult();
-        long total = 0;
-        List<SNP> snps = dnaMongoService.querySNPByRegion(type, ctype, chr, startPos, endPos, pageNo, pageSize, total);
-        // 返回前台查询总值
-        result.setTotal(total);
+        List<SNP> snps = dnaMongoService.querySNPByRegion(type, ctype, chr, startPos, endPos, pageNo, pageSize, result);
         Map<String, List<String>> groupIdReflection = dnaRunService.queryDNARunByCondition(groupConditions);
 
         List<SNPDto> data = Lists.newArrayList();
-        Set<String> geneIds = Sets.newHashSet();
         for (SNP snp : snps) {
-            geneIds.add(snp.getGene());
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map<String, Object> map = snpService.findSampleById(snp);
@@ -237,7 +237,6 @@ public class SNPService {
             snpDto.setFreq(sampleFrequencyList);
             data.add(snpDto);
         }
-        result.setGeneIds(geneIds);
         result.setData(data);
         return result;
     }
@@ -510,8 +509,8 @@ public class SNPService {
 
     public Map searchSNPByGene(String type, String[] ctypeList, String gene, Page<DNAGens> page) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
-        String start = Long.toString(dnaGens.getGeneStart() - 2000 < 0 ? 0 : dnaGens.getGeneStart() - 2000);
-        String end = Long.toString(dnaGens.getGeneEnd() + 2000);
+        String start = Long.toString(dnaGens.getStart() - 2000 < 0 ? 0 : dnaGens.getStart() - 2000);
+        String end = Long.toString(dnaGens.getEnd() + 2000);
         List<SNP> snps = dnaMongoService.searchInGene(type,ctypeList[0],gene,start,end,page);
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());

@@ -4,18 +4,23 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.TableSearchResult;
+import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.utils.CommonUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.DocumentCallbackHandler;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
@@ -36,6 +41,10 @@ import java.util.regex.Pattern;
 public class DNAMongoService {
 
     Logger logger = LoggerFactory.getLogger(DNAMongoService.class);
+
+    private final String EXONIC_NONSYNONYMOUS_SNV = "exonic_nonsynonymous SNV";
+    private final String EXONIC_FRAMESHIFT_INSERTION = "exonic_frameshift deletion";
+    private final String EXONIC_FRAMESHIFT_DELETION = "Exonic_frameshift insertion";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -453,6 +462,46 @@ public class DNAMongoService {
         return result;
     }
 
+    /**
+     * 前端页面获取所有SNP位点，通过pos及consequencetype去画图，去除无用的字段，保障查询速度
+     * @param type SNP/INDEL
+     * @param chr 染色体名字
+     * @param startPos 染色体起点位置
+     * @param endPos 染色体终点位置
+     * @return 该染色体上指定位置的所有SNP位点
+     */
+    public List<MinimumSNPResult> searchSNPIdAndPos(String type, String chr, long startPos, long endPos) {
+        String collectionName = type + "_" + chr;
+        final List<MinimumSNPResult> result = new ArrayList<>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(startPos), Criteria.where("pos").lte(endPos));
+            Query query = new Query();
+            query.addCriteria(criteria);
+            query.fields().include("pos").include("consequencetype");
+            mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
+                @Override
+                public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                    long pos = (long) dbObject.get("pos");
+                    String consequenceType = (String) dbObject.get("consequencetype");
+                    MinimumSNPResult snpResult = new MinimumSNPResult(pos, consequenceType);
+                    // 根据不同的consequence type，前端进行相应描色
+                    if (consequenceType.equals(EXONIC_NONSYNONYMOUS_SNV)) {
+                        snpResult.setConsequenceTypeColor(1);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_DELETION)) {
+                        snpResult.setConsequenceTypeColor(2);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_INSERTION)) {
+                        snpResult.setConsequenceTypeColor(3);
+                    }
+                    result.add(snpResult);
+                }
+            });
+        } else {
+            logger.error(collectionName + " is not exist.");
+        }
+        return result;
+    }
+
     public List<SNP> searchInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page) {
         String collectionName = type + "_" + chr;
         long total = 0;
@@ -499,16 +548,17 @@ public class DNAMongoService {
 
     /**
      * 根据传入的染色体类型，查询region区间内的所有SNP
+     *
      * @param type SNP/INDEL
      * @param ctype consequence type
      * @param chromosome 染色体名字
      * @param upstream 染色体上游区间
      * @param downstream 染色体下游区间
-     * @param total 待写入的数目总值
+     * @param tableSearchResult 点击确定，图表下方出现的搜索结果
      * @return 该范围内的所有SNP
      */
     public List<SNP> querySNPByRegion(String type, String ctype, String chromosome, String upstream, String downstream,
-                                      int pageNo, int pageSize, long total) {
+                                      int pageNo, int pageSize, TableSearchResult tableSearchResult) {
         String collectionName = type + "_" + chromosome;
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
@@ -529,7 +579,8 @@ public class DNAMongoService {
             Query query = new Query();
             query.addCriteria(criteria);
             logger.info("Query:" + query.toString());
-            total = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
+            long snpNum = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
+            tableSearchResult.setTotal(snpNum);
             int skip = (pageNo - 1) * pageSize;
             if (skip < 0) {
                 skip = 0;

@@ -5,16 +5,17 @@ import net.sf.json.JSONObject;
 
 /**
  * DNA 搜索基因实体类
- * Created by 陈冬 on 2017/8/22.
+ *
+ * @author Crabime
  */
 public class DNAGens extends DataEntity<DNAGens> {
 
     private String geneId;
     private String geneName;
-    private String geneFunction;
+    private String description;
 
-    private Long geneStart; //开始位置
-    private Long geneEnd; //结束位置
+    private Long start;
+    private Long end;
 
     private String chromosome;
 
@@ -28,12 +29,28 @@ public class DNAGens extends DataEntity<DNAGens> {
         this.chromosome = chromosome;
     }
 
-    public String getGeneFunction() {
-        return geneFunction;
+    public String getDescription() {
+        return description;
     }
 
-    public void setGeneFunction(String geneFunction) {
-        this.geneFunction = geneFunction;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Long getStart() {
+        return start;
+    }
+
+    public void setStart(Long start) {
+        this.start = start;
+    }
+
+    public Long getEnd() {
+        return end;
+    }
+
+    public void setEnd(Long end) {
+        this.end = end;
     }
 
     public String getGeneId() {
@@ -52,50 +69,11 @@ public class DNAGens extends DataEntity<DNAGens> {
         this.geneName = geneName;
     }
 
-    public Long getGeneStart() {
-        return geneStart;
-    }
-
-    public void setGeneStart(Long geneStart) {
-        this.geneStart = geneStart;
-    }
-
-    public Long getGeneEnd() {
-        return geneEnd;
-    }
-
-    public void setGeneEnd(Long geneEnd) {
-        this.geneEnd = geneEnd;
-    }
-
     public String getKeywords() {
         return keywords;
     }
 
     public void setKeywords(String keywords) {
         this.keywords = keywords;
-    }
-
-    public JSONObject toJSON() {
-        JSONObject jsonObject = new JSONObject();
-        jsonObject.put("id", getId());
-        jsonObject.put("gene", geneId);
-        jsonObject.put("geneName", geneName == null ? "" : geneName);
-        jsonObject.put("geneFunction", geneFunction == null ? "" : geneFunction);
-        jsonObject.put("geneStart", geneStart);
-        jsonObject.put("geneEnd", geneEnd);
-        return jsonObject;
-    }
-
-    @Override
-    public String toString() {
-        return "DNAGens{" +
-                "geneId='" + geneId + '\'' +
-                ", geneName='" + geneName + '\'' +
-                ", geneFunction='" + geneFunction + '\'' +
-                ", geneStart=" + geneStart +
-                ", geneEnd=" + geneEnd +
-                ", keywords='" + keywords + '\'' +
-                '}';
     }
 }

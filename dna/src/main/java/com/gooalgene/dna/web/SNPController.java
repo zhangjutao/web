@@ -9,6 +9,7 @@ import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.*;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
@@ -31,10 +32,7 @@ import java.math.BigDecimal;
 import java.text.DecimalFormat;
 import java.text.FieldPosition;
 import java.text.NumberFormat;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -102,11 +100,11 @@ public class SNPController {
 
     /**
      * 查询SNP表格数据接口
-     * @return
+     * @return SNP/INDEL查询页面表格内容
      */
     @RequestMapping(value = "/queryForSNPTable", method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO<TableSearchResult> queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
+    public TableSearchResult queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
         TableSearchResult result = new TableSearchResult();
         String gene = condition.getGene();
         // Search in Region
@@ -119,8 +117,8 @@ public class SNPController {
             if (dnaGens != null) {
                 String chromosome = dnaGens.getChromosome();
                 // 修改geneStart/geneEnd映射
-                long start = dnaGens.getGeneStart();
-                long end = dnaGens.getGeneEnd();
+                long start = dnaGens.getStart();
+                long end = dnaGens.getEnd();
                 Long upstream = condition.getStart();  // start此时为upstream
                 Long downstream = condition.getEnd();  // end此时为downstream
                 // 判断用户是否有输入上下游区间
@@ -140,7 +138,7 @@ public class SNPController {
                 logger.warn("传入基因" + gene + "不存在");
             }
         }
-        return ResultUtil.success(result);
+        return result;
     }
 
     /**
@@ -158,8 +156,8 @@ public class SNPController {
         String group = request.getParameter("group");
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
-            long start = dnaGens.getGeneStart();
-            long end = dnaGens.getGeneEnd();
+            long start = dnaGens.getStart();
+            long end = dnaGens.getEnd();
             logger.info("基因:" + gene + ",start:" + start + ",end:" + end);
             if (StringUtils.isNoneBlank(upstream)) {
                 start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
@@ -198,10 +196,6 @@ public class SNPController {
 
     /**
      * 在范围中查询所有位点
-     *
-     * @param request
-     * @param response
-     * @return
      */
     @RequestMapping("/searchIdAndPosInRegion")
     @ResponseBody
@@ -231,7 +225,7 @@ public class SNPController {
             snpDtos.add(snpDto);
         }
         result.put("snps", snpDtos);
-        List<String> geneIds = dnaGensService.getByRegionNoCompare(chr, startPos, endPos);
+        Set<String> geneIds = dnaGensService.getByRegionNoCompare(chr, Long.parseLong(startPos), Long.parseLong(endPos));
         List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos), geneIds);
         result.put("dnaGenStructures", dnaGenStructures);
         result.put("conditions", chr + "," + startPos + "," + endPos);
@@ -257,8 +251,8 @@ public class SNPController {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
         if (dnaGens != null) {
-            long start = dnaGens.getGeneStart();
-            long end = dnaGens.getGeneEnd();
+            long start = dnaGens.getStart();
+            long end = dnaGens.getEnd();
             if (StringUtils.isNoneBlank(upstream)) {
                 start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
             } else {
@@ -297,11 +291,86 @@ public class SNPController {
     }
 
     /**
-     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
+     * DNA数据库获取图形界面数据，如果在区间中查找，在该区间中如有基因，则显示第一个基因的SNP位点及基因结构数据，
+     * 如果在该区间内无基因，只需返回该区间内的SNP位点及基因结构数据
      *
-     * @param request
-     * @param response
-     * @return
+     * @param condition 搜索条件
+     * @return 含有SNP/Structure数据的集合
+     * @throws IOException
+     */
+    @RequestMapping(value = "/fetch-point", method = RequestMethod.POST)
+    @ResponseBody
+    public GraphSearchResult fetchAllSNPPoint(@RequestBody SearchCondition condition) throws IOException {
+        String gene = condition.getGene();
+        GraphSearchResult result = new GraphSearchResult();
+        // Search in Region
+        if (StringUtils.isEmpty(gene)) {
+            // 获取该范围内的所有gene_id
+            Set<String> geneIds = dnaGensService.getByRegionNoCompare(condition.getChromosome(), condition.getStart(),
+                    condition.getEnd());
+            // 如果用户查询为区间查询，且该区间内存在基因，这里默认取第一个基因作为图形数据查询条件
+            if (geneIds.size() > 0) {
+                result = searchOnlyByGene(geneIds.iterator().next(), condition.getType(), condition.getStart(), condition.getEnd());
+                // 将查询出来的区间内的基因返回给前台
+                result.setGeneInsideRegion(geneIds);
+            } else {
+                // 如果该区间内不包含基因，直接搜索该区间内所有SNP位点，无需返回基因结构
+                List<MinimumSNPResult> allSNP = dnaMongoService.searchSNPIdAndPos(condition.getType(), condition.getChromosome(),
+                        condition.getStart(), condition.getEnd());
+                // 放入所有查询到的SNP位点（包含INDEX）
+                result.setSnpList(allSNP);
+            }
+        } else { // Search in Gene
+            result = searchOnlyByGene(gene, condition.getType(), condition.getStart(), condition.getEnd());
+        }
+        return result;
+    }
+
+    /**
+     * 在根据基因条件查询下，先查询该基因在染色体上的位置，根据起始位置，根据用户输入的上下游区间，按上游减两千
+     * 下游加两千的规则，查询该区间内的所有SNP位点及当前基因的结构
+     *
+     * @param gene 基因ID
+     * @param type SNP/INDEL
+     * @param upstream 上游值
+     * @param downstream 下游值
+     * @return 最终显示在页面上的图形数据，包含基因结构和所有SNP位点
+     */
+    private GraphSearchResult searchOnlyByGene(String gene, String type, Long upstream, Long downstream) {
+        if (null == gene || gene.equals("")) {
+            throw new IllegalArgumentException("传入gene ID未空");
+        }
+        GraphSearchResult result = new GraphSearchResult();
+        DNAGens dnaGens = dnaGensService.findByGeneId(gene);
+        if (dnaGens != null) {
+            String chromosome = dnaGens.getChromosome();
+            // 修改geneStart/geneEnd映射
+            long start = dnaGens.getStart();
+            long end = dnaGens.getEnd();
+            // 判断用户是否有输入上下游区间
+            if (null != upstream) {
+                start = start - upstream < 0 ? 0 : start - upstream;
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
+            }
+            if (null != downstream) {
+                end = end + downstream;
+            } else {
+                end = end + 2000;
+            }
+            List<MinimumSNPResult> allSNP = dnaMongoService.searchSNPIdAndPos(type, chromosome, start, end);
+            result.setSnpList(allSNP);
+            // 查询当前基因的基因结构
+            List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
+            result.setStructureList(dnaGenStructures);
+        } else {
+            logger.warn("传入基因" + gene + "不存在");
+        }
+        return result;
+    }
+
+    /**
+     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
      */
     @RequestMapping("/findSampleById")
     @ResponseBody
@@ -487,8 +556,8 @@ public class SNPController {
                                        @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws BeansException {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         if (dnaGens != null) {
-            long start = dnaGens.getGeneStart();
-            long end = dnaGens.getGeneEnd();
+            long start = dnaGens.getStart();
+            long end = dnaGens.getEnd();
             if (StringUtils.isNoneBlank(upstream)) {
                 start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
             } else {

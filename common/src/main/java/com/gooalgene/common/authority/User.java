@@ -22,8 +22,7 @@ public class User {
     private String description;
     private  int uid;        //用户在数据库中的id 值  主要为获取当前记录的id使用
     private int id;
-
-
+    private int enableDay;
     private int loginCount;
 
     public User(){
@@ -40,6 +39,14 @@ public class User {
 
     public void setLoginCount(int loginCount) {
         this.loginCount = loginCount;
+    }
+
+    public int getEnableDay() {
+        return enableDay;
+    }
+
+    public void setEnableDay(int enableDay) {
+        this.enableDay = enableDay;
     }
 
     public int getId() {

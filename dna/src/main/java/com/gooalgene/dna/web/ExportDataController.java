@@ -510,8 +510,8 @@ public class ExportDataController {
                     String temp = request.getParameter("total");       //获取数据的总数
                     DNAGens dnaGens = dnaGensService.findByGene(gene);
                     if (dnaGens != null) {
-                        long start = dnaGens.getGeneStart();
-                        long end = dnaGens.getGeneEnd();
+                        long start = dnaGens.getStart();
+                        long end = dnaGens.getEnd();
                         logger.info("gene:" + gene + ",start:" + start + ",end:" + end);
                         if (StringUtils.isNoneBlank(upstream)) {
                             start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);

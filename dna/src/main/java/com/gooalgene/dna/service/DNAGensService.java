@@ -23,26 +23,6 @@ public class DNAGensService {
     @Autowired
     private DNAGensDao dnaGensDao;
 
-    /**
-     * 后台管理查询MrnaGens分页处理
-     */
-    public JSONArray searchDNAGensbyKeywords(String type, String keywords, Page<DNAGens> page) {
-        JSONArray data = new JSONArray();
-        DNAGens dnaGens = new DNAGens();
-        if ("all".equalsIgnoreCase(type)) {
-            if (!StringUtils.isBlank(keywords)) {
-                dnaGens.setKeywords(keywords);
-            }//空白查询所有
-        }
-        dnaGens.setPage(page);
-        List<DNAGens> list = dnaGensDao.findDNAGensList(dnaGens);
-        page.setList(list);
-        for (DNAGens dnaGens1 : list) {
-            data.add(dnaGens1.toJSON());
-        }
-        return data;
-    }
-
     public DNAGens findByGeneId(String geneId) {
         return dnaGensDao.findByGeneId(geneId);
     }
@@ -98,19 +78,9 @@ public class DNAGensService {
         return result;
     }
 
-    public List<String> getByRegionNoCompare(String chr,String start, String end){
-        List<String> list= dnaGensDao.getByRegion(chr,start,end);
-        return  list;
-    }
-
-    public List<String> getByRegion(String chr,String start, String end){
-        List<String> list= dnaGensDao.getByRegion(chr,start,end);
-        Map map= Maps.newHashMap();
-        for(String gene:list){
-            Integer geneSuffix= Integer.parseInt(StringUtils.substring(gene,9));
-            map.put(geneSuffix,gene);
-        }
-        return  compareGeneIds(map);
+    public Set<String> getByRegionNoCompare(String chr,long start, long end){
+        Set<String> list= dnaGensDao.getByRegion(chr,start,end);
+        return list;
     }
 
     private List<String> compareGeneIds(Map<Integer,String> map){

@@ -74,25 +74,13 @@ public class MRNAController {
         ModelAndView model = new ModelAndView("mRNA/mRNA-index");
 
         List<Classifys> tree = tService.getClassifyTree();
-        for (Classifys classifys : tree) {
-            List<Map<String,Object>> listTemp = classifys.getChildren();
-            Map<String, Object> mapTemp = new HashMap();
-            mapTemp.put("chinese", classifys.getChinese());
-            mapTemp.put("children", 0);
-            mapTemp.put("name", classifys.getName());
-            listTemp.add(0, mapTemp);
-            classifys.setChildren(listTemp);
-        }
         model.addObject("tree", tree);
         String treejson = JsonUtils.Bean2Json(tree);
         model.addObject("treejs", treejson);
 
-//        String[] gens = {"GLYMA04G38670", "GLYMA04G32251", "GLYMA16G25932", "GLYMA03G33200", "GLYMA08G22740"};
-//        String[] gens = {"GLYMA17G35620","GLYMA13G34810","GLYMA02G13420","GLYMA06G45331","GLYMA13G39820"};
         String[] gens = studyService.queryGenesForFirst();
         GenResult genResult = tService.generateData(gens);
         String json = JsonUtils.Bean2Json(genResult);
-//        System.out.println(json);
 
         model.addObject("data", json);
         model.addObject("mrnaDetail", indexExplainService.queryByType("mrna").getDetail());
