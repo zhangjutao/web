@@ -142,6 +142,21 @@ public class SNPController {
     }
 
     /**
+     * 根据图中当前位置的点，确定该SNP在查询结果表格中第几页、该页第几条
+     * @param condition 与
+     * @return
+     */
+    @RequestMapping(value = "/jump-page", method = RequestMethod.POST)
+    @ResponseBody
+    public ResultVO jumpPageThroughSNPIndex(@RequestBody SearchCondition condition) {
+        int index = condition.getIndex();
+        Map<String, Integer> targetPageInfo = dnaMongoService.getStartIndex(condition.getType(), condition.getCtype(),
+                condition.getChromosome(), condition.getStart(), condition.getEnd(), index, condition.getPageSize());
+        return null;
+    }
+
+
+    /**
      * 按群组条件搜索
      * 查询传入基因start、end，上下游分别加2000，找出该区域内的所有snp位点
      */
