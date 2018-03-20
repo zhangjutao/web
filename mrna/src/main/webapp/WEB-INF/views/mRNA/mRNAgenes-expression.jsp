@@ -139,19 +139,24 @@
         }
 
         .legend .legend-item:nth-child(2) {
-            background: #dfe6f1;
+            /*background: #dfe6f1;*/
+            background: #DAF2E4;
         }
         .legend .legend-item:nth-child(3) {
-            background: #C2D4F1;
+            /*background: #C2D4F1;*/
+            background: #DAF2E4;
         }
         .legend .legend-item:nth-child(4) {
-            background: #89aae5;
+            /*background: #89aae5;*/
+            background: #89E6AF;
         }
         .legend .legend-item:nth-child(5) {
-            background: #5c8de5;
+            /*background: #5c8de5;*/
+            background: #15CC60;
         }
         .legend .legend-item:nth-child(6) {
-            background: #386cca;
+            /*background: #386cca;*/
+            background: #07B34F;
         }
 
 
@@ -244,7 +249,8 @@
             position: relative;
             height: 40px;
             line-height: 40px;
-            background: #386cca;
+            /*background: #386cca;*/
+            background: #07B34F;
             cursor: move;
         }
         .genesInfo .genesInfo-head p{
@@ -348,7 +354,8 @@
     </div>
     <aside style=" ">
         <div class="item-header">
-            <div class="icon-left"><img src="${ctxStatic}/images/genes-pic.png">添加基因</div>
+            <!--<div class="icon-left"><img src="${ctxStatic}/images/genes-pic.png">添加基因</div>-->
+            <div class="icon-left"><img src="${ctxStatic}/images/geneselect.png">添加基因</div>
         </div>
         <div class="add-genes">
             <p>可以手动添加基因</p>
@@ -754,7 +761,8 @@
                         $(".heat-table").find(".js-gene-value").each(function(idx, el) {
                             var geneValue = $(el).text() * 1;
                             $(el).hide();
-                            var lightColor = "56, 108, 202" // #386cca;
+                            /*var lightColor = "56, 108, 202" // #386cca;*/
+                            var lightColor = "7,179,79" //#07B34F;
                             var alpha = 0;
                             geneValue = Math.abs(geneValue);
                             alpha = (geneValue / 100).toFixed(2);

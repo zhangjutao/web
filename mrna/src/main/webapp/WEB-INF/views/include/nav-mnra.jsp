@@ -26,7 +26,8 @@
         $(".nav").find("li").hover(
             function (e) {
                 $(this).find(".nav-right-border").css({"display":"block"});
-                $(this).css({"border":"1px solid #386cca","border-right":"1px solid #fff"});
+                /*$(this).css({"border":"1px solid #386cca","border-right":"1px solid #fff"});*/
+                $(this).css({"border":"1px solid #0F9145","border-right":"1px solid #fff"});
                 $(this).find(".second-text").css({"display":"block"});
                 $(this).find("img").attr("src","${ctxStatic}/images/ac-arrow-right.png")
             },

@@ -19,7 +19,8 @@
     <script src="${ctxStatic}/js//highcharts/highcharts.js"></script>
     <script src="${ctxStatic}/js/highcharts/highcharts-more.js"></script>
     <script src="${ctxStatic}/js/highcharts/exporting.js"></script>
-    <script src="${ctxStatic}/js/highcharts/heatmap.js"></script>
+    <!--<script src="${ctxStatic}/js/highcharts/heatmap.js"></script>-->
+    <script src="${ctxStatic}/js/highcharts/heatmap1.js"></script>
     <script src="${ctxStatic}/js/highcharts/highcharts-zh_CN.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <script src="${ctxStatic}/js/laypage/laypage.js"></script>
@@ -95,7 +96,8 @@
                 <div class="box-header">
                     <div class="item-header">
                         <div class="icon-left">
-                            <img src="${ctxStatic}/images/box-line-chart.png">箱线图
+                            <!--<img src="${ctxStatic}/images/box-line-chart.png">箱线图-->
+                            <img src="${ctxStatic}/images/boxplot.png">箱线图
                         </div>
                     </div>
                     <div class="genes-choose-export">
@@ -153,7 +155,8 @@
             <div class="line-chart">
                 <div class="line-head">
                     <div class="item-header">
-                        <div class="icon-left"><img src="${ctxStatic}/images/box-line-chart.png">折线图</div>
+                        <!--<div class="icon-left"><img src="${ctxStatic}/images/box-line-chart.png">折线图</div>-->
+                        <div class="icon-left"><img src="${ctxStatic}/images/linechart.png">折线图</div>
                     </div>
                     <div class="genes-choose-export">
                         <button type="button" class="btn js-export-line">导出图表</button>

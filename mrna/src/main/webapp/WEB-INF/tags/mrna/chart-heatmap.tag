@@ -212,7 +212,8 @@
                                     cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                                     pages: Math.ceil(res.gensTotal / page.pageSize), //通过后台拿到的总页数
                                     curr: currNum || 1, //当前页
-                                    skin: '#5c8de5',
+                                    /*skin: '#5c8de5',*/
+                                    skin: '#0F9145',
                                     skip: true,
                                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                                     last: Math.ceil(res.gensTotal / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
@@ -486,7 +487,8 @@
 //                        str += '    <div ><span style="display:inline-block; height:22px; width: 90px;">Phenotype :</span>High isoflavonaid content vs law isoflavonoid content. </div>'
                         str += '<div style="border-top: 1px solid #DDD; margin: 10px 0;"></div>'
 //                        str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Log-fold change:</span> -5.5</div>'
-                        str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>' + (this.point.value * 1).toFixed(4) + ' </div>'
+                        /*str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>' + (this.point.value * 1).toFixed(4) + ' </div>'*/
+                        str += '<div><span style="display: inline-block; background-color: #0F9145; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>' + (this.point.value * 1).toFixed(4) + ' </div>'
                         str += '</div>'
 
                         return str;
