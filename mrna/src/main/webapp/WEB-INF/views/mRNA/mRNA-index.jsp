@@ -20,7 +20,8 @@
     <script src="${ctxStatic}/js//highcharts/highcharts.js"></script>
     <script src="${ctxStatic}/js/highcharts/highcharts-more.js"></script>
     <script src="${ctxStatic}/js/highcharts/exporting.js"></script>
-    <script src="${ctxStatic}/js/highcharts/heatmap.js"></script>
+    <!--<script src="${ctxStatic}/js/highcharts/heatmap.js"></script>-->
+    <script src="${ctxStatic}/js/highcharts/heatmap1.js"></script>
     <script src="${ctxStatic}/js/highcharts/highcharts-zh_CN.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
     <style>
