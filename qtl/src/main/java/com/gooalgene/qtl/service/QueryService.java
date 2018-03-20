@@ -821,7 +821,14 @@ public class QueryService implements InitializingBean {
             qtl.setType(jsonObject.getString("type"));
         }
         if (hasValue(jsonObject, "chr")) {
-            qtl.setChr(jsonObject.getString("chr"));
+            // 目前qtl中关联的都是chrlg表中V1版id字段,这里需要将Chrxx改为V1版格式，去除Chr字符串
+            String tempChr = jsonObject.getString("chr");
+            //去除非阿拉伯数字字符串
+            tempChr = tempChr.replaceAll("[A-Za-z]", "");
+            if (tempChr.indexOf("0") == 0) {
+                tempChr = tempChr.substring(1);
+            }
+            qtl.setChr(tempChr);
         }
         if (hasValue(jsonObject, "lg")) {
             qtl.setLg(jsonObject.getString("lg"));

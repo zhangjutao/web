@@ -101,7 +101,6 @@ public class SearchController {
         return jsonOutputResult;
     }
 
-
     /**
      * 对搜索结果进行搜索
      *
