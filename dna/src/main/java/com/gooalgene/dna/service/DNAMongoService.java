@@ -596,6 +596,51 @@ public class DNAMongoService {
     }
 
     /**
+     * 获取指定区间内的起始SNP INDEX值
+     *
+     * @return 返回Map，Map中存放页码(pageNo)，偏移量(offset)
+     */
+    public Map<String, Integer> getStartIndex(String type, String ctype, String chromosome, long upstream, long downstream, int targetIndex, int pageSize) {
+        String collectionName = type + "_" + chromosome;
+        Map<String, Integer> result = new HashMap<>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(upstream), Criteria.where("pos").lte(downstream));
+            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+                String keywords = "";
+                if (ctype.indexOf(' ') != -1) {
+                    keywords = ctype.replace("_", ".*_");
+                } else if (ctype.indexOf(';') == -1 && ctype.endsWith("_")) {
+                    keywords = ctype.replace("_", "");
+                } else {
+                    keywords = ctype.replace("_", ".*");
+                }
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            Pageable page = new PageRequest(1, 1);
+            query.with(page);
+            logger.info("Query:" + query.toString());
+            long snpNum = mongoTemplate.count(query, SNP.class, collectionName);
+            // 将第一个数据写入局部变量中
+            final int[] startIndexArray = new int[1];
+            mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
+                @Override
+                public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                    startIndexArray[0] = (int) dbObject.get("index");
+                }
+            });
+            int pageNo = (targetIndex - startIndexArray[0]) / pageSize + 1;
+            int offset = (targetIndex - startIndexArray[0]) % pageSize;
+            result.put("pageNo", pageNo);
+            result.put("offset", offset);
+        }
+        return result;
+    }
+
+    /**
      * 整合searchInGene与searchInRegion两个方法，不管是在区间还是根据基因来搜索，最终到mongodb中查询都是根据pos来查询
      * 这里需要传入geneId，通过基因ID来确定该基因染色体，然后到mongodb中查询
      */
