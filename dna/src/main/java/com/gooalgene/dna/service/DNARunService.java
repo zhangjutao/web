@@ -108,7 +108,15 @@ public class DNARunService {
             // 如果传入的id集合collection属性中包含idList字段且值包含多个sample_info ID值
             if (!org.springframework.util.StringUtils.isEmpty(idList) && idList.contains(",")) {
                 finalIdList = Arrays.asList(idList.split(","));
-                // TODO: 2018/3/19 这里需要将id转换为run_no
+                // 获取所有的run_no
+                List<SampleInfoDto> allSampleRun = dnaRunDao.getByCultivarForExport(finalIdList, true);
+                Collection<String> transformRunNo = Collections2.transform(allSampleRun, new Function<SampleInfoDto, String>() {
+                    @Override
+                    public String apply(SampleInfoDto sampleInfoDto) {
+                        return sampleInfoDto.getRunNo();
+                    }
+                });
+                finalIdList = new ArrayList<>(transformRunNo);
             } else {
                 SampleInfoDto sampleInfoDto = FrontEndReflectionUtils.constructNewInstance("com.gooalgene.dna.dto.SampleInfoDto", input.getCondition());
                 // 获取所有符合条件的样本
@@ -117,7 +125,7 @@ public class DNARunService {
                 Collection<String> allProperSampleInfoId = Collections2.transform(allProperSampleInfo, new Function<SampleInfoDto, String>() {
                     @Override
                     public String apply(SampleInfoDto input) {
-                        return input.getId();
+                        return input.getRunNo();
                     }
                 });
                 finalIdList = new ArrayList<>(allProperSampleInfoId);

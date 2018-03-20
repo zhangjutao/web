@@ -115,9 +115,10 @@ public class SNPController {
                     condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
                     condition.getGroup(), condition.getPageNo(), condition.getPageSize());
         } else { // Search in Gene
-            DNAGens dnaGens = dnaGensService.findByGene(gene);
+            DNAGens dnaGens = dnaGensService.findByGeneId(gene);
             if (dnaGens != null) {
                 String chromosome = dnaGens.getChromosome();
+                // 修改geneStart/geneEnd映射
                 long start = dnaGens.getGeneStart();
                 long end = dnaGens.getGeneEnd();
                 Long upstream = condition.getStart();  // start此时为upstream

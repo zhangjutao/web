@@ -559,7 +559,7 @@ public class ExportDataController {
                         Map tempResult = new HashMap();
                         List<String> idList;
                         idList = Arrays.asList(idArray);
-                        List<SampleInfoDto> dnaRunList = dnaRunDao.getByCultivarForExport(idList);
+                        List<SampleInfoDto> dnaRunList = dnaRunDao.getByCultivarForExport(idList, false);
                         JSONArray data = new JSONArray();
                         for (SampleInfoDto dnaRun : dnaRunList) {
 

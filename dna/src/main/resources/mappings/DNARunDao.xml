@@ -774,7 +774,14 @@
 
     <select id="getByCultivarForExport" resultMap="HandlerResultMap">
         SELECT
-        <include refid="Base_Column_List"/>
+        <choose>
+            <when test="onlyRunNo == true">
+                run_no
+            </when>
+            <otherwise>
+                <include refid="Base_Column_List"/>
+            </otherwise>
+        </choose>
         FROM dna_run WHERE id IN
         <foreach collection="list" item="id" open="(" close=")" separator=",">
             #{id}
