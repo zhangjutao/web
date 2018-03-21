@@ -255,11 +255,12 @@
                 // $(".ga-ctrl-footer").on("change", ".lay-per-count-select", function () {
                 //    var currNum = Number($(".ga-ctrl-footer .laypage_curr").text());
                 $(".ga-ctrl-footer").on("click", ".select_item_page li", function () {
+                    //var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
                     var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
                     var pageSizeNum = Number($(this).text());
                     var totalNum = $("#total-page-count span").text();
                     var mathCeilNum = Math.ceil(totalNum / currNum);
-                    page.pageSize = Number($(this).val());
+                    page.pageSize = Number($(this).text());
                     if (pageSizeNum > mathCeilNum) {
                         page.curr = 1;
                         initHeatmap(1, pageSizeNum)

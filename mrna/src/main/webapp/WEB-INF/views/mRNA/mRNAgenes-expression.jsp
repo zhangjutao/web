@@ -991,7 +991,7 @@
             //alert(pageSize);
             var total= Number($("#total-page-count span").text());
             var mathCeil=  Math.ceil(total/curr);
-            page.pageSize = $(this).val();
+            page.pageSize = $(this).text();
             if(pageSize>mathCeil){
                 page.curr = 1;
                 initTable(1,pageSize);
