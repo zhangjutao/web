@@ -145,7 +145,7 @@
         }
         .legend .legend-item:nth-child(3) {
             /*background: #C2D4F1;*/
-            background: #DAF2E4;
+            background: #C2F3D6;
         }
         .legend .legend-item:nth-child(4) {
             /*background: #89aae5;*/
@@ -359,15 +359,15 @@
             list-style:none;
         }
         .select_item li{
-            width:80px;
-            height:28px;
-            line-height:28px;
-            /*padding:0 -20px;*/
-            border:solid 1px #0F9145;
-            border-top:none;
-            text-align: center;
-            border-bottom:none;
-        }
+             width:80px;
+             height:28px;
+             line-height:28px;
+             /*padding:0 -20px;*/
+             border:solid 1px #0F9145;
+             border-top:none;
+             text-align: center;
+             border-bottom:none;
+         }
         .select_item li:hover{
             background:#0F9145;
             color:#fff;
@@ -440,7 +440,7 @@
                 </div>
             </div>
             <div class="export-data">
-                <p class="btn-export-set"><button type="button" class="btn-export js-export"><img src="${ctxStatic}/images/export.png">导出数据</button><button class="btn-contrast"><img src="${ctxStatic}/images/set.png">样本</button></p>
+                <p class="btn-export-set"><!--<button type="button" class="btn-export js-export"><img src="${ctxStatic}/images/export.png">导出数据</button>--><button class="btn-contrast"><img src="${ctxStatic}/images/set.png">样本</button></p>
 
             </div>
         </div>

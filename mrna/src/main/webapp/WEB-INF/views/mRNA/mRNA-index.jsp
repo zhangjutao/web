@@ -29,6 +29,80 @@
             padding: 20px;
             box-sizing: border-box;
         }
+        #select{
+            position: relative;
+        }
+        #select .select_default{
+            position: relative;
+            float: left;
+            left: 159px;
+            top: 2px;
+            padding: 0 0 0 0px;
+            width: 120px;
+            color: #9a9a9a;
+            background: #fff;
+            border-top-left-radius: 15px;
+            border-bottom-left-radius: 15px;
+            height: 35px;
+            line-height: 35px;
+            border: none;
+            margin-right: 0px;
+            border-right: 0px solid black;
+            text-transform: capitalize;
+            text-align: center;
+        }
+        .select_default:after{
+            content:"";
+            border-left:5px solid transparent;
+            border-right:5px solid transparent;
+            border-bottom:5px solid #999;
+            -webkit-transform-origin:5px 2.5px;
+            -moz-transform-origin:5px 2.5px;
+            -ms-transform-origin:5px 2.5px;
+            -o-transform-origin:5px 2.5px;
+            transform-origin:5px 2.5px;
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            transition: all .5s ease;
+            position:absolute;
+            right:5px;
+            top:14px;
+        }
+        .select_default .rotate:after{
+            -webkit-transform:rotate(180deg);
+            -moz-transform:rotate(180deg);
+            -ms-transform:rotate(180deg);
+            -o-transform:rotate(180deg);
+            transform:rotate(180deg);
+        }
+        .select_item{
+            display:none;
+            position: absolute;
+            top: 37px;
+            left: 158px;
+            width: 120px;
+            float: left;
+            z-index: 100;
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+        .select_item li{
+            width: 120px;
+            height: 28px;
+            line-height: 28px;
+            border: solid 1px #0F9145;
+            border-top: none;
+            text-align: center;
+            border-bottom: none;
+        }
+        .select_item li:hover{
+            background:#0F9145;
+            color:#fff;
+            cursor: pointer;
+        }
     </style>
 </head>
 
@@ -42,6 +116,7 @@
             <img src="${ctxStatic}/images/mRNA-banner-mogu-bg.jpg">
         </div>
         <div class="search">
+            <!--
             <select class="js-search-select">
                 <option>All</option>
                 <option>Study</option>
@@ -50,6 +125,18 @@
                 <option>Treat</option>
                 <option>Reference</option>
             </select>
+            -->
+            <div id="select">
+                <input type="text" class="select_default" value="All">
+                <ul class="select_item">
+                    <li style="border-top:1px solid #0F9145;">All</li>
+                    <li>Study</li>
+                    <li>Tissues</li>
+                    <li>Stage</li>
+                    <li>Treat</li>
+                    <li style="border-bottom:1px solid #0F9145;">Reference</li>
+                </ul>
+            </div>
             <label>
                 <input id="search-input" class="js-search-text" type="text" name="search" placeholder="输入您要查找的关键字">
                 <span class="clear-input " style="display: none"><img src="${ctxStatic}/images/clear-search.png"></span>
@@ -90,8 +177,58 @@
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
 <script>
-    $(function () {
-        /*选项示例*/
+    $(document).ready(function(){
+        var    $sel = $("#select"),
+            $sel_default = $(".select_default"),
+            $sel_item = $(".select_item"),
+            $sel_item_li = $(".select_item li")
+        $sel_default.text($(".select_item li:first").text());
+        //alert();
+        $sel.hover(function(){
+            $sel_item.show();
+            $sel_default.addClass("rotate");
+            $sel_item_li.hover(function(){
+                $index = $sel_item_li.index(this);
+                //alert($index)
+                $sel_item_li.eq($index).addClass("hover");
+            },function(){
+                $sel_item_li.removeClass("hover");
+            })
+        },function(){
+            $sel_item.hide();
+            $sel_default.removeClass("rotate");
+        });
+        $sel_item_li.click(function(){
+            /*$sel_default.text($(this).text());*/
+            $sel_default.val($(this).text());
+            //alert($sel_default.val());
+            //test
+            var select=$(this).text();
+            $(".js-search-text").attr("placeholder","");
+            console.log(select);
+            switch (select){
+                case "Study":
+                    $(".js-search-text").attr("placeholder","RNA-seq of soybean");
+                    break;
+                case "Tissues":
+                    $(".js-search-text").attr("placeholder","root leaf");
+                    break;
+                case "Stage":
+                    $(".js-search-text").attr("placeholder","16 days v1 stage");
+                    break;
+                case "Treat":
+                    $(".js-search-text").attr("placeholder","water_deficit_12hr");
+                    break;
+                case "Reference":
+                    $(".js-search-text").attr("placeholder","Ling H, John S. Conserved Gene Expression Programs in Developing Roots from Diverse Plants[J]. Plant Cell, 2015, 27(8):2119-32");
+                    break;
+            }
+            //test
+            $sel_item.hide();
+        });
+    });
+
+    /*$(function () {
         $(".js-search-select").change(function(){
             var select=$(this).val();
             $(".js-search-text").attr("placeholder","");
@@ -135,7 +272,32 @@
                 }
             }
         });
+    });*/
+
+    $(document).ready(function () {
+        $("#search-btn").click(function(){
+            var s_option=$(".select_default").val();
+            var i_input=$.trim($("#search-input").val());
+            window.location.href='${ctxroot}/mrna/list?type='+s_option+"&keywords="+i_input+"&isIndex=1";
+        });
+        $("#search-input").on("focus", function() {
+            $(this).addClass("isFocus");
+        });
+        $("#search-input").on("blur", function() {
+            $(this).removeClass("isFocus");
+        });
+        $(document).keyup(function(event){
+            var _searchDom = $("#search-input");
+            var e=e||event
+            var keycode = e.which;
+            if(keycode==13){
+                if(_searchDom.hasClass("isFocus")) {
+                    $("#search-btn").trigger("click");
+                }
+            }
+        });
     });
+
 
 </script>
 
