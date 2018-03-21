@@ -54,8 +54,6 @@ public class SNPController {
     private DNAMongoService dnaMongoService;
 
     @Autowired
-    private DNAGroupsService dnaGroupsService;
-    @Autowired
     private DNARunService dnaRunService;
     @Autowired
     private DNAGenStructureService dnaGenStructureService;
@@ -84,6 +82,12 @@ public class SNPController {
         int pageNo = Integer.parseInt(request.getParameter("pageNo"));
         int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         return dnaGensService.queryDNAGenesByGenes(gene, pageNo, pageSize);
+    }
+
+    @RequestMapping(value = "/fetch-all-chromosome", method = RequestMethod.GET)
+    @ResponseBody
+    private List<ChromosomeList> fetchAllChromosome() {
+        return dnaGensService.fetchAllChromosome();
     }
 
     /**
@@ -194,156 +198,6 @@ public class SNPController {
         return result;
     }
 
-
-    /**
-     * 按群组条件搜索
-     * 查询传入基因start、end，上下游分别加2000，找出该区域内的所有snp位点
-     */
-    @RequestMapping("/searchSNPinGene")
-    @ResponseBody
-    public Map queryByGene(HttpServletRequest request, HttpServletResponse response){
-        String type = request.getParameter("type");
-        String ctype = request.getParameter("ctype");
-        String gene = request.getParameter("gene");
-        String upstream = request.getParameter("upstream");
-        String downstream = request.getParameter("downstream");
-        String group = request.getParameter("group");
-        DNAGens dnaGens = dnaGensService.findByGene(gene);
-        if (dnaGens != null) {
-            long start = dnaGens.getStart();
-            long end = dnaGens.getEnd();
-            logger.info("基因:" + gene + ",start:" + start + ",end:" + end);
-            if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
-            } else {
-                start = start - 2000 < 0 ? 0 : start - 2000;
-            }
-            if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream);
-            } else {
-                end = end + 2000;
-            }
-            upstream = String.valueOf(start);
-            downstream = String.valueOf(end);
-        }
-        Page<DNAGens> page = new Page<DNAGens>(request, response);
-        return snpService.searchSNPinGene(type, ctype, gene, upstream, downstream, group, page);
-    }
-
-    /**
-     * 按群组条件搜索
-     */
-    @RequestMapping("/searchSNPinRegion")
-    @ResponseBody
-    public Map queryBySNP(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String type = request.getParameter("type");
-        String ctype = request.getParameter("ctype");
-        String chr = request.getParameter("chromosome");
-        String startPos = request.getParameter("start");
-        String endPos = request.getParameter("end");
-        String group = request.getParameter("group");
-        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
-        Page<DNARun> page = new Page<DNARun>(request, response);
-        Map result = snpService.searchSNPinRegion(type, ctype, chr, startPos, endPos, group, page);
-        return result;
-    }
-
-    /**
-     * 在范围中查询所有位点
-     */
-    @RequestMapping("/searchIdAndPosInRegion")
-    @ResponseBody
-    public ResultVO searchIdAndPosInRegion(HttpServletRequest request, HttpServletResponse response) throws BeansException {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-        String chr = request.getParameter("chromosome");
-        String startPos = request.getParameter("start");
-        String endPos = request.getParameter("end");
-        String group = request.getParameter("group");
-        logger.info("queryBy " + type + " with ctype:" + ctype + ",chr:" + chr + ",startPos:" + startPos + ",endPos:" + endPos + ",group:" + group);
-        Map result = Maps.newHashMap();
-        List<SNP> snps = dnaMongoService.searchIdAndPosInRegion(type, ctype, chr, startPos, endPos, null);
-        List<SNPDto> snpDtos = Lists.newArrayList();
-        for (int i = 0; i < snps.size(); i++) {
-            SNP snp = snps.get(i);
-            SNPDto snpDto = new SNPDto();
-            BeanUtils.copyProperties(snp, snpDto);
-            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
-                snpDto.setConsequencetypeColor(1);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
-                snpDto.setConsequencetypeColor(2);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
-                snpDto.setConsequencetypeColor(3);
-            }
-            snpDto.setIndex(i);
-            snpDtos.add(snpDto);
-        }
-        result.put("snps", snpDtos);
-        Set<String> geneIds = dnaGensService.getByRegionNoCompare(chr, Long.parseLong(startPos), Long.parseLong(endPos));
-        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos), geneIds);
-        result.put("dnaGenStructures", dnaGenStructures);
-        result.put("conditions", chr + "," + startPos + "," + endPos);
-        return ResultUtil.success(result);
-    }
-
-    /**
-     * 通过geneId搜索位点
-     *
-     * @param request
-     * @param response
-     * @return
-     */
-    @RequestMapping("/searchIdAndPosInGene")
-    @ResponseBody
-    public ResultVO searchIdAndPosInGene(HttpServletRequest request, HttpServletResponse response) throws BeansException {
-        String type = request.getParameter("type");//区分snp和indel数据
-        String ctype = request.getParameter("ctype");//list里面的Consequence Type下拉列表 和前端约定 --若为type：后缀下划线，若为effect：前缀下划线
-        String gene = request.getParameter("gene");
-        String upstream = request.getParameter("upstream");
-        String downstream = request.getParameter("downstream");
-        String group = request.getParameter("group");
-        DNAGens dnaGens = dnaGensService.findByGene(gene);
-        logger.info("queryBy " + type + " Gene with ctype:" + ctype + ",gene:" + gene + ",upstream:" + upstream + ",downstream:" + downstream + ",group:" + group);
-        if (dnaGens != null) {
-            long start = dnaGens.getStart();
-            long end = dnaGens.getEnd();
-            if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
-            } else {
-                start = start - 2000 < 0 ? 0 : start - 2000;
-            }
-            if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream);
-            } else {
-                end = end + 2000;
-            }
-            upstream = String.valueOf(start);
-            downstream = String.valueOf(end);
-        }
-        Map result = Maps.newHashMap();
-        List<SNP> snps = dnaMongoService.searchIdAndPosInGene(type, ctype, gene, upstream, downstream, null);
-        List<SNPDto> snpDtos = Lists.newArrayList();
-        for (int i = 0; i < snps.size(); i++) {
-            SNP snp = snps.get(i);
-            SNPDto snpDto = new SNPDto();
-            BeanUtils.copyProperties(snp, snpDto);
-            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
-                snpDto.setConsequencetypeColor(1);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
-                snpDto.setConsequencetypeColor(2);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
-                snpDto.setConsequencetypeColor(3);
-            }
-            snpDto.setIndex(i);
-            snpDtos.add(snpDto);
-        }
-        result.put("snps", snpDtos);
-        List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
-        result.put("dnaGenStructures", dnaGenStructures);
-        result.put("conditions", gene + "," + upstream + "," + downstream);
-        return ResultUtil.success(result);
-    }
-
     /**
      * DNA数据库获取图形界面数据，如果在区间中查找，在该区间中如有基因，则显示第一个基因的SNP位点及基因结构数据，
      * 如果在该区间内无基因，只需返回该区间内的SNP位点及基因结构数据
@@ -424,11 +278,11 @@ public class SNPController {
     }
 
     /**
-     * 点选SNPId或INDELId时根据相应id进行样本相关信息查询
+     * 点选SNP Id或INDEL Id时根据相应id进行样本相关信息查询
      */
     @RequestMapping("/findSampleById")
     @ResponseBody
-    public ResultVO genetypePercentById(HttpServletRequest request, HttpServletResponse response) {
+    public ResultVO genotypePercentById(HttpServletRequest request) {
         String id = request.getParameter("id");
         if (id == null) {
             return ResultUtil.error(-1, "未拿到id的值");
@@ -445,7 +299,7 @@ public class SNPController {
      * 进入snp详情页
      */
     @RequestMapping(value = "/snp/info", method = RequestMethod.GET)
-    public ModelAndView getSnpInfo(HttpServletRequest request, @RequestParam("frequence") String frequence, SNP snp) {
+    public ModelAndView getSnpInfo(@RequestParam("frequence") String frequence, SNP snp) {
         ModelAndView modelAndView = new ModelAndView("snpinfo/snpinfo");
         Map result = snpService.findSampleById(snp.getId());
         SNP snpFormatMajorFreq;
@@ -463,21 +317,6 @@ public class SNPController {
         modelAndView.addObject("major", finalResult);
         modelAndView.addObject("snp", snp);
         modelAndView.addObject("result", result);
-        SNP snpTemp = (SNP) result.get("snpData");
-        if (snpTemp == null) {
-            snpTemp = (SNP) result.get("INDELData");
-        }
-        Map map = (Map) snpTemp.getSamples();
-        Set<Map.Entry<String, String>> entrySet = map.entrySet();
-        List<String> runNos = Lists.newArrayList();
-        for (Map.Entry entry : entrySet) {
-            if (((String) entry.getValue()).contains(snp.getMajorallen())) {
-                runNos.add((String) entry.getKey());
-            }
-        }
-        //todo 此dnaruns可能重复
-        //PageInfo<DNARun> dnaRuns=dnaRunService.getByRunNos(runNos,1,10);
-        //modelAndView.addObject("dnaRuns",dnaRuns);
         modelAndView.addObject("frequence", frequence);
         return modelAndView;
     }
@@ -563,88 +402,6 @@ public class SNPController {
         response.put("dnaRuns", dnaRuns);
         response.put("samples", samples);
         return ResultUtil.success(response);
-    }
-
-    @RequestMapping(value = "/drawSNPTableInRegion", method = RequestMethod.GET)
-    @ResponseBody
-    public ResultVO drawSNPTableInRegion(@RequestParam("id") String snpId, @RequestParam("index") Integer index,
-                                         @RequestParam("chr") String chr, @RequestParam("type") String type,
-                                         @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                         @RequestParam("start") String start, @RequestParam("end") String end,
-                                         @RequestParam("ctype") String ctype,
-                                         @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws BeansException {
-        List<SNP> snps = dnaMongoService.findDataByIndexInRegion(type, chr, snpId, index, pageSize, start, end, ctype);
-        Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
-        List<SNPDto> data = Lists.newArrayList();
-        for (SNP snp : snps) {
-            SNPDto snpDto = new SNPDto();
-            BeanUtils.copyProperties(snp, snpDto);
-            Map map = snpService.findSampleById(snp.getId());
-            JSONArray freqData;
-            SNP snpData = null;
-            if (StringUtils.equals(type, "SNP")) {
-                snpData = (SNP) map.get("snpData");
-                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
-            } else {
-                snpData = (SNP) map.get("INDELData");
-                freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
-            }
-            snpDto.setFreq(freqData);
-            if (snpData != null) {
-                snpData.setSamples(null);
-            }
-            snpDto.setGeneType(map);
-            data.add(snpDto);
-        }
-        return ResultUtil.success(data);
-    }
-
-    @RequestMapping(value = "/drawSNPTableInGene", method = RequestMethod.GET)
-    @ResponseBody
-    public ResultVO drawSNPTableInGene(@RequestParam(value = "id", required = false) String snpId, @RequestParam("index") Integer index,
-                                       @RequestParam("gene") String gene, @RequestParam("type") String type,
-                                       @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
-                                       @RequestParam(value = "upstream", required = false) String upstream,
-                                       @RequestParam(value = "downstream", required = false) String downstream,
-                                       @RequestParam("ctype") String ctype,
-                                       @RequestParam(value = "group", required = false, defaultValue = "[]") String group) throws BeansException {
-        DNAGens dnaGens = dnaGensService.findByGene(gene);
-        if (dnaGens != null) {
-            long start = dnaGens.getStart();
-            long end = dnaGens.getEnd();
-            if (StringUtils.isNoneBlank(upstream)) {
-                start = start - Long.valueOf(upstream) < 0 ? 0 : start - Long.valueOf(upstream);
-            } else {
-                start = start - 2000 < 0 ? 0 : start - 2000;
-            }
-            if (StringUtils.isNoneBlank(downstream)) {
-                end = end + Long.valueOf(downstream);
-            } else {
-                end = end + 2000;
-            }
-            upstream = String.valueOf(start);
-            downstream = String.valueOf(end);
-        }
-        List<SNP> snps = dnaMongoService.findDataByIndexInGene(type, gene, snpId, index, pageSize, upstream, downstream, ctype);
-        Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
-        List<SNPDto> data = Lists.newArrayList();
-        for (SNP snp : snps) {
-            SNPDto snpDto = new SNPDto();
-            BeanUtils.copyProperties(snp, snpDto);
-            Map map = snpService.findSampleById(snp.getId());
-            SNP snpData = (SNP) map.get("snpData");
-            if (snpData == null) {
-                snpData = (SNP) map.get("INDELData");
-            }
-            JSONArray freqData = snpService.getFrequencyInSnp(snpData, group_runNos);
-            snpDto.setFreq(freqData);
-            if (snpData != null) {
-                snpData.setSamples(null);
-            }
-            snpDto.setGeneType(map);
-            data.add(snpDto);
-        }
-        return ResultUtil.success(data);
     }
 
     @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)

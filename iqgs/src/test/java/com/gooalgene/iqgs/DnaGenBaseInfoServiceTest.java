@@ -150,41 +150,6 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
         }
     }
 
-    /**
-     * 测试iqgs中基因表达量排序
-     */
-    @Test
-    public void testqueryStudyByGene() throws Exception {
-        //List<String> run = studyDao.findSampleruns();//查询所有的run
-        String collectionName="all_gens_fpkm";
-        Query query = new Query();
-        query.addCriteria(Criteria.where("gene").is("Glyma.01G004900"));
-        //query.addCriteria(Criteria.where("samplerun.name").in(run));
-        query.with(new Sort(new Sort.Order(Sort.Direction.DESC, "samplerun.value")));//降序
-        long total = mongoTemplate.count(query, ExpressionVo.class, collectionName);
-        System.out.println(total);
-        query.limit(10);//取10条
-        query.skip(5);
-        //query.limit(15);
-        //System.out.println("Query count:" + query.toString());
-        List<ExpressionVo> runs = mongoTemplate.find(query, ExpressionVo.class, "all_gens_fpkm");
-        //System.out.println(runs.toString());
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-
-        for (int i = 0; i < runs.size(); i++) {
-            ExpressionVo expressionVo =  runs.get(i);
-            String samplerunName=expressionVo.getSamplerun().getName();
-            Study study=studyDao.findBySampleRun(samplerunName);
-            System.out.println(study.toString());
-
-            Date time = (Date) study.getCreateTime();
-            //study.setCreateTime(simpleDateFormat.format(time));
-            //System.out.println(study.getCreateTime());
-            /*System.out.println(expressionVo.getSamplerun().getValue());
-            System.out.println(expressionVo.toString());*/
-        }
-    }
-
     @Test
     public void testCheckGeneExists(){
         String geneId = "Glyma.28G267800";  //不存在情况

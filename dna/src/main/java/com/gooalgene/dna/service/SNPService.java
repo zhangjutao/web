@@ -515,16 +515,7 @@ public class SNPService {
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
-        JSONArray data = new JSONArray();
-        for (SNP snp : snps) {
-            JSONObject snp_Json = snp.toJSON();
-            getFrequencyInSnp(snp, null);
-            JSONArray freqData = getFrequeData(snp.getSamples(), new HashMap<String, List<String>>());
-            snp_Json.put("freq", freqData);
-            data.add(snp_Json);
-        }
         result.put("total", page.getCount());
-        result.put("data", data);
         return result;
     }
 

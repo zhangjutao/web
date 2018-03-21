@@ -13,7 +13,7 @@
     </select>
 
     <select id="findDNAGensInfoByGene" parameterType="String" resultType="com.gooalgene.dna.entity.DNAGens">
-        SELECT * FROM dna_gens WHERE gene_id=#{geneId}
+        SELECT * FROM gens_baseinfo WHERE gene_id=#{geneId}
     </select>
 
     <select id="findById" parameterType="int" resultType="com.gooalgene.dna.entity.DNAGens">
@@ -85,6 +85,10 @@
 
     <select id="findByGeneId" resultType="com.gooalgene.dna.entity.DNAGens">
         SELECT * FROM gens_baseinfo WHERE gene_id = #{0}
+    </select>
+
+    <select id="fetchAllChromosome" resultType="com.gooalgene.dna.entity.ChromosomeList">
+        SELECT * FROM chromosome_list
     </select>
 
 </mapper>

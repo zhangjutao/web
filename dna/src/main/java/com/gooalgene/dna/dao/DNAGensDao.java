@@ -2,6 +2,7 @@ package com.gooalgene.dna.dao;
 
 import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
+import com.gooalgene.dna.entity.ChromosomeList;
 import com.gooalgene.dna.entity.DNAGens;
 import org.apache.ibatis.annotations.Param;
 
@@ -29,4 +30,6 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
     DNAGens findDNAGensInfoByGene(String gene);
 
     Set<String> getByRegion(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
+
+    List<ChromosomeList> fetchAllChromosome();
 }
