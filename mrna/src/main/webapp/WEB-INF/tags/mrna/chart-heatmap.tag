@@ -228,7 +228,7 @@
                                 $("#total-page-count span").html(res.gensTotal);
                                 // 显示分页
                                 laypage({
-                                    cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                                    cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                                     pages: Math.ceil(res.gensTotal / page.pageSize), //通过后台拿到的总页数
                                     curr: currNum || 1, //当前页
                                     /*skin: '#5c8de5',*/
@@ -252,9 +252,11 @@
                 }
 
                 // 修改每页显示条数
-                $(".ga-ctrl-footer").on("change", ".lay-per-page-count-select", function () {
-                    var currNum = Number($(".ga-ctrl-footer .laypage_curr").text());
-                    var pageSizeNum = Number($(this).val());
+                // $(".ga-ctrl-footer").on("change", ".lay-per-count-select", function () {
+                //    var currNum = Number($(".ga-ctrl-footer .laypage_curr").text());
+                $(".ga-ctrl-footer").on("click", ".select_item_page li", function () {
+                    var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
+                    var pageSizeNum = Number($(this).text());
                     var totalNum = $("#total-page-count span").text();
                     var mathCeilNum = Math.ceil(totalNum / currNum);
                     page.pageSize = Number($(this).val());

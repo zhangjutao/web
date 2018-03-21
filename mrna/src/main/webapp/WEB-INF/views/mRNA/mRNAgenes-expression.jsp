@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
+    <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+
 
     <style>
         .ga-tip {
@@ -701,9 +703,9 @@
         <form action="${ctxroot}/specific/index" method="POST" id="specificForm" style="display: none;">
             <input type="text" name="genes">
         </form>
-
-        <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-
+        <div id="expressionPagination">
+            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
+        </div>
     </div>
 
     <div class="genesInfo" style="display: none;">
@@ -718,7 +720,6 @@
 <!--section-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
-<script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
@@ -947,7 +948,8 @@
                     $("#total-page-count > span").html(res.total);
                     //显示分页
                     laypage({
-                        cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        //cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                         curr: curr|| 1, //当前页
                         /*skin: '#5c8de5',*/
@@ -979,12 +981,15 @@
 //            initTable(1);
 //        });
         // 修改每页显示条数
-        $(".ga-heat-table").on("change", ".lay-per-page-count-select", function() {
+        //$(".ga-heat-table").on("change", ".lay-per-page-count-select", function() {
 //            pageSize = $(this).val();
 //            initTable(1);
-            var curr = Number($(".ga-heat-table .laypage_curr").text());
-            var pageSize = Number($(this).val());
-            var total= Number($(".ga-heat-table #total-page-count span").text());
+            //var curr = Number($(".ga-heat-table .laypage_curr").text());
+        $(".ga-ctrl-footer").on("click", ".select_item_page li", function() {
+            var curr = $(".ga-ctrl-footer .lay-per-page-count-select").val();
+            var pageSize = Number($(this).text());
+            //alert(pageSize);
+            var total= Number($("#total-page-count span").text());
             var mathCeil=  Math.ceil(total/curr);
             page.pageSize = $(this).val();
             if(pageSize>mathCeil){
