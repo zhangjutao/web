@@ -243,7 +243,7 @@
             </select>
             -->
             <div id="select">
-                <input type="text" class="select_default" value="All">
+                <input type="text" class="select_default">
                 <ul class="select_item">
                     <li style="border-top:1px solid #0F9145;">All</li>
                     <li>Study</li>
@@ -458,6 +458,13 @@
             $sel_item = $(".select_item"),
             $sel_item_li = $(".select_item li")
         $sel_default.text($(".select_item li:first").text());
+        //修改候选框里面的值
+        var currTypes1 = window.location.search;
+        var searchList1 = currTypes1.split("&");
+        var currentType1 = searchList1[0].split("=")[1];
+
+        $sel_default.val(currentType1);
+        //修改候选框里面的值
         //alert();
         $sel.hover(function(){
             $sel_item.show();
@@ -545,10 +552,9 @@
                     keywords=keywords+".all";
                 }
             }
-             var currTypes = window.location.search;
-
+            var currTypes = window.location.search;
             var searchList = currTypes.split("&");
-                var currentType = searchList[0].split("=")[1];
+            var currentType = searchList[0].split("=")[1];
             console.log(currentType)
 
             $.getJSON('${ctxroot}/mrna/listByResult', {
