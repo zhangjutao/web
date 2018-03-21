@@ -11,7 +11,7 @@ import java.util.List;
 public class Study{
     private String sampleRun;
     private String sampleName;
-    private int isExpression;
+    private Integer isExpression;
     private String sraStudy;
     private String study;
     private String tissueForClassification;
@@ -41,7 +41,7 @@ public class Study{
     private Integer spots;
     private String experiment;
     private String links;
-    private int id;
+    private Integer id;
     private java.sql.Timestamp createtime;
     private String keywords;
     private List<String> tissues;
@@ -87,11 +87,11 @@ public class Study{
         this.sampleName = sampleName;
     }
 
-    public int getIsExpression() {
+    public Integer getIsExpression() {
         return isExpression;
     }
 
-    public void setIsExpression(int isExpression) {
+    public void setIsExpression(Integer isExpression) {
         this.isExpression = isExpression;
     }
 
@@ -327,11 +327,11 @@ public class Study{
         this.links = links;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -22,6 +22,10 @@ public class GenesService {
         return genesDao.findList(genes);
     }
 
+    public int getGeneTotal() {
+        return genesDao.getGeneTotal();
+    }
+
     public int insertBatch(List<Genes> list) {
         return genesDao.insertBatch(list);
     }

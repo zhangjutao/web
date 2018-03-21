@@ -13,6 +13,10 @@
         </if>
     </select>
 
+    <select id="getGeneTotal" resultType="int">
+        SELECT COUNT(*) FROM gens_baseinfo
+    </select>
+
     <insert id="insert" parameterType="com.gooalgene.entity.Genes">
        INSERT INTO `mrna_gens`(`gene`,`geneName`,`functions`) VALUES (#{gene,jdbcType=VARCHAR},#{geneName,jdbcType=VARCHAR},#{functions,jdbcType=VARCHAR})
     </insert>
