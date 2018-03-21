@@ -220,13 +220,7 @@ public class SNPService {
         Map<String, List<String>> groupIdReflection = dnaRunService.queryDNARunByCondition(groupConditions);
 
         List<SNPDto> data = Lists.newArrayList();
-        Set<String> geneIds = Sets.newHashSet();
         for (SNP snp : snps) {
-            String gene = snp.getGene();
-            // 如果gene字段为逗号隔开字符串，则为基因间SNP，不放入集合中
-            if (!gene.contains(",")) {
-                geneIds.add(snp.getGene());
-            }
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
             Map<String, Object> map = snpService.findSampleById(snp);
@@ -243,7 +237,6 @@ public class SNPService {
             snpDto.setFreq(sampleFrequencyList);
             data.add(snpDto);
         }
-        result.setGeneIds(geneIds);
         result.setData(data);
         return result;
     }

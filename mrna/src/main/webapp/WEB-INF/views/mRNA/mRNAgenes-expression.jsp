@@ -43,7 +43,8 @@
             width: 12px;
             height: 12px;
             position: absolute;
-            background: #6288e6;
+            /*background: #6288e6;*/
+            background: #07B34F;
             top: 7px;
             left: -20px;
         }
@@ -144,7 +145,7 @@
         }
         .legend .legend-item:nth-child(3) {
             /*background: #C2D4F1;*/
-            background: #DAF2E4;
+            background: #C2F3D6;
         }
         .legend .legend-item:nth-child(4) {
             /*background: #89aae5;*/
@@ -186,8 +187,9 @@
         }
         .change-select input {
             padding: 0 10px;
-            width: 335px;
+            width: 300px;
         }
+
         .js-checkbox {
             cursor: pointer;
         }
@@ -250,7 +252,8 @@
             height: 40px;
             line-height: 40px;
             /*background: #386cca;*/
-            background: #07B34F;
+            background: #0F9145;
+
             cursor: move;
         }
         .genesInfo .genesInfo-head p{
@@ -259,12 +262,118 @@
             color: #fff;
         }
         .genesInfo .genesInfo-head a{
-            float: none;
+            float: right;
             position: absolute;
-            right: 15px;
+            right: 10px;
             color:#fff;
             font-size: 20px;
         }
+
+        #js-expression-select input{
+            padding: 0 10px;
+            margin-left: 20px;
+            margin-top: -6px;
+            float:left;
+            width: 40px;
+            border: 1px solid #0F9145;
+            height: 10px;
+            margin-right: 0px;
+            border-right: none;
+            color: #999;
+        }
+
+        #selection{
+            display: none;
+            position: absolute;
+            left:141px;
+            top:30px;
+            width:35px;
+            height: 115px;
+            border: 1px solid #0F9145;
+            background-color: white;
+        }
+        /*.select{
+            position:relative;
+            padding: 0 10px;
+            margin-left: 10px;
+            cursor:pointer;
+            width:44px;
+            height: 10px;
+            border: 1px solid #0F9145;
+            height: 10px;
+        }*/
+        /*.select_default{
+
+            position:absolute;
+            top:-11px;
+            left:-1px;
+            width:40px;
+            line-height:40px;
+            padding:0 10px;
+            border:solid 1px #0F9145;
+        }*/
+        #select{
+            position: relative;
+        }
+        #select .select_default{
+            width:59px;
+            height:38px;
+            position: relative;
+            top: -10px;
+            text-align: center;
+
+        }
+        .select_default:after{
+            content:"";
+            border-left:5px solid transparent;
+            border-right:5px solid transparent;
+            border-bottom:5px solid #999;
+            -webkit-transform-origin:5px 2.5px;
+            -moz-transform-origin:5px 2.5px;
+            -ms-transform-origin:5px 2.5px;
+            -o-transform-origin:5px 2.5px;
+            transform-origin:5px 2.5px;
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            transition: all .5s ease;
+            position:absolute;
+            right:5px;
+            top:14px;
+        }
+        .select_default .rotate:after{
+            -webkit-transform:rotate(180deg);
+            -moz-transform:rotate(180deg);
+            -ms-transform:rotate(180deg);
+            -o-transform:rotate(180deg);
+            transform:rotate(180deg);
+        }
+        .select_item{
+            display: none;
+            position:absolute;
+            top: 31px;
+            left: 26px;
+            margin:0;
+            padding:0;
+            list-style:none;
+        }
+        .select_item li{
+             width:80px;
+             height:28px;
+             line-height:28px;
+             /*padding:0 -20px;*/
+             border:solid 1px #0F9145;
+             border-top:none;
+             text-align: center;
+             border-bottom:none;
+         }
+        .select_item li:hover{
+            background:#0F9145;
+            color:#fff;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
@@ -331,7 +440,7 @@
                 </div>
             </div>
             <div class="export-data">
-                <p class="btn-export-set"><button type="button" class="btn-export js-export"><img src="${ctxStatic}/images/export.png">导出数据</button><button class="btn-contrast"><img src="${ctxStatic}/images/set.png">样本</button></p>
+                <p class="btn-export-set"><!--<button type="button" class="btn-export js-export"><img src="${ctxStatic}/images/export.png">导出数据</button>--><button class="btn-contrast"><img src="${ctxStatic}/images/set.png">样本</button></p>
 
             </div>
         </div>
@@ -342,12 +451,23 @@
                 <button type="button" class="js-search-gene-button"><img src="${ctxStatic}/images/search.png">搜索</button>
             </div>
             <div class="change-select">
-                <span>Expression value</span>
+                <span style="float:left">Expression value</span>
+                <!--
                 <select class="js-expression-select">
                     <option value=">"> &gt;</option>
                     <option value="="> =</option>
                     <option value="<"> &lt;</option>
                 </select>
+                <input class="js-expression-value" type="text" value="">
+                -->
+                <div id="select">
+                    <input type="text" class="select_default" value=">">
+                    <ul class="select_item">
+                        <li>&gt;</li>
+                        <li>=</li>
+                        <li style="border-bottom:1px solid #0F9145;">&lt;</li>
+                    </ul>
+                </div>
                 <input class="js-expression-value" type="text" value="">
             </div>
         </div>
@@ -598,10 +718,40 @@
 
 <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+<script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script>
+    $(document).ready(function(){
+        var    $sel = $("#select"),
+            $sel_default = $(".select_default"),
+            $sel_item = $(".select_item"),
+            $sel_item_li = $(".select_item li")
+        $sel_default.text($(".select_item li:first").text());
+        //alert();
+        $sel.hover(function(){
+            $sel_item.show();
+            $sel_default.addClass("rotate");
+            $sel_item_li.hover(function(){
+                $index = $sel_item_li.index(this);
+        //alert($index)
+                $sel_item_li.eq($index).addClass("hover");
+            },function(){
+                $sel_item_li.removeClass("hover");
+            })
+        },function(){
+            $sel_item.hide();
+            $sel_default.removeClass("rotate");
+        });
+        $sel_item_li.click(function(){
+            /*$sel_default.text($(this).text());*/
+            $sel_default.val($(this).text());
+            //alert($sel_default.val());
+            $sel_item.hide();
+        });
+    });
+
 
     function loadMask (el) {
         $(el).css({"position": "relative"});
@@ -613,17 +763,31 @@
         $(".ga-mask").remove();
     }
 
+    var index;
     $("body").on("click", ".js-gene-info", function(e) {
         var version = 'gmx_ensembl_release23';
         var geneName = $(this).text();
         $(".js-gene-head-name").html(geneName);
         $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName="+ geneName + "&version=" + version);
         e.preventDefault();
-        $(".genesInfo").show();
+        //修改弹窗及拖拽样式
+        /*$(".genesInfo").show();*/
+        index = layer.open({
+            title: "",
+            type: 1,
+            content: $(".genesInfo"),
+            area: ['980px', '640px'],
+            shadeClose: true,
+            scrollbar: false,
+            move: '.genesInfo-head',
+            closeBtn: 0,
+            //offset: ['135px', '320px']
+        });
 
     });
     $(".genesInfo-head > a").click(function() {
-        $(".genesInfo").hide();
+        /*$(".genesInfo").hide();*/
+        layer.close(index);
     });
 
     $(function() {
@@ -683,7 +847,8 @@
 
         function getParams() {
             var geneName = $.trim($(".js-search-gene-name").val());
-            var expressionValue = $(".js-expression-select").val() + "," + $(".js-expression-value").val();
+            /*var expressionValue = $(".js-expression-select").val() + "," + $(".js-expression-value").val();*/
+            var expressionValue = $(".select_default").val() + "," + $(".js-expression-value").val();
             return {
                 "id": studyId,
                 "gene": geneName,
@@ -1113,7 +1278,7 @@
     })
 
     /*基因详情拖动弹框*/
-    $(".genesInfo").draggable({ containment: "body" });
+    /*$(".genesInfo").draggable({ containment: "body" });*/
 </script>
 </body>
 </html>

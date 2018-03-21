@@ -41,6 +41,11 @@ public class SearchCondition {
     private Long end;
 
     /**
+     * 用户当前选取点在MongoDB中的索引值
+     */
+    private int index;
+
+    /**
      * 用户所选择的群组
      */
     private List<GroupCondition> group;
@@ -119,5 +124,13 @@ public class SearchCondition {
 
     public void setPageSize(int pageSize) {
         this.pageSize = pageSize;
+    }
+
+    public int getIndex() {
+        return index;
+    }
+
+    public void setIndex(int index) {
+        this.index = index;
     }
 }

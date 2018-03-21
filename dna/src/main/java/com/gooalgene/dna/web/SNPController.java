@@ -9,6 +9,7 @@ import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.*;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
@@ -101,7 +102,7 @@ public class SNPController {
      * 查询SNP表格数据接口
      * @return SNP/INDEL查询页面表格内容
      */
-    @RequestMapping(value = "/queryForSNPTable", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryForTable", method = RequestMethod.POST)
     @ResponseBody
     public TableSearchResult queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
         TableSearchResult result = new TableSearchResult();
@@ -139,6 +140,60 @@ public class SNPController {
         }
         return result;
     }
+
+    /**
+     * 根据图中当前位置的点，确定该SNP在查询结果表格中第几页、该页第几条
+     *
+     * @param condition 与侧边栏点击确定时传入相同的条件,注意:这里还需要增加额外的条件,点击位点的index值
+     * @return 含有pageNo、offset、total及指定pageNo页面的数据,offset表示位点位于跳转页面的偏移量
+     */
+    @RequestMapping(value = "/jump-page", method = RequestMethod.POST)
+    @ResponseBody
+    public TableSearchResult jumpPageThroughSNPIndex(@RequestBody SearchCondition condition) throws IOException {
+        TableSearchResult result = new TableSearchResult();
+        int index = condition.getIndex();
+        Map<String, Integer> targetPageInfo = dnaMongoService.getStartIndex(condition.getType(), condition.getCtype(),
+                condition.getChromosome(), condition.getStart(), condition.getEnd(), index, condition.getPageSize());
+        // 获取targetIndex位置处的pageNo
+        int pageNo = targetPageInfo.get("pageNo");
+        int offset = targetPageInfo.get("offset");
+        String gene = condition.getGene();
+        if (StringUtils.isEmpty(gene)) {
+            result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
+                    condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
+                    condition.getGroup(), pageNo, condition.getPageSize());
+        } else {
+            DNAGens dnaGens = dnaGensService.findByGeneId(gene);
+            if (dnaGens != null) {
+                String chromosome = dnaGens.getChromosome();
+                // 修改geneStart/geneEnd映射
+                long start = dnaGens.getStart();
+                long end = dnaGens.getEnd();
+                Long upstream = condition.getStart();  // start此时为upstream
+                Long downstream = condition.getEnd();  // end此时为downstream
+                // 判断用户是否有输入上下游区间
+                if (null != upstream) {
+                    start = start - upstream < 0 ? 0 : start - upstream;
+                } else {
+                    start = start - 2000 < 0 ? 0 : start - 2000;
+                }
+                if (null != downstream) {
+                    end = end + downstream;
+                } else {
+                    end = end + 2000;
+                }
+                result = snpService.searchSNPResult(condition.getType(), condition.getCtype(), chromosome, String.valueOf(start),
+                        String.valueOf(end), condition.getGroup(), pageNo, condition.getPageSize());
+            } else {
+                logger.warn("传入基因" + gene + "不存在");
+            }
+        }
+        // Java按应用传递,offset在这里设值才能生效
+        result.setOffset(offset);
+        result.setPageNo(pageNo);
+        return result;
+    }
+
 
     /**
      * 按群组条件搜索
@@ -224,7 +279,7 @@ public class SNPController {
             snpDtos.add(snpDto);
         }
         result.put("snps", snpDtos);
-        List<String> geneIds = dnaGensService.getByRegionNoCompare(chr, Long.parseLong(startPos), Long.parseLong(endPos));
+        Set<String> geneIds = dnaGensService.getByRegionNoCompare(chr, Long.parseLong(startPos), Long.parseLong(endPos));
         List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(chr, Integer.valueOf(startPos), Integer.valueOf(endPos), geneIds);
         result.put("dnaGenStructures", dnaGenStructures);
         result.put("conditions", chr + "," + startPos + "," + endPos);
@@ -289,6 +344,14 @@ public class SNPController {
         return ResultUtil.success(result);
     }
 
+    /**
+     * DNA数据库获取图形界面数据，如果在区间中查找，在该区间中如有基因，则显示第一个基因的SNP位点及基因结构数据，
+     * 如果在该区间内无基因，只需返回该区间内的SNP位点及基因结构数据
+     *
+     * @param condition 搜索条件
+     * @return 含有SNP/Structure数据的集合
+     * @throws IOException
+     */
     @RequestMapping(value = "/fetch-point", method = RequestMethod.POST)
     @ResponseBody
     public GraphSearchResult fetchAllSNPPoint(@RequestBody SearchCondition condition) throws IOException {
@@ -296,67 +359,66 @@ public class SNPController {
         GraphSearchResult result = new GraphSearchResult();
         // Search in Region
         if (StringUtils.isEmpty(gene)) {
-            List<SNP> allSNP = dnaMongoService.searchSNPIdAndPos(condition.getType(), condition.getChromosome(), condition.getStart(), condition.getEnd(), condition.getPageNo(), condition.getPageSize());
-            // 放入所有查询到的SNP位点（包含INDEX）
-            result.setSnpList(convertSNP(allSNP));
             // 获取该范围内的所有gene_id
-            List<String> geneIds = dnaGensService.getByRegionNoCompare(condition.getChromosome(), condition.getStart(), condition.getEnd());
-            List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByStartEnd(condition.getChromosome(), condition.getStart(), condition.getEnd(), geneIds);
-            result.setStructureList(dnaGenStructures);
-        } else { // Search in Gene
-            DNAGens dnaGens = dnaGensService.findByGeneId(gene);
-            if (dnaGens != null) {
-                String chromosome = dnaGens.getChromosome();
-                // 修改geneStart/geneEnd映射
-                long start = dnaGens.getStart();
-                long end = dnaGens.getEnd();
-                Long upstream = condition.getStart();  // start此时为upstream
-                Long downstream = condition.getEnd();  // end此时为downstream
-                // 判断用户是否有输入上下游区间
-                if (null != upstream) {
-                    start = start - upstream < 0 ? 0 : start - upstream;
-                } else {
-                    start = start - 2000 < 0 ? 0 : start - 2000;
-                }
-                if (null != downstream) {
-                    end = end + downstream;
-                } else {
-                    end = end + 2000;
-                }
-                List<SNP> allSNP = dnaMongoService.searchSNPIdAndPos(condition.getType(), chromosome, start, end, condition.getPageNo(), condition.getPageSize());
-                result.setSnpList(convertSNP(allSNP));
-                // 查询当前基因的基因结构
-                List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
-                result.setStructureList(dnaGenStructures);
+            Set<String> geneIds = dnaGensService.getByRegionNoCompare(condition.getChromosome(), condition.getStart(),
+                    condition.getEnd());
+            // 如果用户查询为区间查询，且该区间内存在基因，这里默认取第一个基因作为图形数据查询条件
+            if (geneIds.size() > 0) {
+                result = searchOnlyByGene(geneIds.iterator().next(), condition.getType(), condition.getStart(), condition.getEnd());
+                // 将查询出来的区间内的基因返回给前台
+                result.setGeneInsideRegion(geneIds);
             } else {
-                logger.warn("传入基因" + gene + "不存在");
+                // 如果该区间内不包含基因，直接搜索该区间内所有SNP位点，无需返回基因结构
+                List<MinimumSNPResult> allSNP = dnaMongoService.searchSNPIdAndPos(condition.getType(), condition.getChromosome(),
+                        condition.getStart(), condition.getEnd());
+                // 放入所有查询到的SNP位点（包含INDEX）
+                result.setSnpList(allSNP);
             }
+        } else { // Search in Gene
+            result = searchOnlyByGene(gene, condition.getType(), condition.getStart(), condition.getEnd());
         }
         return result;
     }
 
     /**
-     * 将原始SNP集合转化为目标SNP集合，目标SNP中包含index、consequenceTypeColor等参数
+     * 在根据基因条件查询下，先查询该基因在染色体上的位置，根据起始位置，根据用户输入的上下游区间，按上游减两千
+     * 下游加两千的规则，查询该区间内的所有SNP位点及当前基因的结构
      *
-     * @param snpList 原始SNP集合
-     * @return 目标SNP集合列表
+     * @param gene 基因ID
+     * @param type SNP/INDEL
+     * @param upstream 上游值
+     * @param downstream 下游值
+     * @return 最终显示在页面上的图形数据，包含基因结构和所有SNP位点
      */
-    private List<SNPDto> convertSNP(List<SNP> snpList) {
-        List<SNPDto> result = new ArrayList<>();
-        for (int i = 0; i < snpList.size(); i++) {
-            SNP snp = snpList.get(i);
-            SNPDto snpDto = new SNPDto();
-            BeanUtils.copyProperties(snp, snpDto);
-            if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_nonsynonymous SNV")){
-                snpDto.setConsequencetypeColor(1);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift deletion")){
-                snpDto.setConsequencetypeColor(2);
-            }else if(StringUtils.equalsIgnoreCase(snpDto.getConsequencetype(),"Exonic_frameshift insertion")){
-                snpDto.setConsequencetypeColor(3);
+    private GraphSearchResult searchOnlyByGene(String gene, String type, Long upstream, Long downstream) {
+        if (null == gene || gene.equals("")) {
+            throw new IllegalArgumentException("传入gene ID未空");
+        }
+        GraphSearchResult result = new GraphSearchResult();
+        DNAGens dnaGens = dnaGensService.findByGeneId(gene);
+        if (dnaGens != null) {
+            String chromosome = dnaGens.getChromosome();
+            // 修改geneStart/geneEnd映射
+            long start = dnaGens.getStart();
+            long end = dnaGens.getEnd();
+            // 判断用户是否有输入上下游区间
+            if (null != upstream) {
+                start = start - upstream < 0 ? 0 : start - upstream;
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
             }
-            snpDto.setIndex(i);
-            snpDto.setSamples(null);  //抛弃不用的字段
-            result.add(snpDto);
+            if (null != downstream) {
+                end = end + downstream;
+            } else {
+                end = end + 2000;
+            }
+            List<MinimumSNPResult> allSNP = dnaMongoService.searchSNPIdAndPos(type, chromosome, start, end);
+            result.setSnpList(allSNP);
+            // 查询当前基因的基因结构
+            List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
+            result.setStructureList(dnaGenStructures);
+        } else {
+            logger.warn("传入基因" + gene + "不存在");
         }
         return result;
     }

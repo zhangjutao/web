@@ -7,6 +7,7 @@ import com.gooalgene.dna.entity.DNAGenStructure;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 @MyBatisDao
 public interface DNAGensStructureDao {
@@ -17,7 +18,7 @@ public interface DNAGensStructureDao {
     List<DNAGenStructureDto> getByGeneId(String geneId);
 
     List<DNAGenStructureDto> getByStartEnd(@Param("chromosome")String chr, @Param("start")long start,
-                                           @Param("end")long end, @Param("geneIds")List<String>geneIds);
+                                           @Param("end")long end, @Param("geneIds")Set<String> geneIds);
 
     List<DNAGenStructure> getGeneStructureByCondition(@Param("chromosome")String chr, @Param("start")Long start, @Param("end")Long end);
 

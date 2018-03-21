@@ -5,18 +5,22 @@ import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.TableSearchResult;
+import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.utils.CommonUtil;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.DocumentCallbackHandler;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
@@ -37,6 +41,10 @@ import java.util.regex.Pattern;
 public class DNAMongoService {
 
     Logger logger = LoggerFactory.getLogger(DNAMongoService.class);
+
+    private final String EXONIC_NONSYNONYMOUS_SNV = "exonic_nonsynonymous SNV";
+    private final String EXONIC_FRAMESHIFT_INSERTION = "exonic_frameshift deletion";
+    private final String EXONIC_FRAMESHIFT_DELETION = "Exonic_frameshift insertion";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -462,24 +470,33 @@ public class DNAMongoService {
      * @param endPos 染色体终点位置
      * @return 该染色体上指定位置的所有SNP位点
      */
-    public List<SNP> searchSNPIdAndPos(String type, String chr, long startPos, long endPos, int pageNo, int pageSize) {
+    public List<MinimumSNPResult> searchSNPIdAndPos(String type, String chr, long startPos, long endPos) {
         String collectionName = type + "_" + chr;
-        long total = 0;
-        List<SNP> result = new ArrayList<>();
+        final List<MinimumSNPResult> result = new ArrayList<>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
             criteria.andOperator(Criteria.where("pos").gte(startPos), Criteria.where("pos").lte(endPos));
             Query query = new Query();
             query.addCriteria(criteria);
-            query.fields().include("pos").include("consequencetype");
-            total = mongoTemplate.count(query, Integer.class, collectionName);
-            int skip = (pageNo - 1) * pageSize;
-            if (skip < 0) {
-                skip = 0;
-            }
-            query.skip(skip);
-            query.limit(pageSize);
-            result = mongoTemplate.find(query, SNP.class, collectionName);
+            query.fields().include("pos").include("consequencetype").include("index");
+            mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
+                @Override
+                public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                    long pos = (long) dbObject.get("pos");
+                    String consequenceType = (String) dbObject.get("consequencetype");
+                    int index = (int) dbObject.get("index");
+                    MinimumSNPResult snpResult = new MinimumSNPResult(pos, consequenceType, index);
+                    // 根据不同的consequence type，前端进行相应描色
+                    if (consequenceType.equals(EXONIC_NONSYNONYMOUS_SNV)) {
+                        snpResult.setConsequenceTypeColor(1);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_DELETION)) {
+                        snpResult.setConsequenceTypeColor(2);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_INSERTION)) {
+                        snpResult.setConsequenceTypeColor(3);
+                    }
+                    result.add(snpResult);
+                }
+            });
         } else {
             logger.error(collectionName + " is not exist.");
         }
@@ -575,6 +592,52 @@ public class DNAMongoService {
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
             logger.info(collectionName + " is not exist.");
+        }
+        return result;
+    }
+
+    /**
+     * 获取指定区间内的起始SNP INDEX值
+     *
+     * @return 返回Map，Map中存放页码(pageNo)，偏移量(offset)
+     */
+    public Map<String, Integer> getStartIndex(String type, String ctype, String chromosome, long upstream, long downstream, int targetIndex, int pageSize) {
+        String collectionName = type + "_" + chromosome;
+        Map<String, Integer> result = new HashMap<>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(upstream), Criteria.where("pos").lte(downstream));
+            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+                String keywords = "";
+                if (ctype.indexOf(' ') != -1) {
+                    keywords = ctype.replace("_", ".*_");
+                } else if (ctype.indexOf(';') == -1 && ctype.endsWith("_")) {
+                    keywords = ctype.replace("_", "");
+                } else {
+                    keywords = ctype.replace("_", ".*");
+                }
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            // Spring Data MongoDB分页查询从0页开始
+            Pageable page = new PageRequest(0, 1);
+            query.with(page);
+            logger.info("Query:" + query.toString());
+            long snpNum = mongoTemplate.count(query, SNP.class, collectionName);
+            // 将第一个数据写入局部变量中
+            final int[] startIndexArray = new int[1];
+            mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
+                @Override
+                public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                    startIndexArray[0] = (int) dbObject.get("index");
+                }
+            });
+            int pageNo = (targetIndex - startIndexArray[0]) / pageSize + 1;
+            int offset = (targetIndex - startIndexArray[0]) % pageSize;
+            result.put("pageNo", pageNo);
+            result.put("offset", offset);
         }
         return result;
     }

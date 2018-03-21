@@ -1,9 +1,10 @@
 package com.gooalgene.dna.entity;
 
 import com.gooalgene.dna.dto.DNAGenStructureDto;
-import com.gooalgene.dna.dto.SNPDto;
+import com.gooalgene.dna.entity.result.MinimumSNPResult;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * DNA中SNP/INDEL搜索返回前台的图标位点数据，
@@ -16,18 +17,31 @@ public class GraphSearchResult {
     /**
      * 该区间内的所有SNP位点
      */
-    private List<SNPDto> snpList;
+    private List<MinimumSNPResult> snpList;
 
     /**
      * 一个基因对应多个structure
      */
     private List<DNAGenStructureDto> structureList;
 
-    public List<SNPDto> getSnpList() {
+    /**
+     * 该区间内的所有基因ID
+     */
+    private Set<String> geneInsideRegion;
+
+    public Set<String> getGeneInsideRegion() {
+        return geneInsideRegion;
+    }
+
+    public void setGeneInsideRegion(Set<String> geneInsideRegion) {
+        this.geneInsideRegion = geneInsideRegion;
+    }
+
+    public List<MinimumSNPResult> getSnpList() {
         return snpList;
     }
 
-    public void setSnpList(List<SNPDto> snpList) {
+    public void setSnpList(List<MinimumSNPResult> snpList) {
         this.snpList = snpList;
     }
 

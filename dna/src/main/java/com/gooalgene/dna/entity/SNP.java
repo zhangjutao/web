@@ -34,17 +34,27 @@ public class SNP {
     private String gene;//
     private String genecontent;//位点注释到的基因相关信息
 
-    private String effect;//同义突变/非同义突变/stopgain(停止或延长转录突变)
+    private String effect;              //同义突变/非同义突变/stopgain(停止或延长转录突变)
 
-    private String consequencetype;//type_effect
+    private String consequencetype;     //type_effect
 
     private Map<String, String> samples;//对应的样本数据
 
     private String majorallen;
     private String minorallen;
 
+    private Integer index;                 // 该SNP位点在数据库中的索引位置
+
     private Double major;
     private Double minor;
+
+    public Integer getIndex() {
+        return index;
+    }
+
+    public void setIndex(Integer index) {
+        this.index = index;
+    }
 
     public Double getMinor() {
         return minor;
