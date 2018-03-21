@@ -216,10 +216,12 @@
                                 heatmapdata = _.orderBy(dd.cate, ["name"]);
                                 heatmapcategory = dd.gens;
                                 g_cate = initCategories();
-                                if(res.gens.length<=5){
-                                   $("#heatmap_${id}").css({"height": (50 * 5+100) + "px"});
-                               }else{
-                                   $("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});
+                                if(res.gens.length<=2){
+                                    $("#heatmap_${id}").css({"height": (150 + res.gens.length*50) + "px"});
+                               }else if(res.gens.length<=5){
+                                    $("#heatmap_${id}").css({"height": (50 * 5+100) + "px"});
+                                } else {
+                                    $("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});
                                 }
                                 <%--$("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});--%>
                                 <%--$("#heatmap_${id}").css({"height": heatmapHeigth + "px"});--%>
