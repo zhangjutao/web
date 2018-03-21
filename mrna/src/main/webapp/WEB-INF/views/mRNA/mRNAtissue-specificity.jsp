@@ -176,6 +176,7 @@
 
 <script>
 
+
     $(function () {
 
         var GENES = '${genes}';
@@ -339,7 +340,13 @@
                 _.pull(secondSpecificGenes, gene);
             } else {
                 if(secondSpecificGenes.length > 4) {
-                    alert("最多选5个基因");
+                    //alert("最多选5个基因");
+                    layer.open({
+                        type:0,
+                        title:"溫馨提示",
+                        content:"最多选5个基因",
+                        shadeClose: true,
+                    });
                 } else {
                     $(this).addClass("choose-tab-ac");
                     secondSpecificGenes.push(gene);

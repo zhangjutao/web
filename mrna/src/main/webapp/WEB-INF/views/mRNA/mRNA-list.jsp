@@ -579,7 +579,8 @@
 
                 //显示分页
                 laypage({
-                    cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                   //cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                    cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
                     /*skin: '#5c8de5',*/
@@ -664,8 +665,10 @@
 
 
         // 修改每页显示条数
-        $("body").on("change", ".lay-per-page-count-select", function() {
-            pageSize = $(this).val();
+        /*$("body").on("change", ".lay-per-page-count-select", function() {*/
+        $("body").on("click", ".select_item_page li", function() {
+            //pageSize = $(this).val();
+            pageSize = $(".ga-ctrl-footer .lay-per-page-count-select").val();
             /*var type_select=$(".js-search-select").val();*/
             var type_select=$(".select_default").val();
             var key_input=$(".js-search-text").val();
