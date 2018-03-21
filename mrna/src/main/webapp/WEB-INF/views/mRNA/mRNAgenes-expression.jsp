@@ -1247,7 +1247,7 @@
                             target: self,
                             position: "b",
                             width: 410,
-                            height: 150,
+                            height: 190,
                             content: str
                         });
                     });
