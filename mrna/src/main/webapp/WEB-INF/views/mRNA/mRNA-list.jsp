@@ -207,6 +207,7 @@
             margin: 0;
             padding: 0;
             list-style: none;
+            background-color: white;
         }
         .select_item li{
             width: 120px;
@@ -463,7 +464,6 @@
             $sel_default.addClass("rotate");
             $sel_item_li.hover(function(){
                 $index = $sel_item_li.index(this);
-                //alert($index)
                 $sel_item_li.eq($index).addClass("hover");
             },function(){
                 $sel_item_li.removeClass("hover");
@@ -475,7 +475,6 @@
         $sel_item_li.click(function(){
             /*$sel_default.text($(this).text());*/
             $sel_default.val($(this).text());
-            alert($sel_default.val());
             //test
             var select=$(this).text();
             $(".js-search-text").attr("placeholder","");
@@ -640,7 +639,9 @@
                                 position: 't',
                                 align: 'l',
                                 autoClose: false,
-                                content: content
+                                content: content,
+                                width: 260,
+                                height: 120
                             });
                             $(".pt").css("left", $(".pt").position().left-15);
                         }else{

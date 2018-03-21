@@ -88,6 +88,7 @@
             margin: 0;
             padding: 0;
             list-style: none;
+            background-color: white;
         }
         .select_item li{
             width: 120px;
@@ -201,8 +202,6 @@
         $sel_item_li.click(function(){
             /*$sel_default.text($(this).text());*/
             $sel_default.val($(this).text());
-            //alert($sel_default.val());
-            //test
             var select=$(this).text();
             $(".js-search-text").attr("placeholder","");
             console.log(select);

@@ -115,7 +115,7 @@
             margin-right: 5px;
         }
         .checkbox.checked {
-            background-image: url("${ctxStatic}/images/checked.png");
+            background-image: url("${ctxStatic}/images/checkbox.png");
         }
         .checkbox > input[type='checkbox'] {
             display: none;
@@ -357,6 +357,7 @@
             margin:0;
             padding:0;
             list-style:none;
+            background-color: white;
         }
         .select_item li{
              width:80px;
