@@ -131,6 +131,79 @@
         <if test="experiment!=null">
             AND experiment LIKE CONCAT('%',#{experiment},'%')
         </if>
+        <if test="spots!=null">v
+            AND spots LIKE CONCAT('%',#{spots},'%')
+        </if>
+    </select>
+
+    <select id="findByConditionReplace" resultType="com.gooalgene.entity.Study">
+        SELECT * from study
+        WHERE 1=1
+        <if test="keywords!=null">
+            AND ( sraStudy LIKE CONCAT('%',#{keywords},'%') OR study LIKE CONCAT('%',#{keywords},'%')
+            OR sampleName LIKE CONCAT('%',#{keywords},'%') OR sampleRun LIKE CONCAT('%',#{keywords},'%')
+            OR tissueForClassification LIKE CONCAT('%',#{keywords},'%') OR treat LIKE CONCAT('%',#{keywords},'%')
+            OR stage LIKE CONCAT('%',#{keywords},'%') OR geneType LIKE CONCAT('%',#{keywords},'%')
+            OR geoLoc LIKE CONCAT('%',#{keywords},'%') OR ecoType LIKE CONCAT('%',#{keywords},'%')
+            OR scientificName LIKE CONCAT('%',#{keywords},'%')
+            OR reference LIKE CONCAT('%',#{keywords},'%') OR institution LIKE CONCAT('%',#{keywords},'%')
+            OR libraryStrategy LIKE CONCAT('%',#{keywords},'%') OR librarySource LIKE CONCAT('%',#{keywords},'%')
+            OR libraryLayout LIKE CONCAT('%',#{keywords},'%') OR experiment LIKE CONCAT('%',#{keywords},'%')
+            )
+        </if>
+        <if test="study!=null">
+            AND study LIKE CONCAT('%',#{study},'%')
+        </if>
+        <if test="sraStudy!=null">
+            AND sraStudy LIKE CONCAT('%',#{sraStudy},'%')
+        </if>
+        <if test="tissues!=null and tissues.size()!=0">
+            AND (tissueForClassification IN
+            <foreach collection="tissues" item="item"
+                     index="index" open="(" close=")" separator=",">
+                #{item}
+            </foreach>)
+        </if>
+        <if test="tissue!=null">
+            AND tissueForClassification = #{tissue}
+        </if>
+        <if test="tissueKeywords!=null">
+            AND tissueForClassification LIKE CONCAT('%',#{tissueKeywords},'%')
+        </if>
+        <if test="stage!=null">
+            AND stage LIKE CONCAT('%',#{stage},'%')
+        </if>
+        <if test="treat!=null">
+            AND treat LIKE CONCAT('%',#{treat},'%')
+        </if>
+        <if test="reference!=null">
+            AND reference LIKE CONCAT('%',#{reference},'%')
+        </if>
+        <if test="geneType!=null">
+            AND geneType LIKE CONCAT('%',#{geneType},'%')
+        </if>
+        <if test="preservation!=null">
+            AND preservation LIKE CONCAT('%',#{preservation},'%')
+        </if>
+        <if test="phenoType!=null">
+            AND phenoType LIKE CONCAT('%',#{phenoType},'%')
+        </if>
+        <if test="environment!=null">
+            AND environment LIKE CONCAT('%',#{environment},'%')
+        </if>
+
+        <if test="scientificName!=null">
+            AND scientificName LIKE CONCAT('%',#{scientificName},'%')
+        </if>
+        <if test="libraryLayout!=null">
+            AND libraryLayout LIKE CONCAT('%',#{libraryLayout},'%')
+        </if>
+        <if test="sampleRun!=null">
+            AND sampleRun LIKE CONCAT('%',#{sampleRun},'%')
+        </if>
+        <if test="experiment!=null">
+            AND experiment LIKE CONCAT('%',#{experiment},'%')
+        </if>
         <if test="spots!=null">
             AND spots LIKE CONCAT('%',#{spots},'%')
         </if>

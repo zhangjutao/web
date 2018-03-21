@@ -216,7 +216,7 @@ public class GeneService {
                                             max = value;
                                         }
                                         group.put("value", value);
-                                        group.put("cultivar", study1.getCcultivar() == null ? "" : study1.getCcultivar());
+                                        group.put("type", study1.getType() == null ? "" : study1.getType());
                                         group.put("phenotype", study1.getPhenoType() == null ? "" : study1.getPhenoType());
                                         group.put("tissue", study1.getTissue() == null ? "" : study1.getTissue());
                                         group.put("stage", study1.getStage() == null ? "" : study1.getStage());
@@ -351,7 +351,7 @@ public class GeneService {
                                 group.put("compareGroupName", Tools.changeDiff2SampleName(allRuns, diff.getName()));//显示sampleName
                                 group.put("compareGroupNo", diff.getName());
                                 group.put("value", diff.getQ_value());
-                                group.put("cultivar", (study1 == null || (study1.getCcultivar() == null) ? "" : study1.getCcultivar()));
+                                group.put("type", (study1 == null || (study1.getType() == null) ? "" : study1.getType()));
                                 group.put("phenotype", (study1 == null || (study1.getPhenoType() == null) ? "" : study1.getPhenoType()));
                                 Double log2 = diff.getLog_value();
                                 if (log2.compareTo(32.0) == 0) {

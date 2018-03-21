@@ -1,5 +1,6 @@
 package com.gooalgene.mrna.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Global;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
@@ -167,15 +168,17 @@ public class MRNAController {
      */
     @RequestMapping("/listByResult")
     @ResponseBody
-    public Map list1(HttpServletRequest request, HttpServletResponse response) {
+    public PageInfo<Study> list1(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");
         if (type == null) {
-            return new HashMap();
+            return new PageInfo<Study>();
         }
         String keywords = request.getParameter("keywords");
         String parameters = request.getParameter("conditions");
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         Page<Study> page = new Page<Study>(request, response);
-        return studyService.queryStudyByCondition(type, keywords, parameters, page);
+        return studyService.queryStudyByCondition(type, keywords, parameters, pageNo, pageSize);
     }
 
     @RequestMapping("/dataExport")

@@ -1,9 +1,12 @@
 package com.gooalgene.mrna.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.dao.StudyDao;
 import com.gooalgene.entity.Study;
 import com.gooalgene.mrna.entity.*;
+import com.gooalgene.utils.FrontEndReflectionUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONException;
 import net.sf.json.JSONObject;
@@ -69,7 +72,6 @@ public class StudyService {
                 study.setKeywords(keywords);
             }//空白查询所有
         }
-        study.setPage(page);
         List<Map> list = studyDao.findStudyMap(study);
         for (Map m : list) {
             String sraStudy = (String) m.get("sraStudy");
@@ -318,7 +320,7 @@ public class StudyService {
                             context.put("stage", getStringNotNull(s.getStage()));
                             context.put("treat", getStringNotNull(s.getTreat()));
                             context.put("genetype", getStringNotNull(s.getGeneType()));
-                            context.put("cultivar", getStringNotNull(s.getCcultivar()));
+                            context.put("type", getStringNotNull(s.getType()));
                             array.add(context);
                         }
                     }
@@ -360,7 +362,7 @@ public class StudyService {
                         context.put("stage", getStringNotNull(s.getStage()));
                         context.put("treat", getStringNotNull(s.getTreat()));
                         context.put("genetype", getStringNotNull(s.getGeneType()));
-                        context.put("cultivar", getStringNotNull(s.getCcultivar()));
+                        context.put("type", getStringNotNull(s.getType()));
                         array.add(context);
                     }
                 }
@@ -422,112 +424,110 @@ public class StudyService {
      * @param type     下拉列表选项
      * @param keywords 搜索框值
      * @param param    列表表头搜索值（json格式）
-     * @param page
      * @return
      */
-    public Map queryStudyByCondition(String type, String keywords, String param, Page<Study> page) {
+    public PageInfo<Study> queryStudyByCondition(String type, String keywords, String param, int pageNo, int pageSize) {
         Map result = new HashMap();
         result.put("type", type);
         result.put("keywords", (keywords == null ?
                 "" : (keywords.endsWith(".all") ? keywords.substring(0, keywords.lastIndexOf(".")) : keywords))); //拿到所属大组织
         result.put("condition", "{}");
-        result.put("pageNo", page.getPageNo());
-        result.put("pageSize", page.getPageSize());
         JSONArray data = new JSONArray();
         Study study = getQuery(type, keywords, param); //查询参数封装到study对象中
-        study.setPage(page);
-        List<Map> list = null;
-        List<Study> list1 = null;
-        list = studyDao.findByCondition(study);
-        list1 = studyDao.findList(study);
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        for (Map m : list) {
-            if (m.get("tissueForClassification") != null) {
-                m.put("tissue", m.get("tissueForClassification"));
-            }
-            if (m.get("preservation") == null) {
-                m.put("preservation", "");
-            }
-            if (m.get("treat") == null) {
-                m.put("treat", "");
-            }
-            if (m.get("stage") == null) {
-                m.put("stage", "");
-            }
-            if (m.get("geneType") == null) {
-                m.put("geneType", "");
-            }
-            if (m.get("phenoType") == null) {
-                m.put("phenoType", "");
-            }
-            if (m.get("environment") == null) {
-                m.put("environment", "");
-            }
-            if (m.get("geoLoc") == null) {
-                m.put("geoLoc", "");
-            }
-            if (m.get("ecoType") == null) {
-                m.put("ecoType", "");
-            }
-            if (m.get("collectionDate") == null) {
-                m.put("collectionDate", "");
-            }
-            if (m.get("coordinates") == null) {
-                m.put("coordinates", "");
-            }
-            if (m.get("ccultivar") == null) {
-                m.put("ccultivar", "");
-            }
-            if (m.get("scientificName") == null) {
-                m.put("scientificName", "");
-            }
-            if (m.get("pedigree") == null) {
-                m.put("pedigree", "");
-            }
-            if (m.get("reference") == null) {
-                m.put("reference", "");
-            }
-            if (m.get("institution") == null) {
-                m.put("institution", "");
-            }
-            if (m.get("submissionTime") == null) {
-                m.put("submissionTime", "");
-            }
-            if (m.get("instrument") == null) {
-                m.put("instrument", "");
-            }
-            if (m.get("libraryStrategy") == null) {
-                m.put("libraryStrategy", "");
-            }
-            if (m.get("librarySource") == null) {
-                m.put("librarySource", "");
-            }
-            if (m.get("libraryLayout") == null) {
-                m.put("libraryLayout", "");
-            }
-            if (m.get("insertSize") == null) {
-                m.put("insertSize", "");
-            }
-            if (m.get("readLength") == null) {
-                m.put("readLength", "");
-            }
-            if (m.get("spots") == null) {
-                m.put("spots", "");
-            }
-            if (m.get("experiment") == null) {
-                m.put("experiment", "");
-            }
-            if (m.get("links") == null) {
-                m.put("links", "");
-            }
-            Date time = (Date) m.get("createTime");
-            m.put("createTime", simpleDateFormat.format(time));
-            data.add(m);
-        }
-        page.setList(list1);
-        result.put("total", page.getCount());
-        result.put("data", data);
-        return result;
+        PageHelper.startPage(pageNo, pageSize);
+        List<Study> list = studyDao.findByConditionReplace(study);
+        PageInfo<Study> pageInfo = new PageInfo<>(list);
+        return pageInfo;
+//        list1 = studyDao.findList(study);
+//        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        for (Map m : list) {
+////            Study oneStudy = FrontEndReflectionUtils.constructNewInstance("com.gooalgene.entity.Study", m);
+//            if (m.get("tissueForClassification") != null) {
+//                m.put("tissue", m.get("tissueForClassification"));
+//            }
+//            if (m.get("preservation") == null) {
+//                m.put("preservation", "");
+//            }
+//            if (m.get("treat") == null) {
+//                m.put("treat", "");
+//            }
+//            if (m.get("stage") == null) {
+//                m.put("stage", "");
+//            }
+//            if (m.get("geneType") == null) {
+//                m.put("geneType", "");
+//            }
+//            if (m.get("phenoType") == null) {
+//                m.put("phenoType", "");
+//            }
+//            if (m.get("environment") == null) {
+//                m.put("environment", "");
+//            }
+//            if (m.get("geoLoc") == null) {
+//                m.put("geoLoc", "");
+//            }
+//            if (m.get("ecoType") == null) {
+//                m.put("ecoType", "");
+//            }
+//            if (m.get("collectionDate") == null) {
+//                m.put("collectionDate", "");
+//            }
+//            if (m.get("coordinates") == null) {
+//                m.put("coordinates", "");
+//            }
+//            if (m.get("ccultivar") == null) {
+//                m.put("ccultivar", "");
+//            }
+//            if (m.get("scientificName") == null) {
+//                m.put("scientificName", "");
+//            }
+//            if (m.get("pedigree") == null) {
+//                m.put("pedigree", "");
+//            }
+//            if (m.get("reference") == null) {
+//                m.put("reference", "");
+//            }
+//            if (m.get("institution") == null) {
+//                m.put("institution", "");
+//            }
+//            if (m.get("submissionTime") == null) {
+//                m.put("submissionTime", "");
+//            }
+//            if (m.get("instrument") == null) {
+//                m.put("instrument", "");
+//            }
+//            if (m.get("libraryStrategy") == null) {
+//                m.put("libraryStrategy", "");
+//            }
+//            if (m.get("librarySource") == null) {
+//                m.put("librarySource", "");
+//            }
+//            if (m.get("libraryLayout") == null) {
+//                m.put("libraryLayout", "");
+//            }
+//            if (m.get("insertSize") == null) {
+//                m.put("insertSize", "");
+//            }
+//            if (m.get("readLength") == null) {
+//                m.put("readLength", "");
+//            }
+//            if (m.get("spots") == null) {
+//                m.put("spots", "");
+//            }
+//            if (m.get("experiment") == null) {
+//                m.put("experiment", "");
+//            }
+//            if (m.get("links") == null) {
+//                m.put("links", "");
+//            }
+//            Date time = (Date) m.get("createTime");
+//            m.put("createTime", simpleDateFormat.format(time));
+//            data.add(m);
+//        }
+//        page.setList(list1);
+//        result.put("total", page.getCount());
+//        result.put("data", data);
+//        return result;
     }
 
     /**
@@ -613,8 +613,8 @@ public class StudyService {
             if (hasValue(jsonObject, "Environment")) {
                 study.setEnvironment(jsonObject.getString("Environment"));
             }
-            if (hasValue(jsonObject, "Cultivar")) {
-                study.setCcultivar(jsonObject.getString("Cultivar"));
+            if (hasValue(jsonObject, "type")) {
+                study.setType(jsonObject.getString("type"));
             }
             if (hasValue(jsonObject, "ScientificName")) {
                 study.setScientificName(jsonObject.getString("ScientificName"));

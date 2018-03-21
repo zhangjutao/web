@@ -16,6 +16,8 @@ public interface StudyDao extends CrudDao<Study> {
 
     List<Map> findByCondition(Study study);
 
+    List<Study> findByConditionReplace(Study study);
+
     List<Study> findBySID(String id);
 
     List<Study> findBySampleRuns(String[] runs);
