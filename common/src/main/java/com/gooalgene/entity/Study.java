@@ -38,7 +38,7 @@ public class Study{
     private String libraryLayout;
     private String insertSize;
     private String readlength;
-    private int spots;
+    private Integer spots;
     private String experiment;
     private String links;
     private int id;
@@ -303,11 +303,11 @@ public class Study{
         this.readlength = readlength;
     }
 
-    public int getSpots() {
+    public Integer getSpots() {
         return spots;
     }
 
-    public void setSpots(int spots) {
+    public void setSpots(Integer spots) {
         this.spots = spots;
     }
 
