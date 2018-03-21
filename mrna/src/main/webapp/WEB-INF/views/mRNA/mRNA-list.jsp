@@ -280,7 +280,7 @@
                     <dd><label for="preservation" class="checkbox-ac"><span id="preservation" data-value="preservation"></span>Preservation</label></dd>
                     <dd><label for="phenoType" class="checkbox-ac"><span id="phenoType" data-value="phenoType"></span>Phenotype</label></dd>
                     <dd><label for="environment" class="checkbox-ac"><span id="environment" data-value="environment"></span>Environment</label></dd>
-                    <dd><label for="cultivar" class="checkbox-ac"><span id="cultivar" data-value="cultivar"></span>Cultivar</label></dd>
+                    <dd><label for="cultivar" class="checkbox-ac"><span id="cultivar" data-value="cultivar"></span>Type</label></dd>
                     <dd><label for="scientificName" class="checkbox-ac"><span id="scientificName" data-value="scientificName"></span>Scientific Name</label></dd>
                     <dd><label for="libraryLayout" class="checkbox-ac"><span id="libraryLayout" data-value="libraryLayout"></span>Library Layout</label></dd>
                     <dd><label for="spots" class="checkbox-ac"><span id="spots" data-value="spots"></span>Spots</label></dd>
@@ -384,7 +384,7 @@
                                     <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
                                 </div>
                             </td>
-                            <td class="param t_cultivar">Cultivar<img src="${ctxStatic}/images/down.png">
+                            <td class="param t_cultivar">Type<img src="${ctxStatic}/images/down.png">
                                 <div class="input-component ">
                                     <input type="text" placeholder="请输入" class="js-cultivar">
                                     <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
@@ -610,7 +610,7 @@
                 strVar += '    <td class="t_preservation"><p>'+arr[i].preservation+'</p></td>';
                 strVar += '    <td class="t_phenoType"><p class="js-tipes-show">'+arr[i].phenoType+'</p></td>';
                 strVar += '    <td class="t_environment"><p  class="js-tipes-show">'+arr[i].environment+'</p></td>';
-                strVar += '    <td class="t_cultivar"><p>'+arr[i].ccultivar+'</p></td>';
+                strVar += '    <td class="t_cultivar"><p>'+arr[i].type+'</p></td>';
                 strVar += '    <td class="t_scientificName"><p>'+arr[i].scientificName+'</p></td>';
                 strVar += '    <td class="t_libraryLayout"><p>'+arr[i].libraryLayout+'</p></td>';
                 strVar += '    <td class="t_spots"><p>'+arr[i].spots+'</p></td>';
@@ -918,7 +918,7 @@
                         case "Environment":
                             content += "<div>生长环境</div>";
                             break;
-                        case "Cultivar":
+                        case "Type":
                             content += "<div>品种</div>";
                             break;
                         case "Scientific Name":
