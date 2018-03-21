@@ -1084,6 +1084,7 @@ $(function () {
             CTypeSnp = 'all';
         }
         var currSelectId = $("#GlyIds").find("li.GlyColor").text();
+        pageSizeSNP = 10;
         if(filterEvent){
             var obj = getPanelParams();
             obj.url=CTXROOT + "/dna/searchSNPinGene";
@@ -1592,15 +1593,17 @@ $(function () {
                     }
                     loop(newArr);
 
-        // 点击每个snp位点重新获取数据  -->根据范围
-        function getSnpPoint(tabid){
-
+        // ;  -->根据范围
+        function getSnpPoint(tabid,num){
             var allSnpNum =  $("#" + gsnpid + " a rect");
+
+            var pageNum = parseInt(num/pageSizeSNP)+1;
             var singleData = {};
                     singleData.index = snpIndex;
                     singleData.id =tabid;
                     singleData.type = type;
                     singleData.chr = reginChr;
+                    singleData.pageNum = pageNum;
                     singleData.pageSize = pageSizeSNP;
                     singleData.start = snpPintDatas.start;
                     singleData.end = snpPintDatas.end;
@@ -1773,7 +1776,6 @@ $(function () {
                                         delete tmp.params.start;
                                         delete tmp.params.end;
                                         delete tmp.params.chromosome;
-                                        // add
                                     }
                                     requestForSnpData(obj.curr, tmp.url, tmp.params);
                                 }
@@ -1887,7 +1889,7 @@ $(function () {
             var tabid = $(e.target).parent().attr("href").substring(1);
             // 调用每个位点获取数据；
                 if(globelType == "Regin"){
-                    getSnpPoint(tabid);
+                    getSnpPoint(tabid,parseInt(snpIndex));
                 }else if (globelType == "Gene"){
                         // if($(".item li").eq(0).hasClass("item-ac")) {
                         //     $("#snp-paginate").hide();

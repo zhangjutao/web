@@ -45,9 +45,9 @@ $(function () {
                         var domains = totalDatas[i].domains?totalDatas[i].domains:"-";
                         var university =  totalDatas[i].university?totalDatas[i].university:"-";
                         if(status == 1){
-                            var str=" <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>"+domains+"</td><td>"+university+"</td><td>已审核</td><td><p class=\'btnAudited btnCommon sureStatus\'>已审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>"+domains+"</td><td>"+university+"</td><td>已审核</td><td>"+totalDatas[i].enableDay+"</td><td><p class=\'btnAudited btnCommon sureStatus\'>已审核</p></td></tr>";
                         }else{
-                            var str="  <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>"+domains+"</td><td>"+university+"</td><td>待审核</td><td><p class=\'btnAudit btnCommon sureStatus\'>待审核</p></td></tr>";
+                            var str="  <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>"+domains+"</td><td>"+university+"</td><td>待审核</td><td>"+totalDatas[i].enableDay+"</td><td><p class=\'btnAudit btnCommon sureStatus\'>待审核</p></td></tr>";
                         }
                         console.log(status);
                         var $tbl = $("#tblbody table");
