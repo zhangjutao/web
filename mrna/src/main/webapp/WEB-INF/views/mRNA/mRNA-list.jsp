@@ -582,7 +582,7 @@
                         if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
                             initTables(obj.curr,type,key, getParamsString());
                         }
-                        if(res.data.length==0){
+                        if(res.list.length==0){
                             $("#tableBody").html("<p class='no-data'>无数据显示!</p>")
                         }
                     }
