@@ -84,6 +84,7 @@
             line-height: 30px;
             border-top: 1px solid #dcdcdc;
             border-left: 1px solid #dcdcdc;
+            border-right: 1px solid #dcdcdc;
         }
         .heat-table tr td:last-child, .heat-table tr:last-child td  {
             border-bottom: 1px solid #dcdcdc;
