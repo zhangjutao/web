@@ -475,7 +475,7 @@
         $sel_item_li.click(function(){
             /*$sel_default.text($(this).text());*/
             $sel_default.val($(this).text());
-            //alert($sel_default.val());
+            alert($sel_default.val());
             //test
             var select=$(this).text();
             $(".js-search-text").attr("placeholder","");
@@ -546,11 +546,17 @@
                     keywords=keywords+".all";
                 }
             }
+             var currTypes = window.location.search;
+
+            var searchList = currTypes.split("&");
+                var currentType = searchList[0].split("=")[1];
+            console.log(currentType)
 
             $.getJSON('${ctxroot}/mrna/listByResult', {
                 pageNo: curr || 1,
                 pageSize: pageSize,
-                type:type ,
+                // type:type ,
+                type:currentType ,
                 keywords: keywords,
                 conditions: cdt
             }, function(res){
@@ -745,7 +751,7 @@
         $(".js-search-btn").click(function(){
             console.log($(".genes-tab thead td input").val(""));
             /*var type_select=$(".js-search-select").val();*/
-            var type_select=$(".select_dafault").val();
+            var type_select=$(".select_default").val();
             var key_input= $.trim($(".js-search-text").val());
             window.location.href = window.location.origin + "${ctxroot}/mrna/list?type="+type_select+"&keywords=" + key_input+"&isIndex=1";
         })
