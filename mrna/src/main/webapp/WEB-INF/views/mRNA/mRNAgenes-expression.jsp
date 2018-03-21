@@ -84,6 +84,7 @@
             line-height: 30px;
             border-top: 1px solid #dcdcdc;
             border-left: 1px solid #dcdcdc;
+            border-right: 1px solid #dcdcdc;
         }
         .heat-table tr td:last-child, .heat-table tr:last-child td  {
             border-bottom: 1px solid #dcdcdc;
@@ -115,7 +116,7 @@
             margin-right: 5px;
         }
         .checkbox.checked {
-            background-image: url("${ctxStatic}/images/checked.png");
+            background-image: url("${ctxStatic}/images/checkbox.png");
         }
         .checkbox > input[type='checkbox'] {
             display: none;
@@ -357,6 +358,7 @@
             margin:0;
             padding:0;
             list-style:none;
+            background-color: white;
         }
         .select_item li{
              width:80px;

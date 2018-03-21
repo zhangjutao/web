@@ -179,7 +179,7 @@ public class GeneService {
                                 JSONArray rest = JSONArray.fromObject(list1.getRawResults().get("result"));
                                 total = rest.size();
                             } else {
-                                total = 54174;//总基因数（没有匹配的话，不用去查了）
+                                total = genesService.getGeneTotal() ;//总基因数（没有匹配的话，不用去查了）
                                 logger.info("Total 54174 with no query.");
                             }
                             logger.info("Total:" + total);

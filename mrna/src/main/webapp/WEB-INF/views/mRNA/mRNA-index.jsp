@@ -88,6 +88,7 @@
             margin: 0;
             padding: 0;
             list-style: none;
+            background-color: white;
         }
         .select_item li{
             width: 120px;
@@ -127,7 +128,7 @@
             </select>
             -->
             <div id="select">
-                <input type="text" class="select_default" value="All">
+                <input type="text" class="select_default" value="All" id="selectValue">
                 <ul class="select_item">
                     <li style="border-top:1px solid #0F9145;">All</li>
                     <li>Study</li>
@@ -201,8 +202,6 @@
         $sel_item_li.click(function(){
             /*$sel_default.text($(this).text());*/
             $sel_default.val($(this).text());
-            //alert($sel_default.val());
-            //test
             var select=$(this).text();
             $(".js-search-text").attr("placeholder","");
             console.log(select);

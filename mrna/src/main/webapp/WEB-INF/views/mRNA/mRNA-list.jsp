@@ -207,6 +207,7 @@
             margin: 0;
             padding: 0;
             list-style: none;
+            background-color: white;
         }
         .select_item li{
             width: 120px;
@@ -242,7 +243,7 @@
             </select>
             -->
             <div id="select">
-                <input type="text" class="select_default" value="All">
+                <input type="text" class="select_default">
                 <ul class="select_item">
                     <li style="border-top:1px solid #0F9145;">All</li>
                     <li>Study</li>
@@ -457,13 +458,19 @@
             $sel_item = $(".select_item"),
             $sel_item_li = $(".select_item li")
         $sel_default.text($(".select_item li:first").text());
+        //修改候选框里面的值
+        var currTypes1 = window.location.search;
+        var searchList1 = currTypes1.split("&");
+        var currentType1 = searchList1[0].split("=")[1];
+
+        $sel_default.val(currentType1);
+        //修改候选框里面的值
         //alert();
         $sel.hover(function(){
             $sel_item.show();
             $sel_default.addClass("rotate");
             $sel_item_li.hover(function(){
                 $index = $sel_item_li.index(this);
-                //alert($index)
                 $sel_item_li.eq($index).addClass("hover");
             },function(){
                 $sel_item_li.removeClass("hover");
@@ -475,7 +482,6 @@
         $sel_item_li.click(function(){
             /*$sel_default.text($(this).text());*/
             $sel_default.val($(this).text());
-            //alert($sel_default.val());
             //test
             var select=$(this).text();
             $(".js-search-text").attr("placeholder","");
@@ -546,11 +552,16 @@
                     keywords=keywords+".all";
                 }
             }
+            var currTypes = window.location.search;
+            var searchList = currTypes.split("&");
+            var currentType = searchList[0].split("=")[1];
+            console.log(currentType)
 
             $.getJSON('${ctxroot}/mrna/listByResult', {
                 pageNo: curr || 1,
                 pageSize: pageSize,
-                type:type ,
+                // type:type ,
+                type:currentType ,
                 keywords: keywords,
                 conditions: cdt
             }, function(res){
@@ -634,7 +645,9 @@
                                 position: 't',
                                 align: 'l',
                                 autoClose: false,
-                                content: content
+                                content: content,
+                                width: 260,
+                                height: 120
                             });
                             $(".pt").css("left", $(".pt").position().left-15);
                         }else{
@@ -745,7 +758,7 @@
         $(".js-search-btn").click(function(){
             console.log($(".genes-tab thead td input").val(""));
             /*var type_select=$(".js-search-select").val();*/
-            var type_select=$(".select_dafault").val();
+            var type_select=$(".select_default").val();
             var key_input= $.trim($(".js-search-text").val());
             window.location.href = window.location.origin + "${ctxroot}/mrna/list?type="+type_select+"&keywords=" + key_input+"&isIndex=1";
         })

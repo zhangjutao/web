@@ -20,5 +20,7 @@ public interface GenesDao extends CrudDao<Genes> {
      */
     int insertBatch(List<Genes> list);
 
+    int getGeneTotal();
+
     int deleteById(int id);
 }

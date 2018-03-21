@@ -17,7 +17,8 @@
 
 <style>
     .open {
-        color: #688be2;
+        /*color: #688be2;*/
+        color: #0F9145;
         font-weight: bold;
     }
 
@@ -35,7 +36,8 @@
     .js-label.has-child::before {
         content: "+";
         position: relative;
-        color: #688be2;
+        /*color: #688be2;*/
+        color: #0F9145;
         display: inline-block;
         width: 10px;
         height: 10px;
@@ -45,7 +47,8 @@
     .js-label.has-child.open::before {
         content: "-";
         position: relative;
-        color: #688be2;
+        /*color: #688be2;*/
+        color:
         display: inline-block;
         width: 10px;
         height: 10px;
@@ -71,7 +74,7 @@
         height: 40px;
         line-height: 40px;
         /*background: #386cca;*/
-        background: #07B34F;
+        background: #0F9145;
         cursor: move;
     }
 
