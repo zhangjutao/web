@@ -241,7 +241,7 @@
                                 <table class="js-snp-table" style="display:table;">
                                     <thead>
                                         <tr>
-                                            <%--<td class="t_snpid">SNP ID</td>--%>
+                                            <td class="t_snpid">SNP ID</td>
                                             <td class="param t_consequenceType">Consequence Type
                                                 <img src="${ctxStatic}/images/down.png">
                                                 <input type="hidden" class="js-consequence-type">
@@ -276,6 +276,8 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
+                                            <td class="param t_genoType">Genotype</td>
+
 
                                         </tr>
                                     </thead>

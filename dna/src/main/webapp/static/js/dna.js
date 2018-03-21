@@ -115,7 +115,26 @@ $(function () {
         indel:[]
     };
     var filterEvent=0;
+
+    // 获取所有snp数据
+    function getQueryForTable(paramas){
+        $.ajax({
+            type:"post",
+            data:JSON.stringify(paramas),
+            url:"/dna/dna/queryForTable",
+            contentType:"application/json;charset=UTF-8",
+            dataType:"json",
+            success:function(res){
+                console.log(res);
+                renderSNPTable(res,1);
+            },
+            error:function (err){
+                console.log(err);
+            }
+        })
+    }
     // 筛选面板 确认
+
     $(".js-panel-btn").click(function() {
         if(!$(".custom-groups-content").is(":hidden")){
             $(".custom-groups-content").hide();
@@ -124,6 +143,7 @@ $(function () {
             $(".cover").hide();
         }
         var obj = getPanelParams();
+        delete obj.url;
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
         // if(JSON.stringify(getKindSNames) != "{}"){
@@ -137,84 +157,97 @@ $(function () {
                totalGroups.splice(i,1);
            }
        };
-       obj.params.group = JSON.stringify(totalGroups);
-        if(typeof obj == "object") {
-            $(".page-tables").show();
-            $(".page-circle").hide();
-            CTypeSnp = "all";
-            CTypeIndel = "all";
-            // 根据基因查询
-            if(obj.url.indexOf('searchSNPinGene') !== -1){
-                filterEvent = 0;
-                // if(!$("#GlyIds").is(":hidden")){
-                //     $("#GlyIds").hide();
-                // }
-                CurrentTab = "SNP";
-                snpPintDatasGene.upstream = $(".js-up-stream").val();
-                snpPintDatasGene.downstream = $(".js-down-stream").val();
-                snpPintDatasGene.url = "/dna/drawSNPTableInGene";
-                snpPintDatasGene.group = obj.params.group;
-                globelType = "Gene";
-                globelGeneId = obj.params.gene;
-                if(obj.params.gene == ""){
-                    // return alert("请选择一个基因");
-                    layer.open({
-                        type:0,
-                        title:"温馨提示:",
-                        content:"请选择一个基因",
-                        shadeClose:true,
-                    });
-                    return;
-                };
-                // 点击基因查询 搜索的时候， 显示当前选择的基因
-                if($("#GlyIds").is(":hidden")){
-                    $("#GlyIds").show();
-                };
-                $("#GlyIds ul").empty();
-                var str = "<li>" +globelGeneId + "</li>";
-                $("#GlyIds ul").append(str);
-                getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/searchIdAndPosInGene");
-                getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/searchIdAndPosInGene");
-                requestForSnpData(1, obj.url, obj.params);
-                requestForIndelData(1, obj.url, obj.params);
-                renderSearchText();
-                renderTableHead();
-            }else {
-                // 根据范围查询
-                // pageSize获取
-                CurrentTab = "SNP";
-                var reginChr = $(".js-chorosome option:selected").text();
-                var reginStartPos = $(".js-start-position").val();
-                var reginEndPos = $(".js-end-position").val();
-                var data = {
-                    chr:reginChr,
-                    start:reginStartPos,
-                    end:reginEndPos
-                };
-                snpPintDatas.start = reginStartPos;
-                snpPintDatas.end = reginEndPos;
-                snpPintDatas.url = "/dna/drawSNPTableInRegion";
-                // 根据范围查询基因
-                snpGroup.group = obj.params.group;
-                globelType = "Regin";
-                requestForGeneId(data);
-                if(isPop ==0){
-                    getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,"snpid","/dna/searchIdAndPosInRegion");
-                    getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,"indelid","/dna/searchIdAndPosInRegion");
-                    requestForSnpData(1, obj.url, obj.params,initFirstStyle);
-                    requestForIndelData(1, obj.url, obj.params);
-                    renderSearchText();
-                    renderTableHead();
-                };
-            }
-        // 如果输入条件返回不符合要求，则隐藏部分元素
-        }else {
-            // alert("输入条件返回不符合要求，则隐藏部分元素 ");
-        }
+       obj.params.group = totalGroups;
+        console.log(obj);
+        obj.params.type="SNP";
+        obj.params.ctype="all";
+        obj.params.pageNo = pageNumber;
+        obj.params.pageSize = pageSize;
+        // 测试用
+        obj.params.chromosome = "chr339";
+        getQueryForTable(obj.params);
+        // 获取表格数据--ajax
+         $(".page-tables").show();
+          $(".page-circle").hide();
+
+        // if(typeof obj == "object") {
+        //     $(".page-tables").show();
+        //     $(".page-circle").hide();
+        //     CTypeSnp = "all";
+        //     CTypeIndel = "all";
+        //     // 根据基因查询
+        //     if(obj.url.indexOf('searchSNPinGene') !== -1){
+        //         filterEvent = 0;
+        //         // if(!$("#GlyIds").is(":hidden")){
+        //         //     $("#GlyIds").hide();
+        //         // }
+        //         CurrentTab = "SNP";
+        //         snpPintDatasGene.upstream = $(".js-up-stream").val();
+        //         snpPintDatasGene.downstream = $(".js-down-stream").val();
+        //         snpPintDatasGene.url = "/dna/drawSNPTableInGene";
+        //         snpPintDatasGene.group = obj.params.group;
+        //         globelType = "Gene";
+        //         globelGeneId = obj.params.gene;
+        //         if(obj.params.gene == ""){
+        //             // return alert("请选择一个基因");
+        //             layer.open({
+        //                 type:0,
+        //                 title:"温馨提示:",
+        //                 content:"请选择一个基因",
+        //                 shadeClose:true,
+        //             });
+        //             return;
+        //         };
+        //         // 点击基因查询 搜索的时候， 显示当前选择的基因
+        //         if($("#GlyIds").is(":hidden")){
+        //             $("#GlyIds").show();
+        //         };
+        //         $("#GlyIds ul").empty();
+        //         var str = "<li>" +globelGeneId + "</li>";
+        //         $("#GlyIds ul").append(str);
+        //         getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/searchIdAndPosInGene");
+        //         getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/searchIdAndPosInGene");
+        //         requestForSnpData(1, obj.url, obj.params);
+        //         requestForIndelData(1, obj.url, obj.params);
+        //         renderSearchText();
+        //         renderTableHead();
+        //     }else {
+        //         // 根据范围查询
+        //         // pageSize获取
+        //         CurrentTab = "SNP";
+        //         var reginChr = $(".js-chorosome option:selected").text();
+        //         var reginStartPos = $(".js-start-position").val();
+        //         var reginEndPos = $(".js-end-position").val();
+        //         var data = {
+        //             chr:reginChr,
+        //             start:reginStartPos,
+        //             end:reginEndPos
+        //         };
+        //         snpPintDatas.start = reginStartPos;
+        //         snpPintDatas.end = reginEndPos;
+        //         snpPintDatas.url = "/dna/drawSNPTableInRegion";
+        //         // 根据范围查询基因
+        //         snpGroup.group = obj.params.group;
+        //         globelType = "Regin";
+        //         requestForGeneId(data);
+        //         if(isPop ==0){
+        //             getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,"snpid","/dna/searchIdAndPosInRegion");
+        //             getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,"indelid","/dna/searchIdAndPosInRegion");
+        //             requestForSnpData(1, obj.url, obj.params,initFirstStyle);
+        //             requestForIndelData(1, obj.url, obj.params);
+        //             renderSearchText();
+        //             renderTableHead();
+        //         };
+        //     }
+        // // 如果输入条件返回不符合要求，则隐藏部分元素
+        // }else {
+        //     // alert("输入条件返回不符合要求，则隐藏部分元素 ");
+        // }
     });
 
     // 根据基因查询所有的snp位点信息
     function getAllSnpInfosGene(curr, params,type,parentCont,tblBody,reginChr,gid,url){
+        debugger;
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
         params['type'] =type;
@@ -494,6 +527,10 @@ $(function () {
         return false;
     }
     // 配置默认每页显示条数
+    // 新接口 定义分页初始值
+    var pageNumber = 1;
+    var pageSize = 10;
+
     var pageSizeSNP = 10;
     $("#snp-paginate .lay-per-page-count-select").val(pageSizeSNP);
 
@@ -941,11 +978,11 @@ $(function () {
     }
 
     // 生成SNPs表格
-    function renderSNPTable(data) {
+    function renderSNPTable(res,curr) {
         var str = '';
-        $.each(data, function(idx, item) {
-            var ref = item.geneType.snpData.ref;
-            var alt = item.geneType.snpData.alt;
+        $.each(res.data, function(idx, item) {
+            var ref = item.ref;
+            var alt = item.alt;
             var rr = ref+ref;
             var aa = alt + alt;
             var ra = ref + alt;
@@ -978,11 +1015,50 @@ $(function () {
            $("tr").data(item.id,item.geneType);
         });
         $(".js-snp-table>tbody").empty().append(str);
+                // add by jarry at 3.21 start
+        console.log(pageSize);
+        laypage({
+            cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+            pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
+            curr: curr || 1, //当前页
+            skin: '#5c8de5',
+            skip: true,
+            first: 1, //将首页显示为数字1,。若不显示，设置false即可
+            last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
+            prev: '<',
+            next: '>',
+            groups: 3, //连续显示分页数
+            jump: function (obj, first) { //触发分页后的回调
+                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
+                    deleteSelectedSnp();
+                    var tmp = getPanelParams();
+                    currPageNumb = obj.curr;
+                    // add
+
+                    if(filterEvent!=0) {
+                        tmp.url = CTXROOT + "/dna/searchSNPinGene";
+                        tmp.params.ctype = "all";
+                        tmp.params.type = "SNP";
+                        // obj.params.type = CurrentTab;
+                        tmp.params.gene = $("#GlyIds .GlyColor").text();
+                        delete tmp.params.start;
+                        delete tmp.params.end;
+                        delete tmp.params.chromosome;
+                        // add
+                    }
+                    requestForSnpData(obj.curr, tmp.url, tmp.params);
+                }
+            }
+        });
+        $("#snp-paginate .total-page-count").html(res.total);
+        // add by jarry at 3.21 end
         TableHeaderSettingSnp();
+
+
     }
 
     // 生成INDELs表格
-    function renderINDELTable(data) {
+    function renderINDELTable(data,curr) {
         var str = '';
         $.each(data, function(idx, item) {
             str += '<tr id="' +item.id + '">'
