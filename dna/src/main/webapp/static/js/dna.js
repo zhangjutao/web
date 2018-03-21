@@ -1,7 +1,26 @@
 $(function () {
     var CurrentTab = "SNP";
    // $("#constructorPanel2").hide();
-
+// 获取蘑菇染色体数据
+    function getChrs(){
+        $.ajax({
+            type:"get",
+            url:"/dna/dna/fetch-all-chromosome",
+            contentType:"application/json",
+            dataType:"json",
+            success:function (res){
+                console.log(res);
+                for(var i=0;i<res.length;i++){
+                    var str ="<option value='" +res[i].chromosome+ "' data-max='" + res[i].length+ "'>" + res[i].chromosome + "</option>"
+                    $(".js-chorosome").append(str);
+                }
+            },
+            error:function (err){
+                console.log(err);
+            }
+        })
+    }
+    getChrs();
     function loadMask (el) {
         $(el).css({"position": "relative"});
         var _mask = $('<div class="ga-mask"><div>数据加载中...</div></div>');
@@ -163,8 +182,9 @@ $(function () {
         obj.params.ctype="all";
         obj.params.pageNo = pageNumber;
         obj.params.pageSize = pageSize;
-        // 测试用
-        obj.params.chromosome = "chr339";
+
+        console.log(obj.params);
+
         getQueryForTable(obj.params);
         // 获取表格数据--ajax
          $(".page-tables").show();
@@ -247,7 +267,6 @@ $(function () {
 
     // 根据基因查询所有的snp位点信息
     function getAllSnpInfosGene(curr, params,type,parentCont,tblBody,reginChr,gid,url){
-        debugger;
         params['pageNo'] = curr || 1;
         params['pageSize'] = pageSizeSNP;
         params['type'] =type;
@@ -513,6 +532,7 @@ $(function () {
         var params, url;
         if(panelType == "gene") {
             params = GetPanelParams.getGeneParams();
+            console.log(params)
             url = CTXROOT + "/dna/searchSNPinGene";
         } else { // region
             params = GetPanelParams.getRegionParams();
