@@ -557,7 +557,7 @@
                 maskClose();
 //                console.log(res);
                 //显示表格内容
-                if(res.data.length==0){
+                if(res.list.length==0){
                     console.log("表格无数据显示!")
                     $("#tableBody").html("<p>表格暂无数据显示!</p>")
                 }
@@ -591,7 +591,7 @@
         }
 
         function renderTable(data){
-            var arr = data.data;
+            var arr = data.list;
             var strVar = "";
             for(var i in arr){
 

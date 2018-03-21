@@ -267,6 +267,7 @@
             var e=e||event
             var keycode = e.which;
             if(keycode==13){
+
                 if(_searchDom.hasClass("isFocus")) {
                     $("#search-btn").trigger("click");
                 }
