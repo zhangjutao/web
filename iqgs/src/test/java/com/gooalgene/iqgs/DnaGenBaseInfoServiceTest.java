@@ -177,7 +177,7 @@ public class DnaGenBaseInfoServiceTest extends TestCase{
             Study study=studyDao.findBySampleRun(samplerunName);
             System.out.println(study.toString());
 
-            Date time = (Date) study.getCreateTime();
+//            Date time = (Date) study.getCreateTime();
             //study.setCreateTime(simpleDateFormat.format(time));
             //System.out.println(study.getCreateTime());
             /*System.out.println(expressionVo.getSamplerun().getValue());
