@@ -102,7 +102,7 @@ public class SNPController {
      * 查询SNP表格数据接口
      * @return SNP/INDEL查询页面表格内容
      */
-    @RequestMapping(value = "/queryForSNPTable", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryForTable", method = RequestMethod.POST)
     @ResponseBody
     public TableSearchResult queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
         TableSearchResult result = new TableSearchResult();

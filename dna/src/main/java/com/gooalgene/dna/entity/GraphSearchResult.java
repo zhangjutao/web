@@ -1,7 +1,6 @@
 package com.gooalgene.dna.entity;
 
 import com.gooalgene.dna.dto.DNAGenStructureDto;
-import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.entity.result.MinimumSNPResult;
 
 import java.util.List;
