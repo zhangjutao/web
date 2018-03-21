@@ -24,34 +24,18 @@ import java.util.Map;
 public class FindSampleByIdTest extends TestCase{
     @Autowired
     private SNPService snpService;
+
     @Autowired
     DNAMongoService dnaMongoService;
+
     @Autowired
     DNARunService dnaRunService;
-
-
-    @Test
-    public void testFindSNPBySNPId() {
-        Map oneSNP = snpService.findSampleById("GlyI001090");
-//        assertEquals();
-        System.out.println(oneSNP);
-    }
-
 
     @Test
     public void testGenotypeTransform() {
         SNP snp = dnaMongoService.findDataById("SNP", "Chr01", "GlyS001012353596");
         Map transformSNP = snpService.genotypeTransform(snp, "SNP");
         System.out.println(transformSNP);
-    }
-
-    @Test
-    public void testGetQueryList() {
-        /*List<SampleInfo> list= dnaRunService.getQueryList("{\"cultivar\":\"PI 339871A,PI 393551,ZJ-Y2300-1,?F1\"}");
-        for (SampleInfo sampleInfo : list) {
-            List<String> list1 = dnaRunService.querySamples(sampleInfo);
-            System.err.println(list1);
-        }*/
     }
 
     @Test
@@ -67,13 +51,4 @@ public class FindSampleByIdTest extends TestCase{
         for (SampleInfoDto result : list.getList()){
         }
     }
-
-    /*@Test
-    public void testFindListWithTypeHandler(){
-        PageInfo<DNARunSearchResult> list = dnaRunService.findListWithTypeHandler(new DnaRunDto(), 1, 10, "1");
-        assertNotNull(list);
-        for (DNARunSearchResult result : list.getList()){
-            System.out.println(result.getHilumColor());
-        }
-    }*/
 }

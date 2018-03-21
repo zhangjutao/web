@@ -301,7 +301,7 @@ public class SNPController {
     @RequestMapping(value = "/snp/info", method = RequestMethod.GET)
     public ModelAndView getSnpInfo(@RequestParam("frequence") String frequence, SNP snp) {
         ModelAndView modelAndView = new ModelAndView("snpinfo/snpinfo");
-        Map result = snpService.findSampleById(snp.getId());
+        Map result = snpService.findSampleById(snp);
         SNP snpFormatMajorFreq;
         if (result.containsKey("snpData")) {
             snpFormatMajorFreq = (SNP) result.get("snpData");
