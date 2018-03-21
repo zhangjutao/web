@@ -102,7 +102,7 @@ public class SNPController {
      * 查询SNP表格数据接口
      * @return SNP/INDEL查询页面表格内容
      */
-    @RequestMapping(value = "/queryForSNPTable", method = RequestMethod.POST)
+    @RequestMapping(value = "/queryForTable", method = RequestMethod.POST)
     @ResponseBody
     public TableSearchResult queryForSNPTable(@RequestBody SearchCondition condition) throws IOException {
         TableSearchResult result = new TableSearchResult();
@@ -143,16 +143,55 @@ public class SNPController {
 
     /**
      * 根据图中当前位置的点，确定该SNP在查询结果表格中第几页、该页第几条
-     * @param condition 与
-     * @return
+     *
+     * @param condition 与侧边栏点击确定时传入相同的条件,注意:这里还需要增加额外的条件,点击位点的index值
+     * @return 含有pageNo、offset、total及指定pageNo页面的数据,offset表示位点位于跳转页面的偏移量
      */
     @RequestMapping(value = "/jump-page", method = RequestMethod.POST)
     @ResponseBody
-    public ResultVO jumpPageThroughSNPIndex(@RequestBody SearchCondition condition) {
+    public TableSearchResult jumpPageThroughSNPIndex(@RequestBody SearchCondition condition) throws IOException {
+        TableSearchResult result = new TableSearchResult();
         int index = condition.getIndex();
         Map<String, Integer> targetPageInfo = dnaMongoService.getStartIndex(condition.getType(), condition.getCtype(),
                 condition.getChromosome(), condition.getStart(), condition.getEnd(), index, condition.getPageSize());
-        return null;
+        // 获取targetIndex位置处的pageNo
+        int pageNo = targetPageInfo.get("pageNo");
+        int offset = targetPageInfo.get("offset");
+        String gene = condition.getGene();
+        if (StringUtils.isEmpty(gene)) {
+            result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
+                    condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
+                    condition.getGroup(), pageNo, condition.getPageSize());
+        } else {
+            DNAGens dnaGens = dnaGensService.findByGeneId(gene);
+            if (dnaGens != null) {
+                String chromosome = dnaGens.getChromosome();
+                // 修改geneStart/geneEnd映射
+                long start = dnaGens.getStart();
+                long end = dnaGens.getEnd();
+                Long upstream = condition.getStart();  // start此时为upstream
+                Long downstream = condition.getEnd();  // end此时为downstream
+                // 判断用户是否有输入上下游区间
+                if (null != upstream) {
+                    start = start - upstream < 0 ? 0 : start - upstream;
+                } else {
+                    start = start - 2000 < 0 ? 0 : start - 2000;
+                }
+                if (null != downstream) {
+                    end = end + downstream;
+                } else {
+                    end = end + 2000;
+                }
+                result = snpService.searchSNPResult(condition.getType(), condition.getCtype(), chromosome, String.valueOf(start),
+                        String.valueOf(end), condition.getGroup(), pageNo, condition.getPageSize());
+            } else {
+                logger.warn("传入基因" + gene + "不存在");
+            }
+        }
+        // Java按应用传递,offset在这里设值才能生效
+        result.setOffset(offset);
+        result.setPageNo(pageNo);
+        return result;
     }
 
 

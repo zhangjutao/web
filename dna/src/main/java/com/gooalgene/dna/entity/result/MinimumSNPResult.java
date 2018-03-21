@@ -15,9 +15,10 @@ public class MinimumSNPResult {
 
     private int index;
 
-    public MinimumSNPResult(long pos, String consequenceType) {
+    public MinimumSNPResult(long pos, String consequenceType, int index) {
         this.pos = pos;
         this.consequenceType = consequenceType;
+        this.index = index;
     }
 
     public int getConsequenceTypeColor() {
