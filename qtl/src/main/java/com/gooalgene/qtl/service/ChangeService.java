@@ -461,11 +461,11 @@ public class ChangeService {
                 study.setGeneType(strings[10]);
                 study.setPhenoType(strings[11]);
                 study.setEnvironment(strings[12]);
-                study.setGeoLoc(strings[13]);
-                study.setEcoType(strings[14]);
+                study.setGeoloc(strings[13]);
+                study.setEcotype(strings[14]);
                 study.setCollectionDate(strings[15]);
                 study.setCoordinates(strings[16]);
-                study.setCcultivar(strings[17]);
+                study.setType(strings[17]);
                 study.setScientificName(strings[18]);
                 study.setPedigree(strings[19]);
                 study.setReference(strings[20]);
@@ -476,7 +476,7 @@ public class ChangeService {
                 study.setLibrarySource(strings[25]);
                 study.setLibraryLayout(strings[26]);
                 study.setInsertSize(strings[27]);
-                study.setReadLength(strings[28]);
+                study.setReadlength(strings[28]);
                 study.setSpots(Integer.valueOf(strings[29]));
                 study.setExperiment(strings[30]);
                 study.setLinks(strings[31]);

@@ -1,8 +1,6 @@
 package com.gooalgene.entity;
 
-import com.gooalgene.common.DataEntity;
-
-import java.util.Date;
+import java.sql.Timestamp;
 import java.util.List;
 
 /**
@@ -10,47 +8,92 @@ import java.util.List;
  * <p/>
  * Created by ShiYun on 2017/8/2 0002.
  */
-public class Study extends DataEntity<Study> {
-
-    private String sraStudy;//研究课题信息检索号
-    private String study;//研究课题
-    private String sampleName;//样本名称
-    private Integer isExpression; //是否表达（或者差异） 0:表达 1：差异
-    private String sampleRun;//测序数据检索号
-    private String tissue;//组织
-    private String tissueForClassification;//组织分类
+public class Study{
+    private String sampleRun;
+    private String sampleName;
+    private int isExpression;
+    private String sraStudy;
+    private String study;
+    private String tissueForClassification;
+    private String tissue;
     private String preservation;
-    private String treat; //处理方式
-    private String stage; //生长阶段
-    private String geneType;//基因型
-    private String phenoType;//表型
-    private String environment;//生长环境
-    private String geoLoc;
-    private String ecoType;
+    private String treat;
+    private String stage;
+    private String geneType;
+    private String phenoType;
+    private String environment;
+    private String geoloc;
+    private String ecotype;
     private String collectionDate;
     private String coordinates;
-    private String ccultivar;//品种
-    private String scientificName;//拉丁文名称
+    private String type;
+    private String scientificName;
     private String pedigree;
-    private String reference;//参考文献
-    private String institution;//研究机构
+    private String reference;
+    private String institution;
     private String submissionTime;
     private String instrument;
     private String libraryStrategy;
     private String librarySource;
-    private String libraryLayout;//建库方式
+    private String libraryLayout;
     private String insertSize;
-    private String readLength;
-    private Integer spots;
-    private String experiment;//实验信息检索号
-    private String links;//链接
-
-    private Date createTime;//入库时间
-
-    private String keywords;//当为all时传入关键字
-    private String tissueKeywords;//搜索框模糊匹配，侧边栏精确匹配
-
+    private String readlength;
+    private int spots;
+    private String experiment;
+    private String links;
+    private int id;
+    private java.sql.Timestamp createtime;
+    private String keywords;
     private List<String> tissues;
+    private String tissueKeywords;
+
+    public List<String> getTissues() {
+        return tissues;
+    }
+
+    public void setTissues(List<String> tissues) {
+        this.tissues = tissues;
+    }
+
+    public String getTissueKeywords() {
+        return tissueKeywords;
+    }
+
+    public void setTissueKeywords(String tissueKeywords) {
+        this.tissueKeywords = tissueKeywords;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public String getSampleRun() {
+        return sampleRun;
+    }
+
+    public void setSampleRun(String sampleRun) {
+        this.sampleRun = sampleRun;
+    }
+
+    public String getSampleName() {
+        return sampleName;
+    }
+
+    public void setSampleName(String sampleName) {
+        this.sampleName = sampleName;
+    }
+
+    public int getIsExpression() {
+        return isExpression;
+    }
+
+    public void setIsExpression(int isExpression) {
+        this.isExpression = isExpression;
+    }
 
     public String getSraStudy() {
         return sraStudy;
@@ -68,28 +111,12 @@ public class Study extends DataEntity<Study> {
         this.study = study;
     }
 
-    public String getSampleName() {
-        return sampleName;
+    public String getTissueForClassification() {
+        return tissueForClassification;
     }
 
-    public void setSampleName(String sampleName) {
-        this.sampleName = sampleName;
-    }
-
-    public Integer getIsExpression() {
-        return isExpression;
-    }
-
-    public void setIsExpression(Integer isExpression) {
-        this.isExpression = isExpression;
-    }
-
-    public String getSampleRun() {
-        return sampleRun;
-    }
-
-    public void setSampleRun(String sampleRun) {
-        this.sampleRun = sampleRun;
+    public void setTissueForClassification(String tissueForClassification) {
+        this.tissueForClassification = tissueForClassification;
     }
 
     public String getTissue() {
@@ -98,14 +125,6 @@ public class Study extends DataEntity<Study> {
 
     public void setTissue(String tissue) {
         this.tissue = tissue;
-    }
-
-    public String getTissueForClassification() {
-        return tissueForClassification;
-    }
-
-    public void setTissueForClassification(String tissueForClassification) {
-        this.tissueForClassification = tissueForClassification;
     }
 
     public String getPreservation() {
@@ -156,20 +175,20 @@ public class Study extends DataEntity<Study> {
         this.environment = environment;
     }
 
-    public String getGeoLoc() {
-        return geoLoc;
+    public String getGeoloc() {
+        return geoloc;
     }
 
-    public void setGeoLoc(String geoLoc) {
-        this.geoLoc = geoLoc;
+    public void setGeoloc(String geoloc) {
+        this.geoloc = geoloc;
     }
 
-    public String getEcoType() {
-        return ecoType;
+    public String getEcotype() {
+        return ecotype;
     }
 
-    public void setEcoType(String ecoType) {
-        this.ecoType = ecoType;
+    public void setEcotype(String ecotype) {
+        this.ecotype = ecotype;
     }
 
     public String getCollectionDate() {
@@ -188,12 +207,12 @@ public class Study extends DataEntity<Study> {
         this.coordinates = coordinates;
     }
 
-    public String getCcultivar() {
-        return ccultivar;
+    public String getType() {
+        return type;
     }
 
-    public void setCcultivar(String ccultivar) {
-        this.ccultivar = ccultivar;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getScientificName() {
@@ -276,19 +295,19 @@ public class Study extends DataEntity<Study> {
         this.insertSize = insertSize;
     }
 
-    public String getReadLength() {
-        return readLength;
+    public String getReadlength() {
+        return readlength;
     }
 
-    public void setReadLength(String readLength) {
-        this.readLength = readLength;
+    public void setReadlength(String readlength) {
+        this.readlength = readlength;
     }
 
-    public Integer getSpots() {
+    public int getSpots() {
         return spots;
     }
 
-    public void setSpots(Integer spots) {
+    public void setSpots(int spots) {
         this.spots = spots;
     }
 
@@ -308,37 +327,19 @@ public class Study extends DataEntity<Study> {
         this.links = links;
     }
 
-    @Override
-    public Date getCreateTime() {
-        return createTime;
+    public int getId() {
+        return id;
     }
 
-    @Override
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public String getKeywords() {
-        return keywords;
+    public Timestamp getCreatetime() {
+        return createtime;
     }
 
-    public void setKeywords(String keywords) {
-        this.keywords = keywords;
-    }
-
-    public String getTissueKeywords() {
-        return tissueKeywords;
-    }
-
-    public void setTissueKeywords(String tissueKeywords) {
-        this.tissueKeywords = tissueKeywords;
-    }
-
-    public List<String> getTissues() {
-        return tissues;
-    }
-
-    public void setTissues(List<String> tissues) {
-        this.tissues = tissues;
+    public void setCreatetime(Timestamp createtime) {
+        this.createtime = createtime;
     }
 }

@@ -1,7 +1,7 @@
 package com.gooalgene.dna.jackson;
 
 import com.gooalgene.dna.entity.SampleInfo;
-import com.gooalgene.dna.util.FrontEndReflectionUtils;
+import com.gooalgene.utils.FrontEndReflectionUtils;
 import junit.framework.TestCase;
 import org.junit.Test;
 

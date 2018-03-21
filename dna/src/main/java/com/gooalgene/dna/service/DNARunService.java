@@ -8,7 +8,7 @@ import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SampleInfo;
 import com.gooalgene.dna.entity.result.GroupCondition;
-import com.gooalgene.dna.util.FrontEndReflectionUtils;
+import com.gooalgene.utils.FrontEndReflectionUtils;
 import com.gooalgene.dna.util.JacksonUtils;
 import com.google.common.base.Function;
 import com.google.common.collect.Collections2;

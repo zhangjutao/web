@@ -1,4 +1,4 @@
-package com.gooalgene.dna.util;
+package com.gooalgene.utils;
 
 import java.lang.annotation.*;
 
