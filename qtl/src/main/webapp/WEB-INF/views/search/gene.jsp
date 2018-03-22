@@ -379,123 +379,120 @@
 <script>
     /*拖动弹框*/
     $(function (){
-
-
-    $(".tab-detail").draggable({ containment: "body" });
-    function getUrlParam(name) {
-        var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
-        var r = window.location.search.substr(1).match(reg);  //匹配目标参数
-        if (r != null) return unescape(r[2]); return null; //返回参数值
-    }
-
-    var initChrVersion = function() {
-        var chr = getUrlParam("chr");
-        var version = getUrlParam("version");
-        var lg = getUrlParam("markerlg");
-        $("#chromosome").val(lg);
-        $("#edition-num").val(version);
-    }();
-
-    $("#chromosome").change(function() {
-        chrVersion();
-    });
-    $("#edition-num").change(function() {
-        chrVersion();
-    });
-    function chrVersion() {
-        var lg = $("#chromosome").val();
-        var version = $("#edition-num").val();
-        var chrN = (lg.split("(")[1]).split(")")[0];
-        if(chrN.length == 1) {
-            chrN = "0" + chrN;
+        $(".tab-detail").draggable({ containment: "body" });
+        function getUrlParam(name) {
+            var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)"); //构造一个含有目标参数的正则表达式对象
+            var r = window.location.search.substr(1).match(reg);  //匹配目标参数
+            if (r != null) return unescape(r[2]); return null; //返回参数值
         }
-        var chr = $("#edition-num option:selected").attr("data-chr") + chrN;
-        window.location.href = "${ctxroot}/gene?chr="+chr+"&version="+version+"&markerlg="+lg;
-    }
+
+        var initChrVersion = function() {
+            var chr = getUrlParam("chr");
+            var version = getUrlParam("version");
+            var lg = getUrlParam("markerlg");
+            $("#chromosome").val(lg);
+            $("#edition-num").val(version);
+        }();
+
+        $("#chromosome").change(function() {
+            chrVersion();
+        });
+        $("#edition-num").change(function() {
+            chrVersion();
+        });
+        function chrVersion() {
+            var lg = $("#chromosome").val();
+            var version = $("#edition-num").val();
+            var chrN = (lg.split("(")[1]).split(")")[0];
+            if(chrN.length == 1) {
+                chrN = "0" + chrN;
+            }
+            var chr = $("#edition-num option:selected").attr("data-chr") + chrN;
+            window.location.href = "${ctxroot}/gene?chr="+chr+"&version="+version+"&markerlg="+lg;
+        }
 
 
-    $("#gene").find("iframe").attr("src", "${ctxroot}/innerGene" + location.search);
+        $("#gene").find("iframe").attr("src", "${ctxroot}/innerGene" + location.search);
 
-    // 搜索
-    $("#btn-search").click(function() {
-        geneFrame.window.searchQtl($("#search").val());
-    });
+        // 搜索
+        $("#btn-search").click(function() {
+            geneFrame.window.searchQtl($("#search").val());
+        });
 
-    // 内容筛选
-    function filterQtlType(typeString) {
-        geneFrame.window.redrawQtls(typeString);
-    }
+        // 内容筛选
+        function filterQtlType(typeString) {
+            geneFrame.window.redrawQtls(typeString);
+        }
 
-    // 显示marker详情
-    function showMarkerInfo(name) {
-        $.ajax({
-            url: "${ctxroot}/query/marker",
-            data: {markerName: name},
-            type:"GET",
-            dataType: "json",
-            success: function(data) {
-                $(".js-marker-name").html(data.name ? data.name : "");
-                $(".js-marker-info").html(data.amplificationInfo ? data.amplificationInfo: "");
-                $(".js-marker-lg").html(data.lg ? data.lg : "");
-                $(".js-marker-position").html(data.position ? data.position : "");
-                $(".js-marker-provider").html(data.provider ? data.provider : "");
-                $(".js-marker-references").html(data.refference ? data.refference : "");
-                $(".js-marker-type").html(data.type ? data.type : "");
+        // 显示marker详情
+        function showMarkerInfo(name) {
+            $.ajax({
+                url: "${ctxroot}/query/marker",
+                data: {markerName: name},
+                type:"GET",
+                dataType: "json",
+                success: function(data) {
+                    $(".js-marker-name").html(data.name ? data.name : "");
+                    $(".js-marker-info").html(data.amplificationInfo ? data.amplificationInfo: "");
+                    $(".js-marker-lg").html(data.lg ? data.lg : "");
+                    $(".js-marker-position").html(data.position ? data.position : "");
+                    $(".js-marker-provider").html(data.provider ? data.provider : "");
+                    $(".js-marker-references").html(data.refference ? data.refference : "");
+                    $(".js-marker-type").html(data.type ? data.type : "");
+                }
+            });
+            $("#mid").show();
+            $(".tab-detail").show();
+        }
+
+        // QTL type 切换
+        $(".checkbox-qtl ul li span ").click(function(){
+            if($(this).parent().hasClass("qtl-ac")){
+                $(this).parent().removeClass("qtl-ac");
+            }else{
+                $(this).parent().addClass("qtl-ac");
             }
         });
-        $("#mid").show();
-        $(".tab-detail").show();
-    }
-
-    // QTL type 切换
-    $(".checkbox-qtl ul li span ").click(function(){
-        if($(this).parent().hasClass("qtl-ac")){
-            $(this).parent().removeClass("qtl-ac");
-        }else{
-            $(this).parent().addClass("qtl-ac");
-        }
-    });
-    var chooseTypes = [];
-    // 确定按Type过滤数据
-    $(".btn-confirm").click(function() {
-        var _spans = $(".checkbox-qtl ul li span");
-        chooseTypes = [];
-        for(var i =0; i < _spans.length; i++) {
-            if($(_spans[i]).parent().hasClass("qtl-ac")) {
-                chooseTypes.push($(_spans[i]).attr("value"));
-            }
-        }
-        filterQtlType(chooseTypes.join(","));
-    });
-    // 默认
-    $(".btn-chooseAll").click(function() {
-        $(".checkbox-qtl ul li").addClass("qtl-ac");
-    });
-    // 取消
-    $(".btn-cancel").click(function() {
-        var _spans = $(".checkbox-qtl ul li span");
-        $(".checkbox-qtl ul li").removeClass("qtl-ac");
-        for(var i =0; i < _spans.length; i++) {
-            for(var j = 0; j < chooseTypes.length; j++) {
-                if($(_spans[i]).attr("value") == chooseTypes[j]) {
-                    $(_spans[i]).parent().addClass("qtl-ac");
-                    break;
+        var chooseTypes = [];
+        // 确定按Type过滤数据
+        $(".btn-confirm").click(function() {
+            var _spans = $(".checkbox-qtl ul li span");
+            chooseTypes = [];
+            for(var i =0; i < _spans.length; i++) {
+                if($(_spans[i]).parent().hasClass("qtl-ac")) {
+                    chooseTypes.push($(_spans[i]).attr("value"));
                 }
             }
-        }
-    });
+            filterQtlType(chooseTypes.join(","));
+        });
+        // 默认
+        $(".btn-chooseAll").click(function() {
+            $(".checkbox-qtl ul li").addClass("qtl-ac");
+        });
+        // 取消
+        $(".btn-cancel").click(function() {
+            var _spans = $(".checkbox-qtl ul li span");
+            $(".checkbox-qtl ul li").removeClass("qtl-ac");
+            for(var i =0; i < _spans.length; i++) {
+                for(var j = 0; j < chooseTypes.length; j++) {
+                    if($(_spans[i]).attr("value") == chooseTypes[j]) {
+                        $(_spans[i]).parent().addClass("qtl-ac");
+                        break;
+                    }
+                }
+            }
+        });
 
-    // 参数带入搜索qtlname
-    var qtlName = getUrlParam("qtl");
-    $("#search").val(qtlName);
-    function initSearch() {
-//        setTimeout(function(){
-//            if(qtlName) {
-//                $("#btn-search").trigger("click");
-//            }
-//        },2800);
-    };
-
+        // 参数带入搜索qtlname
+        var qtlName = getUrlParam("qtl");
+        $("#search").val(qtlName);
+        function initSearch() {
+    //        setTimeout(function(){
+    //            if(qtlName) {
+    //                $("#btn-search").trigger("click");
+    //            }
+    //        },2800);
+        };
     })
 </script>
 
