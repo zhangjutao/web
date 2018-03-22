@@ -218,7 +218,8 @@ public class SNPController {
                     condition.getEnd());
             // 如果用户查询为区间查询，且该区间内存在基因，这里默认取第一个基因作为图形数据查询条件
             if (geneIds.size() > 0) {
-                result = searchOnlyByGene(geneIds.iterator().next(), condition.getType(), condition.getStart(), condition.getEnd());
+                result = searchOnlyByGene(geneIds.iterator().next(), condition.getType(),
+                        condition.getStart(), condition.getEnd(), false);
                 // 将查询出来的区间内的基因返回给前台
                 result.setGeneInsideRegion(geneIds);
             } else {
@@ -229,7 +230,7 @@ public class SNPController {
                 result.setSnpList(allSNP);
             }
         } else { // Search in Gene
-            result = searchOnlyByGene(gene, condition.getType(), condition.getStart(), condition.getEnd());
+            result = searchOnlyByGene(gene, condition.getType(), condition.getStart(), condition.getEnd(), true);
         }
         return result;
     }
@@ -242,9 +243,12 @@ public class SNPController {
      * @param type SNP/INDEL
      * @param upstream 上游值
      * @param downstream 下游值
+     * @param originateFromGene 发送过来的请求是从区域内查找还是根据基因查找，如果从区域内查找发现该区域内存在基因，
+     *      那会选取第一个基因，画该基因的基因结构，但是该基因是不需要加用户输入的上下游限制的，这里就是false，
+     *      但是需要加上默认的2000上下游区间,如果请求是从基因中查找，那这里需要加上上下游限制
      * @return 最终显示在页面上的图形数据，包含基因结构和所有SNP位点
      */
-    private GraphSearchResult searchOnlyByGene(String gene, String type, Long upstream, Long downstream) {
+    private GraphSearchResult searchOnlyByGene(String gene, String type, Long upstream, Long downstream, boolean originateFromGene) {
         if (null == gene || gene.equals("")) {
             throw new IllegalArgumentException("传入gene ID未空");
         }
@@ -255,15 +259,21 @@ public class SNPController {
             // 修改geneStart/geneEnd映射
             long start = dnaGens.getStart();
             long end = dnaGens.getEnd();
-            // 判断用户是否有输入上下游区间
-            if (null != upstream) {
-                start = start - upstream < 0 ? 0 : start - upstream;
+            // 如果是按基因查找，这里需要加上下游，如果按区域查找，不需要加限制
+            if (originateFromGene) {
+                // 判断用户是否有输入上下游区间
+                if (null != upstream) {
+                    start = start - upstream < 0 ? 0 : start - upstream;
+                } else {
+                    start = start - 2000 < 0 ? 0 : start - 2000;
+                }
+                if (null != downstream) {
+                    end = end + downstream;
+                } else {
+                    end = end + 2000;
+                }
             } else {
                 start = start - 2000 < 0 ? 0 : start - 2000;
-            }
-            if (null != downstream) {
-                end = end + downstream;
-            } else {
                 end = end + 2000;
             }
             List<MinimumSNPResult> allSNP = dnaMongoService.searchSNPIdAndPos(type, chromosome, start, end);
@@ -271,6 +281,9 @@ public class SNPController {
             // 查询当前基因的基因结构
             List<DNAGenStructureDto> dnaGenStructures = dnaGenStructureService.getByGeneId(gene);
             result.setStructureList(dnaGenStructures);
+            result.setGeneId(gene);
+            result.setUpstream(start);
+            result.setDownstream(end);
         } else {
             logger.warn("传入基因" + gene + "不存在");
         }
@@ -294,14 +307,15 @@ public class SNPController {
         return ResultUtil.success(result);
     }
 
-
     /**
-     * 进入snp详情页
+     * 跳转到变异位点详情页面
+     *
+     * @param snpId SNP ID值
      */
     @RequestMapping(value = "/snp/info", method = RequestMethod.GET)
-    public ModelAndView getSnpInfo(@RequestParam("frequence") String frequence, SNP snp) {
+    public ModelAndView getInfo(@RequestParam("snpId") String snpId) {
         ModelAndView modelAndView = new ModelAndView("snpinfo/snpinfo");
-        Map result = snpService.findSampleById(snp);
+        Map result = snpService.findSampleById(snpId);
         SNP snpFormatMajorFreq;
         if (result.containsKey("snpData")) {
             snpFormatMajorFreq = (SNP) result.get("snpData");
@@ -315,9 +329,8 @@ public class SNPController {
         StringBuffer finalResult = new DecimalFormat("###0.00").format(majorForBigDecimal, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD));
         snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
         modelAndView.addObject("major", finalResult);
-        modelAndView.addObject("snp", snp);
+        modelAndView.addObject("snpId", snpId);
         modelAndView.addObject("result", result);
-        modelAndView.addObject("frequence", frequence);
         return modelAndView;
     }
 
