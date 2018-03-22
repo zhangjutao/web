@@ -1049,6 +1049,13 @@
         $("#snpinfoTable .inputComponent").on("click",".btnCancel",function (){
 //        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
             $(this).parent().parent().find("input").val("");
+            //重新获取表格的值 modified by zjt 2018-3-22
+            var data =snpGetParams(changeParam);
+            data.pageNum = paramData.pageNum;
+            data.pageSize = paramData.pageSize;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            getData(data,paramData.pageNum,filterParamer);
+            //重新获取表格的值 modified by zjt 2018-3-22
             $(this).parent().parent().hide();
         })
         // 群体信息
