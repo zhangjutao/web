@@ -875,7 +875,8 @@
                     for(var gv = 0; gv < glen; gv++) {
                         if(headerGroup[idx] ==  data[i].samples[gv].sampleNo) {
                             var geneItem = data[i].samples[gv];
-                            bodyStr += '    <td data-gene="'+ data[i].geneName +'" data-cultivar="'+ geneItem.cultivar +'" data-phenotype="'+ geneItem.phenotype +'" data-tissue="'+ geneItem.tissue +'" data-stage="'+ geneItem.stage +'" class="heat-hover col_'+ geneItem.sampleNo +'"><span class="js-gene-value">'+ data[i].samples[gv].value +'</span></td>';
+                            /*bodyStr += '    <td data-gene="'+ data[i].geneName +'" data-cultivar="'+ geneItem.cultivar +'" data-phenotype="'+ geneItem.phenotype +'" data-tissue="'+ geneItem.tissue +'" data-stage="'+ geneItem.stage +'" class="heat-hover col_'+ geneItem.sampleNo +'"><span class="js-gene-value">'+ data[i].samples[gv].value +'</span></td>';*/
+                            bodyStr += '    <td data-gene="'+ data[i].geneName +'" data-type="'+ geneItem.type +'" data-phenotype="'+ geneItem.phenotype +'" data-tissue="'+ geneItem.tissue +'" data-stage="'+ geneItem.stage +'" class="heat-hover col_'+ geneItem.sampleNo +'"><span class="js-gene-value">'+ data[i].samples[gv].value +'</span></td>';
                             break;
                         }
                         notFound++;
@@ -941,7 +942,11 @@
 //                        alert("无数据");
                         $(".js-heat-table > thead,.ga-ctrl-footer").hide();
                         $(".js-heat-table > tbody").empty();
-                        $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")
+                        //modified by zjt
+                        /*$('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")*/
+                        if($('.js-heat-table').children('p').length == 0){
+                            $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>");
+                        }
                     }
                     $("#total-page-count > span").html(res.total);
                     //显示分页
@@ -1226,7 +1231,8 @@
                     $(".js-heat-table").on("mouseover", ".heat-hover", function() {
                         var self = this;
                         var geneName = $(this).attr("data-gene");
-                        var cultivar = $(this).attr("data-cultivar");
+                        /*var cultivar = $(this).attr("data-cultivar");*/
+                        var type = $(this).attr("data-type");
                         var phenotype = $(this).attr("data-phenotype");
                         var tissue = $(this).attr("data-tissue");
                         var stage = $(this).attr("data-stage");
@@ -1242,7 +1248,8 @@
                         var str = '';
                         str += '<div class="ga-tip">'
                         str += '<div class="tip-item"><span class="tip-label">Gene name: </span><span>'+ geneName +'</span></div>'
-                        str += '<div class="tip-item"><span class="tip-label">Cultivar: </span><span>'+ cultivar +'</span></div>'
+                        /*str += '<div class="tip-item"><span class="tip-label">Cultivar: </span><span>'+ cultivar +'</span></div>'*/
+                        str += '<div class="tip-item"><span class="tip-label">Type: </span><span>'+ type +'</span></div>'
                         str += '<div class="tip-item"><span class="tip-label">Phenotype: </span><span>'+ phenotype +'</span></div>'
                         str += '<div class="tip-item"><span class="tip-label">Tissue: </span><span>'+ tissue +'</span></div>'
                         str += '<div class="tip-item"><span class="tip-label">Stage: </span><span>'+ stage +'</span></div>'

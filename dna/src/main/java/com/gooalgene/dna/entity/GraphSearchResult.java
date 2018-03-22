@@ -29,6 +29,45 @@ public class GraphSearchResult {
      */
     private Set<String> geneInsideRegion;
 
+    /**
+     * 当前SNP位点图形中的基因ID
+     */
+    private String geneId;
+
+    /**
+     * 图中该基因实际的上游位点
+     */
+    private Long upstream;
+
+    /**
+     * 途中该基因实际的下游位点
+     */
+    private Long downstream;
+
+    public String getGeneId() {
+        return geneId;
+    }
+
+    public void setGeneId(String geneId) {
+        this.geneId = geneId;
+    }
+
+    public Long getUpstream() {
+        return upstream;
+    }
+
+    public void setUpstream(Long upstream) {
+        this.upstream = upstream;
+    }
+
+    public Long getDownstream() {
+        return downstream;
+    }
+
+    public void setDownstream(Long downstream) {
+        this.downstream = downstream;
+    }
+
     public Set<String> getGeneInsideRegion() {
         return geneInsideRegion;
     }

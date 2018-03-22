@@ -146,7 +146,7 @@
         .genes-tab thead tr td.t_spots{
             padding: 10px 35px;
         }
-        #total-page-count{height: 24px!important;}
+        #total-page-count{height: 28px!important;}
 
         #select{
             position: relative;
@@ -392,14 +392,22 @@
                                 </div>
                             </td>
                             <td class="param t_scientificName">ScientificName<img src="${ctxStatic}/images/down.png">
-                                <input type="hidden" class="js-scientificName">
-                                <div class="input-component scientificName-item">
-
+                                <div class="input-component ">
+                                    <input type="text" placeholder="请输入" class="js-scientificName">
+                                    <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
                                 </div>
+
+                                <!--<input type="hidden" class="js-scientificName">
+                                <div class="input-component scientificName-item">
+                                </div>-->
                             </td>
                             <td class="param t_libraryLayout">Library Layout<img src="${ctxStatic}/images/down.png">
-                                <input type="hidden" class="js-libraryLayout">
+                                <!--<input type="hidden" class="js-libraryLayout">
                                 <div class="input-component libraryLayout-item">
+                                </div>-->
+                                <div class="input-component ">
+                                    <input type="text" placeholder="请输入" class="js-libraryLayout">
+                                    <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
                                 </div>
                             </td>
                             <td class="param t_spots">Spots<img src="${ctxStatic}/images/down.png">
@@ -555,7 +563,7 @@
             var currTypes = window.location.search;
             var searchList = currTypes.split("&");
             var currentType = searchList[0].split("=")[1];
-            console.log(currentType)
+            //console.log(currentType)
 
             $.getJSON('${ctxroot}/mrna/listByResult', {
                 pageNo: curr || 1,
@@ -687,7 +695,7 @@
             /*var type=$(".js-search-select").val();*/
             var type=$(".select_default").val();
             var key= $.trim($(".js-search-text").val());
-           console.log(type)
+           //console.log(type)
             var sc_str=""
             for(var i=0;i<data.length;i++){
                 sc_str+="<a href='#'>"+data[i]+"</a>"
@@ -747,7 +755,7 @@
             if($(this).hasClass("btn-default-ac")){
                 $(this).removeClass("btn-default-ac")
                 $("#table_header_setting").removeClass("js-r-ac")
-                console.log($("#experiment").parent().html())
+                //($("#experiment").parent().html())
             }else{
 
                 $(this).addClass("btn-default-ac");
@@ -759,7 +767,7 @@
         })
         /*搜索*/
         $(".js-search-btn").click(function(){
-            console.log($(".genes-tab thead td input").val(""));
+            //console.log($(".genes-tab thead td input").val(""));
             /*var type_select=$(".js-search-select").val();*/
             var type_select=$(".select_default").val();
             var key_input= $.trim($(".js-search-text").val());
@@ -862,7 +870,10 @@
         /*导出数据*/
         $(".btn-export").click(function(){
             /*var type=$(".js-search-select").val();*/
-            var type=$(".select_dafault").val();
+            //var type=$(".select_dafault").val();
+            var currTypes = window.location.search;
+            var searchList = currTypes.split("&");
+            var type = searchList[0].split("=")[1];
             var key=$(".js-search-text").val();
             var keywords=key;
             if(type=="Tissues"){
@@ -880,8 +891,12 @@
                 }
             })
             var choices=span.join(",");
-            console.log(choices)
+            //console.log(choices)
             $("#search4").val(choices);
+            //console.log('search1' + $("#search1").val());
+            //console.log('search2' + $("#search2").val());
+            //console.log('search3' + $("#search3").val());
+            //console.log('search4' + $("#search4").val());
             $("#exportForm").submit();
         })
 

@@ -203,39 +203,6 @@ public class MRNAController {
 
     private String serialList(List<Map> result, String[] titles) {
         StringBuilder sb = new StringBuilder();
-//        sb.append("Run").append(",");
-//        sb.append("SampleName").append(",");
-//        sb.append("Expression/Comparison").append(",");
-//        sb.append("SRAStudy").append(",");
-//        sb.append("Study").append(",");
-//        sb.append("Tissue for Classification").append(",");
-//        sb.append("Tissue").append(",");
-//        sb.append("preservation").append(",");
-//        sb.append("Treat").append(",");
-//        sb.append("Stage").append(",");
-//        sb.append("Genetype").append(",");
-//        sb.append("Phenotype").append(",");
-//        sb.append("Environment").append(",");
-//        sb.append("Geo loc").append(",");
-//        sb.append("ecotype").append(",");
-//        sb.append("collection date").append(",");
-//        sb.append("Coordinates").append(",");
-//        sb.append("Cultivar").append(",");
-//        sb.append("ScientificName").append(",");
-//        sb.append("Pedigree").append(",");
-//        sb.append("Reference").append(",");
-//        sb.append("Institution").append(",");
-//        sb.append("submissiontime").append(",");
-//        sb.append("Instrument").append(",");
-//        sb.append("LibraryStrategy").append(",");
-//        sb.append("LibrarySource").append(",");
-//        sb.append("LibraryLayout").append(",");
-//        sb.append("insertsize").append(",");
-//        sb.append("readlength").append(",");
-//        sb.append("Spots").append(",");
-//        sb.append("Experiment").append(",");
-//        sb.append("links");
-//        sb.append("\n");
         Map<String, Integer> map = new HashMap<String, Integer>();
         if (titles != null) {
             sb = new StringBuilder();
@@ -279,7 +246,7 @@ public class MRNAController {
                     sb.append((treat != null ? treat : "")).append(",");
                 }
                 if (map.containsKey("Genetype")) {
-                    String geneType = (String) data.get("geneType");
+                    String geneType = (String) data.get("genetype");
                     sb.append((geneType != null ? geneType : "")).append(",");
                 }
                 if (map.containsKey("Preservation")) {
@@ -287,16 +254,16 @@ public class MRNAController {
                     sb.append((preservation != null ? preservation : "")).append(",");
                 }
                 if (map.containsKey("Phenotype")) {
-                    String phenotype = (String) data.get("phenoType");
+                    String phenotype = (String) data.get("phenotype");
                     sb.append((phenotype != null ? phenotype : "")).append(",");
                 }
                 if (map.containsKey("Environment")) {
                     String environment = (String) data.get("environment");
                     sb.append((environment != null ? environment : "")).append(",");
                 }
-                if (map.containsKey("Cultivar")) {
-                    String cultivar = (String) data.get("ccultivar");
-                    sb.append((cultivar != null ? cultivar : "")).append(",");
+                if (map.containsKey("Type")) {
+                    String environment = (String) data.get("Type");
+                    sb.append((environment != null ? environment : "")).append(",");
                 }
                 if (map.containsKey("Scientific Name")) {
                     String scientificName = (String) data.get("scientificName");
