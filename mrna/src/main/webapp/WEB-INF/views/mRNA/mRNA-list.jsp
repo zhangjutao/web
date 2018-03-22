@@ -361,7 +361,8 @@
                                     <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
                                 </div>
                             </td>
-                            <td class="param t_geneType">GeneType<img src="${ctxStatic}/images/down.png">
+                            <!--<td class="param t_geneType">GeneType<img src="${ctxStatic}/images/down.png">修改名称为Genotype-->
+                            <td class="param t_geneType">GenoType<img src="${ctxStatic}/images/down.png">
                                 <div class="input-component ">
                                     <input type="text" placeholder="请输入" class="js-genet-type">
                                     <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
