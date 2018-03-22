@@ -244,8 +244,8 @@ public class SNPController {
      * @param upstream 上游值
      * @param downstream 下游值
      * @param originateFromGene 发送过来的请求是从区域内查找还是根据基因查找，如果从区域内查找发现该区域内存在基因，
-     *      那会选取第一个基因，画该基因的基因结构，但是该基因是不需要加上下游限制的，这里就是false，
-     *      如果请求是从基因中查找，那这里需要加上上下游限制
+     *      那会选取第一个基因，画该基因的基因结构，但是该基因是不需要加用户输入的上下游限制的，这里就是false，
+     *      但是需要加上默认的2000上下游区间,如果请求是从基因中查找，那这里需要加上上下游限制
      * @return 最终显示在页面上的图形数据，包含基因结构和所有SNP位点
      */
     private GraphSearchResult searchOnlyByGene(String gene, String type, Long upstream, Long downstream, boolean originateFromGene) {
@@ -272,6 +272,9 @@ public class SNPController {
                 } else {
                     end = end + 2000;
                 }
+            } else {
+                start = start - 2000 < 0 ? 0 : start - 2000;
+                end = end + 2000;
             }
             List<MinimumSNPResult> allSNP = dnaMongoService.searchSNPIdAndPos(type, chromosome, start, end);
             result.setSnpList(allSNP);
