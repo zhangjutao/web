@@ -163,7 +163,6 @@ $(function () {
             contentType:"application/json;charset=UTF-8",
             dataType:"json",
             success:function(res){
-                debugger;
                 if (!res.geneInsideRegion){
                     $("#GlyIds").hide();
                 }else {
@@ -194,10 +193,12 @@ $(function () {
                         }
                         $("#GlyIds li:first").addClass("GlyColor");
                     };
-                    var result = {data:res};
-                    console.log(result);
-                    drawGeneConstructor(result,"constructorPanel","snpid");
 
+                    drawGeneConstructor(res,"constructorPanel","snpid");
+                    svgPanZoom("#constructorPanel svg", {
+                        zoomEnabled: true,
+                        controlIconsEnabled: true
+                    });
                     // 列表重新获取数据
                     // var clickVal = $("#GlyIds li:first").text();
                     // globelGeneId = clickVal;
@@ -243,7 +244,6 @@ $(function () {
         obj.params.ctype="all";
         obj.params.pageNo = pageNumber;
         obj.params.pageSize = pageSize;
-        debugger;
         getQueryForTable(obj.params);
         getQueryForChat(obj.params);
         // 获取表格数据--ajax
@@ -1530,18 +1530,15 @@ $(function () {
     // function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
     function drawGeneConstructor(result,id,gsnpid){
         // 参考值
-        debugger;
         var ttdistance;
-        if(result.data.structureList.length==0){
+        if(result.structureList.length==0){
             var direction = -1;
         }else {
-            var direction = result.data.structureList[0].strand;
+            var direction = result.structureList[0].strand;
         }
-        var referenceVal = result.data.bps;
-        // var startPos = parseInt(result.data.conditions.split(",")[1]);
-        var startPos =25355;
-        // var endPos =parseInt(result.data.conditions.split(",")[2]);
-        var endPos =30320;
+        // var referenceVal = result.data.bps;
+        var startPos = parseInt(result.upstream);
+        var endPos =parseInt(result.downstream);
         var geneLength = endPos - startPos;
        d3.select("#" + id).selectAll("svg").remove();
        // 创建一个svg 元素
@@ -1663,8 +1660,8 @@ $(function () {
             var g = svg.append("g").attr("transform","translate(20,10)");
             // var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
             var g1 = svg.append("g").attr("transform","translate(20,30)").attr("id",gsnpid);  //?问题点
-            var geneConstructs = result.data.structureList;
-            var snpLocalPoints = result.data.snps;
+            var geneConstructs = result.structureList;
+            var snpLocalPoints = result.snpList;
             var snpColor = "#6b69d6";
             // 根据染色体不同绘制不同的颜色
             function chromoColor (str){
