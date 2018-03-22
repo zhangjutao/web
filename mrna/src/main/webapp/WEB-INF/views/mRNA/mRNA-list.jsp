@@ -392,14 +392,22 @@
                                 </div>
                             </td>
                             <td class="param t_scientificName">ScientificName<img src="${ctxStatic}/images/down.png">
-                                <input type="hidden" class="js-scientificName">
-                                <div class="input-component scientificName-item">
-
+                                <div class="input-component ">
+                                    <input type="text" placeholder="请输入" class="js-scientificName">
+                                    <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
                                 </div>
+
+                                <!--<input type="hidden" class="js-scientificName">
+                                <div class="input-component scientificName-item">
+                                </div>-->
                             </td>
                             <td class="param t_libraryLayout">Library Layout<img src="${ctxStatic}/images/down.png">
-                                <input type="hidden" class="js-libraryLayout">
+                                <!--<input type="hidden" class="js-libraryLayout">
                                 <div class="input-component libraryLayout-item">
+                                </div>-->
+                                <div class="input-component ">
+                                    <input type="text" placeholder="请输入" class="js-libraryLayout">
+                                    <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
                                 </div>
                             </td>
                             <td class="param t_spots">Spots<img src="${ctxStatic}/images/down.png">
