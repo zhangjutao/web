@@ -20,7 +20,7 @@
             <c:choose>
                 <c:when test="${login}">
                     <sec:authentication property="name" var="authenticationName" />
-                    你好,${authenticationName}
+                    你好, ${authenticationName}
                     <sec:authorize access="hasRole('ROLE_ADMIN')">
                         <a href="${ctxroot}/managerPage">管理员</a>
                     </sec:authorize>
