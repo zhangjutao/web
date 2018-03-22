@@ -590,14 +590,16 @@
                 laypage({
                    //cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
+                    /*pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数*/
+                    pages: parseInt(res.total / pageSize) + 1, //通过后台拿到的总页数*/
                     curr: curr || 1, //当前页
                     /*skin: '#5c8de5',*/
                     skin: '#0F9145',
                     prev: '<',
                     next: '>',
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                    /*last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可*/
+                    last: parseInt(res.total / pageSize) + 1, //将尾页显示为总页数。若不显示，设置false即可
                     groups: 3, //连续显示分页数
                     jump: function(obj, first){ //触发分页后的回调
                         if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
@@ -677,12 +679,24 @@
         /*$("body").on("change", ".lay-per-page-count-select", function() {*/
         $("body").on("click", ".select_item_page li", function() {
             //pageSize = $(this).val();
-            pageSize = $(".ga-ctrl-footer .lay-per-page-count-select").val();
             /*var type_select=$(".js-search-select").val();*/
+            pageSize = $(".ga-ctrl-footer .lay-per-page-count-select").val();
+            /*var type_select=$(".select_default").val();
+            var key_input=$(".js-search-text").val();
+            var cdt=getParamsString();
+            initTables(1,type_select,key_input,cdt)*/
+            var total= Number($("#total-page-count span").text());
+            var curr = Number($(".ga-ctrl-footer .laypage_curr").text());
+            var mathCeil = parseInt(total/pageSize) + 1;
             var type_select=$(".select_default").val();
             var key_input=$(".js-search-text").val();
             var cdt=getParamsString();
-            initTables(1,type_select,key_input,cdt)
+            if(curr > mathCeil){
+                initTables(mathCeil,type_select,key_input,cdt);
+            }else{
+                initTables(curr,type_select,key_input,cdt);
+            }
+
         });
 
         /*列表初始化*/
