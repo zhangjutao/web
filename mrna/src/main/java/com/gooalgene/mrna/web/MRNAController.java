@@ -260,11 +260,11 @@ public class MRNAController {
                 }
                 if (map.containsKey("Study")) {
                     String study = (String) data.get("study");
-                    sb.append((study != null ? study : "")).append(",");
+                    sb.append("\"").append((study != null ? study : "")).append("\",");
                 }
                 if (map.containsKey("Reference")) {
                     String reference = (String) data.get("reference");
-                    sb.append((reference != null ? reference : "")).append(",");
+                    sb.append("\"").append((reference != null ? reference : "")).append("\",");
                 }
                 if (map.containsKey("Tissue")) {
                     String tissue = (String) data.get("tissueForClassification");
