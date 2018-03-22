@@ -732,13 +732,11 @@
             $sel_item = $(".select_item"),
             $sel_item_li = $(".select_item li")
         $sel_default.text($(".select_item li:first").text());
-        //alert();
         $sel.hover(function(){
             $sel_item.show();
             $sel_default.addClass("rotate");
             $sel_item_li.hover(function(){
                 $index = $sel_item_li.index(this);
-        //alert($index)
                 $sel_item_li.eq($index).addClass("hover");
             },function(){
                 $sel_item_li.removeClass("hover");
@@ -1034,10 +1032,10 @@
             var _search_gene_dom = $('.js-search-gene-name');
             var _expression_dom = $('.js-expression-value');
             if(e && e.keyCode==13){ // enter 键
-                var currNum = Number(_page_skip.val());
+                var currNum = Number(_page_skip.val()) || 1;
                 var pageSizeNum = Number($('.ga-ctrl-footer #per-page-count .lay-per-page-count-select').val());
                 var total= Number($(".ga-ctrl-footer #total-page-count span").text());
-                var mathCeil=  Math.ceil(total/pageSizeNum);
+                var mathCeil=  parseInt(total/pageSizeNum) + 1;
                 if( _page_skip.hasClass("isFocus") ) {
                     if(currNum>mathCeil){
                         page.curr = 1;
@@ -1276,7 +1274,6 @@
                 var params = getParams();
                 <%--var url = "${ctxroot}/diffgene/studyExpressionDataExport?id=" + params.id + "&gene=" + params.gene + "&expressionValue=" + params.expressionValue + "&choices=" + samples.join(",");--%>
                 var url= "${downloadUrl}"+"expression/"+$('.js-sarstudy').html()+".zip";
-//                alert(url);
                 window.open(url,"_self");
             });
 
