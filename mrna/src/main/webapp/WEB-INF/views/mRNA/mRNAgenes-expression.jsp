@@ -941,7 +941,11 @@
 //                        alert("无数据");
                         $(".js-heat-table > thead,.ga-ctrl-footer").hide();
                         $(".js-heat-table > tbody").empty();
-                        $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")
+                        //modified by zjt
+                        /*$('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")*/
+                        if($('.js-heat-table').children('p').length == 0){
+                            $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>");
+                        }
                     }
                     $("#total-page-count > span").html(res.total);
                     //显示分页
