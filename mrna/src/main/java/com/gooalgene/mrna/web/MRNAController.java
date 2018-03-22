@@ -279,7 +279,7 @@ public class MRNAController {
                     sb.append((treat != null ? treat : "")).append(",");
                 }
                 if (map.containsKey("Genetype")) {
-                    String geneType = (String) data.get("geneType");
+                    String geneType = (String) data.get("genetype");
                     sb.append((geneType != null ? geneType : "")).append(",");
                 }
                 if (map.containsKey("Preservation")) {
@@ -287,16 +287,16 @@ public class MRNAController {
                     sb.append((preservation != null ? preservation : "")).append(",");
                 }
                 if (map.containsKey("Phenotype")) {
-                    String phenotype = (String) data.get("phenoType");
+                    String phenotype = (String) data.get("phenotype");
                     sb.append((phenotype != null ? phenotype : "")).append(",");
                 }
                 if (map.containsKey("Environment")) {
                     String environment = (String) data.get("environment");
                     sb.append((environment != null ? environment : "")).append(",");
                 }
-                if (map.containsKey("Cultivar")) {
-                    String cultivar = (String) data.get("ccultivar");
-                    sb.append((cultivar != null ? cultivar : "")).append(",");
+                if (map.containsKey("Type")) {
+                    String environment = (String) data.get("Type");
+                    sb.append((environment != null ? environment : "")).append(",");
                 }
                 if (map.containsKey("Scientific Name")) {
                     String scientificName = (String) data.get("scientificName");
