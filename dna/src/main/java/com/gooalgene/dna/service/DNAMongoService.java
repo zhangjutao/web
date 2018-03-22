@@ -81,17 +81,6 @@ public class DNAMongoService {
 
 
     /**
-     * 清空某个collection数据，不会删除索引
-     *
-     * @param collectionName
-     */
-    public void clearCollection(String collectionName) {
-        mongoTemplate.remove(new Query(), collectionName);
-        logger.info("remove all documents from collection " + collectionName + " .");
-    }
-
-
-    /**
      * 删除某个collection
      *
      * @param collectionName

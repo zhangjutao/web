@@ -19,9 +19,6 @@ import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.*;
 
-/**
- * Created by ShiYun on 2017/9/11 0011.
- */
 @Service
 public class SNPService {
 
@@ -30,6 +27,7 @@ public class SNPService {
 
     @Autowired
     private DNARunService dnaRunService;
+
     @Autowired
     private SNPService snpService;
 
@@ -260,7 +258,7 @@ public class SNPService {
         for (SNP snp : snps) {
             SNPDto snpDto = new SNPDto();
             BeanUtils.copyProperties(snp, snpDto);
-            Map map = snpService.findSampleById(snp.getId());
+            Map map = snpService.findSampleById(snp);
             snpDto.setGeneType(map);
             JSONArray freqData;
             if(StringUtils.equals(type,"SNP")){
@@ -273,115 +271,6 @@ public class SNPService {
         }
         result.put("data", data);
         return result;
-    }
-
-
-    /**
-     * 计算MajorAllele显示的碱基
-     *
-     * @param snp
-     * @param snpJSON
-     */
-    public void countMajorAllele(SNP snp, JSONObject snpJSON) {
-        int num_0_0 = 0;
-        int num_0_1 = 0;
-        int num_1_1 = 0;
-        int num_total = 0;
-        Map<String, String> samples = snp.getSamples();
-        String ref = snp.getRef();
-        String alt = snp.getAlt();
-        for (String key : samples.keySet()) {
-            String value = samples.get(key);
-            if (value.equals("0/0")) {
-                num_0_0++;
-                num_total++;
-            } else if (value.equals("0/1")) {
-                num_0_1++;
-                num_total++;
-            } else if (value.equals("1/1")) {
-                num_1_1++;
-                num_total++;
-            } else {
-
-            }
-        }
-        //频率高的为Major,低的为Minor
-        if (num_total != 0) {
-            Double a = (num_0_0 + 0.5 * num_0_1) / num_total; //-->> AA  ref
-            Double b = (num_1_1 + 0.5 * num_0_1) / num_total; //-->> GG  alt
-            if (a.compareTo(b) >= 0) {
-                snpJSON.put("majorallen", ref);
-                snpJSON.put("minorallen", alt);
-            } else {
-                snpJSON.put("majorallen", alt);
-                snpJSON.put("minorallen", ref);
-            }
-        } else {
-            snpJSON.put("majorallen", "-");
-            snpJSON.put("minorallen", "-");
-        }
-    }
-
-    /**
-     * 按群体计算样本频率
-     *
-     * @param sample
-     * @param groups
-     * @return
-     */
-    public JSONArray getFrequeData(Map<String, String> sample, Map<String, List<String>> groups) {
-        JSONArray jsonArray = new JSONArray();
-        for (String group : groups.keySet()) {
-            JSONObject jsonObject = new JSONObject();
-            List<String> samples = groups.get(group);
-            int length = samples.size();
-            jsonObject.put("name", group);
-            jsonObject.put("size", length);
-            int num_0_0 = 0;
-            int num_0_1 = 0;
-            int num_1_1 = 0;
-            int num_total = 0;
-//            System.out.println("==========================");
-            for (int j = 0; j < length; j++) {
-                String k = samples.get(j);
-                String s = sample.get(k);
-//                System.out.println(k + ":" + s);
-                if (s != null) {
-                    if (s.equals("0/0")) {
-                        num_0_0++;
-                        num_total++;
-                    } else if (s.equals("0/1")) {
-                        num_0_1++;
-                        num_total++;
-                    } else if (s.equals("1/1")) {
-                        num_1_1++;
-                        num_total++;
-                    } else {
-
-                    }
-                } else {
-                    System.out.println(k + " is " + s);
-                }
-            }
-//            System.out.println("G:" + groupConditions + "=====[1/1]:" + num_1_1 + "\t[0/0]:" + num_0_0 + "\t[0/1]:" + num_0_1 + "\tTotal" + num_total);
-            double major = 0, minor = 0;//频率高的为Major,低的为Minor
-            if (num_total != 0) {
-                Double a = (num_0_0 + 0.5 * num_0_1) / num_total;
-                Double b = (num_1_1 + 0.5 * num_0_1) / num_total;
-                if (a.compareTo(b) >= 0) {
-                    major = a;
-                    minor = b;
-                } else {
-                    major = b;
-                    minor = a;
-                }
-            }
-//            System.out.println(major + "\t" + minor);
-            jsonObject.put("major", major);
-            jsonObject.put("minor", minor);
-            jsonArray.add(jsonObject);
-        }
-        return jsonArray;
     }
 
     /**

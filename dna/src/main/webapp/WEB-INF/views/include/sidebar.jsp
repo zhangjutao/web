@@ -143,26 +143,7 @@
             <div class="item-bd-list">
                 <span>Chromosome</span>
                 <select class="js-chorosome">
-                    <option value="Chr01" data-max="56831624">Chr01</option>
-                    <option value="Chr02" data-max="48577505">Chr02</option>
-                    <option value="Chr03" data-max="45779781">Chr03</option>
-                    <option value="Chr04" data-max="52389146">Chr04</option>
-                    <option value="Chr05" data-max="42234498">Chr05</option>
-                    <option value="Chr06" data-max="51416486">Chr06</option>
-                    <option value="Chr07" data-max="44630646">Chr07</option>
-                    <option value="Chr08" data-max="47837940">Chr08</option>
-                    <option value="Chr09" data-max="50189764">Chr09</option>
-                    <option value="Chr10" data-max="51566898">Chr10</option>
-                    <option value="Chr11" data-max="34766867">Chr11</option>
-                    <option value="Chr12" data-max="40091314">Chr12</option>
-                    <option value="Chr13" data-max="45874162">Chr13</option>
-                    <option value="Chr14" data-max="49042192">Chr14</option>
-                    <option value="Chr15" data-max="51756343">Chr15</option>
-                    <option value="Chr16" data-max="37887014">Chr16</option>
-                    <option value="Chr17" data-max="41641366">Chr17</option>
-                    <option value="Chr18" data-max="58018742">Chr18</option>
-                    <option value="Chr19" data-max="50746916">Chr19</option>
-                    <option value="Chr20" data-max="47904181">Chr20</option>
+                    <%--<option value="Chr01" data-max="164327">chr316</option>--%>
                 </select>
             </div>
             <div class="item-bd-list"><span>Start Position</span><input
@@ -2219,7 +2200,7 @@
                 $(this).removeClass("checkbox-ac");
             } else {
                 $(this).addClass("checkbox-ac");
-                GeneObj.gene = $(this).text().split("_")[0];
+                GeneObj.gene = $(this).text();
             }
         });
 
@@ -2243,12 +2224,12 @@
                         var len = res.data.length;
                         var str = '';
                         for (var i = 0; i < len; i++) {
-                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">' + res.data[i].geneId + '_' + res.data[i].geneName + '</div><i style="display:none">_' + res.data[i].geneFunction + '</i></label>'
+                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">' + res.data[i].geneId+'</div><i style="display:none"></i></label>'
                         }
                         $(".gene-search-list").empty().append(str);
                     } else {
                         $(".gene-search-list").empty();
-                        $(".gene-search input").addClass("inputError")
+                        $(".gene-search input").addClass("inputError");
                         $(".errorBoxShow").show();
                     }
                     $(document).on("mouseover mouseout", ".gene-search-list label", function (e) {
@@ -2454,8 +2435,8 @@
                 }
             },
             getGeneParams: function () {
-                GeneObj.upstream = $(".js-up-stream").val();
-                GeneObj.downstream = $(".js-down-stream").val();
+                GeneObj.start = $(".js-up-stream").val();
+                GeneObj.end = $(".js-down-stream").val();
                 if (selectedPopulations.length > 0) {
                     GeneObj["group"] = JSON.stringify(selectedPopulations);
                 } else {
@@ -2466,8 +2447,8 @@
                 if (GeneObj.upstream == "") {
                     delete GeneObj["upstream"];
                 } else {
-                    if (!isNaN(GeneObj.upstream * 1)) {
-                        if (GeneObj.upstream * 1 > 20000) {
+                    if (!isNaN(GeneObj.start * 1)) {
+                        if (GeneObj.start * 1 > 20000) {
 //                            return alert("输入范围值要小于20kb");
                             layer.open({
                                 type: 0,
@@ -2476,7 +2457,7 @@
                                 shadeClose: true,
                             });
                             return;
-                        } else if (GeneObj.upstream * 1 < 0) {
+                        } else if (GeneObj.start * 1 < 0) {
 //                            return alert("输入数字应大于0");
                             layer.open({
                                 type: 0,
@@ -2500,8 +2481,8 @@
                 if (GeneObj.downstream == "") {
                     delete GeneObj["downstream"];
                 } else {
-                    if (!isNaN(GeneObj.downstream * 1)) {
-                        if (GeneObj.downstream * 1 > 20000) {
+                    if (!isNaN(GeneObj.end * 1)) {
+                        if (GeneObj.end * 1 > 20000) {
 //                            return alert("输入范围值要小于20kb");
                             layer.open({
                                 type: 0,
@@ -2510,7 +2491,7 @@
                                 shadeClose: true,
                             });
                             return;
-                        } else if (GeneObj.downstream * 1 < 0) {
+                        } else if (GeneObj.end * 1 < 0) {
 //                            return alert("输入数字应大于0");
                             layer.open({
                                 type: 0,
