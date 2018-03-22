@@ -78,7 +78,7 @@ public class SNPService {
             }
         }
         snp.setSamples(transformedSamples);
-        if(type.equals("INDEL")) {
+        if (type.equals("INDEL")) {
             transformResult.put("INDELData", snp);
             return transformResult;
         }
@@ -154,10 +154,10 @@ public class SNPService {
             Map map = snpService.findSampleById(snp.getId());
             snpDto.setGeneType(map);
             JSONArray freqData;
-            if(StringUtils.equals(type,"SNP")){
-                freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);
-            }else {
-                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), group_runNos);
+            if (StringUtils.equals(type, "SNP")) {
+                freqData = getFrequencyInSnp((SNP) map.get("snpData"), group_runNos);
+            } else {
+                freqData = getFrequencyInSnp((SNP) map.get("INDELData"), group_runNos);
             }
             snpDto.setFreq(freqData);
             data.add(snpDto);
@@ -168,10 +168,10 @@ public class SNPService {
     }
 
     /*
-    * @author 张衍平
-    * 按范围查询导出数据使用
-    * */
-    public Map searchSNPinRegionForExport(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page){
+     * @author 张衍平
+     * 按范围查询导出数据使用
+     * */
+    public Map searchSNPinRegionForExport(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) {
 
         List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
         Map<String, List<String>> group_runNos = dnaRunService.queryDNARunByCondition(group);
@@ -189,10 +189,10 @@ public class SNPService {
             Map map = snpService.findSampleById(snp.getId());
             snpDto.setGeneType(map);
             JSONArray freqData;
-            if(StringUtils.equals(type,"SNP")){
-                freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);
-            }else {
-                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), group_runNos);
+            if (StringUtils.equals(type, "SNP")) {
+                freqData = getFrequencyInSnp((SNP) map.get("snpData"), group_runNos);
+            } else {
+                freqData = getFrequencyInSnp((SNP) map.get("INDELData"), group_runNos);
             }
             snpDto.setFreq(freqData);
             data.add(snpDto);
@@ -214,10 +214,10 @@ public class SNPService {
             BeanUtils.copyProperties(snp, snpDto);
             JSONArray freqData;
             Map map = snpService.findSampleById(snp.getId());
-            if(StringUtils.equals(type,"SNP")){
-                freqData = getFrequencyInSnp((SNP)map.get("snpData"), group_runNos);
-            }else {
-                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), group_runNos);
+            if (StringUtils.equals(type, "SNP")) {
+                freqData = getFrequencyInSnp((SNP) map.get("snpData"), group_runNos);
+            } else {
+                freqData = getFrequencyInSnp((SNP) map.get("INDELData"), group_runNos);
             }
             snpDto.setFreq(freqData);
             snpDto.setGeneType(map);
@@ -418,21 +418,18 @@ public class SNPService {
         return jsonArray;
     }
 
-    public Map searchSNPByGene(String type, String[] ctypeList, String gene, Page<DNAGens> page) {
+    public Map searchSNPByGene(String type, String ctype, String gene, Page<DNAGens> page) {
 
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         String start = Long.toString(dnaGens.getGeneStart() - 2000 < 0 ? 0 : dnaGens.getGeneStart() - 2000);
         String end = Long.toString(dnaGens.getGeneEnd() + 2000);
-        List<SNP> snps = dnaMongoService.searchInGene(type,ctypeList[0],gene,start,end,page);
+        List<SNP> snps = dnaMongoService.searchInGene(type, ctype, gene, start, end, page);
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
         JSONArray data = new JSONArray();
         for (SNP snp : snps) {
             JSONObject snp_Json = snp.toJSON();
-
-            JSONArray freqData = getFrequeData(snp.getSamples(), new HashMap<String, List<String>>());
-            snp_Json.put("freq", freqData);
             data.add(snp_Json);
         }
         result.put("total", page.getCount());
