@@ -1777,6 +1777,9 @@
                 dataType: "json",
                 success: function (res) {
                     $(".js-total-samples").html(res.total);
+                    //modified by zjt 2018-3-22
+                    $("#total-page-count > span").html(res.total);
+                    //modified by zjt 2018-3-22
                 }
             });
         }
