@@ -809,8 +809,8 @@
             str += '<td class="t_qtlName"><a class="qtlname" href="${ctxroot}/search/aboutus?name=' + eleData[i].qtlName + '&version=' + version + '">' + eleData[i].qtlName + '</a> </td>';
             str += '<td class="t_trait">' + eleData[i].trait + '</td>';
             str += '<td class="t_type">' + eleData[i].type + '</td>';
-            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].chr + '</a></td>';
-            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].lg + '(' + eleData[i].lg + ')&qtl=' + eleData[i].qtlName + '">' + eleData[i].lg + '</a> </td>';
+            str += '<td class="t_chr"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].markerlg +'&qtl=' + eleData[i].qtlName + '">' + eleData[i].chr + '</a></td>';
+            str += '<td class="t_lg"><a href="${ctxroot}/gene?chr=' + eleData[i].chr + '&version=' + version + '&markerlg=' + eleData[i].markerlg + '&qtl=' + eleData[i].qtlName + '">' + eleData[i].lg + '</a> </td>';
             str += '<td class="t_method">' + eleData[i].method + '</td>';
             str += '<td class="t_marker1"><a class="js-pop-marker1" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker1 + '">' + eleData[i].marker1 + '</a> </td>';
             str += '<td class="t_marker2"><a class="js-pop-marker2" href="javascript:;" data-src="${ctxroot}/query/marker?markerName=' + eleData[i].marker2 + '">' + eleData[i].marker2 + '</a> </td>';
