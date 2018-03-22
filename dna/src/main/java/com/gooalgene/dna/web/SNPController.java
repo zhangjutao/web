@@ -307,14 +307,15 @@ public class SNPController {
         return ResultUtil.success(result);
     }
 
-
     /**
-     * 进入snp详情页
+     * 跳转到变异位点详情页面
+     *
+     * @param snpId SNP ID值
      */
     @RequestMapping(value = "/snp/info", method = RequestMethod.GET)
-    public ModelAndView getSnpInfo(@RequestParam("frequence") String frequence, SNP snp) {
+    public ModelAndView getInfo(@RequestParam("snpId") String snpId) {
         ModelAndView modelAndView = new ModelAndView("snpinfo/snpinfo");
-        Map result = snpService.findSampleById(snp);
+        Map result = snpService.findSampleById(snpId);
         SNP snpFormatMajorFreq;
         if (result.containsKey("snpData")) {
             snpFormatMajorFreq = (SNP) result.get("snpData");
@@ -328,9 +329,8 @@ public class SNPController {
         StringBuffer finalResult = new DecimalFormat("###0.00").format(majorForBigDecimal, convertValue, new FieldPosition(NumberFormat.INTEGER_FIELD));
         snpFormatMajorFreq.setMajor(major); //将转换后的值反设值到SNP对象中
         modelAndView.addObject("major", finalResult);
-        modelAndView.addObject("snp", snp);
+        modelAndView.addObject("snpId", snpId);
         modelAndView.addObject("result", result);
-        modelAndView.addObject("frequence", frequence);
         return modelAndView;
     }
 

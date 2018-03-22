@@ -227,10 +227,10 @@ public class DNAMongoService {
 
     public SNP findDataById(String type, String chr, String id) {
         String collectionName = type + "_" + chr;
-        SNP oneData = new SNP();
+        SNP oneData = null;
         if (mongoTemplate.collectionExists(collectionName)) {
-            oneData = mongoTemplate.findOne(Query.query(Criteria.where("_id").is(id)), SNP.class, collectionName);
-
+            Query query = new Query(Criteria.where("_id").is(id));
+            oneData = mongoTemplate.findOne(query, SNP.class, collectionName);
             //对consequencetype为“UTR3”、“UTR5”及“UTR5；UTR3”的数据进行处理
             if (oneData != null) {
                 if (oneData.getConsequencetype().equalsIgnoreCase("UTR3")) {
@@ -241,11 +241,8 @@ public class DNAMongoService {
                     oneData.setConsequencetype("UTR5;UTR3");
                 }
             }
-
-            return oneData;
-        } else {
-            return oneData;
         }
+        return oneData;
     }
 
     public List<SNP> findDataByIndexInGene(String type, String gene, String id, Integer index, Integer pageSize, String upstream, String downstream, String ctype) {
