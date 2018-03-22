@@ -86,7 +86,8 @@ body {
 }
 
 #containerAdmin .btnAudit {
-    background: #5D8CE6;
+    /*background: #5D8CE6;*/
+    background: #0F9145;
 }
 
 #containerAdmin .btnAudited {
