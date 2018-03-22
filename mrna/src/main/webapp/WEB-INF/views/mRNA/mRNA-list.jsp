@@ -146,7 +146,7 @@
         .genes-tab thead tr td.t_spots{
             padding: 10px 35px;
         }
-        #total-page-count{height: 24px!important;}
+        #total-page-count{height: 28px!important;}
 
         #select{
             position: relative;
