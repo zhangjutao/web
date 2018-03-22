@@ -833,7 +833,7 @@
                         str += '<td>' + samples[i].stage + '</td>'
                         str += '<td>'+ samples[i].treat +'</td>'
                         str += '<td>'+ samples[i].genetype +'</td>'
-                        str += '<td>'+ samples[i].cultivar +'</td>'
+                        str += '<td>'+ samples[i].type +'</td>'
                         str += '</tr>'
 
                         headStr += '<th class="col_'+ samples[i].sampleno +'">'+ samples[i].samplename +'</th>';
