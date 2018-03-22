@@ -563,7 +563,7 @@
             var currTypes = window.location.search;
             var searchList = currTypes.split("&");
             var currentType = searchList[0].split("=")[1];
-            console.log(currentType)
+            //console.log(currentType)
 
             $.getJSON('${ctxroot}/mrna/listByResult', {
                 pageNo: curr || 1,
@@ -695,7 +695,7 @@
             /*var type=$(".js-search-select").val();*/
             var type=$(".select_default").val();
             var key= $.trim($(".js-search-text").val());
-           console.log(type)
+           //console.log(type)
             var sc_str=""
             for(var i=0;i<data.length;i++){
                 sc_str+="<a href='#'>"+data[i]+"</a>"
@@ -755,7 +755,7 @@
             if($(this).hasClass("btn-default-ac")){
                 $(this).removeClass("btn-default-ac")
                 $("#table_header_setting").removeClass("js-r-ac")
-                console.log($("#experiment").parent().html())
+                //($("#experiment").parent().html())
             }else{
 
                 $(this).addClass("btn-default-ac");
@@ -767,7 +767,7 @@
         })
         /*搜索*/
         $(".js-search-btn").click(function(){
-            console.log($(".genes-tab thead td input").val(""));
+            //console.log($(".genes-tab thead td input").val(""));
             /*var type_select=$(".js-search-select").val();*/
             var type_select=$(".select_default").val();
             var key_input= $.trim($(".js-search-text").val());
@@ -870,7 +870,10 @@
         /*导出数据*/
         $(".btn-export").click(function(){
             /*var type=$(".js-search-select").val();*/
-            var type=$(".select_dafault").val();
+            //var type=$(".select_dafault").val();
+            var currTypes = window.location.search;
+            var searchList = currTypes.split("&");
+            var type = searchList[0].split("=")[1];
             var key=$(".js-search-text").val();
             var keywords=key;
             if(type=="Tissues"){
@@ -888,8 +891,12 @@
                 }
             })
             var choices=span.join(",");
-            console.log(choices)
+            //console.log(choices)
             $("#search4").val(choices);
+            //console.log('search1' + $("#search1").val());
+            //console.log('search2' + $("#search2").val());
+            //console.log('search3' + $("#search3").val());
+            //console.log('search4' + $("#search4").val());
             $("#exportForm").submit();
         })
 
