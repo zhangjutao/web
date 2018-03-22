@@ -432,6 +432,9 @@ $(function (){
                 });
                 // $("#total-page-count span").html(result.data.total);
                 $(".js-total-samples").html(result.data.total);
+                //modified by zjt 2018-3-22
+                $("#total-page-count span").html(result.data.total);
+                //modified by zjt 2018-3-22
             },
             error:function (error){
                 console.log(error);
