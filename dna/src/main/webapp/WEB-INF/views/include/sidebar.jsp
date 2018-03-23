@@ -1619,7 +1619,7 @@
             var curr = Number($(".laypage_curr").text());
             var pageSize = Number($(this).val());
             var total = Number($("#popu-paginate #total-page-count span").text());
-            var mathCeil = Math.ceil(total / curr);
+            var mathCeil = parseInt(total / pageSize) + 1;
             pageSizePopu = $(this).val();
             if (pageSize > mathCeil) {
                 var pageSizeNum = $(this).val();

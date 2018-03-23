@@ -280,7 +280,7 @@ $(function (){
     })
     // // pageSize 选择事件
     $("#per-page-count select").change(function (e){
-        var currentSelected = $(this).find("option:selected").text();
+        var currentSelected = $(this).find("option:selected").text(); //选择的新的页码值
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
     });
@@ -312,12 +312,29 @@ $(function (){
     });
     // pageSize 事件
     $("#tagsPagination select").change(function (e){
-        var val = $(this).val();
+        /*var val = $(this).val();
         var data = getParamas();
         data.pageSize = val;
         data.pageNum =  paramData.pageSize;
+        getData(data,data.pageNum);*/
+        //modified by zjt
+        var currentSelected = $(this).find("option:selected").text();//获取当前展示条数
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
+        var curr = Number($(".laypage_curr").text()); //获取当前页码数
+        var total = Number($("#tagsPagination #total-page-count span").text());//获取总条数
+        var mathCeil = parseInt(total / currentSelected) + 1; //获取总页码数
+        if (curr > mathCeil) {
+            page.pageNum = mathCeil;
+            paramData.pageNum = page.pageNum;
+        }else{
+            page.pageNum = curr;
+            paramData.pageNum = page.pageNum;
+        }
+        var data = getParamas();
+        data.pageNum =  paramData.pageNum;
         getData(data,data.pageNum);
-
+        //modified by zjt
     })
     // 分页
     var nums;
@@ -335,11 +352,11 @@ $(function (){
         pageSize:page.pageSize
     };
     // // pageSize 选择事件
-    $("#tagsPagination select").change(function (e){
-        var currentSelected = $(this).find("option:selected").text();
-        page.pageSize = currentSelected;
-        paramData.pageSize = page.pageSize;
-    });
+    //$("#tagsPagination select").change(function (e){
+    //    var currentSelected = $(this).find("option:selected").text();
+    //  page.pageSize = currentSelected;
+    //  paramData.pageSize = page.pageSize;
+    //});
     //ajax 请求
     function getData(data,curr,fn){
         $.ajax({
@@ -415,15 +432,17 @@ $(function (){
                 // 分页
                 laypage({
                     cont: $('#tagsPagination .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
+                    /*pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数*/
+                    pages: parseInt(result.data.total /  page.pageSize) + 1, //通过后台拿到的总页数
                     curr: curr || 1, //当前页
                     skin: '#5c8de5',
                     skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                    /*last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可*/
+                    last: parseInt(result.data.total /  page.pageSize) + 1, //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',
                     next: '>',
-                    groups: 3, //连续显示分页数
+                    groups: 2, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                             var tmp = getParamas();
