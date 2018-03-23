@@ -279,6 +279,7 @@ a {
     overflow: hidden;
 }
 #snpInforsPage{
+    height: 60px;
     margin-right:30px;
 }
 #snpinfoTable table tbody td.genoTypeT{

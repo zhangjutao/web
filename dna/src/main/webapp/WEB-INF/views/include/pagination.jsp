@@ -5,6 +5,7 @@
 <style>
     .ga-ctrl-footer {
         text-align: right;
+        position: relative;
         padding: 0 0 20px 0;
     }
     .pagination {

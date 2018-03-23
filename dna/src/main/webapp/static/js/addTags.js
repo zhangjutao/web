@@ -52,6 +52,16 @@ $(function (){
     }
     // 重置按钮点击事件
     $(".resetBtn").click(function (){
+        // 每次点击重置都会清空所有的input 框和select框里的值 modified by zjt 2018-3-23
+        var inputValues = $("#tagKind table thead input");
+        $.each(inputValues,function (i,item){
+            $(item).val("");
+        })
+        var selectValues = $("#tagKind table thead select");
+        $.each(selectValues,function (i,item){
+            $(item).val("");
+        })
+        //同时清空条件筛选框的值 modified by zjt 2018-3-23
         var data = getParamas();
             data.pageNum = 1;
             // 默认回到第一页，
@@ -260,6 +270,12 @@ $(function (){
         $.each(inputValues,function (i,item){
             $(item).val("");
         })
+        //同时清空条件筛选框的值 modified by zjt 2018-3-23
+        var selectValues = $("#tagKind table thead select");
+        $.each(selectValues,function (i,item){
+            $(item).val("");
+        })
+        //同时清空条件筛选框的值 modified by zjt 2018-3-23
         var data = getParamas();
        getData(data,paramData.pageNum,resetSaveStatus);
     });
@@ -271,7 +287,8 @@ $(function (){
     })
     // 筛选取消按钮 样式
     $("#tagKind .inputComponent .btnCancel").click(function (){
-        $(this).parent().parent().find("input").val("");
+        $(this).parent().parent().find("input").val(""); //清空input框的值
+        $(this).parent().parent().find("select").val(""); //清空select框的值
         //重新获取表格的值 modified by zjt 2018-3-22
         var data = getParamas();
         getData(data,paramData.pageNum,resetSaveStatus);
@@ -321,16 +338,8 @@ $(function (){
         var currentSelected = $(this).find("option:selected").text();//获取当前展示条数
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
-        var curr = Number($(".laypage_curr").text()); //获取当前页码数
-        var total = Number($("#tagsPagination #total-page-count span").text());//获取总条数
-        var mathCeil = parseInt(total / currentSelected) + 1; //获取总页码数
-        if (curr > mathCeil) {
-            page.pageNum = mathCeil;
-            paramData.pageNum = page.pageNum;
-        }else{
-            page.pageNum = curr;
-            paramData.pageNum = page.pageNum;
-        }
+        page.pageNum = 1;
+        paramData.pageNum = page.pageNum;
         var data = getParamas();
         data.pageNum =  paramData.pageNum;
         getData(data,data.pageNum);
