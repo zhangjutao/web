@@ -527,7 +527,7 @@
 //            }
             var data = {
                 "genename": geneName,
-                "genegroup": "gmx_phytozome_v11"
+                "genegroup": "pne_A1B1"
             }
 //            var data = {
 //                "genename": "LOC_Os01g01010",
