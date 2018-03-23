@@ -684,21 +684,11 @@
             //pageSize = $(this).val();
             /*var type_select=$(".js-search-select").val();*/
             pageSize = $(".ga-ctrl-footer .lay-per-page-count-select").val();
-            /*var type_select=$(".select_default").val();
-            var key_input=$(".js-search-text").val();
-            var cdt=getParamsString();
-            initTables(1,type_select,key_input,cdt)*/
-            var total= Number($("#total-page-count span").text());
-            var curr = Number($(".ga-ctrl-footer .laypage_curr").text());
-            var mathCeil = parseInt(total/pageSize) + 1;
             var type_select=$(".select_default").val();
             var key_input=$(".js-search-text").val();
             var cdt=getParamsString();
-            if(curr > mathCeil){
-                initTables(mathCeil,type_select,key_input,cdt);
-            }else{
-                initTables(curr,type_select,key_input,cdt);
-            }
+            initTables(1,type_select,key_input,cdt)
+            //统一跳转到第一页
 
         });
 
