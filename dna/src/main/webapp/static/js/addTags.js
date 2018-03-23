@@ -57,11 +57,15 @@ $(function (){
         $.each(inputValues,function (i,item){
             $(item).val("");
         })
+        //同时清空条件筛选框的值 modified by zjt 2018-3-23
         var selectValues = $("#tagKind table thead select");
         $.each(selectValues,function (i,item){
             $(item).val("");
         })
-        //同时清空条件筛选框的值 modified by zjt 2018-3-23
+        //将pageSize改为10 modified by zjt 2018-3-23
+        $("#per-page-count select").val('10');
+        page.pageSize = 10;
+        paramData.pageSize = page.pageSize;
         var data = getParamas();
             data.pageNum = 1;
             // 默认回到第一页，
@@ -276,6 +280,9 @@ $(function (){
             $(item).val("");
         })
         //同时清空条件筛选框的值 modified by zjt 2018-3-23
+        $("#per-page-count select").val('10');
+        page.pageSize = 10;
+        paramData.pageSize = page.pageSize;
         var data = getParamas();
        getData(data,paramData.pageNum,resetSaveStatus);
     });
