@@ -128,7 +128,7 @@
             </select>
             -->
             <div id="select">
-                <input type="text" class="select_default" value="All" id="selectValue">
+                <input type="text" class="select_default" value="All" id="selectValue" disabled="disabled" style="background:white">
                 <ul class="select_item">
                     <li style="border-top:1px solid #0F9145;">All</li>
                     <li>Study</li>

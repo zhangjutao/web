@@ -1065,15 +1065,19 @@
                     }
                 } else if(_expression_dom.hasClass("isFocus")) {
                     $('.zwsj').remove();
+                    var pageSizeNum = 20;//将页面展示条数还原
+                    $('.ga-ctrl-footer #per-page-count .lay-per-page-count-select').val('20');//将页面展示条数显示框数字还原
+
                     page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
-                    if(currNum>mathCeil){
+                    /*if(currNum>mathCeil){
                         page.curr = 1;
                         initTable(1,pageSizeNum);
                     }else{
                         page.curr = currNum;
                         initTable(currNum,pageSizeNum);
-                    }
+                    }*/
+                    initTable(1,pageSizeNum);//直接跳转第一页
                 }
             }
         }
