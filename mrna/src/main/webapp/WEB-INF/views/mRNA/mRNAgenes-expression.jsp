@@ -953,15 +953,13 @@
                     laypage({
                         //cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        /*pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数*/
-                        pages: parseInt(res.total / page.pageSize) + 1, //通过后台拿到的总页数
+                        pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                         curr: curr|| 1, //当前页
                         /*skin: '#5c8de5',*/
                         skin : '#0F9145',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        /*last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可*/
-                        last: parseInt(res.total / page.pageSize) + 1, //将尾页显示为总页数。若不显示，设置false即可
+                        last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
                         prev: '<',
                         next: '>',
                         groups: 3, //连续显示分页数
@@ -1003,18 +1001,9 @@
             }else{
                 initTable(curr,pageSize);
             }*/
-            var total= Number($("#total-page-count span").text());
             var pageSize = Number($(this).text());
-            var mathCeil = parseInt(total/pageSize) + 1;
             page.pageSize = $(this).text();
-            var curr = Number($(".ga-ctrl-footer .laypage_curr").text());
-            if(curr > mathCeil){
-                page.curr = mathCeil;
-                initTable(mathCeil,pageSize);
-            }else{
-                page.curr = curr;
-                initTable(curr,pageSize);
-            }
+            initTable(1,pageSize);
         });
 
         // 搜索
