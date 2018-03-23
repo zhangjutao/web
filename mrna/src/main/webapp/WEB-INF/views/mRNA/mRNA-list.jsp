@@ -254,7 +254,7 @@
                 </ul>
             </div>
             <label>
-                <input type="text" name="search" class="js-search-text" placeholder="输入您要查找的关键字" value="${keywords}">
+                <input type="text" name="search" class="js-search-text" placeholder="请输入您要查找的关键字" value="${keywords}">
                 <span class="clear-input" style="display:none ">
                     <img src="${ctxStatic}/images/clear-search.png">
                 </span>
@@ -496,20 +496,23 @@
             $(".js-search-text").attr("placeholder","");
             console.log(select);
             switch (select){
+                case "All":
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
+                    break;
                 case "Study":
-                    $(".js-search-text").attr("placeholder","RNA-seq of soybean");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Tissues":
-                    $(".js-search-text").attr("placeholder","root leaf");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Stage":
-                    $(".js-search-text").attr("placeholder","16 days v1 stage");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Treat":
-                    $(".js-search-text").attr("placeholder","water_deficit_12hr");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Reference":
-                    $(".js-search-text").attr("placeholder","Ling H, John S. Conserved Gene Expression Programs in Developing Roots from Diverse Plants[J]. Plant Cell, 2015, 27(8):2119-32");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
             }
             //test
@@ -590,14 +593,16 @@
                 laypage({
                    //cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
+                    /*pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数*/
+                    pages: parseInt(res.total / pageSize) + 1, //通过后台拿到的总页数*/
                     curr: curr || 1, //当前页
                     /*skin: '#5c8de5',*/
                     skin: '#0F9145',
                     prev: '<',
                     next: '>',
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                    /*last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可*/
+                    last: parseInt(res.total / pageSize) + 1, //将尾页显示为总页数。若不显示，设置false即可
                     groups: 3, //连续显示分页数
                     jump: function(obj, first){ //触发分页后的回调
                         if(!first){ //点击跳页触发函数自身，并传递当前页：obj.curr
@@ -677,12 +682,24 @@
         /*$("body").on("change", ".lay-per-page-count-select", function() {*/
         $("body").on("click", ".select_item_page li", function() {
             //pageSize = $(this).val();
-            pageSize = $(".ga-ctrl-footer .lay-per-page-count-select").val();
             /*var type_select=$(".js-search-select").val();*/
+            pageSize = $(".ga-ctrl-footer .lay-per-page-count-select").val();
+            /*var type_select=$(".select_default").val();
+            var key_input=$(".js-search-text").val();
+            var cdt=getParamsString();
+            initTables(1,type_select,key_input,cdt)*/
+            var total= Number($("#total-page-count span").text());
+            var curr = Number($(".ga-ctrl-footer .laypage_curr").text());
+            var mathCeil = parseInt(total/pageSize) + 1;
             var type_select=$(".select_default").val();
             var key_input=$(".js-search-text").val();
             var cdt=getParamsString();
-            initTables(1,type_select,key_input,cdt)
+            if(curr > mathCeil){
+                initTables(mathCeil,type_select,key_input,cdt);
+            }else{
+                initTables(curr,type_select,key_input,cdt);
+            }
+
         });
 
         /*列表初始化*/

@@ -85,21 +85,11 @@ public class SNPService {
     /**
      * 通过SNP或INDEL的id查找相应SNP或INDEL数据及相关sample数据
      */
-    public Map findSampleById(String id) {
-        Map oneDataResult = new HashMap();
-        int markNumber = CommonUtil.getCharPositionBeforNum(id);
-        if (markNumber == -1) {
-            return oneDataResult;
-        }
-        String type;
-        if (id.indexOf("I", markNumber) == markNumber) {
-            type = "INDEL";
-        } else if (id.indexOf("S", markNumber) == markNumber) {
-            type = "SNP";
-        } else {
-            return oneDataResult;
-        }
-        String chr = "Chr" + (id.substring(markNumber + 2, markNumber + 4));
+    public Map<String, Object> findSampleById(String id) {
+        Map<String, Object> oneDataResult = new HashMap<>();
+        String[] chromosomeAndType = CommonUtil.getChromosomeAndType(id);
+        String type = chromosomeAndType[0];
+        String chr = "chr" + chromosomeAndType[1];
         SNP oneData = dnaMongoService.findDataById(type, chr, id);
         if (oneData == null) {
             return oneDataResult;

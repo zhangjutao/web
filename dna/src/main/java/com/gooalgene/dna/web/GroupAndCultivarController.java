@@ -15,6 +15,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 @Controller
 @RequestMapping
 public class GroupAndCultivarController {
@@ -32,6 +35,11 @@ public class GroupAndCultivarController {
         logger.info(sampleInfoDto.getRunNo());
         PageInfo<SampleInfoDto> dnaRunPageInfo = dnaRunService.getListByConditionWithTypeHandler(sampleInfoDto, pageNum, pageSize, isPage);
         return ResultUtil.success(dnaRunPageInfo);
+    }
 
+    @RequestMapping("/dnagens/geneInfo")
+    public String geneInfo(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
+        return "/search/genesInfo";
     }
 }
