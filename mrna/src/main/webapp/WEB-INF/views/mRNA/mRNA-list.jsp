@@ -254,7 +254,7 @@
                 </ul>
             </div>
             <label>
-                <input type="text" name="search" class="js-search-text" placeholder="输入您要查找的关键字" value="${keywords}">
+                <input type="text" name="search" class="js-search-text" placeholder="请输入您要查找的关键字" value="${keywords}">
                 <span class="clear-input" style="display:none ">
                     <img src="${ctxStatic}/images/clear-search.png">
                 </span>
@@ -496,20 +496,23 @@
             $(".js-search-text").attr("placeholder","");
             console.log(select);
             switch (select){
+                case "All":
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
+                    break;
                 case "Study":
-                    $(".js-search-text").attr("placeholder","RNA-seq of soybean");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Tissues":
-                    $(".js-search-text").attr("placeholder","root leaf");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Stage":
-                    $(".js-search-text").attr("placeholder","16 days v1 stage");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Treat":
-                    $(".js-search-text").attr("placeholder","water_deficit_12hr");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
                 case "Reference":
-                    $(".js-search-text").attr("placeholder","Ling H, John S. Conserved Gene Expression Programs in Developing Roots from Diverse Plants[J]. Plant Cell, 2015, 27(8):2119-32");
+                    $(".js-search-text").attr("placeholder","请输入您要查找的关键字");
                     break;
             }
             //test
