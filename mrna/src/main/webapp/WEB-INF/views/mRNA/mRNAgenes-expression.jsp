@@ -465,7 +465,7 @@
                 <input class="js-expression-value" type="text" value="">
                 -->
                 <div id="select">
-                    <input type="text" class="select_default" value=">">
+                    <input type="text" class="select_default" value=">" disabled="disabled" style="background:white">
                     <ul class="select_item">
                         <li>&gt;</li>
                         <li>=</li>
