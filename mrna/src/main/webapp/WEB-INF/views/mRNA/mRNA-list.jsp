@@ -976,7 +976,7 @@
                             content += "<div>研究课题信息检索号</div>";
                             break;
                         case "Experiment":
-                            content += "<div>研究课题信息检索号</div>";
+                            content += "<div>试验信息检索号</div>";
                             break;
                     }
 
