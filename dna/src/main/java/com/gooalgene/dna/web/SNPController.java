@@ -86,7 +86,7 @@ public class SNPController {
 
     @RequestMapping(value = "/fetch-all-chromosome", method = RequestMethod.GET)
     @ResponseBody
-    private List<ChromosomeList> fetchAllChromosome() {
+    public List<ChromosomeList> fetchAllChromosome() {
         return dnaGensService.fetchAllChromosome();
     }
 

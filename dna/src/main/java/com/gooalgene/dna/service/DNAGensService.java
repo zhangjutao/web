@@ -1,41 +1,23 @@
 package com.gooalgene.dna.service;
 
 import com.github.pagehelper.PageHelper;
-import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNAGensDao;
 import com.gooalgene.dna.entity.ChromosomeList;
 import com.gooalgene.dna.entity.DNAGens;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.Cache;
-import org.springframework.cache.CacheManager;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * Created by 陈冬 on 2017/8/22.
- */
 @Service
-public class DNAGensService implements InitializingBean{
-
-    @Autowired
-    private CacheManager manager;
+public class DNAGensService {
 
     @Autowired
     private DNAGensDao dnaGensDao;
-
-    private Cache cache;
-
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        cache = manager.getCache("");
-    }
 
     public DNAGens findByGeneId(String geneId) {
         return dnaGensDao.findByGeneId(geneId);
@@ -45,36 +27,12 @@ public class DNAGensService implements InitializingBean{
         return dnaGensDao.fetchAllChromosome();
     }
 
-    @Transactional(readOnly = false)
-    public boolean add(DNAGens dnaGens) {
-        return dnaGensDao.add(dnaGens);
-    }
-
-    @Transactional(readOnly = false)
-    public int insertBatch(List<DNAGens> dnaGenses) {
-        return dnaGensDao.insertBatch(dnaGenses);
-    }
-
-    public DNAGens findById(int id) {
-        return dnaGensDao.findById(id);
-    }
-
     /**
      * 根据基因ID,查询基因基本信息
      * @param gene 基因ID
      */
     public DNAGens findByGene(String gene) {
         return dnaGensDao.findDNAGensInfoByGene(gene);
-    }
-
-    @Transactional(readOnly = false)
-    public int update(DNAGens dnaGens) {
-        return dnaGensDao.update(dnaGens);
-    }
-
-    @Transactional(readOnly = false)
-    public boolean delete(int id) {
-        return dnaGensDao.deleteById(id);
     }
 
     /**
@@ -99,20 +57,5 @@ public class DNAGensService implements InitializingBean{
     public Set<String> getByRegionNoCompare(String chr,long start, long end){
         Set<String> list= dnaGensDao.getByRegion(chr,start,end);
         return list;
-    }
-
-    private List<String> compareGeneIds(Map<Integer,String> map){
-        ArrayList<Map.Entry<Integer,String>> list = new ArrayList<>(map.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Integer,String>>() {
-            @Override
-            public int compare(Map.Entry<Integer,String> arg0,Map.Entry<Integer,String> arg1) {
-                return arg0.getKey() - arg1.getKey();
-            }
-        });
-        List<String> geneIds=Lists.newArrayList();
-        for (int i = 0; i < list.size(); i++){
-            geneIds.add(list.get(i).getValue());
-        }
-        return geneIds;
     }
 }
