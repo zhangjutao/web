@@ -106,10 +106,12 @@ $(function (){
             for(var j=0;j<arr.length;j++){
                 arrStr+=arr[j].substring(3) + ",";
             };
-
+            // 当前保存群体的顺序
+            var popLength = $(".js-cursom-add>div.js-ad-dd").length;
             var newArrStr = arrStr.substring(0,arrStr.length-1);
             var ki = {name:selContents,
-                     id:new Date().getTime(),
+                     // id:new Date().getTime(),
+                     id:popLength +1+6,
                      condition:{
                             idList:newArrStr
                      }

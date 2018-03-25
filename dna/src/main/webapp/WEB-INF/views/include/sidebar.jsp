@@ -150,7 +150,7 @@
                     onkeyup="this.value=this.value.replace(/\D/g,'')" type="number" min="0" placeholder="请输入数值"
                     class="js-start-position" value="0"></div>
             <div class="item-bd-list"><span>End Position</span><input onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                                                      type="number" min="0" placeholder="请输入数值"
+                                                                      type="number" min="0" placeholder="<=164327"
                                                                       class="js-end-position"></div>
         </div>
     </div>
@@ -1426,9 +1426,13 @@
                     obj[i] = popuSamples[i];
                     arr.push(getKeyName(i) + getUnitValue(obj));
                 }
+                // 当前保存群体的顺序
+                var popLength = $(".js-cursom-add>div.js-ad-dd").length;
+
                 var o = {
                     "name": arr.join(","),
-                    "id": new Date().getTime(),
+//                    "id": new Date().getTime(),
+                    "id": popLength + 1+ 6,
                     "condition": getStandardPopulation(popuSamples)
                 };
 //                initPopulations();
@@ -2287,7 +2291,7 @@
             $(".js-end-position").attr("placeholder", "<=" + chromosomeMax);
         }
 
-        linkEndPosition();
+//        linkEndPosition();
         $(".js-chorosome").change(function () {
             linkEndPosition();
         });
@@ -2298,9 +2302,9 @@
             "start": "",
             "end": ""
         }, GeneObj = {
-            "gene": "",
-            "upstream": "",
-            "downstream": ""
+            "gene": ""
+//            "upstream": "",
+//            "downstream": ""
         };
 
 //        根据id获取选中的品种名
@@ -2444,9 +2448,6 @@
 //                    GeneObj["group"] = JSON.stringify([]);
                 }
 //
-                if (GeneObj.upstream == "") {
-                    delete GeneObj["upstream"];
-                } else {
                     if (!isNaN(GeneObj.start * 1)) {
                         if (GeneObj.start * 1 > 20000) {
 //                            return alert("输入范围值要小于20kb");
@@ -2477,10 +2478,6 @@
                         });
                         return;
                     }
-                }
-                if (GeneObj.downstream == "") {
-                    delete GeneObj["downstream"];
-                } else {
                     if (!isNaN(GeneObj.end * 1)) {
                         if (GeneObj.end * 1 > 20000) {
 //                            return alert("输入范围值要小于20kb");
@@ -2511,7 +2508,6 @@
                         });
                         return;
                     }
-                }
 //                if(GeneObj.upstream*1 < GeneObj.downstream*1) {
 //                    return alert("输入范围值不合理");
 //                }
