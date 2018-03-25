@@ -243,7 +243,7 @@
             </select>
             -->
             <div id="select">
-                <input type="text" class="select_default">
+                <input type="text" class="select_default" disabled="disabled" style="background:white">
                 <ul class="select_item">
                     <li style="border-top:1px solid #0F9145;">All</li>
                     <li>Study</li>
@@ -271,13 +271,13 @@
             <div  class="che-list">
                 <span class="tab-title">表格内容:</span>
                 <dl id="table_header_setting">
-                    <dd><label for="sampleName" class="checkbox-ac"><span id="sampleName" data-value="sampleName"></span>Sample name</label></dd>
+                    <dd><label for="sampleName" class="checkbox-ac"><span id="sampleName" data-value="sampleName"></span>Sample Name</label></dd>
                     <dd><label for="study" class="checkbox-ac"><span id="study" data-value="study"></span>Study</label></dd>
                     <dd><label for="reference" class="checkbox-ac"><span id="reference" data-value="reference"></span>Reference</label></dd>
                     <dd><label for="tissue" class="checkbox-ac"><span id="tissue" data-value="tissue"></span>Tissue</label></dd>
                     <dd><label for="stage"  class="checkbox-ac"><span id="stage" data-value="stage"></span>Stage</label></dd>
                     <dd><label for="treat" class="checkbox-ac"><span id="treat" data-value="treat"></span>Treat</label></dd>
-                    <dd><label for="geneType" class="checkbox-ac"><span id="geneType" data-value="geneType"></span>Genetype</label></dd>
+                    <dd><label for="geneType" class="checkbox-ac"><span id="geneType" data-value="geneType"></span>Genotype</label></dd>
                     <dd><label for="preservation" class="checkbox-ac"><span id="preservation" data-value="preservation"></span>Preservation</label></dd>
                     <dd><label for="phenoType" class="checkbox-ac"><span id="phenoType" data-value="phenoType"></span>Phenotype</label></dd>
                     <dd><label for="environment" class="checkbox-ac"><span id="environment" data-value="environment"></span>Environment</label></dd>
@@ -362,7 +362,7 @@
                                 </div>
                             </td>
                             <!--<td class="param t_geneType">GeneType<img src="${ctxStatic}/images/down.png">修改名称为Genotype-->
-                            <td class="param t_geneType">GenoType<img src="${ctxStatic}/images/down.png">
+                            <td class="param t_geneType">Genotype<img src="${ctxStatic}/images/down.png">
                                 <div class="input-component ">
                                     <input type="text" placeholder="请输入" class="js-genet-type">
                                     <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
@@ -392,7 +392,7 @@
                                     <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
                                 </div>
                             </td>
-                            <td class="param t_scientificName">ScientificName<img src="${ctxStatic}/images/down.png">
+                            <td class="param t_scientificName">Scientific Name<img src="${ctxStatic}/images/down.png">
                                 <div class="input-component ">
                                     <input type="text" placeholder="请输入" class="js-scientificName">
                                     <p><a class="btn-cancel" href="javascript:void(0);">取消</a><a href="javascript:void(0);" class="btn-confirm-info">确定</a></p>
@@ -684,21 +684,11 @@
             //pageSize = $(this).val();
             /*var type_select=$(".js-search-select").val();*/
             pageSize = $(".ga-ctrl-footer .lay-per-page-count-select").val();
-            /*var type_select=$(".select_default").val();
-            var key_input=$(".js-search-text").val();
-            var cdt=getParamsString();
-            initTables(1,type_select,key_input,cdt)*/
-            var total= Number($("#total-page-count span").text());
-            var curr = Number($(".ga-ctrl-footer .laypage_curr").text());
-            var mathCeil = parseInt(total/pageSize) + 1;
             var type_select=$(".select_default").val();
             var key_input=$(".js-search-text").val();
             var cdt=getParamsString();
-            if(curr > mathCeil){
-                initTables(mathCeil,type_select,key_input,cdt);
-            }else{
-                initTables(curr,type_select,key_input,cdt);
-            }
+            initTables(1,type_select,key_input,cdt)
+            //统一跳转到第一页
 
         });
 
@@ -986,7 +976,7 @@
                             content += "<div>研究课题信息检索号</div>";
                             break;
                         case "Experiment":
-                            content += "<div>研究课题信息检索号</div>";
+                            content += "<div>试验信息检索号</div>";
                             break;
                     }
 

@@ -3,7 +3,6 @@ package com.gooalgene.dna.web;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.SampleInfoDto;
-import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.service.DNARunService;
 import com.gooalgene.utils.ResultUtil;
 import org.slf4j.Logger;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 @Controller
@@ -38,7 +36,7 @@ public class GroupAndCultivarController {
     }
 
     @RequestMapping("/dnagens/geneInfo")
-    public String geneInfo(HttpServletRequest request, HttpServletResponse response) {
+    public String geneInfo(HttpServletResponse response) {
         response.setHeader("X-Frame-Options", "SAMEORIGIN");
         return "/search/genesInfo";
     }

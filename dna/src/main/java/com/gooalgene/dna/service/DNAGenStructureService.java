@@ -9,11 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
-/**
- * Created by 陈冬 on 2017/8/22.
- */
 @Service
 public class DNAGenStructureService {
 
@@ -22,11 +18,6 @@ public class DNAGenStructureService {
 
     public List<DNAGenStructureDto> getByGeneId(String geneId){
         return dnaGensStructureDao.getByGeneId(geneId);
-    }
-
-
-    public List<DNAGenStructureDto> getByStartEnd(String chr, long startPos, long endPos, Set<String> geneIds) {
-        return dnaGensStructureDao.getByStartEnd(chr,startPos,endPos,geneIds);
     }
 
     public List<DNAGenStructure> getGeneStructureId(String chr, Long start, Long end){
