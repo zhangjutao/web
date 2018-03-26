@@ -292,11 +292,11 @@
                                     <input class="total" name="total" type="hidden"/>
                                 </form>
                             </div>
-                            <%--<div id="tableErrorShow">--%>
-                                    <%--<p class="photos">--%>
-                                        <%--暂无数据--%>
-                                    <%--</p>--%>
-                            <%--</div>--%>
+                            <div id="tableErrorShow">
+                                    <p class="photos">
+                                        暂无数据
+                                    </p>
+                            </div>
                         </div>
                         <div class="checkbox-item-tab" id="snp-paginate">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
@@ -312,52 +312,57 @@
                         </div>
                         <div id="mask-test2">
                             <div class="tab-txt-indels genes-tab">
-                            <table class="js-indel-table">
-                                <thead>
-                                    <tr>
-                                        <td class="param t_indels">INDEL ID</td>
-                                        <td class="param t_consequenceType">Consequence Type
-                                            <img src="${ctxStatic}/images/down.png">
-                                            <input type="hidden" class="js-consequence-type">
-                                            <div class="input-component ">
-                                                <ul class="consequence-type ">
-                                                    <li data-value="all">ALL</li>
-                                                    <li data-type="type" data-value="downstream">Downstream</li>
-                                                    <li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>
-                                                    <li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>
-                                                    <li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>
-                                                    <li data-type="effect" data-value="nonframeshift deletion">Exonic_nonframeshift deletion</li>
-                                                    <li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>
-                                                    <li data-type="effect" data-value="stopgain">Exonic_stopgain</li>
-                                                    <li data-type="effect" data-value="stoploss">Exonic_stoploss</li>
-                                                    <li data-type="type" data-value="intergenic">Intergenic</li>
-                                                    <li data-type="type" data-value="intronic">Intronic</li>
-                                                    <li data-type="type" data-value="splicing">Splicing</li>
-                                                    <li data-type="type" data-value="upstream">Upstream</li>
-                                                    <li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>
-                                                    <li data-type="type" data-value="UTR3">3&acute;UTR</li>
-                                                    <li data-type="type" data-value="UTR5">5&acute;UTR</li>
-                                                    <li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td class="param t_snpchromosome">Chromosome</td>
-                                        <td class="param t_position">Position</td>
-                                        <td class="param t_snpreference">Reference</td>
-                                        <td class="param t_majorAllele">Major Allele</td>
-                                        <td class="param t_minorAllele">Minor Allele</td>
-                                        <td class="param t_fmajorAllele">
-                                            <select class="f-ma">
-                                                <option value="major">Frequency of Major Allele</option>
-                                                <option value="minor">Frequency of Minor Allele</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody  id="tableBody2">
-                                </tbody>
-                            </table>
-                        </div>
+                                <table class="js-indel-table">
+                                        <thead>
+                                            <tr>
+                                                <td class="param t_indels">INDEL ID</td>
+                                                <td class="param t_consequenceType">Consequence Type
+                                                    <img src="${ctxStatic}/images/down.png">
+                                                    <input type="hidden" class="js-consequence-type">
+                                                    <div class="input-component ">
+                                                        <ul class="consequence-type ">
+                                                            <li data-value="all">ALL</li>
+                                                            <li data-type="type" data-value="downstream">Downstream</li>
+                                                            <li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>
+                                                            <li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>
+                                                            <li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>
+                                                            <li data-type="effect" data-value="nonframeshift deletion">Exonic_nonframeshift deletion</li>
+                                                            <li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>
+                                                            <li data-type="effect" data-value="stopgain">Exonic_stopgain</li>
+                                                            <li data-type="effect" data-value="stoploss">Exonic_stoploss</li>
+                                                            <li data-type="type" data-value="intergenic">Intergenic</li>
+                                                            <li data-type="type" data-value="intronic">Intronic</li>
+                                                            <li data-type="type" data-value="splicing">Splicing</li>
+                                                            <li data-type="type" data-value="upstream">Upstream</li>
+                                                            <li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>
+                                                            <li data-type="type" data-value="UTR3">3&acute;UTR</li>
+                                                            <li data-type="type" data-value="UTR5">5&acute;UTR</li>
+                                                            <li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <td class="param t_snpchromosome">Chromosome</td>
+                                                <td class="param t_position">Position</td>
+                                                <td class="param t_snpreference">Reference</td>
+                                                <td class="param t_majorAllele">Major Allele</td>
+                                                <td class="param t_minorAllele">Minor Allele</td>
+                                                <td class="param t_fmajorAllele">
+                                                    <select class="f-ma">
+                                                        <option value="major">Frequency of Major Allele</option>
+                                                        <option value="minor">Frequency of Minor Allele</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody  id="tableBody2">
+                                        </tbody>
+                                </table>
+                            </div>
+                            <div id="tableErrorShow2">
+                                <p class="photos">
+                                    暂无数据
+                                </p>
+                            </div>
                         </div>
                         <div class="checkbox-item-tab" id="indel-paginate">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
