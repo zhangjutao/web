@@ -144,6 +144,7 @@ $(function () {
             contentType:"application/json;charset=UTF-8",
             dataType:"json",
             success:function(res){
+                debugger;
                 if(type=="SNP"){
                     renderSNPTable(res,curr);
                 }else{
@@ -162,7 +163,7 @@ $(function () {
     var globFlag = 0;
 
     // 获取画图需要的基因结构和snp位点数据
-    function getQueryForChat(params,parentCont,gid) {
+    function getQueryForChat(params,parentCont,gid,type) {
 
         $.ajax({
             type:"post",
@@ -200,7 +201,7 @@ $(function () {
                     };
                 }
                 };
-                    drawGeneConstructor(res,parentCont,gid);
+                    drawGeneConstructor(res,parentCont,gid,type);
                 svgPanZoom("#"+ parentCont + " svg", {
                     zoomEnabled: true,
                     controlIconsEnabled: true
@@ -228,14 +229,8 @@ $(function () {
         if(!obj){
             return;
         }
-        // delete obj.url;
        var getKindSNames =  kindValParam();
         var totalGroups = JSON.parse(obj.params.group)
-        // if(JSON.stringify(getKindSNames) != "{}"){
-        //    for (var i=0;i<getKindSNames.infos.length;i++){
-        //        totalGroups.push(getKindSNames.infos[i]);
-        //    }
-        // }
        // 去掉null 值
         for (var i=0;i<totalGroups.length;i++){
            if (!totalGroups[i]){
@@ -263,86 +258,11 @@ $(function () {
             }
         }
         getQueryForTable(obj.params,"SNP");
-        getQueryForChat(obj.params,"constructorPanel","snpid");
+        getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
         renderTableHead();
         // 获取表格数据--ajax
          $(".page-tables").show();
           $(".page-circle").hide();
-
-
-        // if(typeof obj == "object") {
-        //     $(".page-tables").show();
-        //     $(".page-circle").hide();
-        //     CTypeSnp = "all";
-        //     CTypeIndel = "all";
-        //     // 根据基因查询
-        //     if(obj.url.indexOf('searchSNPinGene') !== -1){
-        //         filterEvent = 0;
-        //         // if(!$("#GlyIds").is(":hidden")){
-        //         //     $("#GlyIds").hide();
-        //         // }
-        //         CurrentTab = "SNP";
-        //         snpPintDatasGene.upstream = $(".js-up-stream").val();
-        //         snpPintDatasGene.downstream = $(".js-down-stream").val();
-        //         snpPintDatasGene.url = "/dna/drawSNPTableInGene";
-        //         snpPintDatasGene.group = obj.params.group;
-        //         globelType = "Gene";
-        //         globelGeneId = obj.params.gene;
-        //         if(obj.params.gene == ""){
-        //             // return alert("请选择一个基因");
-        //             layer.open({
-        //                 type:0,
-        //                 title:"温馨提示:",
-        //                 content:"请选择一个基因",
-        //                 shadeClose:true,
-        //             });
-        //             return;
-        //         };
-        //         // 点击基因查询 搜索的时候， 显示当前选择的基因
-        //         if($("#GlyIds").is(":hidden")){
-        //             $("#GlyIds").show();
-        //         };
-        //         $("#GlyIds ul").empty();
-        //         var str = "<li>" +globelGeneId + "</li>";
-        //         $("#GlyIds ul").append(str);
-        //         getAllSnpInfosGene(1,obj.params,"SNP","constructorPanel","tableBody","","snpid","/dna/searchIdAndPosInGene");
-        //         getAllSnpInfosGene(1,obj.params,"INDEL","constructorPanel2","tableBody2","","indelid","/dna/searchIdAndPosInGene");
-        //         requestForSnpData(1, obj.url, obj.params);
-        //         requestForIndelData(1, obj.url, obj.params);
-        //         renderSearchText();js-panel-btn
-        //         renderTableHead();
-        //     }else {
-        //         // 根据范围查询
-        //         // pageSize获取
-        //         CurrentTab = "SNP";
-        //         var reginChr = $(".js-chorosome option:selected").text();
-        //         var reginStartPos = $(".js-start-position").val();
-        //         var reginEndPos = $(".js-end-position").val();
-        //         var data = {
-        //             chr:reginChr,
-        //             start:reginStartPos,
-        //             end:reginEndPos
-        //         };
-        //         snpPintDatas.start = reginStartPos;
-        //         snpPintDatas.end = reginEndPos;
-        //         snpPintDatas.url = "/dna/drawSNPTableInRegion";
-        //         // 根据范围查询基因
-        //         snpGroup.group = obj.params.group;
-        //         globelType = "Regin";
-        //         requestForGeneId(data);
-        //         if(isPop ==0){
-        //             getAllSnpInfos(1,obj.params,"SNP","constructorPanel","tableBody",reginChr,"snpid","/dna/searchIdAndPosInRegion");
-        //             getAllSnpInfos(1,obj.params,"INDEL","constructorPanel2","tableBody2",reginChr,"indelid","/dna/searchIdAndPosInRegion");
-        //             requestForSnpData(1, obj.url, obj.params,initFirstStyle);
-        //             requestForIndelData(1, obj.url, obj.params);
-        //             renderSearchText();
-        //             renderTableHead();
-        //         };
-        //     }
-        // // 如果输入条件返回不符合要求，则隐藏部分元素
-        // }else {
-        //     // alert("输入条件返回不符合要求，则隐藏部分元素 ");
-        // }
     });
 
     // 根据基因查询所有的snp位点信息
@@ -421,88 +341,13 @@ $(function () {
             }
         })
     }
-
-    // 根据范围查询geneID 集合
-    function requestForGeneId(data){
-        $.ajax({
-            type:'POST',
-            url:ctxRoot + "/dnagens/geneIds",
-            async: false,
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/json'
-            },
-            data:JSON.stringify(data),
-            dataType:"json",
-            success:function (res){
-
-                if (res.data.length == 0){
-                    $("#GlyIds").hide();
-                }else {
-                    isPop = 1;
-                    filterEvent = res.data.length;
-                    if($("#GlyIds").is(":hidden")){
-                        $("#GlyIds").show();
-                    }
-                    $("#GlyIds").show();
-
-                    var GlyList = res.data;
-                    var $ul = $("#GlyIds ul");
-                    $ul.find("li").remove();
-                    for (var i=0;i<GlyList.length;i++){
-                        var $li = $("<li>" + GlyList[i] + "</li>");
-                        $ul.append($li);
-                    };
-                   // $("#GlyIds li:first").trigger("click")
-                    // test  start
-
-                    if(!$("#GlyIds li:first").hasClass("GlyColor")){
-                        var Glylis = $("#GlyIds li");
-                        for (var i=0;i<Glylis.length;i++){
-                            if($(Glylis[i]).hasClass("GlyColor")){
-                                $(Glylis[i]).removeClass("GlyColor");
-                            }
-                        }
-                        $("#GlyIds li:first").addClass("GlyColor");
-                    };
-                    // 列表重新获取数据
-                    var clickVal = $("#GlyIds li:first").text();
-                    globelGeneId = clickVal;
-                    var obj = getPanelParams();
-                    var paramas1 = {
-                        gene:clickVal,
-                        group:obj.params.group,
-                    }
-                    snpPintDatasGene.url = "/dna/searchIdAndPosInGene";
-                    globelType="Gene";
-                    reginIntoGene(1,paramas1,"SNP","constructorPanel","tableBody","snpid","/dna/searchIdAndPosInGene");
-                    reginIntoGene(1,paramas1,"INDEL","constructorPanel2","tableBody2","indelid","/dna/searchIdAndPosInGene");
-                    obj.url=CTXROOT + "/dna/searchSNPinGene";
-                    obj.params['gene']=clickVal;
-                    requestForSnpData(1, obj.url, obj.params);
-                    requestForIndelData(1, obj.url, obj.params);
-                    renderSearchText();
-                    renderTableHead();
-                    // test  end
-                }
-            },
-            error:function (error){
-                console.log(error);
-            }
-        })
-    }
     // 初始化第一个样式
         function initFirstStyle (){
             $("#GlyIds ul li:first-child").addClass("GlyColor");
         };
 
-    var isPop = 0;
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (e){
-        // 每个基因的点击事件，然后显示基因基本结构信息
-        // if(isPop==0){
-
-
             var version = getUrlParam("version");
             var geneName =$(this).text();
             $(".js-gene-head-name").html(geneName);
@@ -517,7 +362,6 @@ $(function () {
                 type: 1,
                 content: $(".genesInfo"),
                 area: ['980px','628px'],
-//                shade: [0.8, '#393D49'],
                 shadeClose:true,
                 scrollbar:false,
                 move: '.genesInfo-head',
@@ -526,13 +370,9 @@ $(function () {
                 moveOut: false
             });
             $(".genesInfo-head>a").click(function (){
-                //$(".genesInfo").hide();
                 /* 关闭信息信息、弹框 */
                 layer.close(genesInfoIndex);
             });
-        //修改拖拽样式 modified by zjt 2018-3-15
-        // };
-
         if(!$(this).hasClass("GlyColor")){
             var Glylis = $("#GlyIds li");
             for (var i=0;i<Glylis.length;i++){
@@ -546,10 +386,6 @@ $(function () {
         var clickVal = $(this).text();
         globelGeneId = clickVal;
         var obj = getPanelParams();
-                // var paramas1 = {
-                //     gene:clickVal,
-                //     group:obj.params.group,
-                // }
                 obj.params.gene = clickVal;
                 obj.params.group = JSON.parse(obj.params.group);
                 globFlag = 1;
@@ -557,10 +393,10 @@ $(function () {
         var currType = $(".tab-item li.item-ac").text();
         if(currType.indexOf("SNPs")!=-1){
             obj.params.type = "SNP";
-            getQueryForChat(obj.params,"constructorPanel","snpid");
+            getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
         }else{
             obj.params.type = "INDEL";
-            getQueryForChat(obj.params,"constructorPanel2","indelid");
+            getQueryForChat(obj.params,"constructorPanel2","indelid","INDEL");
         }
     })
     // 从regin 页面点击基因开始查询
@@ -617,16 +453,12 @@ $(function () {
         var params;
         if(panelType == "gene") {
             params = GetPanelParams.getGeneParams();
-            // console.log(params)
-            // url = CTXROOT + "/dna/searchSNPinGene";
         } else { // region
             params = GetPanelParams.getRegionParams();
-            // url = CTXROOT + "/dna/searchSNPinRegion";
         }
         if(typeof params == "object"){
             return {
-                "params" :  params,
-                // "url" : url
+                "params" :  params
             }
         }
         return false;
@@ -635,6 +467,7 @@ $(function () {
     // 新接口 定义分页初始值
     var pageNumber = 1;
     var pageSize = 10;
+    var snpOffset,indelOffset;
 
     var pageSizeSNP = 10;
     $("#snp-paginate .lay-per-page-count-select").val(pageSizeSNP);
@@ -642,7 +475,7 @@ $(function () {
     // 配置默认每页显示条数
     var pageSizeINDEL = 10;
     $("#indel-paginate .lay-per-page-count-select").val(pageSizeINDEL);
-    //  // 去除snp 图中的选中位点
+    //去除snp 图中的选中位点
     function deleteSelectedSnp (){
         if(CurrentTab == "SNP"){
             var snppoints = $("#snpid").find("a");
@@ -675,106 +508,22 @@ $(function () {
     // 修改每页显示条数
     $(".tab-item .js-snp-tab").on("change", ".lay-per-page-count-select", function() {
                 pageSize = Number($(this).val());
-        // pageSizeSNP = $(this).val();
         var obj = getPanelParams();
-        // add
-        // if(filterEvent!=0) {
-        //     obj.url = CTXROOT + "/dna/searchSNPinGene";
-        //     obj.params.ctype = "all";
-        //     obj.params.type = "SNP";
-        //     // obj.params.type = CurrentTab;
-        //     obj.params.gene = $("#GlyIds .GlyColor").text();
-        //     delete obj.params.start;
-        //     delete obj.params.end;
-        //     delete obj.params.chromosome;
-        //     // add
-        //     // obj.params.pageNo = currPageNumb;
-        // }
         deleteSelectedSnp();
-        // // requestForSnpData(1, obj.url, obj.params);
-        //
-        // var currSnp = Number($("#snp-paginate .laypage_curr").text());
-        // var pageSizeSnp = Number($(this).val());
-        // var totalSnp= Number($("#snp-paginate #total-page-count span").text());
-        // var mathCeilSnp=  Math.ceil(totalSnp/currSnp);
-        // if(pageSizeSnp>mathCeilSnp){
-        //     requestForSnpData(1, obj.url, obj.params);
-        // }else{
-        //     requestForSnpData(currSnp, obj.url, obj.params);
-        // }
             obj.params.pageNo = pageNumber;
             obj.params.pageSize =  Number($(this).val());
             obj.params.group = JSON.parse(obj.params.group);
         getQueryForTable(obj.params,"SNP",pageNumber);
-
-
     });
 
-    /**
-     * laypage 代码封装
-     *
-     */
-    function laypageFn(tableParent,res,curr,type){
-        // $(".js-snp-table>tbody").empty().append(str);
-        laypage({
-            cont: $('#'+tableParent + ' .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-            pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
-            curr: curr || 1, //当前页
-            skin: '#5c8de5',
-            skip: true,
-            first: 1, //将首页显示为数字1,。若不显示，设置false即可
-            last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
-            prev: '<',
-            next: '>',
-            groups: 3, //连续显示分页数
-            jump: function (obj, first) { //触发分页后的回调
-                if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                    deleteSelectedSnp();
-                    var tmp = getPanelParams();
-                    tmp.params.group = JSON.parse(tmp.params.group);
-                    tmp.params.pageNo = obj.curr;
-                    tmp.params.pageSize = pageSize;
-                    getQueryForTable(tmp.params,type,obj.curr);
-                }
-            }
-        });
-        $("#"+tableParent+" .total-page-count").html(res.total);
-    }
-
     $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
-        // pageSizeINDEL = $(this).val();
         pageSize = Number($(this).val());
         var obj = getPanelParams();
-        // add
-        // if(filterEvent!=0) {
-        //     obj.url = CTXROOT + "/dna/searchSNPinGene";
-        //     obj.params.ctype = "all";
-        //     obj.params.type = "INDEL";
-        //     // obj.params.type = CurrentTab;
-        //     obj.params.gene = $("#GlyIds .GlyColor").text();
-        //     delete obj.params.start;
-        //     delete obj.params.end;
-        //     delete obj.params.chromosome;
-        //     // add
-        // }
         deleteSelectedSnp()
-        // // requestForIndelData(1, obj.url, obj.params);
-        //
-        // var currIndel = Number($("#indel-paginate .laypage_curr").text());
-        // var pageSizeIndel = Number($(this).val());
-        // var totalIndel= Number($("#indel-paginate #total-page-count span").text());
-        // var mathCeilIndel=  Math.ceil(totalIndel/currIndel);
-        // if(pageSizeIndel>mathCeilIndel){
-        //     requestForIndelData(1, obj.url, obj.params);
-        // }else{
-        //     requestForIndelData(currIndel, obj.url, obj.params);
-        // }
-
         obj.params.pageNo = pageNumber;
         obj.params.pageSize =  Number($(this).val());
         obj.params.group = JSON.parse(obj.params.group);
         getQueryForTable(obj.params,"INDEL",pageNumber);
-
     });
 
     // 分页跳转
@@ -836,214 +585,9 @@ $(function () {
     var SNPData = [];
     var currPageNumb=1;
     var Major_Or_Minor_SNP = "major";
-    // 请求数据并分页 -- SNP
-    function requestForSnpData(curr, url, params,fn) {
-        params['pageNo'] = curr || 1;
-        params['pageSize'] = pageSizeSNP;
-        params['type'] = 'SNP';
-        params['ctype'] = CTypeSnp;
-        loadMask ("#mask-test");
-        $.ajax({
-            url: url,
-            data: params,
-            type: "POST",
-            dataType: "json",
-            success: function(res) {
-                // 如果返回值为空，则隐藏
-                if(res.data == null){
-                    $("#constructorPanel").hide();
-                    $("#mask-test .ga-mask").hide();
-                }else {
-                    if( !$("#mask-test .ga-mask").is(":hidden")){
-                        $("#mask-test .ga-mask").show();
-                    }
-                    totalSnp = res.total;
-                    if(url =="/dna/dna/searchSNPinRegion"){
-                        fn && fn();
-                    };
-                    maskClose("#mask-test");
-                    SNPData = res.data;
-                    if(res.data.length > 0) {
-                        renderSNPTable(SNPData, Major_Or_Minor_SNP);
-                        $('#snp-paginate #total-page-count span').html(res.total)
-                        $('#snp-paginate').show();
-                    } else {
-                        $(".js-snp-table>tbody").empty().append("<p class='zwsj'>暂无数据</p>");
-                        $('#snp-paginate').hide();
-                    }
-
-                    laypage({
-                        cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.total / pageSizeSNP), //通过后台拿到的总页数
-                        curr: curr || 1, //当前页
-                        skin: '#5c8de5',
-                        skip: true,
-                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.total / pageSizeSNP), //将尾页显示为总页数。若不显示，设置false即可
-                        prev: '<',
-                        next: '>',
-                        groups: 3, //连续显示分页数
-                        jump: function (obj, first) { //触发分页后的回调
-                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                deleteSelectedSnp();
-                                var tmp = getPanelParams();
-                                currPageNumb = obj.curr;
-                                pageNumber = obj.curr;
-                                // add
-
-                            if(filterEvent!=0) {
-                                tmp.url = CTXROOT + "/dna/searchSNPinGene";
-                                tmp.params.ctype = "all";
-                                tmp.params.type = "SNP";
-                                // obj.params.type = CurrentTab;
-                                tmp.params.gene = $("#GlyIds .GlyColor").text();
-                                delete tmp.params.start;
-                                delete tmp.params.end;
-                                delete tmp.params.chromosome;
-                                // add
-                            }
-                                requestForSnpData(obj.curr, tmp.url, tmp.params);
-                            }
-                        }
-                    });
-                    $(".total-page-count-snp").html(res.total);
-
-                    /*鼠标悬浮在SNP ID上显示SNP信息*/
-                    $(".js-snp-table tbody .t_snpid").hover(function () {
-                        var self = this;
-                        var snpid = $(this).attr("data-id");
-                        var va = $(this).attr("data-var");
-                        var gene = $(this).attr("data-gene");
-                        var effect = $(this).attr("data-effect");
-                        var content = "";
-                        content += "<div class='snpid-td'>"
-                        content += "<p><span>SNP ID:</span>" + snpid + "</p>",
-                            content += "<p><span>Var:</span>" + va + "</p>",
-                            content += "<p><span>Gene:</span>" + gene + "</p>",
-                            content += "<p><span>Effect/Location:</span>" + effect + "</p>",
-                            content += "</div>"
-                        $.pt({
-                            target: self,
-                            position: 'b',
-                            autoClose: false,
-                            content: content
-                        });
-                    },function () {
-                        $(".pt").remove();
-                    });
-                }
-
-            }
-        });
-    }
-
     var INDELData = [];
     var indelDatas;
     var Major_Or_Minor_INDEL = "major";
-    // 请求数据并分页 -- INDEL
-    function requestForIndelData(curr, url, params) {
-        params['pageNo'] = curr || 1;
-        params['pageSize'] = pageSizeINDEL;
-        params['type'] = 'INDEL';
-        params['ctype'] = CTypeIndel;
-        loadMask ("#mask-test2");
-
-        $.ajax({
-            url: url,
-            data: params,
-            type: "POST",
-            dataType: "json",
-            success: function(res) {
-                if (res.data == null){
-                    // alert("返回值为空，隐藏对应的SNP 元素")
-                }else{
-                    var currStatus = $(".item-ac").text();
-                    if(currStatus == "INDELS"){
-                        if( $("#constructorPanel2").hasClass("hiddeCurr")){
-                            $("#constructorPanel2").removeClass("hiddeCurr")
-                            $("#constructorPanel").addClass("hiddeCurr");
-                        }
-                    }
-                    totalIndel = res.total;
-                    maskClose("#mask-test2");
-                    INDELData = res.data;
-                    if(res.data.length > 0) {
-                        $('#indel-paginate').show();
-                        renderINDELTable(INDELData, Major_Or_Minor_INDEL);
-                        $('#indel-paginate #total-page-count span').html(res.total)
-                    } else {
-                        //alert("无数据");
-                        $(".js-indel-table>tbody").empty().append("<p class='zwsj'>暂无数据</p>");
-                        $('#indel-paginate').hide();
-                    }
-
-                    laypage({
-                        cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(res.total / pageSizeINDEL), //通过后台拿到的总页数
-                        curr: curr || 1, //当前页
-                        skin: '#5c8de5',
-                        skip: true,
-                        first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(res.total / pageSizeINDEL), //将尾页显示为总页数。若不显示，设置false即可
-                        prev: '<',
-                        next: '>',
-                        groups: 3, //连续显示分页数
-                        jump: function (obj, first) { //触发分页后的回调
-                            if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
-                                deleteSelectedSnp();
-                                var tmp = getPanelParams();
-                                currPageNumb = obj.curr;
-                                // add
-                                if(filterEvent!=0){
-                                    tmp.url=CTXROOT + "/dna/searchSNPinGene";
-                                    tmp.params.ctype="all";
-                                    tmp.params.type = "INDEL";
-                                    // obj.params.type = CurrentTab;
-                                    tmp.params.gene = $("#GlyIds .GlyColor").text();
-                                    delete tmp.params.start;
-                                    delete tmp.params.end;
-                                    delete tmp.params.chromosome;
-                                    // add
-                                }
-                                requestForIndelData(obj.curr, tmp.url, tmp.params);
-                            }
-                        }
-                    });
-                    $(".total-page-count-indel").html(res.total);
-
-                    /*鼠标悬浮在INDEL ID上显示INDEL信息*/
-                    $(".js-indel-table tbody .t_indels").hover(function () {
-                        var self = this;
-                        var indelid = $(this).attr("data-id");
-                        var va = $(this).attr("data-var");
-                        var gene = $(this).attr("data-gene");
-                        var effect = $(this).attr("data-effect");
-                        var content = "";
-                        content += "<div class='snpid-td'>"
-                        content += "<p><span>INDEL ID:</span>" + indelid + "</p>",
-                            content += "<p><span>Var:</span>" + va + "</p>",
-                            content += "<p><span>Gene:</span>" + gene + "</p>",
-                            content += "<p><span>Effect/Location:</span>" + effect + "</p>",
-                            content += "</div>"
-                        $.pt({
-                            target: self,
-                            position: 'b',
-                            autoClose: false,
-                            content: content
-                        });
-                    },function () {
-                        $(".pt").remove();
-                    });
-                }
-
-            },
-            error:function (error){
-                console.log(error);
-            }
-
-        });
-    }
-
     /* 格式化碱基 */
     function formatRef(str) {
         var len = str.length;
@@ -1102,8 +646,10 @@ $(function () {
 
     // 生成SNPs表格
     function renderSNPTable(res,curr) {
+        debugger;
         // 无数据展示
         if ((res.data.length == 0)) {
+            $("#tableBody").empty();
             $("#snp-paginate .ga-ctrl-footer").hide();
             $("#tableErrorShow").show();
             return;
@@ -1144,10 +690,6 @@ $(function () {
             $.each(freq, function (i, e) {
                 str += '<td class="t_fmajorAllelein' + replaceUnvalideChar(e.name).split(",").join("_").replace(/\s/g, "") + '"><p>' + formatPercent(e[Major_Or_Minor_SNP]) + '</p></td>'
             });
-            // for(var k=0;k<freq.length;k++){
-            //     str += '<td class="t_fmajorAllelein'+ replaceUnvalideChar(freq[k].name).split(",").join("_").replace(/\s/g,"") +'"><p>' + formatPercent(freq[k][Major_Or_Minor_SNP]) + '</p></td>'
-            // };
-
             str += '</tr>';
             $("tr").data(item.id, item.geneType);
         });
@@ -1175,11 +717,9 @@ $(function () {
             }
         });
         $("#snp-paginate .total-page-count").html(res.total);
-
-        // add by jarry at 3.21 end
+            var trsList = $(".js-snp-table #tableBody tr");
+            $(trsList[snpOffset]).addClass("tabTrColor");
         TableHeaderSettingSnp();
-
-
     }
 
     // 生成INDELs表格
@@ -1214,10 +754,8 @@ $(function () {
             $.each(freq, function(i, e) {
                 str += '<td class="t_fmajorAllelein'+ replaceUnvalideChar(e.name).split(",").join("_").replace(/\s/g,"") +'"><p>' + formatPercent(e[Major_Or_Minor_INDEL]) + '</p></td>'
             });
-
             str += '</tr>'
         });
-
 
         $(".js-indel-table>tbody").empty().append(str);
         laypage({
@@ -1278,7 +816,6 @@ $(function () {
     }
     window.TableHeaderSettingIndel = function () {
         var headers = $(".js-table-header-setting-indel").find("label");
-        //var hideHeaders = [];
         $.each(headers, function(idx, item) {
             if(!$(item).hasClass("checkbox-ac")) {
                 //hideHeaders.push($(item).attr("for"));
@@ -1300,11 +837,11 @@ $(function () {
     // consequence type 交互
     var CTypeSnp = 'all';
     $(".js-snp-table").on("click", ".consequence-type li", function() {
+
         $("#snp-paginate .lay-per-page-count-select option:first").prop("selected", 'selected');
         // 每次进行筛选都要snp 位点上的信息都去掉
         var snppoints = $("#snpid").find("a");
         for(var i=0;i<snppoints.length;i++){
-
             if($(snppoints[i]).find("rect").attr("fill") == "#ff0000"){
                 var id = $(snppoints[i]).attr("href");
                 d3.select("#snpid").select("a[href='" +id+ "']").select("rect").attr("fill","#6b69d6");
@@ -1313,31 +850,37 @@ $(function () {
         snpPintDatas.ctype = $(this).text();
         $(".js-snp-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
-        var type = $(".js-snp-table .consequence-type").find(".active").attr("data-type");
-        if(type == "effect") {
-            CTypeSnp = "_" + $(".js-snp-table .consequence-type").find(".active").attr("data-value");
-        } else if(type == "type") {
-            CTypeSnp = $(".js-snp-table .consequence-type").find(".active").attr("data-value") + "_";
-        } else {
-            CTypeSnp = 'all';
-        }
-        var currSelectId = $("#GlyIds").find("li.GlyColor").text();
-        if(filterEvent){
-            var obj = getPanelParams();
-            obj.url=CTXROOT + "/dna/searchSNPinGene";
-            obj.params.ctype=snpPintDatas.ctype;
-            obj.params.type = "SNP";
-            // obj.params.type = CurrentTab;
-            obj.params.gene = currSelectId;
-            delete obj.params.start;
-            delete obj.params.end;
-            delete obj.params.chromosome;
-            requestForSnpData(1, obj.url, obj.params);
 
-        }else {
-            var obj = getPanelParams();
-            requestForSnpData(1, obj.url, obj.params);
-        }
+        debugger;
+        var obj = getPanelParams();
+        obj.params.group= JSON.parse(obj.params.group);
+        obj.params.ctype = $(this).text();
+        getQueryForTable(obj.params,"SNP",pageNumber);
+        // var type = $(".js-snp-table .consequence-type").find(".active").attr("data-type");
+        // if(type == "effect") {
+        //     CTypeSnp = "_" + $(".js-snp-table .consequence-type").find(".active").attr("data-value");
+        // } else if(type == "type") {
+        //     CTypeSnp = $(".js-snp-table .consequence-type").find(".active").attr("data-value") + "_";
+        // } else {
+        //     CTypeSnp = 'all';
+        // }
+        // var currSelectId = $("#GlyIds").find("li.GlyColor").text();
+        // if(filterEvent){
+        //     var obj = getPanelParams();
+        //     obj.url=CTXROOT + "/dna/searchSNPinGene";
+        //     obj.params.ctype=snpPintDatas.ctype;
+        //     obj.params.type = "SNP";
+        //     // obj.params.type = CurrentTab;
+        //     obj.params.gene = currSelectId;
+        //     delete obj.params.start;
+        //     delete obj.params.end;
+        //     delete obj.params.chromosome;
+        //     requestForSnpData(1, obj.url, obj.params);
+        //
+        // }else {
+        //     var obj = getPanelParams();
+        //     requestForSnpData(1, obj.url, obj.params);
+        // }
     });
 
     var CTypeIndel = 'all';
@@ -1354,32 +897,37 @@ $(function () {
         snpPintDatas.ctype = $(this).text();
         $(".js-indel-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
-        var type = $(".js-indel-table .consequence-type").find(".active").attr("data-type");
-        if(type == "effect") {
-            CTypeIndel = "_" + $(".js-indel-table .consequence-type").find(".active").attr("data-value");
-        } else if(type == "type") {
-            CTypeIndel = $(".js-indel-table .consequence-type").find(".active").attr("data-value") + "_";
-        } else {
-            CTypeIndel = 'all';
-        }
-        var currSelectId = $("#GlyIds").find("li.GlyColor").text();
-
-        if(filterEvent){
-            var obj = getPanelParams();
-            obj.url=CTXROOT + "/dna/searchSNPinGene";
-            obj.params.ctype=snpPintDatas.ctype;
-            // delete obj.params.type;
-            obj.params.type = "INDEL";
-            obj.params.gene = currSelectId;
-            delete obj.params.start;
-            delete obj.params.end;
-            delete obj.params.chromosome;
-            var obje = obj;
-            requestForIndelData(1, obje.url, obje.params);
-        }else {
-            var obj = getPanelParams();
-            requestForIndelData(1, obj.url, obj.params);
-        }
+        debugger;
+        var obj = getPanelParams();
+        obj.params.group= JSON.parse(obj.params.group);
+        obj.params.ctype = $(this).text();
+        getQueryForTable(obj.params,"INDEL",pageNumber);
+        // var type = $(".js-indel-table .consequence-type").find(".active").attr("data-type");
+        // if(type == "effect") {
+        //     CTypeIndel = "_" + $(".js-indel-table .consequence-type").find(".active").attr("data-value");
+        // } else if(type == "type") {
+        //     CTypeIndel = $(".js-indel-table .consequence-type").find(".active").attr("data-value") + "_";
+        // } else {
+        //     CTypeIndel = 'all';
+        // }
+        // var currSelectId = $("#GlyIds").find("li.GlyColor").text();
+        //
+        // if(filterEvent){
+        //     var obj = getPanelParams();
+        //     obj.url=CTXROOT + "/dna/searchSNPinGene";
+        //     obj.params.ctype=snpPintDatas.ctype;
+        //     // delete obj.params.type;
+        //     obj.params.type = "INDEL";
+        //     obj.params.gene = currSelectId;
+        //     delete obj.params.start;
+        //     delete obj.params.end;
+        //     delete obj.params.chromosome;
+        //     var obje = obj;
+        //     requestForIndelData(1, obje.url, obje.params);
+        // }else {
+        //     var obj = getPanelParams();
+        //     requestForIndelData(1, obj.url, obj.params);
+        // }
     });
 
     function showtab() {
@@ -1510,7 +1058,6 @@ $(function () {
                 $("#constructorPanel").removeClass("hiddeCurr");
             }
             $("#constructorPanel2").addClass("hiddeCurr");
-            // }
         }else if(CurrentTab == "INDEL"){
             if( $("#constructorPanel2").hasClass("hiddeCurr")){
                 $("#constructorPanel2").removeClass("hiddeCurr")
@@ -1560,7 +1107,6 @@ $(function () {
                 }
             }
             _form.find(".choices").val(choiceArr.join(","));
-            // _form.find(".group").val(params.group);
             _form.find(".group").val(snpPintDatasGene.group);
             _form.submit();
         } else {
@@ -1572,12 +1118,10 @@ $(function () {
                 _form.find(".model").val("REGION");
             }
             var params = GetPanelParams.getRegionParams();
-            // params.total = total;
             _form.find(".chromosome").val(params.chromosome);
             _form.find(".start").val(params.start);
             _form.find(".end").val(params.end);
             _form.find(".type").val(CurrentTab);
-            // _form.find(".total").val(params.total);
             if(CurrentTab=="SNP") {
                 _form.find(".total").val(totalSnp);
                 _form.find(".ctype").val(CTypeSnp);
@@ -1604,14 +1148,39 @@ $(function () {
                 }
             }
             _form.find(".choices").val(choiceArr.join(","));
-            // _form.find(".group").val(params.group);
             _form.find(".group").val(snpGroup.group);
             _form.submit();
         }
     });
+
+    // 点击每个snp位点重新获取数据
+    function jumpPage (paramas,type){
+
+        $.ajax({
+            type:"post",
+            data:JSON.stringify(paramas),
+            url:"/dna/dna/jump-page",
+            contentType:"application/json;charset=UTF-8",
+            dataType:"json",
+            success:function(res){
+                debugger;
+                console.log(res);
+                if(type=="SNP"){
+                    snpOffset = res.offset;
+                    renderSNPTable(res,res.pageNo);
+                }else{
+                    indelOffset = res.offset;
+                    renderINDELTable(res,res.pageNo);
+                }
+            },
+            error:function (err){
+                console.log(err);
+            }
+        })
+    }
     // 基因结构图
     // function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
-    function drawGeneConstructor(result,id,gsnpid){
+    function drawGeneConstructor(result,id,gsnpid,type){
         // 参考值
         var ttdistance;
         if(result.structureList.length==0){
@@ -1619,7 +1188,6 @@ $(function () {
         }else {
             var direction = result.structureList[0].strand;
         }
-        // var referenceVal = result.data.bps;
         var startPos = parseInt(result.upstream);
         var endPos =parseInt(result.downstream);
         var geneLength = endPos - startPos;
@@ -1629,21 +1197,13 @@ $(function () {
         var totalLength;
         if(geneLength >svgTotal*10){
             var svg = d3.select("#" +id).append("svg").attr("width",parseInt(geneLength/10) + "px").attr("height","250px");
-            // var acrossLineData = [[20,220],[Math.ceil(geneLength/10),220]];
-            // var topLineData = [[20,1],[Math.ceil(geneLength/10),1]];
-            // var centerLineData = [[20,90],[Math.ceil(geneLength/10),90]]
-            // totalLength = Math.ceil(geneLength/10);
+
             var acrossLineData = [[20,220],[Math.ceil(geneLength/10)+100,220]];
             var topLineData = [[20,1],[Math.ceil(geneLength/10)+100,1]];
             var centerLineData = [[20,90],[Math.ceil(geneLength/10)+100,90]]
             totalLength = Math.ceil(geneLength/10)+100;
         }else {
             var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","250px");
-            // var acrossLineData = [[20,220],[svgTotal,220]];
-            // var topLineData = [[20,1],[svgTotal,1]];
-            // var centerLineData = [[20,90],[svgTotal,90]]
-            // totalLength = svgTotal;
-
             var acrossLineData = [[20,220],[svgTotal+133,220]];
             var topLineData = [[20,1],[svgTotal+133,1]];
             var centerLineData = [[20,90],[svgTotal+133,90]]
@@ -1656,12 +1216,6 @@ $(function () {
             .y(function (d){return d[1]})
         // 起始竖线
         var verticalLineData = [[20,0],[20,220]];
-        // 起始横线
-        // var acrossLineData = [[20,220],[geneLength/10,220]];
-        // 顶部横线
-        // var topLineData = [[20,1],[geneLength/10,1]];
-        // 中间分割（竖）线
-        // var centerLineData = [[20,90],[geneLength/10,90]]
         // 画方向箭头 向左
         var dirArrowsLeft  =  [[60,60],[40,72],[60,84],[50,72]];
         // 画方向箭头 向右
@@ -1698,21 +1252,12 @@ $(function () {
             intervalLineData.push(intervalElement2);
             intervalLineData.push(faultElement);
                 if(svgLength>885){
-                    // svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*ttdistance +",250)");
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
                 }
-                // else {
-                //     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
-                // }
-
                 else if(svgLength<=885&&geneLength>100){
-                    // svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*svgLength/10 +",250)");
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
-
                 }else{
-                    // svg.append("text").text(parseInt(i*svgLength/90)).attr("fontSize","30px").attr("color","red").attr("transform","translate(" +i*(svgLength/10) +",250)");
                     svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
-
                 }
         }
         // 利用defined 把一条路径切割成一段一段的多条路径
@@ -1741,7 +1286,6 @@ $(function () {
             var snpWidth = 5;
             // var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
             var g = svg.append("g").attr("transform","translate(20,10)");
-            // var g1 = svg.append("g").attr("transform","translate(" +leftMargin + ",30)").attr("id",gsnpid);  //?问题点
             var g1 = svg.append("g").attr("transform","translate(20,30)").attr("id",gsnpid);  //?问题点
             var geneConstructs = result.structureList;
             var snpLocalPoints = result.snpList;
@@ -1757,7 +1301,6 @@ $(function () {
                 }
             }
             // 基因结构
-            // if( geneConstructs.length != 0){
                 for (var i=0;i<geneConstructs.length;i++){
                     var feature = geneConstructs[i].feature;
                     var colorVal = chromoColor(feature);
@@ -1768,7 +1311,6 @@ $(function () {
                         g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
                     }
                 }
-            // }
             // 画snp 位点
                     var newArr = [];
                     if(geneLength<8850){
@@ -1777,7 +1319,7 @@ $(function () {
                                 var obj = {x:0,y:0,id:""};
                                     obj.x = (snpLocalPoints[i].pos - startPos)/scale;
                                 obj.y = 90;
-                                obj.id = snpLocalPoints[i].id;
+                                // obj.id = snpLocalPoints[i].id;
                                 obj.index = snpLocalPoints[i].index;
                                 obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
                                 newArr.push(obj);
@@ -1787,7 +1329,7 @@ $(function () {
                             var obj = {x:0,y:0,id:""};
                                 obj.x = (snpLocalPoints[i].pos - startPos)/10;
                             obj.y = 90;
-                            obj.id = snpLocalPoints[i].id;
+                            // obj.id = snpLocalPoints[i].id;
                             obj.index = snpLocalPoints[i].index;
                             obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
 
@@ -1811,7 +1353,8 @@ $(function () {
                             };
                         }
                         for (var m=0;m<arr.length;m++){
-                            var a = g1.append("a").attr("href","#" +arr[m].id);
+                            // var a = g1.append("a").attr("href","#" +arr[m].id);
+                            var a = g1.append("a");
                             if(arr[m].consequencetypeColor == 1){
                                 a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#02ccb1").attr("data-index",arr[m].index).attr("data-status","snp1");
                               continue;
@@ -1915,8 +1458,21 @@ $(function () {
         // }
         //     var snpIndex;
         // // 每个snp位点的点击事件
-        //     $("#" + gsnpid + " a rect").click(function (e){
-        //         var id = $(this).parent().attr("href").substring(1);
+            $("#" + gsnpid + " a rect").click(function (e){
+                debugger;
+                var obj = getPanelParams();
+                console.log(e);
+                var index = Number($(e.target).attr("data-index"));
+                obj.params.group = JSON.parse(obj.params.group);
+                obj.params.index = index;
+                delete obj.params.pageNo;
+                jumpPage(obj.params,type);
+                // 高亮显示列表对应的数据
+                // if(type=="SNP"){
+                //     var trsList = $(".js-snp-table #tableBody tr");
+                //     $(trsList[snpOffset]).addClass("tabTrColor");
+                // }
+                // var id = $(this).parent().attr("href").substring(1);
         //         var snps = result.data.snps;
         //         if(type=="SNP"){
         //             var list = $("#snpid").find("a");
@@ -1943,16 +1499,16 @@ $(function () {
         //                 }
         //             };
         //         }
-        //         snpIndex = $(e.target).attr("data-index");
-        //     var tabid = $(e.target).parent().attr("href").substring(1);
         //     // 调用每个位点获取数据；
+        //         snpIndex = $(e.target).attr("data-index");
+        //         var tabid = $(e.target).parent().attr("href").substring(1);
         //         if(globelType == "Regin"){
         //             getSnpPoint(tabid);
         //         }else if (globelType == "Gene"){
         //             snpPintDatasGene.url = "/dna//drawSNPTableInGene";
         //             getSnpPointGene(tabid);
         //         }
-        // })
+        })
     }
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr>td.t_snpid,tr>td.t_genoType",function (e){
@@ -2069,14 +1625,16 @@ $(function () {
 
     // add by jarry at 3-23
     $(".tab-item .geneIndels").click(function (){
+        debugger;
         pageNumber = 1;
         pageSize = 10;
         var obj = getPanelParams();
         obj.params.type="INDEL";
         obj.params.group = JSON.parse(obj.params.group);
+        obj.params.ctype = "all";
         globFlag = 1;
         obj.params.pageSize = 10;
-        getQueryForChat(obj.params,"constructorPanel2","indelid");
+        getQueryForChat(obj.params,"constructorPanel2","indelid","IDNEL");
         getQueryForTable(obj.params,"INDEL",1);
     })
 

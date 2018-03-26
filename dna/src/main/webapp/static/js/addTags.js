@@ -99,8 +99,6 @@ $(function (){
                 selContent += $(selKinds[i]).text().substring(0,$(selKinds[i]).text().length-1) + ",";
             }
             var selContents = selContent.substring(0,selContent.length-1);
-
-            // kindStorage.name.push(selContent);
             var arr = selContents.split(",");
             var arrStr = "";
             for(var j=0;j<arr.length;j++){
@@ -110,7 +108,6 @@ $(function (){
             var popLength = $(".js-cursom-add>div.js-ad-dd").length;
             var newArrStr = arrStr.substring(0,arrStr.length-1);
             var ki = {name:selContents,
-                     // id:new Date().getTime(),
                      id:popLength +1+6,
                      condition:{
                             idList:newArrStr
@@ -120,7 +117,6 @@ $(function (){
             var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + ki.id + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
             $(".js-cursom-add").append(div);
             storage.setItem("kind",JSON.stringify(kindStorage));
-            // setCookie("kind",JSON.stringify(kindStorage))
             $(".sample-text").empty();
             var inputSeList = $("#tagKind table tbody tr input");
             for (var i=0;i<inputSeList.length;i++){
@@ -132,7 +128,6 @@ $(function (){
     })
     // 表格中每个复选框的点击事件
     $("#tagTBody").on("click","input",function (e){
-        // $(".sample-text").empty();
         var currentStatus = $(this).prop("checked");
         var selectedName =  $(this).parent().next().text();
         if (!selectedName){
