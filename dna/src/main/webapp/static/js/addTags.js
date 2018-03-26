@@ -52,6 +52,20 @@ $(function (){
     }
     // 重置按钮点击事件
     $(".resetBtn").click(function (){
+        // 每次点击重置都会清空所有的input 框和select框里的值 modified by zjt 2018-3-23
+        var inputValues = $("#tagKind table thead input");
+        $.each(inputValues,function (i,item){
+            $(item).val("");
+        })
+        //同时清空条件筛选框的值 modified by zjt 2018-3-23
+        var selectValues = $("#tagKind table thead select");
+        $.each(selectValues,function (i,item){
+            $(item).val("");
+        })
+        //将pageSize改为10 modified by zjt 2018-3-23
+        $("#per-page-count select").val('10');
+        page.pageSize = 10;
+        paramData.pageSize = page.pageSize;
         var data = getParamas();
             data.pageNum = 1;
             // 默认回到第一页，
@@ -260,6 +274,15 @@ $(function (){
         $.each(inputValues,function (i,item){
             $(item).val("");
         })
+        //同时清空条件筛选框的值 modified by zjt 2018-3-23
+        var selectValues = $("#tagKind table thead select");
+        $.each(selectValues,function (i,item){
+            $(item).val("");
+        })
+        //同时清空条件筛选框的值 modified by zjt 2018-3-23
+        $("#per-page-count select").val('10');
+        page.pageSize = 10;
+        paramData.pageSize = page.pageSize;
         var data = getParamas();
        getData(data,paramData.pageNum,resetSaveStatus);
     });
@@ -271,12 +294,17 @@ $(function (){
     })
     // 筛选取消按钮 样式
     $("#tagKind .inputComponent .btnCancel").click(function (){
-        $(this).parent().parent().find("input").val("");
+        $(this).parent().parent().find("input").val(""); //清空input框的值
+        $(this).parent().parent().find("select").val(""); //清空select框的值
+        //重新获取表格的值 modified by zjt 2018-3-22
+        var data = getParamas();
+        getData(data,paramData.pageNum,resetSaveStatus);
+        //重新获取表格的值 modified by zjt 2018-3-22
         $(this).parent().parent().hide();
     })
     // // pageSize 选择事件
     $("#per-page-count select").change(function (e){
-        var currentSelected = $(this).find("option:selected").text();
+        var currentSelected = $(this).find("option:selected").text(); //选择的新的页码值
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
     });
@@ -308,12 +336,21 @@ $(function (){
     });
     // pageSize 事件
     $("#tagsPagination select").change(function (e){
-        var val = $(this).val();
+        /*var val = $(this).val();
         var data = getParamas();
         data.pageSize = val;
         data.pageNum =  paramData.pageSize;
+        getData(data,data.pageNum);*/
+        //modified by zjt
+        var currentSelected = $(this).find("option:selected").text();//获取当前展示条数
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
+        page.pageNum = 1;
+        paramData.pageNum = page.pageNum;
+        var data = getParamas();
+        data.pageNum =  paramData.pageNum;
         getData(data,data.pageNum);
-
+        //modified by zjt
     })
     // 分页
     var nums;
@@ -331,11 +368,11 @@ $(function (){
         pageSize:page.pageSize
     };
     // // pageSize 选择事件
-    $("#tagsPagination select").change(function (e){
-        var currentSelected = $(this).find("option:selected").text();
-        page.pageSize = currentSelected;
-        paramData.pageSize = page.pageSize;
-    });
+    //$("#tagsPagination select").change(function (e){
+    //    var currentSelected = $(this).find("option:selected").text();
+    //  page.pageSize = currentSelected;
+    //  paramData.pageSize = page.pageSize;
+    //});
     //ajax 请求
     function getData(data,curr,fn){
         $.ajax({
@@ -411,15 +448,17 @@ $(function (){
                 // 分页
                 laypage({
                     cont: $('#tagsPagination .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                    pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
+                    /*pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数*/
+                    pages: parseInt(result.data.total /  page.pageSize) + 1, //通过后台拿到的总页数
                     curr: curr || 1, //当前页
                     skin: '#5c8de5',
                     skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                    last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                    /*last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可*/
+                    last: parseInt(result.data.total /  page.pageSize) + 1, //将尾页显示为总页数。若不显示，设置false即可
                     prev: '<',
                     next: '>',
-                    groups: 3, //连续显示分页数
+                    groups: 2, //连续显示分页数
                     jump: function (obj, first) { //触发分页后的回调
                         if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                             var tmp = getParamas();
@@ -432,6 +471,9 @@ $(function (){
                 });
                 // $("#total-page-count span").html(result.data.total);
                 $(".js-total-samples").html(result.data.total);
+                //modified by zjt 2018-3-22
+                $("#total-page-count span").html(result.data.total);
+                //modified by zjt 2018-3-22
             },
             error:function (error){
                 console.log(error);

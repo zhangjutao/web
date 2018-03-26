@@ -17,6 +17,11 @@
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <!--jquery-1.11.0-->
+    <style rel="stylesheet" type="text/css">
+        #total-page-count{
+            margin-top:5px;
+        }
+    </style>
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
@@ -882,12 +887,14 @@
                     // 分页
                     laypage({
                         cont: $('#snpInforsPage .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                        pages: Math.ceil(count /  page.pageSize), //通过后台拿到的总页数
+                        /*pages: Math.ceil(count /  page.pageSize), //通过后台拿到的总页数*/
+                        pages: parseInt(count /  page.pageSize) + 1,
                         curr: curr || 1, //当前页
                         skin: '#5c8de5',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                        last: Math.ceil(count /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                        /*last: Math.ceil(count /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可*/
+                        last: parseInt(count /  page.pageSize) + 1, //将尾页显示为总页数。若不显示，设置false即可
                         prev: '<',
                         next: '>',
                         groups: 3, //连续显示分页数
@@ -1048,7 +1055,15 @@
         // 筛选取消按钮 样式
         $("#snpinfoTable .inputComponent").on("click",".btnCancel",function (){
 //        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
-            $(this).parent().parent().find("input").val("");
+            $(this).parent().parent().find("input").val("");//清空input框的值
+            $(this).parent().parent().find("select").val(""); //清空select框的值
+            //重新获取表格的值 modified by zjt 2018-3-22
+            var data =snpGetParams(changeParam);
+            data.pageNum = paramData.pageNum;
+            data.pageSize = paramData.pageSize;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            getData(data,paramData.pageNum,filterParamer);
+            //重新获取表格的值 modified by zjt 2018-3-22
             $(this).parent().parent().hide();
         })
         // 群体信息
@@ -1260,13 +1275,25 @@
 
         // pageSize 事件
         $("#snpInforsPage select").change(function (e){
+            /* modified by zjt 2018-3-23
             var val = $(this).val();
             var data =snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = val;
             data.pageNum = currPageNumber;
             data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
-            getData(data,data.pageNum);
+            getData(data,data.pageNum);*/
+            //modified by zjt
+            var currentSelected = $(this).find("option:selected").text();//获取当前展示条数
+            page.pageSize = currentSelected;
+            paramData.pageSize = page.pageSize;
+            paramData.pageNum = 1;
+            var data = snpGetParams(changeParam);
+            data.pageNum =  paramData.pageNum;
+            data.pageSize = paramData.pageSize;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            getData(data,data.pageNum,filterParamer);
+            //modified by zjt
 
         })
         // 表格导出
