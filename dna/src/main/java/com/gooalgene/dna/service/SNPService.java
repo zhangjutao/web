@@ -107,65 +107,8 @@ public class SNPService {
     }
 
     public Map<String, Object> findSampleById(SNP snp) {
-        Map<String, Object> oneDataResult = new HashMap<>();
-        String geneIdInMongo = snp.getId();
-        if (StringUtils.isNotBlank(geneIdInMongo)) {
-            String type = String.valueOf(geneIdInMongo.charAt(3));
-            if (type.equalsIgnoreCase("i")) {
-                type = "INDEL";
-            } else {
-                type = "SNP";
-            }
-            double majorResult = DataFormatUtils.keepTwoFraction(snp.getMajor());
-            oneDataResult = genotypeTransform(snp, type);
-            oneDataResult.put("major", majorResult);
-            oneDataResult.put("type", type);
-        }
-        return oneDataResult;
-    }
-
-
-    /**
-     * 根据染色体及其区间位置，查询该区间内所有SNP
-     * @param type SNP/INDEL
-     * @param ctype 序列类型
-     * @param chr 染色体名
-     * @param startPos 界面上输入的起点位置
-     * @param endPos 界面上输入的终点位置
-     * @param group 已选的群组
-     * @return pageNo、pageSize、total、geneIds（范围内所有id集合）、frequency（每种group中major、minor频率）
-     * @throws IOException
-     */
-    public Map searchSNPinRegion(String type, String ctype, String chr, String startPos, String endPos, String group, Page<DNARun> page) throws IOException {
-        List<SNP> snps = dnaMongoService.searchInRegin(type, ctype, chr, startPos, endPos, page);
-        Map<String, List<String>> groupIdReflection = dnaRunService.queryDNARunByCondition(group);
-        Map result = new HashMap();
-        result.put("conditions", chr + "," + startPos + "," + endPos);
-        if (page != null) {
-            result.put("pageNo", page.getPageNo());
-            result.put("pageSize", page.getPageSize());
-            result.put("total", page.getCount());
-        }
-        List<SNPDto> data = Lists.newArrayList();
-        Set<String> geneIds = Sets.newHashSet();
-        for (SNP snp : snps) {
-            geneIds.add(snp.getGene());
-            SNPDto snpDto = new SNPDto();
-            BeanUtils.copyProperties(snp, snpDto);
-            Map map = snpService.findSampleById(snp);
-            snpDto.setGeneType(map);
-            JSONArray freqData;
-            if(StringUtils.equals(type,"SNP")){
-                freqData = getFrequencyInSnp((SNP)map.get("snpData"), groupIdReflection);
-            }else {
-                freqData = getFrequencyInSnp((SNP)map.get("INDELData"), groupIdReflection);
-            }
-            snpDto.setFreq(freqData);
-            data.add(snpDto);
-        }
-        result.put("geneIds", geneIds);
-        result.put("data", data);
-        return result;
+        String snpId = snp.getId();
+        return this.findSampleById(snpId);
     }
 
     public Map searchSNPinGene(String type, String ctype, String gene, String upsteam, String downsteam, String group, Page<DNAGens> page){

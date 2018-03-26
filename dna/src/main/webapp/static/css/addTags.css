@@ -209,11 +209,14 @@ p.first{
     overflow-x:scroll;
     margin:0 auto;
 }
+
+
 #errorShow,#tableErrorShow{
     display:none;
     width:885px;
-    height:280px;
+    /*height:280px;*/
     text-align:center;
+    display:none;
 }
 #tableErrorShow{
     position: relative;
@@ -326,6 +329,18 @@ p.first{
     position: relative;
     bottom: 14px;
     top:-1px;
+}
+
+#tableErrorShow2,#tableErrorShow{
+    display:none;
+    left:20px;
+    top:-280px;
+    margin:0 auto;
+    position:relative;
+
+}
+#mask-test2,#mask-test{
+    position:relative;
 }
 /*#tagsPagination .checkbox-item-tab{*/
     /*padding: 0px!important;*/

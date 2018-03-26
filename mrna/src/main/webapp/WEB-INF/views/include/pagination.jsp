@@ -156,7 +156,7 @@
         </select>
         -->
         <div id="select_page">
-            <input type="text" class="select_default_page lay-per-page-count-select">
+            <input type="text" class="select_default_page lay-per-page-count-select" disabled="disabled" style="background:white">
             <ul class="select_item_page">
                 <li style="border-top:1px solid #0F9145;">10</li>
                 <li>20</li>

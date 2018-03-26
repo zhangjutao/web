@@ -17,8 +17,6 @@ import java.util.List;
 @MyBatisDao
 public interface DNARunDao extends CrudDao<SampleInfo> {
 
-    int insertBatch(List<DNARun> list);
-
     boolean deleteById(int id);
 
     List<SampleInfoDto> getListByCondition(SampleInfoDto sampleInfoDto);

@@ -258,7 +258,7 @@
                 //    var currNum = Number($(".ga-ctrl-footer .laypage_curr").text());
                 $(".ga-ctrl-footer").on("click", ".select_item_page li", function () {
                     //var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
-                    var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
+                    /*var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
                     var pageSizeNum = Number($(this).text());
                     var totalNum = $("#total-page-count span").text();
                     var mathCeilNum = Math.ceil(totalNum / currNum);
@@ -269,6 +269,10 @@
                     } else {
                         initHeatmap(currNum, pageSizeNum)
                     }
+                    */
+                    var pageSize = Number($(this).text());
+                    page.pageSize = $(this).text();
+                    initHeatmap(1,pageSize);
                 });
 
                 // 分页跳转

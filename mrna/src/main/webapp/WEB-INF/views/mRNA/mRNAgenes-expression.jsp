@@ -465,7 +465,7 @@
                 <input class="js-expression-value" type="text" value="">
                 -->
                 <div id="select">
-                    <input type="text" class="select_default" value=">">
+                    <input type="text" class="select_default" value=">" disabled="disabled" style="background:white">
                     <ul class="select_item">
                         <li>&gt;</li>
                         <li>=</li>
@@ -989,7 +989,7 @@
 //            initTable(1);
             //var curr = Number($(".ga-heat-table .laypage_curr").text());
         $(".ga-ctrl-footer").on("click", ".select_item_page li", function() {
-            var curr = $(".ga-ctrl-footer .lay-per-page-count-select").val();
+            /*var curr = $(".ga-ctrl-footer .lay-per-page-count-select").val();
             var pageSize = Number($(this).text());
             //alert(pageSize);
             var total= Number($("#total-page-count span").text());
@@ -1000,7 +1000,10 @@
                 initTable(1,pageSize);
             }else{
                 initTable(curr,pageSize);
-            }
+            }*/
+            var pageSize = Number($(this).text());
+            page.pageSize = $(this).text();
+            initTable(1,pageSize);
         });
 
         // 搜索
@@ -1062,15 +1065,19 @@
                     }
                 } else if(_expression_dom.hasClass("isFocus")) {
                     $('.zwsj').remove();
+                    var pageSizeNum = 20;//将页面展示条数还原
+                    $('.ga-ctrl-footer #per-page-count .lay-per-page-count-select').val('20');//将页面展示条数显示框数字还原
+
                     page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
-                    if(currNum>mathCeil){
+                    /*if(currNum>mathCeil){
                         page.curr = 1;
                         initTable(1,pageSizeNum);
                     }else{
                         page.curr = currNum;
                         initTable(currNum,pageSizeNum);
-                    }
+                    }*/
+                    initTable(1,pageSizeNum);//直接跳转第一页
                 }
             }
         }

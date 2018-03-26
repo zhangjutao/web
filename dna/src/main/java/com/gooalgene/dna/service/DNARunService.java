@@ -35,10 +35,6 @@ public class DNARunService {
     @Autowired
     private DNARunDao dnaRunDao;
 
-    public int insertBatch(List<DNARun> list) {
-        return dnaRunDao.insertBatch(list);
-    }
-
     /**
      * 根据页面分组查询对应的样本信息
      * 在选择品种查询时，传入的一个group对应多个品种，前端传入的品种均为ID值，改ID集合存放在condition变量中，key为idList
@@ -136,29 +132,6 @@ public class DNARunService {
     }
 
     /**
-     * 根据条件获取对应样本编号
-     *
-     * @param sampleInfo
-     * @return
-     */
-    public List<String> querySamples(SampleInfo sampleInfo) {
-        List<String> result = new ArrayList<String>();
-        List<SampleInfo> list = dnaRunDao.findList(sampleInfo);
-        for (SampleInfo sampleInfoItem : list) {
-            result.add(sampleInfoItem.getRunNo());
-        }
-        return result;
-    }
-    /**
-     * 根据条件查询dnaRun
-     */
-    public List<SampleInfo> queryByondition(SampleInfo sampleInfo,Integer pageNum,Integer pageSize){
-        PageHelper.startPage(pageNum,pageSize);
-        List<SampleInfo> list = dnaRunDao.findList(sampleInfo);
-        return list;
-    }
-
-    /**
      * 根据条件查询样本数据
      *
      * @param group
@@ -189,18 +162,6 @@ public class DNARunService {
         return result;
     }
 
-    /**
-     * 动态查询dnarun
-     */
-    public PageInfo<DNARun> getByCondition(SampleInfoDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
-        if(!StringUtils.isBlank(isPage)){
-            PageHelper.startPage(pageNum,pageSize);
-        }
-        List<SampleInfoDto> list=dnaRunDao.getListByCondition(dnaRunDto);
-        PageInfo<DNARun> pageInfo=new PageInfo(list);
-        return pageInfo;
-    }
-
     public PageInfo<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
         if(!StringUtils.isBlank(isPage)){
         PageHelper.startPage(pageNum,pageSize);
@@ -212,17 +173,6 @@ public class DNARunService {
 
     public  List<SampleInfoDto> getAll(){
         return dnaRunDao.getListByCondition(new SampleInfoDto());
-    }
-
-    public List<SampleInfo> getQueryList(Map<String,Object> conditions) {
-        List<SampleInfo> sampleInfoList = new ArrayList<SampleInfo>();
-        List<String> idList = Arrays.asList(((String)conditions.get("id")).split(","));
-        for (String id:idList) {
-            SampleInfo sampleInfo = new SampleInfo();
-            sampleInfo.setId(id);
-            sampleInfoList.add(sampleInfo);
-        }
-        return sampleInfoList;
     }
 
     /**
@@ -277,23 +227,6 @@ public class DNARunService {
             sampleInfo.setMyceliaColor(jsonObject.getString("myceliaColor"));
         }
         return sampleInfo;
-    }
-
-    public JSONArray searchStudybyKeywords(String type, String keywords, Page<SampleInfo> page) {
-        JSONArray data = new JSONArray();
-        SampleInfo sampleInfo = new SampleInfo();
-        if ("all".equalsIgnoreCase(type)) {
-            if (!StringUtils.isBlank(keywords)) {
-                sampleInfo.setKeywords(keywords);
-            }//空白查询所有
-        }
-        sampleInfo.setPage(page);
-        List<SampleInfo> list = dnaRunDao.findList(sampleInfo);
-        for (SampleInfo sampleInfoItem : list) {
-            data.add(sampleInfo);
-        }
-        page.setList(list);
-        return data;
     }
 
     public boolean add(SampleInfo sampleInfo) {
