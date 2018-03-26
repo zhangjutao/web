@@ -66,9 +66,9 @@ public class SMTPService implements InitializingBean{
         }
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-        properties.setProperty("mail.host", "smtp.exmail.qq.com");
+        properties.setProperty("mail.host", "smtp.ym.163.com");
         properties.setProperty("mail.transport.protocol", "smtp");
-        properties.setProperty("mail.smtp.port", "465");
+        properties.setProperty("mail.smtp.port", "994");
         properties.setProperty("mail.smtp.socketFactory.port", "465");
         properties.setProperty("mail.mime.charset", "UTF-8");
 
@@ -147,10 +147,8 @@ public class SMTPService implements InitializingBean{
         message.setFrom(new InternetAddress(from, "古奥基因")); //这里更希望是启动时直接从数据库中拿值
 
         Transport transport = session.getTransport();
-//        String username = cache.get("mail.administrator").get().toString();
-        String username = "gajy@gooalgene.com";
-//        String password = cache.get("mail.administrator.password").get().toString();
-        String password = "gooalgene@123";
+        String username = cache.get("mail.administrator").get().toString();
+        String password = cache.get("mail.administrator.password").get().toString();
         transport.connect(username, password);
         for (int i = 0; i < receivers.size(); i++) {
             addresses[i] = new InternetAddress(receivers.get(i));

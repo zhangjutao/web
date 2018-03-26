@@ -49,6 +49,39 @@
         <downloadSources>true</downloadSources>
     </properties>
 
+    <profiles>
+        <!-- 公司开发环境 -->
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>development</profiles.active>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <id>homeDev</id>
+            <properties>
+                <profiles.active>homeDevelopment</profiles.active>
+            </properties>
+        </profile>
+        <!-- 测试环境 -->
+        <profile>
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+            </properties>
+        </profile>
+        <!-- 生产环境 -->
+        <profile>
+            <id>production</id>
+            <properties>
+                <profiles.active>production</profiles.active>
+            </properties>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework</groupId>
@@ -361,6 +394,20 @@
 
     </dependencies>
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>development/*</exclude>
+                    <exclude>production/*</exclude>
+                    <exclude>test/*</exclude>
+                    <exclude>homeDevelopment/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${profiles.active}</directory>
+            </resource>
+        </resources>
         <finalName>Core-Database</finalName>
         <plugins>
             <plugin>
