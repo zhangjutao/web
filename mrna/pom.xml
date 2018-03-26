@@ -12,13 +12,19 @@
     <packaging>war</packaging>
     <profiles>
         <profile>
-            <id>dev</id>
+            <id>companyDev</id>
             <properties>
                 <profiles.active>development</profiles.active>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>homeDev</id>
+            <properties>
+                <profiles.active>homeDevelopment</profiles.active>
+            </properties>
         </profile>
         <profile>
             <id>test</id>
