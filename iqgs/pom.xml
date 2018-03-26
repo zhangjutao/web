@@ -13,24 +13,6 @@
     <packaging>war</packaging>
     <description>Integrated Database</description>
 
-    <profiles>
-    <profile>
-        <id>companyDev</id>
-        <properties>
-            <profiles.active>development</profiles.active>
-        </properties>
-        <activation>
-            <activeByDefault>true</activeByDefault>
-        </activation>
-    </profile>
-    <profile>
-        <id>homeDev</id>
-        <properties>
-            <profiles.active>homeDevelopment</profiles.active>
-        </properties>
-    </profile>
-    </profiles>
-
     <dependencies>
         <dependency>
             <groupId>com.gooalgene.guaoqtl</groupId>
