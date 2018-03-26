@@ -42,9 +42,6 @@
         <mongo.version>1.10.4.RELEASE</mongo.version>
         <mongo.driver.version>3.4.2</mongo.driver.version>
 
-        <tomcat.version>2.2</tomcat.version>
-        <jetty.version>7.6.14.v20131031</jetty.version>
-        <webserver.port>8181</webserver.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <downloadSources>true</downloadSources>
     </properties>
