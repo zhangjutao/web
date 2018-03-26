@@ -160,6 +160,7 @@ $(function () {
     }
 
     var globFlag = 0;
+    var isGeneFirst = 0;
 
     // 获取画图需要的基因结构和snp位点数据
     function getQueryForChat(params,parentCont,gid,type) {
@@ -175,37 +176,42 @@ $(function () {
                     globelTotalSnps.snp = res.snpList;
                 }else {
                     globelTotalSnps.indel = res.snpList;
-                }
+                };
+
                 if (!res.geneInsideRegion && globFlag==0){
                     $("#GlyIds ul").empty();
                     $("#GlyIds").hide();
                 }else {
                     isPop = 1;
-
+                    isGeneFirst = 1;
                     filterEvent = res.geneInsideRegion;
 
                     if(filterEvent){
-                    if ($("#GlyIds").is(":hidden")) {
-                        $("#GlyIds").show();
-                    }
-                    var GlyList = res.geneInsideRegion;
-                    var $ul = $("#GlyIds ul");
-                    $ul.find("li").remove();
-                    for (var i = 0; i < GlyList.length; i++) {
-                        var $li = $("<li>" + GlyList[i] + "</li>");
-                        $ul.append($li);
-                    };
-
-                    if (!$("#GlyIds li:first").hasClass("GlyColor")) {
-                        var Glylis = $("#GlyIds li");
-                        for (var i = 0; i < Glylis.length; i++) {
-                            if ($(Glylis[i]).hasClass("GlyColor")) {
-                                $(Glylis[i]).removeClass("GlyColor");
+                            if ($("#GlyIds").is(":hidden")) {
+                                $("#GlyIds").show();
                             }
-                        }
-                        $("#GlyIds li:first").addClass("GlyColor");
-                    };
-                }
+                            var GlyList = res.geneInsideRegion;
+                            var $ul = $("#GlyIds ul");
+                            $ul.find("li").remove();
+                            for (var i = 0; i < GlyList.length; i++) {
+                                var $li = $("<li>" + GlyList[i] + "</li>");
+                                $ul.append($li);
+                            };
+
+                            if (!$("#GlyIds li:first").hasClass("GlyColor")) {
+                                var Glylis = $("#GlyIds li");
+                                for (var i = 0; i < Glylis.length; i++) {
+                                    if ($(Glylis[i]).hasClass("GlyColor")) {
+                                        $(Glylis[i]).removeClass("GlyColor");
+                                    }
+                                }
+                                $("#GlyIds li:first").addClass("GlyColor");
+                            };
+                            if(isGeneFirst == 1){
+                                $("#GlyIds li:first").trigger("click");
+                                    return ;
+                            }
+                    }
                 };
                     drawGeneConstructor(res,parentCont,gid,type);
                 svgPanZoom("#"+ parentCont + " svg", {
@@ -351,12 +357,35 @@ $(function () {
         })
     }
     // 初始化第一个样式
-        function initFirstStyle (){
-            $("#GlyIds ul li:first-child").addClass("GlyColor");
-        };
-
+    //     function initFirstStyle (){
+    //         $("#GlyIds ul li:first-child").addClass("GlyColor");
+    //
+    //     };
+    // 删除当前显示的table tr
+    function deleteTableColorSnp(){
+        var snpTableList =$(".js-snp-table #tableBody tr");
+        for(var i=0;i<snpTableList.length;i++){
+            if($(snpTableList[i]).hasClass("tabTrColor")){
+                $(snpTableList[i]).removeClass("tabTrColor");
+            }
+        }
+    };
+    function deleteTableColorIndel(){
+        var indelTableList =$(".js-indel-table #tableBody2 tr");
+        for(var i=0;i<indelTableList.length;i++){
+            if($(indelTableList[i]).hasClass("tabTrColor")){
+                $(indelTableList[i]).removeClass("tabTrColor");
+            }
+        }
+    };
     // in region 每个基因ID的点击事件
     $("#GlyIds ul").on("click","li",function (e){
+        if(CurrentTab == "SNP"){
+            deleteTableColorSnp();
+        }else {
+            deleteTableColorIndel();
+        }
+        if(isGeneFirst != 1){
             var version = getUrlParam("version");
             var geneName =$(this).text();
             $(".js-gene-head-name").html(geneName);
@@ -382,6 +411,9 @@ $(function () {
                 /* 关闭信息信息、弹框 */
                 layer.close(genesInfoIndex);
             });
+        }
+
+
         if(!$(this).hasClass("GlyColor")){
             var Glylis = $("#GlyIds li");
             for (var i=0;i<Glylis.length;i++){
@@ -758,7 +790,7 @@ $(function () {
         }
         var str = '';
         $.each(res.data, function(idx, item) {
-            str += '<tr id="' +item.id + '">'
+            str += '<tr id="' +item.id + '" data-index="' + item.index+'" >'
             str += '    <td class="t_indels" data-id="'+ item.id +'" data-var="'+ item.ref + '->' + item.alt +'" data-gene="'+ item.gene +'" data-effect="'+ item.effect +'">'+ item.id +'</td>'
             str += '    <td class="t_iconsequenceType"><p class="js-tipes-show">'+ formatConseType(item.consequencetype) + '</p></td>'
             str += '    <td class="t_indelchromosome"><p>'+ item.chr +'</p></td>'
@@ -1579,11 +1611,12 @@ $(function () {
     });
     // 根据表格去锚点图上的snp 位点 -- indel
     $("#tableBody2").on("click","tr>td:not('.t_indels')",function (e){
-        var id = $(this).parent().attr("id");
+        deleteSelectedSnp();
+        var id = Number($(this).parent().attr("data-index"));
         var snps = globelTotalSnps.indel;
         var list = $("#indelid").find("a");
         for (var i=0;i<snps.length;i++){
-            if(snps[i].id == id){
+            if(snps[i].index == id){
                 d3.select("#indelid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
             }
             else if(snps[i].consequencetypeColor ==2){
