@@ -587,7 +587,7 @@ public class DNAMongoService {
      *
      * @return 返回Map，Map中存放页码(pageNo)，偏移量(offset)
      */
-    public Map<String, Integer> getStartIndex(String type, String ctype, String chromosome, long upstream, long downstream, int targetIndex, int pageSize) {
+    public Map<String, Integer> getStartIndex(String type, String ctype, String chromosome, Long upstream, Long downstream, int targetIndex, int pageSize) {
         String collectionName = type + "_" + chromosome;
         Map<String, Integer> result = new HashMap<>();
         if (mongoTemplate.collectionExists(collectionName)) {
