@@ -13,6 +13,31 @@
     <packaging>war</packaging>
     <description>DNA Module</description>
 
+    <profiles>
+        <profile>
+            <id>dev</id>
+            <properties>
+                <profiles.active>development</profiles.active>
+            </properties>
+            <activation>
+                <property>
+                    <name>enable_dev</name>
+                    <value>true</value>
+                </property>
+            </activation>
+        </profile>
+        <profile>
+            <id>homeDev</id>
+            <properties>
+                <profiles.active>homeDevelopment</profiles.active>
+            </properties>
+            <!-- 这里可以默认启动,也可以根据maven中输入启动 -->
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+    </profiles>
+
     <dependencies>
         <dependency>
             <groupId>com.gooalgene.guaoqtl</groupId>
@@ -43,6 +68,20 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <excludes>
+                    <exclude>development/*</exclude>
+                    <exclude>production/*</exclude>
+                    <exclude>test/*</exclude>
+                    <exclude>homeDevelopment/*</exclude>
+                </excludes>
+            </resource>
+            <resource>
+                <directory>src/main/resources/${profiles.active}</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <artifactId>maven-war-plugin</artifactId>
