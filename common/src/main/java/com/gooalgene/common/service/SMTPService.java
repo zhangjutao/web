@@ -71,9 +71,9 @@ public class SMTPService implements InitializingBean{
         }
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-        properties.setProperty("mail.host", "smtp.exmail.qq.com");
+        properties.setProperty("mail.host", "smtp.ym.163.com");
         properties.setProperty("mail.transport.protocol", "smtp");
-        properties.setProperty("mail.smtp.port", "465");
+        properties.setProperty("mail.smtp.port", "994");
         properties.setProperty("mail.smtp.socketFactory.port", "465");
         properties.setProperty("mail.mime.charset", "UTF-8");
 
@@ -125,9 +125,9 @@ public class SMTPService implements InitializingBean{
         }
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-        properties.setProperty("mail.host", "smtp.exmail.qq.com");
+        properties.setProperty("mail.host", "smtp.ym.163.com");
         properties.setProperty("mail.transport.protocol", "smtp");
-        properties.setProperty("mail.smtp.port", "465");
+        properties.setProperty("mail.smtp.port", "994");
         properties.setProperty("mail.smtp.socketFactory.port", "465");
         properties.setProperty("mail.mime.charset", "UTF-8");
 
