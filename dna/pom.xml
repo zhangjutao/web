@@ -14,15 +14,21 @@
     <description>DNA Module</description>
 
     <profiles>
-        <!-- 开发环境 -->
+        <!-- 公司开发环境 -->
         <profile>
-            <id>dev</id>
+            <id>companyDev</id>
             <properties>
                 <profiles.active>development</profiles.active>
             </properties>
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
+        </profile>
+        <profile>
+            <id>homeDev</id>
+            <properties>
+                <profiles.active>homeDevelopment</profiles.active>
+            </properties>
         </profile>
         <!-- 测试环境 -->
         <profile>
