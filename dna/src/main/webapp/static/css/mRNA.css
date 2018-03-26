@@ -132,6 +132,7 @@ button {
     /*display: block;*/
 /*}*/
 .checkbox-item-tab{
+    height: 60px;
     padding: 0 30px;
 }
 .dif-col{

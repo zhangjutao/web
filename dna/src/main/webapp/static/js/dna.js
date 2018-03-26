@@ -550,7 +550,7 @@ $(function () {
         deleteSelectedSnp();
         // requestForSnpData(1, obj.url, obj.params);
 
-        var currSnp = Number($("#snp-paginate .laypage_curr").text());
+        /*var currSnp = Number($("#snp-paginate .laypage_curr").text());
         var pageSizeSnp = Number($(this).val());
         var totalSnp= Number($("#snp-paginate #total-page-count span").text());
         var mathCeilSnp=  Math.ceil(totalSnp/currSnp);
@@ -558,7 +558,8 @@ $(function () {
             requestForSnpData(1, obj.url, obj.params);
         }else{
             requestForSnpData(currSnp, obj.url, obj.params);
-        }
+        }*/
+        requestForSnpData(1, obj.url, obj.params);
     });
 
     $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
@@ -579,7 +580,7 @@ $(function () {
         deleteSelectedSnp()
         // requestForIndelData(1, obj.url, obj.params);
 
-        var currIndel = Number($("#indel-paginate .laypage_curr").text());
+        /*var currIndel = Number($("#indel-paginate .laypage_curr").text());
         var pageSizeIndel = Number($(this).val());
         var totalIndel= Number($("#indel-paginate #total-page-count span").text());
         var mathCeilIndel=  Math.ceil(totalIndel/currIndel);
@@ -587,7 +588,8 @@ $(function () {
             requestForIndelData(1, obj.url, obj.params);
         }else{
             requestForIndelData(currIndel, obj.url, obj.params);
-        }
+        }*/
+        requestForIndelData(1, obj.url, obj.params);
     });
 
     // 分页跳转
