@@ -183,8 +183,8 @@ td.param:hover >div{display: block}
 .tab-txt-indels tbody tr td p{;;}
 /*分页*/
 .ga-ctrl-footer {text-align: right;padding: 15px 0 15px 0!important;    line-height: 21px;}
-#pagination {display: inline-block;}
-#per-page-count { display: inline-block;vertical-align: bottom;}
+#pagination {display: inline-block; position: absolute; right: 216px;}
+#per-page-count { display: inline-block;vertical-align: bottom; position: absolute; right: 80px;}
 #pagination .laypage_main * {    font-size: 14px;}
 .lay-per-page-count-select {width: 40px;height: 33px;    padding: 0 5px;    box-sizing: border-box;    border: 1px solid #DDD;    margin: 0 5px;}
 #pagination .laypageskin_molv a, #pagination .laypageskin_molv span {    border-radius: 0px;}
@@ -194,7 +194,7 @@ td.param:hover >div{display: block}
 #pagination .laypageskin_molv .laypage_curr {    border-top: 1px solid #5c8de5;    border-bottom: 1px solid #5c8de5;    color: #fff;}
 #pagination .laypage_main input {    height: 33px;    line-height: 33px;}
 #pagination .laypage_main button {    display: none;}
-#total-page-count {    display: inline-block;    vertical-align: bottom;    margin-left: 15px;    height: 24px;}
+#total-page-count { position: absolute; right: 0px; display: inline-block; vertical-align: bottom; margin-top: 25px; height: 24px;}
 .cont{height: auto!important;width: auto!important;}
 .snpid-td p{    height: 25px;line-height: 25px; text-align: left;}
 .snpid-td span{padding-right: 5px;}

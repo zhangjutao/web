@@ -1619,15 +1619,10 @@
             var curr = Number($(".laypage_curr").text());
             var pageSize = Number($(this).val());
             var total = Number($("#popu-paginate #total-page-count span").text());
-            var mathCeil = Math.ceil(total / curr);
+            var mathCeil = parseInt(total / pageSize) + 1;
             pageSizePopu = $(this).val();
-            if (pageSize > mathCeil) {
-                var pageSizeNum = $(this).val();
-                getPopuTable(1, pageSizeNum)
-            } else {
-                var pageSizeNum = $(this).val();
-                getPopuTable(curr, pageSizeNum)
-            }
+            var pageSizeNum = $(this).val();
+            getPopuTable(1, pageSizeNum);
         });
 
         // 注册 enter 事件的元素
@@ -1777,6 +1772,9 @@
                 dataType: "json",
                 success: function (res) {
                     $(".js-total-samples").html(res.total);
+                    //modified by zjt 2018-3-22
+                    $("#total-page-count > span").html(res.total);
+                    //modified by zjt 2018-3-22
                 }
             });
         }
