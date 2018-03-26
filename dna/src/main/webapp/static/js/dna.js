@@ -157,7 +157,6 @@ $(function () {
                 globelType = "Gene";
                 globelGeneId = obj.params.gene;
                 if(obj.params.gene == ""){
-                    // return alert("请选择一个基因");
                     layer.open({
                         type:0,
                         title:"温馨提示:",
@@ -1748,7 +1747,9 @@ $(function () {
                         // add by jarry at 2018-3-20
                         if($("#snp-paginate").is(":hidden")){
                             $("#snp-paginate").show();
-                        }
+                        };
+                        $("#snp-paginate .lay-per-page-count-select").val(10);
+
                         var curr = result.pageNum;
                         laypage({
                             cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1794,6 +1795,7 @@ $(function () {
                         if($("#indel-paginate").is(":hidden")){
                             $("#indel-paginate").show();
                         }
+                        $("#indel-paginate .lay-per-page-count-select").val(10);
                         var curr = result.pageNum;
                         laypage({
                             cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>

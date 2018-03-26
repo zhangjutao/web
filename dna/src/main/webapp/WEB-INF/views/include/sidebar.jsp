@@ -853,7 +853,7 @@
         </div>
         <div class="choose-default">
             <div class="btn-default">
-                <label><span class="js-choose-all "></span>全选</label>
+                <label><span class="js-choose-all testClass whiteOk" id="allSelected"></span>全选</label>
                 <%--<label class="js-btn-default btn-default-ac"><span></span>默认</label>--%>
             </div>
             <div class="btn-group" style="display: block;">
