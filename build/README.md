@@ -2,6 +2,9 @@
 ===
 * authority.sql: 初始创建用户权限表，已在119上创建，开发环境无序重复创建
 
+在家开发切换代理连接数据库
+默认使用companyDev（公司开发环境）的配置连接数据库。如果在家办公，请将Maven Projects 中的Profiles目录下的homeDev勾选上，这会让项目使用代理连接数据库。
+
 将阿里大鱼jar包打包到maven本地仓库
 ---
 `mvn install:install-file -Dfile=F:\Core-Database\common\libs\aliyun-java-sdk-core-3.3.1.jar -DgroupId=com.aliyuncs -DartifactId=sdk.core -Dversion=1.0 -Dpackaging=jar`
