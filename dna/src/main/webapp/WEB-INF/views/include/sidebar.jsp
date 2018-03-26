@@ -1495,11 +1495,6 @@
                 $(this).parent().addClass("cur");
             }
             getSelectedPopulations();
-//            if(selectedPopulations.length > 0) {
-//                $(".js-default-add").find("label").removeClass("cur");
-//            } else {
-//                $(".js-default-add").find("label").addClass("cur");
-//            }
         });
 
         // 根据群体生成表格内容设置，和表头
@@ -1612,8 +1607,6 @@
             var self = this;
             $(this).parent().remove();
             var id = $(this).attr("data-index");
-
-//            initPopulations();
             deletePopulation(id);
             getSelectedPopulations();
             // 手动删除品种名时，需要删除localStorage中的值
@@ -1645,11 +1638,9 @@
                 label.removeClass("cur");
             }
             $(".tab-detail").show();
-//            $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             popId = $(this).parent("label").attr("data-index");
-//            currPopu = selectPopulation(id)[0];
             if (currVal == "品种名") {
                 currPopu = selectKindVal(popId)[0];
                 var data = {
@@ -1679,12 +1670,10 @@
                 type: 1,
                 content: $("#tab-detail"),
                 area: ['860px', '250px'],
-//                shade: [0.8, '#393D49'],
                 shadeClose: true,
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                //offset:['200px', '500px']
                 offset: ['135px', '320px']
             });
 
@@ -1698,7 +1687,6 @@
             $.ajax({
                 type: 'GET',
                 url: CTXROOT + "/dna/getByCultivar",
-//                data:data,
                 data: {
                     names: kindNames.join(","),
                     pageNum: curr || 1,
@@ -1766,12 +1754,10 @@
                 type: 1,
                 content: $("#tab-detail"),
                 area: ['860px', '250px'],
-//                shade: [0.8, '#393D49'],
                 shadeClose: true,
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                //offset:['200px', '500px']
                 offset: ['135px', '320px']
 
             });
@@ -1945,13 +1931,6 @@
             layer.close(index2);
         });
 
-        /* 群体信息弹框可拖动 ,且弹窗边界动态改变*/
-//        $(".tab-detail").draggable({ containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false });
-//        window.onscroll = scroll;
-//        function scroll() {
-//            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, document.body.clientHeigh] });//滚动后重新计算弹框边界
-//        }
-
         var popuSamples = {}; // 存储选中的样本数据
 
         /* 自定义样本选中 */
@@ -2011,7 +1990,6 @@
                 $(item).find(".js-colse-text").trigger("click");
             });
             renderSampleCount();
-//            $(".js-total-samples").html(0);
         });
 
         /* 删除单个样本条件 */
@@ -2031,8 +2009,6 @@
             var percetageArray = ["oil", "protein", "linoleic", "linolenic", "oleic", "palmitic", "stearic"];
             var name = $(this).attr("data-name");
             var _prev = $(this).prev();
-            // var val1 = _prev.find("input").first().val() * 1;
-            // var val2 = _prev.find("input").last().val() * 1;
             var val1 = _prev.find("input").first()[0].value;
             var val2 = _prev.find("input").last()[0].value;
             var str = val1 + "-" + val2;
@@ -2048,7 +2024,6 @@
             if ((val1 != "" && val2 != "") || (val1 == "0" || val2 == "0") && (val1 != "" || val2 != "")) {
                 if ($.inArray($(this).attr("data-name"), percetageArray) > -1) {
                     if ((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
-//                        alert("添加的区间数据不合理,如果是百分比则要小于100");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2063,30 +2038,14 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
-                        //modified by zjt 2018-3-13
-                        /*--------raw
-                        if ($.inArray(str, arr) > -1) {
-                            alert("添加区间重复");
-                            input1.style.borderColor = "red";
-                            input2.style.borderColor = "red";
-                        } else {
-                            var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
-                            $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
-                            ss.trigger("click");
-                            input1.style.borderColor = "";
-                            input2.style.borderColor = "";
-                        }
-                        --------raw*/
                         var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                         $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                         ss.trigger("click");
                         input1.style.borderColor = "";
                         input2.style.borderColor = "";
-                        //modified by zjt 2018-3-13
                     }
                 } else {
                     if ((val1 < 0 || val2 < 0) || val1 > val2) {
-//                        alert("添加的区间数据不合理");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2101,26 +2060,11 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
-                        //modified by zjt 2018-3-13
-                        /*--------raw
-                        if ($.inArray(str, arr) > -1) {
-                            alert("添加区间重复");
-                            input1.style.borderColor = "red";
-                            input2.style.borderColor = "red";
-                        } else {
-                            var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
-                            $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
-                            ss.trigger("click");
-                            input1.style.borderColor = "";
-                            input2.style.borderColor = "";
-                        }
-                        --------raw*/
                         var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                         $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                         ss.trigger("click");
                         input1.style.borderColor = "";
                         input2.style.borderColor = "";
-                        //modified by zjt 2018-3-13
                     }
                 }
             } else {
@@ -2134,7 +2078,6 @@
                     input1.style.borderColor = "red";
                     input2.style.borderColor = "red";
                 }
-//                alert("输入不能为空");
                 layer.open({
                     type: 0,
                     title: "温馨提示:",
@@ -2198,7 +2141,6 @@
         /* 选择搜索基因 */
         $("body").on("click", ".gene-search-list label", function () {
             $(".gene-search-list label").removeClass("checkbox-ac");
-//            var span = $(this).find("span");
             var val = $('input:radio[name="sex"]:checked');
             if ($(this).hasClass("checkbox-ac")) {
                 $(this).removeClass("checkbox-ac");
@@ -2279,9 +2221,6 @@
             $("#exportForm").find(".choices").val(choiceArr.join(","));
             $("#exportForm").find(".flag").val(currFlag);
             $("#exportForm").find(".kindFlag").val(kindNames.join(","));
-
-//            $("#exportForm").find(".kindFlag").val($(""));
-
             $("#exportForm").submit();
 
         });
@@ -2291,7 +2230,6 @@
             $(".js-end-position").attr("placeholder", "<=" + chromosomeMax);
         }
 
-//        linkEndPosition();
         $(".js-chorosome").change(function () {
             linkEndPosition();
         });
@@ -2303,8 +2241,6 @@
             "end": ""
         }, GeneObj = {
             "gene": ""
-//            "upstream": "",
-//            "downstream": ""
         };
 
 //        根据id获取选中的品种名
@@ -2347,14 +2283,11 @@
             $.each($(".js-cursom-add").find(".js-ad-dd"), function (idx, element) {
                 if ($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
-//                    var selectedItem = populations.slice(idx*1, idx*1+1);
-//                    modify by wjshan begin
                     if ($(element).find("label").find("div").text().substring(0, 3) == "品种名") {
                         var selectedItem = selectKindVal(id);
                     } else {
                         var selectedItem = selectPopulation(id);
                     }
-//                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
                 }
             });
@@ -2383,7 +2316,6 @@
                     RegionObj["group"] = JSON.stringify([]);
                 }
                 if (RegionObj.start == "" || RegionObj.end == "") {
-//                    return alert("输入不能为空");
                     layer.open({
                         type: 0,
                         title: "温馨提示:",
@@ -2394,7 +2326,6 @@
                 }
                 if (!isNaN(RegionObj.start * 1) && !isNaN(RegionObj.end * 1)) {
                     if (RegionObj.start * 1 < 0 || RegionObj.end * 1 < 0) {
-//                        return alert("输入数字应大于0");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2404,7 +2335,6 @@
                         return;
                     }
                     if (RegionObj.start * 1 > chromosomeMax * 1 || RegionObj.end * 1 > chromosomeMax * 1) {
-//                        return alert("输入值超过该基因最大值");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2414,7 +2344,6 @@
                         return;
                     }
                     if (RegionObj.start * 1 > RegionObj.end * 1) {
-//                        return alert("StartPosition应小于EndPosition");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2429,7 +2358,6 @@
 //                    }
                     return RegionObj;
                 } else {
-//                    alert("请输入数字");
                     layer.open({
                         type: 0,
                         title: "温馨提示:",
@@ -2450,7 +2378,6 @@
 //
                     if (!isNaN(GeneObj.start * 1)) {
                         if (GeneObj.start * 1 > 20000) {
-//                            return alert("输入范围值要小于20kb");
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2459,7 +2386,6 @@
                             });
                             return;
                         } else if (GeneObj.start * 1 < 0) {
-//                            return alert("输入数字应大于0");
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2469,7 +2395,6 @@
                             return;
                         }
                     } else {
-//                        return alert("请输入数字");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2480,7 +2405,6 @@
                     }
                     if (!isNaN(GeneObj.end * 1)) {
                         if (GeneObj.end * 1 > 20000) {
-//                            return alert("输入范围值要小于20kb");
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2489,7 +2413,6 @@
                             });
                             return;
                         } else if (GeneObj.end * 1 < 0) {
-//                            return alert("输入数字应大于0");
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2499,7 +2422,6 @@
                             return;
                         }
                     } else {
-//                        return alert("请输入数字");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
