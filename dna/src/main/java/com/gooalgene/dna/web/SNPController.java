@@ -5,7 +5,6 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.dto.DNAGenStructureDto;
-import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.*;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
@@ -14,12 +13,9 @@ import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
-import net.sf.json.JSONArray;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
-import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -352,7 +348,7 @@ public class SNPController {
                                        @RequestParam(value = "pageSize", defaultValue = "10", required = false) Integer pageSize,
                                        @RequestParam(value = "pageSize", required = false) String isPage,
                                        @RequestParam("judgeAllele")String judgeAllele,
-                                       SampleInfoDto SampleInfoDto) {
+                                       SampleInfoDto sampleInfoDto) {
         Map result = snpService.findSampleById(snpId);
         SNP snpTemp = (SNP) result.get("snpData");
         String type = "snp";
@@ -418,8 +414,8 @@ public class SNPController {
             return ResultUtil.success(response);
         }
         Map response = Maps.newHashMap();
-        SampleInfoDto.setRunNos(runNos);
-        PageInfo<SampleInfoDto> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(SampleInfoDto, pageNum, pageSize, isPage);
+        sampleInfoDto.setRunNos(runNos);
+        PageInfo<SampleInfoDto> dnaRuns = dnaRunService.getListByConditionWithTypeHandler(sampleInfoDto, pageNum, pageSize, isPage);
         response.put("dnaRuns", dnaRuns);
         response.put("samples", samples);
         return ResultUtil.success(response);
