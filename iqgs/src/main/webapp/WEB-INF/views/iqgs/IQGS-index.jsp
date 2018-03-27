@@ -172,5 +172,38 @@
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script src="${ctxStatic}/js/newAddNeed.js"></script>
 <script src="${ctxStatic}/js/iqgs.js"></script>
+<script src="${ctxStatic}/js/webSocket.js"></script>
+
+<script>
+    function sendMessage(myWindow,url,token) {
+        setTimeout(function () {
+            myWindow.postMessage(token,url);
+        },2000);
+    }
+    $('.snp-link').on('click',function () {
+        alert(localStorage.getItem("access_token"))
+        var token=localStorage.getItem("access_token");
+        var myWindow=window.open("${dnaIndex}?access_token="+token);
+        sendMessage(myWindow,"${dnaIndex}",token);
+
+    })
+
+    $('.mrna-link').on('click',function () {
+        var token=localStorage.getItem("access_token");
+        var myWindow=window.open("${mrnaIndex}?access_token="+token);
+        sendMessage(myWindow,"${mrnaIndex}",token);
+    })
+
+    $('.qlt-link').on('click',function () {
+        var token=localStorage.getItem("access_token");
+        var myWindow=window.open("${qtlIndex}?access_token="+token);
+        sendMessage(myWindow,"${qtlIndex}",token);
+    })
+
+    $(function () {
+
+
+    })
+</script>
 </body>
 </html>

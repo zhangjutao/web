@@ -79,5 +79,20 @@
     <!-- 支持 @Async 注解 -->
     <task:executor id="annotationExecutor" pool-size="20" queue-capacity="25" />
 
-
+    <!--redis-->
+    <bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+        <property name="maxTotal" value="20"></property>
+        <property name="maxIdle" value="10"></property>
+        <property name="minIdle" value="2"></property>
+        <property name="testOnBorrow" value="true"></property>
+        <property name="testOnReturn" value="true"></property>
+        <property name="blockWhenExhausted" value="true"></property>
+    </bean>
+    <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
+        <constructor-arg index="0" ref="jedisPoolConfig"></constructor-arg>
+        <constructor-arg index="1" value="192.168.110.130"/>
+        <constructor-arg index="2" value="6379" type="int"/>
+        <constructor-arg index="3" value="2000" type="int"/>
+        <constructor-arg index="4" value="123"/>
+    </bean>
 </beans>
