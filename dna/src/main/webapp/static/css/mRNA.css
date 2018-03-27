@@ -110,11 +110,17 @@ button {
 .btn-default label{
     padding-right: 30px;
 }
+.rightOk{
+    background-image: url(../images/contrast-ac.png)!important;
+}
+.whiteOk{
+    background-image: url(../images/contrast.png)!important;
+}
 .btn-default span{
     display: inline-block;
     width: 14px;
     height: 14px;
-    background-image: url(../images/contrast.png);
+    /*background-image: url(../images/contrast-ac.png);*/
     vertical-align: middle;
     margin-right: 8px;
 }

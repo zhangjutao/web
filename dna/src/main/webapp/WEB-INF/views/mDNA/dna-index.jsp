@@ -180,7 +180,7 @@
                     </div>
                     <div class="choose-default">
                         <div class="btn-default">
-                            <label class="js-choose-all "><span id="js-choose-all"></span>全选</label>
+                            <label class="js-choose-all"><span id="js-choose-all"></span>全选</label>
                             <%--<label class="js-default js-default-ac"><span id="js-default" ></span>默认</label>--%>
                         </div>
                         <div class="btn-group" style="display: block;">
@@ -216,7 +216,7 @@
                     </div>
                     <div class="choose-default">
                         <div class="btn-default">
-                            <label class="js-choose-all"><span></span>全选</label>
+                            <label class="js-choose-all ff"><span></span>全选</label>
                             <%--<label class="js-default js-default-ac"><span></span>默认</label>--%>
                         </div>
                         <div class="btn-group" style="display: block;">

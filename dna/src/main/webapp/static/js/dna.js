@@ -157,7 +157,6 @@ $(function () {
                 globelType = "Gene";
                 globelGeneId = obj.params.gene;
                 if(obj.params.gene == ""){
-                    // return alert("请选择一个基因");
                     layer.open({
                         type:0,
                         title:"温馨提示:",
@@ -796,6 +795,7 @@ $(function () {
             type: "POST",
             dataType: "json",
             success: function(res) {
+
                 if (res.data == null){
                     // alert("返回值为空，隐藏对应的SNP 元素")
 
@@ -1623,7 +1623,7 @@ $(function () {
                         renderSNPTable(result.data);
 
                         // add by jarry at 2018-3-20
-                        if($("#snp-paginate").is(":hidden")){
+                            if($("#snp-paginate").is(":hidden")){
                             $("#snp-paginate").show();
                         }
                         var curr = result.pageNum;
@@ -1748,7 +1748,9 @@ $(function () {
                         // add by jarry at 2018-3-20
                         if($("#snp-paginate").is(":hidden")){
                             $("#snp-paginate").show();
-                        }
+                        };
+                        $("#snp-paginate .lay-per-page-count-select").val(10);
+                        // $("#snp-paginate .total-page-count span").text(result.total);
                         var curr = result.pageNum;
                         laypage({
                             cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1786,14 +1788,18 @@ $(function () {
 
 
 
+
+
                         clickToId (tabid);
-                    }else if(type="INDEL"){
+                    }else if(type=="INDEL"){
                         renderINDELTable(result.data);
 
                         // add by jarry at 2018-3-20
                         if($("#indel-paginate").is(":hidden")){
                             $("#indel-paginate").show();
                         }
+                        $("#indel-paginate .lay-per-page-count-select").val(10);
+                        $("#indel-paginate .total-page-count span").text(result.total);
                         var curr = result.pageNum;
                         laypage({
                             cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -1815,18 +1821,23 @@ $(function () {
                                     if(filterEvent!=0) {
                                         tmp.url = CTXROOT + "/dna/searchSNPinGene";
                                         tmp.params.ctype = "all";
-                                        tmp.params.type = "SNP";
+                                        tmp.params.type = "INDEL";
                                         // obj.params.type = CurrentTab;
                                         tmp.params.gene = $("#GlyIds .GlyColor").text();
                                         delete tmp.params.start;
                                         delete tmp.params.end;
                                         delete tmp.params.chromosome;
+                                        console.log(tmp);
                                         // add
                                     }
-                                    requestForSnpData(obj.curr, tmp.url, tmp.params);
+                                    // requestForSnpData(obj.curr, tmp.url, tmp.params);
+                                    requestForIndelData(obj.curr, tmp.url, tmp.params);
                                 }
                             }
                         });
+
+                        // add by jarry at 3-27
+                        // $("#indel-paginate .total-page-count>span").text(result.total);
                         clickToId (tabid);
                     }
                 },
@@ -1838,6 +1849,7 @@ $(function () {
 
         // 点击条状到锚点的封装
         function clickToId (tabid){
+            deleteTrsColor();
             var trlist = $("#" + tabId).find("tr");
             for (var i=0;i<trlist.length;i++){
                 if ($(trlist[i]).hasClass("tabTrColor")){
@@ -1852,9 +1864,15 @@ $(function () {
             $("#" + tabid).addClass("tabTrColor");
             var pps = $("#" + tabid).find("td.t_genoType div");
             for (var i=0;i<pps.length;i++){
-              $(pps[i]).find("p:first").css("background","#5D8CE6");
-            }
-        }
+              // $(pps[i]).find("p:first").css("background","#5D8CE6");
+              $(pps[i]).find("p:first").addClass("addTrColor")
+            };
+
+
+        };
+
+
+
             var snpIndex;
         // 每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
@@ -1873,7 +1891,7 @@ $(function () {
                             d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
                         }
                     };
-                }else if(type="INDEL"){
+                }else if(type=="INDEL"){
                     for (var i=0;i<snps.length;i++){
                         if(snps[i].id == id){
                             d3.select("#indelid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
@@ -1905,6 +1923,19 @@ $(function () {
                 }
         })
     }
+
+    // 去除所有的其他的tr(非当前选中的)的颜色行
+    function deleteTrsColor(){
+        var trs = $("#tableBody>tr");
+        for(var i=0;i<trs.length;i++){
+            var tdGenotypes  = $(trs[i]).find("td.t_genoType").find("div");
+            for(var k=0;k<tdGenotypes.length;k++){
+                if($(tdGenotypes[k]).find("p:first").hasClass("addTrColor")){
+                    $(tdGenotypes[k]).find("p:first").removeClass("addTrColor");
+                }
+            }
+        }
+    };
     // table 表格中的tr 点击跳转
     $("#tableBody").on("click","tr>td.t_snpid,tr>td.t_genoType",function (e){
            var id = $(this).parent().attr("id");
@@ -1933,6 +1964,7 @@ $(function () {
                 d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
             }
         };
+        deleteTrsColor();
         // 让当前高亮显示，同时其他行的高亮都消失
         var trs = $("#tableBody").find("tr");
         for(var i=0;i<trs.length;i++){
@@ -1946,6 +1978,7 @@ $(function () {
                 }
             }
         };
+
         $(this).parent().addClass("tabTrColor");
         var pps = $("#" + id).find("td.t_genoType div");
         for (var i=0;i<pps.length;i++){
