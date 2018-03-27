@@ -461,7 +461,7 @@
                         </div>
                         <div class="checkbox-item-tab">
                             <div class="ga-ctrl-footer">
-                                <div id="pagination"><div name="laypage1.3" class="laypage_main laypageskin_molv" id="laypage_0"><span class="laypage_curr" style="background-color:#5c8de5">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" data-page="3">3</a><span>…</span><a href="javascript:;" class="laypage_last" title="尾页" data-page="51">51</a><a href="javascript:;" class="laypage_next" data-page="2">&gt;</a></div></div>
+                                <div id="pagination"><div name="laypage1.3" class="laypage_main laypageskin_molv" id="laypage_0"><span class="laypage_curr" style="background-color:#0f9145">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" data-page="3">3</a><span>…</span><a href="javascript:;" class="laypage_last" title="尾页" data-page="51">51</a><a href="javascript:;" class="laypage_next" data-page="2">&gt;</a></div></div>
                                 <div id="per-page-count" class="per-page-count lay-per-page-count">
                                     <span>展示数量</span>
                                     <select name="" class="lay-per-page-count-select">
@@ -610,7 +610,7 @@
                         </div>
                         <div class="checkbox-item-tab">
                             <div class="ga-ctrl-footer">
-                                <div id="pagination"><div name="laypage1.3" class="laypage_main laypageskin_molv" id="laypage_0"><span class="laypage_curr" style="background-color:#5c8de5">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" data-page="3">3</a><span>…</span><a href="javascript:;" class="laypage_last" title="尾页" data-page="51">51</a><a href="javascript:;" class="laypage_next" data-page="2">&gt;</a></div></div>
+                                <div id="pagination"><div name="laypage1.3" class="laypage_main laypageskin_molv" id="laypage_0"><span class="laypage_curr" style="background-color:#0f9145">1</span><a href="javascript:;" data-page="2">2</a><a href="javascript:;" data-page="3">3</a><span>…</span><a href="javascript:;" class="laypage_last" title="尾页" data-page="51">51</a><a href="javascript:;" class="laypage_next" data-page="2">&gt;</a></div></div>
                                 <div id="per-page-count" class="per-page-count lay-per-page-count">
                                     <span>展示数量</span>
                                     <select name="" class="lay-per-page-count-select">

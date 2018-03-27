@@ -46,9 +46,9 @@
 <dna:dna-header />
     <div class="container" style="background: #fff;position:relative;">
         <div id="topTitle">
-            <p>
+            <!--<p>
                 <img src="${ctxStatic}/images/systree.png" alt="logo" style="height:31px;">
-            </p>
+            </p>-->
            <p class="systree">系统进化树</p>
         </div>
         <p class="popDes">
