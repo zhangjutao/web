@@ -7,6 +7,7 @@ import com.gooalgene.dna.entity.SNP;
 import com.gooalgene.dna.entity.TableSearchResult;
 import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.utils.CommonUtil;
+import com.gooalgene.utils.ConsequenceTypeUtils;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.mongodb.MongoException;
@@ -552,16 +553,8 @@ public class DNAMongoService {
             Criteria criteria = new Criteria();
             criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
-                String keywords = "";
-                if (ctype.indexOf(' ') != -1) {
-                    keywords = ctype.replace("_", ".*_");
-                } else if (ctype.indexOf(';') == -1 && ctype.endsWith("_")) {
-                    keywords = ctype.replace("_", "");
-                } else {
-                    keywords = ctype.replace("_", ".*");
-                }
-                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
-                criteria.and("consequencetype").regex(pattern);
+                String keyword = ConsequenceTypeUtils.reverseFrontStyleToDB(ctype);
+                criteria.and("consequencetype").is(keyword);
             }
             Query query = new Query();
             query.addCriteria(criteria);
