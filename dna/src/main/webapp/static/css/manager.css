@@ -37,7 +37,7 @@ body {
 }
 
 #containerAdmin #tblhead tr td:first-child,
-#containerAdmin #tblbody tr td:first-child p{
+#containerAdmin #tblbody tr td:first-child p.notOverflow{
     width: 150px;
     height: 50px;
 }
@@ -53,7 +53,7 @@ body {
 
 
 #containerAdmin #tblhead tr td:nth-child(2),
-#containerAdmin #tblbody tr td:nth-child(2) p{
+#containerAdmin #tblbody tr td:nth-child(2) p.notOverflow{
     width: 230px;
     height: 50px;
     margin:0 auto;
@@ -62,7 +62,7 @@ body {
 }
 
 #containerAdmin #tblhead tr td:nth-child(3),
-#containerAdmin #tblbody tr td:nth-child(3) p{
+#containerAdmin #tblbody tr td:nth-child(3) p.notOverflow{
     width: 160px;
     height: 50px;
     margin:0 auto;
@@ -70,28 +70,28 @@ body {
 }
 
 #containerAdmin #tblhead tr td:nth-child(4),
-#containerAdmin #tblbody tr td:nth-child(4) p{
+#containerAdmin #tblbody tr td:nth-child(4) p.notOverflow{
     width: 160px;
     height: 50px;
     margin:0 auto;
 }
 #containerAdmin #tblhead tr td:nth-child(5),
-#containerAdmin #tblbody tr td:nth-child(5) p{
+#containerAdmin #tblbody tr td:nth-child(5) p.notOverflow{
     width: 140px;
     height: 50px;
     margin:0 auto;
 }
 #containerAdmin #tblhead tr td:nth-child(6),
-#containerAdmin #tblbody tr td:nth-child(6) p{
+#containerAdmin #tblbody tr td:nth-child(6) p.notOverflow{
     width: 123px;
     height: 50px;
     margin:0 auto;
 }
 #containerAdmin #tblhead tr td:nth-child(7),
-#containerAdmin #tblbody tr td:nth-child(7) p{
+#containerAdmin #tblbody tr td:nth-child(7){
     width: 128px;
     height: 50px;
-    margin:0 auto;
+    /*margin:0 auto;*/
 }
 /*#containerAdmin #tblhead tr td:first-child,#containerAdmin #tblhead tr td:nth-child(2),#containerAdmin #tblhead tr td:nth-child(3)，#containerAdmin #tblhead tr td:nth-child(4){*/
     /*height:45px;*/
@@ -100,7 +100,7 @@ body {
     padding: 3px 0px;
     width: 100px;
     height: 26px;
-    line-height: 50px;
+    line-height: 26px;
     margin: 0 auto;
     cursor: pointer;
     font-size: 14px;
