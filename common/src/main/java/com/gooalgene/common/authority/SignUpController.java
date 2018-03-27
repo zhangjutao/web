@@ -213,10 +213,6 @@ public class SignUpController {
         return hashedPass;
     }
 
-
-
-
-
     @RequestMapping(value = "/forget", method = RequestMethod.GET)
     public String toForget(Model model) {
         return "forget";

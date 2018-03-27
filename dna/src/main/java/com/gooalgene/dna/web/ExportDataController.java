@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
+import com.gooalgene.dna.dto.DataExportCondition;
 import com.gooalgene.dna.dto.SNPDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNAGens;
@@ -80,6 +81,7 @@ public class ExportDataController {
         //此处condition 用来表示表头信息
         List condition = new ArrayList();
         if (choices != null && !choices.equals("")) {
+            //由于前端在字符串结尾传了一个逗号，故要截掉
             titles = choices.substring(0, choices.length() - 1);
             condition = Arrays.asList(titles.split(","));
         } else {
@@ -165,37 +167,6 @@ public class ExportDataController {
 
 
     //调整表头显示
-    private static Map<String, String> changeCloumn2Web() {
-        Map<String, String> map = new HashMap<String, String>();
-        map.put("species", "Species");
-        map.put("sampleName", "Sample Name");
-        map.put("cultivar", "Cultivar");
-        map.put("locality", "Locality");
-        map.put("protein", "Protein(%)");
-        map.put("oil", "Oil(%)");
-        map.put("linoleic", "Linoleic(%)");
-        map.put("linolenic", "Linolenic(%)");
-        map.put("oleic", "Oleic(%)");
-        map.put("palmitic", "Palmitic(%)");
-        map.put("stearic", "Stearic(%)");
-        map.put("height", "Height(cm)");
-        map.put("flowerColor", "Flower Color");
-        map.put("hilumColor", "Hilum Color");
-        map.put("podColor", "Pod Color");
-        map.put("pubescenceColor", "Pubescence Color");
-        map.put("seedCoatColor", "Seed Coat Color");
-        map.put("cotyledonColor", "Cotyledon Color");
-        map.put("weightPer100seeds", "Weight (g) per 100 Seeds");
-        map.put("seedCoatColor", "Seed Coat Color");
-        map.put("upperLeafletLength", "upper Leaflet Length");
-        map.put("maturityDate", "Maturity Date");
-        map.put("yield", "Yield(Mg/ha)");
-        map.put("population", "Group");
-        map.put("genoType", "GenoType");
-        map.put("group", "Group");
-        return map;
-    }
-
 
     //将列表中的数据  生成csv的格式
 
@@ -205,19 +176,22 @@ public class ExportDataController {
      */
     public static String createCsvStr(List<SampleInfoDto> result, List<String> titles) throws JsonProcessingException {
         StringBuilder sb = new StringBuilder();
-        Map<String, Integer> formTitles1 = new ConcurrentHashMap<>();
         CommonUtil commonUtil = new CommonUtil();
         String formTitles = commonUtil.camelListToTitle(titles);
         sb.append(formTitles).append("\n");
         ObjectMapper objectMapper = new ObjectMapper();
+        Field[] fields = SampleInfoDto.class.getDeclaredFields();
+        String fieldsString = "";
+        for (Field field : fields) {
+            fieldsString += field.getName();
+            fieldsString += "'";
+        }
         for (SampleInfoDto sampleInfoDto : result) {
             String sampleInfoDtoJson = objectMapper.writeValueAsString(sampleInfoDto);
-            Field[] fields = SampleInfoDto.class.getDeclaredFields();
-            for (Field field : fields) {
-                String name = field.getName();
-                if (titles.contains(name)) {
-                    sb.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$." + name)).append("\",");
-                }else if (name.contains("definitionTime")) {
+            for (String oneTitle : titles) {
+                if (fieldsString.contains(oneTitle)) {
+                    sb.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$." + oneTitle)).append("\",");
+                } else if (oneTitle.equals("time")) {
                     sb.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$.definitionTime")).append("\",");
                 }
             }
@@ -719,29 +693,17 @@ public class ExportDataController {
     * @author 张衍平
     * @return filePath
     * */
-    @RequestMapping("/dna/IdDetailExport")
+    @RequestMapping(value = "/dna/IdDetailExport", method = RequestMethod.POST)
     @ResponseBody
-    public String idDetailPageExport(@RequestParam("titles") String titles, @RequestParam("judgeAllele") String judgeAllele, HttpServletRequest request) throws IOException {
+    public String idDetailPageExport(@RequestBody DataExportCondition dataExportCondition, HttpServletRequest request) throws IOException {
 
-        String condition = request.getParameter("condition");
+        SampleInfoDto sampleInfoDto = dataExportCondition.getCondition();
+        String titles = dataExportCondition.getTitles();
+        String judgeAllele = dataExportCondition.getJudgeAllele();
 //        JSONObject object = null;
         boolean isINDEL = false;
         //dnaRunDto用来存储表头筛选的条件
-        SampleInfoDto sampleInfoDto = null;
-        if (condition != null && !condition.equals("")) {
-            sampleInfoDto = JacksonUtils.convertJsonToObject(condition, SampleInfoDto.class);
-        } else {
-            sampleInfoDto = new SampleInfoDto();
-        }
-        String snpId = "";
-        if (JsonPath.read(condition,"$.snpId")!="") {
-            snpId = JsonPath.read(condition,"$.snpId");
-        }
-        String changeParam = "";
-        if (JsonPath.read(condition,"changeParam")!="") {
-            changeParam = JsonPath.read(condition,"changeParam");
-        }
-        Map result = snpService.findSampleById(snpId);
+        Map result = snpService.findSampleById(sampleInfoDto.getSnpId());
         SNP snpTemp = (SNP) result.get("snpData");
         if (snpTemp == null) {
             snpTemp = (SNP) result.get("INDELData");
@@ -757,6 +719,7 @@ public class ExportDataController {
         Set<Map.Entry<String, String>> entrySet = map.entrySet();
         List<String> runNos = Lists.newArrayList();
         Map samples = Maps.newHashMap();
+        String changeParam = sampleInfoDto.getChangeParam();
         for (Map.Entry entry : entrySet) {
             String value = (String) entry.getValue();
             if (StringUtils.isNotBlank(changeParam)) {
@@ -806,17 +769,15 @@ public class ExportDataController {
         }
         String csvStr = "";
         StringBuilder stringBuilder = new StringBuilder();
-        Map<String, String> titleMap = changeCloumn2Web();
-        int size = title.length;
-        //生成表头
-        for (int j = 0; j < size; j++) {
-            stringBuilder.append(titleMap.get(title[j]));
-            if (j != size - 1) {
-                stringBuilder.append(",");
-            } else {
-                stringBuilder.append("\n");
-            }
+        List<String> conditionTitles = new ArrayList();
+        if (titles != null && !titles.equals("")) {
+            conditionTitles = Arrays.asList(titles.split(","));
+        } else {
+            conditionTitles = Arrays.asList(",".split(","));
         }
+        CommonUtil commonUtil = new CommonUtil();
+        String formTitles = commonUtil.camelListToTitle(conditionTitles);
+        stringBuilder.append(formTitles).append("\n");
         //查询结果集
         PageInfo<SampleInfoDto> dnaRuns = null;
         if (sampleInfoDto != null && runNos.size() > 0) {
@@ -825,133 +786,26 @@ public class ExportDataController {
         }
         if(dnaRuns!=null){
             List<SampleInfoDto> sampleInfoDtoList= dnaRuns.getList();
-            for (SampleInfoDto sampleInfoDto1 : sampleInfoDtoList) {
-                for (String titleItem : title) {
-                    if (titleItem.equals("id")) {
-                        String id = sampleInfoDto1.getId();
-                        stringBuilder.append(!id.equals("") ? id : "-");
-                    } else if (titleItem.equals("runNo")) {
-                        String runNo = sampleInfoDto1.getRunNo();
-                        stringBuilder.append(!runNo.equals("") ? runNo : "-");
-                    } else if (titleItem.equals("scientificName")) {
-                        String scientificName = sampleInfoDto1.getScientificName();
-                        stringBuilder.append(scientificName != null && !scientificName.equals("") ? scientificName : "-");
-                    } else if (titleItem.equals("sampleId")) {
-                        String sampleId = sampleInfoDto1.getSampleId();
-                        stringBuilder.append(!sampleId.equals("") ? sampleId : "-");
-                    } else if (titleItem.equals("strainName")) {
-                        String strainName = sampleInfoDto1.getStrainName();
-                        stringBuilder.append(!strainName.equals("") ? strainName : "-");
-                    } else if (titleItem.equals("locality")) {
-                        String locality = sampleInfoDto1.getLocality();
-                        if (locality != null && locality.contains(",")) {
-                            locality = locality.replaceAll(",", "，");
-                        }
-                        stringBuilder.append(locality != null && !locality.equals("") ? locality : "-");
-                    } else if (titleItem.equals("preservationLocation")) {
-                        String preservationLocation = sampleInfoDto1.getPreservationLocation();
-                        stringBuilder.append(!preservationLocation.equals("") ? preservationLocation : "-");
-                    } else if (titleItem.equals("type")) {
-                        String type = sampleInfoDto1.getType();
-                        stringBuilder.append(type != null && !type.equals("") ? type : "-");
-                    } else if (titleItem.equals("environment")) {
-                        String environment = sampleInfoDto1.getEnvironment();
-                        stringBuilder.append(!environment.equals("") ? environment : "-");
-                    } else if (titleItem.equals("materials")) {
-                        String materials = sampleInfoDto1.getMaterials();
-                        stringBuilder.append(!materials.equals("") ? materials : "-");
-                    } else if (titleItem.equals("treat")) {
-                        String treat = sampleInfoDto1.getTreat();
-                        stringBuilder.append(!treat.equals("") ? treat : "-");
-                    } else if (titleItem.equals("definitionTime")) {
-                        String definitionTime = sampleInfoDto1.getDefinitionTime();
-                        stringBuilder.append(!definitionTime.equals("") ? definitionTime : "-");
-                    } else if (titleItem.equals("taxonomy")) {
-                        String taxonomy = sampleInfoDto1.getTaxonomy();
-                        stringBuilder.append(!taxonomy.equals("") ? taxonomy : "-");
-                    } else if (titleItem.equals("myceliaPhenotype")) {
-                        String myceliaPhenotype = sampleInfoDto1.getMyceliaPhenotype();
-                        stringBuilder.append(!myceliaPhenotype.equals("") ? myceliaPhenotype : "-");
-                    } else if (titleItem.equals("myceliaDiameter")) {
-                        String myceliaDiameter = sampleInfoDto1.getMyceliaDiameter();
-                        stringBuilder.append(!myceliaDiameter.equals("") ? myceliaDiameter : "-");
-                    } else if (titleItem.equals("myceliaColor")) {
-                        String myceliaColor = sampleInfoDto1.getMyceliaColor();
-                        stringBuilder.append(!myceliaColor.equals("") ? myceliaColor : "-");
-                    } else if (titleItem.equals("sporesColor")) {
-                        String sporesColor = sampleInfoDto1.getSporesColor();
-                        stringBuilder.append(!sporesColor.equals("") ? sporesColor : "-");
-                    } else if (titleItem.equals("sporesShape")) {
-                        String sporesShape = sampleInfoDto1.getSporesShape();
-                        stringBuilder.append(!sporesShape.equals("") ? sporesShape : "-");
-                    } else if (titleItem.equals("clampConnection")) {
-                        String clampConnection = sampleInfoDto1.getClampConnection();
-                        stringBuilder.append(!clampConnection.equals("") ? clampConnection : "-");
-                    } else if (titleItem.equals("pileusPhenotype")) {
-                        String pileusPhenotype = sampleInfoDto1.getPileusPhenotype();
-                        stringBuilder.append(!pileusPhenotype.equals("") ? pileusPhenotype : "-");
-                    } else if (titleItem.equals("pileusColor")) {
-                        String pileusColor = sampleInfoDto1.getPileusColor();
-                        stringBuilder.append(!pileusColor.equals("") ? pileusColor : "-");
-                    } else if (titleItem.equals("stipePhenotype")) {
-                        String stipePhenotype = sampleInfoDto1.getStipePhenotype();
-                        stringBuilder.append(!stipePhenotype.equals("") ? stipePhenotype : "-");
-                    } else if (titleItem.equals("stipeColor")) {
-                        String stipeColor = sampleInfoDto1.getStipeColor();
-                        stringBuilder.append(!stipeColor.equals("") ? stipeColor : "-");
-                    } else if (titleItem.equals("fruitbodyColor")) {
-                        String fruitbodyColor = sampleInfoDto1.getFruitbodyColor();
-                        stringBuilder.append(!fruitbodyColor.equals("") ? fruitbodyColor : "-");
-                    } else if (titleItem.equals("fruitbodyType")) {
-                        String fruitbodyType = sampleInfoDto1.getFruitbodyType();
-                        stringBuilder.append(!fruitbodyType.equals("") ? fruitbodyType : "-");
-                    } else if (titleItem.equals("illumination")) {
-                        String illumination = sampleInfoDto1.getIllumination();
-                        stringBuilder.append(!illumination.equals("") ? illumination : "-");
-                    } else if (titleItem.equals("collarium")) {
-                        String collarium = sampleInfoDto1.getCollarium();
-                        stringBuilder.append(!collarium.equals("") ? collarium : "-");
-                    } else if (titleItem.equals("volva")) {
-                        String volva = sampleInfoDto1.getVolva();
-                        stringBuilder.append(!volva.equals("") ? volva : "-");
-                    } else if (titleItem.equals("velum")) {
-                        String velum = sampleInfoDto1.getVelum();
-                        stringBuilder.append(!velum.equals("") ? velum : "-");
-                    } else if (titleItem.equals("sclerotium")) {
-                        String sclerotium = sampleInfoDto1.getSclerotium();
-                        stringBuilder.append(!sclerotium.equals("") ? sclerotium : "-");
-                    } else if (titleItem.equals("strainMedium")) {
-                        String strainMedium = sampleInfoDto1.getStrainMedium();
-                        stringBuilder.append(!strainMedium.equals("") ? strainMedium : "-");
-                    } else if (titleItem.equals("mainSubstrate")) {
-                        String mainSubstrate = sampleInfoDto1.getMainSubstrate();
-                        stringBuilder.append(!mainSubstrate.equals("") ? mainSubstrate : "-");
-                    } else if (titleItem.equals("afterRipeningStage")) {
-                        String afterRipeningStage = sampleInfoDto1.getAfterRipeningStage();
-                        stringBuilder.append(!afterRipeningStage.equals("") ? afterRipeningStage : "-");
-                    } else if (titleItem.equals("primordialStimulationFruitbody")) {
-                        String primordialStimulationFruitbody = sampleInfoDto1.getPrimordialStimulationFruitbody();
-                        stringBuilder.append(!primordialStimulationFruitbody.equals("") ? primordialStimulationFruitbody : "-");
-                    } else if (titleItem.equals("reproductiveMode")) {
-                        String reproductiveMode = sampleInfoDto1.getReproductiveMode();
-                        stringBuilder.append(!reproductiveMode.equals("") ? reproductiveMode : "-");
-                    } else if (titleItem.equals("lifestyle")) {
-                        String lifestyle = sampleInfoDto1.getLifestyle();
-                        stringBuilder.append(!lifestyle.equals("") ? lifestyle : "-");
-                    } else if (titleItem.equals("preservation")) {
-                        String preservation = sampleInfoDto1.getPreservation();
-                        stringBuilder.append(!preservation.equals("") ? preservation : "-");
-                    } else if (titleItem.equals("domestication")) {
-                        String domestication = sampleInfoDto1.getDomestication();
-                        stringBuilder.append(!domestication.equals("") ? domestication : "-");
-                    } else if (titleItem.equals("nuclearPhase")) {
-                        String nuclearPhase = sampleInfoDto1.getNuclearPhase();
-                        stringBuilder.append(!nuclearPhase.equals("") ? nuclearPhase : "-");
-                    } else if (titleItem.equals("matingType")) {
-                        String matingType = sampleInfoDto1.getMatingType();
-                        stringBuilder.append(!matingType.equals("") ? matingType : "-");
+            if (titles.contains("genotype")) {
+                for (SampleInfoDto oneSampleInfoDto : sampleInfoDtoList) {
+                    oneSampleInfoDto.setGenotype((String) samples.get(oneSampleInfoDto.getRunNo()));
+                }
+            }
+            ObjectMapper objectMapper = new ObjectMapper();
+            Field[] fields = SampleInfoDto.class.getDeclaredFields();
+            String fieldsString = "";
+            for (Field field : fields) {
+                fieldsString += field.getName();
+                fieldsString += "'";
+            }
+            for (SampleInfoDto oneSampleInfoDto : sampleInfoDtoList) {
+                String sampleInfoDtoJson = objectMapper.writeValueAsString(oneSampleInfoDto);
+                for (String oneTitle : conditionTitles) {
+                    if (fieldsString.contains(oneTitle)) {
+                        stringBuilder.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$." + oneTitle)).append("\",");
+                    } else if (oneTitle.equals("time")) {
+                        stringBuilder.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$.definitionTime")).append("\",");
                     }
-                    stringBuilder.append(",");
                 }
                 stringBuilder.append("\n");
             }
