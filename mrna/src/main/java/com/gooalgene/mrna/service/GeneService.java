@@ -116,7 +116,7 @@ public class GeneService {
         jsonObject.put("pageNo", pageNo);
         jsonObject.put("pageSize", pageSize);
         JSONArray data = new JSONArray();
-        long total = 0;
+        int total = 0;
         Double min = 0.0, max = 0.0;
         try {
             Study study = studyService.queryById(id);

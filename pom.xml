@@ -37,50 +37,12 @@
         <guava.version>20.0</guava.version>
         <servletapi.version>3.1.0</servletapi.version>
 
-        <!-- jdbc driver setting -->
         <mysql.driver.version>5.1.30</mysql.driver.version>
         <mongo.version>1.10.4.RELEASE</mongo.version>
         <mongo.driver.version>3.4.2</mongo.driver.version>
 
-        <tomcat.version>2.2</tomcat.version>
-        <jetty.version>7.6.14.v20131031</jetty.version>
-        <webserver.port>8181</webserver.port>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <downloadSources>true</downloadSources>
     </properties>
-
-    <profiles>
-        <!-- 公司开发环境 -->
-        <profile>
-            <id>dev</id>
-            <properties>
-                <profiles.active>development</profiles.active>
-            </properties>
-            <activation>
-                <activeByDefault>true</activeByDefault>
-            </activation>
-        </profile>
-        <profile>
-            <id>homeDev</id>
-            <properties>
-                <profiles.active>homeDevelopment</profiles.active>
-            </properties>
-        </profile>
-        <!-- 测试环境 -->
-        <profile>
-            <id>test</id>
-            <properties>
-                <profiles.active>test</profiles.active>
-            </properties>
-        </profile>
-        <!-- 生产环境 -->
-        <profile>
-            <id>production</id>
-            <properties>
-                <profiles.active>production</profiles.active>
-            </properties>
-        </profile>
-    </profiles>
 
     <dependencies>
         <dependency>
@@ -126,9 +88,6 @@
             <scope>test</scope>
         </dependency>
 
-
-        <!-- PERSISTENCE begin -->
-
         <!-- MyBatis -->
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -155,7 +114,6 @@
             <version>${mysql.driver.version}</version>
             <scope>runtime</scope>
         </dependency>
-        <!-- PERSISTENCE end -->
 
         <!-- WEB begin -->
         <dependency>
@@ -371,7 +329,6 @@
         <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
-            <!--<version>3.2-FINAL</version>-->
             <version>3.9</version>
         </dependency>
         <dependency>
@@ -394,20 +351,6 @@
 
     </dependencies>
     <build>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <excludes>
-                    <exclude>development/*</exclude>
-                    <exclude>production/*</exclude>
-                    <exclude>test/*</exclude>
-                    <exclude>homeDevelopment/*</exclude>
-                </excludes>
-            </resource>
-            <resource>
-                <directory>src/main/resources/${profiles.active}</directory>
-            </resource>
-        </resources>
         <finalName>Core-Database</finalName>
         <plugins>
             <plugin>

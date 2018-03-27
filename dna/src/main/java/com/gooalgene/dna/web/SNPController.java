@@ -212,7 +212,7 @@ public class SNPController {
      */
     @RequestMapping(value = "/fetch-point", method = RequestMethod.POST)
     @ResponseBody
-    public GraphSearchResult fetchAllSNPPoint(@RequestBody SearchCondition condition) throws IOException {
+    public GraphSearchResult fetchAllPoint(@RequestBody SearchCondition condition) throws IOException {
         String gene = condition.getGene();
         GraphSearchResult result = new GraphSearchResult();
         // Search in Region
