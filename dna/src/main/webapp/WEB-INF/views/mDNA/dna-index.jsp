@@ -33,7 +33,8 @@
         /* master分支中无群体信息 */
         #populationInfos{
             padding:8px 20px;
-            background:#5D8CE6;
+            /*background:#5D8CE6;*/
+            background:#0f9145;
             color:#fff;
             width:68px;
             float:right;
@@ -48,7 +49,8 @@
         .genesInfo .genesInfo-head{
             height: 40px;
             line-height: 40px;
-            background-color: #386cca;
+            /*background-color: #386cca;*/
+            background:#0f9145;
             color: #fff;
             cursor: move;
         }
@@ -385,8 +387,9 @@
                 <%--</ul>--%>
                 <div class="tab">
                     <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
-                        <img src="${ctxStatic}/images/dnatree.png">
-                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">群体信息</a></p>
+                        <!--<img src="${ctxStatic}/images/dnatree.png">-->
+                        <img src="${ctxStatic}/images/dna.jpg" style="height:530px;">
+                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">信息</a></p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>

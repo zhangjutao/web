@@ -1,7 +1,7 @@
 #addTags>span{
     display:inline-block;
     padding:0 15px;
-    border:1px solid #5D8CE6;
+    border:1px solid #0f9145;
     /*margin-left:10px;*/
     cursor:pointer;
 }
@@ -9,7 +9,7 @@
     margin:15px 0;
 }
 .tagColor{
-    background:#5D8CE6;
+    background:#0f9145;
     color:#fff;
 }
 .paramTag{
@@ -47,7 +47,7 @@
 }
 .popNames{
     position:absolute;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0f9145;
     z-index: 100;
     padding: 0px 10px;
     width: 58px;
@@ -162,7 +162,7 @@ p.first{
 
     display:inline-block;
     display:none;
-    background-color: #5c8ce6;
+    background-color: #0f9145;
     color: #fff;
     border: none;
     padding: 0 15px;
@@ -233,7 +233,7 @@ p.first{
     width:200px;
 }
 .tabTrColor{
-    background:#5d8ce6!important;
+    background:#0f9145!important;
      color:#fff;
 }
 #constructorPanel2{
@@ -306,10 +306,10 @@ p.first{
     cursor: pointer;
     font-family:"Microsoft Yahei";
     font-size:14px;
-    color:#5c8ce6;
+    color:#0f9145;
 }
 .GlyColor{
-    background:#5C8CE6;
+    background:#0f9145;
     color:#fff!important;
 }
 .errorBoxShow{
