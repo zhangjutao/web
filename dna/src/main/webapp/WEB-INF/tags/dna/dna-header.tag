@@ -12,8 +12,9 @@
     </style>
     <div class="container">
         <div class="logo">
-            <a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
-            <a href="${ctxroot}/dna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">SNP INDEL Database</a>
+            <!--<a href="http://www.gooalgene.com" target="_blank" class="qtl-logo-pic"><img src="${ctxStatic}/images/logo.png"></a>
+            <a href="${ctxroot}/dna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/back-index.png">SNP INDEL Database</a>-->
+            <a href="${ctxroot}/dna/index" class="qtl-data"><img class="back-index" src="${ctxStatic}/images/mushroom.png">SNP INDEL Database</a>
         </div>
         <div class="login-out">
             <sec:authorize var="login" access="isAuthenticated()"/>

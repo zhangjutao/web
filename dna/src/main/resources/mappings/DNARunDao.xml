@@ -222,9 +222,6 @@
                     #{runNo}
                 </foreach>
             </if>
-            <if test="runNo!=null and runNo!=''">
-                AND run_no like CONCAT('%',#{runNo},'%' )
-            </if>
             <if test="scientificName!=null and scientificName!=''">
                 AND scientific_name like CONCAT('%',#{scientificName},'%' )
             </if>

@@ -26,7 +26,8 @@
         margin-top: 6px;
         display: none;
         position: absolute;
-        border: 1px solid #5c8ce6;
+        /*border: 1px solid #5c8ce6;*/
+        border: 1px solid #0f9145;
         z-index: 1;
         padding: 15px 10px;
         width: 114px;
@@ -45,13 +46,15 @@
     .inputComponent p a {
         padding: 2px 8px;
         display: inline-block;
-        border: 1px solid #5c8ce6;
+        /*border: 1px solid #5c8ce6;*/
+        border: 1px solid #0f9145;
         border-radius: 3px;
     }
 
     .btnCancel {
         margin-right: 5px;
-        color: #5c8ce6;
+        /*color: #5c8ce6;*/
+        color: #0f9145;
     }
 
     a {
@@ -64,7 +67,8 @@
     }
 
     .btnConfirmInfo {
-        background: #5c8ce6;
+        /*background: #5c8ce6;*/
+        background: #0f9145;
         color: #fff;
     }
 
@@ -1112,7 +1116,8 @@
             cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: 0, //通过后台拿到的总页数
             curr: 1, //当前页
-            skin: '#5c8de5',
+            /*skin: '#5c8de5',*/
+            skin: '#0f9145',
             skip: true,
             first: 1, //将首页显示为数字1,。若不显示，设置false即可
             last: 1, //将尾页显示为总页数。若不显示，设置false即可
@@ -1701,7 +1706,8 @@
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(result.data.total / pageSizePopu), //通过后台拿到的总页数
                         curr: curr || 1, //当前页
-                        skin: '#5c8de5',
+                        /*skin: '#5c8de5',*/
+                        skin: '#0f9145',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
                         last: Math.ceil(result.data.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可
@@ -1825,7 +1831,8 @@
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(res.total / pageSizePopu), //通过后台拿到的总页数
                         curr: curr || 1, //当前页
-                        skin: '#5c8de5',
+                        /*skin: '#5c8de5',*/
+                        skin: '#0f9145',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
                         last: Math.ceil(res.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可

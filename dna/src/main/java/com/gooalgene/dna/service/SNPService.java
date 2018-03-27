@@ -98,11 +98,7 @@ public class SNPService {
         double resultData = DataFormatUtils.keepTwoFraction(major);
         oneDataResult = genotypeTransform(oneData, type);
         oneDataResult.put("major", resultData);
-        if (type.equals("INDEL")) {
-            oneDataResult.put("type", type);
-        } else {
-            oneDataResult.put("type", type);
-        }
+        oneDataResult.put("type", type);
         return oneDataResult;
     }
 
