@@ -343,6 +343,14 @@ p.first{
 #mask-test2,#mask-test{
     position:relative;
 }
+.addTrColor{
+    background: #0F9145!important;
+}
+.whiteOk{
+    background: url("../images/contrast.png")!important;
+}
+.rightOk{
+    background: url("../images/contrast-ac.png")!important;}
 /*#tagsPagination .checkbox-item-tab{*/
     /*padding: 0px!important;*/
 /*}*/

@@ -1003,7 +1003,7 @@
         </div>
         <div class="choose-default">
             <div class="btn-default">
-                <label><span class="js-choose-all "></span>全选</label>
+                <label><span class="js-choose-all testClass whiteOk" id="allSelected"></span>全选</label>
                 <%--<label class="js-btn-default btn-default-ac"><span></span>默认</label>--%>
             </div>
             <div class="btn-group" style="display: block;">
@@ -1718,7 +1718,17 @@
         });
         var currFlag;
         var index1, index2;
-
+        var choiceArr = [];
+        function getAllChoice(){
+            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
+//            var choiceArr = [];
+            $.each(_labels, function (idx, item) {
+                if ($(item).hasClass("checkbox-ac")) {
+                    choiceArr.push($(item).attr("for"));
+                }
+            });
+        }
+        getAllChoice();
         // 选则品种 之后 详情页
         function getKindInfos(curr) {
             $.ajax({
@@ -1945,6 +1955,15 @@
         // 弹框 筛选确认按钮
 
         $(".js-popu-setting-btn").click(function () {
+            // add by jarry at 3-27
+            choiceArr.length = 0;
+            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
+//            var choiceArr = [];
+            $.each(_labels, function (idx, item) {
+                if ($(item).hasClass("checkbox-ac")) {
+                    choiceArr.push($(item).attr("for"));
+                }
+            });
             var _labels = $(".js-table-header-setting-popu").find("label");
             $.each(_labels, function (idx, item) {
                 var cls = "." + $(item).attr("for");
@@ -2251,19 +2270,29 @@
             });
         });
 
+        $("#allSelected").click(function(){
+            if($(this).hasClass("whiteOk")){
+                $(this).removeClass("whiteOk").addClass("rightOk");
+//                $("js-clear-btn").trigger("click");
+            }else {
+                $(this).addClass("whiteOk").removeClass("rightOk");
+            }
+        })
+
         /* 导出 */
         $(".js-export-popu").click(function () {
-            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
-            var choiceArr = [];
-            $.each(_labels, function (idx, item) {
-                if ($(item).hasClass("checkbox-ac")) {
-                    var title = $(item).attr("for");
-                    if(title=='time'){
-                        title='definitionTime';
-                    }
-                    choiceArr.push(title);
-                }
-            });
+//            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
+//            var choiceArr = [];
+//            $.each(_labels, function (idx, item) {
+//                if ($(item).hasClass("checkbox-ac")) {
+//                    var title = $(item).attr("for");
+//                    if(title=='time'){
+//                        title='definitionTime';
+//                    }
+//                    choiceArr.push(title);
+//                }
+//            });
+            console.log(choiceArr)
             $("#exportForm").find(".group").val(JSON.stringify(currPopu));
             $("#exportForm").find(".choices").val(choiceArr.join(","));
             $("#exportForm").find(".flag").val(currFlag);
