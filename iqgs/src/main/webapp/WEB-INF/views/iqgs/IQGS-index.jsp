@@ -118,34 +118,34 @@
 
     <div class="database-link">
         <div class="qlt-link">
-            <a target="_blank" href="${qtlIndex}">
+            <%--<a target="_blank" href="${qtlIndex}">--%>
                 <div class="line-h">
                     <p>大豆QTL数据库</p>
                 </div>
                 <div class="link-b">
                     <img src="${ctxStatic}/images/qtl.png">
                 </div>
-            </a>
+            <%--</a>--%>
         </div>
         <div class="mrna-link">
-            <a  target="_blank" href="${mrnaIndex}">
+            <%--<a  target="_blank" href="${mrnaIndex}">--%>
                 <div class="line-h">
                     <p>大豆基因表达量数据库</p>
                 </div>
                 <div class="link-b">
                     <img src="${ctxStatic}/images/mrna.png">
                 </div>
-            </a>
+            <%--</a>--%>
         </div>
         <div class="snp-link">
-            <a target="_blank"  href="${dnaIndex}">
+            <%--<a target="_blank"  href="${dnaIndex}">--%>
                 <div class="line-h">
                     <p>大豆SNP/INDEL数据库</p>
                 </div>
                 <div class="link-b">
                     <img src="${ctxStatic}/images/SNP_INDEL.png">
                 </div>
-            </a>
+            <%--</a>--%>
         </div>
     </div>
     <div class="database-overview ">
