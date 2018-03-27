@@ -6,6 +6,7 @@
     #popu-paginate .total-page-count {
         display: inline-block !important;
         height: 28px;
+        top: -4px;
     }
 
     .label-txt {
@@ -1083,6 +1084,37 @@
 </div>
 
 <script>
+    //为弹窗出来的ga-ctrl-footer添加hover触发事件 modified by zjt 2018-3-27
+    $(document).ready(function(){
+        var    $sel_page = $("#tab-detail #popu-paginate #per-page-count #select_page"),
+            $sel_default_page = $("#tab-detail #popu-paginate #per-page-count .select_default_page"),
+            $sel_item_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page"),
+            $sel_item_li_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page li");
+        $sel_default_page.val($("#tab-detail #popu-paginate #per-page-count .select_item_page li:first").text());
+        //alert();
+        $sel_page.hover(function(){
+            $sel_item_page.show();
+            console.log('hahaha');
+            $sel_default_page.addClass("rotate");
+            $sel_item_li_page.hover(function(){
+                $index_page = $sel_item_li_page.index(this);
+                //alert($index)
+                $sel_item_li_page.eq($index_page).addClass("hover");
+            },function(){
+                $sel_item_li_page.removeClass("hover");
+            })
+        }, function(){
+            $sel_item_page.hide();
+            $sel_default_page.removeClass("rotate");
+        });
+        $sel_item_li_page.click(function(){
+            $sel_default_page.val($(this).text());
+            //alert($sel_default.val());
+            $sel_item_page.hide();
+        });
+    });
+    //为弹窗出来的ga-ctrl-footer添加hover触发事件 modified by zjt 2018-3-27
+
     $(function () {
         if (window.localStorage) {
             var storage = window.localStorage;
@@ -1674,7 +1706,7 @@
                 title: "",
                 type: 1,
                 content: $("#tab-detail"),
-                area: ['860px', '250px'],
+                area: ['860px', '175px'],
                 shadeClose: true,
                 scrollbar: false,
                 move: '#tabDetailTitle',
@@ -1759,7 +1791,7 @@
                 title: "",
                 type: 1,
                 content: $("#tab-detail"),
-                area: ['860px', '250px'],
+                area: ['860px', '175px'],
                 shadeClose: true,
                 scrollbar: false,
                 move: '#tabDetailTitle',
@@ -1778,7 +1810,8 @@
         $("#popu-paginate").on("blur", ".laypage_skip", function () {
             $(this).removeClass("isFocus");
         });
-        $("#popu-paginate #per-page-count").on("change", ".lay-per-page-count-select", function () {
+        //modified by zjt 2018-3-27
+        /*$("#popu-paginate #per-page-count").on("change", ".lay-per-page-count-select", function () {
             var curr = Number($(".laypage_curr").text());
             var pageSize = Number($(this).val());
             var total = Number($("#popu-paginate #total-page-count span").text());
@@ -1791,8 +1824,15 @@
                 var pageSizeNum = $(this).val();
                 getPopuTable(curr, pageSizeNum)
             }
+        });*/
+        $("#popu-paginate #per-page-count .select_item_page li").click(function (){
+            var currentSelected = $(this).text();
+            var pageSizeNum = currentSelected;
+            pageSizePopu = currentSelected;
+            //paramData.pageSize = pageSizePopu;
+            getPopuTable(1, pageSizeNum)
         });
-
+        //modified by zjt 2018-3-27
 
         // 注册 enter 事件的元素
         $(document).keyup(function (event) {

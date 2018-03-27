@@ -53,9 +53,10 @@ $(function (){
     // 重置按钮点击事件
     $(".resetBtn").click(function (){
         var data = getParamas();
-            data.pageNum = 1;
             // 默认回到第一页，
-        var pageSizeP = $("#page").find("p")
+        data.pageNum = 1;
+        //modified by zjt 2018-3-27
+        /*var pageSizeP = $("#page").find("p")
         liVal = "";
         for(var i=0;i<pageSizeP.length;i++){
             if($(pageSizeP[i]).hasClass("pageColor")){
@@ -63,7 +64,14 @@ $(function (){
             }
         };
         $(pageSizeP[0]).addClass("pageColor");
-        getData(data,curr,resetSaveStatus);
+        getData(data,curr,resetSaveStatus);*/
+        //每页展示数目还原为10
+        $(".ga-ctrl-footer .select_default_page").val('10');
+        page.pageSize = 10;
+        paramData.pageSize = page.pageSize;
+        paramData.pageNum = data.pageNum;
+        getData(data,data.pageNum,resetSaveStatus);
+        //modified by zjt 2018-3-27
 
     })
    // localstorage 存储选择的品种
@@ -252,6 +260,14 @@ $(function (){
             $(item).val("");
         })
         var data = getParamas();
+        //modified by zjt 2018-3-27
+        data.pageNum = 1;                 //回到第一页
+        paramData.pageNum = data.pageNum;
+        data.pageSize = 10;               //每页条数重置为10条每页
+        page.pageSize = 10;
+        paramData.pageSize = data.pageSize;
+        $('.ga-ctrl-footer .select_default_page').val('10');
+        //modified by zjt 2018-3-27
        getData(data,paramData.pageNum,resetSaveStatus);
     });
     //表格筛选框显示隐藏
@@ -266,12 +282,19 @@ $(function (){
         $(this).parent().parent().hide();
     })
     // // pageSize 选择事件
+    //modified by zjt 2018-3-27
+    /* modified by zjt 2018-3-27
     $("#per-page-count select").change(function (e){
         var currentSelected = $(this).find("option:selected").text();
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
+    });*/
+    $("#tagsPagination #per-page-count .select_item_page li").click(function (e){
+        var currentSelected = $(this).text();
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
     });
-
+    //modified by zjt 2018-3-27
 
     // 获取焦点添加样式：
     $("#tagsPagination").on("focus", ".laypage_skip", function() {
@@ -298,14 +321,25 @@ $(function (){
             }
     });
     // pageSize 事件
-    $("#tagsPagination select").change(function (e){
+    //midified by zjt 2018-3-27
+    /*$("#tagsPagination select").change(function (e){
         var val = $(this).val();
         var data = getParamas();
         data.pageSize = val;
         data.pageNum =  paramData.pageSize;
         getData(data,data.pageNum);
 
-    })
+    });*/
+    $("#tagsPagination #per-page-count .select_item_page li").click(function (e){
+        var val = $(this).text();
+        var data = getParamas();
+        data.pageSize = val;
+        paramData.pageSize = data.pageSize;
+        data.pageNum =  1;
+        data.pageNum = paramData.pageNum;
+        getData(data,data.pageNum,resetSaveStatus);
+    });
+    //midified by zjt 2018-3-27
     // 分页
     var nums;
     var totalDatas;
@@ -440,7 +474,8 @@ $(function (){
                     cont: $('#tagsPagination .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
-                    skin: '#5c8de5',
+                    /*skin: '#5c8de5',*/
+                    skin: '#0f9145',
                     skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                     last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
