@@ -437,7 +437,8 @@ $(function (){
                     cont: $('#sysPopulations .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
-                    skin: '#5c8de5',
+                    /*skin: '#5c8de5',*/
+                    skin: '#0f9145',
                     skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                     last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可

@@ -1778,7 +1778,6 @@
         $("#popu-paginate").on("blur", ".laypage_skip", function () {
             $(this).removeClass("isFocus");
         });
-
         $("#popu-paginate #per-page-count").on("change", ".lay-per-page-count-select", function () {
             var curr = Number($(".laypage_curr").text());
             var pageSize = Number($(this).val());
@@ -1793,6 +1792,7 @@
                 getPopuTable(curr, pageSizeNum)
             }
         });
+
 
         // 注册 enter 事件的元素
         $(document).keyup(function (event) {
