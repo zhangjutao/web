@@ -59,7 +59,7 @@ public class WjyTest extends TestCase {
         List<AuthenticationProvider> list = new ArrayList<>();
         TestingAuthenticationProvider testingAuthenticationProvider = new TestingAuthenticationProvider();
         list.add(testingAuthenticationProvider);
-        providerManager.setProviders(list);
+        //providerManager.setProviders(list);
         SecurityContextImpl securityContext = new SecurityContextImpl();
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);

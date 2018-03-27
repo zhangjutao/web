@@ -52,11 +52,6 @@ import java.util.regex.Pattern;
 @RestController
 @RequestMapping("/dna")
 public class SNPController {
-    @RequestMapping("/me")
-    public Authentication auth() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        return authentication;
-    }
 
     Logger logger = LoggerFactory.getLogger(SNPController.class);
 
