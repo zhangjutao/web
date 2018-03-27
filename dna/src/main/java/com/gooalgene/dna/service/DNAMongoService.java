@@ -593,7 +593,7 @@ public class DNAMongoService {
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
             criteria.andOperator(Criteria.where("pos").gte(upstream), Criteria.where("pos").lte(downstream));
-            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+            if (StringUtils.isNotBlank(ctype) && (!StringUtils.equalsIgnoreCase("all", ctype))) {
                 String keywords = "";
                 if (ctype.indexOf(' ') != -1) {
                     keywords = ctype.replace("_", ".*_");
