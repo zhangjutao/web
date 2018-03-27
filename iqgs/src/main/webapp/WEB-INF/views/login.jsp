@@ -37,7 +37,7 @@
                 <input type="hidden" name="grant_type" value="password">
                 <input type="hidden" name="authorization" value="aXFnczppcWdz">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                <button type="submit" href="javascript:;" class="loginbox">登录</button>
+                <button type="button" href="javascript:;" class="loginbox">登录</button>
                 <div class="reg">
                     <p>还没有账号,<a href="${ctxroot}/signup/action"> 立即注册</a></p>
                 </div>
