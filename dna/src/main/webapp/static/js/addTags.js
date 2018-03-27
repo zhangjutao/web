@@ -497,5 +497,19 @@ $(function (){
         }
     }
 
+    $("#allSelected").click(function (){
+        if($(this).hasClass("whiteOk")){
+            $(this).removeClass("whiteOk").addClass("rightOk");
+        }else {
+           $(this).removeClass("rightOk").addClass("whiteOk");
+        }
+    });
+
+    $("#clear-all").click(function(){
+        if($("#allSelected").hasClass("rightOk")){
+            $("#allSelected").removeClass("rightOk").addClass("whiteOk");
+        }
+    });
+
 
 })
