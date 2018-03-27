@@ -327,6 +327,10 @@ p.first{
     bottom: 14px;
     top:-1px;
 }
+
+.addTrColor{
+    background:#5D8CE6!important;
+}
 /*#tagsPagination .checkbox-item-tab{*/
     /*padding: 0px!important;*/
 /*}*/
