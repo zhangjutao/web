@@ -1,27 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:sec="http://www.springframework.org/schema/security"
-       xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security
                         http://www.springframework.org/schema/security/spring-security.xsd">
+    <!-- 单点登录相关配置 -->
+    <bean id="serviceProperties" class="org.springframework.security.cas.ServiceProperties">
+        <!-- 这里的service 必须是一个由CasAuthenticationFilter 监控的URL -->
+        <property name="service" value="http://localhost:8082/dna/j_spring_cas_security_check" />
+        <property name="sendRenew" value="false" />
+    </bean>
+    <!-- hook up cas entry point -->
+    <bean id="exceptionTranslationFilter" class="org.springframework.security.web.access.ExceptionTranslationFilter">
+        <constructor-arg ref="casEntryPoint" />
+    </bean>
+    <bean id="casAuthenticationProvider" class="org.springframework.security.cas.authentication.CasAuthenticationProvider">
+        <property name="authenticationUserDetailsService">
+            <bean class="org.springframework.security.core.userdetails.UserDetailsByNameServiceWrapper">
+                <constructor-arg ref="myUserDetailsService" />
+            </bean>
+        </property>
+        <property name="serviceProperties" ref="serviceProperties" />
+        <property name="ticketValidator">
+            <bean class="org.jasig.cas.client.validation.Cas20ServiceTicketValidator">
+                <!-- 配置cas服务器前缀 -->
+                <constructor-arg index="0" value="http://localhost:8080/cas/" />
+            </bean>
+        </property>
+        <property name="key" value="casAuthProviderKey" />
+    </bean>
+    <bean id="casFilter" class="org.springframework.security.cas.web.CasAuthenticationFilter">
+        <property name="authenticationManager" ref="authenticationManager" />
+    </bean>
+    <bean id="casEntryPoint" class="org.springframework.security.cas.web.CasAuthenticationEntryPoint">
+        <property name="loginUrl" value="http://localhost:8080/cas/login" />
+        <property name="serviceProperties" ref="serviceProperties" />
+    </bean>
+    <bean id="singleLogoutFilter" class="org.springframework.security.web.authentication.logout.LogoutFilter">
+        <constructor-arg value="http://localhost:8080/cas/logout" />
+        <constructor-arg>
+            <bean class="org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler" />
+        </constructor-arg>
+        <property name="filterProcessesUrl" value="/j_spring_cas_security_logout" />
+    </bean>
 
-    <!-- 目前不需要将ajax请求拒绝 -->
-    <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
         <property name="defaultTargetUrl" value="/dna/index" />
     </bean>
-    <sec:http auto-config='false' use-expressions="true">
+    <sec:http auto-config='false' use-expressions="true" entry-point-ref="casEntryPoint">
+
         <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
         <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
-        <sec:form-login login-page="/login"
-                        login-processing-url="/j_spring_security_check"
-                        authentication-success-handler-ref="authenticationSuccessHandler"
+        <sec:form-login authentication-success-handler-ref="authenticationSuccessHandler"
                         authentication-failure-handler-ref="authenticationFailureHandler"/>
         <sec:access-denied-handler error-page="/403" />
-        <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
+        <sec:custom-filter ref="casFilter" position="CAS_FILTER" />
+        <sec:custom-filter ref="singleLogoutFilter" before="CAS_FILTER" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
     </sec:http>
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">
@@ -33,9 +69,8 @@
     <bean id="accessDecisionManager" class="com.gooalgene.common.security.MyAccessDecisionManager" />
 
     <sec:authentication-manager alias="authenticationManager">
-        <sec:authentication-provider user-service-ref="myUserDetailsService">
-            <sec:password-encoder hash="md5" />
-        </sec:authentication-provider>
+        <!-- spring security authentication provider如果使用了ref属性就不能使用其它attribute，user-service-ref属性自然不能使用 -->
+        <sec:authentication-provider ref="casAuthenticationProvider" />
     </sec:authentication-manager>
 
     <!--自定义的切入点-->

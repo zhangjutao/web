@@ -38,7 +38,7 @@ public class TraitListDaoTest extends TestCase {
     }
 
     @Test
-    public void testFindById(String qtlId){
+    public void testFindById(){
         int id = 16;
         TraitList traitList = traitListDao.findById(id);
 

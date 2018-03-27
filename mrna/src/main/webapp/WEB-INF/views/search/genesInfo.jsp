@@ -534,6 +534,7 @@
 //                "genegroup": "osa_msu_7.0"
 //            }
             loadMask('#mask-test');
+            console.log(data);
             $.ajax({
                 url: "http://47.96.185.131:82/api/CYJYFX/GetRapeInfoByGNAndGG",
                 type: "POST",
