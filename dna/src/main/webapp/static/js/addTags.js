@@ -103,18 +103,22 @@ $(function (){
         }else {
             var selKinds = $(".sample-text").find("span");
             var selContent='';
+            var spanIds = [];
             for (var i=0;i<selKinds.length;i++){
                 selContent += $(selKinds[i]).text().substring(0,$(selKinds[i]).text().length-1) + ",";
+                spanIds.push(parseInt($(selKinds[i]).attr("id")));
             }
             var selContents = selContent.substring(0,selContent.length-1);
-            var arr = selContents.split(",");
-            var arrStr = "";
-            for(var j=0;j<arr.length;j++){
-                arrStr+=arr[j].substring(3) + ",";
-            };
+            // var arr = selContents.split(",");
+            // var arrStr = "";
+            // for(var j=0;j<arr.length;j++){
+            //     arrStr+=arr[j].substring(6) + ",";
+            // };
+
             // 当前保存群体的顺序
             var popLength = $(".js-cursom-add>div.js-ad-dd").length;
-            var newArrStr = arrStr.substring(0,arrStr.length-1);
+            // var newArrStr = arrStr.substring(0,arrStr.length-1);
+            var newArrStr = spanIds.join(",");
             var ki = {name:selContents,
                      id:popLength +1+6,
                      condition:{
@@ -138,11 +142,12 @@ $(function (){
     $("#tagTBody").on("click","input",function (e){
         var currentStatus = $(this).prop("checked");
         var selectedName =  $(this).parent().next().text();
+        var id = $(this).parent().next().attr("data-id");
         if (!selectedName){
             selectedName = $(this).parent().siblings().filter(".sampleNameT").text();
             if(currentStatus){
-                var putName = "<span>样品名" + selectedName + "<i class='deleteSelected'>X</i></span>";
-                $(".sample-text").append(putName);
+                var putName = "<span>测序样品编号" + selectedName + "<i class='deleteSelected'>X</i></span>";
+                $("#sampleText").append(putName);
             }else {
                 var checkNames = $(".sample-text").find("span");
                 for (var i=0;i<checkNames.length;i++){
@@ -154,12 +159,12 @@ $(function (){
             }
         }else {
             if(currentStatus){
-                var putName = "<span>品种名" + selectedName + "<i class='deleteSelected'>X</i></span>";
-                $(".sample-text").append(putName);
+                var putName = "<span id='"+id +"'>测序样品编号" + selectedName + "<i class='deleteSelected'>X</i></span>";
+                $("#sampleText").append(putName);
             }else {
                 var checkNames = $(".sample-text").find("span");
                 for (var i=0;i<checkNames.length;i++){
-                    var checkName = $(checkNames[i]).text().substring(3,$(checkNames[i]).text().length-1);
+                    var checkName = $(checkNames[i]).text().substring(6,$(checkNames[i]).text().length-1);
                     if(selectedName == checkName){
                         $(checkNames[i]).remove();
                     }
@@ -167,12 +172,12 @@ $(function (){
             }
         };
         // 清楚非品种之外的群体￥
-        var wrapList =$(".sample-text").find("span");
-          for (var i=0;i<wrapList.length;i++){
-              if($(wrapList[i]).text().substring(0,3) !="品种名"){
-                  $(wrapList[i]).remove();
-              }
-          }
+        // var wrapList =$(".sample-text").find("span");
+        //   for (var i=0;i<wrapList.length;i++){
+        //       if($(wrapList[i]).text().substring(0,3) !="品种名"){
+        //           $(wrapList[i]).remove();
+        //       }
+        //   }
     })
 
     // 选中的品种点击X
@@ -252,8 +257,22 @@ $(function (){
         selectedDatas.pageSize = paramData.pageSize;
         getData(selectedDatas,paramData.pageNum,resetSaveStatus);
     })
+    $("#addTags span.popCnt1").click(function (){
+        if($("#hiddenP").is(":hidden")){
+            $("#hiddenP").show();
+        };
+        var inputs = $(".sample-screening-btn input");
+        for(var i=0;i<inputs.length;i++){
+            if(!$(input[i]).is(":hidden")){
+                $(input[i]).hide();
+            }
+        }
+    })
     // 选中品种按钮点击获取数据
     $("#kindSelect").click(function (){
+        if(!$("#hiddenP").is(":hidden")){
+            $("#hiddenP").hide();
+        }
         // 每次点击品种都会清空所有的input 框里的值
         var inputValues = $("#tagKind table thead input");
         $.each(inputValues,function (i,item){
@@ -422,8 +441,8 @@ $(function (){
                         var matingTypeTV = totalDatas[i].matingType==null?"":totalDatas[i].matingType;  //交配型
                         var tr = "<tr>" +
                             "<td class='paramTag'><input type='checkbox'/></td>" +
-                            "<td class='paramTag runNoTV'>" + idTV+
-                            "</td><td class='paramTag runNoTV'>" + runNoTV+
+                            // "<td class='paramTag runNoTV'>" + idTV+
+                            "</td><td class='paramTag runNoTV' data-id='" +idTV +"'>" + runNoTV+
                             "</td><td class='paramTag scientificNameTV'>" + scientificNameTV+
                             "</td><td class='paramTag sampleIdTV'>" + sampleIdTV+
                             "</td><td class='paramTag strainNameTV'>" + strainNameTV +
