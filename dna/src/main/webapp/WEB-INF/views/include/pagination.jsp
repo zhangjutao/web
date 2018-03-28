@@ -165,7 +165,7 @@
         </div>
         <span style="float: left; margin-top: 8px;  margin-left: 5px;">条/页</span>
     </div>
-    <div id="total-page-count" class="total-page-count">总条数 <span>0</span></div>
+    <div id="total-page-count" class="total-page-count">总条数<span>0</span></div>
 </div>
 
 <script>

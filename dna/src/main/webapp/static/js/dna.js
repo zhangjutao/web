@@ -550,6 +550,8 @@ $(function () {
 
     };
     // 修改每页显示条数
+    //modified by zjt 2018-3-28
+    /*
     $(".tab-item .js-snp-tab").on("change", ".lay-per-page-count-select", function() {
                 pageSize = Number($(this).val());
         var obj = getPanelParams();
@@ -559,7 +561,6 @@ $(function () {
             obj.params.group = JSON.parse(obj.params.group);
         getQueryForTable(obj.params,"SNP",pageNumber);
     });
-
     $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
         pageSize = Number($(this).val());
         var obj = getPanelParams();
@@ -569,6 +570,27 @@ $(function () {
         obj.params.group = JSON.parse(obj.params.group);
         getQueryForTable(obj.params,"INDEL",pageNumber);
     });
+    */
+    $("#snp-paginate.checkbox-item-tab #per-page-count .select_item_page li").click(function(){
+        pageSize = Number($(this).text());
+        var obj = getPanelParams();
+        deleteSelectedSnp();
+        obj.params.pageNo = pageNumber;
+        obj.params.pageSize =  Number($(this).text());
+        obj.params.group = JSON.parse(obj.params.group);
+        getQueryForTable(obj.params,"SNP",pageNumber);
+    });
+    $("#indel-paginate.checkbox-item-tab #per-page-count .select_item_page li").click(function(){
+        pageSize = Number($(this).val());
+        var obj = getPanelParams();
+        deleteSelectedSnp()
+        obj.params.pageNo = pageNumber;
+        obj.params.pageSize =  Number($(this).val());
+        obj.params.group = JSON.parse(obj.params.group);
+        getQueryForTable(obj.params,"INDEL",pageNumber);
+    });
+    //modified by zjt 2018-3-28
+
 
     // 分页跳转
     $(".js-snp-tab").on("focus", "#snp-paginate .laypage_skip", function() {
@@ -782,9 +804,8 @@ $(function () {
                 }
             }
         });
-        $("#snp-paginate .total-page-count").html(res.total);
+        $("#snp-paginate .total-page-count span").html(res.total);
         fn&&fn();
-        debugger;
         var trsList = $(".js-snp-table #tableBody tr");
         for(var i=0;i<trsList.length;i++){
             if($(trsList[i]).hasClass("tabTrColor")){
@@ -862,7 +883,7 @@ $(function () {
                 }
             }
         });
-        $("#indel-paginate .total-page-count").html(res.total);
+        $("#indel-paginate .total-page-count span").html(res.total);
         // var trsList = $(".js-indel-table #tableBody2 tr");
         // $(trsList[indelOffset]).addClass("tabTrColor");
         fn&&fn();
@@ -1097,6 +1118,8 @@ $(function () {
             CurrentTab = "SNP";
             $(".page-num-tab-indel").hide();
             $(".page-num-tab-snp").show();
+            //$("#snp-paginate .per-page-count .select_default_page").val('10');   //modified by zjt
+            //pageSize = 10;   //modified by zjt
             if($(".snpTipE").is(":hidden")){
                 $(".snpTipE").show();
             };
@@ -1113,6 +1136,8 @@ $(function () {
             };
             CurrentTab = "INDEL";
             $(".page-num-tab-indel").show();
+            //$("#indel-paginate .per-page-count .select_default_page").val('10'); //modified by zjt
+            //pageSize = 10;   //modified by zjt
             $(".page-num-tab-snp").hide();
         }
         $(".table-item").hide();
@@ -1525,7 +1550,6 @@ $(function () {
         //     var snpIndex;
         // // 每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
-                debugger;
                 var obj = getPanelParams();
                 var index = Number($(e.target).attr("data-index"));
                 obj.params.group = JSON.parse(obj.params.group);
@@ -1601,7 +1625,6 @@ $(function () {
     // 根据表格去锚点图上的snp 位点  --snp
     $("#tableBody").on("click","tr>td:not('.t_snpid'),tr>td:not('.t_genoType')",function (e){
         deleteSelectedSnp();
-        debugger;
         var id = Number($(this).parent().attr("data-index"));
         var idAttr = $(this).parent().attr("id");
         var snps = globelTotalSnps.snp;
