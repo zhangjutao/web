@@ -363,8 +363,20 @@ public class SNPController {
         Set<Map.Entry<String, String>> entrySet = map.entrySet();
         List<String> runNos = Lists.newArrayList();
         Map samples = Maps.newHashMap();
+
+        /*拿到 major/minor 变异对应的sample*/
         for (Map.Entry entry : entrySet) {
             String value = (String) entry.getValue();
+
+            /*SNP和INDEL变异的碱基变异方式不一样，在选择 major allele 和 minor allele
+            时的匹配规则不一样.
+            对于SNP的单个碱基变异来说，只要判断样本的 genotype（样本的
+            majorAllele+majorAllele/minor 或 minorAllele+minorAllele 字符串拼接，即下方代
+            码使用到的 value）中是否包含judgeAllele (前端标识 major 和 minor 的符号，为
+            majorAllele/minorAllele) 即可.
+            而在INDEL中，变异均为缺失/增添的碱基段（如 ATTATCGCCGTA），非变异为单个碱基（如“A”），
+            如果还用包含关系，则会会同时包含 majorAllele 和 minorAllele，就无法筛选出只包含
+             majorAllele/minorAllele 的样本*/
             if (StringUtils.isNotBlank(changeParam)) {
                 if (type.equals("indel")) {
                     String majAndchangePa= snpTemp.getMajorallen() + changeParam;

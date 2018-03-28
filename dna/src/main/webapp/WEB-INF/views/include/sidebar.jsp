@@ -211,206 +211,230 @@
                         <div class="sample-screening-title">样本筛选(共<span class="js-total-samples">0</span>个sample)</div>
                         <div class="sample-screening-btn">
                             <input type="button" class="btn resetBtn" value="重置"/>
-                            <button type="button" class="btn savePoP">保存群体</button>
+                            <%--<button type="button" class="btn savePoP">保存群体</button>--%>
                             <input type="button" class="btn saveKind" value="保存群体"/>
                         </div>
                     </div>
                     <div class="sample-category popCnt1">
                         <div class="category-group" data-name="species">
                             <label><b
-                                    class="category-title">物种:</b><span>Glycine soja</span><span>Glycine gracilis</span><span>Landrace</span><span>Improved cultivar</span><span>Mutant cultivar</span></label>
+                                    class="category-title">物种:</b><span>Pleurotus tuoliensis</span></label>
                             <%--<button class="multiselect"><i>+</i>多选</button>--%>
                         </div>
                         <div class="category-position" data-name="locality">
-                            <label><b class="category-title">位置:</b><span>China</span><span>United States</span><span>Japan</span><span>Korea</span><span>Brazil</span><span>Other</span></label>
+                            <label><b class="category-title">位置:</b><span>Toli,China;</span><span>Yumin,China;</span><span>Tacheng,China</span><span>Beijing,China</span><span>Shihezi,China</span><span>Qinghe,China</span><span>Fuyun,China</span><span>Xinjiang,China</span></label>
                             <%--<button class="multiselect"><i>+</i>多选</button>--%>
                         </div>
                         <div class="category-grain-weight" data-name="weightPer100seeds">
-                            <label class="category-content"><b class="category-title">百粒重(g):</b><span>0-10</span><span>10-20</span><span>20-30</span><span>30-40</span>
+                            <label class="category-content"><b class="category-title">类型:</b><span>cultivated</span><span>wild</span>
                                 <%--<span class="js-custom-add"></span>--%>
                             </label>
-                            <div class="grain-weight-section">
-                                <div class="input-range">
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                           class="js-category-start" style="ime-mode:disabled;" onpaste="return false;">
-                                    - <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0"
-                                             class="js-category-end" style="ime-mode:disabled;" onpaste="return false;">
-                                </div>
-                                <button type="button" data-name="weightPer100seeds" class="btn js-customize-sample">确定
-                                </button>
-                            </div>
+                            <%--<div class="grain-weight-section">--%>
+                                <%--<div class="input-range">--%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"--%>
+                                           <%--class="js-category-start" style="ime-mode:disabled;" onpaste="return false;">--%>
+                                    <%--- <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0"--%>
+                                             <%--class="js-category-end" style="ime-mode:disabled;" onpaste="return false;">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="weightPer100seeds" class="btn js-customize-sample">确定--%>
+                                <%--</button>--%>
+                            <%--</div>--%>
                         </div>
                         <div class="category-oil-content" data-name="oil">
-                            <label class="category-content"><b class="category-title">含油量(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="oil" class="btn js-customize-sample">确定</button>
-                            </div>
+                            <label class="category-content"><b class="category-title">材料:</b><span>mycelium</span></label>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="oil" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
                         </div>
                         <div class="category-protein " data-name="protein">
-                            <label><b class="category-title">蛋白质含量(%):</b><span>30-40</span><span>40-50</span><span>50-60</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="protein" class="btn js-customize-sample">确定</button>
-                            </div>
+                            <label><b class="category-title">分类地位:</b><span>Basidiomycetes</span><span>wood-rottingfungi</span><span>White rot fungus</span></label>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="protein" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
                         </div>
                         <%--<div class="flowering-data " data-name="floweringDate">--%>
                         <%--<label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>--%>
                         <%--</div>--%>
                         <div class="mature-data " data-name="maturityDate">
-                            <label><b class="category-title">熟期组 :</b><span>0</span><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span></label>
+                            <label><b class="category-title">菌丝形态 :</b><span>stolonmycelium</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌丝颜色 :</b><span>white</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">孢子颜色 :</b><span>white</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">孢子形态 :</b><span>Oval</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">子实体颜色 :</b><span>white</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">子实体形态 :</b><span>cluster</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌盖颜色 :</b><span>Palmlike</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌柄形态 :</b><span>solid</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌柄颜色 :</b><span>white</span></label>
                         </div>
 
 
-                        <div class="plant-height" data-name="height">
-                            <label class="category-content">
-                                <b class="category-title">株高(cm):</b>
-                                <span>20-60</span>
-                                <span>60-100</span>
-                                <span>100-140</span>
-                                <span>140-180</span>
-                            </label>
-                            <div class="oil-content-section">
-                                <div class="input-range">
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="height" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="grain-color " data-name="seedCoatColor">
-                            <label>
-                                <b class="category-title">粒色(种皮色):</b>
-                                <p>
-                                    <span>Bl - Black</span><span>Striped</span><span>Y - Yellow</span><span>Ggn - Grayish green</span>
-                                    <span>Gn - Green</span><span>Rbr - Reddish brown</span><span>Br - Brown</span><span>Lgn - Light green</span>
-                                    <span>Ib - Imperfect black</span><span>Gnbr - Greenish brown</span><span>dull yellow with black hila</span><span>dull yellow with imperfect black hila</span>
-                                    <span>Wye - White yellow</span><span>Lye - Light yellow</span>
-                                </p>
-                            </label>
-                        </div>
-                        <div class="hilum-color category-more" data-name="hilumColor">
-                            <label>
-                                <b class="category-title">种脐色:</b>
-                                <p>
-                                    <span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark Brown</span><span>Lbf - Light buff</span>
-                                    <span>Bf - Buff</span><span>Gn - Green</span><span>Y - Yellow</span><span>Dib - Dark imperfect black</span>
-                                    <span>Brbl - Brown w/black</span><span>Rbr - Reddish brown</span><span>Lbl - Light black</span><span>Ib - Imperfect black</span>
-                                    <span>G - Gray</span><span>Tn - Tan</span><span>H - Hazel</span><span>Gnbr - Greenish-brown</span>
-                                    <span>Dbf - Dark buff</span><span>W - White</span><span>Lye - Light Yellow</span><span>C - Colorless</span>
-                                </p>
-                            </label>
-                        </div>
-                        <div class="cotyledon-colour category-more" data-name="cotyledonColor">
-                            <label>
-                                <b class="category-title">子叶色:</b>
-                                <span>Gn - Green</span>
-                                <span>Y - Yellow</span>
-                            </label>
-                        </div>
-                        <div class="flower-colour category-more" data-name="flowerColor">
-                            <label>
-                                <b class="category-title">花色:</b>
-                                <span>Lp - Light purple</span>
-                                <span>P - Purple</span>
-                                <span>W - White</span>
-                                <span>Dp - Dark purple</span>
-                            </label>
-                        </div>
-                        <div class="pod-color category-more" data-name="podColor">
-                            <label><b class="category-title">荚色:</b><span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark brown</span><span>Tn - Tan</span><span>Lbr - Light brown</span></label>
-                        </div>
-                        <div class="hair-color category-more" data-name="pubescenceColor">
-                            <label><b class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>
-                        </div>
-                        <div class="yield category-more" data-name="yield">
-                            <label>
-                                <b class="category-title">产量(Mg/ha):</b>
-                                <span>0-1</span>
-                                <span>1-2</span>
-                                <span>2-3</span><span>3-4</span><span>4-5</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="yield" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="apical-leaflet-length category-more" data-name="upperLeafletLength">
-                            <label><b class="category-title">顶端小叶长度(mm):</b><span>20-30</span><span>30-40</span><span>40-50</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="upperLeafletLength" class="btn js-customize-sample">
-                                    确定
-                                </button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="linoleic">
-                            <label><b
-                                    class="category-title">亚油酸(%):</b><span>40-45</span><span>45-50</span><span>50-55</span><span>55-60</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="linoleic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="linolenic">
-                            <label><b
-                                    class="category-title">亚麻酸(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="linolenic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="oleic">
-                            <label><b
-                                    class="category-title">油酸(%):</b><span>5-15</span><span>15-25</span><span>25-35</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="oleic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="palmitic">
-                            <label><b class="category-title">软脂酸(%):</b><span>9-15</span><span>15-21</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="palmitic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="stearic">
-                            <label><b class="category-title">硬脂酸(%):</b><span>2-3</span><span>3-6</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="stearic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
+                        <%--<div class="plant-height" data-name="height">--%>
+                            <%--<label class="category-content">--%>
+                                <%--<b class="category-title">株高(cm):</b>--%>
+                                <%--<span>20-60</span>--%>
+                                <%--<span>60-100</span>--%>
+                                <%--<span>100-140</span>--%>
+                                <%--<span>140-180</span>--%>
+                            <%--</label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range">--%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="height" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="grain-color " data-name="seedCoatColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">粒色(种皮色):</b>--%>
+                                <%--<p>--%>
+                                    <%--<span>Bl - Black</span><span>Striped</span><span>Y - Yellow</span><span>Ggn - Grayish green</span>--%>
+                                    <%--<span>Gn - Green</span><span>Rbr - Reddish brown</span><span>Br - Brown</span><span>Lgn - Light green</span>--%>
+                                    <%--<span>Ib - Imperfect black</span><span>Gnbr - Greenish brown</span><span>dull yellow with black hila</span><span>dull yellow with imperfect black hila</span>--%>
+                                    <%--<span>Wye - White yellow</span><span>Lye - Light yellow</span>--%>
+                                <%--</p>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="hilum-color category-more" data-name="hilumColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">种脐色:</b>--%>
+                                <%--<p>--%>
+                                    <%--<span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark Brown</span><span>Lbf - Light buff</span>--%>
+                                    <%--<span>Bf - Buff</span><span>Gn - Green</span><span>Y - Yellow</span><span>Dib - Dark imperfect black</span>--%>
+                                    <%--<span>Brbl - Brown w/black</span><span>Rbr - Reddish brown</span><span>Lbl - Light black</span><span>Ib - Imperfect black</span>--%>
+                                    <%--<span>G - Gray</span><span>Tn - Tan</span><span>H - Hazel</span><span>Gnbr - Greenish-brown</span>--%>
+                                    <%--<span>Dbf - Dark buff</span><span>W - White</span><span>Lye - Light Yellow</span><span>C - Colorless</span>--%>
+                                <%--</p>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="cotyledon-colour category-more" data-name="cotyledonColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">子叶色:</b>--%>
+                                <%--<span>Gn - Green</span>--%>
+                                <%--<span>Y - Yellow</span>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="flower-colour category-more" data-name="flowerColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">花色:</b>--%>
+                                <%--<span>Lp - Light purple</span>--%>
+                                <%--<span>P - Purple</span>--%>
+                                <%--<span>W - White</span>--%>
+                                <%--<span>Dp - Dark purple</span>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="pod-color category-more" data-name="podColor">--%>
+                            <%--<label><b class="category-title">荚色:</b><span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark brown</span><span>Tn - Tan</span><span>Lbr - Light brown</span></label>--%>
+                        <%--</div>--%>
+                        <%--<div class="hair-color category-more" data-name="pubescenceColor">--%>
+                            <%--<label><b class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>--%>
+                        <%--</div>--%>
+                        <%--<div class="yield category-more" data-name="yield">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">产量(Mg/ha):</b>--%>
+                                <%--<span>0-1</span>--%>
+                                <%--<span>1-2</span>--%>
+                                <%--<span>2-3</span><span>3-4</span><span>4-5</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="yield" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="apical-leaflet-length category-more" data-name="upperLeafletLength">--%>
+                            <%--<label><b class="category-title">顶端小叶长度(mm):</b><span>20-30</span><span>30-40</span><span>40-50</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="upperLeafletLength" class="btn js-customize-sample">--%>
+                                    <%--确定--%>
+                                <%--</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="linoleic">--%>
+                            <%--<label><b--%>
+                                    <%--class="category-title">亚油酸(%):</b><span>40-45</span><span>45-50</span><span>50-55</span><span>55-60</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="linoleic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="linolenic">--%>
+                            <%--<label><b--%>
+                                    <%--class="category-title">亚麻酸(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="linolenic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="oleic">--%>
+                            <%--<label><b--%>
+                                    <%--class="category-title">油酸(%):</b><span>5-15</span><span>15-25</span><span>25-35</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="oleic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="palmitic">--%>
+                            <%--<label><b class="category-title">软脂酸(%):</b><span>9-15</span><span>15-21</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="palmitic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="stearic">--%>
+                            <%--<label><b class="category-title">硬脂酸(%):</b><span>2-3</span><span>3-6</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="stearic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                     </div>
-                    <div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p>
-                    </div>
+                    <%--<div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p>--%>
+                    <%--</div>--%>
                     <div id="tagKind" class="kindCnt1">
                         <div style="overflow-x: scroll;height: 419px;">
                             <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
@@ -1205,16 +1229,16 @@
         });
 
         /* 自定义群体-"更多"展现 */
-        $(".retract p").click(function () {
-            var _dis = $(".hilum-color").css("display");
-            if (_dis == "block") {
-                $(".category-more").hide();
-                $(".retract p").html("更多选项(开花日期、成熟日期、株高等)<img src='${ctxStatic}/images/more_unfold.png'>")
-            } else {
-                $(".category-more").show();
-                $(".retract p").html("收起<img src='${ctxStatic}/images/less.png'>")
-            }
-        });
+        <%--$(".retract p").click(function () {--%>
+            <%--var _dis = $(".hilum-color").css("display");--%>
+            <%--if (_dis == "block") {--%>
+                <%--$(".category-more").hide();--%>
+                <%--$(".retract p").html("更多选项(开花日期、成熟日期、株高等)<img src='${ctxStatic}/images/more_unfold.png'>")--%>
+            <%--} else {--%>
+                <%--$(".category-more").show();--%>
+                <%--$(".retract p").html("收起<img src='${ctxStatic}/images/less.png'>")--%>
+            <%--}--%>
+        <%--});--%>
 
         var populations = []; // 存储自定义群体信息
         var defineDefault = [{
