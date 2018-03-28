@@ -486,7 +486,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="weightPer100seedsI inputStyle">
+                                            <input type="number" placeholder="请输入" class="weightPer100seedsI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
