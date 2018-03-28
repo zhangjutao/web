@@ -87,6 +87,9 @@ public class SNPService {
      */
     public Map<String, Object> findSampleById(String id) {
         Map<String, Object> oneDataResult = new HashMap<>();
+        if (!id.matches("(PT\\d{1}[a-z]{1}[0-9]*)")) {
+            return oneDataResult;
+        }
         String[] chromosomeAndType = CommonUtil.getChromosomeAndType(id);
         String type = chromosomeAndType[0];
         String chr = "chr" + chromosomeAndType[1];
