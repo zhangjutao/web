@@ -486,7 +486,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="weightPer100seedsI inputStyle">
+                                            <input type="number" placeholder="请输入" class="weightPer100seedsI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -503,7 +503,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="proteinI inputStyle">
+                                            <input type="number" placeholder="请输入" class="proteinI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -520,7 +520,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="oilI inputStyle">
+                                            <input type="number" placeholder="请输入" class="oilI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -547,7 +547,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="heightI inputStyle">
+                                            <input type="number" placeholder="请输入" class="heightI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -624,7 +624,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="yieldI inputStyle">
+                                            <input type="number" placeholder="请输入" class="yieldI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -641,7 +641,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="upperLeafletLengthI inputStyle">
+                                            <input type="number" placeholder="请输入" class="upperLeafletLengthI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -658,7 +658,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="linoleicI inputStyle">
+                                            <input type="number" placeholder="请输入" class="linoleicI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -675,7 +675,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="linolenicI inputStyle">
+                                            <input type="number" placeholder="请输入" class="linolenicI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -692,7 +692,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="oleicI inputStyle">
+                                            <input type="number" placeholder="请输入" class="oleicI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -709,7 +709,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="palmiticI inputStyle">
+                                            <input type="number" placeholder="请输入" class="palmiticI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -726,7 +726,7 @@
                                                 <option value=">"> ></option>
                                             </select>
                                             <br>
-                                            <input type="text" placeholder="请输入" class="stearicI inputStyle">
+                                            <input type="number" placeholder="请输入" class="stearicI inputStyle">
                                             <p>
                                                 <a href="javascript:void(0);" class="btnCancel">取消</a>
                                                 <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
