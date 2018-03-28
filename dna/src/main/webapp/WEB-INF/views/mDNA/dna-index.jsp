@@ -114,7 +114,7 @@
             <%--基因ID 选择区 end--%>
             <div class="tab-item">
                 <ul class="item">
-                    <li class="item-ac">SNPs</li>
+                    <li class="item-ac geneSnps">SNPs</li>
                     <li class="geneIndels">INDELs</li>
                 </ul>
                 <%--基因结构图 begin--%>
@@ -502,10 +502,10 @@
             $sel_item_page_snp.hide();
             $sel_default_page_snp.removeClass("rotate");
         });
-        $sel_item_li_page_snp.click(function(){
-            $sel_default_page_snp.val($(this).text());
-            $sel_item_page_snp.hide();
-        });
+//        $sel_item_li_page_snp.click(function(){
+//            $sel_default_page_snp.val($(this).text());
+//            $sel_item_page_snp.hide();
+//        });
 
         //增加inde的input下拉选框事件  modified by zjt 2018-3-27
         var    $sel_page_indel = $("#indel-paginate .per-page-count .select_page"),
@@ -526,14 +526,13 @@
             $sel_item_page_indel.hide();
             $sel_default_page_indel.removeClass("rotate");
         });
-        $sel_item_li_page_indel.click(function(){
-            $sel_default_page_indel.val($(this).text());
-            $sel_item_page_indel.hide();
-        });
+//        $sel_item_li_page_indel.click(function(){
+//            $sel_default_page_indel.val($(this).text());
+//            $sel_item_page_indel.hide();
+//        });
     });
 
 
-</script>
 </script>
 
 </body>
