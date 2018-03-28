@@ -17,6 +17,18 @@
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
+    <style rel="stylesheet" type="text/css">
+        #snp-paginate .total-page-count {
+            display: inline-block !important;
+            height: 28px;
+            top: -4px;
+        }
+        #indel-paginate .total-page-count {
+            display: inline-block !important;
+            height: 28px;
+            top: -4px;
+        }
+    </style>
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <script src="${ctxStatic}/js/layer/layer.js"></script>
@@ -467,10 +479,66 @@
         cancel: '#mask-test',
     });*/
 
-
-
-
     //修改拖拽样式 modified by zjt 2018-3-15
+
+    //增加snp的input下拉选框事件  modified by zjt 2018-3-27
+    $(document).ready(function(){
+        var    $sel_page_snp = $("#snp-paginate .per-page-count #select_page"),
+            $sel_default_page_snp = $("#snp-paginate .per-page-count .select_default_page"),
+            $sel_item_page_snp = $("#snp-paginate .per-page-count .select_item_page"),
+            $sel_item_li_page_snp = $("#snp-paginate .per-page-count .select_item_page li");
+        $sel_default_page_snp.val($("#snp-paginate .per-page-count .select_item_page li:first").text());
+        //alert();
+        $sel_page_snp.hover(function(){
+            $sel_item_page_snp.show();
+            $sel_default_page_snp.addClass("rotate");
+            $sel_item_li_page_snp.hover(function(){
+                var $index_page_snp = $sel_item_li_page_snp.index(this);
+                //alert($index)
+                $sel_item_li_page_snp.eq($index_page_snp).addClass("hover");
+            },function(){
+                $sel_item_li_page_snp.removeClass("hover");
+            })
+        }, function(){
+            $sel_item_page_snp.hide();
+            $sel_default_page_snp.removeClass("rotate");
+        });
+        $sel_item_li_page_snp.click(function(){
+            $sel_default_page_snp.val($(this).text());
+            //alert($sel_default.val());
+            $sel_item_page_snp.hide();
+        });
+
+        //增加inde的input下拉选框事件  modified by zjt 2018-3-27
+        var    $sel_page_indel = $("#indel-paginate .per-page-count #select_page"),
+            $sel_default_page_indel = $("#indel-paginate .per-page-count .select_default_page"),
+            $sel_item_page_indel = $("#indel-paginate .per-page-count .select_item_page"),
+            $sel_item_li_page_indel = $("#indel-paginate .per-page-count .select_item_page li");
+        $sel_default_page_indel.val($("#indel-paginate .per-page-count .select_item_page li:first").text());
+        //alert();
+        $sel_page_indel.hover(function(){
+            $sel_item_page_indel.show();
+            $sel_default_page_indel.addClass("rotate");
+            $sel_item_li_page_indel.hover(function(){
+                var $index_page_indel = $sel_item_li_page_indel.index(this);
+                //alert($index)
+                $sel_item_li_page_indel.eq($index_page_indel).addClass("hover");
+            },function(){
+                $sel_item_li_page_indel.removeClass("hover");
+            })
+        }, function(){
+            $sel_item_page_indel.hide();
+            $sel_default_page_indel.removeClass("rotate");
+        });
+        $sel_item_li_page_indel.click(function(){
+            $sel_default_page_indel.val($(this).text());
+            //alert($sel_default.val());
+            $sel_item_page_indel.hide();
+        });
+    });
+
+
+</script>
 </script>
 
 </body>
