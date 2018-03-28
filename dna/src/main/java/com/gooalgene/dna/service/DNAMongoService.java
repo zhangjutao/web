@@ -552,7 +552,7 @@ public class DNAMongoService {
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
             criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
-            if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
+            if (StringUtils.isNotBlank(ctype) && !StringUtils.equalsIgnoreCase("all", ctype)) {
                 String keyword = ConsequenceTypeUtils.reverseFrontStyleToDB(ctype);
                 criteria.and("consequencetype").is(keyword);
             }

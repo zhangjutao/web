@@ -232,6 +232,7 @@ $(function () {
         globFlag = 0;
         pageNumber = 1;
         pageSize = 10;
+        $("#snp-paginate .lay-per-page-count-select").val(10);
         if(!$(".custom-groups-content").is(":hidden")){
             $(".custom-groups-content").hide();
         };
@@ -243,7 +244,6 @@ $(function () {
         if(!obj){
             return;
         }
-        debugger;
        var getKindSNames =  kindValParam();
 
         var totalGroups = JSON.parse(obj.params.group)
@@ -577,21 +577,30 @@ $(function () {
         //$("#snp-paginate.checkbox-item-tab #per-page-count .select_default_page").val($(this).text()); //修改显示的数字
         var obj = getPanelParams();
         deleteSelectedSnp();
-        obj.params.pageNo = 1;
-        obj.params.pageSize =  Number($(this).text());
+        obj.params.pageNo = pageNumber;
+        obj.params.pageSize =  pageSize;
         obj.params.group = JSON.parse(obj.params.group);
+        var panelType = GetPanelParams.getPanelType();
+        if(panelType == "region" && obj.params.gene){
+            delete obj.params.gene;
+        }
         getQueryForTable(obj.params,"SNP",1);
-        pageSize = 10;
+        // pageSize = 10;
     });
     $("#indel-paginate .select_item_page li").click(function(){
         pageSize = Number($(this).text());
         var obj1 = getPanelParams();
         deleteSelectedSnp();
-        obj1.params.pageNo = 1;
-        obj1.params.pageSize =  Number($(this).text());
+
+        obj1.params.pageNo = pageNumber;
+        obj1.params.pageSize = pageSize;
         obj1.params.group = JSON.parse(obj1.params.group);
+        var panelType = GetPanelParams.getPanelType();
+        if(panelType == "region" && obj1.params.gene){
+            delete obj1.params.gene;
+        }
         getQueryForTable(obj1.params,"INDEL",1);
-        pageSize = 10;
+        // pageSize = 10;
     });
     //modified by zjt 2018-3-28
 
@@ -625,10 +634,18 @@ $(function () {
                 if(currNum1>mathCeil){
                     obj.params.pageNo = mathCeil
                     obj.params.pageSize = pageSize;
+                    var panelType = GetPanelParams.getPanelType();
+                    if(panelType == "region" && obj.params.gene){
+                        delete obj.params.gene;
+                    }
                     getQueryForTable(obj.params,"SNP",mathCeil);
                 }else{
                     obj.params.pageNo = pageNumber = Number(_page_skip.val());
                     obj.params.pageSize = pageSize;
+                    var panelType = GetPanelParams.getPanelType();
+                    if(panelType == "region" && obj.params.gene){
+                        delete obj.params.gene;
+                    }
                     getQueryForTable(obj.params,"SNP",pageNumber);
                 }
             }
@@ -642,10 +659,18 @@ $(function () {
                 if(currNum2>mathCei2){
                     obj.params.pageNo = mathCeil
                     obj.params.pageSize = pageSize;
+                    var panelType = GetPanelParams.getPanelType();
+                    if(panelType == "region" && obj.params.gene){
+                        delete obj.params.gene;
+                    }
                     getQueryForTable(obj.params,"INDEL",mathCeil);
                 }else{
                     obj.params.pageNo = pageNumber;
                     obj.params.pageSize = pageSize;
+                    var panelType = GetPanelParams.getPanelType();
+                    if(panelType == "region" && obj.params.gene){
+                        delete obj.params.gene;
+                    }
                     getQueryForTable(obj.params,"INDEL",pageNumber);
                 }
             }
@@ -783,7 +808,7 @@ $(function () {
             $("tr").data(item.id, item.geneType);
         });
             $(".js-snp-table>tbody").empty().append(str);
-            $(".js-snp-table>tbody").empty().append(str);
+            // $(".js-snp-table>tbody").empty().append(str);
             //$("#snp-paginate .lay-per-page-count-select").val(10);  modified by zjt
         laypage({
             cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
@@ -801,6 +826,10 @@ $(function () {
                 if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                     deleteSelectedSnp();
                     var tmp = getPanelParams();
+                    var panelType = GetPanelParams.getPanelType();
+                    if(panelType == "region" && tmp.params.gene){
+                        delete tmp.params.gene;
+                    }
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
                     tmp.params.pageSize = pageSize;
@@ -863,7 +892,7 @@ $(function () {
         });
 
         $(".js-indel-table>tbody").empty().append(str);
-        $("indel-paginate .lay-per-page-count-select").val(10);
+        // $("#indel-paginate .lay-per-page-count-select").val(10);
         laypage({
             cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
@@ -880,6 +909,10 @@ $(function () {
                 if (!first) { //点击跳页触发函数自身，并传递当前页：obj.curr
                     deleteSelectedSnp();
                     var tmp = getPanelParams();
+                    var panelType = GetPanelParams.getPanelType();
+                    if(panelType == "region" && tmp.params.gene){
+                        delete tmp.params.gene;
+                    }
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
                     tmp.params.pageSize = pageSize;
@@ -962,11 +995,11 @@ $(function () {
         $(".js-snp-table .consequence-type li").removeClass("active");
         $(this).addClass("active");
 
-
         var obj = getPanelParams();
         obj.params.group= JSON.parse(obj.params.group);
         obj.params.ctype = $(this).text();
-        if(obj.params.gene){
+        var panelType = GetPanelParams.getPanelType();
+        if(panelType == "region" && obj.params.gene){
             delete obj.params.gene;
         }
         getQueryForTable(obj.params,"SNP",pageNumber);
@@ -1277,7 +1310,7 @@ $(function () {
 
         // 参考值
         var ttdistance;
-        if(result.structureList.length==0){
+        if(!result.structureList){
             var direction = -1;
         }else {
             var direction = result.structureList[0].strand;
@@ -1390,16 +1423,18 @@ $(function () {
                 }
             }
             // 基因结构
-                for (var i=0;i<geneConstructs.length;i++){
-                    var feature = geneConstructs[i].feature;
-                    var colorVal = chromoColor(feature);
-                    if(geneLength<8850){
-                        var scale = geneLength/885;
-                        g.append("rect").attr("x",(geneConstructs[i].start-startPos)/scale).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/scale).attr("height",rectHeight).attr("fill",colorVal);
-                    }else {
-                        g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-                    }
-                };
+                if(geneConstructs){
+                    for (var i=0;i<geneConstructs.length;i++){
+                        var feature = geneConstructs[i].feature;
+                        var colorVal = chromoColor(feature);
+                        if(geneLength<8850){
+                            var scale = geneLength/885;
+                            g.append("rect").attr("x",(geneConstructs[i].start-startPos)/scale).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/scale).attr("height",rectHeight).attr("fill",colorVal);
+                        }else {
+                            g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
+                        }
+                    };
+                }
         // 方向箭头
         if(direction == "-"){
             svg.append("path").attr("stroke","#cccccc").attr('stroke-width', '2').attr("fill","#cccccc").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
@@ -1557,9 +1592,11 @@ $(function () {
         // // 每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
                 var obj = getPanelParams();
+                // pageSize = 10;
                 var index = Number($(e.target).attr("data-index"));
                 obj.params.group = JSON.parse(obj.params.group);
                 obj.params.index = index;
+                obj.params.pageSize = pageSize;
                 delete obj.params.pageNo;
                 var panelType = GetPanelParams.getPanelType();
                     if(panelType == "region" && obj.params.gene){
@@ -1735,12 +1772,17 @@ $(function () {
     $(".tab-item .geneIndels").click(function (){
         pageNumber = 1;
         pageSize = 10;
+        $("#indel-paginate .lay-per-page-count-select").val(10)  ;
         var obj = getPanelParams();
         obj.params.type="INDEL";
         obj.params.group = JSON.parse(obj.params.group);
         obj.params.ctype = "all";
         globFlag = 1;
-        obj.params.pageSize = 10;
+        obj.params.pageSize = pageSize;
+        var panelType = GetPanelParams.getPanelType();
+        if(panelType == "region" && obj.params.gene){
+            delete obj.params.gene;
+        }
         if(obj.params.index){
             delete obj.params.index;
         }

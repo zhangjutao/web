@@ -465,6 +465,7 @@
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
 <%--// 新增基因结构信息 弹出框--%>
+</body>
 
 <script>
     var ctxRoot = '${ctxroot}';
