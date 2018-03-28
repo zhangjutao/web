@@ -123,14 +123,15 @@ public class TokenFactory {
         return result;
     }
 
-    public static String getTokenByRefreshToken(String refreshToken,String tokenType){
+    public static String getTokenByRefreshToken(String refreshToken,String authorization){
         String accessTokenUri = oauthInfo.get("oauth_url")+oauthInfo.get("request_and_refresh_token");
         final HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Basic "+oauthInfo.get("authorization"));
+//        headers.add("Authorization", "Basic "+oauthInfo.get("authorization"));
+        headers.add("Authorization", "Basic "+authorization);
         final MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
         form.add("grant_type", "refresh_token");
         form.add("refresh_token", refreshToken);
-        form.add("tokenType", tokenType);
+        //form.add("tokenType", tokenType);
         RequestCallback requestCallback = new RequestCallback() {
             @Override
             public void doWithRequest(ClientHttpRequest request) throws IOException {

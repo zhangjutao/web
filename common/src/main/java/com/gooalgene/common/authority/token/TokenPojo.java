@@ -1,6 +1,7 @@
 package com.gooalgene.common.authority.token;
 
 
+import org.springframework.security.crypto.codec.Base64;
 
 /**
  * create by Administrator on2018/2/7 0007
@@ -13,6 +14,23 @@ public class TokenPojo {
     private String scope;
     private String token_type;
     private String uniqueKey;
+    private String clientId="qtl";
+
+    public String getAuthorizationByClientId(){
+        String clientIdAndSecret=clientId+":"+clientId;
+        byte[] encode = Base64.encode(clientIdAndSecret.getBytes());
+        return new String(encode);
+    }
+
+
+
+    public String getClientId() {
+        return clientId;
+    }
+
+    public void setClientId(String clientId) {
+        this.clientId = clientId;
+    }
 
     public String getUniqueKey() {
         return uniqueKey;

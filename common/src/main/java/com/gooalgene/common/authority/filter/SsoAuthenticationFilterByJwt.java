@@ -1,7 +1,9 @@
 package com.gooalgene.common.authority.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException;
 import com.gooalgene.common.WebSocket;
+import com.gooalgene.common.authority.Token;
 import com.gooalgene.common.authority.token.MyBearerTokenExtractor;
 import com.gooalgene.common.authority.token.TokenPojo;
 import com.gooalgene.common.cache.RedisService;
@@ -76,6 +78,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -95,7 +98,6 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                             log.info("刷新token已过期,需重新登录");
                         } else {*/
                         authentication = TokenFactory.getAuthenticationByJwt(token,userDetailsService);
-                        //authentication = JwtUtil.getAuthenticationByJwt(jwtPojo.getAccess_token(),userDetailsService);
                         if (authentication!=null&&authentication.isAuthenticated()) {
                             SecurityContextHolder.getContext().setAuthentication(authentication);
                             authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
@@ -109,20 +111,24 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                         if(tokenPojo!=null){
                             //jwtPojo为空说明用户已超过三小时未操作，需重新登录
                             String refreshToken = tokenPojo.getRefresh_token();
-                            String result = TokenFactory.getTokenByRefreshToken(refreshToken,"jwt");
+                            String result = TokenFactory.getTokenByRefreshToken(refreshToken,tokenPojo.getAuthorizationByClientId());
                             System.out.println(result);
                             //在jwtPojp被重新赋值之前，先删除redis中存在原先的jwt对象
                             redisService.del(tokenPojo.getAccess_token());
-                            //todo 当刷新token返回是异常信息时需要扩展
-                            tokenPojo = objectMapper.readValue(result, TokenPojo.class);
-                            authentication = TokenFactory.getAuthenticationByJwt(tokenPojo.getAccess_token(),userDetailsService);
-                            if (authentication!=null && authentication.isAuthenticated()) {
-                                SecurityContextHolder.getContext().setAuthentication(authentication);
-                                //向前台推送刷新后的token，存入sessionSotrage，取代之前token
-                                webSocket.sendMessage(tokenPojo.getAccess_token());
-                                redisService.setJwt(tokenPojo.getAccess_token(), tokenPojo);
-                                authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
-                            } else {
+                            try{
+                                //todo 当刷新token返回是异常信息时需要扩展
+                                tokenPojo = objectMapper.readValue(result, TokenPojo.class);
+                                authentication = TokenFactory.getAuthenticationByJwt(tokenPojo.getAccess_token(),userDetailsService);
+                                if (authentication!=null && authentication.isAuthenticated()) {
+                                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                                    //向前台推送刷新后的token，存入sessionSotrage，取代之前token
+                                    webSocket.sendMessage(tokenPojo.getAccess_token());
+                                    redisService.setJwt(tokenPojo.getAccess_token(), tokenPojo);
+                                    authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
+                                }
+                            }catch (UnrecognizedPropertyException ex) {
+                                //返回token解析异常
+                                ex.printStackTrace();
                                 SecurityContextHolder.clearContext();
                             }
                         }

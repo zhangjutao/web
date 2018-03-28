@@ -16,6 +16,10 @@
     <bean id="ssoAuthenticationEntryPoint" class="com.gooalgene.common.authority.SsoAuthenticationEntryPoint">
         <constructor-arg value="/login"></constructor-arg>
     </bean>
+    <sec:http pattern="/**/*.css" security="none"/>
+    <sec:http pattern="/**/*.js" security="none"/>
+    <sec:http pattern="/**/*.png" security="none"/>
+    <sec:http pattern="/**/*.jpg" security="none"/>
     <sec:http auto-config='false' use-expressions="true" entry-point-ref="ssoAuthenticationEntryPoint">
         <sec:session-management invalid-session-url="/login" >
             <!--第二个人登录,第一个人的认证会失效 -->
@@ -37,12 +41,12 @@
     <bean id="ssoAuthenticationFilterByJwt" class="com.gooalgene.common.authority.filter.SsoAuthenticationFilterByJwt">
         <constructor-arg index="0" ref="redisService"></constructor-arg>
         <constructor-arg index="1" ref="webSocket"></constructor-arg>
+        <constructor-arg index="2" ref="myUserDetailsService"></constructor-arg>
     </bean>
 
     <bean id="rememberMeAuthenticationFilter" class="com.gooalgene.common.authority.filter.RememberMeAuthenticationFilter">
         <constructor-arg index="0" ref="redisService"/>
         <constructor-arg index="1" ref="myUserDetailsService"/>
-        <constructor-arg index="2" ref="authenticationFailureHandler"/>
     </bean>
 
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">
