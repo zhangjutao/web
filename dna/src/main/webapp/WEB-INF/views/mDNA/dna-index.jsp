@@ -82,7 +82,7 @@
     <%@ include file="/WEB-INF/views/include/sidebar.jsp" %>
 
     <div class="contant page-tables" style="display: none;">
-        <div class="box-shadow resulting">
+        <div class="box-shadow resulting">  `
             <div class="item-header">
                 <div class="icon-left">
                     <img src="${ctxStatic}/images/result.png">结果

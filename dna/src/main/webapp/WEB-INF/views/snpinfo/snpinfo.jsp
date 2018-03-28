@@ -42,7 +42,7 @@
         <div id="snpSearch">
             <p class="tipTil">SNP/INDEL ID:</p>
             <p class="searchBox">
-                <input type="text" placeholder="请输入你要进行搜索的内容进行搜索" />
+                <input type="text" placeholder="请输入关键词" />
             </p>
             <p class="searBtn">
                 <span>
