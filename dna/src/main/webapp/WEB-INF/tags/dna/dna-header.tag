@@ -30,7 +30,7 @@
                 </c:when>
                 <c:otherwise>
                     <a href="${ctxroot}/login" class="login">登录</a>
-                    <a href="${ctxroot}/signup/action" class="register active">注册</a>
+                    <a href="${ctxroot}/signup/action" class="register active" style="background:#0F9145;color:#fff;">注册</a>
                 </c:otherwise>
             </c:choose>
         </div>
