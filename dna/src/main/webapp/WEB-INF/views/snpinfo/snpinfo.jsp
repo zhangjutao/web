@@ -891,7 +891,6 @@
             getData(data,paramData.pageNum,filterParamer);
         })
         window.onload = function (){
-            debugger;
             var data = snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
             data.pageSize = paramData.pageSize;
@@ -1466,7 +1465,6 @@
 
         // 改写 pageSize事件
         $("#snpInforsPage ul li").click(function (){
-            debugger;
             var val = $(this).text();
             var data =snpGetParams(changeParam);
             data.pageNum = paramData.pageNum;
@@ -1477,11 +1475,11 @@
         })
         // 表格导出
         $("#exportData").click(function (){
-            debugger;
             filterParamer()
             console.log(exportTitles);
             var titleData = snpGetParams(changeParam);
-            titleData.isPage = 0;
+           delete titleData.isPage;
+
             var datas = JSON.stringify({
                     "titles":exportTitles.join(","),
                     "condition":titleData,
