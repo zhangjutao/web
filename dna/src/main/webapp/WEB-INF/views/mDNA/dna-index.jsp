@@ -44,11 +44,11 @@
         .total-page-count {    position: relative;  top: -4px;}
         /* master分支中无群体信息 */
         #populationInfos{
-            padding:8px 20px;
+            padding:6px 5px;
             /*background:#5D8CE6;*/
             background:#0f9145;
             color:#fff;
-            width:68px;
+            width:66px;
             float:right;
             cursor:pointer;
             font-size:16px;
@@ -401,7 +401,7 @@
                     <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
                         <!--<img src="${ctxStatic}/images/dnatree.png">-->
                         <img src="${ctxStatic}/images/dna.jpg" style="height:530px;">
-                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">信息</a></p>
+                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff; padding: 0px 16px;" target="_blank">信息</a></p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>
@@ -483,18 +483,16 @@
 
     //增加snp的input下拉选框事件  modified by zjt 2018-3-27
     $(document).ready(function(){
-        var    $sel_page_snp = $("#snp-paginate .per-page-count #select_page"),
+        var    $sel_page_snp = $("#snp-paginate .per-page-count .select_page"),
             $sel_default_page_snp = $("#snp-paginate .per-page-count .select_default_page"),
             $sel_item_page_snp = $("#snp-paginate .per-page-count .select_item_page"),
             $sel_item_li_page_snp = $("#snp-paginate .per-page-count .select_item_page li");
         $sel_default_page_snp.val($("#snp-paginate .per-page-count .select_item_page li:first").text());
-        //alert();
         $sel_page_snp.hover(function(){
             $sel_item_page_snp.show();
             $sel_default_page_snp.addClass("rotate");
             $sel_item_li_page_snp.hover(function(){
                 var $index_page_snp = $sel_item_li_page_snp.index(this);
-                //alert($index)
                 $sel_item_li_page_snp.eq($index_page_snp).addClass("hover");
             },function(){
                 $sel_item_li_page_snp.removeClass("hover");
@@ -505,23 +503,20 @@
         });
         $sel_item_li_page_snp.click(function(){
             $sel_default_page_snp.val($(this).text());
-            //alert($sel_default.val());
             $sel_item_page_snp.hide();
         });
 
         //增加inde的input下拉选框事件  modified by zjt 2018-3-27
-        var    $sel_page_indel = $("#indel-paginate .per-page-count #select_page"),
-            $sel_default_page_indel = $("#indel-paginate .per-page-count .select_default_page"),
-            $sel_item_page_indel = $("#indel-paginate .per-page-count .select_item_page"),
-            $sel_item_li_page_indel = $("#indel-paginate .per-page-count .select_item_page li");
-        $sel_default_page_indel.val($("#indel-paginate .per-page-count .select_item_page li:first").text());
-        //alert();
+        var    $sel_page_indel = $("#indel-paginate .per-page-count .select_page"),
+            $sel_default_page_indel = $("#indel-paginate .select_default_page"),
+            $sel_item_page_indel = $("#indel-paginate .select_item_page"),
+            $sel_item_li_page_indel = $("#indel-paginate .select_item_page li");
+        $sel_default_page_indel.val($("#indel-paginate .select_item_page li:first").text());
         $sel_page_indel.hover(function(){
             $sel_item_page_indel.show();
             $sel_default_page_indel.addClass("rotate");
             $sel_item_li_page_indel.hover(function(){
                 var $index_page_indel = $sel_item_li_page_indel.index(this);
-                //alert($index)
                 $sel_item_li_page_indel.eq($index_page_indel).addClass("hover");
             },function(){
                 $sel_item_li_page_indel.removeClass("hover");
@@ -532,7 +527,6 @@
         });
         $sel_item_li_page_indel.click(function(){
             $sel_default_page_indel.val($(this).text());
-            //alert($sel_default.val());
             $sel_item_page_indel.hide();
         });
     });

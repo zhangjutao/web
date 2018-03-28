@@ -67,21 +67,21 @@ $(function () {
             paramK.infos = [];
         for (var i=0;i<divs.length;i++){
             if($(divs[i]).find("label").hasClass("cur")){
-                var realK = $(divs[i]).find("div.label-txt").text().substring(0,3);
+                var realK = $(divs[i]).find("div.label-txt").text().substring(0,6);
                 // 用于存放每次点击品种/样品信息的对象
                 var paramk1 = {};
-                if(realK == "品种名"){
+                if(realK == "测序样品编号"){
                     paramk1.name = $(divs[i]).find("div.label-txt").text().substring(0);
                     paramk1.id =  Number($(divs[i]).find(".species-add").attr("data-index"));
                     if((paramk1.name).indexOf(",") ==-1){
                         paramk1.condition = {
-                            cultivar:paramk1.name.substring(3)
+                            cultivar:paramk1.name.substring(6)
                         }
                     }else {
                         var conds =paramk1.name.split(",");// 存放 condition 品种信息
                         var condName = [];
                         for (var i=0;i<conds.length;i++){
-                            condName.push(conds[i].substring(3,conds[i].length));
+                            condName.push(conds[i].substring(6,conds[i].length));
 
                         };
                         paramk1.condition = {
@@ -243,7 +243,9 @@ $(function () {
         if(!obj){
             return;
         }
+        debugger;
        var getKindSNames =  kindValParam();
+
         var totalGroups = JSON.parse(obj.params.group)
        // 去掉null 值
         for (var i=0;i<totalGroups.length;i++){
@@ -514,11 +516,10 @@ $(function () {
     var snpOffset,indelOffset;
 
     var pageSizeSNP = 10;
-    $("#snp-paginate .lay-per-page-count-select").val(pageSizeSNP);
-
+    //$("#snp-paginate .lay-per-page-count-select").val(pageSizeSNP);
     // 配置默认每页显示条数
     var pageSizeINDEL = 10;
-    $("#indel-paginate .lay-per-page-count-select").val(pageSizeINDEL);
+    //$("#indel-paginate .lay-per-page-count-select").val(pageSizeINDEL);
     //去除snp 图中的选中位点
     function deleteSelectedSnp (){
         if(CurrentTab == "SNP"){
@@ -571,23 +572,26 @@ $(function () {
         getQueryForTable(obj.params,"INDEL",pageNumber);
     });
     */
-    $("#snp-paginate.checkbox-item-tab #per-page-count .select_item_page li").click(function(){
+    $("#snp-paginate .select_item_page li").click(function(){
         pageSize = Number($(this).text());
+        //$("#snp-paginate.checkbox-item-tab #per-page-count .select_default_page").val($(this).text()); //修改显示的数字
         var obj = getPanelParams();
         deleteSelectedSnp();
-        obj.params.pageNo = pageNumber;
+        obj.params.pageNo = 1;
         obj.params.pageSize =  Number($(this).text());
         obj.params.group = JSON.parse(obj.params.group);
-        getQueryForTable(obj.params,"SNP",pageNumber);
+        getQueryForTable(obj.params,"SNP",1);
+        pageSize = 10;
     });
-    $("#indel-paginate.checkbox-item-tab #per-page-count .select_item_page li").click(function(){
+    $("#indel-paginate .select_item_page li").click(function(){
         pageSize = Number($(this).text());
-        var obj = getPanelParams();
-        deleteSelectedSnp()
-        obj.params.pageNo = pageNumber;
-        obj.params.pageSize =  Number($(this).text());
-        obj.params.group = JSON.parse(obj.params.group);
-        getQueryForTable(obj.params,"INDEL",pageNumber);
+        var obj1 = getPanelParams();
+        deleteSelectedSnp();
+        obj1.params.pageNo = 1;
+        obj1.params.pageSize =  Number($(this).text());
+        obj1.params.group = JSON.parse(obj1.params.group);
+        getQueryForTable(obj1.params,"INDEL",1);
+        pageSize = 10;
     });
     //modified by zjt 2018-3-28
 
@@ -780,7 +784,7 @@ $(function () {
         });
             $(".js-snp-table>tbody").empty().append(str);
             $(".js-snp-table>tbody").empty().append(str);
-            $("#snp-paginate .lay-per-page-count-select").val(10);
+            //$("#snp-paginate .lay-per-page-count-select").val(10);  modified by zjt
         laypage({
             cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
@@ -1118,8 +1122,9 @@ $(function () {
             CurrentTab = "SNP";
             $(".page-num-tab-indel").hide();
             $(".page-num-tab-snp").show();
-            //$("#snp-paginate .per-page-count .select_default_page").val('10');   //modified by zjt
-            //pageSize = 10;   //modified by zjt
+            //modified by zjt 重新获取数据
+            //$("#snp-paginate .per-page-count .select_default_page").val('10');
+
             if($(".snpTipE").is(":hidden")){
                 $(".snpTipE").show();
             };
@@ -1135,10 +1140,9 @@ $(function () {
                 $(".indelTipE").show();
             };
             CurrentTab = "INDEL";
-            $(".page-num-tab-indel").show();
-            //$("#indel-paginate .per-page-count .select_default_page").val('10'); //modified by zjt
-            //pageSize = 10;   //modified by zjt
             $(".page-num-tab-snp").hide();
+            $(".page-num-tab-indel").show();
+            //$("#indel-paginate .per-page-count .select_default_page").val('10');//modified by zjt
         }
         $(".table-item").hide();
         $(".tab .export-data").show();

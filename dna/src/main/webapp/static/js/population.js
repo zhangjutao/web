@@ -203,6 +203,7 @@ $(function (){
     // 获取当前参数 封装
     function getParamas (){
         var datas={
+            snpId:$("#trInfos td.snpId").val(),
             runNo:$(".runNoI").val(),  // 测序样品编号
             scientificName:$(".scientificNameI").val(),// 物种名称
             sampleId:$(".sampleIdI").val(), // 编号
