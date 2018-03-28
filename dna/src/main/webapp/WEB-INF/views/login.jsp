@@ -31,7 +31,7 @@
                 <label class="user" for="u-mail"><input type="text" id="u-mail" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" placeholder="用户名/邮箱" style="line-height:36px;"/><span class="clear js-clear-u">X</span></label>
                 <label class="pwd"  for="pwd"><input type="password" id="pwd" name="j_password" placeholder="密码" style="line-height:36px;"/><span class="clear js-clear-p">X</span></label>
                 <div class="m-unlogin">
-                    <a href="${ctxroot}/signup/forget" class="forgetpwd" style="color:#5C8CE6;">忘记密码</a>
+                    <a href="${ctxroot}/signup/forget" class="forgetpwd" style="color:#0f9145;">忘记密码</a>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"  style="line-height:36px;"/>
                 <button type="submit" href="javascript:;" class="loginbox">登录</button>
