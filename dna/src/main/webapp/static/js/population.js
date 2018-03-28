@@ -465,7 +465,8 @@ $(function (){
     }
 
     // pageSize 事件
-    $("body").on("change",".lay-per-page-count-select", function() {
+    //modified by zjt 2018-3-27
+    /*$("body").on("change",".lay-per-page-count-select", function() {
         var curr = Number($(".laypage_curr").text());
         var pageSize = Number($(this).val());
         var total= Number($("#total-page-count span").text());
@@ -482,7 +483,18 @@ $(function (){
             getData(data,data.pageNum,filterCondition);
 
         }
+    });*/
+    $('#sysPopulations .select_item_page li').click(function(){
+        var curr = Number($(this).text());
+        page.pageSize = $(this).text();
+        var data = getParamas();
+        data.pageNum = 1;
+        data.pageSize = page.pageSize;
+        getData(data,data.pageNum,filterCondition);
     });
+    //modified by zjt 2018-3-27
+
+
 
     // 表格导出
     $("#exportData").click(function (){

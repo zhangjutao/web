@@ -181,16 +181,20 @@ public class ExportDataController {
         sb.append(formTitles).append("\n");
         ObjectMapper objectMapper = new ObjectMapper();
         Field[] fields = SampleInfoDto.class.getDeclaredFields();
-        String fieldsString = "";
+        String fieldsString = ",";
         for (Field field : fields) {
             fieldsString += field.getName();
-            fieldsString += "'";
+            fieldsString += ",";
         }
         for (SampleInfoDto sampleInfoDto : result) {
             String sampleInfoDtoJson = objectMapper.writeValueAsString(sampleInfoDto);
+
+            //由前端给的titles（表头）顺序去导出数据
             for (String oneTitle : titles) {
-                if (fieldsString.contains(oneTitle)) {
+                if (fieldsString.contains("," + oneTitle + ",")) {
                     sb.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$." + oneTitle)).append("\",");
+
+                    //表头的一个字段和数据库及实体的相应字段不一致，在dao层中取别名的话mysql语句太长（表属性过多）
                 } else if (oneTitle.equals("time")) {
                     sb.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$.definitionTime")).append("\",");
                 }
@@ -416,159 +420,6 @@ public class ExportDataController {
                         sb.append((StringUtils.isNotEmpty(str)? str.replace(",", "，") : "-")).append(",");
                     }
                 }
-                /*if (map.containsKey("scientificName")) {
-                    String scientificName = one.getString("scientificName");
-                    sb.append((scientificName != null && !scientificName.toString().equals("") ? scientificName : "-")).append(",");
-                }
-                if (map.containsKey("locality")) {
-                    String locality = one.getString("locality");
-                    sb.append((locality != null && !locality.toString().equals("") ? locality.replace(",", "，") : "-")).append(",");
-                }
-                if (map.containsKey("sampleId")) {
-                    String sampleId = one.getString("sampleId");
-                    sb.append((sampleId != null && !sampleId.toString().equals("") ? sampleId : "-")).append(",");
-                }
-                if (map.containsKey("strainName")) {
-                    String strainName = one.getString("strainName");
-                    sb.append((strainName != null && !strainName.toString().equals("") ? strainName : "-")).append(",");
-                }
-                if (map.containsKey("preservationLocation")) {
-                    Object preservationLocation = one.get("preservationLocation");
-                    sb.append((preservationLocation != null && !preservationLocation.toString().equals("") ? preservationLocation : "-")).append(",");
-                }
-                if (map.containsKey("type")) {
-                    Object type = one.get("type");
-                    sb.append((type != null && !type.toString().equals("") ? type : "-")).append(",");
-                }
-                if (map.containsKey("environment")) {
-                    Object environment = one.get("environment");
-                    sb.append((environment != null && !environment.toString().equals("") ? environment : "-")).append(",");
-                }
-                if (map.containsKey("materials")) {
-                    Object materials = one.get("materials");
-                    sb.append((materials != null && !materials.toString().equals("") ? materials : "-")).append(",");
-                }
-                if (map.containsKey("treat")) {
-                    Object treat = one.get("treat");
-                    sb.append((treat != null && !treat.toString().equals("") ? treat : "-")).append(",");
-                }
-                if (map.containsKey("definitionTime")) {
-                    Object definitionTime = one.get("definitionTime");
-                    sb.append((definitionTime != null && !definitionTime.toString().equals("") ? definitionTime : "-")).append(",");
-                }
-                if (map.containsKey("taxonomy")) {
-                    Object taxonomy = one.get("taxonomy");
-                    sb.append((taxonomy != null && !taxonomy.toString().equals("") ? taxonomy : "-")).append(",");
-                }
-                if (map.containsKey("myceliaPhenotype")) {
-                    Object myceliaPhenotype = one.get("myceliaPhenotype");
-                    sb.append((myceliaPhenotype != null && !myceliaPhenotype.toString().equals("") ? myceliaPhenotype : "-")).append(",");
-                }
-                if (map.containsKey("myceliaDiameter")) {
-                    Object myceliaDiameter = one.get("myceliaDiameter");
-                    sb.append((myceliaDiameter != null && !myceliaDiameter.toString().equals("") ? myceliaDiameter : "-")).append(",");
-                }
-                if (map.containsKey("myceliaColor")) {
-                    Object myceliaColor = one.get("myceliaColor");
-                    sb.append((myceliaColor != null && !myceliaColor.toString().equals("") ? myceliaColor : "-")).append(",");
-                }
-                if (map.containsKey("sporesColor")) {
-                    Object sporesColor = one.get("sporesColor");
-                    sb.append((sporesColor != null && !sporesColor.toString().equals("") ? sporesColor : "-")).append(",");
-                }
-                if (map.containsKey("sporesShape")) {
-                    Object sporesShape = one.get("sporesShape");
-                    sb.append((sporesShape != null && !sporesShape.toString().equals("") ? sporesShape : "-")).append(",");
-                }
-                if (map.containsKey("clampConnection")) {
-                    Object clampConnection = one.get("clampConnection");
-                    sb.append((clampConnection != null && !clampConnection.toString().equals("") ? clampConnection : "-")).append(",");
-                }
-                if (map.containsKey("pileusPhenotype")) {
-                    Object pileusPhenotype = one.get("pileusPhenotype");
-                    sb.append((pileusPhenotype != null && !pileusPhenotype.toString().equals("") ? pileusPhenotype : "-")).append(",");
-                }
-                if (map.containsKey("pileusColor")) {
-                    Object pileusColor = one.get("pileusColor");
-                    sb.append((pileusColor != null && !pileusColor.toString().equals("") ? pileusColor : "-")).append(",");
-                }
-                if (map.containsKey("stipePhenotype")) {
-                    Object stipePhenotype = one.get("stipePhenotype");
-                    sb.append((stipePhenotype != null && !stipePhenotype.toString().equals("") ? stipePhenotype : "-")).append(",");
-                }
-                if (map.containsKey("stipeColor")) {
-                    Object stipeColor = one.get("stipeColor");
-                    sb.append((stipeColor != null && !stipeColor.toString().equals("") ? stipeColor : "-")).append(",");
-                }
-                if (map.containsKey("fruitbodyColor")) {
-                    Object fruitbodyColor = one.get("fruitbodyColor");
-                    sb.append((fruitbodyColor != null && !fruitbodyColor.toString().equals("") ? fruitbodyColor : "-")).append(",");
-                }
-                if (map.containsKey("fruitbodyType")) {
-                    Object fruitbodyType = one.get("fruitbodyType");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("illumination")) {
-                    Object illumination = one.get("illumination");
-                    sb.append((illumination != null && !illumination.toString().equals("") ? illumination : "-")).append(",");
-                }
-                if (map.containsKey("collarium")) {
-                    Object collarium = one.get("collarium");
-                    sb.append((collarium != null && !collarium.toString().equals("") ? collarium : "-")).append(",");
-                }
-                if (map.containsKey("volva")) {
-                    Object volva = one.get("volva");
-                    sb.append((volva != null && !volva.toString().equals("") ? volva : "-")).append(",");
-                }
-                if (map.containsKey("velum")) {
-                    Object velum = one.get("velum");
-                    sb.append((velum != null && !velum.toString().equals("") ? velum : "-")).append(",");
-                }
-                if (map.containsKey("sclerotium")) {
-                    Object fruitbodyType = one.get("sclerotium");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("strainMedium")) {
-                    Object fruitbodyType = one.get("strainMedium");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("mainSubstrate")) {
-                    Object fruitbodyType = one.get("mainSubstrate");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("afterRipeningStage")) {
-                    Object fruitbodyType = one.get("afterRipeningStage");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("primordialStimulationFruitbody")) {
-                    Object fruitbodyType = one.get("primordialStimulationFruitbody");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("reproductiveMode")) {
-                    Object fruitbodyType = one.get("reproductiveMode");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("lifestyle")) {
-                    Object fruitbodyType = one.get("lifestyle");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("preservation")) {
-                    Object fruitbodyType = one.get("preservation");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("domestication")) {
-                    Object fruitbodyType = one.get("domestication");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("nuclearPhase")) {
-                    Object fruitbodyType = one.get("nuclearPhase");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }
-                if (map.containsKey("matingType")) {
-                    Object fruitbodyType = one.get("matingType");
-                    sb.append((fruitbodyType != null && !fruitbodyType.toString().equals("") ? fruitbodyType : "-")).append(",");
-                }*/
-
                 sb.append("\n");
             }
         } else if ("SNP".equals(model)) {
@@ -720,9 +571,21 @@ public class ExportDataController {
         List<String> runNos = Lists.newArrayList();
         Map samples = Maps.newHashMap();
         String changeParam = sampleInfoDto.getChangeParam();
+
+        /*拿到 major/minor 变异对应的sample*/
         for (Map.Entry entry : entrySet) {
             String value = (String) entry.getValue();
-            if (StringUtils.isNotBlank(changeParam)) {
+
+            /*SNP和INDEL变异的碱基变异方式不一样，在选择 major allele 和 minor allele
+            时的匹配规则不一样.
+            对于SNP的单个碱基变异来说，只要判断样本的 genotype（样本的
+            majorAllele+majorAllele/minor 或 minorAllele+minorAllele 字符串拼接，即下方代
+            码使用到的 value）中是否包含judgeAllele (前端标识 major 和 minor 的符号，为
+            majorAllele/minorAllele) 即可.
+            而在INDEL中，变异均为缺失/增添的碱基段（如 ATTATCGCCGTA），非变异为单个碱基（如“A”），
+            如果还用包含关系，则会会同时包含 majorAllele 和 minorAllele，就无法筛选出只包含
+             majorAllele/minorAllele 的样本*/
+         if (StringUtils.isNotBlank(changeParam)) {
                 if (isINDEL) {
                     String majAndchangePa = snpTemp.getMajorallen() + changeParam;
                     String changePaAndMin = changeParam + snpTemp.getMinorallen();
@@ -793,16 +656,22 @@ public class ExportDataController {
             }
             ObjectMapper objectMapper = new ObjectMapper();
             Field[] fields = SampleInfoDto.class.getDeclaredFields();
-            String fieldsString = "";
+            String fieldsString = ",";
+
+            //在一个属性前后加逗号是确保有abc和bc这种一个字段被另一个字段包含的情况不会影响结果
             for (Field field : fields) {
                 fieldsString += field.getName();
-                fieldsString += "'";
+                fieldsString += ",";
             }
             for (SampleInfoDto oneSampleInfoDto : sampleInfoDtoList) {
                 String sampleInfoDtoJson = objectMapper.writeValueAsString(oneSampleInfoDto);
+
+                //由前端给的titles（表头）顺序去导出数据
                 for (String oneTitle : conditionTitles) {
-                    if (fieldsString.contains(oneTitle)) {
+                    if (fieldsString.contains("," + oneTitle + ",")) {
                         stringBuilder.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$." + oneTitle)).append("\",");
+
+                        //表头的一个字段和数据库及实体的相应字段不一致，在dao层中取别名的话mysql语句太长（表属性过多）
                     } else if (oneTitle.equals("time")) {
                         stringBuilder.append("\"").append(JsonPath.read(sampleInfoDtoJson, "$.definitionTime")).append("\",");
                     }
