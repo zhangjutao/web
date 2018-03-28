@@ -583,11 +583,11 @@ $(function () {
         getQueryForTable(obj.params,"SNP",pageNumber);
     });
     $("#indel-paginate.checkbox-item-tab #per-page-count .select_item_page li").click(function(){
-        pageSize = Number($(this).val());
+        pageSize = Number($(this).text());
         var obj = getPanelParams();
         deleteSelectedSnp()
         obj.params.pageNo = pageNumber;
-        obj.params.pageSize =  Number($(this).val());
+        obj.params.pageSize =  Number($(this).text());
         obj.params.group = JSON.parse(obj.params.group);
         getQueryForTable(obj.params,"INDEL",pageNumber);
     });

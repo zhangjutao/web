@@ -154,7 +154,7 @@
             <option value="50">50</option>
         </select>
         -->
-        <div id="select_page">
+        <div id="select_page" class="select_page">
             <input type="text" class="select_default_page lay-per-page-count-select" disabled="disabled" style="background:white">
             <ul class="select_item_page">
                 <li style="border-top:1px solid #0F9145;">10</li>
@@ -175,14 +175,11 @@
             $sel_item_page = $(".select_item_page"),
             $sel_item_li_page = $(".select_item_page li");
         $sel_default_page.val($(".select_item_page li:first").text());
-        //alert();
         $sel_page.hover(function(){
             $sel_item_page.show();
-            console.log('hahaha');
             $sel_default_page.addClass("rotate");
             $sel_item_li_page.hover(function(){
-                $index_page = $sel_item_li_page.index(this);
-                //alert($index)
+                var $index_page = $sel_item_li_page.index(this);
                 $sel_item_li_page.eq($index_page).addClass("hover");
             },function(){
                 $sel_item_li_page.removeClass("hover");
@@ -193,7 +190,6 @@
         });
         $sel_item_li_page.click(function(){
             $sel_default_page.val($(this).text());
-            //alert($sel_default.val());
             $sel_item_page.hide();
         });
     });
