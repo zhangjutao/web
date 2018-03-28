@@ -87,6 +87,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
         } else {
             try {
                 String token = tokenExtractor.extractToken(request);
+                log.info("token: {}",token);
                 if (StringUtils.isBlank(token)) {
                     //未携带token时
                     log.info("未携带token");

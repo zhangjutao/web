@@ -8,6 +8,9 @@ import org.springframework.security.oauth2.provider.authentication.OAuth2Authent
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 
 /**
  * create by Administrator on2018/2/6 0006
@@ -27,6 +30,30 @@ public class MyBearerTokenExtractor extends BearerTokenExtractor {
         // bearer type allows a request parameter as well
         if (token == null) {
             logger.debug("Token not found in headers. Trying request parameters.");
+
+            Map map=request.getParameterMap();
+            Set keSet=map.entrySet();
+            for(Iterator itr = keSet.iterator(); itr.hasNext();){
+                Map.Entry me=(Map.Entry)itr.next();
+                Object ok=me.getKey();
+                Object ov=me.getValue();
+                String[] value=new String[1];
+                if(ov instanceof String[]){
+                    value=(String[])ov;
+                }else{
+                    value[0]=ov.toString();
+                }
+                for(int k=0;k<value.length;k++){
+                    logger.info("草 ："+ok+"="+value[k]);
+                }
+            }
+
+            Enumeration enu=request.getParameterNames();
+            while(enu.hasMoreElements()){
+                String paraName=(String)enu.nextElement();
+                logger.info("草2 ："+paraName+": "+request.getParameter(paraName));
+            }
+
             token = request.getParameter(OAuth2AccessToken.ACCESS_TOKEN);
             if (token == null) {
                 logger.debug("Token not found in request parameters.  Not an OAuth2 request.");
