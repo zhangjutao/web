@@ -232,6 +232,7 @@ $(function () {
         globFlag = 0;
         pageNumber = 1;
         pageSize = 10;
+        gloableSnpSelectedNum = 10;
         $("#snp-paginate .lay-per-page-count-select").val(10);
         if(!$(".custom-groups-content").is(":hidden")){
             $(".custom-groups-content").hide();
@@ -573,32 +574,36 @@ $(function () {
     });
     */
     $("#snp-paginate .select_item_page li").click(function(){
-        pageSize = Number($(this).text());
+        pageSizeSNP = Number($(this).text());
+        $("#snp-paginate .select_default_page").val(pageSizeSNP);
         //$("#snp-paginate.checkbox-item-tab #per-page-count .select_default_page").val($(this).text()); //修改显示的数字
         var obj = getPanelParams();
         deleteSelectedSnp();
         obj.params.pageNo = pageNumber;
-        obj.params.pageSize =  pageSize;
+        obj.params.pageSize =  pageSizeSNP;
         obj.params.group = JSON.parse(obj.params.group);
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "region" && obj.params.gene){
             delete obj.params.gene;
         }
+        obj.params.type = "SNP";
         getQueryForTable(obj.params,"SNP",1);
         // pageSize = 10;
     });
     $("#indel-paginate .select_item_page li").click(function(){
-        pageSize = Number($(this).text());
+        pageSizeINDEL = Number($(this).text());
+        $("#indel-paginate .select_default_page").val(pageSizeINDEL);
         var obj1 = getPanelParams();
         deleteSelectedSnp();
 
         obj1.params.pageNo = pageNumber;
-        obj1.params.pageSize = pageSize;
+        obj1.params.pageSize = pageSizeINDEL;
         obj1.params.group = JSON.parse(obj1.params.group);
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "region" && obj1.params.gene){
             delete obj1.params.gene;
         }
+        obj1.params.type = "INDEL";
         getQueryForTable(obj1.params,"INDEL",1);
         // pageSize = 10;
     });
@@ -620,6 +625,7 @@ $(function () {
     });
     // 注册 enter 事件的元素
     document.onkeydown = function(e) {
+
         deleteSelectedSnp();
         var _page_skip = $('#snp-paginate .laypage_skip');
         var _page_skip2 = $('#indel-paginate .laypage_skip');
@@ -812,13 +818,13 @@ $(function () {
             //$("#snp-paginate .lay-per-page-count-select").val(10);  modified by zjt
         laypage({
             cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-            pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
+            pages: Math.ceil(res.total / pageSizeSNP), //通过后台拿到的总页数
             curr: curr || 1, //当前页
             /*skin: '#5c8de5',*/
             skin: '#0f9145',
             skip: true,
             first: 1, //将首页显示为数字1,。若不显示，设置false即可
-            last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
+            last: Math.ceil(res.total / pageSizeSNP), //将尾页显示为总页数。若不显示，设置false即可
             prev: '<',
             next: '>',
             groups: 3, //连续显示分页数
@@ -832,12 +838,14 @@ $(function () {
                     }
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
-                    tmp.params.pageSize = pageSize;
+                    tmp.params.pageSize = pageSizeSNP;
                     getQueryForTable(tmp.params,"SNP",obj.curr);
                 }
             }
         });
         $("#snp-paginate .total-page-count span").html(res.total);
+        gloableSnpSelectedNum = $("#snp-paginate .select_default_page").val();
+
         fn&&fn();
         var trsList = $(".js-snp-table #tableBody tr");
         for(var i=0;i<trsList.length;i++){
@@ -895,13 +903,13 @@ $(function () {
         // $("#indel-paginate .lay-per-page-count-select").val(10);
         laypage({
             cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-            pages: Math.ceil(res.total / pageSize), //通过后台拿到的总页数
+            pages: Math.ceil(res.total / pageSizeINDEL), //通过后台拿到的总页数
             curr: curr || 1, //当前页
             /*skin: '#5c8de5',*/
             skin: '#0f9145',
             skip: true,
             first: 1, //将首页显示为数字1,。若不显示，设置false即可
-            last: Math.ceil(res.total / pageSize), //将尾页显示为总页数。若不显示，设置false即可
+            last: Math.ceil(res.total / pageSizeINDEL), //将尾页显示为总页数。若不显示，设置false即可
             prev: '<',
             next: '>',
             groups: 3, //连续显示分页数
@@ -915,7 +923,7 @@ $(function () {
                     }
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
-                    tmp.params.pageSize = pageSize;
+                    tmp.params.pageSize = pageSizeINDEL;
                     getQueryForTable(tmp.params,"INDEL",obj.curr);
                 }
             }
@@ -1767,18 +1775,24 @@ $(function () {
     $("#mask-test2 table thead").on("change","td.t_ifmajorAllele",function (){
         deleteSelectedSnp();
     })
+    var gloableSnpSelectedNum = 10;
+        // SNP 按钮的点击事件
 
+        $(".tab-item .geneSnps").click(function(){
+            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+
+        })
     // add by jarry at 3-23
     $(".tab-item .geneIndels").click(function (){
         pageNumber = 1;
-        pageSize = 10;
+        pageSizeINDEL = 10;
         $("#indel-paginate .lay-per-page-count-select").val(10)  ;
         var obj = getPanelParams();
         obj.params.type="INDEL";
         obj.params.group = JSON.parse(obj.params.group);
         obj.params.ctype = "all";
         globFlag = 1;
-        obj.params.pageSize = pageSize;
+        obj.params.pageSize = pageSizeINDEL;
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "region" && obj.params.gene){
             delete obj.params.gene;
