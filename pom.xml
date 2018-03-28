@@ -405,6 +405,7 @@
             <version>1.1</version>
             <scope>provided</scope>
         </dependency>
+
     </dependencies>
     <build>
         <finalName>Core-Database</finalName>

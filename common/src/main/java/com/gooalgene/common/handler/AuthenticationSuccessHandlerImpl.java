@@ -24,11 +24,14 @@ public class AuthenticationSuccessHandlerImpl extends SimpleUrlAuthenticationSuc
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         // 远程访问IP
-        String remoteAddr = request.getRemoteAddr();
-        logger.info("用户登录地址为: " + remoteAddr);
+        String ipAddress = request.getHeader("X-FORWARDED-FOR");
+        if (ipAddress == null) {
+            ipAddress = request.getRemoteAddr();
+        }
+        logger.info("用户登录地址为: " + ipAddress);
         SecurityUser securityUser=(SecurityUser)authentication.getPrincipal();
         LoginInfo loginInfo=new LoginInfo(securityUser.getId(),new Date(),null);
-        loginInfo.setLoginAddress(remoteAddr);
+        loginInfo.setLoginAddress(ipAddress);
         loginInfoService.insertLoginInfo(loginInfo);
         super.onAuthenticationSuccess(request,response,authentication);
     }
