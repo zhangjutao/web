@@ -519,7 +519,7 @@
 
         </div>
         <%--laypage 分页 插件  begin--%>
-        <div class="checkbox-item-tab" id="sysPopulations">
+        <div class="checkbox-item-tab" id="sysPopulations" style="height:60px;">
             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
         </div>
         <%--laypage 分页 end --%>
