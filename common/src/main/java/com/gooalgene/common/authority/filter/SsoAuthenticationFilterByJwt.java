@@ -83,28 +83,26 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain chain) throws ServletException, IOException {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated()) {
-            log.info("用户{}已认证", authentication.getPrincipal());
+            log.info("用户{}已认证，无需token校验", authentication.getPrincipal());
         } else {
             try {
                 String token = tokenExtractor.extractToken(request);
                 if (StringUtils.isBlank(token)) {
                     //未携带token时
+                    log.info("未携带token");
                 } else {
+                    log.info("携带token");
                     TokenPojo tokenPojo = null;
                     try {
-                        //jwtPojo = redisService.getJwt(token);
-                       /* if (jwtPojo == null) {
-                            //redis中已将token删除,说明刷新token已过期,需重新登录
-                            log.info("刷新token已过期,需重新登录");
-                        } else {*/
                         authentication = TokenFactory.getAuthenticationByJwt(token,userDetailsService);
                         if (authentication!=null&&authentication.isAuthenticated()) {
+                            log.info("security已校验成功");
                             SecurityContextHolder.getContext().setAuthentication(authentication);
                             authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
                         } else {
+                            log.info("security未校验成功");
                             SecurityContextHolder.clearContext();
                         }
-                        //}
                     } catch (ExpiredJwtException e) {
                         log.info("token过期");
                         tokenPojo=redisService.getJwt(token);
@@ -133,10 +131,10 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                             }
                         }
                     } catch (SignatureException e) {
-                        //e.printStackTrace();
+                        e.printStackTrace();
                         SecurityContextHolder.clearContext();
                     } catch (Exception e) {
-                        //e.printStackTrace();
+                        e.printStackTrace();
                         SecurityContextHolder.clearContext();
                     }
                 }
