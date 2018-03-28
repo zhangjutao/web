@@ -180,9 +180,12 @@ public class SNPController {
                 logger.warn("传入基因" + gene + "不存在");
             }
         } else {
+            chromosome = condition.getChromosome();
             start = condition.getStart();
             end = condition.getEnd();
         }
+        logger.debug("jump-page(Search By Gene): gene" + gene +  " , chromosome - " + chromosome + " , start - "
+                + start + " , end - " + end + " , index - " + index);
         Map<String, Integer> targetPageInfo = dnaMongoService.getStartIndex(condition.getType(), condition.getCtype(),
                 chromosome, start, end, index, condition.getPageSize());
         // 获取targetIndex位置处的pageNo
