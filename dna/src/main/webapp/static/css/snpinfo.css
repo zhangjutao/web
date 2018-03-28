@@ -1,5 +1,5 @@
 .snpTop{
-    color:#5c8ce6;
+    color:#0F9145;
     font-family:"Microsoft Yahei";
     font-size:24px;
     padding-left:30px;
@@ -26,7 +26,7 @@
     height:30px;
 }
 #snpSearch .searBtn{
-    background:#5C8CE6;
+    background:#0F9145;
     color:#fff;
     font-family:"Microsoft Yahei";
     font-size:16px;
@@ -40,13 +40,13 @@
     margin-top:16px;
 }
 #trInfos table {
-    border:1px solid #DDDDDD;
+    border:1px solid #EDF7F2;
     border-collapse: collapse;
 }
 #trInfos table td{
     height:60px;
     text-align:center;
-    border: 1px solid #DDDDDD;
+    border: 1px solid #EDF7F2;
 }
 .trWidth{
     width:202px!important;
@@ -77,6 +77,9 @@
     position:relative;
     overflow-y: hidden;
 }
+#snpinfoTable table tbody td{
+    text-align:center;
+}
 #snpinfoTable table{
     border-collapse: collapse;
     width: 1200px;
@@ -87,7 +90,7 @@
 }
 .popNames{
     position: absolute;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0F9145;
     z-index: 100;
     padding: 0px 10px;
     width: 58px;
@@ -117,11 +120,11 @@
     font-family:"Microsoft Yahei";
     font-size:14px;
     color:#666;
-    border:1px solid #89ACED;
+    border:1px solid #0F9145;
     cursor: pointer;
 }
 .changeTagColor{
-    background:#5C8CE6;
+    background:#0F9145;
     color:#fff!important;
 }
 #pieShow{
@@ -131,7 +134,7 @@
 }
 .searchBox input{
     padding-left:10px;
-    border:1px solid #DDDDDD;
+    border:1px solid #EDF7F2;
 }
 /*// 分页*/
 #paging{
@@ -224,7 +227,7 @@ p.first{
     margin-top: 13px;
     display: none;
     position: absolute;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0F9145;
     z-index: 1;
     padding: 15px 10px;
     width: 114px;
@@ -241,13 +244,13 @@ p.first{
 .inputComponent p a {
     padding: 2px 8px;
     display: inline-block;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0F9145;
     border-radius: 3px;
 }
 
 .btnCancel {
     margin-right: 5px;
-    color: #5c8ce6;
+    color: #0F9145;
 }
 a {
     color: #000;
@@ -257,7 +260,7 @@ a {
     margin-top: 10px;
 }
 .btnConfirmInfo {
-    background: #5c8ce6;
+    background: #0F9145;
     color: #fff;
 }
 #errorBoxShow{
@@ -323,7 +326,7 @@ a {
     float:right;
     display:inline-block;
     /*display:inline-block;*/
-    background:#5C8CE6;
+    background:#0F9145;
     color:#fff;
     width:100px;
     text-align:center;
@@ -341,7 +344,7 @@ a {
 }
 #operate{
     overflow: hidden;
-    padding-top:47px;
+    padding-top:142px;
     padding-left:60px;
     display:none;
 }
@@ -350,10 +353,10 @@ a {
 }
 #operate p{
 
-    color:#5C8CE6;
+    color:#0F9145;
 }
 #operate .sure{
-    border:1px solid #5C8CE6;
+    border:1px solid #0F9145;
     padding:5px 16px;
     float:left;
     margin-right:10px;
@@ -385,7 +388,7 @@ a {
 }
 .popNamesNewAdd {
     position: absolute;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0F9145;
     z-index: 100;
     padding: 0px 10px;
     width: 58px;
@@ -397,6 +400,7 @@ a {
 }
 .changeTabStyle{
     top:130px;
+    margin-top: 110px!important;
 }
 .changeTableStyle{
     margin-top: 56px!important;

@@ -8,7 +8,6 @@
         height: 28px;
         top: -4px;
     }
-
     .label-txt {
         cursor: pointer;
         display: inline-block;
@@ -128,6 +127,7 @@
    #tagsPagination #total-page-count{position: relative;top:-4px;}
 </style>
 
+
 <div class="nav_ac">
     <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
 </div>
@@ -195,7 +195,7 @@
                 <div class="custom-groups-content" style="overflow: hidden;">
                     <div class="sample">
                         <label><b>样本></b></label>
-                        <div class="sample-text"></div>
+                        <div class="sample-text" id="sampleText"></div>
                         <div class="colse-sample">
                             <button type="button" class="btn-fill sample-empty">清空</button>
                             <span>X</span></div>
@@ -211,7 +211,8 @@
                         <div class="sample-screening-title">样本筛选(共<span class="js-total-samples">0</span>个sample)</div>
                         <div class="sample-screening-btn">
                             <input type="button" class="btn resetBtn" value="重置"/>
-                            <%--<button type="button" class="btn savePoP">保存群体</button>--%>
+                            <%--<button type="button" class="btn" style="background:#ccc;">保存群体</button>--%>
+                                <p id="hiddenP" style="background:#ccc;width:90px;height:30px;line-height:30px;text-align:center;border-radius: 3px;cursor: not-allowed;    margin-top: 2px;">保存群体</p>
                             <input type="button" class="btn saveKind" value="保存群体"/>
                         </div>
                     </div>
@@ -441,7 +442,7 @@
                                 <thead style="overflow-x: scroll;width:730px;">
                                 <tr>
                                     <th class="paramTag" style="width:42px;"></th>
-                                    <th class="paramTag" style="width:42px;">ID</th>
+                                    <%--<th class="paramTag" style="width:42px;">ID</th>--%>
                                     <th class="paramTag">测序样品编号
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
@@ -1107,6 +1108,7 @@
     </form>
 </div>
 
+<script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script>
     //为弹窗出来的ga-ctrl-footer添加hover触发事件 modified by zjt 2018-3-27
     $(document).ready(function(){
@@ -1115,14 +1117,12 @@
             $sel_item_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page"),
             $sel_item_li_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page li");
         $sel_default_page.val($("#tab-detail #popu-paginate #per-page-count .select_item_page li:first").text());
-        //alert();
         $sel_page.hover(function(){
             $sel_item_page.show();
             console.log('hahaha');
             $sel_default_page.addClass("rotate");
             $sel_item_li_page.hover(function(){
                 $index_page = $sel_item_li_page.index(this);
-                //alert($index)
                 $sel_item_li_page.eq($index_page).addClass("hover");
             },function(){
                 $sel_item_li_page.removeClass("hover");
@@ -1133,7 +1133,6 @@
         });
         $sel_item_li_page.click(function(){
             $sel_default_page.val($(this).text());
-            //alert($sel_default.val());
             $sel_item_page.hide();
         });
     });
@@ -1459,58 +1458,58 @@
 
         /* 保存群体 */
 
-        $(".sample-screening-btn button").click(function () {
-            //修改输入框border-color modified by zjt 2018-3-14
-            $(".custom-groups-content input[type=number]").each(function () {
-                $(this).css('border-color', '');
-            });
-            //修改输入框border-color modified by zjt 2018-3-14
-
-            var sampleTexts = $(".sample-text").text();
-            if (sampleTexts.length == 0) {
-//                alert("请选择群体!")
-                layer.open({
-                    type: 0,
-                    title: "温馨提示:",
-                    content: "请选择群体",
-                    shadeClose: true,
-                });
-
-                return;
-            }
-            var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
-            if (populations.length + defaultLen < 10) {
-                var arr = [];
-                // popuSamples 存储保存的样本数据
-                for (var i in popuSamples) {
-                    var obj = {};
-                    obj[i] = popuSamples[i];
-                    arr.push(getKeyName(i) + getUnitValue(obj));
-                }
-                // 当前保存群体的顺序
-                var popLength = $(".js-cursom-add>div.js-ad-dd").length;
-
-                var o = {
-                    "name": arr.join(","),
-//                    "id": new Date().getTime(),
-                    "id": popLength + 1+ 6,
-                    "condition": getStandardPopulation(popuSamples)
-                };
-//                initPopulations();
-                appendPopulation(o);
-
-                $(".sample-empty").trigger("click");
-            } else {
-//                alert("最多可添加10个群体");
-                layer.open({
-                    type: 0,
-                    title: "温馨提示:",
-                    content: "最多可添加10个群体",
-                    shadeClose: true,
-                });
-            }
-
-        });
+//        $(".sample-screening-btn button").click(function () {
+//            //修改输入框border-color modified by zjt 2018-3-14
+//            $(".custom-groups-content input[type=number]").each(function () {
+//                $(this).css('border-color', '');
+//            });
+//            //修改输入框border-color modified by zjt 2018-3-14
+//
+//            var sampleTexts = $(".sample-text").text();
+//            if (sampleTexts.length == 0) {
+////                alert("请选择群体!")
+//                layer.open({
+//                    type: 0,
+//                    title: "温馨提示:",
+//                    content: "请选择群体",
+//                    shadeClose: true,
+//                });
+//
+//                return;
+//            }
+//            var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
+//            if (populations.length + defaultLen < 10) {
+//                var arr = [];
+//                // popuSamples 存储保存的样本数据
+//                for (var i in popuSamples) {
+//                    var obj = {};
+//                    obj[i] = popuSamples[i];
+//                    arr.push(getKeyName(i) + getUnitValue(obj));
+//                }
+//                // 当前保存群体的顺序
+//                var popLength = $(".js-cursom-add>div.js-ad-dd").length;
+//
+//                var o = {
+//                    "name": arr.join(","),
+////                    "id": new Date().getTime(),
+//                    "id": popLength + 1+ 6,
+//                    "condition": getStandardPopulation(popuSamples)
+//                };
+////                initPopulations();
+//                appendPopulation(o);
+//
+//                $(".sample-empty").trigger("click");
+//            } else {
+////                alert("最多可添加10个群体");
+//                layer.open({
+//                    type: 0,
+//                    title: "温馨提示:",
+//                    content: "最多可添加10个群体",
+//                    shadeClose: true,
+//                });
+//            }
+//
+//        });
 
         // 向自定义群体添加
         function appendPopulation(obj) {
@@ -1737,7 +1736,7 @@
                 closeBtn: 0,
                 offset: ['135px', '320px']
             });
-
+            $("#popu-paginate .select_default_page").val(10);
 
         });
         var currFlag;
@@ -1833,6 +1832,7 @@
                 offset: ['135px', '320px']
 
             });
+            $("#popu-paginate .select_default_page").val(10);
 
         });
         var popPageNum = 1;
@@ -2383,7 +2383,7 @@
             $.each($(".js-cursom-add").find(".js-ad-dd"), function (idx, element) {
                 if ($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
-                    if ($(element).find("label").find("div").text().substring(0, 3) == "品种名") {
+                    if ($(element).find("label").find("div").text().substring(0, 6) == "测序样品编号") {
                         var selectedItem = selectKindVal(id);
                     } else {
                         var selectedItem = selectPopulation(id);

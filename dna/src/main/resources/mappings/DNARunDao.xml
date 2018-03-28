@@ -218,9 +218,12 @@
         <trim prefix="where" prefixOverrides="and|or">
             <if test="runNos!=null and runNos.size>0">
                 AND run_no IN
-                <foreach collection="runNos" item="runNo" open="(" close=")" separator=",">
-                    #{runNo}
+                <foreach collection="runNos" item="singleRunNo" open="(" close=")" separator=",">
+                    #{singleRunNo}
                 </foreach>
+            </if>
+            <if test="runNo!=null and runNo!=''">
+                AND run_no like CONCAT('%',#{runNo},'%' )
             </if>
             <if test="scientificName!=null and scientificName!=''">
                 AND scientific_name like CONCAT('%',#{scientificName},'%' )
