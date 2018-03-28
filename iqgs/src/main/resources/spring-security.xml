@@ -17,6 +17,9 @@
         <constructor-arg value="/login"></constructor-arg>
     </bean>
     <sec:http pattern="/sort/**" security="none"/>
+    <sec:http pattern="/**/*.css" security="none"/>
+    <sec:http pattern="/**/*.js" security="none"/>
+    <sec:http pattern="/**/*.png" security="none"/>
     <sec:http pattern="/advance-search/query-all-organic" security="none"/>
     <sec:http auto-config='false' use-expressions="true" entry-point-ref="ssoAuthenticationEntryPoint" >
         <sec:session-management invalid-session-url="/login" >

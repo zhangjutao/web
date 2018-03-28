@@ -54,12 +54,6 @@ public class SsoTokenController implements InitializingBean {
             cache = guavaCacheManager.getCache("config");
         }
     }
-    @Autowired
-    private WebSocket webSocket;
-    @RequestMapping(value = "/websocket", method = RequestMethod.GET)
-    public void websocket() throws IOException {
-        webSocket.sendMessage("sssss");
-    }
 
 
 

@@ -185,7 +185,6 @@
         var token=localStorage.getItem("access_token");
         var myWindow=window.open("${dnaIndex}?access_token="+token);
         sendMessage(myWindow,"${dnaIndex}",token);
-
     })
 
     $('.mrna-link').on('click',function () {
