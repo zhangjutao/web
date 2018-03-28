@@ -67,21 +67,21 @@ $(function () {
             paramK.infos = [];
         for (var i=0;i<divs.length;i++){
             if($(divs[i]).find("label").hasClass("cur")){
-                var realK = $(divs[i]).find("div.label-txt").text().substring(0,3);
+                var realK = $(divs[i]).find("div.label-txt").text().substring(0,6);
                 // 用于存放每次点击品种/样品信息的对象
                 var paramk1 = {};
-                if(realK == "品种名"){
+                if(realK == "测序样品编号"){
                     paramk1.name = $(divs[i]).find("div.label-txt").text().substring(0);
                     paramk1.id =  Number($(divs[i]).find(".species-add").attr("data-index"));
                     if((paramk1.name).indexOf(",") ==-1){
                         paramk1.condition = {
-                            cultivar:paramk1.name.substring(3)
+                            cultivar:paramk1.name.substring(6)
                         }
                     }else {
                         var conds =paramk1.name.split(",");// 存放 condition 品种信息
                         var condName = [];
                         for (var i=0;i<conds.length;i++){
-                            condName.push(conds[i].substring(3,conds[i].length));
+                            condName.push(conds[i].substring(6,conds[i].length));
 
                         };
                         paramk1.condition = {
@@ -243,7 +243,9 @@ $(function () {
         if(!obj){
             return;
         }
+        debugger;
        var getKindSNames =  kindValParam();
+
         var totalGroups = JSON.parse(obj.params.group)
        // 去掉null 值
         for (var i=0;i<totalGroups.length;i++){
