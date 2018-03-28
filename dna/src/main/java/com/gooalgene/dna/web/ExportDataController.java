@@ -656,12 +656,9 @@ public class ExportDataController {
             }
             ObjectMapper objectMapper = new ObjectMapper();
             Field[] fields = SampleInfoDto.class.getDeclaredFields();
-            if (fields.equals("runNo")) {
-                System.err.println("wocao!");
-            }
             String fieldsString = ",";
 
-            //加逗号是确保abc和bc这种情况
+            //在一个属性前后加逗号是确保有abc和bc这种一个字段被另一个字段包含的情况不会影响结果
             for (Field field : fields) {
                 fieldsString += field.getName();
                 fieldsString += ",";

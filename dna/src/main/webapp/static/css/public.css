@@ -27,8 +27,8 @@ header{background: #fff;height: 80px;box-shadow: 0px 1px 3px rgba(0,0,0,0.2);mar
     color: #0F9145;
 }
 /*.login-out a.register{background-color:#5c8ce6;padding:10px;color:#fff;border-radius:2px }*/
-button.btn:hover{background-color: #586cca!important;}
-button.btn-fill:hover{background-color:#5c8ce6;color:#fff}
+button.btn:hover{background-color: #0f9145!important;}
+button.btn-fill:hover{background-color:#0f9145;color:#fff}
 /*banner*/
 
 .search{
