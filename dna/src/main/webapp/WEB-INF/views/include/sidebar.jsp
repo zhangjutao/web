@@ -1984,18 +1984,18 @@
         var popuSamples = {}; // 存储选中的样本数据
 
         /* 自定义样本选中 */
-        $("body").on("click", ".sample-category > div span", function () {
-
-            $(this).parent().find("span").removeClass("js-span-ac");
-            $(this).addClass("js-span-ac");
-
-            var sampleName = $(this).parents("label").parent().attr("data-name"),
-                sampleValue = $(this).text();
-            popuSamples[sampleName] = sampleValue;
-            renderSampleText();
-
-            renderSampleCount();
-        });
+//        $("body").on("click", ".sample-category > div span", function () {
+//
+//            $(this).parent().find("span").removeClass("js-span-ac");
+//            $(this).addClass("js-span-ac");
+//
+//            var sampleName = $(this).parents("label").parent().attr("data-name"),
+//                sampleValue = $(this).text();
+//            popuSamples[sampleName] = sampleValue;
+//            renderSampleText();
+//
+//            renderSampleCount();
+//        });
 
         function renderSampleCount() {
             var arr = [];
@@ -2147,46 +2147,46 @@
         });
         //modified by zjt 2018-3-13
 
-        /* 显示Samples详细文本 */
-        $(".sample-category div span").hover(function () {
-            if ($(this).text() !== "") {
-                var self = this;
-                var content = "";
-                var obj = {};
-                var sampleName = $(this).parents("label").parent().attr("data-name"),
-                    sampleValue = $(this).text();
-                obj[sampleName] = sampleValue;
-
-                var arr = [];
-                for (var i in obj) {
-                    arr.push(getKeyName(i) + popuSamples[i]);
-                }
-                // 只传单个
-                var obj = {"name": arr.join(","), "condition": getStandardPopulation(obj)};
-                $.ajax({
-                    url: CTXROOT + "/dna/queryByGroup",
-                    data: {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10},
-                    type: "POST",
-                    dataType: "json",
-                    success: function (res) {
-                        content += "<div>" + res.total + "</div>";
-                        $.pt({
-                            target: self,
-                            position: 't',
-                            align: 'l',
-                            autoClose: false,
-                            content: content
-                        });
-                        $(".pt").css("left", $(".pt").position().left);
-                    }
-                });
-
-            } else {
-                $(".pt").remove();
-            }
-        }, function () {
-            $(".pt").remove();
-        });
+//        /* 显示Samples详细文本 */
+//        $(".sample-category div span").hover(function () {
+//            if ($(this).text() !== "") {
+//                var self = this;
+//                var content = "";
+//                var obj = {};
+//                var sampleName = $(this).parents("label").parent().attr("data-name"),
+//                    sampleValue = $(this).text();
+//                obj[sampleName] = sampleValue;
+//
+//                var arr = [];
+//                for (var i in obj) {
+//                    arr.push(getKeyName(i) + popuSamples[i]);
+//                }
+//                // 只传单个
+//                var obj = {"name": arr.join(","), "condition": getStandardPopulation(obj)};
+//                $.ajax({
+//                    url: CTXROOT + "/dna/queryByGroup",
+//                    data: {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10},
+//                    type: "POST",
+//                    dataType: "json",
+//                    success: function (res) {
+//                        content += "<div>" + res.total + "</div>";
+//                        $.pt({
+//                            target: self,
+//                            position: 't',
+//                            align: 'l',
+//                            autoClose: false,
+//                            content: content
+//                        });
+//                        $(".pt").css("left", $(".pt").position().left);
+//                    }
+//                });
+//
+//            } else {
+//                $(".pt").remove();
+//            }
+//        }, function () {
+//            $(".pt").remove();
+//        });
 
         /* 选择搜索基因 */
         $("body").on("click", ".gene-search-list label", function () {
