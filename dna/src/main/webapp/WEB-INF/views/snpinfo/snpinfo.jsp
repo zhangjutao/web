@@ -162,78 +162,126 @@
                         <div id="selectedDetails">
                             <ul>
                                 <li>
-                                    <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
+                                    <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 测序样品编号
                                 </li>
                                 <li>
                                     <input type="checkbox" name="genoType" class="genoType" checked="checked"> Genotype
                                 </li>
                                 <li>
                                     <%--无--%>
-                                    <input type="checkbox" name="group" class="group" checked="checked"> 群体
+                                    <input type="checkbox" name="group" class="group" checked="checked"> 物种名称
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="species" class="species" checked="checked"> 物种
+                                    <input type="checkbox" name="species" class="species" checked="checked">  编号
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="locality" class="locality" checked="checked"> 位置
+                                    <input type="checkbox" name="locality" class="locality" checked="checked"> 菌株名称
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 样品名
+                                    <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 地理位置
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重
+                                    <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 保藏地点
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="protein" class="protein" checked="checked"> 蛋白质含量
+                                    <input type="checkbox" name="protein" class="protein" checked="checked"> 类型
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
+                                    <input type="checkbox" name="oil" class="oil" checked="checked">  培养环境
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期组
+                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 材料
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="height" class="height" checked="checked"> 株高
+                                    <input type="checkbox" name="height" class="height" checked="checked"> 处理
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="seedCoatColor" class="seedCoatColor" checked="checked"> 种皮色
+                                    <input type="checkbox" name="seedCoatColor" class="seedCoatColor" checked="checked">时间
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="hilumColor" class="hilumColor" checked="checked"> 种脐色
+                                    <input type="checkbox" name="hilumColor" class="hilumColor" checked="checked"> 分类地位
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="cotyledonColor" class="cotyledonColor" checked="checked"> 子叶色
+                                    <input type="checkbox" name="cotyledonColor" class="cotyledonColor" checked="checked"> 菌丝形态
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="flowerColor" class="flowerColor" checked="checked"> 花色
+                                    <input type="checkbox" name="flowerColor" class="flowerColor" checked="checked"> 菌丝直径
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="podColor" class="podColor" checked="checked"> 荚色
+                                    <input type="checkbox" name="podColor" class="podColor" checked="checked"> 菌丝颜色
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="pubescenceColor" class="pubescenceColor" checked="checked"> 茸毛色
+                                    <input type="checkbox" name="pubescenceColor" class="pubescenceColor" checked="checked">  孢子颜色
                                 </li>
                                 <li>
                                     <%--无--%>
-                                    <input type="checkbox" name="yield" class="yield" checked="checked"> 茸毛色
+                                    <input type="checkbox" name="yield" class="yield" checked="checked">孢子形态
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
+                                    <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 锁状联合
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="linoleic" class="linoleic" checked="checked">亚油酸
+                                    <input type="checkbox" name="linoleic" class="linoleic" checked="checked">菌盖形态
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="linolenic" class="linolenic" checked="checked"> 亚麻酸
+                                    <input type="checkbox" name="linolenic" class="linolenic" checked="checked">菌盖颜色
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="oleic" class="oleic" checked="checked"> 油酸
+                                    <input type="checkbox" name="oleic" class="oleic" checked="checked"> 菌柄形态
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="palmitic" class="palmitic" checked="checked"> 软脂酸
+                                    <input type="checkbox" name="palmitic" class="palmitic" checked="checked"> 菌柄颜色
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 硬脂酸
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 子实体颜色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  子实体形态
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  光照
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  菌环
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  菌托
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  菌幕
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  菌核
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  菌种培养基
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  主要栽培基质
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  后熟期
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  原基刺激&子实体
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  生殖方式
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked">  生活方式
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 保藏方法
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 驯化
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 核相
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 交配型
                                 </li>
                             </ul>
                             <div>

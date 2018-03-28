@@ -1334,12 +1334,7 @@ $(function () {
             svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
             svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData)).attr("id","centerLine");
-            // 方向箭头
-            if(direction == "-"){
-                svg.append("path").attr("stroke","#cccccc").attr('stroke-width', '2').attr("fill","#cccccc").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
-            }else if(direction == "+"){
-                svg.append("path").attr("stroke","#cccccc").attr('stroke-width', '2').attr("fill","#cccccc").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)").attr("id","arrows");
-            }
+
             svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
             svg.append("path").attr("stroke","#ff0000").attr("stroke-width","3").attr("d",line(verticalLineData));
 
@@ -1375,7 +1370,14 @@ $(function () {
                     }else {
                         g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
                     }
-                }
+                };
+        // 方向箭头
+        if(direction == "-"){
+            svg.append("path").attr("stroke","#cccccc").attr('stroke-width', '2').attr("fill","#cccccc").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
+        }else if(direction == "+"){
+            svg.append("path").attr("stroke","#cccccc").attr('stroke-width', '2').attr("fill","#cccccc").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)").attr("id","arrows");
+        }
+
             // 画snp 位点
                     var newArr = [];
                     if(geneLength<8850){
@@ -1601,7 +1603,6 @@ $(function () {
     // 根据表格去锚点图上的snp 位点  --snp
     $("#tableBody").on("click","tr>td:not('.t_snpid'),tr>td:not('.t_genoType')",function (e){
         deleteSelectedSnp();
-        debugger;
         var id = Number($(this).parent().attr("data-index"));
         var idAttr = $(this).parent().attr("id");
         var snps = globelTotalSnps.snp;
