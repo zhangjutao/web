@@ -230,11 +230,8 @@ public class SNPController {
                 // 将查询出来的区间内的基因返回给前台
                 result.setGeneInsideRegion(geneIds);
             } else {
-                // 如果该区间内不包含基因，直接搜索该区间内所有SNP位点，无需返回基因结构
-                List<MinimumSNPResult> allSNP = dnaMongoService.searchSNPIdAndPos(condition.getType(), condition.getChromosome(),
-                        condition.getStart(), condition.getEnd());
-                // 放入所有查询到的SNP位点（包含INDEX）
-                result.setSnpList(allSNP);
+                // 如果该区间内不包含基因，那么该基因对应的SNP List自然为空
+                result.setSnpList(null);
             }
         } else { // Search in Gene
             result = searchOnlyByGene(gene, condition.getType(), condition.getStart(), condition.getEnd(), true);
