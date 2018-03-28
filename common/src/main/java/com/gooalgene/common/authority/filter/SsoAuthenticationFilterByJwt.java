@@ -20,6 +20,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -39,6 +40,9 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
 
     @Autowired
     private ApplicationContext context;
+
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
     @Override
     public void afterPropertiesSet() throws ServletException {
@@ -60,9 +64,9 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
     private WebSocket webSocket;
 
     public SsoAuthenticationFilterByJwt(RedisService redisService, WebSocket webSocket, UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
         this.redisService = redisService;
         this.webSocket = webSocket;
+        this.userDetailsService = userDetailsService;
     }
 
     public SsoAuthenticationFilterByJwt(RedisService redisService, WebSocket webSocket) {
@@ -94,6 +98,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                         //authentication = JwtUtil.getAuthenticationByJwt(jwtPojo.getAccess_token(),userDetailsService);
                         if (authentication!=null&&authentication.isAuthenticated()) {
                             SecurityContextHolder.getContext().setAuthentication(authentication);
+                            authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
                         } else {
                             SecurityContextHolder.clearContext();
                         }
@@ -116,6 +121,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                                 //向前台推送刷新后的token，存入sessionSotrage，取代之前token
                                 webSocket.sendMessage(tokenPojo.getAccess_token());
                                 redisService.setJwt(tokenPojo.getAccess_token(), tokenPojo);
+                                authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
                             } else {
                                 SecurityContextHolder.clearContext();
                             }

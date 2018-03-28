@@ -20,6 +20,7 @@
     <sec:http pattern="/**/*.css" security="none"/>
     <sec:http pattern="/**/*.js" security="none"/>
     <sec:http pattern="/**/*.png" security="none"/>
+    <sec:http pattern="/**/*.jpg" security="none"/>
     <sec:http pattern="/advance-search/query-all-organic" security="none"/>
     <sec:http auto-config='false' use-expressions="true" entry-point-ref="ssoAuthenticationEntryPoint" >
         <sec:session-management invalid-session-url="/login" >
@@ -32,6 +33,11 @@
         <sec:intercept-url pattern="/sso/token" access="permitAll()"/>
         <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
 
+        <!--<sec:form-login login-page="/login"
+                        login-processing-url="/j_spring_security_check"
+                        authentication-success-handler-ref="authenticationSuccessHandler"
+                        authentication-failure-handler-ref="authenticationFailureHandler"
+        />-->
         <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
@@ -41,11 +47,11 @@
     <bean id="ssoAuthenticationFilterByJwt" class="com.gooalgene.common.authority.filter.SsoAuthenticationFilterByJwt">
         <constructor-arg index="0" ref="redisService"></constructor-arg>
         <constructor-arg index="1" ref="webSocket"></constructor-arg>
+        <constructor-arg index="2" ref="myUserDetailsService"></constructor-arg>
     </bean>
     <bean id="rememberMeAuthenticationFilter" class="com.gooalgene.common.authority.filter.RememberMeAuthenticationFilter">
         <constructor-arg index="0" ref="redisService"/>
         <constructor-arg index="1" ref="myUserDetailsService"/>
-        <constructor-arg index="2" ref="authenticationFailureHandler"/>
     </bean>
 
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">

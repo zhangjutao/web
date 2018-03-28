@@ -8,6 +8,7 @@ import com.gooalgene.utils.CookieUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationDetailsSource;
 import org.springframework.security.authentication.RememberMeAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -16,6 +17,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -30,7 +32,10 @@ import java.io.IOException;
  */
 public class RememberMeAuthenticationFilter extends OncePerRequestFilter {
 
+    @Autowired
     private AuthenticationFailureHandler failureHandler;
+    @Autowired
+    private AuthenticationSuccessHandler authenticationSuccessHandler;
 
 
     private UserDetailsChecker userDetailsChecker = new MyUserDetailsChecker();
@@ -41,10 +46,9 @@ public class RememberMeAuthenticationFilter extends OncePerRequestFilter {
 
     private RedisService redisService;
 
-    public RememberMeAuthenticationFilter(RedisService redisService, UserDetailsService userDetailsService, AuthenticationFailureHandler failureHandler) {
+    public RememberMeAuthenticationFilter(RedisService redisService, UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
         this.redisService = redisService;
-        this.failureHandler = failureHandler;
     }
     public RememberMeAuthenticationFilter(RedisService redisService) {
         this.redisService = redisService;
@@ -72,6 +76,7 @@ public class RememberMeAuthenticationFilter extends OncePerRequestFilter {
                         if (auth != null && auth.isAuthenticated()) {
                             auth.setDetails(authenticationDetailsSource.buildDetails(request));
                             SecurityContextHolder.getContext().setAuthentication(auth);
+                            authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
                         } else {
                             SecurityContextHolder.clearContext();
                         }
