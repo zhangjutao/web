@@ -86,7 +86,13 @@ $(function (){
         }
 
     }else{
-        alert('This browser does NOT support localStorage');
+        //alert('This browser does NOT support localStorage');
+        layer.open({
+            type: 0,
+            title: "温馨提示:",
+            content: "This browser does NOT support localStorage",
+            shadeClose: true,
+        });
     }
 
     // 选择品种中的保存群体
@@ -94,12 +100,24 @@ $(function (){
         // 先判断保存群体/品种的数量
         var sampleTexts=$(".sample-text").text();
         if(sampleTexts.length==0){
-            alert("请选择样品!")
+            //alert("请选择样品!")
+            layer.open({
+                type: 0,
+                title: "温馨提示:",
+                content: "请选择样品!",
+                shadeClose: true,
+            });
             return;
         }
         var numbs =$(".js-cursom-add").find(".js-ad-dd").length;
         if(numbs>3){
-            alert("最多可添加10个群体")
+            //alert("最多可添加10个群体")
+            layer.open({
+                type: 0,
+                title: "温馨提示:",
+                content: "最多可添加10个群体",
+                shadeClose: true,
+            });
         }else {
             var selKinds = $(".sample-text").find("span");
             var selContent='';
@@ -308,7 +326,13 @@ $(function (){
             if(e && e.keyCode==13){ // enter 键
                 if( _page_skip.hasClass("isFocus") ) {
                     if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
-                        return alert("输入页码不能大于总页数");
+                        //return alert("输入页码不能大于总页数");
+                        layer.open({
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "输入页码不能大于总页数",
+                            shadeClose: true,
+                        });
                     }
                     var selectedNum = $('#tagsPagination .laypage_skip').val();
                     page.pageNum = selectedNum;

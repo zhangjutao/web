@@ -128,6 +128,7 @@
    #tagsPagination #total-page-count{position: relative;top:-4px;}
 </style>
 
+
 <div class="nav_ac">
     <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
 </div>
@@ -1107,6 +1108,7 @@
     </form>
 </div>
 
+<script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script>
     //为弹窗出来的ga-ctrl-footer添加hover触发事件 modified by zjt 2018-3-27
     $(document).ready(function(){
@@ -1115,14 +1117,12 @@
             $sel_item_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page"),
             $sel_item_li_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page li");
         $sel_default_page.val($("#tab-detail #popu-paginate #per-page-count .select_item_page li:first").text());
-        //alert();
         $sel_page.hover(function(){
             $sel_item_page.show();
             console.log('hahaha');
             $sel_default_page.addClass("rotate");
             $sel_item_li_page.hover(function(){
                 $index_page = $sel_item_li_page.index(this);
-                //alert($index)
                 $sel_item_li_page.eq($index_page).addClass("hover");
             },function(){
                 $sel_item_li_page.removeClass("hover");
@@ -1133,7 +1133,6 @@
         });
         $sel_item_li_page.click(function(){
             $sel_default_page.val($(this).text());
-            //alert($sel_default.val());
             $sel_item_page.hide();
         });
     });
@@ -1737,7 +1736,7 @@
                 closeBtn: 0,
                 offset: ['135px', '320px']
             });
-
+            $("#popu-paginate .select_default_page").val(10);
 
         });
         var currFlag;
@@ -1833,6 +1832,7 @@
                 offset: ['135px', '320px']
 
             });
+            $("#popu-paginate .select_default_page").val(10);
 
         });
         var popPageNum = 1;
