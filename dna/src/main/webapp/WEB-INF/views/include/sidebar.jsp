@@ -1257,7 +1257,7 @@
         }, {
             "name": "保藏地点Jilin agricultural university",
             "id": 004,
-            "condition": {"environment": "Jilin agricultural university"}
+            "condition": {"preservationLocation": "Jilin agricultural university"}
         }, {
             "name": "培养环境indoorcultivation",
             "id": 005,
