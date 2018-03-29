@@ -1577,7 +1577,7 @@ $(function () {
     $("#mask-test2 table thead").on("change","td.t_ifmajorAllele",function (){
         deleteSelectedSnp();
     })
-    var gloableSnpSelectedNum = 10;
+
         // SNP 按钮的点击事件
 
         $(".tab-item .geneSnps").click(function(){

@@ -3,7 +3,7 @@ button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!importa
 .snp-content{margin-bottom: 25px}
 .snp-content:after{content: "";display: block;clear: both}
 select{-moz-appearance: none;-webkit-appearance:none;appearance:none;background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;  }
-select.f-ma{background: url("../images/down.png") no-repeat scroll right center transparent;background-size: 19px 19px; padding-right: 25px;}
+select.f-ma{background: url("../images/down.png") no-repeat scroll right center transparent;background-size: 15px 10px; padding-right: 25px;}
 /*aside*/
 button:hover{cursor: pointer}
 .aside{float: left;width: 300px;background-color: #fff;display: none;}

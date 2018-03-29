@@ -79,6 +79,7 @@
 }
 #snpinfoTable table tbody td{
     text-align:center;
+    border: 1px solid #E4E4E4;
 }
 #snpinfoTable table{
     border-collapse: collapse;

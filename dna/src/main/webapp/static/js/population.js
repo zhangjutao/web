@@ -443,9 +443,9 @@ $(function (){
                             "<td class='paramTag primordialStimulationFruitbodyT'>" + primordialStimulationFruitbodyT +"</td>"+
                             "<td class='paramTag reproductiveModeT'>" + reproductiveModeT +"</td>"+
                             "<td class='paramTag lifestyleT'>" + lifestyleT +"</td>"+
+                            "<td class='paramTag preservationT'>" + preservationT +"</td>"+
                             "<td class='paramTag domesticationT'>" + domesticationT +"</td>"+
                             "<td class='paramTag nuclearPhaseT'>" + nuclearPhaseT +"</td>"+
-                            "<td class='paramTag preservationT'>" + preservationT +"</td>"+
                             "<td class='paramTag matingTypeT'>" + matingTypeT +"</td>"+
                             "</tr>"
                         var $tbody = $("#tableShow table tbody");
