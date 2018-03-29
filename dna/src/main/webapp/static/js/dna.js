@@ -1362,7 +1362,7 @@ $(function () {
                 obj.x = (snpLocalPoints[i].pos - startPos) / scale;
                 obj.y = 90;
                 obj.index = snpLocalPoints[i].index;
-                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+                obj.consequencetypeColor = snpLocalPoints[i].consequenceTypeColor;
                 newArr.push(obj);
             }
         } else {
@@ -1372,7 +1372,7 @@ $(function () {
                 obj.y = 90;
                 // obj.id = snpLocalPoints[i].id;
                 obj.index = snpLocalPoints[i].index;
-                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+                obj.consequencetypeColor = snpLocalPoints[i].consequenceTypeColor;
 
                 newArr.push(obj);
             }
@@ -1392,8 +1392,8 @@ $(function () {
                         break;
                         j--;
                     }
-                }
-                ;
+                };
+
             }
             for (var m = 0; m < arr.length; m++) {
                 var a = g1.append("a").attr("href", "#" + arr[m].index);
@@ -1408,10 +1408,10 @@ $(function () {
                 } else if (arr[m].consequencetypeColor == 3) {
                     a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#df39e0").attr("data-index", arr[m].index).attr("data-status", "indel2");
                     continue;
-                }
-                ;
+                }else {
+
                 a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", snpColor).attr("data-index", arr[m].index).attr("data-status", "save1");
-                ;
+                }
             }
             loop(temp)
         }
