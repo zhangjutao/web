@@ -8,6 +8,7 @@ import com.gooalgene.dna.dto.DNAGenStructureDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.*;
 import com.gooalgene.dna.entity.result.DNARunSearchResult;
+import com.gooalgene.dna.entity.result.GeneMinAndMax;
 import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.dna.service.*;
 import com.gooalgene.utils.ResultUtil;
@@ -109,8 +110,10 @@ public class SNPController {
         String gene = condition.getGene();
         // Search in Region
         if (StringUtils.isEmpty(gene)) {
+            // 获取该染色体范围内的极小值、极大值
+            long[] minAndMax = getFinalStartEndInRegion(condition.getChromosome(), condition.getStart(), condition.getEnd());
             result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
-                    condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
+                    condition.getChromosome(), String.valueOf(minAndMax[0]), String.valueOf(minAndMax[1]),
                     condition.getGroup(), condition.getPageNo(), condition.getPageSize());
         } else { // Search in Gene
             DNAGens dnaGens = dnaGensService.findByGeneId(gene);
@@ -181,8 +184,9 @@ public class SNPController {
             }
         } else {
             chromosome = condition.getChromosome();
-            start = condition.getStart();
-            end = condition.getEnd();
+            long[] minAndMax = getFinalStartEndInRegion(chromosome, condition.getStart(), condition.getEnd());
+            start = minAndMax[0];
+            end = minAndMax[1];
         }
         logger.debug("jump-page(Search By Gene): gene" + gene +  " , chromosome - " + chromosome + " , start - "
                 + start + " , end - " + end + " , index - " + index);
@@ -191,14 +195,10 @@ public class SNPController {
         // 获取targetIndex位置处的pageNo
         int pageNo = targetPageInfo.get("pageNo");
         int offset = targetPageInfo.get("offset");
-        if (StringUtils.isEmpty(gene)) {
-            result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
-                    condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
-                    condition.getGroup(), pageNo, condition.getPageSize());
-        } else {
-            result = snpService.searchSNPResult(condition.getType(), condition.getCtype(), chromosome, String.valueOf(start),
-                    String.valueOf(end), condition.getGroup(), pageNo, condition.getPageSize());
-        }
+        // 不论是否有基因，若区间内有基因且落在两端，那么start、end值也不能取用户输入值，而是计算它的极大值、极小值
+        result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
+                chromosome, String.valueOf(start), String.valueOf(end),
+                condition.getGroup(), pageNo, condition.getPageSize());
         // Java按应用传递,offset在这里设值才能生效
         result.setOffset(offset);
         result.setPageNo(pageNo);
@@ -235,6 +235,38 @@ public class SNPController {
             }
         } else { // Search in Gene
             result = searchOnlyByGene(gene, condition.getType(), condition.getStart(), condition.getEnd(), true);
+        }
+        return result;
+    }
+
+    /**
+     * 根据用户输入区间范围，判断SNP区间的极大值、极小值
+     */
+    private long[] getFinalStartEndInRegion(String chromosome, long start, long end) {
+        Set<String> geneIds = dnaGensService.getByRegionNoCompare(chromosome, start, end);
+        long[] result = new long[2];
+        if (geneIds.size() > 0) {
+            GeneMinAndMax minAndMaxPos = dnaGensService.findMinAndMaxPos(chromosome, start, end);
+            // 涉及到基因均需加减上下游2k值区间
+            long min = minAndMaxPos.getMin() - 2000 < 0 ? 0 : minAndMaxPos.getMin() - 2000;
+            long max = minAndMaxPos.getMax() + 2000;
+            logger.debug("current chromosome min : " + min + " ,max : " + max);
+            // 判断起始基因位置是否落在区间start前
+            if (min < start) {
+                result[0] = min;
+            } else {
+                result[0] = start;
+            }
+            // 判断终止基因位置是否落在区间end后
+            if (max > end) {
+                result[1] = max;
+            } else {
+                result[1] = end;
+            }
+        } else {
+            // 若无基因，直接将用户输入起始位置作为start、end从mongodb中查询对应SNP位点
+            result[0] = start;
+            result[1] = end;
         }
         return result;
     }

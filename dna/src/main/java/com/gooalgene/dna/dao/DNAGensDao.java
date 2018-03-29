@@ -4,6 +4,7 @@ import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
 import com.gooalgene.dna.entity.ChromosomeList;
 import com.gooalgene.dna.entity.DNAGens;
+import com.gooalgene.dna.entity.result.GeneMinAndMax;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -30,6 +31,8 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
     DNAGens findDNAGensInfoByGene(String gene);
 
     Set<String> getByRegion(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
+
+    GeneMinAndMax findMinAndMax(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
 
     List<ChromosomeList> fetchAllChromosome();
 }
