@@ -205,6 +205,7 @@
                     <div id="addTags">
                         <span class="tagColor popCnt1" style="margin-left:10px;">选择群体</span>
                         <span class="kindCnt1" id="kindSelect">选择品种</span>
+                        <%--<span style="background:#000;width:20px;height:20px;opacity:0.3;"></span>--%>
                     </div>
                     <%--// 新增选择品种 end --%>
                     <div class="sample-screening">
