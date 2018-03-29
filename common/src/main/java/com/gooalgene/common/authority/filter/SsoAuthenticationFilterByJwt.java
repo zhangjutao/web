@@ -15,6 +15,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
 import org.springframework.context.ApplicationContext;
@@ -23,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -46,8 +48,10 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
 
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
+
     @Autowired
-    private ConcurrentSessionControlAuthenticationStrategy sessionControlAuthenticationStrategy;
+    @Qualifier("sas")
+    private CompositeSessionAuthenticationStrategy sessionControlAuthenticationStrategy;
 
     @Override
     public void afterPropertiesSet() throws ServletException {
@@ -101,6 +105,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                         authentication = TokenFactory.getAuthenticationByJwt(token,userDetailsService);
                         if (authentication!=null&&authentication.isAuthenticated()) {
                             log.info("security已校验成功");
+                            sessionControlAuthenticationStrategy.onAuthentication(authentication, request, response);
                             SecurityContextHolder.getContext().setAuthentication(authentication);
                             authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
                         } else {
@@ -122,6 +127,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                                 tokenPojo = objectMapper.readValue(result, TokenPojo.class);
                                 authentication = TokenFactory.getAuthenticationByJwt(tokenPojo.getAccess_token(),userDetailsService);
                                 if (authentication!=null && authentication.isAuthenticated()) {
+                                    sessionControlAuthenticationStrategy.onAuthentication(authentication, request, response);
                                     SecurityContextHolder.getContext().setAuthentication(authentication);
                                     //向前台推送刷新后的token，存入localSotrage，取代之前token
                                     webSocket.sendMessage(tokenPojo.getAccess_token());
