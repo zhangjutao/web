@@ -40,4 +40,9 @@ public class GroupAndCultivarController {
         response.setHeader("X-Frame-Options", "SAMEORIGIN");
         return "/search/genesInfo";
     }
+
+    @RequestMapping("/common")
+    public String testCommonJsp() {
+        return "/common2";
+    }
 }
