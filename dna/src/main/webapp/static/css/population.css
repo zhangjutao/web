@@ -11,7 +11,7 @@
 .systree{
     font-family:"Microsoft YaHei UI Light";
     font-size:24px;
-    color:#5c8ce6;
+    color:#0F9145;
     margin-left:18px;
 }
 .popDes{
@@ -51,7 +51,7 @@
     padding-bottom:26px;
     font-family:ArialMT;
     font-size:16px;
-    color:#5c8ce6;
+    color:#0F9145;
 }
 #groups ul>li:hover{
     box-shadow: 0 0 5px #DBDBDB;
@@ -149,7 +149,7 @@
    float:right;
     display:inline-block;
     /*display:inline-block;*/
-    background:#5C8CE6;
+    background:#0F9145;
     color:#fff;
     width:100px;
     text-align:center;
@@ -165,6 +165,13 @@
     /*margin-right:20px;*/
     margin-right:10px;
 }
+#exportData:hover{
+    background: #14A759;
+}
+#tableSet:hover{
+    background: #14A759;
+}
+
 #operate{
     overflow: hidden;
     padding-top:47px;
@@ -176,10 +183,10 @@
 }
 #operate p{
 
-    color:#5C8CE6;
+    color:#0F9145;
 }
 #operate .sure{
-    border:1px solid #5C8CE6;
+    border:1px solid #0F9145;
     padding:5px 16px;
     float:left;
     margin-right:10px;
@@ -221,8 +228,12 @@
     border:1px solid #E4E4E4;
     min-height: 300px;
 }
+#tableShow>table thead>tr>th{
+    background: #EDF7F2;
+}
 #tableShow>table tbody>tr:nth-child(even){
-    background: #F5F8FF;
+    /*background: #F5F8FF;*/
+    background: #FAFAFA;
 }
 #tableShow>table tbody>tr>td,#tableShow>table thead>tr>th{
     border:1px solid #E4E4E4;
@@ -241,17 +252,17 @@
 }
 .btnCancel{
     margin-right: 5px;
-    color: #5c8ce6;
+    color: #0F9145;
 }
 .btnConfirmInfo{
-    background: #5c8ce6;
+    background: #0F9145;
     color: #fff;
 }
 .inputComponent{
     margin-top:13px;
     display:none;
     position:absolute;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0F9145;
     z-index: 1;
     padding: 15px 10px;
     width: 114px;
@@ -264,7 +275,7 @@
 .inputComponent p a {
     padding: 2px 8px;
     display: inline-block;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0F9145;
     border-radius: 3px;
 }
 .inputStyle{
@@ -318,7 +329,8 @@ p.first{
     margin-right:10px;
 }
 .pageColor{
-    background:#5C8DE5;
+    /*background:#5C8DE5;*/
+    background: #0f9145;
     color:#fff;
 }
 #tblbody>tr:nth-child(2n){
@@ -369,14 +381,14 @@ p.first{
     padding-top:30px;
 }
 #returnIndex>a{
-    color:#5c8ce6;
+    color:#0F9145;
 }
 .pageUpMargin{
     margin-right:20px!important;
 }
 .popNamesNewAdd{
     position: absolute;
-    border: 1px solid #5c8ce6;
+    border: 1px solid #0F9145;
     z-index: 100;
     padding: 0px 10px;
     width: 58px;

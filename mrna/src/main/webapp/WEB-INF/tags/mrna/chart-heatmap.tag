@@ -17,7 +17,8 @@
 
 <style>
     .open {
-        color: #688be2;
+        /*color: #688be2;*/
+        color: #0F9145;
         font-weight: bold;
     }
 
@@ -35,7 +36,8 @@
     .js-label.has-child::before {
         content: "+";
         position: relative;
-        color: #688be2;
+        /*color: #688be2;*/
+        color: #0F9145;
         display: inline-block;
         width: 10px;
         height: 10px;
@@ -45,7 +47,8 @@
     .js-label.has-child.open::before {
         content: "-";
         position: relative;
-        color: #688be2;
+        /*color: #688be2;*/
+        color:
         display: inline-block;
         width: 10px;
         height: 10px;
@@ -70,7 +73,8 @@
         position: relative;
         height: 40px;
         line-height: 40px;
-        background: #386cca;
+        /*background: #386cca;*/
+        background: #0F9145;
         cursor: move;
     }
 
@@ -96,19 +100,34 @@
 </style>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
+<script src="${ctxStatic}/js/layer/layer.js"></script>
 <script>
-
+    var index;
     $("body").on("click", ".js-gene-info", function (e) {
         var version = 'gmx_ensembl_release23';
         var geneName = $(this).text();
         $(".js-gene-head-name").html(geneName);
         $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName=" + geneName + "&version=" + version);
         e.preventDefault();
-        $(".genesInfo").show();
+        //修改拖拽样式
+        /*$(".genesInfo").show();*/
+        index = layer.open({
+            title: "",
+            type: 1,
+            content: $(".genesInfo"),
+            area: ['980px', '640px'],
+            shadeClose: true,
+            scrollbar: false,
+            move: '.genesInfo-head',
+            closeBtn: 0,
+            //offset: ['135px', '320px']
+        });
+
 
     });
     $(".genesInfo-head > a").click(function () {
-        $(".genesInfo").hide();
+        /*$(".genesInfo").hide();*/
+        layer.close(index);
     });
 
     var chart;
@@ -197,10 +216,12 @@
                                 heatmapdata = _.orderBy(dd.cate, ["name"]);
                                 heatmapcategory = dd.gens;
                                 g_cate = initCategories();
-                                if(res.gens.length<=5){
-                                   $("#heatmap_${id}").css({"height": (50 * 5+100) + "px"});
-                               }else{
-                                   $("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});
+                                if(res.gens.length<=2){
+                                    $("#heatmap_${id}").css({"height": (150 + res.gens.length*50) + "px"});
+                               }else if(res.gens.length<=5){
+                                    $("#heatmap_${id}").css({"height": (50 * 5+100) + "px"});
+                                } else {
+                                    $("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});
                                 }
                                 <%--$("#heatmap_${id}").css({"height": (50 * pageSizeNum+100) + "px"});--%>
                                 <%--$("#heatmap_${id}").css({"height": heatmapHeigth + "px"});--%>
@@ -209,10 +230,11 @@
                                 $("#total-page-count span").html(res.gensTotal);
                                 // 显示分页
                                 laypage({
-                                    cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                                    cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                                     pages: Math.ceil(res.gensTotal / page.pageSize), //通过后台拿到的总页数
                                     curr: currNum || 1, //当前页
-                                    skin: '#5c8de5',
+                                    /*skin: '#5c8de5',*/
+                                    skin: '#0F9145',
                                     skip: true,
                                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                                     last: Math.ceil(res.gensTotal / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
@@ -232,18 +254,25 @@
                 }
 
                 // 修改每页显示条数
-                $(".ga-ctrl-footer").on("change", ".lay-per-page-count-select", function () {
-                    var currNum = Number($(".ga-ctrl-footer .laypage_curr").text());
-                    var pageSizeNum = Number($(this).val());
+                // $(".ga-ctrl-footer").on("change", ".lay-per-count-select", function () {
+                //    var currNum = Number($(".ga-ctrl-footer .laypage_curr").text());
+                $(".ga-ctrl-footer").on("click", ".select_item_page li", function () {
+                    //var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
+                    /*var currNum = Number($(".ga-ctrl-footer .lay-per-page-count-select").val());
+                    var pageSizeNum = Number($(this).text());
                     var totalNum = $("#total-page-count span").text();
                     var mathCeilNum = Math.ceil(totalNum / currNum);
-                    page.pageSize = Number($(this).val());
+                    page.pageSize = Number($(this).text());
                     if (pageSizeNum > mathCeilNum) {
                         page.curr = 1;
                         initHeatmap(1, pageSizeNum)
                     } else {
                         initHeatmap(currNum, pageSizeNum)
                     }
+                    */
+                    var pageSize = Number($(this).text());
+                    page.pageSize = $(this).text();
+                    initHeatmap(1,pageSize);
                 });
 
                 // 分页跳转
@@ -428,7 +457,8 @@
                     min: 0,
                     max: 100,
                     minColor: '#ffffff',
-                    maxColor: '#386cca'
+                    /*maxColor: '#386cca'*/
+                    maxColor: '#0F9145'
                 },
                 legend: {
                     align: 'right',
@@ -486,7 +516,8 @@
 //                        str += '    <div ><span style="display:inline-block; height:22px; width: 90px;">Phenotype :</span>High isoflavonaid content vs law isoflavonoid content. </div>'
                         str += '<div style="border-top: 1px solid #DDD; margin: 10px 0;"></div>'
 //                        str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 110px;">Log-fold change:</span> -5.5</div>'
-                        str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>' + (this.point.value * 1).toFixed(4) + ' </div>'
+                        /*str += '<div><span style="display: inline-block; background-color: #386cca; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>' + (this.point.value * 1).toFixed(4) + ' </div>'*/
+                        str += '<div><span style="display: inline-block; background-color: #0F9145; width: 10px; height: 10px; margin-right: 5px;"></span><span style="display:inline-block; height:22px; width: 70px;">FPKM:</span>' + (this.point.value * 1).toFixed(4) + ' </div>'
                         str += '</div>'
 
                         return str;
@@ -635,5 +666,5 @@
 
 
     /*基因详情拖动弹框*/
-    $(".genesInfo").draggable({containment: "body"});
+    /*$(".genesInfo").draggable({containment: "body"});*/
 </script>

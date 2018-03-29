@@ -1,7 +1,10 @@
 package com.gooalgene.dna.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import java.util.List;
 
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class SampleInfoDto {
 
     private String id;
@@ -164,6 +167,36 @@ public class SampleInfoDto {
      */
     private String matingType;
 
+    /**
+     * 基因型
+     */
+    private String genotype;
+
+    /**
+     * 变异位点Id
+     */
+    private String snpId;
+
+    /**
+     * 主次变异（major allele or minor allele）
+     */
+    private String changeParam;
+
+    public String getSnpId() {
+        return snpId;
+    }
+
+    public void setSnpId(String snpId) {
+        this.snpId = snpId;
+    }
+
+    public String getChangeParam() {
+        return changeParam;
+    }
+
+    public void setChangeParam(String changeParam) {
+        this.changeParam = changeParam;
+    }
 
     public String getId() {
         return id;
@@ -499,5 +532,13 @@ public class SampleInfoDto {
 
     public void setMatingType(String matingType) {
         this.matingType = matingType;
+    }
+
+    public String getGenotype() {
+        return genotype;
+    }
+
+    public void setGenotype(String genotype) {
+        this.genotype = genotype;
     }
 }

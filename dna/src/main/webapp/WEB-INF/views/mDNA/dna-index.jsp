@@ -17,11 +17,24 @@
     <link rel="stylesheet" href="${ctxStatic}/css/IQGS.css">
     <link href="https://cdn.bootcss.com/normalize/7.0.0/normalize.min.css" rel="stylesheet">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
+    <style rel="stylesheet" type="text/css">
+        #snp-paginate .total-page-count {
+            display: inline-block !important;
+            height: 28px;
+            top: 0px;
+        }
+        #indel-paginate .total-page-count {
+            display: inline-block !important;
+            height: 28px;
+            top: 0px;
+        }
+    </style>
     <!--jquery-1.11.0-->
     <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
     <script src="${ctxStatic}/js/layer/layer.js"></script>
     <script>
         var CTXROOT = "${ctxroot}";
+        var gloableSnpSelectedNum = 10;
     </script>
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
@@ -32,10 +45,11 @@
         .total-page-count {    position: relative;  top: -4px;}
         /* master分支中无群体信息 */
         #populationInfos{
-            padding:8px 20px;
-            background:#5D8CE6;
+            padding:6px 5px;
+            /*background:#5D8CE6;*/
+            background:#0f9145;
             color:#fff;
-            width:68px;
+            width:66px;
             float:right;
             cursor:pointer;
             font-size:16px;
@@ -48,7 +62,8 @@
         .genesInfo .genesInfo-head{
             height: 40px;
             line-height: 40px;
-            background-color: #386cca;
+            /*background-color: #386cca;*/
+            background:#0f9145;
             color: #fff;
             cursor: move;
         }
@@ -80,7 +95,7 @@
     <%@ include file="/WEB-INF/views/include/sidebar.jsp" %>
 
     <div class="contant page-tables" style="display: none;">
-        <div class="box-shadow resulting">
+        <div class="box-shadow resulting">  `
             <div class="item-header">
                 <div class="icon-left">
                     <img src="${ctxStatic}/images/result.png">结果
@@ -100,7 +115,7 @@
             <%--基因ID 选择区 end--%>
             <div class="tab-item">
                 <ul class="item">
-                    <li class="item-ac">SNPs</li>
+                    <li class="item-ac geneSnps">SNPs</li>
                     <li class="geneIndels">INDELs</li>
                 </ul>
                 <%--基因结构图 begin--%>
@@ -241,7 +256,7 @@
                                 <table class="js-snp-table" style="display:table;">
                                     <thead>
                                         <tr>
-                                            <%--<td class="t_snpid">SNP ID</td>--%>
+                                            <td class="t_snpid">SNP ID</td>
                                             <td class="param t_consequenceType">Consequence Type
                                                 <img src="${ctxStatic}/images/down.png">
                                                 <input type="hidden" class="js-consequence-type">
@@ -276,6 +291,8 @@
                                                     <option value="minor">Frequency of Minor Allele</option>
                                                 </select>
                                             </td>
+                                            <td class="param t_genoType">Genotype</td>
+
 
                                         </tr>
                                     </thead>
@@ -290,11 +307,11 @@
                                     <input class="total" name="total" type="hidden"/>
                                 </form>
                             </div>
-                            <%--<div id="tableErrorShow">--%>
-                                    <%--<p class="photos">--%>
-                                        <%--暂无数据--%>
-                                    <%--</p>--%>
-                            <%--</div>--%>
+                            <div id="tableErrorShow">
+                                    <p class="photos">
+                                        暂无数据
+                                    </p>
+                            </div>
                         </div>
                         <div class="checkbox-item-tab" id="snp-paginate">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
@@ -310,52 +327,57 @@
                         </div>
                         <div id="mask-test2">
                             <div class="tab-txt-indels genes-tab">
-                            <table class="js-indel-table">
-                                <thead>
-                                    <tr>
-                                        <td class="param t_indels">INDEL ID</td>
-                                        <td class="param t_consequenceType">Consequence Type
-                                            <img src="${ctxStatic}/images/down.png">
-                                            <input type="hidden" class="js-consequence-type">
-                                            <div class="input-component ">
-                                                <ul class="consequence-type ">
-                                                    <li data-value="all">ALL</li>
-                                                    <li data-type="type" data-value="downstream">Downstream</li>
-                                                    <li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>
-                                                    <li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>
-                                                    <li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>
-                                                    <li data-type="effect" data-value="nonframeshift deletion">Exonic_nonframeshift deletion</li>
-                                                    <li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>
-                                                    <li data-type="effect" data-value="stopgain">Exonic_stopgain</li>
-                                                    <li data-type="effect" data-value="stoploss">Exonic_stoploss</li>
-                                                    <li data-type="type" data-value="intergenic">Intergenic</li>
-                                                    <li data-type="type" data-value="intronic">Intronic</li>
-                                                    <li data-type="type" data-value="splicing">Splicing</li>
-                                                    <li data-type="type" data-value="upstream">Upstream</li>
-                                                    <li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>
-                                                    <li data-type="type" data-value="UTR3">3&acute;UTR</li>
-                                                    <li data-type="type" data-value="UTR5">5&acute;UTR</li>
-                                                    <li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>
-                                                </ul>
-                                            </div>
-                                        </td>
-                                        <td class="param t_snpchromosome">Chromosome</td>
-                                        <td class="param t_position">Position</td>
-                                        <td class="param t_snpreference">Reference</td>
-                                        <td class="param t_majorAllele">Major Allele</td>
-                                        <td class="param t_minorAllele">Minor Allele</td>
-                                        <td class="param t_fmajorAllele">
-                                            <select class="f-ma">
-                                                <option value="major">Frequency of Major Allele</option>
-                                                <option value="minor">Frequency of Minor Allele</option>
-                                            </select>
-                                        </td>
-                                    </tr>
-                                </thead>
-                                <tbody  id="tableBody2">
-                                </tbody>
-                            </table>
-                        </div>
+                                <table class="js-indel-table">
+                                        <thead>
+                                            <tr>
+                                                <td class="param t_indels">INDEL ID</td>
+                                                <td class="param t_consequenceType">Consequence Type
+                                                    <img src="${ctxStatic}/images/down.png">
+                                                    <input type="hidden" class="js-consequence-type">
+                                                    <div class="input-component ">
+                                                        <ul class="consequence-type ">
+                                                            <li data-value="all">ALL</li>
+                                                            <li data-type="type" data-value="downstream">Downstream</li>
+                                                            <li data-type="type" data-value="exonic;splicing">Exonic;Splicing</li>
+                                                            <li data-type="effect" data-value="frameshift deletion">Exonic_frameshift deletion</li>
+                                                            <li data-type="effect" data-value="frameshift insertion">Exonic_frameshift insertion</li>
+                                                            <li data-type="effect" data-value="nonframeshift deletion">Exonic_nonframeshift deletion</li>
+                                                            <li data-type="effect" data-value="nonframeshift insertion">Exonic_nonframeshift insertion</li>
+                                                            <li data-type="effect" data-value="stopgain">Exonic_stopgain</li>
+                                                            <li data-type="effect" data-value="stoploss">Exonic_stoploss</li>
+                                                            <li data-type="type" data-value="intergenic">Intergenic</li>
+                                                            <li data-type="type" data-value="intronic">Intronic</li>
+                                                            <li data-type="type" data-value="splicing">Splicing</li>
+                                                            <li data-type="type" data-value="upstream">Upstream</li>
+                                                            <li data-type="type" data-value="upstream;downstream">Upstream;Downstream</li>
+                                                            <li data-type="type" data-value="UTR3">3&acute;UTR</li>
+                                                            <li data-type="type" data-value="UTR5">5&acute;UTR</li>
+                                                            <li data-type="type" data-value="UTR5;UTR3">5&acute;UTR;3&acute;UTR</li>
+                                                        </ul>
+                                                    </div>
+                                                </td>
+                                                <td class="param t_snpchromosome">Chromosome</td>
+                                                <td class="param t_position">Position</td>
+                                                <td class="param t_snpreference">Reference</td>
+                                                <td class="param t_majorAllele">Major Allele</td>
+                                                <td class="param t_minorAllele">Minor Allele</td>
+                                                <td class="param t_fmajorAllele">
+                                                    <select class="f-ma">
+                                                        <option value="major">Frequency of Major Allele</option>
+                                                        <option value="minor">Frequency of Minor Allele</option>
+                                                    </select>
+                                                </td>
+                                            </tr>
+                                        </thead>
+                                        <tbody  id="tableBody2">
+                                        </tbody>
+                                </table>
+                            </div>
+                            <div id="tableErrorShow2">
+                                <p class="photos">
+                                    暂无数据
+                                </p>
+                            </div>
                         </div>
                         <div class="checkbox-item-tab" id="indel-paginate">
                             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
@@ -378,8 +400,9 @@
                 <%--</ul>--%>
                 <div class="tab">
                     <div class="tab-txt tab-txt-ac" style="overflow:hidden;">
-                        <img src="${ctxStatic}/images/dnatree.png">
-                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff;" target="_blank">群体信息</a></p>
+                        <!--<img src="${ctxStatic}/images/dnatree.png">-->
+                        <img src="${ctxStatic}/images/dna.jpg" style="height:530px;">
+                        <p id="populationInfos"><a href="${ctxroot}/dna/populationInfos" style="color:#fff; padding: 0px 16px;" target="_blank">信息</a></p>
                             <%--<%@ include file="/WEB-INF/views/include/dna.jsp" %>--%>
                             <%--<jsp:include flush="true" page="/WEB-INF/views/include/dna.jsp"/>--%>
                     </div>
@@ -443,6 +466,7 @@
     <iframe id="geneIframe" height="400" frameborder="no" border="0" marginwidth="0" marginheight="0" src=""></iframe>
 </div>
 <%--// 新增基因结构信息 弹出框--%>
+</body>
 
 <script>
     var ctxRoot = '${ctxroot}';
@@ -457,10 +481,59 @@
         cancel: '#mask-test',
     });*/
 
-
-
-
     //修改拖拽样式 modified by zjt 2018-3-15
+
+    //增加snp的input下拉选框事件  modified by zjt 2018-3-27
+    $(document).ready(function(){
+        var    $sel_page_snp = $("#snp-paginate .per-page-count .select_page"),
+            $sel_default_page_snp = $("#snp-paginate .per-page-count .select_default_page"),
+            $sel_item_page_snp = $("#snp-paginate .per-page-count .select_item_page"),
+            $sel_item_li_page_snp = $("#snp-paginate .per-page-count .select_item_page li");
+        $sel_default_page_snp.val($("#snp-paginate .per-page-count .select_item_page li:first").text());
+        $sel_page_snp.hover(function(){
+            $sel_item_page_snp.show();
+            $sel_default_page_snp.addClass("rotate");
+            $sel_item_li_page_snp.hover(function(){
+                var $index_page_snp = $sel_item_li_page_snp.index(this);
+                $sel_item_li_page_snp.eq($index_page_snp).addClass("hover");
+            },function(){
+                $sel_item_li_page_snp.removeClass("hover");
+            })
+        }, function(){
+            $sel_item_page_snp.hide();
+            $sel_default_page_snp.removeClass("rotate");
+        });
+//        $sel_item_li_page_snp.click(function(){
+//            $sel_default_page_snp.val($(this).text());
+//            $sel_item_page_snp.hide();
+//        });
+
+        //增加inde的input下拉选框事件  modified by zjt 2018-3-27
+        var    $sel_page_indel = $("#indel-paginate .per-page-count .select_page"),
+            $sel_default_page_indel = $("#indel-paginate .select_default_page"),
+            $sel_item_page_indel = $("#indel-paginate .select_item_page"),
+            $sel_item_li_page_indel = $("#indel-paginate .select_item_page li");
+        $sel_default_page_indel.val($("#indel-paginate .select_item_page li:first").text());
+        $sel_page_indel.hover(function(){
+            $sel_item_page_indel.show();
+            $sel_default_page_indel.addClass("rotate");
+            $sel_item_li_page_indel.hover(function(){
+                var $index_page_indel = $sel_item_li_page_indel.index(this);
+                $sel_item_li_page_indel.eq($index_page_indel).addClass("hover");
+            },function(){
+                $sel_item_li_page_indel.removeClass("hover");
+            })
+        }, function(){
+            $sel_item_page_indel.hide();
+            $sel_default_page_indel.removeClass("rotate");
+        });
+//        $sel_item_li_page_indel.click(function(){
+//            $sel_default_page_indel.val($(this).text());
+//            $sel_item_page_indel.hide();
+//        });
+    });
+
+
 </script>
 
 </body>

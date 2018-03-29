@@ -80,30 +80,14 @@
     </insert>
 
     <select id="getByGeneId" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
-        SELECT
-            stru.*,
-            c.bps
-        FROM
-            gens_structure stru,
-            chrlg c
-        WHERE
-            stru.chromosome = c.chr
-            AND transcript_id = (
-                SELECT DISTINCT transcript_id
-                FROM
-                    gens_sequence
-                WHERE
-                    gene_id = #{geneId}
-            )
-        ORDER BY stru.start DESC
+        SELECT * FROM
+            gens_structure stru
+        WHERE gene_id = #{geneId} ORDER BY stru.start DESC
     </select>
 
     <select id="getByStartEnd" resultType="com.gooalgene.dna.dto.DNAGenStructureDto">
-        SELECT
-        stru.*
-        FROM
-        gens_structure stru
-        WHERE
+        SELECT * FROM gens_structure stru
+          WHERE
         stru.chromosome=#{chromosome}
         <if test="geneIds!=null and geneIds.size>0">
             AND stru.gene_id IN
@@ -112,10 +96,10 @@
             </foreach>
         </if>
         AND
-        ((stru.`start` <![CDATA[ <= ]]> #{start} and stru.`end`>=#{start}) or
-        (stru.`start` <![CDATA[ <= ]]> #{end} AND stru.`end`>=#{end}) or
-        (stru.start>=#{start} and stru.end <![CDATA[ <= ]]> #{end}))
-        ORDER BY stru.start DESC
+            ((stru.`start` <![CDATA[ <= ]]> #{start} and stru.`end`>=#{start}) or
+            (stru.`start` <![CDATA[ <= ]]> #{end} AND stru.`end`>=#{end}) or
+            (stru.start>=#{start} and stru.end <![CDATA[ <= ]]> #{end}))
+            ORDER BY stru.start DESC
     </select>
 
     <select id="getGeneStructureByCondition" resultType="com.gooalgene.dna.entity.DNAGenStructure">

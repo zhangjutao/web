@@ -19,7 +19,7 @@ button {
 }
 .plant-pic {
     width: 1050px;
-    height: 508px;
+    height: 385px;
     margin: 0 auto;
     overflow: hidden;
 }
@@ -37,7 +37,8 @@ button {
 
 .nav .second-text a:hover {
     background-color: #eff3fa;
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #0F9145;
     border-radius: 2px;
 }
 
@@ -119,7 +120,8 @@ button {
     margin-right: 8px;
 }
 .have-chosen-tab label.choose-tab-ac span,.che-list dl dd label.choose-tab-ac span{
-    background-image: url(../images/contrast-ac.png);
+    /*background-image: url(../images/contrast-ac.png);*/
+    background-image: url(../images/checkbox.png);
 }
 .item-ac .checkbox-item,.item-ac  .choose-default{
     display: none;
@@ -249,7 +251,8 @@ td.dif-gene:after{
     border: none;
     padding: 0 10px;
     border-right: 1px solid #ececec;
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #07B34F;
 }
 .btn-clearAll:hover,.btn-toggle:hover{
     cursor: pointer;
@@ -268,7 +271,8 @@ td.dif-gene:after{
 .change-resulting p{
     line-height: 18px;
     font-size:18px;
-    border-left: 5px solid #5c8ce6;
+    /*border-left: 5px solid #5c8ce6;*/
+    border-left: 5px solid #0F9145;
     padding-left: 10px;
     margin-bottom: 5px;
 }
@@ -281,7 +285,8 @@ td.dif-gene:after{
     padding-right: 10px;
 }
 .change-resulting label a{
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #0F9145;
 }
 .resulting-item{
     padding: 0 30px;
@@ -357,8 +362,10 @@ td.dif-gene:after{
 .export button{
     padding: 5px 15px;
     color: #fff;
-    background-color: #5c8ce6;
-    border:1px solid #5c8ce6;
+    /*background-color: #5c8ce6;*
+    /*border:1px solid #5c8ce6;*/
+    background-color: #0F9145;
+    border:1px solid #0F9145;
     border-radius: 3px;
 }
 .btn-group {
@@ -387,8 +394,10 @@ td.dif-gene:after{
 }
 .btn-confirm {
     border: none;
-    color: #5c8ce6;
-    border: 1px solid #5c8ce6;
+    /*color: #5c8ce6;
+    border: 1px solid #5c8ce6;*/
+    color: #0F9145;
+    border: 1px solid #0F9145;
     width: 60px;
     height: 30px;
     background-color: #ffffff;
@@ -398,11 +407,13 @@ td.dif-gene:after{
     border: none;
     padding: 0 10px;
     border-right: 1px solid #ececec;
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #0F9145;
 }
 .btn-toggle {
     border: none;
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #0F9145;
     background-color: #ffffff;
     padding-left: 6px;
 }
@@ -426,7 +437,8 @@ td.dif-gene:after{
     background-color: #fff;
 }
 .tab-item tr.choose-ac  span{
-    background-image: url(../images/contrast-ac.png);
+    /*background-image: url(../images/contrast-ac.png); */
+    background-image: url(../images/checkbox.png);
 }
 .tab-item tr td{
     border: 1px solid #e6e6e6;
@@ -450,7 +462,7 @@ td.dif-gene:after{
 }
 .genes-conditional-search div{
     float: left;
-    height: 40px;
+    height: 38px;
     line-height: 40px;
     margin-top: 10px;
 }
@@ -471,8 +483,10 @@ td.dif-gene:after{
 .genes-search button{
     width: 120px;
     height: 40px;
-    border: 1px solid #5c8ce6;
-    background-color: #5c8ce6;
+    /*border: 1px solid #5c8ce6;
+    background-color: #5c8ce6;*/
+    border: 1px solid #0F9145;
+    background-color: #0F9145;
     color: #ffffff;
     border-top-right-radius: 3px;
     border-bottom-right-radius: 3px;
@@ -492,7 +506,8 @@ td.dif-gene:after{
 }
 .change-select select{
     width: 60px;
-    border: 1px solid #5c8ce6;
+    /*border: 1px solid #5c8ce6;*/
+    border: 1px solid #0F9145;
     height: 40px;
     margin-right: -4px;
     border-right: none;
@@ -504,7 +519,8 @@ td.dif-gene:after{
 .change-select input,.search-input input{
     height: 38px;
     width: 130px;
-    border: 1px solid #5c8ce6;
+    /*border: 1px solid #5c8ce6;*/
+    border: 1px solid #0F9145;
 }
 .search-input input{
     padding: 0 5px;
@@ -566,8 +582,10 @@ input::-ms-input-placeholder {
     float: right;
 }
 .add-genes button{
-    border: 1px solid #5c8ce6;
-    background: #5c8ce6;
+    /*border: 1px solid #5c8ce6;
+    background: #5c8ce6;*/
+    border: 1px solid #0F9145;
+    background: #0F9145;
     color: #fff;
     border-radius: 2px;
     float:right;
@@ -621,7 +639,8 @@ input::-ms-input-placeholder {
     color: #666;
 }
 .genes-result-left a:hover,.genes-result-right a:hover{
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #0F9145;
 }
 .genes-result-left, .genes-result-mid,.have-chosen-num,.line-chart .item-header{
     float: left;
@@ -637,8 +656,11 @@ input::-ms-input-placeholder {
     height: 35px;
     font-size: 18px;
     background-color:#fff;
-    border: 1px solid #5c8ce6;
-    color: #5c8ce6;
+    /*border: 1px solid #5c8ce6;
+    color: #5c8ce6;*/
+    border: 1px solid #0F9145;
+    color: #0F9145;
+
 }
 .genes-result-chooseAll{
     padding-bottom: 10px;
@@ -649,8 +671,10 @@ input::-ms-input-placeholder {
 .genes-result-confirm button,.genes-choose-export button{
     width: 120px;
     height: 40px;
-    border: 1px solid #5c8ce6;
-    background-color: #5c8ce6;
+    /*border: 1px solid #5c8ce6;
+    background-color: #5c8ce6;*/
+    border: 1px solid #0F9145;
+    background-color: #0F9145;
     color: #ffffff;
     border-radius: 3px;;
 }
@@ -702,7 +726,8 @@ input::-ms-input-placeholder {
     margin-bottom: 10px;
 }
 .have-chosen-num{
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #0F9145;
 }
 .have-chosen-tab{
     height: 24px;
@@ -745,7 +770,8 @@ a.tips-qtl{
 }
 a.tips-qtl:hover{
     background-color: #eff3fa;
-    color: #5c8ce6;
+    /*color: #5c8ce6;*/
+    color: #0F9145;
 }
 .title {
     color: #333;

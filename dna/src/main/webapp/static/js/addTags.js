@@ -41,7 +41,7 @@ $(function (){
         var tdInputs = $("#tagTBody").find("input");
         var selInputs = $(".sample-text").find("span");
         for (var i=0;i<selInputs.length;i++){
-            var selInputsName = $(selInputs[i]).text().substring(3,$(selInputs[i]).text().length-1);
+            var selInputsName = $(selInputs[i]).text().substring(6,$(selInputs[i]).text().length-1);
             for (var j=0;j<tdInputs.length;j++){
                 var tdParent = $(tdInputs[j]).parent().next().text();
                 if(tdParent==selInputsName){
@@ -52,10 +52,11 @@ $(function (){
     }
     // 重置按钮点击事件
     $(".resetBtn").click(function (){
-        var data = getParamas();
-            data.pageNum = 1;
+        var data = resetBtnParams;
             // 默认回到第一页，
-        var pageSizeP = $("#page").find("p")
+        data.pageNum = 1;
+        //modified by zjt 2018-3-27
+        /*var pageSizeP = $("#page").find("p")
         liVal = "";
         for(var i=0;i<pageSizeP.length;i++){
             if($(pageSizeP[i]).hasClass("pageColor")){
@@ -63,7 +64,14 @@ $(function (){
             }
         };
         $(pageSizeP[0]).addClass("pageColor");
-        getData(data,curr,resetSaveStatus);
+        getData(data,curr,resetSaveStatus);*/
+        //每页展示数目还原为10
+        $("#tagsPagination .ga-ctrl-footer .select_default_page").val(10);
+        page.pageSize = 10;
+        paramData.pageSize = page.pageSize;
+        paramData.pageNum = data.pageNum;
+        getData(data,data.pageNum,resetSaveStatus);
+        //modified by zjt 2018-3-27
 
     })
    // localstorage 存储选择的品种
@@ -78,7 +86,13 @@ $(function (){
         }
 
     }else{
-        alert('This browser does NOT support localStorage');
+        //alert('This browser does NOT support localStorage');
+        layer.open({
+            type: 0,
+            title: "温馨提示:",
+            content: "This browser does NOT support localStorage",
+            shadeClose: true,
+        });
     }
 
     // 选择品种中的保存群体
@@ -86,30 +100,45 @@ $(function (){
         // 先判断保存群体/品种的数量
         var sampleTexts=$(".sample-text").text();
         if(sampleTexts.length==0){
-            alert("请选择样品!")
+            //alert("请选择样品!")
+            layer.open({
+                type: 0,
+                title: "温馨提示:",
+                content: "请选择样品!",
+                shadeClose: true,
+            });
             return;
         }
         var numbs =$(".js-cursom-add").find(".js-ad-dd").length;
         if(numbs>3){
-            alert("最多可添加10个群体")
+            //alert("最多可添加10个群体")
+            layer.open({
+                type: 0,
+                title: "温馨提示:",
+                content: "最多可添加10个群体",
+                shadeClose: true,
+            });
         }else {
             var selKinds = $(".sample-text").find("span");
             var selContent='';
+            var spanIds = [];
             for (var i=0;i<selKinds.length;i++){
                 selContent += $(selKinds[i]).text().substring(0,$(selKinds[i]).text().length-1) + ",";
+                spanIds.push(parseInt($(selKinds[i]).attr("id")));
             }
             var selContents = selContent.substring(0,selContent.length-1);
+            // var arr = selContents.split(",");
+            // var arrStr = "";
+            // for(var j=0;j<arr.length;j++){
+            //     arrStr+=arr[j].substring(6) + ",";
+            // };
 
-            // kindStorage.name.push(selContent);
-            var arr = selContents.split(",");
-            var arrStr = "";
-            for(var j=0;j<arr.length;j++){
-                arrStr+=arr[j].substring(3) + ",";
-            };
-
-            var newArrStr = arrStr.substring(0,arrStr.length-1);
+            // 当前保存群体的顺序
+            var popLength = $(".js-cursom-add>div.js-ad-dd").length;
+            // var newArrStr = arrStr.substring(0,arrStr.length-1);
+            var newArrStr = spanIds.join(",");
             var ki = {name:selContents,
-                     id:new Date().getTime(),
+                     id:popLength +1+6,
                      condition:{
                             idList:newArrStr
                      }
@@ -118,7 +147,6 @@ $(function (){
             var div = "<div class='js-ad-dd'><label class='species-add' data-index=" + ki.id + ">" + "<span></span><div class='label-txt'>" + selContents + "</div></label><i class='js-del-dd'>X</i></div>"
             $(".js-cursom-add").append(div);
             storage.setItem("kind",JSON.stringify(kindStorage));
-            // setCookie("kind",JSON.stringify(kindStorage))
             $(".sample-text").empty();
             var inputSeList = $("#tagKind table tbody tr input");
             for (var i=0;i<inputSeList.length;i++){
@@ -130,14 +158,14 @@ $(function (){
     })
     // 表格中每个复选框的点击事件
     $("#tagTBody").on("click","input",function (e){
-        // $(".sample-text").empty();
         var currentStatus = $(this).prop("checked");
         var selectedName =  $(this).parent().next().text();
+        var id = $(this).parent().next().attr("data-id");
         if (!selectedName){
             selectedName = $(this).parent().siblings().filter(".sampleNameT").text();
             if(currentStatus){
-                var putName = "<span>样品名" + selectedName + "<i class='deleteSelected'>X</i></span>";
-                $(".sample-text").append(putName);
+                var putName = "<span>测序样品编号" + selectedName + "<i class='deleteSelected'>X</i></span>";
+                $("#sampleText").append(putName);
             }else {
                 var checkNames = $(".sample-text").find("span");
                 for (var i=0;i<checkNames.length;i++){
@@ -149,12 +177,12 @@ $(function (){
             }
         }else {
             if(currentStatus){
-                var putName = "<span>品种名" + selectedName + "<i class='deleteSelected'>X</i></span>";
-                $(".sample-text").append(putName);
+                var putName = "<span id='"+id +"'>测序样品编号" + selectedName + "<i class='deleteSelected'>X</i></span>";
+                $("#sampleText").append(putName);
             }else {
                 var checkNames = $(".sample-text").find("span");
                 for (var i=0;i<checkNames.length;i++){
-                    var checkName = $(checkNames[i]).text().substring(3,$(checkNames[i]).text().length-1);
+                    var checkName = $(checkNames[i]).text().substring(6,$(checkNames[i]).text().length-1);
                     if(selectedName == checkName){
                         $(checkNames[i]).remove();
                     }
@@ -162,12 +190,12 @@ $(function (){
             }
         };
         // 清楚非品种之外的群体￥
-        var wrapList =$(".sample-text").find("span");
-          for (var i=0;i<wrapList.length;i++){
-              if($(wrapList[i]).text().substring(0,3) !="品种名"){
-                  $(wrapList[i]).remove();
-              }
-          }
+        // var wrapList =$(".sample-text").find("span");
+        //   for (var i=0;i<wrapList.length;i++){
+        //       if($(wrapList[i]).text().substring(0,3) !="品种名"){
+        //           $(wrapList[i]).remove();
+        //       }
+        //   }
     })
 
     // 选中的品种点击X
@@ -189,7 +217,52 @@ $(function (){
         for(var i=0;i<selectedInputs.length;i++){
             $(selectedInputs[i]).removeAttr("checked");
         }
-    })
+    });
+    var resetBtnParams = {
+        runNo:"", // 测序样品编号
+        scientificName:"",// 物种名称
+        sampleId:"", // 编号
+        strainName:"", // 菌株名称
+        locality:"", // 地理位置
+        preservationLocation:"",//保藏地点
+        type:"",//类型
+        environment:"",//培养环境
+        materials:"", //材料
+        treat:"",//处理
+        definitionTime:"",//采集时间
+        taxonomy:"",//分类地位
+        myceliaPhenotype:"",//菌丝形态
+        myceliaDiameter:"",//菌丝直径
+        myceliaColor:"",//菌丝颜色
+        sporesColor:"",//孢子颜色
+        sporesShape:"",//孢子形态
+        clampConnection:"",//锁状联合
+        pileusPhenotype:"",//菌盖形态
+        pileusColor:"",//菌盖颜色
+        stipePhenotype:"",//菌柄形态
+        stipeColor:"",//菌柄颜色
+        fruitbodyColor:"",//子实体颜色
+        fruitbodyType:"",//子实体形态
+        illumination:"",//光照
+        collarium:"",//菌环
+        volva:"",//菌托
+        velum:"",//菌幕
+        sclerotium:"",//菌核
+        strainMedium:"",//菌种培养基
+        mainSubstrate:"",//主要栽培基质
+        afterRipeningStage:"",//后熟期
+        primordialStimulationFruitbody:"",//原基刺激&子实体
+        reproductiveMode:"",//生殖方式
+        lifestyle:"",//生活方式
+        preservation:"",//保藏方法
+        domestication:"",//驯化
+        nuclearPhase:"",//核相
+        matingType:"",//交配型
+        group:"",
+        pageSize:10,
+        pageNum:1,
+        isPage:1
+    }
     // 获取数据--》请求参数
     function getParamas (){
         var datas = {
@@ -243,18 +316,44 @@ $(function (){
     // 获取表格数据
     $("#tagKind .btnConfirmInfo").click(function (){
         var selectedDatas = getParamas();
+        paramData.pageNum = 1;
+        paramData.pageSize = 10;
+        page.pageSize = paramData.pageSize;
+        $('#tagKind .ga-ctrl-footer .select_default_page').val(10);
         selectedDatas.pageNum = paramData.pageNum;
         selectedDatas.pageSize = paramData.pageSize;
         getData(selectedDatas,paramData.pageNum,resetSaveStatus);
     })
+    $("#addTags span.popCnt1").click(function (){
+        if($("#hiddenP").is(":hidden")){
+            $("#hiddenP").show();
+        };
+        var inputs = $(".sample-screening-btn input");
+        for(var i=0;i<inputs.length;i++){
+            if(!$(input[i]).is(":hidden")){
+                $(input[i]).hide();
+            }
+        }
+    })
     // 选中品种按钮点击获取数据
     $("#kindSelect").click(function (){
+        if(!$("#hiddenP").is(":hidden")){
+            $("#hiddenP").hide();
+        }
         // 每次点击品种都会清空所有的input 框里的值
         var inputValues = $("#tagKind table thead input");
         $.each(inputValues,function (i,item){
             $(item).val("");
         })
         var data = getParamas();
+        //modified by zjt 2018-3-27
+        data.pageNum = 1;                 //回到第一页
+        paramData.pageNum = data.pageNum;
+        data.pageSize = 10;               //每页条数重置为10条每页
+        page.pageSize = 10;
+        paramData.pageSize = data.pageSize;
+        $('#tagKind .ga-ctrl-footer .select_default_page').val(10);
+        //modified by zjt 2018-3-27
        getData(data,paramData.pageNum,resetSaveStatus);
     });
     //表格筛选框显示隐藏
@@ -267,14 +366,31 @@ $(function (){
     $("#tagKind .inputComponent .btnCancel").click(function (){
         $(this).parent().parent().find("input").val("");
         $(this).parent().parent().hide();
+        //重新获取数据 modifide by zjt 2018-3-29
+        var selectedDatas = getParamas();
+        selectedDatas.pageNum = 1;                 //回到第一页
+        selectedDatas.pageSize = 10;
+        page.pageSize = selectedDatas.pageSize;
+        $('#tagKind .ga-ctrl-footer .select_default_page').val(10);
+        paramData.pageNum = selectedDatas.pageNum;
+        paramData.pageSize = selectedDatas.pageSize;
+        getData(selectedDatas,paramData.pageNum,resetSaveStatus);
+        //重新获取数据 modifide by zjt 2018-3-29
     })
     // // pageSize 选择事件
+    //modified by zjt 2018-3-27
+    /* modified by zjt 2018-3-27
     $("#per-page-count select").change(function (e){
         var currentSelected = $(this).find("option:selected").text();
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
+    });*/
+    $("#tagsPagination #per-page-count .select_item_page li").click(function (e){
+        var currentSelected = $(this).text();
+        page.pageSize = currentSelected;
+        paramData.pageSize = page.pageSize;
     });
-
+    //modified by zjt 2018-3-27
 
     // 获取焦点添加样式：
     $("#tagsPagination").on("focus", ".laypage_skip", function() {
@@ -288,7 +404,13 @@ $(function (){
             if(e && e.keyCode==13){ // enter 键
                 if( _page_skip.hasClass("isFocus") ) {
                     if(_page_skip.val() * 1 > Math.ceil(count/ paramData.pageSize)) {
-                        return alert("输入页码不能大于总页数");
+                        //return alert("输入页码不能大于总页数");
+                        layer.open({
+                            type: 0,
+                            title: "温馨提示:",
+                            content: "输入页码不能大于总页数",
+                            shadeClose: true,
+                        });
                     }
                     var selectedNum = $('#tagsPagination .laypage_skip').val();
                     page.pageNum = selectedNum;
@@ -301,14 +423,25 @@ $(function (){
             }
     });
     // pageSize 事件
-    $("#tagsPagination select").change(function (e){
+    //midified by zjt 2018-3-27
+    /*$("#tagsPagination select").change(function (e){
         var val = $(this).val();
         var data = getParamas();
         data.pageSize = val;
         data.pageNum =  paramData.pageSize;
         getData(data,data.pageNum);
 
-    })
+    });*/
+    $("#tagsPagination #per-page-count .select_item_page li").click(function (e){
+        var val = $(this).text();
+        var data = getParamas();
+        data.pageSize = val;
+        paramData.pageSize = data.pageSize;
+        data.pageNum =  1;
+        data.pageNum = paramData.pageNum;
+        getData(data,data.pageNum,resetSaveStatus);
+    });
+    //midified by zjt 2018-3-27
     // 分页
     var nums;
     var totalDatas;
@@ -391,8 +524,8 @@ $(function (){
                         var matingTypeTV = totalDatas[i].matingType==null?"":totalDatas[i].matingType;  //交配型
                         var tr = "<tr>" +
                             "<td class='paramTag'><input type='checkbox'/></td>" +
-                            "<td class='paramTag runNoTV'>" + idTV+
-                            "</td><td class='paramTag runNoTV'>" + runNoTV+
+                            // "<td class='paramTag runNoTV'>" + idTV+
+                            "</td><td class='paramTag runNoTV' data-id='" +idTV +"'>" + runNoTV+
                             "</td><td class='paramTag scientificNameTV'>" + scientificNameTV+
                             "</td><td class='paramTag sampleIdTV'>" + sampleIdTV+
                             "</td><td class='paramTag strainNameTV'>" + strainNameTV +
@@ -443,7 +576,8 @@ $(function (){
                     cont: $('#tagsPagination .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
-                    skin: '#5c8de5',
+                    /*skin: '#5c8de5',*/
+                    skin: '#0f9145',
                     skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                     last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可

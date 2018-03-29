@@ -74,12 +74,12 @@ public class SoybeanController {
         String json = "{}";
         logger.info("hitmap:genes{" + genes + "}");
         if (StringUtils.isNotBlank(genes)) {
-            if (pageSize >= total) {
-                String[] gens = Arrays.copyOfRange(genes.split(","), 0, total);
+            if (pageSize * pageNo >= total) {
+                String[] gens = Arrays.copyOfRange(genes.split(","), (pageNo - 1) * pageSize, total);
                 GenResult genResult = tService.generateData(gens);
                 genResult.setGensTotal(total);
                 json = JsonUtils.Bean2Json(genResult);
-            }else {
+            } else {
                 String[] gens = Arrays.copyOfRange(genes.split(","), pageNo * pageSize - pageSize, pageNo * pageSize);
                 GenResult genResult = tService.generateData(gens);
                 genResult.setGensTotal(total);

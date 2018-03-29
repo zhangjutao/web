@@ -48,12 +48,4 @@ public class DnaGenesControllerTest extends TestCase {
         securityContext.setAuthentication(token);
         SecurityContextHolder.setContext(securityContext);
     }
-
-    @Test
-    public void testListPage() throws Exception {
-        mockMvc.perform(get("/dnagens/list"))
-                .andExpect(status().isOk())
-                .andExpect(forwardedUrl("/WEB-INF/views/dnagens/dnagens.jsp"))
-                .andReturn();
-    }
 }

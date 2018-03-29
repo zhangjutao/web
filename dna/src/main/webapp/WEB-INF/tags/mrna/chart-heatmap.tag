@@ -149,7 +149,8 @@
                             cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                             pages: pageTotal, //通过后台拿到的总页数
                             curr: curr || 1, //当前页
-                            skin: '#5c8de5',
+                            /*skin: '#5c8de5',*/
+                            skin: '#0f9145',
                             skip: true,
                             prev: '<',
                             next: '>',

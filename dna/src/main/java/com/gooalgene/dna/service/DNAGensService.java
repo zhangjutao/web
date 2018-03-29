@@ -1,64 +1,31 @@
 package com.gooalgene.dna.service;
 
 import com.github.pagehelper.PageHelper;
-import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNAGensDao;
+import com.gooalgene.dna.entity.ChromosomeList;
 import com.gooalgene.dna.entity.DNAGens;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import net.sf.json.JSONArray;
+import com.gooalgene.dna.entity.result.GeneMinAndMax;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
-/**
- * Created by 陈冬 on 2017/8/22.
- */
 @Service
 public class DNAGensService {
 
     @Autowired
     private DNAGensDao dnaGensDao;
 
-    /**
-     * 后台管理查询MrnaGens分页处理
-     */
-    public JSONArray searchDNAGensbyKeywords(String type, String keywords, Page<DNAGens> page) {
-        JSONArray data = new JSONArray();
-        DNAGens dnaGens = new DNAGens();
-        if ("all".equalsIgnoreCase(type)) {
-            if (!StringUtils.isBlank(keywords)) {
-                dnaGens.setKeywords(keywords);
-            }//空白查询所有
-        }
-        dnaGens.setPage(page);
-        List<DNAGens> list = dnaGensDao.findDNAGensList(dnaGens);
-        page.setList(list);
-        for (DNAGens dnaGens1 : list) {
-            data.add(dnaGens1.toJSON());
-        }
-        return data;
-    }
-
     public DNAGens findByGeneId(String geneId) {
         return dnaGensDao.findByGeneId(geneId);
     }
 
-    @Transactional(readOnly = false)
-    public boolean add(DNAGens dnaGens) {
-        return dnaGensDao.add(dnaGens);
-    }
-
-    @Transactional(readOnly = false)
-    public int insertBatch(List<DNAGens> dnaGenses) {
-        return dnaGensDao.insertBatch(dnaGenses);
-    }
-
-    public DNAGens findById(int id) {
-        return dnaGensDao.findById(id);
+    public List<ChromosomeList> fetchAllChromosome() {
+        return dnaGensDao.fetchAllChromosome();
     }
 
     /**
@@ -67,16 +34,6 @@ public class DNAGensService {
      */
     public DNAGens findByGene(String gene) {
         return dnaGensDao.findDNAGensInfoByGene(gene);
-    }
-
-    @Transactional(readOnly = false)
-    public int update(DNAGens dnaGens) {
-        return dnaGensDao.update(dnaGens);
-    }
-
-    @Transactional(readOnly = false)
-    public boolean delete(int id) {
-        return dnaGensDao.deleteById(id);
     }
 
     /**
@@ -98,34 +55,27 @@ public class DNAGensService {
         return result;
     }
 
-    public List<String> getByRegionNoCompare(String chr,String start, String end){
-        List<String> list= dnaGensDao.getByRegion(chr,start,end);
-        return  list;
+    public Set<String> getByRegionNoCompare(String chr,long start, long end){
+        Set<String> list= dnaGensDao.getByRegion(chr,start,end);
+        return list;
     }
 
-    public List<String> getByRegion(String chr,String start, String end){
-        List<String> list= dnaGensDao.getByRegion(chr,start,end);
-        Map map= Maps.newHashMap();
-        for(String gene:list){
-            Integer geneSuffix= Integer.parseInt(StringUtils.substring(gene,9));
-            map.put(geneSuffix,gene);
+    /**
+     * 查找该染色体该区间内基因的最新位置和最大位置，该方法仅使用于确定有基因的区间，否则调用报错
+     * 如在按照区间搜索，如果该区间内有基因，这里会获取该区间内基因的起始位置极端值
+     * @param chr 染色体
+     * @param start 起点位置
+     * @param end 终点位置
+     * @return 两个值的集合，第一个为最小值，第二个为最大值
+     */
+    public GeneMinAndMax findMinAndMaxPos(String chr,long start, long end) {
+        if (start > end) {
+            throw new IllegalArgumentException("start arguments greater than end arguments");
         }
-        return  compareGeneIds(map);
-    }
-
-    private List<String> compareGeneIds(Map<Integer,String> map){
-        ArrayList<Map.Entry<Integer,String>> list = new ArrayList<>(map.entrySet());
-        Collections.sort(list, new Comparator<Map.Entry<Integer,String>>() {
-            @Override
-            public int compare(Map.Entry<Integer,String> arg0,Map.Entry<Integer,String> arg1) {
-                return arg0.getKey() - arg1.getKey();
-            }
-        });
-        List<String> geneIds=Lists.newArrayList();
-        for (int i = 0; i < list.size(); i++){
-            geneIds.add(list.get(i).getValue());
+        GeneMinAndMax minAndMax = dnaGensDao.findMinAndMax(chr, start, end);
+        if (minAndMax == null) {
+            throw new IllegalArgumentException("findMinAndMaxPos only apply for those having genes method");
         }
-        return geneIds;
+        return minAndMax;
     }
-
 }

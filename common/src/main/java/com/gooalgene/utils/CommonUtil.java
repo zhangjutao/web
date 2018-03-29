@@ -892,76 +892,27 @@ public class CommonUtil {
 
     }
 
-    public static void main(String[] args) {
-/*		BigDecimal b1 = new BigDecimal("4315813000");
-		BigDecimal b2 = new BigDecimal(1000);
-
-		BigDecimal b3 = b1.divide(b2, 0, BigDecimal.ROUND_HALF_UP);
-		System.out.println("b3===" + b3);
-		long[] hms = toHMS(b3.longValue());
-		System.out.println(hms[0] + "   D   " + hms[1] + "   H   " + hms[2]
-				+ "M" + hms[3] + "S");*/
-		/*
-		ArrayList list = new ArrayList();
-		String mib = "1.2.3";
-		list.add("1.2.3.1.0");
-		list.add("1.2.3.5");
-		list.add("1.2.3.3.0");
-		list.add("1.2.3.8");
-		list.add("1.2.3.12");
-		List lastvaluelt=  new ArrayList();
-		List lostlist = new ArrayList();
-		for(int i = 0;i<list.size();i++){
-		 String curmib = (String) list.get(i);
-		 String curvalue_andend = curmib.substring(mib.length() + 1,
-					curmib.length());
-		 String curvalue="";
-		 if(curvalue_andend.indexOf(".")!=-1){
-			 curvalue = curvalue_andend.substring(0, curvalue_andend
-					.indexOf("."));
-			 System.out.println("teststst=="+curvalue);
-		 }else{
-			 curvalue=curvalue_andend;
-		 }
-		 lastvaluelt.add(curvalue);
-		} 
-		
-		Comparator comp = new ContentComparator();
-		Collections.sort(lastvaluelt,comp); 
-		int theMaxValue = Integer.valueOf((String) lastvaluelt.get(lastvaluelt.size()-1));
-		for(int i = 1;i<theMaxValue;i++){
-			boolean flag = false;
-			for(int j = 0;j<lastvaluelt.size();j++){
-				String curval = (String) lastvaluelt.get(j);
-				if(Integer.parseInt(curval)==i){
-					flag = true;
-					break;
-				}
-				
-			}
-			if(!flag){
-				lostlist.add(i);
-			}
-			
-		}
-		
-		for (int i = 0; i < lostlist.size(); i++) {
-			System.out.println(lostlist.get(i));
-		}
-		*/
-        //MyUtil.getStartTimeStr();
-        String s=getStrIfNoPoint("wwwwwdd");
-        System.out.println(s);
-    }
-
-    public static Integer getCharPositionBeforNum(String str){
-        char[] chars= str.toCharArray();
-        for(int i=0;i<chars.length;i++){
-            if(CharUtils.isAsciiNumeric(chars[i])){
-                return i-1;
-            }
+    /**
+     * 传入一个SNP ID，返回它的类型和对应的染色体部分字符串
+     * @param str SNP ID
+     * @return 一个大小为2的数组，数组中第一个元素为SNP/INDEL，第二个元素为染色体除了chr后面的部分
+     */
+    public static String[] getChromosomeAndType(String str){
+        String[] result = new String[2];
+        if (str == null || str.trim().equals("")) {
+            throw new IllegalArgumentException("传入非法参数");
         }
-        return -1;
+        StringBuilder builder = new StringBuilder(str);
+        Character c = builder.charAt(3);
+        if (c.equals('s')) {
+            result[0] = "SNP";
+        } else if (c.equals('i')) {
+            result[0] = "INDEL";
+        } else {
+            throw new IllegalArgumentException("传入SNP id不合法，不包含s或i");
+        }
+        result[1] = builder.substring(4, 7);
+        return result;
     }
 
     public static String getStrIfNoPoint(String str){
@@ -999,6 +950,11 @@ public class CommonUtil {
         return sb.toString();
     }
 
+    /**
+     * 返回标题格式
+     * @param strings 驼峰字符串列表:{ plantSpecies, studyDao, findByType, ...}
+     * @return 返回字符串："Plant Species,Study Dao,Find By Type, ..."
+     */
     public static String camelListToTitle(List<String> strings) {
         StringBuilder stringResult = new StringBuilder("");
         if (strings.size() > 0) {

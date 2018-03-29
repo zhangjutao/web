@@ -382,7 +382,8 @@
             position: relative;
             height: 40px;
             line-height: 40px;
-            background: #386cca;
+            /*background: #386cca;*/
+            background: #07B34F;
             cursor: move;
         }
         .genesInfo .genesInfo-head p{
@@ -773,6 +774,7 @@
 
 <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+<script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
@@ -788,17 +790,30 @@
         $(".ga-mask").remove();
     }
 
+    var index;
     $("body").on("click", ".js-gene-info", function(e) {
         var version = 'gmx_ensembl_release23';
         var geneName = $(this).text();
         $(".js-gene-head-name").html(geneName);
         $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName="+ geneName + "&version=" + version);
         e.preventDefault();
-        $(".genesInfo").show();
+        /*$(".genesInfo").show();*/
+        index = layer.open({
+            title: "",
+            type: 1,
+            content: $(".genesInfo"),
+            area: ['980px', '640px'],
+            shadeClose: true,
+            scrollbar: false,
+            move: '.genesInfo-head',
+            closeBtn: 0,
+            //offset: ['135px', '320px']
+        });
 
     });
     $(".genesInfo-head > a").click(function() {
-        $(".genesInfo").hide();
+        /*$(".genesInfo").hide();*/
+        layer.close(index);
     });
 
 
@@ -993,12 +1008,14 @@
                         //显示分页
                         laypage({
                             cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
-                            pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
+                            /*pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数*/
+                            pages: parseInt(res.total / page.pageSize) + 1, //通过后台拿到的总页数
                             curr: page.curr || 1, //当前页
                             skin: '#5c8de5',
                             skip: true,
                             first: 1, //将首页显示为数字1,。若不显示，设置false即可
-                            last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
+                            /*last: Math.ceil(res.total / page.pageSize), //将尾页显示为总页数。若不显示，设置false即可*/
+                            last: parseInt(res.total / page.pageSize) + 1, //将尾页显示为总页数。若不显示，设置false即可
                             prev: '<',
                             next: '>',
                             groups: 3, //连续显示分页数

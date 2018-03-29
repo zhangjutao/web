@@ -1,5 +1,6 @@
 package com.gooalgene.mrna.web;
 
+import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Global;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.service.IndexExplainService;
@@ -78,12 +79,9 @@ public class MRNAController {
         String treejson = JsonUtils.Bean2Json(tree);
         model.addObject("treejs", treejson);
 
-//        String[] gens = {"GLYMA04G38670", "GLYMA04G32251", "GLYMA16G25932", "GLYMA03G33200", "GLYMA08G22740"};
-//        String[] gens = {"GLYMA17G35620","GLYMA13G34810","GLYMA02G13420","GLYMA06G45331","GLYMA13G39820"};
         String[] gens = studyService.queryGenesForFirst();
         GenResult genResult = tService.generateData(gens);
         String json = JsonUtils.Bean2Json(genResult);
-//        System.out.println(json);
 
         model.addObject("data", json);
         model.addObject("mrnaDetail", indexExplainService.queryByType("mrna").getDetail());
@@ -170,15 +168,17 @@ public class MRNAController {
      */
     @RequestMapping("/listByResult")
     @ResponseBody
-    public Map list1(HttpServletRequest request, HttpServletResponse response) {
+    public PageInfo<Study> list1(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");
         if (type == null) {
-            return new HashMap();
+            return new PageInfo<Study>();
         }
         String keywords = request.getParameter("keywords");
         String parameters = request.getParameter("conditions");
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         Page<Study> page = new Page<Study>(request, response);
-        return studyService.queryStudyByCondition(type, keywords, parameters, page);
+        return studyService.queryStudyByCondition(type, keywords, parameters, pageNo, pageSize);
     }
 
     @RequestMapping("/dataExport")
@@ -203,39 +203,6 @@ public class MRNAController {
 
     private String serialList(List<Map> result, String[] titles) {
         StringBuilder sb = new StringBuilder();
-//        sb.append("Run").append(",");
-//        sb.append("SampleName").append(",");
-//        sb.append("Expression/Comparison").append(",");
-//        sb.append("SRAStudy").append(",");
-//        sb.append("Study").append(",");
-//        sb.append("Tissue for Classification").append(",");
-//        sb.append("Tissue").append(",");
-//        sb.append("preservation").append(",");
-//        sb.append("Treat").append(",");
-//        sb.append("Stage").append(",");
-//        sb.append("Genetype").append(",");
-//        sb.append("Phenotype").append(",");
-//        sb.append("Environment").append(",");
-//        sb.append("Geo loc").append(",");
-//        sb.append("ecotype").append(",");
-//        sb.append("collection date").append(",");
-//        sb.append("Coordinates").append(",");
-//        sb.append("Cultivar").append(",");
-//        sb.append("ScientificName").append(",");
-//        sb.append("Pedigree").append(",");
-//        sb.append("Reference").append(",");
-//        sb.append("Institution").append(",");
-//        sb.append("submissiontime").append(",");
-//        sb.append("Instrument").append(",");
-//        sb.append("LibraryStrategy").append(",");
-//        sb.append("LibrarySource").append(",");
-//        sb.append("LibraryLayout").append(",");
-//        sb.append("insertsize").append(",");
-//        sb.append("readlength").append(",");
-//        sb.append("Spots").append(",");
-//        sb.append("Experiment").append(",");
-//        sb.append("links");
-//        sb.append("\n");
         Map<String, Integer> map = new HashMap<String, Integer>();
         if (titles != null) {
             sb = new StringBuilder();
@@ -260,11 +227,11 @@ public class MRNAController {
                 }
                 if (map.containsKey("Study")) {
                     String study = (String) data.get("study");
-                    sb.append((study != null ? study : "")).append(",");
+                    sb.append("\"").append((study != null ? study : "")).append("\",");
                 }
                 if (map.containsKey("Reference")) {
                     String reference = (String) data.get("reference");
-                    sb.append((reference != null ? reference : "")).append(",");
+                    sb.append("\"").append((reference != null ? reference : "")).append("\",");
                 }
                 if (map.containsKey("Tissue")) {
                     String tissue = (String) data.get("tissueForClassification");
@@ -279,7 +246,7 @@ public class MRNAController {
                     sb.append((treat != null ? treat : "")).append(",");
                 }
                 if (map.containsKey("Genetype")) {
-                    String geneType = (String) data.get("geneType");
+                    String geneType = (String) data.get("genetype");
                     sb.append((geneType != null ? geneType : "")).append(",");
                 }
                 if (map.containsKey("Preservation")) {
@@ -287,16 +254,16 @@ public class MRNAController {
                     sb.append((preservation != null ? preservation : "")).append(",");
                 }
                 if (map.containsKey("Phenotype")) {
-                    String phenotype = (String) data.get("phenoType");
+                    String phenotype = (String) data.get("phenotype");
                     sb.append((phenotype != null ? phenotype : "")).append(",");
                 }
                 if (map.containsKey("Environment")) {
                     String environment = (String) data.get("environment");
                     sb.append((environment != null ? environment : "")).append(",");
                 }
-                if (map.containsKey("Cultivar")) {
-                    String cultivar = (String) data.get("ccultivar");
-                    sb.append((cultivar != null ? cultivar : "")).append(",");
+                if (map.containsKey("Type")) {
+                    String environment = (String) data.get("Type");
+                    sb.append((environment != null ? environment : "")).append(",");
                 }
                 if (map.containsKey("Scientific Name")) {
                     String scientificName = (String) data.get("scientificName");

@@ -116,7 +116,7 @@ public class GeneService {
         jsonObject.put("pageNo", pageNo);
         jsonObject.put("pageSize", pageSize);
         JSONArray data = new JSONArray();
-        long total = 0;
+        int total = 0;
         Double min = 0.0, max = 0.0;
         try {
             Study study = studyService.queryById(id);
@@ -179,7 +179,7 @@ public class GeneService {
                                 JSONArray rest = JSONArray.fromObject(list1.getRawResults().get("result"));
                                 total = rest.size();
                             } else {
-                                total = 54174;//总基因数（没有匹配的话，不用去查了）
+                                total = genesService.getGeneTotal() ;//总基因数（没有匹配的话，不用去查了）
                                 logger.info("Total 54174 with no query.");
                             }
                             logger.info("Total:" + total);
@@ -216,7 +216,7 @@ public class GeneService {
                                             max = value;
                                         }
                                         group.put("value", value);
-                                        group.put("cultivar", study1.getCcultivar() == null ? "" : study1.getCcultivar());
+                                        group.put("type", study1.getType() == null ? "" : study1.getType());
                                         group.put("phenotype", study1.getPhenoType() == null ? "" : study1.getPhenoType());
                                         group.put("tissue", study1.getTissue() == null ? "" : study1.getTissue());
                                         group.put("stage", study1.getStage() == null ? "" : study1.getStage());
@@ -351,7 +351,7 @@ public class GeneService {
                                 group.put("compareGroupName", Tools.changeDiff2SampleName(allRuns, diff.getName()));//显示sampleName
                                 group.put("compareGroupNo", diff.getName());
                                 group.put("value", diff.getQ_value());
-                                group.put("cultivar", (study1 == null || (study1.getCcultivar() == null) ? "" : study1.getCcultivar()));
+                                group.put("type", (study1 == null || (study1.getType() == null) ? "" : study1.getType()));
                                 group.put("phenotype", (study1 == null || (study1.getPhenoType() == null) ? "" : study1.getPhenoType()));
                                 Double log2 = diff.getLog_value();
                                 if (log2.compareTo(32.0) == 0) {

@@ -10,7 +10,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>群体信息</title>
+    <title>信息</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/population.css">
@@ -33,7 +33,7 @@
         }
         .total-page-count{
             position: relative;
-            top:-4px;
+            top:0px;
         }
 
         #tableShow>table tbody>tr>td,#tableShow>table thead>tr>th{
@@ -46,58 +46,15 @@
 <dna:dna-header />
     <div class="container" style="background: #fff;position:relative;">
         <div id="topTitle">
-            <p>
+            <!--<p>
                 <img src="${ctxStatic}/images/systree.png" alt="logo" style="height:31px;">
-            </p>
+            </p>-->
            <p class="systree">系统进化树</p>
         </div>
-        <p class="popDes">
+        <!--<p class="popDes">
             利用了近1000个样本的大豆群体的SNP信息，使用STRUCTURE软件推断其亚群结构：假设所有的个体来源于n个祖先，使用贝叶斯模型的计算方法依次模拟在K = 1~n 的情况下，推算每个个体的血统构成以及群体的分群情况，得到最大似然值（likelihood）最大并且亚群数量最少的模拟结果，这时K值往往最接近群体真实的亚群分布。分析得出：全部大豆样本来自10个亚群，其中处于同一亚群内的不同个体亲缘关系较高，而不同的亚群之间则亲缘关系稍远，在图中相同颜色的节点表示来自同一亚群，在各亚群内的个体服从Hardy－Weinberg 定律；之后采用邻接法（Neighbor－Joining）计算亚群之间的距离，构建系统进化树（Phylogenetic Tree，又称Evolutionary Tree）展示了本数据库中大豆样本之间的进化历程和亲缘关系。
-        </p>
-        <div id="groups">
-            <ul>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 1</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 2</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 3</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 4</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 5</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 6</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 7</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 8</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 9</p>
-                </li>
-                <li>
-                    <img src="${ctxStatic}/images/Group.png" alt="logo">
-                    <p class="groupDes">Group 10</p>
-                </li>
-            </ul>
-        </div>
+        </p>-->
+
         <div id="tableCnt">
             <div class="selecting" >
                 <p>

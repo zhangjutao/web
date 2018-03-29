@@ -2,10 +2,13 @@ package com.gooalgene.dna.dao;
 
 import com.gooalgene.common.CrudDao;
 import com.gooalgene.common.persistence.MyBatisDao;
+import com.gooalgene.dna.entity.ChromosomeList;
 import com.gooalgene.dna.entity.DNAGens;
+import com.gooalgene.dna.entity.result.GeneMinAndMax;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by 陈冬 on 2017/8/22.
@@ -27,5 +30,9 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
 
     DNAGens findDNAGensInfoByGene(String gene);
 
-    List<String> getByRegion(@Param("chr") String chr,@Param("start") String start, @Param("end") String end);
+    Set<String> getByRegion(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
+
+    GeneMinAndMax findMinAndMax(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
+
+    List<ChromosomeList> fetchAllChromosome();
 }

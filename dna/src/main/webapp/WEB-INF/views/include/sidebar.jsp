@@ -6,8 +6,8 @@
     #popu-paginate .total-page-count {
         display: inline-block !important;
         height: 28px;
+        top: 0px;
     }
-
     .label-txt {
         cursor: pointer;
         display: inline-block;
@@ -26,7 +26,8 @@
         margin-top: 6px;
         display: none;
         position: absolute;
-        border: 1px solid #5c8ce6;
+        /*border: 1px solid #5c8ce6;*/
+        border: 1px solid #0f9145;
         z-index: 1;
         padding: 15px 10px;
         width: 114px;
@@ -45,13 +46,15 @@
     .inputComponent p a {
         padding: 2px 8px;
         display: inline-block;
-        border: 1px solid #5c8ce6;
+        /*border: 1px solid #5c8ce6;*/
+        border: 1px solid #0f9145;
         border-radius: 3px;
     }
 
     .btnCancel {
         margin-right: 5px;
-        color: #5c8ce6;
+        /*color: #5c8ce6;*/
+        color: #0f9145;
     }
 
     a {
@@ -64,7 +67,8 @@
     }
 
     .btnConfirmInfo {
-        background: #5c8ce6;
+        /*background: #5c8ce6;*/
+        background: #0f9145;
         color: #fff;
     }
 
@@ -115,13 +119,13 @@
 
     .total-page-count {
         position: relative;
-        top: 1px;
     }
     .label-txt {
         vertical-align: bottom;
     }
-   #tagsPagination #total-page-count{position: relative;top:-4px;}
+   #tagsPagination #total-page-count{position: relative;top:0px;}
 </style>
+
 
 <div class="nav_ac">
     <div class="icon-right"><img src="${ctxStatic}/images/Category.png"></div>
@@ -143,33 +147,14 @@
             <div class="item-bd-list">
                 <span>Chromosome</span>
                 <select class="js-chorosome">
-                    <option value="Chr01" data-max="56831624">Chr01</option>
-                    <option value="Chr02" data-max="48577505">Chr02</option>
-                    <option value="Chr03" data-max="45779781">Chr03</option>
-                    <option value="Chr04" data-max="52389146">Chr04</option>
-                    <option value="Chr05" data-max="42234498">Chr05</option>
-                    <option value="Chr06" data-max="51416486">Chr06</option>
-                    <option value="Chr07" data-max="44630646">Chr07</option>
-                    <option value="Chr08" data-max="47837940">Chr08</option>
-                    <option value="Chr09" data-max="50189764">Chr09</option>
-                    <option value="Chr10" data-max="51566898">Chr10</option>
-                    <option value="Chr11" data-max="34766867">Chr11</option>
-                    <option value="Chr12" data-max="40091314">Chr12</option>
-                    <option value="Chr13" data-max="45874162">Chr13</option>
-                    <option value="Chr14" data-max="49042192">Chr14</option>
-                    <option value="Chr15" data-max="51756343">Chr15</option>
-                    <option value="Chr16" data-max="37887014">Chr16</option>
-                    <option value="Chr17" data-max="41641366">Chr17</option>
-                    <option value="Chr18" data-max="58018742">Chr18</option>
-                    <option value="Chr19" data-max="50746916">Chr19</option>
-                    <option value="Chr20" data-max="47904181">Chr20</option>
+                    <%--<option value="Chr01" data-max="164327">chr316</option>--%>
                 </select>
             </div>
             <div class="item-bd-list"><span>Start Position</span><input
                     onkeyup="this.value=this.value.replace(/\D/g,'')" type="number" min="0" placeholder="请输入数值"
                     class="js-start-position" value="0"></div>
             <div class="item-bd-list"><span>End Position</span><input onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                                                      type="number" min="0" placeholder="请输入数值"
+                                                                      type="number" min="0" placeholder="<=164327"
                                                                       class="js-end-position"></div>
         </div>
     </div>
@@ -209,7 +194,7 @@
                 <div class="custom-groups-content" style="overflow: hidden;">
                     <div class="sample">
                         <label><b>样本></b></label>
-                        <div class="sample-text"></div>
+                        <div class="sample-text" id="sampleText"></div>
                         <div class="colse-sample">
                             <button type="button" class="btn-fill sample-empty">清空</button>
                             <span>X</span></div>
@@ -219,219 +204,245 @@
                     <div id="addTags">
                         <span class="tagColor popCnt1" style="margin-left:10px;">选择群体</span>
                         <span class="kindCnt1" id="kindSelect">选择品种</span>
+                        <%--<span style="background:#000;width:20px;height:20px;opacity:0.3;"></span>--%>
                     </div>
                     <%--// 新增选择品种 end --%>
                     <div class="sample-screening">
                         <div class="sample-screening-title">样本筛选(共<span class="js-total-samples">0</span>个sample)</div>
                         <div class="sample-screening-btn">
                             <input type="button" class="btn resetBtn" value="重置"/>
-                            <button type="button" class="btn savePoP">保存群体</button>
+                            <%--<button type="button" class="btn" style="background:#ccc;">保存群体</button>--%>
+                                <p id="hiddenP" style="background:#ccc;width:90px;height:30px;line-height:30px;text-align:center;border-radius: 3px;cursor: not-allowed;    margin-top: 2px;">保存群体</p>
                             <input type="button" class="btn saveKind" value="保存群体"/>
                         </div>
                     </div>
                     <div class="sample-category popCnt1">
                         <div class="category-group" data-name="species">
                             <label><b
-                                    class="category-title">物种:</b><span>Glycine soja</span><span>Glycine gracilis</span><span>Landrace</span><span>Improved cultivar</span><span>Mutant cultivar</span></label>
+                                    class="category-title">物种:</b><span>Pleurotus tuoliensis</span></label>
                             <%--<button class="multiselect"><i>+</i>多选</button>--%>
                         </div>
                         <div class="category-position" data-name="locality">
-                            <label><b class="category-title">位置:</b><span>China</span><span>United States</span><span>Japan</span><span>Korea</span><span>Brazil</span><span>Other</span></label>
+                            <label><b class="category-title">位置:</b><span>Toli,China;</span><span>Yumin,China;</span><span>Tacheng,China</span><span>Beijing,China</span><span>Shihezi,China</span><span>Qinghe,China</span><span>Fuyun,China</span><span>Xinjiang,China</span></label>
                             <%--<button class="multiselect"><i>+</i>多选</button>--%>
                         </div>
                         <div class="category-grain-weight" data-name="weightPer100seeds">
-                            <label class="category-content"><b class="category-title">百粒重(g):</b><span>0-10</span><span>10-20</span><span>20-30</span><span>30-40</span>
+                            <label class="category-content"><b class="category-title">类型:</b><span>cultivated</span><span>wild</span>
                                 <%--<span class="js-custom-add"></span>--%>
                             </label>
-                            <div class="grain-weight-section">
-                                <div class="input-range">
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"
-                                           class="js-category-start" style="ime-mode:disabled;" onpaste="return false;">
-                                    - <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0"
-                                             class="js-category-end" style="ime-mode:disabled;" onpaste="return false;">
-                                </div>
-                                <button type="button" data-name="weightPer100seeds" class="btn js-customize-sample">确定
-                                </button>
-                            </div>
+                            <%--<div class="grain-weight-section">--%>
+                                <%--<div class="input-range">--%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"--%>
+                                           <%--class="js-category-start" style="ime-mode:disabled;" onpaste="return false;">--%>
+                                    <%--- <input type="number" onkeyup="this.value=this.value.replace(/\D/g,'')" min="0"--%>
+                                             <%--class="js-category-end" style="ime-mode:disabled;" onpaste="return false;">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="weightPer100seeds" class="btn js-customize-sample">确定--%>
+                                <%--</button>--%>
+                            <%--</div>--%>
                         </div>
                         <div class="category-oil-content" data-name="oil">
-                            <label class="category-content"><b class="category-title">含油量(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="oil" class="btn js-customize-sample">确定</button>
-                            </div>
+                            <label class="category-content"><b class="category-title">材料:</b><span>mycelium</span></label>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="oil" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
                         </div>
                         <div class="category-protein " data-name="protein">
-                            <label><b class="category-title">蛋白质含量(%):</b><span>30-40</span><span>40-50</span><span>50-60</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="protein" class="btn js-customize-sample">确定</button>
-                            </div>
+                            <label><b class="category-title">分类地位:</b><span>Basidiomycetes</span><span>wood-rottingfungi</span></label>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="protein" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
                         </div>
                         <%--<div class="flowering-data " data-name="floweringDate">--%>
                         <%--<label><b  class="category-title">开花日期(月):</b><span>I</span><span>II</span><span>III</span></label>--%>
                         <%--</div>--%>
                         <div class="mature-data " data-name="maturityDate">
-                            <label><b class="category-title">熟期组 :</b><span>0</span><span>I</span><span>II</span><span>III</span><span>IV</span><span>V</span><span>VI</span><span>VII</span><span>VIII</span><span>IX</span><span>X</span></label>
+                            <label><b class="category-title">菌丝形态 :</b><span>stolonmycelium</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌丝颜色 :</b><span>white</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">孢子颜色 :</b><span>white</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">孢子形态 :</b><span>Oval</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">子实体颜色 :</b><span>white</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">子实体形态 :</b><span>cluster</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌盖颜色 :</b><span>Palmlike</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌柄形态 :</b><span>solid</span></label>
+                        </div>
+                        <div class="mature-data " data-name="maturityDate">
+                            <label><b class="category-title">菌柄颜色 :</b><span>white</span></label>
                         </div>
 
 
-                        <div class="plant-height" data-name="height">
-                            <label class="category-content">
-                                <b class="category-title">株高(cm):</b>
-                                <span>20-60</span>
-                                <span>60-100</span>
-                                <span>100-140</span>
-                                <span>140-180</span>
-                            </label>
-                            <div class="oil-content-section">
-                                <div class="input-range">
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="height" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="grain-color " data-name="seedCoatColor">
-                            <label>
-                                <b class="category-title">粒色(种皮色):</b>
-                                <p>
-                                    <span>Bl - Black</span><span>Striped</span><span>Y - Yellow</span><span>Ggn - Grayish green</span>
-                                    <span>Gn - Green</span><span>Rbr - Reddish brown</span><span>Br - Brown</span><span>Lgn - Light green</span>
-                                    <span>Ib - Imperfect black</span><span>Gnbr - Greenish brown</span><span>dull yellow with black hila</span><span>dull yellow with imperfect black hila</span>
-                                    <span>Wye - White yellow</span><span>Lye - Light yellow</span>
-                                </p>
-                            </label>
-                        </div>
-                        <div class="hilum-color category-more" data-name="hilumColor">
-                            <label>
-                                <b class="category-title">种脐色:</b>
-                                <p>
-                                    <span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark Brown</span><span>Lbf - Light buff</span>
-                                    <span>Bf - Buff</span><span>Gn - Green</span><span>Y - Yellow</span><span>Dib - Dark imperfect black</span>
-                                    <span>Brbl - Brown w/black</span><span>Rbr - Reddish brown</span><span>Lbl - Light black</span><span>Ib - Imperfect black</span>
-                                    <span>G - Gray</span><span>Tn - Tan</span><span>H - Hazel</span><span>Gnbr - Greenish-brown</span>
-                                    <span>Dbf - Dark buff</span><span>W - White</span><span>Lye - Light Yellow</span><span>C - Colorless</span>
-                                </p>
-                            </label>
-                        </div>
-                        <div class="cotyledon-colour category-more" data-name="cotyledonColor">
-                            <label>
-                                <b class="category-title">子叶色:</b>
-                                <span>Gn - Green</span>
-                                <span>Y - Yellow</span>
-                            </label>
-                        </div>
-                        <div class="flower-colour category-more" data-name="flowerColor">
-                            <label>
-                                <b class="category-title">花色:</b>
-                                <span>Lp - Light purple</span>
-                                <span>P - Purple</span>
-                                <span>W - White</span>
-                                <span>Dp - Dark purple</span>
-                            </label>
-                        </div>
-                        <div class="pod-color category-more" data-name="podColor">
-                            <label><b class="category-title">荚色:</b><span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark brown</span><span>Tn - Tan</span><span>Lbr - Light brown</span></label>
-                        </div>
-                        <div class="hair-color category-more" data-name="pubescenceColor">
-                            <label><b class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>
-                        </div>
-                        <div class="yield category-more" data-name="yield">
-                            <label>
-                                <b class="category-title">产量(Mg/ha):</b>
-                                <span>0-1</span>
-                                <span>1-2</span>
-                                <span>2-3</span><span>3-4</span><span>4-5</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="yield" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="apical-leaflet-length category-more" data-name="upperLeafletLength">
-                            <label><b class="category-title">顶端小叶长度(mm):</b><span>20-30</span><span>30-40</span><span>40-50</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="upperLeafletLength" class="btn js-customize-sample">
-                                    确定
-                                </button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="linoleic">
-                            <label><b
-                                    class="category-title">亚油酸(%):</b><span>40-45</span><span>45-50</span><span>50-55</span><span>55-60</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="linoleic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="linolenic">
-                            <label><b
-                                    class="category-title">亚麻酸(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="linolenic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="oleic">
-                            <label><b
-                                    class="category-title">油酸(%):</b><span>5-15</span><span>15-25</span><span>25-35</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="oleic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="palmitic">
-                            <label><b class="category-title">软脂酸(%):</b><span>9-15</span><span>15-21</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="palmitic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
-                        <div class="fatty-acid-content category-more" data-name="stearic">
-                            <label><b class="category-title">硬脂酸(%):</b><span>2-3</span><span>3-6</span></label>
-                            <div class="oil-content-section">
-                                <div class="input-range"><input type="number" min="0"
-                                                                onkeyup="this.value=this.value.replace(/\D/g,'')"> -
-                                    <input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">
-                                </div>
-                                <button type="button" data-name="stearic" class="btn js-customize-sample">确定</button>
-                            </div>
-                        </div>
+                        <%--<div class="plant-height" data-name="height">--%>
+                            <%--<label class="category-content">--%>
+                                <%--<b class="category-title">株高(cm):</b>--%>
+                                <%--<span>20-60</span>--%>
+                                <%--<span>60-100</span>--%>
+                                <%--<span>100-140</span>--%>
+                                <%--<span>140-180</span>--%>
+                            <%--</label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range">--%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="height" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="grain-color " data-name="seedCoatColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">粒色(种皮色):</b>--%>
+                                <%--<p>--%>
+                                    <%--<span>Bl - Black</span><span>Striped</span><span>Y - Yellow</span><span>Ggn - Grayish green</span>--%>
+                                    <%--<span>Gn - Green</span><span>Rbr - Reddish brown</span><span>Br - Brown</span><span>Lgn - Light green</span>--%>
+                                    <%--<span>Ib - Imperfect black</span><span>Gnbr - Greenish brown</span><span>dull yellow with black hila</span><span>dull yellow with imperfect black hila</span>--%>
+                                    <%--<span>Wye - White yellow</span><span>Lye - Light yellow</span>--%>
+                                <%--</p>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="hilum-color category-more" data-name="hilumColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">种脐色:</b>--%>
+                                <%--<p>--%>
+                                    <%--<span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark Brown</span><span>Lbf - Light buff</span>--%>
+                                    <%--<span>Bf - Buff</span><span>Gn - Green</span><span>Y - Yellow</span><span>Dib - Dark imperfect black</span>--%>
+                                    <%--<span>Brbl - Brown w/black</span><span>Rbr - Reddish brown</span><span>Lbl - Light black</span><span>Ib - Imperfect black</span>--%>
+                                    <%--<span>G - Gray</span><span>Tn - Tan</span><span>H - Hazel</span><span>Gnbr - Greenish-brown</span>--%>
+                                    <%--<span>Dbf - Dark buff</span><span>W - White</span><span>Lye - Light Yellow</span><span>C - Colorless</span>--%>
+                                <%--</p>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="cotyledon-colour category-more" data-name="cotyledonColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">子叶色:</b>--%>
+                                <%--<span>Gn - Green</span>--%>
+                                <%--<span>Y - Yellow</span>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="flower-colour category-more" data-name="flowerColor">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">花色:</b>--%>
+                                <%--<span>Lp - Light purple</span>--%>
+                                <%--<span>P - Purple</span>--%>
+                                <%--<span>W - White</span>--%>
+                                <%--<span>Dp - Dark purple</span>--%>
+                            <%--</label>--%>
+                        <%--</div>--%>
+                        <%--<div class="pod-color category-more" data-name="podColor">--%>
+                            <%--<label><b class="category-title">荚色:</b><span>Bl - Black</span><span>Br - Brown</span><span>Dbr - Dark brown</span><span>Tn - Tan</span><span>Lbr - Light brown</span></label>--%>
+                        <%--</div>--%>
+                        <%--<div class="hair-color category-more" data-name="pubescenceColor">--%>
+                            <%--<label><b class="category-title">茸毛色:</b><span>Br - Brown</span><span>T - Tawny</span><span>Lt - Light tawny</span><span>G - Gray</span><span>Ng - Near gray</span></label>--%>
+                        <%--</div>--%>
+                        <%--<div class="yield category-more" data-name="yield">--%>
+                            <%--<label>--%>
+                                <%--<b class="category-title">产量(Mg/ha):</b>--%>
+                                <%--<span>0-1</span>--%>
+                                <%--<span>1-2</span>--%>
+                                <%--<span>2-3</span><span>3-4</span><span>4-5</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="yield" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="apical-leaflet-length category-more" data-name="upperLeafletLength">--%>
+                            <%--<label><b class="category-title">顶端小叶长度(mm):</b><span>20-30</span><span>30-40</span><span>40-50</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="upperLeafletLength" class="btn js-customize-sample">--%>
+                                    <%--确定--%>
+                                <%--</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="linoleic">--%>
+                            <%--<label><b--%>
+                                    <%--class="category-title">亚油酸(%):</b><span>40-45</span><span>45-50</span><span>50-55</span><span>55-60</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="linoleic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="linolenic">--%>
+                            <%--<label><b--%>
+                                    <%--class="category-title">亚麻酸(%):</b><span>0-10</span><span>10-15</span><span>15-20</span><span>20-25</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="linolenic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="oleic">--%>
+                            <%--<label><b--%>
+                                    <%--class="category-title">油酸(%):</b><span>5-15</span><span>15-25</span><span>25-35</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="oleic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="palmitic">--%>
+                            <%--<label><b class="category-title">软脂酸(%):</b><span>9-15</span><span>15-21</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="palmitic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
+                        <%--<div class="fatty-acid-content category-more" data-name="stearic">--%>
+                            <%--<label><b class="category-title">硬脂酸(%):</b><span>2-3</span><span>3-6</span></label>--%>
+                            <%--<div class="oil-content-section">--%>
+                                <%--<div class="input-range"><input type="number" min="0"--%>
+                                                                <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
+                                    <%--<input type="number" min="0" onkeyup="this.value=this.value.replace(/\D/g,'')">--%>
+                                <%--</div>--%>
+                                <%--<button type="button" data-name="stearic" class="btn js-customize-sample">确定</button>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                     </div>
-                    <div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p>
-                    </div>
+                    <%--<div class="retract popCnt1"><p>更多选项(种脐色、花色、产量等)<img src="${ctxStatic}/images/more_unfold.png"></p>--%>
+                    <%--</div>--%>
                     <div id="tagKind" class="kindCnt1">
                         <div style="overflow-x: scroll;height: 419px;">
                             <table style="overflow-x: scroll;" cellpadding="0" cellspacing="0" style="height:268px;">
                                 <thead style="overflow-x: scroll;width:730px;">
                                 <tr>
                                     <th class="paramTag" style="width:42px;"></th>
-                                    <th class="paramTag" style="width:42px;">ID</th>
+                                    <%--<th class="paramTag" style="width:42px;">ID</th>--%>
                                     <th class="paramTag">测序样品编号
                                         <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
                                         <div class="inputComponent">
@@ -1017,7 +1028,7 @@
         </div>
         <div class="choose-default">
             <div class="btn-default">
-                <label><span class="js-choose-all "></span>全选</label>
+                <label><span class="js-choose-all testClass whiteOk" id="allSelected"></span>全选</label>
                 <%--<label class="js-btn-default btn-default-ac"><span></span>默认</label>--%>
             </div>
             <div class="btn-group" style="display: block;">
@@ -1097,7 +1108,36 @@
     </form>
 </div>
 
+<script src="${ctxStatic}/js/laypage/laypage.js"></script>
 <script>
+    //为弹窗出来的ga-ctrl-footer添加hover触发事件 modified by zjt 2018-3-27
+    $(document).ready(function(){
+        var    $sel_page = $("#tab-detail #popu-paginate #per-page-count #select_page"),
+            $sel_default_page = $("#tab-detail #popu-paginate #per-page-count .select_default_page"),
+            $sel_item_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page"),
+            $sel_item_li_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page li");
+        $sel_default_page.val($("#tab-detail #popu-paginate #per-page-count .select_item_page li:first").text());
+        $sel_page.hover(function(){
+            $sel_item_page.show();
+            console.log('hahaha');
+            $sel_default_page.addClass("rotate");
+            $sel_item_li_page.hover(function(){
+                $index_page = $sel_item_li_page.index(this);
+                $sel_item_li_page.eq($index_page).addClass("hover");
+            },function(){
+                $sel_item_li_page.removeClass("hover");
+            })
+        }, function(){
+            $sel_item_page.hide();
+            $sel_default_page.removeClass("rotate");
+        });
+        $sel_item_li_page.click(function(){
+            $sel_default_page.val($(this).text());
+            $sel_item_page.hide();
+        });
+    });
+    //为弹窗出来的ga-ctrl-footer添加hover触发事件 modified by zjt 2018-3-27
+
     $(function () {
         if (window.localStorage) {
             var storage = window.localStorage;
@@ -1131,7 +1171,8 @@
             cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: 0, //通过后台拿到的总页数
             curr: 1, //当前页
-            skin: '#5c8de5',
+            /*skin: '#5c8de5',*/
+            skin: '#0f9145',
             skip: true,
             first: 1, //将首页显示为数字1,。若不显示，设置false即可
             last: 1, //将尾页显示为总页数。若不显示，设置false即可
@@ -1183,20 +1224,23 @@
         $(".colse-sample span").click(function () {
             $(".custom-groups-content").hide();
             $(".cover").hide();
+            //修复input的值 modified by zjt 2018-3-29
+            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+            //修复input的值 modified by zjt 2018-3-29
 //            $(".sample-text").empty();
         });
 
         /* 自定义群体-"更多"展现 */
-        $(".retract p").click(function () {
-            var _dis = $(".hilum-color").css("display");
-            if (_dis == "block") {
-                $(".category-more").hide();
-                $(".retract p").html("更多选项(开花日期、成熟日期、株高等)<img src='${ctxStatic}/images/more_unfold.png'>")
-            } else {
-                $(".category-more").show();
-                $(".retract p").html("收起<img src='${ctxStatic}/images/less.png'>")
-            }
-        });
+        <%--$(".retract p").click(function () {--%>
+            <%--var _dis = $(".hilum-color").css("display");--%>
+            <%--if (_dis == "block") {--%>
+                <%--$(".category-more").hide();--%>
+                <%--$(".retract p").html("更多选项(开花日期、成熟日期、株高等)<img src='${ctxStatic}/images/more_unfold.png'>")--%>
+            <%--} else {--%>
+                <%--$(".category-more").show();--%>
+                <%--$(".retract p").html("收起<img src='${ctxStatic}/images/less.png'>")--%>
+            <%--}--%>
+        <%--});--%>
 
         var populations = []; // 存储自定义群体信息
         var defineDefault = [{
@@ -1417,54 +1461,58 @@
 
         /* 保存群体 */
 
-        $(".sample-screening-btn button").click(function () {
-            //修改输入框border-color modified by zjt 2018-3-14
-            $(".custom-groups-content input[type=number]").each(function () {
-                $(this).css('border-color', '');
-            });
-            //修改输入框border-color modified by zjt 2018-3-14
-
-            var sampleTexts = $(".sample-text").text();
-            if (sampleTexts.length == 0) {
-//                alert("请选择群体!")
-                layer.open({
-                    type: 0,
-                    title: "温馨提示:",
-                    content: "请选择群体",
-                    shadeClose: true,
-                });
-
-                return;
-            }
-            var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
-            if (populations.length + defaultLen < 10) {
-                var arr = [];
-                // popuSamples 存储保存的样本数据
-                for (var i in popuSamples) {
-                    var obj = {};
-                    obj[i] = popuSamples[i];
-                    arr.push(getKeyName(i) + getUnitValue(obj));
-                }
-                var o = {
-                    "name": arr.join(","),
-                    "id": new Date().getTime(),
-                    "condition": getStandardPopulation(popuSamples)
-                };
-//                initPopulations();
-                appendPopulation(o);
-
-                $(".sample-empty").trigger("click");
-            } else {
-//                alert("最多可添加10个群体");
-                layer.open({
-                    type: 0,
-                    title: "温馨提示:",
-                    content: "最多可添加10个群体",
-                    shadeClose: true,
-                });
-            }
-
-        });
+//        $(".sample-screening-btn button").click(function () {
+//            //修改输入框border-color modified by zjt 2018-3-14
+//            $(".custom-groups-content input[type=number]").each(function () {
+//                $(this).css('border-color', '');
+//            });
+//            //修改输入框border-color modified by zjt 2018-3-14
+//
+//            var sampleTexts = $(".sample-text").text();
+//            if (sampleTexts.length == 0) {
+////                alert("请选择群体!")
+//                layer.open({
+//                    type: 0,
+//                    title: "温馨提示:",
+//                    content: "请选择群体",
+//                    shadeClose: true,
+//                });
+//
+//                return;
+//            }
+//            var defaultLen = $(".js-cursom-add2").find(".js-ad-dd").length;
+//            if (populations.length + defaultLen < 10) {
+//                var arr = [];
+//                // popuSamples 存储保存的样本数据
+//                for (var i in popuSamples) {
+//                    var obj = {};
+//                    obj[i] = popuSamples[i];
+//                    arr.push(getKeyName(i) + getUnitValue(obj));
+//                }
+//                // 当前保存群体的顺序
+//                var popLength = $(".js-cursom-add>div.js-ad-dd").length;
+//
+//                var o = {
+//                    "name": arr.join(","),
+////                    "id": new Date().getTime(),
+//                    "id": popLength + 1+ 6,
+//                    "condition": getStandardPopulation(popuSamples)
+//                };
+////                initPopulations();
+//                appendPopulation(o);
+//
+//                $(".sample-empty").trigger("click");
+//            } else {
+////                alert("最多可添加10个群体");
+//                layer.open({
+//                    type: 0,
+//                    title: "温馨提示:",
+//                    content: "最多可添加10个群体",
+//                    shadeClose: true,
+//                });
+//            }
+//
+//        });
 
         // 向自定义群体添加
         function appendPopulation(obj) {
@@ -1510,11 +1558,6 @@
                 $(this).parent().addClass("cur");
             }
             getSelectedPopulations();
-//            if(selectedPopulations.length > 0) {
-//                $(".js-default-add").find("label").removeClass("cur");
-//            } else {
-//                $(".js-default-add").find("label").addClass("cur");
-//            }
         });
 
         // 根据群体生成表格内容设置，和表头
@@ -1627,8 +1670,6 @@
             var self = this;
             $(this).parent().remove();
             var id = $(this).attr("data-index");
-
-//            initPopulations();
             deletePopulation(id);
             getSelectedPopulations();
             // 手动删除品种名时，需要删除localStorage中的值
@@ -1660,11 +1701,9 @@
                 label.removeClass("cur");
             }
             $(".tab-detail").show();
-//            $("#mid").show();
             $(".tab-detail-thead p span").text($(this).text());
 
             popId = $(this).parent("label").attr("data-index");
-//            currPopu = selectPopulation(id)[0];
             if (currVal == "品种名") {
                 currPopu = selectKindVal(popId)[0];
                 var data = {
@@ -1693,27 +1732,34 @@
                 title: "",
                 type: 1,
                 content: $("#tab-detail"),
-                area: ['860px', '250px'],
-//                shade: [0.8, '#393D49'],
+                area: ['860px', '175px'],
                 shadeClose: true,
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                //offset:['200px', '500px']
-                offset: ['135px', '320px']
+                offset: ['135px', '390px']
             });
-
+            $("#popu-paginate .select_default_page").val(10);
 
         });
         var currFlag;
         var index1, index2;
-
+        var choiceArr = [];
+        function getAllChoice(){
+            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
+//            var choiceArr = [];
+            $.each(_labels, function (idx, item) {
+                if ($(item).hasClass("checkbox-ac")) {
+                    choiceArr.push($(item).attr("for"));
+                }
+            });
+        }
+        getAllChoice();
         // 选则品种 之后 详情页
         function getKindInfos(curr) {
             $.ajax({
                 type: 'GET',
                 url: CTXROOT + "/dna/getByCultivar",
-//                data:data,
                 data: {
                     names: kindNames.join(","),
                     pageNum: curr || 1,
@@ -1728,7 +1774,8 @@
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(result.data.total / pageSizePopu), //通过后台拿到的总页数
                         curr: curr || 1, //当前页
-                        skin: '#5c8de5',
+                        /*skin: '#5c8de5',*/
+                        skin: '#0f9145',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
                         last: Math.ceil(result.data.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可
@@ -1780,16 +1827,15 @@
                 title: "",
                 type: 1,
                 content: $("#tab-detail"),
-                area: ['860px', '250px'],
-//                shade: [0.8, '#393D49'],
+                area: ['860px', '175px'],
                 shadeClose: true,
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                //offset:['200px', '500px']
-                offset: ['135px', '320px']
+                offset: ['135px', '390px']
 
             });
+            $("#popu-paginate .select_default_page").val(10);
 
         });
         var popPageNum = 1;
@@ -1801,8 +1847,8 @@
         $("#popu-paginate").on("blur", ".laypage_skip", function () {
             $(this).removeClass("isFocus");
         });
-
-        $("#popu-paginate #per-page-count").on("change", ".lay-per-page-count-select", function () {
+        //modified by zjt 2018-3-27
+        /*$("#popu-paginate #per-page-count").on("change", ".lay-per-page-count-select", function () {
             var curr = Number($(".laypage_curr").text());
             var pageSize = Number($(this).val());
             var total = Number($("#popu-paginate #total-page-count span").text());
@@ -1815,7 +1861,15 @@
                 var pageSizeNum = $(this).val();
                 getPopuTable(curr, pageSizeNum)
             }
+        });*/
+        $("#popu-paginate #per-page-count .select_item_page li").click(function (){
+            var currentSelected = $(this).text();
+            var pageSizeNum = currentSelected;
+            pageSizePopu = currentSelected;
+            //paramData.pageSize = pageSizePopu;
+            getPopuTable(1, pageSizeNum)
         });
+        //modified by zjt 2018-3-27
 
         // 注册 enter 事件的元素
         $(document).keyup(function (event) {
@@ -1854,7 +1908,8 @@
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(res.total / pageSizePopu), //通过后台拿到的总页数
                         curr: curr || 1, //当前页
-                        skin: '#5c8de5',
+                        /*skin: '#5c8de5',*/
+                        skin: '#0f9145',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
                         last: Math.ceil(res.total / pageSizePopu), //将尾页显示为总页数。若不显示，设置false即可
@@ -1927,6 +1982,15 @@
         // 弹框 筛选确认按钮
 
         $(".js-popu-setting-btn").click(function () {
+            // add by jarry at 3-27
+            choiceArr.length = 0;
+            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
+//            var choiceArr = [];
+            $.each(_labels, function (idx, item) {
+                if ($(item).hasClass("checkbox-ac")) {
+                    choiceArr.push($(item).attr("for"));
+                }
+            });
             var _labels = $(".js-table-header-setting-popu").find("label");
             $.each(_labels, function (idx, item) {
                 var cls = "." + $(item).attr("for");
@@ -1958,30 +2022,27 @@
 //            $("#mid").hide();
             layer.close(index1);
             layer.close(index2);
+            //重置页面展示条数 modified by zjt
+            pageSizePopu = 10;
+            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+            //重置页面展示条数 modified by zjt
         });
-
-        /* 群体信息弹框可拖动 ,且弹窗边界动态改变*/
-//        $(".tab-detail").draggable({ containment: "body", cancel: ".popu-table,#popu-paginate", scroll: false });
-//        window.onscroll = scroll;
-//        function scroll() {
-//            $(".tab-detail").draggable({ containment: [window.pageXOffset, window.pageYOffset, window.innerWidth, document.body.clientHeigh] });//滚动后重新计算弹框边界
-//        }
 
         var popuSamples = {}; // 存储选中的样本数据
 
         /* 自定义样本选中 */
-        $("body").on("click", ".sample-category > div span", function () {
-
-            $(this).parent().find("span").removeClass("js-span-ac");
-            $(this).addClass("js-span-ac");
-
-            var sampleName = $(this).parents("label").parent().attr("data-name"),
-                sampleValue = $(this).text();
-            popuSamples[sampleName] = sampleValue;
-            renderSampleText();
-
-            renderSampleCount();
-        });
+//        $("body").on("click", ".sample-category > div span", function () {
+//
+//            $(this).parent().find("span").removeClass("js-span-ac");
+//            $(this).addClass("js-span-ac");
+//
+//            var sampleName = $(this).parents("label").parent().attr("data-name"),
+//                sampleValue = $(this).text();
+//            popuSamples[sampleName] = sampleValue;
+//            renderSampleText();
+//
+//            renderSampleCount();
+//        });
 
         function renderSampleCount() {
             var arr = [];
@@ -2026,7 +2087,6 @@
                 $(item).find(".js-colse-text").trigger("click");
             });
             renderSampleCount();
-//            $(".js-total-samples").html(0);
         });
 
         /* 删除单个样本条件 */
@@ -2046,8 +2106,6 @@
             var percetageArray = ["oil", "protein", "linoleic", "linolenic", "oleic", "palmitic", "stearic"];
             var name = $(this).attr("data-name");
             var _prev = $(this).prev();
-            // var val1 = _prev.find("input").first().val() * 1;
-            // var val2 = _prev.find("input").last().val() * 1;
             var val1 = _prev.find("input").first()[0].value;
             var val2 = _prev.find("input").last()[0].value;
             var str = val1 + "-" + val2;
@@ -2063,7 +2121,6 @@
             if ((val1 != "" && val2 != "") || (val1 == "0" || val2 == "0") && (val1 != "" || val2 != "")) {
                 if ($.inArray($(this).attr("data-name"), percetageArray) > -1) {
                     if ((val1 < 0 || val2 < 0) || val1 > val2 || (val1 > 100 || val2 > 100)) {
-//                        alert("添加的区间数据不合理,如果是百分比则要小于100");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2078,30 +2135,14 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
-                        //modified by zjt 2018-3-13
-                        /*--------raw
-                        if ($.inArray(str, arr) > -1) {
-                            alert("添加区间重复");
-                            input1.style.borderColor = "red";
-                            input2.style.borderColor = "red";
-                        } else {
-                            var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
-                            $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
-                            ss.trigger("click");
-                            input1.style.borderColor = "";
-                            input2.style.borderColor = "";
-                        }
-                        --------raw*/
                         var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                         $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                         ss.trigger("click");
                         input1.style.borderColor = "";
                         input2.style.borderColor = "";
-                        //modified by zjt 2018-3-13
                     }
                 } else {
                     if ((val1 < 0 || val2 < 0) || val1 > val2) {
-//                        alert("添加的区间数据不合理");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2116,26 +2157,11 @@
                         $.each(spans, function (idx, ele) {
                             arr.push($(ele).text());
                         });
-                        //modified by zjt 2018-3-13
-                        /*--------raw
-                        if ($.inArray(str, arr) > -1) {
-                            alert("添加区间重复");
-                            input1.style.borderColor = "red";
-                            input2.style.borderColor = "red";
-                        } else {
-                            var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
-                            $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
-                            ss.trigger("click");
-                            input1.style.borderColor = "";
-                            input2.style.borderColor = "";
-                        }
-                        --------raw*/
                         var ss = $("<span class='hidden' style='display: none;'>" + str + "</span>");
                         $(".sample-category").find("div[data-name='" + name + "']").find("label").first().append(ss);
                         ss.trigger("click");
                         input1.style.borderColor = "";
                         input2.style.borderColor = "";
-                        //modified by zjt 2018-3-13
                     }
                 }
             } else {
@@ -2149,7 +2175,6 @@
                     input1.style.borderColor = "red";
                     input2.style.borderColor = "red";
                 }
-//                alert("输入不能为空");
                 layer.open({
                     type: 0,
                     title: "温馨提示:",
@@ -2169,57 +2194,56 @@
         });
         //modified by zjt 2018-3-13
 
-        /* 显示Samples详细文本 */
-        $(".sample-category div span").hover(function () {
-            if ($(this).text() !== "") {
-                var self = this;
-                var content = "";
-                var obj = {};
-                var sampleName = $(this).parents("label").parent().attr("data-name"),
-                    sampleValue = $(this).text();
-                obj[sampleName] = sampleValue;
-
-                var arr = [];
-                for (var i in obj) {
-                    arr.push(getKeyName(i) + popuSamples[i]);
-                }
-                // 只传单个
-                var obj = {"name": arr.join(","), "condition": getStandardPopulation(obj)};
-                $.ajax({
-                    url: CTXROOT + "/dna/queryByGroup",
-                    data: {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10},
-                    type: "POST",
-                    dataType: "json",
-                    success: function (res) {
-                        content += "<div>" + res.total + "</div>";
-                        $.pt({
-                            target: self,
-                            position: 't',
-                            align: 'l',
-                            autoClose: false,
-                            content: content
-                        });
-                        $(".pt").css("left", $(".pt").position().left);
-                    }
-                });
-
-            } else {
-                $(".pt").remove();
-            }
-        }, function () {
-            $(".pt").remove();
-        });
+//        /* 显示Samples详细文本 */
+//        $(".sample-category div span").hover(function () {
+//            if ($(this).text() !== "") {
+//                var self = this;
+//                var content = "";
+//                var obj = {};
+//                var sampleName = $(this).parents("label").parent().attr("data-name"),
+//                    sampleValue = $(this).text();
+//                obj[sampleName] = sampleValue;
+//
+//                var arr = [];
+//                for (var i in obj) {
+//                    arr.push(getKeyName(i) + popuSamples[i]);
+//                }
+//                // 只传单个
+//                var obj = {"name": arr.join(","), "condition": getStandardPopulation(obj)};
+//                $.ajax({
+//                    url: CTXROOT + "/dna/queryByGroup",
+//                    data: {group: JSON.stringify(obj), pageNo: 1 || 1, pageSize: 10},
+//                    type: "POST",
+//                    dataType: "json",
+//                    success: function (res) {
+//                        content += "<div>" + res.total + "</div>";
+//                        $.pt({
+//                            target: self,
+//                            position: 't',
+//                            align: 'l',
+//                            autoClose: false,
+//                            content: content
+//                        });
+//                        $(".pt").css("left", $(".pt").position().left);
+//                    }
+//                });
+//
+//            } else {
+//                $(".pt").remove();
+//            }
+//        }, function () {
+//            $(".pt").remove();
+//        });
 
         /* 选择搜索基因 */
         $("body").on("click", ".gene-search-list label", function () {
             $(".gene-search-list label").removeClass("checkbox-ac");
-//            var span = $(this).find("span");
             var val = $('input:radio[name="sex"]:checked');
             if ($(this).hasClass("checkbox-ac")) {
                 $(this).removeClass("checkbox-ac");
             } else {
                 $(this).addClass("checkbox-ac");
-                GeneObj.gene = $(this).text().split("_")[0];
+                GeneObj.gene = $(this).text();
             }
         });
 
@@ -2232,7 +2256,6 @@
                 dataType: "json",
                 timeout: 10000,
                 success: function (res) {
-                    debugger;
                     if (res.data.length > 0) {
                         if ($(".gene-search input").hasClass("inputError")) {
                             $(".gene-search input").removeClass("inputError");
@@ -2244,12 +2267,12 @@
                         var len = res.data.length;
                         var str = '';
                         for (var i = 0; i < len; i++) {
-                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">' + res.data[i].geneId + '_' + res.data[i].geneName + '</div><i style="display:none">_' + res.data[i].geneFunction + '</i></label>'
+                            str += '<label><input type="radio" name="radio" class="setRadio"><div class="setLength">' + res.data[i].geneId+'</div><i style="display:none"></i></label>'
                         }
                         $(".gene-search-list").empty().append(str);
                     } else {
                         $(".gene-search-list").empty();
-                        $(".gene-search input").addClass("inputError")
+                        $(".gene-search input").addClass("inputError");
                         $(".errorBoxShow").show();
                     }
                     $(document).on("mouseover mouseout", ".gene-search-list label", function (e) {
@@ -2278,26 +2301,33 @@
             });
         });
 
+        $("#allSelected").click(function(){
+            if($(this).hasClass("whiteOk")){
+                $(this).removeClass("whiteOk").addClass("rightOk");
+//                $("js-clear-btn").trigger("click");
+            }else {
+                $(this).addClass("whiteOk").removeClass("rightOk");
+            }
+        })
+
         /* 导出 */
         $(".js-export-popu").click(function () {
-            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
-            var choiceArr = [];
-            $.each(_labels, function (idx, item) {
-                if ($(item).hasClass("checkbox-ac")) {
-                    var title = $(item).attr("for");
-                    if(title=='time'){
-                        title='definitionTime';
-                    }
-                    choiceArr.push(title);
-                }
-            });
+//            var _labels = $(".popu-checkbox").find(".js-table-header-setting-popu").find("label");
+//            var choiceArr = [];
+//            $.each(_labels, function (idx, item) {
+//                if ($(item).hasClass("checkbox-ac")) {
+//                    var title = $(item).attr("for");
+//                    if(title=='time'){
+//                        title='definitionTime';
+//                    }
+//                    choiceArr.push(title);
+//                }
+//            });
+            console.log(choiceArr)
             $("#exportForm").find(".group").val(JSON.stringify(currPopu));
             $("#exportForm").find(".choices").val(choiceArr.join(","));
             $("#exportForm").find(".flag").val(currFlag);
             $("#exportForm").find(".kindFlag").val(kindNames.join(","));
-
-//            $("#exportForm").find(".kindFlag").val($(""));
-
             $("#exportForm").submit();
 
         });
@@ -2307,7 +2337,6 @@
             $(".js-end-position").attr("placeholder", "<=" + chromosomeMax);
         }
 
-        linkEndPosition();
         $(".js-chorosome").change(function () {
             linkEndPosition();
         });
@@ -2318,9 +2347,7 @@
             "start": "",
             "end": ""
         }, GeneObj = {
-            "gene": "",
-            "upstream": "",
-            "downstream": ""
+            "gene": ""
         };
 
 //        根据id获取选中的品种名
@@ -2363,14 +2390,11 @@
             $.each($(".js-cursom-add").find(".js-ad-dd"), function (idx, element) {
                 if ($(element).find("label").hasClass("cur")) {
                     var id = $(element).find("label").attr("data-index");
-//                    var selectedItem = populations.slice(idx*1, idx*1+1);
-//                    modify by wjshan begin
-                    if ($(element).find("label").find("div").text().substring(0, 3) == "品种名") {
+                    if ($(element).find("label").find("div").text().substring(0, 6) == "测序样品编号") {
                         var selectedItem = selectKindVal(id);
                     } else {
                         var selectedItem = selectPopulation(id);
                     }
-//                    modify by wjshan end
                     selectedPopulations.push(selectedItem[0]);
                 }
             });
@@ -2399,7 +2423,6 @@
                     RegionObj["group"] = JSON.stringify([]);
                 }
                 if (RegionObj.start == "" || RegionObj.end == "") {
-//                    return alert("输入不能为空");
                     layer.open({
                         type: 0,
                         title: "温馨提示:",
@@ -2410,7 +2433,6 @@
                 }
                 if (!isNaN(RegionObj.start * 1) && !isNaN(RegionObj.end * 1)) {
                     if (RegionObj.start * 1 < 0 || RegionObj.end * 1 < 0) {
-//                        return alert("输入数字应大于0");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2420,7 +2442,6 @@
                         return;
                     }
                     if (RegionObj.start * 1 > chromosomeMax * 1 || RegionObj.end * 1 > chromosomeMax * 1) {
-//                        return alert("输入值超过该基因最大值");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2430,7 +2451,6 @@
                         return;
                     }
                     if (RegionObj.start * 1 > RegionObj.end * 1) {
-//                        return alert("StartPosition应小于EndPosition");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2445,7 +2465,6 @@
 //                    }
                     return RegionObj;
                 } else {
-//                    alert("请输入数字");
                     layer.open({
                         type: 0,
                         title: "温馨提示:",
@@ -2455,8 +2474,8 @@
                 }
             },
             getGeneParams: function () {
-                GeneObj.upstream = $(".js-up-stream").val();
-                GeneObj.downstream = $(".js-down-stream").val();
+                GeneObj.start = $(".js-up-stream").val();
+                GeneObj.end = $(".js-down-stream").val();
                 if (selectedPopulations.length > 0) {
                     GeneObj["group"] = JSON.stringify(selectedPopulations);
                 } else {
@@ -2464,12 +2483,8 @@
 //                    GeneObj["group"] = JSON.stringify([]);
                 }
 //
-                if (GeneObj.upstream == "") {
-                    delete GeneObj["upstream"];
-                } else {
-                    if (!isNaN(GeneObj.upstream * 1)) {
-                        if (GeneObj.upstream * 1 > 20000) {
-//                            return alert("输入范围值要小于20kb");
+                    if (!isNaN(GeneObj.start * 1)) {
+                        if (GeneObj.start * 1 > 20000) {
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2477,8 +2492,7 @@
                                 shadeClose: true,
                             });
                             return;
-                        } else if (GeneObj.upstream * 1 < 0) {
-//                            return alert("输入数字应大于0");
+                        } else if (GeneObj.start * 1 < 0) {
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2488,7 +2502,6 @@
                             return;
                         }
                     } else {
-//                        return alert("请输入数字");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2497,13 +2510,8 @@
                         });
                         return;
                     }
-                }
-                if (GeneObj.downstream == "") {
-                    delete GeneObj["downstream"];
-                } else {
-                    if (!isNaN(GeneObj.downstream * 1)) {
-                        if (GeneObj.downstream * 1 > 20000) {
-//                            return alert("输入范围值要小于20kb");
+                    if (!isNaN(GeneObj.end * 1)) {
+                        if (GeneObj.end * 1 > 20000) {
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2511,8 +2519,7 @@
                                 shadeClose: true,
                             });
                             return;
-                        } else if (GeneObj.downstream * 1 < 0) {
-//                            return alert("输入数字应大于0");
+                        } else if (GeneObj.end * 1 < 0) {
                             layer.open({
                                 type: 0,
                                 title: "温馨提示:",
@@ -2522,7 +2529,6 @@
                             return;
                         }
                     } else {
-//                        return alert("请输入数字");
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
@@ -2531,7 +2537,6 @@
                         });
                         return;
                     }
-                }
 //                if(GeneObj.upstream*1 < GeneObj.downstream*1) {
 //                    return alert("输入范围值不合理");
 //                }

@@ -14,29 +14,27 @@
     <description>DNA Module</description>
 
     <profiles>
-        <!-- 开发环境 -->
         <profile>
-            <id>dev</id>
+            <id>dna-dev</id>
             <properties>
                 <profiles.active>development</profiles.active>
             </properties>
+            <!-- 这里可以默认启动,也可以根据maven中输入启动 -->
             <activation>
                 <activeByDefault>true</activeByDefault>
             </activation>
         </profile>
-        <!-- 测试环境 -->
         <profile>
-            <id>test</id>
+            <id>dna-homeDev</id>
             <properties>
-                <profiles.active>test</profiles.active>
+                <profiles.active>homeDevelopment</profiles.active>
             </properties>
-        </profile>
-        <!-- 生产环境 -->
-        <profile>
-            <id>production</id>
-            <properties>
-                <profiles.active>production</profiles.active>
-            </properties>
+            <activation>
+                <property>
+                    <name>enable_dev</name>
+                    <value>true</value>
+                </property>
+            </activation>
         </profile>
     </profiles>
 
@@ -56,22 +54,10 @@
             <artifactId>spring-webmvc</artifactId>
             <version>${spring.version}</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-
-            <version>2.8.2</version>
-        </dependency>
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.jayway.jsonpath</groupId>
-            <artifactId>json-path</artifactId>
-            <version>2.2.0</version>
+            <version>${JsonPath.version}</version>
         </dependency>
 
     </dependencies>
@@ -82,8 +68,7 @@
                 <directory>src/main/resources</directory>
                 <excludes>
                     <exclude>development/*</exclude>
-                    <exclude>production/*</exclude>
-                    <exclude>test/*</exclude>
+                    <exclude>homeDevelopment/*</exclude>
                 </excludes>
             </resource>
             <resource>

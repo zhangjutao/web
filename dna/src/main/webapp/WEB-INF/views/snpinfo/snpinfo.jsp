@@ -10,7 +10,7 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=0">
-    <title>群体信息</title>
+    <title>信息</title>
     <link rel="stylesheet" href="${ctxStatic}/css/public.css">
     <link rel="stylesheet" href="${ctxStatic}/css/DNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/snpinfo.css">
@@ -42,7 +42,7 @@
         <div id="snpSearch">
             <p class="tipTil">SNP/INDEL ID:</p>
             <p class="searchBox">
-                <input type="text" placeholder="请输入你要进行搜索的内容进行搜索" />
+                <input type="text" placeholder="请输入关键词" />
             </p>
             <p class="searBtn">
                 <span>
@@ -162,78 +162,126 @@
                         <div id="selectedDetails">
                             <ul>
                                 <li>
-                                    <input type="checkbox" name="cultivar" class="cultivar" checked="checked"> 品种名
+                                    <input type="checkbox" name="runNo" class="runNo" checked="checked"> 测序样品编号
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> Genotype
-                                </li>
-                                <li>
-                                    <%--无--%>
-                                    <input type="checkbox" name="group" class="group" checked="checked"> 群体
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="species" class="species" checked="checked"> 物种
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="locality" class="locality" checked="checked"> 位置
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="sampleName" class="sampleName" checked="checked"> 样品名
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="weightPer100seeds" class="weightPer100seeds" checked="checked"> 百粒重
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="protein" class="protein" checked="checked"> 蛋白质含量
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="oil" class="oil" checked="checked"> 含油量
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="maturityDate" class="maturityDate" checked="checked"> 熟期组
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="height" class="height" checked="checked"> 株高
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="seedCoatColor" class="seedCoatColor" checked="checked"> 种皮色
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="hilumColor" class="hilumColor" checked="checked"> 种脐色
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="cotyledonColor" class="cotyledonColor" checked="checked"> 子叶色
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="flowerColor" class="flowerColor" checked="checked"> 花色
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="podColor" class="podColor" checked="checked"> 荚色
-                                </li>
-                                <li>
-                                    <input type="checkbox" name="pubescenceColor" class="pubescenceColor" checked="checked"> 茸毛色
+                                    <input type="checkbox" name="genotype" class="genoType" checked="checked"> Genotype
                                 </li>
                                 <li>
                                     <%--无--%>
-                                    <input type="checkbox" name="yield" class="yield" checked="checked"> 茸毛色
+                                    <input type="checkbox" name="scientificName" class="scientificName" checked="checked"> 物种名称
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="upperLeafletLength" class="upperLeafletLength" checked="checked"> 顶端小叶长度
+                                    <input type="checkbox" name="sampleId" class="sampleId" checked="checked"> 编号
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="linoleic" class="linoleic" checked="checked">亚油酸
+                                    <input type="checkbox" name="strainName" class="strainName" checked="checked"> 菌株名称
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="linolenic" class="linolenic" checked="checked"> 亚麻酸
+                                    <input type="checkbox" name="locality" class="locality" checked="checked"> 地理位置
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="oleic" class="oleic" checked="checked"> 油酸
+                                    <input type="checkbox" name="preservationLocation" class="preservationLocation" checked="checked">保藏地点
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="palmitic" class="palmitic" checked="checked"> 软脂酸
+                                    <input type="checkbox" name="type" class="type" checked="checked"> 类型
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="stearic" class="stearic" checked="checked"> 硬脂酸
+                                    <input type="checkbox" name="environment" class="environment" checked="checked"> 培养环境
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="materials" class="materials" checked="checked"> 材料
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="treat" class="treat" checked="checked"> 处理
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="time" class="time" checked="checked"> 时间
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="taxonomy" class="taxonomy" checked="checked"> 分类地位
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="myceliaPhenotype" class="myceliaPhenotype" checked="checked"> 菌丝形态
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="myceliaDiameter" class="myceliaDiameter" checked="checked"> 菌丝直径
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="myceliaColor" class="myceliaColor" checked="checked"> 菌丝颜色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="sporesColor" class="sporesColor" checked="checked"> 孢子颜色
+                                </li>
+                                <li>
+                                    <%--无--%>
+                                    <input type="checkbox" name="sporesShape" class="sporesShape" checked="checked"> 孢子形态
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="clampConnection" class="clampConnection" checked="checked"> 锁状联合
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="pileusPhenotype" class="pileusPhenotype" checked="checked">菌盖形态
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="pileusColor" class="pileusColor" checked="checked"> 菌盖颜色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stipePhenotype" class="stipePhenotype" checked="checked"> 菌柄形态
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="stipeColor" class="stipeColor" checked="checked"> 菌柄颜色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="fruitbodyColor" class="fruitbodyColor" checked="checked"> 子实体颜色
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="fruitbodyType" class="fruitbodyType" checked="checked"> 子实体形态
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="illumination" class="illumination" checked="checked"> 光照
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="collarium" class="collarium" checked="checked">菌环
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="volva" class="volva" checked="checked">菌托
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="velum" class="velum" checked="checked">菌幕
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="sclerotium" class="sclerotium" checked="checked">菌核
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="strainMedium" class="strainMedium" checked="checked">菌种培养基
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="mainSubstrate" class="mainSubstrate" checked="checked">主要栽培基质
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="afterRipeningStage" class="afterRipeningStage" checked="checked">后熟期
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="primordialStimulationFruitbody" class="primordialStimulationFruitbody" checked="checked">原基刺激&子实体
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="reproductiveMode" class="reproductiveMode" checked="checked">生殖方式
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="lifestyle" class="lifestyle" checked="checked">生活方式
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="preservation" class="preservation" checked="checked">保藏方法
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="domestication" class="domestication" checked="checked">驯化
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="nuclearPhase" class="nuclearPhase" checked="checked">核相
+                                </li>
+                                <li>
+                                    <input type="checkbox" name="matingType" class="matingType" checked="checked">交配型
                                 </li>
                             </ul>
                             <div>
@@ -263,338 +311,459 @@
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
             </div>
-            <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
-                <thead style="overflow-x: scroll;">
-                <tr style="background: #F5F8FF;">
-                    <th class="param cultivarT">品种名
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="cultivarI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param genoTypeT">Genotype
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="genoTypeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param groupT popMoveOnNewAdd" style="position:relative;">群体
-                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo" style="width: 15px;vertical-align: middle;">
-                        <div class="popNamesNewAdd">
-                            <ul style="margin-top:10px;">
-                                <li>Q1</li>
-                                <li>Q2</li>
-                                <li>Q3</li>
-                                <li>Q4</li>
-                                <li>Q5</li>
-                                <li>Q6</li>
-                                <li>Q7</li>
-                                <li>Q8</li>
-                                <li>Q9</li>
-                                <li>Q10</li>
-                            </ul>
-                        </div>
-                    </th>
-                    <th class="param speciesT">物种
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="speciesI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param localityT">位置
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="localityI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param sampleNameT">样品名
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sampleNameI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param weightPer100seedsT">百粒重(g)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="weightPer100seedsI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param proteinT">蛋白质含量(%)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="proteinI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param oilT">含油量(%)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="oilI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param maturityDateT">熟期组
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="maturityDateI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param heightT">株高(cm)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="heightI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param seedCoatColorT">种皮色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="seedCoatColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param hilumColorT">种脐色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="hilumColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param cotyledonColorT">子叶色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="cotyledonColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param flowerColorT">花色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="flowerColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param podColorT">荚色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="podColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param pubescenceColorT">茸毛色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="pubescenceColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param yieldT">产量(Mg/ha)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="yieldI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param upperLeafletLengthT">顶端小叶长度(mm)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="upperLeafletLengthI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param linoleicT">亚油酸(%)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="linoleicI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param linolenicT">亚麻酸(%)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="linolenicI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param oleicT">油酸(%)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="oleicI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param palmiticT">软脂酸(%)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="palmiticI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param stearicT">硬脂酸(%)
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <select class="selectOperate">
-                                <option value="" selected="selected"></option>
-                                <option value="<"> < </option>
-                                <option value="="> = </option>
-                                <option value=">"> > </option>
-                            </select>
-                            <br>
-                            <input type="text" placeholder="请输入" class="stearicI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+            <div style="overflow-x: scroll;overflow-y: hidden; min-height:200px;">
+                <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
+                    <thead style="overflow-x: scroll;">
+                    <tr style="background: #F5F8FF;">
+                    <tr>
+                        <th class="param runNoT">测序样品编号
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="runNoI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param genoTypeT">Genotype
+                            <img src="/dna/static/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="genoTypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param scientificNameT">物种名称
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="scientificNameI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param sampleIdT">编号
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sampleIdI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param strainNameT">菌株名称
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="strainNameI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param localityT">地理位置
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="localityI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param preservationLocationT">保藏地点
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入"
+                                       class="preservationLocationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param typeT">类型
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="typeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param environmentT">培养环境
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="environmentI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param materialsT">材料
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="materialsI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param treatT">处理
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="treatI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <%--<th class="paramTag popMoveOn" style="position:relative;">时间--%>
+                        <%--<img src="/dna/static/images/arrow-drop-down.png" alt="logo"--%>
+                        <%--style="width: 15px;vertical-align: middle;">--%>
+                        <%--<div class="popNames">--%>
+                        <%--<ul>--%>
+                        <%--<li>Q1</li>--%>
+                        <%--<li>Q2</li>--%>
+                        <%--<li>Q3</li>--%>
+                        <%--<li>Q4</li>--%>
+                        <%--<li>Q5</li>--%>
+                        <%--<li>Q6</li>--%>
+                        <%--<li>Q7</li>--%>
+                        <%--<li>Q8</li>--%>
+                        <%--<li>Q9</li>--%>
+                        <%--<li>Q10</li>--%>
+                        <%--</ul>--%>
+                        <%--</div>--%>
+                        <%--</th>--%>
+                        <th class="param timeT">时间
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="timeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param taxonomyT">分类地位
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="taxonomyI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param myceliaPhenotypeT">菌丝形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="myceliaPhenotypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param myceliaDiameterT">菌丝直径
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="myceliaDiameterI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param myceliaColorT">菌丝颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="myceliaColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param sporesColorT">孢子颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sporesColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param sporesShapeT">孢子形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sporesShapeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param clampConnectionT">锁状联合
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="clampConnectionI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param pileusPhenotypeT">菌盖形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="pileusPhenotypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param pileusColorT">菌盖颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="pileusColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param stipePhenotypeT">菌柄形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="stipePhenotypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param stipeColorT">菌柄颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="stipeColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param fruitbodyColorT">子实体颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="fruitbodyColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param fruitbodyTypeT">子实体形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="fruitbodyTypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param illuminationT">光照
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="illuminationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param collariumT">菌环
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="collariumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param volvaT">菌托
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="volvaI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param velumT">菌幕
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="velumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param sclerotiumT">菌核
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sclerotiumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param strainMediumT">菌种培养基
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="strainMediumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param mainSubstrateT">主要栽培基质
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="mainSubstrateI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param afterRipeningStageT">后熟期
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="afterRipeningStageI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param primordialStimulationFruitbodyT">原基刺激&子实体
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入"
+                                       class="primordialStimulationFruitbodyI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param reproductiveModeT">生殖方式
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="reproductiveModeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param lifestyleT">生活方式
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="lifestyleI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param preservationT">保藏方法
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="preservationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param domesticationT">驯化
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="domesticationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                        <th class="param nuclearPhaseT">核相
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="nuclearPhaseI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param matingTypeT">交配型
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="matingTypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
 
         </div>
         <%--laypage 分页 插件  begin--%>
@@ -781,7 +950,6 @@
         var currPageNumber = 1;
         //ajax 请求
         function getData(data,curr,fn){
-            console.warn(data)
             $.ajax({
                 type:"GET",
                 url:ctxRoot + "/dna/changeByProportion",
@@ -804,64 +972,98 @@
                                 $("#snpInforsPage").show();
                             }
                             totalDatas = result.data.dnaRuns.list;
-                            $("#snpinfoTable table tbody tr").remove();
+                            $("#snpinfoTable table tbody").empty();
 
                             nums = Math.ceil(count / page.pageSize);
                             //舍弃小数之后的取整
                             intNums = parseInt(count / page.pageSize);
                             var dnaSamples = result.data.samples;
                             for (var i=0;i<totalDatas.length;i++){
-                                GenoType = dnaSamples[totalDatas[i].runNo];
-                                var cultivarTV = totalDatas[i].cultivar==null?"":totalDatas[i].cultivar;
-                                var genoTypeTV = GenoType==null?"-":GenoType;
-                                var groupTV = totalDatas[i].group==null?"-":totalDatas[i].group;
-                                var speciesTV = totalDatas[i].species==null?"":totalDatas[i].species;
-                                var localityTV = totalDatas[i].locality==null?"":totalDatas[i].locality;
-                                var sampleNameTV = totalDatas[i].sampleName==null?"":totalDatas[i].sampleName;
-                                var weightPer100seedsTV = totalDatas[i].weightPer100seeds==null?"":totalDatas[i].weightPer100seeds;
-                                var proteinTV = totalDatas[i].protein==null?"":totalDatas[i].protein;
-                                var oilTV = totalDatas[i].oil==null?"":totalDatas[i].oil;
-                                var maturityDateTV = totalDatas[i].maturityDate==null?"":totalDatas[i].maturityDate;
-                                var heightTV = totalDatas[i].height==null?"":totalDatas[i].height
-                                var seedCoatColorTV = totalDatas[i].seedCoatColor==null?"":totalDatas[i].seedCoatColor;
-                                var hilumColorTV  = totalDatas[i].hilumColor==null?"":totalDatas[i].hilumColor;
-                                var cotyledonColorTV = totalDatas[i].cotyledonColor==null?"":totalDatas[i].cotyledonColor;
-                                var flowerColorTV = totalDatas[i].flowerColor==null?"":totalDatas[i].flowerColor;
-                                var podColorTV = totalDatas[i].podColor==null?"":totalDatas[i].podColor;
-                                var pubescenceColorTV = totalDatas[i].pubescenceColor ==null?"":totalDatas[i].pubescenceColor;
-                                var yieldTV = totalDatas[i].yield==null?"":totalDatas[i].yield;
-                                var upperLeafletLengthTV = totalDatas[i].upperLeafletLength==null?"":totalDatas[i].upperLeafletLength;
-                                var linoleicTV = totalDatas[i].linoleic==null?"":totalDatas[i].linoleic;
-                                var linolenicTV = totalDatas[i].linolenic==null?"":totalDatas[i].linolenic;
-                                var oleicTV = totalDatas[i].oleic==null?"":totalDatas[i].oleic;
-                                var palmiticTV = totalDatas[i].palmitic==null?"":totalDatas[i].palmitic;
-                                var stearicTV = totalDatas[i].stearic==null?"":totalDatas[i].stearic;
 
-                                var tr = "<tr><td class='param cultivarT'>" + cultivarTV +
-                                    "</td><td class='param genoTypeT'>" + genoTypeTV +
-                                    "</td><td class='param groupT'>" + groupTV +
-                                    "</td><td class='param speciesT'>" + speciesTV+
-                                    "</td><td class='param localityT'>" + localityTV +
-                                    "</td><td class='param sampleNameT'>" + sampleNameTV +
-                                    "</td><td class='param weightPer100seedsT'>" + weightPer100seedsTV +
-                                    "</td><td class='param proteinT'>" + proteinTV +
-                                    "</td><td class='param oilT'>" + oilTV +
-                                    "</td><td class='param maturityDateT'>" + maturityDateTV +
-                                    "</td><td class='param heightT'>" + heightTV +
-                                    "</td><td class='param seedCoatColorT'>" + seedCoatColorTV +
-                                    "</td><td class='param hilumColorT'>" + hilumColorTV +
-                                    "</td><td class='param cotyledonColorT'>" + cotyledonColorTV +
-                                    "</td><td class='param flowerColorT'>" +flowerColorTV +
-                                    "</td><td class='param podColorT'>" + podColorTV +
-                                    "</td><td class='param pubescenceColorT'>" + pubescenceColorTV +
-                                    "</td><td class='param yieldT'>" + yieldTV +
-                                    "</td><td class='param upperLeafletLengthT'>" + upperLeafletLengthTV +
-                                    "</td><td class='param linoleicT'>" + linoleicTV +
-                                    "</td><td class='param linolenicT'>" + linolenicTV +
-                                    "</td><td class='param oleicT'>" + oleicTV +
-                                    "</td><td class='param palmiticT'>" + palmiticTV +
-                                    "</td><td class='param stearicT'>" + stearicTV +"</td></tr>"
-                                var $tbody = $("#snpinfoTable table tbody");
+                                var runNoT = totalDatas[i].runNo==null?"":totalDatas[i].runNo;  // 测序样品编号
+                                var genoTypeT = dnaSamples[totalDatas[i].runNo];
+                                var scientificNameT = totalDatas[i].scientificName==null?"":totalDatas[i].scientificName;  // 物种名称
+                                var sampleIdT = totalDatas[i].sampleId==null?"":totalDatas[i].sampleId;  // 编号
+                                var strainNameT = totalDatas[i].strainName==null?"":totalDatas[i].strainName; // 菌株名称
+                                var localityT = totalDatas[i].locality==null?"":totalDatas[i].locality;  //地理位置
+                                var preservationLocationT = totalDatas[i].preservationLocation==null?"":totalDatas[i].preservationLocation;  //保藏地点
+                                var typeT = totalDatas[i].type==null?"":totalDatas[i].type;  //类型
+                                var environmentT = totalDatas[i].environment==null?"":totalDatas[i].environment;  //培养环境
+                                var materialsT = totalDatas[i].materials==null?"":totalDatas[i].materials;  //材料
+                                var treatT = totalDatas[i].treat==null?"":totalDatas[i].treat  //处理
+                                var timeT = totalDatas[i].definitionTime==null?"":totalDatas[i].definitionTime;  //采集时间
+                                var taxonomyT  = totalDatas[i].taxonomy==null?"":totalDatas[i].taxonomy;  //分类地位
+                                var myceliaPhenotypeT = totalDatas[i].myceliaPhenotype==null?"":totalDatas[i].myceliaPhenotype;  //菌丝形态
+                                var myceliaDiameterT = totalDatas[i].myceliaDiameter==null?"":totalDatas[i].myceliaDiameter;  //菌丝直径
+                                var myceliaColorT = totalDatas[i].myceliaColor==null?"":totalDatas[i].myceliaColor;  //菌丝颜色
+                                var sporesColorT = totalDatas[i].sporesColor ==null?"":totalDatas[i].sporesColor;  //孢子颜色
+                                var sporesShapeT = totalDatas[i].sporesShape==null?"":totalDatas[i].sporesShape;  //孢子形态
+                                var clampConnectionT = totalDatas[i].clampConnection==null?"":totalDatas[i].clampConnection;   //锁状联合
+                                var pileusPhenotypeT = totalDatas[i].pileusPhenotype==null?"":totalDatas[i].pileusPhenotype;  //菌盖形态
+                                var pileusColorT = totalDatas[i].pileusColor==null?"":totalDatas[i].pileusColor;  //菌盖颜色
+                                var stipePhenotypeT = totalDatas[i].stipePhenotype==null?"":totalDatas[i].stipePhenotype;  //菌柄形态
+                                var stipeColorT = totalDatas[i].stipeColor==null?"":totalDatas[i].stipeColor;  //菌柄颜色
+                                var fruitbodyColorT = totalDatas[i].fruitbodyColor==null?"":totalDatas[i].fruitbodyColor;  //子实体颜色
+                                var fruitbodyTypeT = totalDatas[i].fruitbodyType==null?"":totalDatas[i].fruitbodyType;  //子实体形态
+                                var illuminationT = totalDatas[i].illumination==null?"":totalDatas[i].illumination;  //光照
+                                var collariumT = totalDatas[i].collarium==null?"":totalDatas[i].collarium;  //菌环
+                                var volvaT = totalDatas[i].volva==null?"":totalDatas[i].volva;  //菌托
+                                var velumT = totalDatas[i].velum==null?"":totalDatas[i].velum;  //菌幕
+                                var sclerotiumT = totalDatas[i].sclerotium==null?"":totalDatas[i].sclerotium;  //菌核
+                                var strainMediumT = totalDatas[i].strainMedium==null?"":totalDatas[i].strainMedium;  //菌种培养基
+                                var mainSubstrateT = totalDatas[i].mainSubstrate==null?"":totalDatas[i].mainSubstrate;  //主要栽培基质
+                                var afterRipeningStageT = totalDatas[i].afterRipeningStage==null?"":totalDatas[i].afterRipeningStage;  //后熟期
+                                var primordialStimulationFruitbodyT = totalDatas[i].primordialStimulationFruitbody==null?"":totalDatas[i].primordialStimulationFruitbody;  //原基刺激&子实体
+                                var reproductiveModeT = totalDatas[i].reproductiveMode==null?"":totalDatas[i].reproductiveMode;  //生殖方式
+                                var lifestyleT = totalDatas[i].lifestyle==null?"":totalDatas[i].lifestyle;  //生活方式
+                                var preservationT = totalDatas[i].preservation==null?"":totalDatas[i].preservation;  //保藏方法
+                                var domesticationT = totalDatas[i].domestication==null?"":totalDatas[i].domestication;  //驯化
+                                var nuclearPhaseT = totalDatas[i].nuclearPhase==null?"":totalDatas[i].nuclearPhase;  //核相
+                                var matingTypeT = totalDatas[i].matingType==null?"":totalDatas[i].matingType;  //交配型
+
+                                var tr = "<tr>" +
+                                    "<td class='paramTag runNoT'>" + runNoT+
+                                    "</td><td class='paramTag genoTypeT'>" + genoTypeT+
+                                    "</td><td class='paramTag scientificNameT'>" + scientificNameT+
+                                    "</td><td class='paramTag sampleIdT'>" + sampleIdT+
+                                    "</td><td class='paramTag strainNameT'>" + strainNameT +
+                                    "</td><td class='paramTag localityT'>" + localityT +
+                                    "</td><td class='paramTag preservationLocationT'>" + preservationLocationT +
+                                    "</td><td class='paramTag typeT'>" + typeT +
+                                    "</td><td class='paramTag environmentT'>" + environmentT +
+                                    "</td><td class='paramTag materialsT'>" + materialsT +
+                                    "</td><td class='paramTag treatT'>" + treatT +
+                                    "</td><td class='paramTag timeT'>" + timeT +
+                                    "</td><td class='paramTag taxonomyT'>" + taxonomyT +
+                                    "</td><td class='paramTag myceliaPhenotypeT'>" + myceliaPhenotypeT +
+                                    "</td><td class='paramTag myceliaDiameterT'>" +myceliaDiameterT +
+                                    "</td><td class='paramTag myceliaColorT'>" + myceliaColorT +
+                                    "</td><td class='paramTag sporesColorT'>" + sporesColorT +
+                                    "</td><td class='paramTag sporesShapeT'>" + sporesShapeT +
+                                    "</td><td class='paramTag clampConnectionT'>" + clampConnectionT +
+                                    "</td><td class='paramTag pileusPhenotypeT'>" + pileusPhenotypeT +
+                                    "</td><td class='paramTag pileusColorT'>" + pileusColorT +
+                                    "</td><td class='paramTag stipePhenotypeT'>" + stipePhenotypeT +
+                                    "</td><td class='paramTag stipeColorT'>" + stipeColorT +
+                                    "</td><td class='paramTag fruitbodyColorT'>" + fruitbodyColorT +"</td>" +
+                                    "<td class='paramTag fruitbodyTypeT'>" + fruitbodyTypeT +"</td>"+
+                                    "<td class='paramTag illuminationT'>" + illuminationT +"</td>"+
+                                    "<td class='paramTag collariumT'>" + collariumT +"</td>"+
+                                    "<td class='paramTag volvaT'>" + volvaT +"</td>"+
+                                    "<td class='paramTag velumT'>" + velumT +"</td>"+
+                                    "<td class='paramTag sclerotiumT'>" + sclerotiumT +"</td>"+
+                                    "<td class='paramTag strainMediumT'>" + strainMediumT +"</td>"+
+                                    "<td class='paramTag mainSubstrateT'>" + mainSubstrateT +"</td>"+
+                                    "<td class='paramTag afterRipeningStageT'>" + afterRipeningStageT +"</td>"+
+                                    "<td class='paramTag primordialStimulationFruitbodyT'>" + primordialStimulationFruitbodyT +"</td>"+
+                                    "<td class='paramTag reproductiveModeT'>" + reproductiveModeT +"</td>"+
+                                    "<td class='paramTag lifestyleT'>" + lifestyleT +"</td>"+
+                                    "<td class='paramTag preservationT'>" + preservationT +"</td>"+
+                                    "<td class='paramTag domesticationT'>" + domesticationT +"</td>"+
+                                    "<td class='paramTag nuclearPhaseT'>" + nuclearPhaseT +"</td>"+
+                                    "<td class='paramTag matingTypeT'>" + matingTypeT +"</td>"+
+                                    "</tr>"
+                                var $tbody =  $("#snpinfoTable table tbody")
                                 $tbody.append(tr);
                             }
                             if(stateType == "ind"){
@@ -884,7 +1086,8 @@
                         cont: $('#snpInforsPage .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(count /  page.pageSize), //通过后台拿到的总页数
                         curr: curr || 1, //当前页
-                        skin: '#5c8de5',
+                        /*skin: '#5c8de5',*/
+                        skin: '#0f9145',
                         skip: true,
                         first: 1, //将首页显示为数字1,。若不显示，设置false即可
                         last: Math.ceil(count /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
@@ -1050,61 +1253,66 @@
 //        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
             $(this).parent().parent().find("input").val("");
             $(this).parent().parent().hide();
+            //重新获取数据 modified by zjt 2018-3-29
+            var selectedDatas1 = snpGetParams(changeParam);
+            selectedDatas1.pageNum = 1;                 //回到第一页
+            selectedDatas1.pageSize = 10;
+            page.pageSize = selectedDatas1.pageSize;
+            paramData.pageNum = selectedDatas1.pageNum;
+            paramData.pageSize = selectedDatas1.pageSize;
+            selectedDatas1.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            $('#snpInforsPage .ga-ctrl-footer .select_default_page').val(10);
+            console.log(selectedDatas1)
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);
+            //重新获取数据 modified by zjt 2018-3-29
         })
         // 群体信息
         var popuSelectedVal="";
         // 获取参数
         function snpGetParams(type){
-            var datas = {
-                snpId: $(".snpId").text(),
+            var datas={
                 changeParam:type,
-                cultivar:$(".cultivarI").val(),  // 品种名
-                group:popuSelectedVal, // 群体
-                species:$(".speciesI").val(),// 物种
-                locality:$(".localityI").val(), // 位置
-                sampleName:$(".sampleNameI").val(), // 样品名
-                // weightPer100seeds:$(".weightPer100seedsI").val(),//百粒重
-                "weightPer100seeds.operation":$(".weightPer100seedsI").parent().find("option:selected").text().trim() == ">"?"gt":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="="?"eq":$(".weightPer100seedsI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "weightPer100seeds.value":$(".weightPer100seedsI").val(),
-                // protein:$(".proteinI").val(), //蛋白质含量
-                "protein.operation":$(".proteinI").parent().find("option:selected").text().trim() == ">"?"gt":$(".proteinI").parent().find("option:selected").text().trim()=="="?"eq":$(".proteinI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "protein.value":$(".proteinI").val(),
-                // 含油量
-                "oil.operation":$(".oilI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oilI").parent().find("option:selected").text().trim()=="="?"eq":$(".oilI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "oil.value":$(".oilI").val(),
-                maturityDate:$(".maturityDateI").val(), // 熟期
-                // height:$(".heightI").val(),//株高
-                "height.operation":$(".heightI").parent().find("option:selected").text().trim() == ">"?"gt":$(".heightI").parent().find("option:selected").text().trim()=="="?"eq":$(".heightI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "height.value":$(".heightI").val(),
-                seedCoatColor:$(".seedCoatColorI").val(),//种皮色
-                hilumColor:$(".hilumColorI").val(),//种脐色
-                cotyledonColor:$(".cotyledonColorI").val(), //子叶色
-                flowerColor:$(".flowerColorI").val(),//花色
-                podColor:$(".podColorI").val(),//荚色
-                pubescenceColor:$(".pubescenceColorI").val(),//茸毛色
-                // yield:$(".yieldI").val(),// 产量
-                "yield.operation":$(".yieldI").parent().find("option:selected").text().trim() == ">"?"gt":$(".yieldI").parent().find("option:selected").text().trim()=="="?"eq":$(".yieldI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "yield.value":$(".yieldI").val(),
-                // upperLeafletLength:$(".upperLeaf
-                // letLengthI").val(), //顶端小叶长度
-                "upperLeafletLength.operation":$(".upperLeafletLengthI").parent().find("option:selected").text().trim() == ">"?"gt":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="="?"eq":$(".upperLeafletLengthI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "upperLeafletLength.value":$(".upperLeafletLengthI").val(),
-                // linoleic:$(".linoleicI").val(), //亚油酸
-                "linoleic.operation":$(".linoleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linoleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linoleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "linoleic.value":$(".linoleicI").val(),
-                // linolenic:$(".linolenicI").val(), //亚麻酸
-                "linolenic.operation":$(".linolenicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".linolenicI").parent().find("option:selected").text().trim()=="="?"eq":$(".linolenicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "linolenic.value":$(".linolenicI").val(),
-                // oleic:$(".oleicI").val(), //油酸
-                "oleic.operation":$(".oleicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".oleicI").parent().find("option:selected").text().trim()=="="?"eq":$(".oleicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "oleic.value":$(".oleicI").val(),
-                // palmitic:$(".palmiticI").val(),  //软脂酸
-                "palmitic.operation":$(".palmiticI").parent().find("option:selected").text().trim() == ">"?"gt":$(".palmiticI").parent().find("option:selected").text().trim()=="="?"eq":$(".palmiticI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "palmitic.value":$(".palmiticI").val(),
-                // stearic:$(".stearicI").val(), //硬脂酸
-                "stearic.operation":$(".stearicI").parent().find("option:selected").text().trim() == ">"?"gt":$(".stearicI").parent().find("option:selected").text().trim()=="="?"eq":$(".stearicI").parent().find("option:selected").text().trim()=="<"?"lt":"",
-                "stearic.value":$(".stearicI").val(),
-                isPage:1  // 是否分页
+                snpId: $("#trInfos td.snpId").text(),
+                runNo:$(".runNoI").val(),  // 测序样品编号
+                scientificName:$(".scientificNameI").val(),// 物种名称
+                sampleId:$(".sampleIdI").val(), // 编号
+                strainName:$(".strainNameI").val(), // 菌株名称
+                locality:$(".localityI").val(), // 地理位置
+                preservationLocation:$(".preservationLocationI").val(),//保藏地点
+                type:$(".typeI").val(),//类型
+                environment:$(".environmentI").val(),//培养环境
+                materials:$(".materialsI").val(), //材料
+                treat:$(".treatI").val(),//处理
+                definitionTime:$(".timeI").val(),//采集时间
+                taxonomy:$(".taxonomyI").val(),//分类地位
+                myceliaPhenotype:$(".myceliaPhenotypeI").val(),//菌丝形态
+                myceliaDiameter:$(".myceliaDiameterI").val(),//菌丝直径
+                myceliaColor:$(".myceliaColorI").val(),//菌丝颜色
+                sporesColor:$(".sporesColorI").val(),//孢子颜色
+                sporesShape:$(".sporesShapeI").val(),//孢子形态
+                clampConnection:$(".clampConnectionI").val(),//锁状联合
+                pileusPhenotype:$(".pileusPhenotypeI").val(),//菌盖形态
+                pileusColor:$(".pileusColorI").val(),//菌盖颜色
+                stipePhenotype:$(".stipePhenotypeI").val(),//菌柄形态
+                stipeColor:$(".stipeColorI").val(),//菌柄颜色
+                fruitbodyColor:$(".fruitbodyColorI").val(),//子实体颜色
+                fruitbodyType:$(".fruitbodyTypeI").val(),//子实体形态
+                illumination:$(".illuminationI").val(),//光照
+                collarium:$(".collariumI").val(),//菌环
+                volva:$(".volvaI").val(),//菌托
+                velum:$(".velumI").val(),//菌幕
+                sclerotium:$(".sclerotiumI").val(),//菌核
+                strainMedium:$(".strainMediumI").val(),//菌种培养基
+                mainSubstrate:$(".mainSubstrateI").val(),//主要栽培基质
+                afterRipeningStage:$(".afterRipeningStageI").val(),//后熟期
+                primordialStimulationFruitbody:$(".primordialStimulationFruitbodyI").val(),//原基刺激&子实体
+                reproductiveMode:$(".reproductiveModeI").val(),//生殖方式
+                lifestyle:$(".lifestyleI").val(),//生活方式
+                preservation:$(".preservationI").val(),//保藏方法
+                domestication:$(".domesticationI").val(),//驯化
+                nuclearPhase:$(".nuclearPhaseI").val(),//核相
+                matingType:$(".matingTypeI").val(),//交配型
+                isPage:1
             };
             return datas;
         }
@@ -1116,11 +1324,22 @@
             };
             var selectedDatas1 = snpGetParams(changeParam);
 
-            selectedDatas1.pageNum = paramData.pageNum;
+            //重新回到第一页 modified by zjt 2018-3-29
+            /*selectedDatas1.pageNum = paramData.pageNum;
             selectedDatas1.pageSize = paramData.pageSize;
             selectedDatas1.judgeAllele = $(".changeTagColor").text().split(" ")[0];
             console.log(selectedDatas1)
-            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);*/
+            selectedDatas1.pageNum = 1;
+            selectedDatas1.pageSize =10;
+            paramData.pageNum = selectedDatas1.pageNum;
+            paramData.pageSize = selectedDatas1.pageSize;
+            page.pageSize = paramData.pageSize;
+            $('#snpInforsPage .ga-ctrl-footer .select_default_page').val(10);
+            selectedDatas1.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            console.log(selectedDatas1)
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer)
+            //重新回到第一页 modified by zjt 2018-3-29
         })
         // 导出数据部分
         $('#tableSet').click(function (){
@@ -1259,27 +1478,50 @@
         });
 
         // pageSize 事件
-        $("#snpInforsPage select").change(function (e){
-            var val = $(this).val();
+//        $("#snpInforsPage select").change(function (e){
+//            var val = $(this).val();
+//            var data =snpGetParams(changeParam);
+//            data.pageNum = paramData.pageNum;
+//            data.pageSize = val;
+//            data.pageNum = currPageNumber;
+//            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+//            getData(data,data.pageNum);
+//
+//        });
+
+        // 改写 pageSize事件
+        $("#snpInforsPage ul li").click(function (){
+            var val = $(this).text();
             var data =snpGetParams(changeParam);
-            data.pageNum = paramData.pageNum;
+            //重新回到第一页modified by zjt 2018-3-29
+            /*data.pageNum = paramData.pageNum;
             data.pageSize = val;
             data.pageNum = currPageNumber;
             data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            getData(data,data.pageNum);*/
+            data.pageNum = 1;
+            data.pageSize = val;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            page.pageSize = data.pageSize;
             getData(data,data.pageNum);
-
         })
         // 表格导出
         $("#exportData").click(function (){
+            filterParamer()
+            console.log(exportTitles);
             var titleData = snpGetParams(changeParam);
-            $.ajax({
-                type:"GET",
-                url:CTXROOT + "/dna/IdDetailExport",
-                data:{
+           delete titleData.isPage;
+
+            var datas = JSON.stringify({
                     "titles":exportTitles.join(","),
-                    "condition":JSON.stringify(titleData),
+                    "condition":titleData,
                     "judgeAllele":$(".changeTagColor").text().split(" ")[0]
-                },
+                })
+                console.log(datas);
+            $.ajax({
+                type:"POST",
+                url:CTXROOT + "/dna/IdDetailExport",
+                data:datas,
                 dataType: "json",
                 contentType: "application/json",
                 success:function (result){

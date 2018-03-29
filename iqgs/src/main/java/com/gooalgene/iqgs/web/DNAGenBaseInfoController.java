@@ -1,6 +1,5 @@
 package com.gooalgene.iqgs.web;
 
-import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.common.constant.CommonConstant;
@@ -44,7 +43,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -75,6 +73,9 @@ public class DNAGenBaseInfoController implements InitializingBean {
 
     @Autowired
     private CacheManager cacheManager;
+
+    @Autowired
+    private SNPService snpService;
 
     private PropertiesLoader loader;
 
@@ -436,13 +437,9 @@ public class DNAGenBaseInfoController implements InitializingBean {
         return json;
     }
 
-
-    @Autowired
-    private SNPService snpService;
-
     @RequestMapping("/searchDNAinGene")
     @ResponseBody
-    public Map searchSNPinGene(HttpServletRequest request, HttpServletResponse response) {
+    public Map searchSNPByGene(HttpServletRequest request, HttpServletResponse response) {
         String type = request.getParameter("type");//区分snp和indel数据
         String gene = request.getParameter("gene");//具体的gene
         String ctype = request.getParameter("ctype");

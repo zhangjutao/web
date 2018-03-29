@@ -7,11 +7,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.Cache;
 import org.springframework.cache.CacheManager;
-import org.springframework.cache.guava.GuavaCacheManager;
 import org.springframework.context.ApplicationContext;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -23,7 +19,6 @@ import javax.mail.internet.MimeMultipart;
 import java.io.*;
 import java.security.Security;
 import java.text.MessageFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -71,9 +66,9 @@ public class SMTPService implements InitializingBean{
         }
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-        properties.setProperty("mail.host", "smtp.exmail.qq.com");
+        properties.setProperty("mail.host", "smtp.ym.163.com");
         properties.setProperty("mail.transport.protocol", "smtp");
-        properties.setProperty("mail.smtp.port", "465");
+        properties.setProperty("mail.smtp.port", "994");
         properties.setProperty("mail.smtp.socketFactory.port", "465");
         properties.setProperty("mail.mime.charset", "UTF-8");
 
@@ -125,9 +120,9 @@ public class SMTPService implements InitializingBean{
         }
         properties.setProperty("mail.smtp.auth", "true");
         properties.setProperty("mail.smtp.socketFactory.class", SSL_FACTORY);
-        properties.setProperty("mail.host", "smtp.exmail.qq.com");
+        properties.setProperty("mail.host", "smtp.ym.163.com");
         properties.setProperty("mail.transport.protocol", "smtp");
-        properties.setProperty("mail.smtp.port", "465");
+        properties.setProperty("mail.smtp.port", "994");
         properties.setProperty("mail.smtp.socketFactory.port", "465");
         properties.setProperty("mail.mime.charset", "UTF-8");
 

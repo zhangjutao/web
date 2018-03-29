@@ -13,6 +13,8 @@
     <link rel="stylesheet" href="${ctxStatic}/css/mRNA.css">
     <link rel="stylesheet" href="${ctxStatic}/css/tooltips.css">
     <link rel="shortcut icon" type="image/x-icon" href="${ctxStatic}/images/favicon.ico">
+    <script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
+
 
     <style>
         .ga-tip {
@@ -43,7 +45,8 @@
             width: 12px;
             height: 12px;
             position: absolute;
-            background: #6288e6;
+            /*background: #6288e6;*/
+            background: #07B34F;
             top: 7px;
             left: -20px;
         }
@@ -83,6 +86,7 @@
             line-height: 30px;
             border-top: 1px solid #dcdcdc;
             border-left: 1px solid #dcdcdc;
+            border-right: 1px solid #dcdcdc;
         }
         .heat-table tr td:last-child, .heat-table tr:last-child td  {
             border-bottom: 1px solid #dcdcdc;
@@ -114,7 +118,7 @@
             margin-right: 5px;
         }
         .checkbox.checked {
-            background-image: url("${ctxStatic}/images/checked.png");
+            background-image: url("${ctxStatic}/images/checkbox.png");
         }
         .checkbox > input[type='checkbox'] {
             display: none;
@@ -139,19 +143,24 @@
         }
 
         .legend .legend-item:nth-child(2) {
-            background: #dfe6f1;
+            /*background: #dfe6f1;*/
+            background: #DAF2E4;
         }
         .legend .legend-item:nth-child(3) {
-            background: #C2D4F1;
+            /*background: #C2D4F1;*/
+            background: #C2F3D6;
         }
         .legend .legend-item:nth-child(4) {
-            background: #89aae5;
+            /*background: #89aae5;*/
+            background: #89E6AF;
         }
         .legend .legend-item:nth-child(5) {
-            background: #5c8de5;
+            /*background: #5c8de5;*/
+            background: #15CC60;
         }
         .legend .legend-item:nth-child(6) {
-            background: #386cca;
+            /*background: #386cca;*/
+            background: #07B34F;
         }
 
 
@@ -181,8 +190,9 @@
         }
         .change-select input {
             padding: 0 10px;
-            width: 335px;
+            width: 300px;
         }
+
         .js-checkbox {
             cursor: pointer;
         }
@@ -244,7 +254,9 @@
             position: relative;
             height: 40px;
             line-height: 40px;
-            background: #386cca;
+            /*background: #386cca;*/
+            background: #0F9145;
+
             cursor: move;
         }
         .genesInfo .genesInfo-head p{
@@ -253,12 +265,119 @@
             color: #fff;
         }
         .genesInfo .genesInfo-head a{
-            float: none;
+            float: right;
             position: absolute;
-            right: 15px;
+            right: 10px;
             color:#fff;
             font-size: 20px;
         }
+
+        #js-expression-select input{
+            padding: 0 10px;
+            margin-left: 20px;
+            margin-top: -6px;
+            float:left;
+            width: 40px;
+            border: 1px solid #0F9145;
+            height: 10px;
+            margin-right: 0px;
+            border-right: none;
+            color: #999;
+        }
+
+        #selection{
+            display: none;
+            position: absolute;
+            left:141px;
+            top:30px;
+            width:35px;
+            height: 115px;
+            border: 1px solid #0F9145;
+            background-color: white;
+        }
+        /*.select{
+            position:relative;
+            padding: 0 10px;
+            margin-left: 10px;
+            cursor:pointer;
+            width:44px;
+            height: 10px;
+            border: 1px solid #0F9145;
+            height: 10px;
+        }*/
+        /*.select_default{
+
+            position:absolute;
+            top:-11px;
+            left:-1px;
+            width:40px;
+            line-height:40px;
+            padding:0 10px;
+            border:solid 1px #0F9145;
+        }*/
+        #select{
+            position: relative;
+        }
+        #select .select_default{
+            width:59px;
+            height:38px;
+            position: relative;
+            top: -10px;
+            text-align: center;
+
+        }
+        .select_default:after{
+            content:"";
+            border-left:5px solid transparent;
+            border-right:5px solid transparent;
+            border-bottom:5px solid #999;
+            -webkit-transform-origin:5px 2.5px;
+            -moz-transform-origin:5px 2.5px;
+            -ms-transform-origin:5px 2.5px;
+            -o-transform-origin:5px 2.5px;
+            transform-origin:5px 2.5px;
+            -webkit-transition: all .5s ease;
+            -moz-transition: all .5s ease;
+            -ms-transition: all .5s ease;
+            -o-transition: all .5s ease;
+            transition: all .5s ease;
+            position:absolute;
+            right:5px;
+            top:14px;
+        }
+        .select_default .rotate:after{
+            -webkit-transform:rotate(180deg);
+            -moz-transform:rotate(180deg);
+            -ms-transform:rotate(180deg);
+            -o-transform:rotate(180deg);
+            transform:rotate(180deg);
+        }
+        .select_item{
+            display: none;
+            position:absolute;
+            top: 31px;
+            left: 26px;
+            margin:0;
+            padding:0;
+            list-style:none;
+            background-color: white;
+        }
+        .select_item li{
+             width:80px;
+             height:28px;
+             line-height:28px;
+             /*padding:0 -20px;*/
+             border:solid 1px #0F9145;
+             border-top:none;
+             text-align: center;
+             border-bottom:none;
+         }
+        .select_item li:hover{
+            background:#0F9145;
+            color:#fff;
+            cursor: pointer;
+        }
+
     </style>
 </head>
 
@@ -325,7 +444,7 @@
                 </div>
             </div>
             <div class="export-data">
-                <p class="btn-export-set"><button type="button" class="btn-export js-export"><img src="${ctxStatic}/images/export.png">导出数据</button><button class="btn-contrast"><img src="${ctxStatic}/images/set.png">样本</button></p>
+                <p class="btn-export-set"><!--<button type="button" class="btn-export js-export"><img src="${ctxStatic}/images/export.png">导出数据</button>--><button class="btn-contrast"><img src="${ctxStatic}/images/set.png">样本</button></p>
 
             </div>
         </div>
@@ -336,19 +455,31 @@
                 <button type="button" class="js-search-gene-button"><img src="${ctxStatic}/images/search.png">搜索</button>
             </div>
             <div class="change-select">
-                <span>Expression value</span>
+                <span style="float:left">Expression value</span>
+                <!--
                 <select class="js-expression-select">
                     <option value=">"> &gt;</option>
                     <option value="="> =</option>
                     <option value="<"> &lt;</option>
                 </select>
                 <input class="js-expression-value" type="text" value="">
+                -->
+                <div id="select">
+                    <input type="text" class="select_default" value=">" disabled="disabled" style="background:white">
+                    <ul class="select_item">
+                        <li>&gt;</li>
+                        <li>=</li>
+                        <li style="border-bottom:1px solid #0F9145;">&lt;</li>
+                    </ul>
+                </div>
+                <input class="js-expression-value" type="text" value="">
             </div>
         </div>
     </div>
     <aside style=" ">
         <div class="item-header">
-            <div class="icon-left"><img src="${ctxStatic}/images/genes-pic.png">添加基因</div>
+            <!--<div class="icon-left"><img src="${ctxStatic}/images/genes-pic.png">添加基因</div>-->
+            <div class="icon-left"><img src="${ctxStatic}/images/geneselect.png">添加基因</div>
         </div>
         <div class="add-genes">
             <p>可以手动添加基因</p>
@@ -572,9 +703,9 @@
         <form action="${ctxroot}/specific/index" method="POST" id="specificForm" style="display: none;">
             <input type="text" name="genes">
         </form>
-
-        <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
-
+        <div id="expressionPagination">
+            <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
+        </div>
     </div>
 
     <div class="genesInfo" style="display: none;">
@@ -589,12 +720,39 @@
 <!--section-->
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
 
-<script src="${ctxStatic}/js/jquery-1.11.0.js"></script>
 <script src="${ctxStatic}/js/laypage/laypage.js"></script>
+<script src="${ctxStatic}/js/layer/layer.js"></script>
 <script src="https://cdn.bootcss.com/lodash.js/4.17.4/lodash.min.js"></script>
 <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
 <script src="${ctxStatic}/js/jquery-ui.js"></script>
 <script>
+    $(document).ready(function(){
+        var    $sel = $("#select"),
+            $sel_default = $(".select_default"),
+            $sel_item = $(".select_item"),
+            $sel_item_li = $(".select_item li")
+        $sel_default.text($(".select_item li:first").text());
+        $sel.hover(function(){
+            $sel_item.show();
+            $sel_default.addClass("rotate");
+            $sel_item_li.hover(function(){
+                $index = $sel_item_li.index(this);
+                $sel_item_li.eq($index).addClass("hover");
+            },function(){
+                $sel_item_li.removeClass("hover");
+            })
+        },function(){
+            $sel_item.hide();
+            $sel_default.removeClass("rotate");
+        });
+        $sel_item_li.click(function(){
+            /*$sel_default.text($(this).text());*/
+            $sel_default.val($(this).text());
+            //alert($sel_default.val());
+            $sel_item.hide();
+        });
+    });
+
 
     function loadMask (el) {
         $(el).css({"position": "relative"});
@@ -606,17 +764,31 @@
         $(".ga-mask").remove();
     }
 
+    var index;
     $("body").on("click", ".js-gene-info", function(e) {
         var version = 'gmx_ensembl_release23';
         var geneName = $(this).text();
         $(".js-gene-head-name").html(geneName);
         $("#geneIframe").attr("src", "${ctxroot}/geneInfo?geneName="+ geneName + "&version=" + version);
         e.preventDefault();
-        $(".genesInfo").show();
+        //修改弹窗及拖拽样式
+        /*$(".genesInfo").show();*/
+        index = layer.open({
+            title: "",
+            type: 1,
+            content: $(".genesInfo"),
+            area: ['980px', '640px'],
+            shadeClose: true,
+            scrollbar: false,
+            move: '.genesInfo-head',
+            closeBtn: 0,
+            //offset: ['135px', '320px']
+        });
 
     });
     $(".genesInfo-head > a").click(function() {
-        $(".genesInfo").hide();
+        /*$(".genesInfo").hide();*/
+        layer.close(index);
     });
 
     $(function() {
@@ -659,7 +831,7 @@
                         str += '<td>' + samples[i].stage + '</td>'
                         str += '<td>'+ samples[i].treat +'</td>'
                         str += '<td>'+ samples[i].genetype +'</td>'
-                        str += '<td>'+ samples[i].cultivar +'</td>'
+                        str += '<td>'+ samples[i].type +'</td>'
                         str += '</tr>'
 
                         headStr += '<th class="col_'+ samples[i].sampleno +'">'+ samples[i].samplename +'</th>';
@@ -676,7 +848,8 @@
 
         function getParams() {
             var geneName = $.trim($(".js-search-gene-name").val());
-            var expressionValue = $(".js-expression-select").val() + "," + $(".js-expression-value").val();
+            /*var expressionValue = $(".js-expression-select").val() + "," + $(".js-expression-value").val();*/
+            var expressionValue = $(".select_default").val() + "," + $(".js-expression-value").val();
             return {
                 "id": studyId,
                 "gene": geneName,
@@ -702,7 +875,8 @@
                     for(var gv = 0; gv < glen; gv++) {
                         if(headerGroup[idx] ==  data[i].samples[gv].sampleNo) {
                             var geneItem = data[i].samples[gv];
-                            bodyStr += '    <td data-gene="'+ data[i].geneName +'" data-cultivar="'+ geneItem.cultivar +'" data-phenotype="'+ geneItem.phenotype +'" data-tissue="'+ geneItem.tissue +'" data-stage="'+ geneItem.stage +'" class="heat-hover col_'+ geneItem.sampleNo +'"><span class="js-gene-value">'+ data[i].samples[gv].value +'</span></td>';
+                            /*bodyStr += '    <td data-gene="'+ data[i].geneName +'" data-cultivar="'+ geneItem.cultivar +'" data-phenotype="'+ geneItem.phenotype +'" data-tissue="'+ geneItem.tissue +'" data-stage="'+ geneItem.stage +'" class="heat-hover col_'+ geneItem.sampleNo +'"><span class="js-gene-value">'+ data[i].samples[gv].value +'</span></td>';*/
+                            bodyStr += '    <td data-gene="'+ data[i].geneName +'" data-type="'+ geneItem.type +'" data-phenotype="'+ geneItem.phenotype +'" data-tissue="'+ geneItem.tissue +'" data-stage="'+ geneItem.stage +'" class="heat-hover col_'+ geneItem.sampleNo +'"><span class="js-gene-value">'+ data[i].samples[gv].value +'</span></td>';
                             break;
                         }
                         notFound++;
@@ -754,7 +928,8 @@
                         $(".heat-table").find(".js-gene-value").each(function(idx, el) {
                             var geneValue = $(el).text() * 1;
                             $(el).hide();
-                            var lightColor = "56, 108, 202" // #386cca;
+                            /*var lightColor = "56, 108, 202" // #386cca;*/
+                            var lightColor = "7,179,79" //#07B34F;
                             var alpha = 0;
                             geneValue = Math.abs(geneValue);
                             alpha = (geneValue / 100).toFixed(2);
@@ -767,12 +942,17 @@
 //                        alert("无数据");
                         $(".js-heat-table > thead,.ga-ctrl-footer").hide();
                         $(".js-heat-table > tbody").empty();
-                        $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")
+                        //modified by zjt
+                        /*$('.js-heat-table').append("<p class='zwsj'>暂无数据</p>")*/
+                        if($('.js-heat-table').children('p').length == 0){
+                            $('.js-heat-table').append("<p class='zwsj'>暂无数据</p>");
+                        }
                     }
                     $("#total-page-count > span").html(res.total);
                     //显示分页
                     laypage({
-                        cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        //cont: $('#pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
+                        cont: $('.ga-ctrl-footer .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(res.total / page.pageSize), //通过后台拿到的总页数
                         curr: curr|| 1, //当前页
                         /*skin: '#5c8de5',*/
@@ -804,20 +984,26 @@
 //            initTable(1);
 //        });
         // 修改每页显示条数
-        $(".ga-heat-table").on("change", ".lay-per-page-count-select", function() {
+        //$(".ga-heat-table").on("change", ".lay-per-page-count-select", function() {
 //            pageSize = $(this).val();
 //            initTable(1);
-            var curr = Number($(".ga-heat-table .laypage_curr").text());
-            var pageSize = Number($(this).val());
-            var total= Number($(".ga-heat-table #total-page-count span").text());
+            //var curr = Number($(".ga-heat-table .laypage_curr").text());
+        $(".ga-ctrl-footer").on("click", ".select_item_page li", function() {
+            /*var curr = $(".ga-ctrl-footer .lay-per-page-count-select").val();
+            var pageSize = Number($(this).text());
+            //alert(pageSize);
+            var total= Number($("#total-page-count span").text());
             var mathCeil=  Math.ceil(total/curr);
-            page.pageSize = $(this).val();
+            page.pageSize = $(this).text();
             if(pageSize>mathCeil){
                 page.curr = 1;
                 initTable(1,pageSize);
             }else{
                 initTable(curr,pageSize);
-            }
+            }*/
+            var pageSize = Number($(this).text());
+            page.pageSize = $(this).text();
+            initTable(1,pageSize);
         });
 
         // 搜索
@@ -854,10 +1040,10 @@
             var _search_gene_dom = $('.js-search-gene-name');
             var _expression_dom = $('.js-expression-value');
             if(e && e.keyCode==13){ // enter 键
-                var currNum = Number(_page_skip.val());
+                var currNum = Number(_page_skip.val()) || 1;
                 var pageSizeNum = Number($('.ga-ctrl-footer #per-page-count .lay-per-page-count-select').val());
                 var total= Number($(".ga-ctrl-footer #total-page-count span").text());
-                var mathCeil=  Math.ceil(total/pageSizeNum);
+                var mathCeil=  parseInt(total/pageSizeNum) + 1;
                 if( _page_skip.hasClass("isFocus") ) {
                     if(currNum>mathCeil){
                         page.curr = 1;
@@ -879,15 +1065,19 @@
                     }
                 } else if(_expression_dom.hasClass("isFocus")) {
                     $('.zwsj').remove();
+                    var pageSizeNum = 20;//将页面展示条数还原
+                    $('.ga-ctrl-footer #per-page-count .lay-per-page-count-select').val('20');//将页面展示条数显示框数字还原
+
                     page.pageSize=20;
                     $(".lay-per-page-count-select option:nth-child(2)").prop("selected", 'selected');
-                    if(currNum>mathCeil){
+                    /*if(currNum>mathCeil){
                         page.curr = 1;
                         initTable(1,pageSizeNum);
                     }else{
                         page.curr = currNum;
                         initTable(currNum,pageSizeNum);
-                    }
+                    }*/
+                    initTable(1,pageSizeNum);//直接跳转第一页
                 }
             }
         }
@@ -1048,7 +1238,8 @@
                     $(".js-heat-table").on("mouseover", ".heat-hover", function() {
                         var self = this;
                         var geneName = $(this).attr("data-gene");
-                        var cultivar = $(this).attr("data-cultivar");
+                        /*var cultivar = $(this).attr("data-cultivar");*/
+                        var type = $(this).attr("data-type");
                         var phenotype = $(this).attr("data-phenotype");
                         var tissue = $(this).attr("data-tissue");
                         var stage = $(this).attr("data-stage");
@@ -1064,7 +1255,8 @@
                         var str = '';
                         str += '<div class="ga-tip">'
                         str += '<div class="tip-item"><span class="tip-label">Gene name: </span><span>'+ geneName +'</span></div>'
-                        str += '<div class="tip-item"><span class="tip-label">Cultivar: </span><span>'+ cultivar +'</span></div>'
+                        /*str += '<div class="tip-item"><span class="tip-label">Cultivar: </span><span>'+ cultivar +'</span></div>'*/
+                        str += '<div class="tip-item"><span class="tip-label">Type: </span><span>'+ type +'</span></div>'
                         str += '<div class="tip-item"><span class="tip-label">Phenotype: </span><span>'+ phenotype +'</span></div>'
                         str += '<div class="tip-item"><span class="tip-label">Tissue: </span><span>'+ tissue +'</span></div>'
                         str += '<div class="tip-item"><span class="tip-label">Stage: </span><span>'+ stage +'</span></div>'
@@ -1074,7 +1266,7 @@
                             target: self,
                             position: "b",
                             width: 410,
-                            height: 150,
+                            height: 190,
                             content: str
                         });
                     });
@@ -1096,7 +1288,6 @@
                 var params = getParams();
                 <%--var url = "${ctxroot}/diffgene/studyExpressionDataExport?id=" + params.id + "&gene=" + params.gene + "&expressionValue=" + params.expressionValue + "&choices=" + samples.join(",");--%>
                 var url= "${downloadUrl}"+"expression/"+$('.js-sarstudy').html()+".zip";
-//                alert(url);
                 window.open(url,"_self");
             });
 
@@ -1105,7 +1296,7 @@
     })
 
     /*基因详情拖动弹框*/
-    $(".genesInfo").draggable({ containment: "body" });
+    /*$(".genesInfo").draggable({ containment: "body" });*/
 </script>
 </body>
 </html>

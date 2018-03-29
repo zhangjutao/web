@@ -48,8 +48,10 @@
         margin: 0 20px;
     }
     .pagination .laypageskin_molv .laypage_curr {
-        border-top: 1px solid #5c8de5;
-        border-bottom: 1px solid #5c8de5;
+        /*border-top: 1px solid #5c8de5;
+        border-bottom: 1px solid #5c8de5;*/
+        border-top: 1px solid #0F9145;
+        border-bottom: 1px solid #0F9145;
     }
     .pagination .laypage_main input {
         height: 33px;
@@ -64,24 +66,134 @@
         margin-left: 15px;
         height: 28px;
     }
+    #select_page{
+        position: relative;
+    }
+    #select_page .select_default_page{
+        position: relative;
+        float: left;
+        left: 0px;
+        top: 0px;
+        padding: 0 0 0 0px;
+        width: 55px;
+        color: #9a9a9a;
+        background: #fff;
+        height: 35px;
+        line-height: 35px;
+        border: none;
+        margin-right: 5px;
+        margin-left: 5px;
+        border: 1px solid #ccc;
+        text-transform: capitalize;
+        text-align: center;
+    }
+    .select_default_page:after{
+        content:"";
+        border-left:5px solid transparent;
+        border-right:5px solid transparent;
+        border-bottom:5px solid #999;
+        -webkit-transform-origin:5px 2.5px;
+        -moz-transform-origin:5px 2.5px;
+        -ms-transform-origin:5px 2.5px;
+        -o-transform-origin:5px 2.5px;
+        transform-origin:5px 2.5px;
+        -webkit-transition: all .5s ease;
+        -moz-transition: all .5s ease;
+        -ms-transition: all .5s ease;
+        -o-transition: all .5s ease;
+        transition: all .5s ease;
+        position:absolute;
+        right:5px;
+        top:14px;
+    }
+    .select_default_page .rotate:after{
+        -webkit-transform:rotate(180deg);
+        -moz-transform:rotate(180deg);
+        -ms-transform:rotate(180deg);
+        -o-transform:rotate(180deg);
+        transform:rotate(180deg);
+    }
+    .select_item_page{
+        display: none;
+        position: absolute;
+        top: 35px;
+        left: 61px;
+        width: 55px;
+        float: left;
+        z-index: 100;
+        margin: 0;
+        padding: 0;
+        list-style: none;
+        background-color: white;
+    }
+    .select_item_page li{
+        width: 53px;
+        height: 28px;
+        line-height: 28px;
+        border: solid 1px #0F9145;
+        border-top: none;
+        text-align: center;
+        border-bottom: none;
+    }
+    .select_item_page li:hover{
+        background:#0F9145;
+        color:#fff;
+        cursor: pointer;
+    }
 </style>
 
 <div class="ga-ctrl-footer">
     <div id="pagination" class="pagination"></div>
-    <div id="per-page-count" class="per-page-count lay-per-page-count per-page-count">
-        <span>展示数量</span>
+    <div id="per-page-count" class="per-page-count lay-per-page-count per-page-count" style="width: 170px;">
+        <span style="float: left; margin-top: 8px;">展示数量</span>
+        <!--
         <select name="" class="lay-per-page-count-select">
             <option value="10">10</option>
             <option value="20">20</option>
             <option value="30">30</option>
             <option value="50">50</option>
         </select>
-        <span>条/页</span>
+        -->
+        <div id="select_page" class="select_page">
+            <input type="text" class="select_default_page lay-per-page-count-select" disabled="disabled" style="background:white">
+            <ul class="select_item_page">
+                <li style="border-top:1px solid #0F9145;">10</li>
+                <li>20</li>
+                <li>30</li>
+                <li style="border-bottom:1px solid #0F9145;">50</li>
+            </ul>
+        </div>
+        <span style="float: left; margin-top: 8px;  margin-left: 5px;">条/页</span>
     </div>
-    <div id="total-page-count" class="total-page-count">总条数 <span>0</span></div>
+    <div id="total-page-count" class="total-page-count">总条数<span>0</span></div>
 </div>
 
-
+<script>
+    $(document).ready(function(){
+        var    $sel_page = $("#select_page"),
+            $sel_default_page = $(".select_default_page"),
+            $sel_item_page = $(".select_item_page"),
+            $sel_item_li_page = $(".select_item_page li");
+        $sel_default_page.val($(".select_item_page li:first").text());
+        $sel_page.hover(function(){
+            $sel_item_page.show();
+            $sel_default_page.addClass("rotate");
+            $sel_item_li_page.hover(function(){
+                var $index_page = $sel_item_li_page.index(this);
+                $sel_item_li_page.eq($index_page).addClass("hover");
+            },function(){
+                $sel_item_li_page.removeClass("hover");
+            })
+        }, function(){
+            $sel_item_page.hide();
+            $sel_default_page.removeClass("rotate");
+        });
+        $sel_item_li_page.click(function(){
+            $sel_default_page.val($(this).text());
+            $sel_item_page.hide();
+        });
+    });
+</script>
 <%--<script>--%>
     <%--$(function() {--%>
 

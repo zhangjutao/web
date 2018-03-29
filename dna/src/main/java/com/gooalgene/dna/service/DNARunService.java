@@ -1,17 +1,17 @@
 package com.gooalgene.dna.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
 import com.gooalgene.dna.dao.DNARunDao;
-import com.gooalgene.dna.dto.DnaRunDto;
 import com.gooalgene.dna.dto.SampleInfoDto;
 import com.gooalgene.dna.entity.DNARun;
 import com.gooalgene.dna.entity.SampleInfo;
-import com.gooalgene.dna.entity.result.DNARunSearchResult;
 import com.gooalgene.dna.entity.result.GroupCondition;
+import com.gooalgene.utils.FrontEndReflectionUtils;
 import com.gooalgene.dna.util.JacksonUtils;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -35,14 +35,30 @@ public class DNARunService {
     @Autowired
     private DNARunDao dnaRunDao;
 
-    public int insertBatch(List<DNARun> list) {
-        return dnaRunDao.insertBatch(list);
-    }
-
     /**
      * 根据页面分组查询对应的样本信息
      * 在选择品种查询时，传入的一个group对应多个品种，前端传入的品种均为ID值，改ID集合存放在condition变量中，key为idList
-     * 返回一个Map：key(群体名称), value(多个idList)
+     * 返回一个Map：key(群体名称), value(多个idList),
+     * 如果前端传入参数为：
+     * <pre>
+     *     group: [
+     *            {
+     *            "name": "品种名1,品种名2,品种名3",
+     *            "condition": {
+     *            "idList": "1,2,3"
+     *            }},{
+     *            "name": "物种Glycine soja,位置China,百粒重0g-10g,含油量0%-10%,蛋白质30%-40%",
+     *            "id": 1521441363524,
+     *            "condition": {
+     *            "species": "Glycine soja",
+     *            "locality": "China",
+     *            "weightPer100seeds": {
+     *            "min": "0",
+     *            "max": "10"
+     *            }}]
+     * </pre>
+     * 上述既包含多个品种构成的群体，也包含多个群体属性构成的群体，此时需要将属性构成的群体转换为SampleInfo对象，
+     * 然后获取该SampleInfo对象的id集合，保持最后返回值都一致
      */
     public Map<String, List<String>> queryDNARunByCondition(String group) {
         Map<String, List<String>> result = new HashMap<>();
@@ -56,6 +72,18 @@ public class DNARunService {
                     // 如果传入的id集合collection属性中包含idList字段且值包含多个sample_info ID值
                     if (!org.springframework.util.StringUtils.isEmpty(idList) && idList.contains(",")) {
                         finalIdList = Arrays.asList(idList.split(","));
+                    } else {
+                        SampleInfoDto sampleInfoDto = FrontEndReflectionUtils.constructNewInstance("com.gooalgene.dna.entity.SampleInfoDto", input.getCondition());
+                        // 获取所有符合条件的样本
+                        List<SampleInfoDto> allProperSampleInfo = dnaRunDao.getListByCondition(sampleInfoDto);
+                        // 从筛选的样本中获取它们的ID
+                        Collection<String> allProperSampleInfoId = Collections2.transform(allProperSampleInfo, new Function<SampleInfoDto, String>() {
+                            @Override
+                            public String apply(SampleInfoDto input) {
+                                return input.getId();
+                            }
+                        });
+                        finalIdList = new ArrayList<>(allProperSampleInfoId);
                     }
                     result.put(groupName, finalIdList);
                 }
@@ -67,27 +95,40 @@ public class DNARunService {
         return result;
     }
 
-    /**
-     * 根据条件获取对应样本编号
-     *
-     * @param sampleInfo
-     * @return
-     */
-    public List<String> querySamples(SampleInfo sampleInfo) {
-        List<String> result = new ArrayList<String>();
-        List<SampleInfo> list = dnaRunDao.findList(sampleInfo);
-        for (SampleInfo sampleInfoItem : list) {
-            result.add(sampleInfoItem.getRunNo());
+    public Map<String, List<String>> queryDNARunByCondition(List<GroupCondition> groupConditions) {
+        Map<String, List<String>> result = new HashMap<>();
+        for (GroupCondition input : groupConditions) {
+            String groupName = input.getName();
+            List<String> finalIdList = new ArrayList<>();
+            String idList = (String) input.getCondition().get("idList");
+            // 如果传入的id集合collection属性中包含idList字段且值包含多个sample_info ID值
+            if (!org.springframework.util.StringUtils.isEmpty(idList) && idList.contains(",")) {
+                finalIdList = Arrays.asList(idList.split(","));
+                // 获取所有的run_no
+                List<SampleInfoDto> allSampleRun = dnaRunDao.getByCultivarForExport(finalIdList, true);
+                Collection<String> transformRunNo = Collections2.transform(allSampleRun, new Function<SampleInfoDto, String>() {
+                    @Override
+                    public String apply(SampleInfoDto sampleInfoDto) {
+                        return sampleInfoDto.getRunNo();
+                    }
+                });
+                finalIdList = new ArrayList<>(transformRunNo);
+            } else {
+                SampleInfoDto sampleInfoDto = FrontEndReflectionUtils.constructNewInstance("com.gooalgene.dna.dto.SampleInfoDto", input.getCondition());
+                // 获取所有符合条件的样本
+                List<SampleInfoDto> allProperSampleInfo = dnaRunDao.getListByCondition(sampleInfoDto);
+                // 从筛选的样本中获取它们的ID
+                Collection<String> allProperSampleInfoId = Collections2.transform(allProperSampleInfo, new Function<SampleInfoDto, String>() {
+                    @Override
+                    public String apply(SampleInfoDto input) {
+                        return input.getRunNo();
+                    }
+                });
+                finalIdList = new ArrayList<>(allProperSampleInfoId);
+            }
+            result.put(groupName, finalIdList);
         }
         return result;
-    }
-    /**
-     * 根据条件查询dnaRun
-     */
-    public List<SampleInfo> queryByondition(SampleInfo sampleInfo,Integer pageNum,Integer pageSize){
-        PageHelper.startPage(pageNum,pageSize);
-        List<SampleInfo> list = dnaRunDao.findList(sampleInfo);
-        return list;
     }
 
     /**
@@ -121,18 +162,6 @@ public class DNARunService {
         return result;
     }
 
-    /**
-     * 动态查询dnarun
-     */
-    public PageInfo<DNARun> getByCondition(SampleInfoDto dnaRunDto,Integer pageNum,Integer pageSize,String isPage){
-        if(!StringUtils.isBlank(isPage)){
-            PageHelper.startPage(pageNum,pageSize);
-        }
-        List<SampleInfoDto> list=dnaRunDao.getListByCondition(dnaRunDto);
-        PageInfo<DNARun> pageInfo=new PageInfo(list);
-        return pageInfo;
-    }
-
     public PageInfo<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
         if(!StringUtils.isBlank(isPage)){
         PageHelper.startPage(pageNum,pageSize);
@@ -144,17 +173,6 @@ public class DNARunService {
 
     public  List<SampleInfoDto> getAll(){
         return dnaRunDao.getListByCondition(new SampleInfoDto());
-    }
-
-    public List<SampleInfo> getQueryList(Map<String,Object> conditions) {
-        List<SampleInfo> sampleInfoList = new ArrayList<SampleInfo>();
-        List<String> idList = Arrays.asList(((String)conditions.get("id")).split(","));
-        for (String id:idList) {
-            SampleInfo sampleInfo = new SampleInfo();
-            sampleInfo.setId(id);
-            sampleInfoList.add(sampleInfo);
-        }
-        return sampleInfoList;
     }
 
     /**
@@ -209,23 +227,6 @@ public class DNARunService {
             sampleInfo.setMyceliaColor(jsonObject.getString("myceliaColor"));
         }
         return sampleInfo;
-    }
-
-    public JSONArray searchStudybyKeywords(String type, String keywords, Page<SampleInfo> page) {
-        JSONArray data = new JSONArray();
-        SampleInfo sampleInfo = new SampleInfo();
-        if ("all".equalsIgnoreCase(type)) {
-            if (!StringUtils.isBlank(keywords)) {
-                sampleInfo.setKeywords(keywords);
-            }//空白查询所有
-        }
-        sampleInfo.setPage(page);
-        List<SampleInfo> list = dnaRunDao.findList(sampleInfo);
-        for (SampleInfo sampleInfoItem : list) {
-            data.add(sampleInfo);
-        }
-        page.setList(list);
-        return data;
     }
 
     public boolean add(SampleInfo sampleInfo) {

@@ -4,18 +4,24 @@ import com.gooalgene.common.Page;
 import com.gooalgene.common.handler.DocumentCallbackHandlerImpl;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.SNP;
+import com.gooalgene.dna.entity.TableSearchResult;
+import com.gooalgene.dna.entity.result.MinimumSNPResult;
 import com.gooalgene.utils.CommonUtil;
+import com.gooalgene.utils.ConsequenceTypeUtils;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
+import com.mongodb.MongoException;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang.ArrayUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.mongodb.core.DocumentCallbackHandler;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.index.Index;
 import org.springframework.data.mongodb.core.index.IndexDefinition;
@@ -36,6 +42,10 @@ import java.util.regex.Pattern;
 public class DNAMongoService {
 
     Logger logger = LoggerFactory.getLogger(DNAMongoService.class);
+
+    private final String EXONIC_NONSYNONYMOUS_SNV = "exonic_nonsynonymous SNV";
+    private final String EXONIC_FRAMESHIFT_INSERTION = "exonic_frameshift deletion";
+    private final String EXONIC_FRAMESHIFT_DELETION = "Exonic_frameshift insertion";
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -68,17 +78,6 @@ public class DNAMongoService {
         mongoTemplate.insert(object, collectionName);
         long end = System.currentTimeMillis();
         logger.info("insert 1 record costs " + (end - start) / 1000 + " s.");
-    }
-
-
-    /**
-     * 清空某个collection数据，不会删除索引
-     *
-     * @param collectionName
-     */
-    public void clearCollection(String collectionName) {
-        mongoTemplate.remove(new Query(), collectionName);
-        logger.info("remove all documents from collection " + collectionName + " .");
     }
 
 
@@ -229,10 +228,10 @@ public class DNAMongoService {
 
     public SNP findDataById(String type, String chr, String id) {
         String collectionName = type + "_" + chr;
-        SNP oneData = new SNP();
+        SNP oneData = null;
         if (mongoTemplate.collectionExists(collectionName)) {
-            oneData = mongoTemplate.findOne(Query.query(Criteria.where("_id").is(id)), SNP.class, collectionName);
-
+            Query query = new Query(Criteria.where("_id").is(id));
+            oneData = mongoTemplate.findOne(query, SNP.class, collectionName);
             //对consequencetype为“UTR3”、“UTR5”及“UTR5；UTR3”的数据进行处理
             if (oneData != null) {
                 if (oneData.getConsequencetype().equalsIgnoreCase("UTR3")) {
@@ -243,11 +242,8 @@ public class DNAMongoService {
                     oneData.setConsequencetype("UTR5;UTR3");
                 }
             }
-
-            return oneData;
-        } else {
-            return oneData;
         }
+        return oneData;
     }
 
     public List<SNP> findDataByIndexInGene(String type, String gene, String id, Integer index, Integer pageSize, String upstream, String downstream, String ctype) {
@@ -453,6 +449,47 @@ public class DNAMongoService {
         return result;
     }
 
+    /**
+     * 前端页面获取所有SNP位点，通过pos及consequencetype去画图，去除无用的字段，保障查询速度
+     * @param type SNP/INDEL
+     * @param chr 染色体名字
+     * @param startPos 染色体起点位置
+     * @param endPos 染色体终点位置
+     * @return 该染色体上指定位置的所有SNP位点
+     */
+    public List<MinimumSNPResult> searchSNPIdAndPos(String type, String chr, long startPos, long endPos) {
+        String collectionName = type + "_" + chr;
+        final List<MinimumSNPResult> result = new ArrayList<>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(startPos), Criteria.where("pos").lte(endPos));
+            Query query = new Query();
+            query.addCriteria(criteria);
+            query.fields().include("pos").include("consequencetype").include("index");
+            mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
+                @Override
+                public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                    long pos = (long) dbObject.get("pos");
+                    String consequenceType = (String) dbObject.get("consequencetype");
+                    int index = (int) dbObject.get("index");
+                    MinimumSNPResult snpResult = new MinimumSNPResult(pos, consequenceType, index);
+                    // 根据不同的consequence type，前端进行相应描色
+                    if (consequenceType.equals(EXONIC_NONSYNONYMOUS_SNV)) {
+                        snpResult.setConsequenceTypeColor(1);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_DELETION)) {
+                        snpResult.setConsequenceTypeColor(2);
+                    } else if (consequenceType.equals(EXONIC_FRAMESHIFT_INSERTION)) {
+                        snpResult.setConsequenceTypeColor(3);
+                    }
+                    result.add(snpResult);
+                }
+            });
+        } else {
+            logger.error(collectionName + " is not exist.");
+        }
+        return result;
+    }
+
     public List<SNP> searchInRegin(String type, String ctype, String chr, String startPos, String endPos, Page page) {
         String collectionName = type + "_" + chr;
         long total = 0;
@@ -497,7 +534,98 @@ public class DNAMongoService {
         return result;
     }
 
-    public List<SNP> searchInGene(String type, String ctype, String gene, String upsteam, String downsteam, Page page) {
+    /**
+     * 根据传入的染色体类型，查询region区间内的所有SNP
+     *
+     * @param type SNP/INDEL
+     * @param ctype consequence type
+     * @param chromosome 染色体名字
+     * @param upstream 染色体上游区间
+     * @param downstream 染色体下游区间
+     * @param tableSearchResult 点击确定，图表下方出现的搜索结果
+     * @return 该范围内的所有SNP
+     */
+    public List<SNP> querySNPByRegion(String type, String ctype, String chromosome, String upstream, String downstream,
+                                      int pageNo, int pageSize, TableSearchResult tableSearchResult) {
+        String collectionName = type + "_" + chromosome;
+        List<SNP> result = new ArrayList<SNP>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
+            if (StringUtils.isNotBlank(ctype) && !StringUtils.equalsIgnoreCase("all", ctype)) {
+                String keyword = ConsequenceTypeUtils.reverseFrontStyleToDB(ctype);
+                criteria.and("consequencetype").is(keyword);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            logger.info("Query:" + query.toString());
+            long snpNum = mongoTemplate.count(query, SNP.class, collectionName);//总记录数
+            tableSearchResult.setTotal(snpNum);
+            int skip = (pageNo - 1) * pageSize;
+            if (skip < 0) {
+                skip = 0;
+            }
+            query.skip(skip);
+            query.limit(pageSize);
+            logger.info("Query By Page:" + query.toString());
+            result = mongoTemplate.find(query, SNP.class, collectionName);
+        } else {
+            logger.info(collectionName + " is not exist.");
+        }
+        return result;
+    }
+
+    /**
+     * 获取指定区间内的起始SNP INDEX值
+     *
+     * @return 返回Map，Map中存放页码(pageNo)，偏移量(offset)
+     */
+    public Map<String, Integer> getStartIndex(String type, String ctype, String chromosome, Long upstream, Long downstream, int targetIndex, int pageSize) {
+        String collectionName = type + "_" + chromosome;
+        Map<String, Integer> result = new HashMap<>();
+        if (mongoTemplate.collectionExists(collectionName)) {
+            Criteria criteria = new Criteria();
+            criteria.andOperator(Criteria.where("pos").gte(upstream), Criteria.where("pos").lte(downstream));
+            if (StringUtils.isNotBlank(ctype) && (!StringUtils.equalsIgnoreCase("all", ctype))) {
+                String keywords = "";
+                if (ctype.indexOf(' ') != -1) {
+                    keywords = ctype.replace("_", ".*_");
+                } else if (ctype.indexOf(';') == -1 && ctype.endsWith("_")) {
+                    keywords = ctype.replace("_", "");
+                } else {
+                    keywords = ctype.replace("_", ".*");
+                }
+                Pattern pattern = Pattern.compile("^" + keywords + "$", Pattern.CASE_INSENSITIVE);
+                criteria.and("consequencetype").regex(pattern);
+            }
+            Query query = new Query();
+            query.addCriteria(criteria);
+            // Spring Data MongoDB分页查询从0页开始
+            Pageable page = new PageRequest(0, 1);
+            query.with(page);
+            logger.info("Query:" + query.toString());
+            long snpNum = mongoTemplate.count(query, SNP.class, collectionName);
+            // 将第一个数据写入局部变量中
+            final int[] startIndexArray = new int[1];
+            mongoTemplate.executeQuery(query, collectionName, new DocumentCallbackHandler() {
+                @Override
+                public void processDocument(DBObject dbObject) throws MongoException, DataAccessException {
+                    startIndexArray[0] = (int) dbObject.get("index");
+                }
+            });
+            int pageNo = (targetIndex - startIndexArray[0]) / pageSize + 1;
+            int offset = (targetIndex - startIndexArray[0]) % pageSize;
+            result.put("pageNo", pageNo);
+            result.put("offset", offset);
+        }
+        return result;
+    }
+
+    /**
+     * 整合searchInGene与searchInRegion两个方法，不管是在区间还是根据基因来搜索，最终到mongodb中查询都是根据pos来查询
+     * 这里需要传入geneId，通过基因ID来确定该基因染色体，然后到mongodb中查询
+     */
+    public List<SNP> searchInGene(String type, String ctype, String gene, String upstream, String downstream, Page page) {
         DNAGens dnaGens = geneService.findByGeneId(gene);
         String chromosome = dnaGens.getChromosome();
         // 获取到MongoDB中集合名字
@@ -506,20 +634,7 @@ public class DNAMongoService {
         List<SNP> result = new ArrayList<SNP>();
         if (mongoTemplate.collectionExists(collectionName)) {
             Criteria criteria = new Criteria();
-            if (StringUtils.isBlank(upsteam)) {
-                if (StringUtils.isNotBlank(downsteam)) {
-                    criteria.and("pos").lte(Long.parseLong(downsteam));
-                }
-            } else {
-                if (StringUtils.isBlank(downsteam)) {
-                    criteria.and("pos").gte(Long.parseLong(upsteam));
-                } else {
-                    criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upsteam)), Criteria.where("pos").lte(Long.parseLong(downsteam)));
-                }
-            }
-            if (StringUtils.isNotBlank(gene)) {
-                criteria.and("gene").is(gene);
-            }
+            criteria.andOperator(Criteria.where("pos").gte(Long.parseLong(upstream)), Criteria.where("pos").lte(Long.parseLong(downstream)));
             if (StringUtils.isNotBlank(ctype) && (!ctype.startsWith("all"))) {
                 String keywords = "";
                 if (ctype.indexOf(' ') != -1) {
@@ -547,10 +662,9 @@ public class DNAMongoService {
                 query.skip(skip);
                 query.limit(pageSize);
             }
-            query.fields().exclude("samples");
             result = mongoTemplate.find(query, SNP.class, collectionName);
         } else {
-            logger.info(collectionName + " is not exist.");
+            logger.error(collectionName + " is not exist.");
         }
         page.setCount(total);
         return result;

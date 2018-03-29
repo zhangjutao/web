@@ -150,16 +150,19 @@ $(function (){
         // $("#exportData").css("margin-right","20px")
     })
 
+
+
     // 确定按钮（过滤条件）
-    $("#operate .sure").click(function (){
+    // 过滤条件（封装）
+    function filterCondition(){
         var lists = $("#selectedDetails li");
         for(var i=0;i<lists.length;i++){
             var $input = $(lists[i]).find("input");
             if(!$input.is(":checked")){
-             var classVal = $input.attr("name");
-             var newClassVal = "." + classVal + "T";
-             $("#tableShow thead").find(newClassVal).hide();
-             $("#tableShow tbody").find(newClassVal).hide();
+                var classVal = $input.attr("name");
+                var newClassVal = "." + classVal + "T";
+                $("#tableShow thead").find(newClassVal).hide();
+                $("#tableShow tbody").find(newClassVal).hide();
             }
             else {
                 var classVal = $input.attr("name");
@@ -170,6 +173,27 @@ $(function (){
                 }
             }
         }
+    }
+    $("#operate .sure").click(function (){
+        filterCondition();
+        // var lists = $("#selectedDetails li");
+        // for(var i=0;i<lists.length;i++){
+        //     var $input = $(lists[i]).find("input");
+        //     if(!$input.is(":checked")){
+        //      var classVal = $input.attr("name");
+        //      var newClassVal = "." + classVal + "T";
+        //      $("#tableShow thead").find(newClassVal).hide();
+        //      $("#tableShow tbody").find(newClassVal).hide();
+        //     }
+        //     else {
+        //         var classVal = $input.attr("name");
+        //         var newClassVal = "." + classVal + "T";
+        //         if($("#tableShow thead").find(newClassVal).is(":hidden")){
+        //             $("#tableShow thead").find(newClassVal).show();
+        //             $("#tableShow tbody").find(newClassVal).show();
+        //         }
+        //     }
+        // }
     })
         // 点击群体信息进入页面初始化开始获取table数据
         var initData = getParamas()
@@ -179,6 +203,7 @@ $(function (){
     // 获取当前参数 封装
     function getParamas (){
         var datas={
+            snpId:$("#trInfos td.snpId").val(),
             runNo:$(".runNoI").val(),  // 测序样品编号
             scientificName:$(".scientificNameI").val(),// 物种名称
             sampleId:$(".sampleIdI").val(), // 编号
@@ -225,9 +250,19 @@ $(function (){
 
     // 获取表格数据
     $(".btnConfirmInfo").click(function (){
-        $(".lay-per-page-count-select option:nth-child(1)").prop("selected", 'selected');
+        //modified by zjt 2018-3-29
+        /*$(".lay-per-page-count-select option:nth-child(1)").prop("selected", 'selected');
         var data = getParamas();
-        getData(data,page.pageNum);
+        getData(data,page.pageNum);*/
+        var data = getParamas();
+        paramData.pageNum = 1;
+        paramData.pageSize = 10;
+        page.pageSize = paramData.pageSize;
+        $('#sysPopulations .ga-ctrl-footer .select_default_page').val(10);
+        data.pageNum = paramData.pageNum;
+        data.pageSize = paramData.pageSize;
+        getData(data,data.pageNum);
+        //modified by zjt 2018-3-29
     })
 
     //表格筛选框显示隐藏
@@ -241,6 +276,16 @@ $(function (){
     $("#tableShow .inputComponent .btnCancel").click(function (){
         $(this).parent().parent().find("input").val("");
         $(this).parent().parent().hide();
+        //modified by zjt 2018-3-29
+        var data = getParamas();
+        paramData.pageNum = 1;
+        paramData.pageSize = 10;
+        page.pageSize = paramData.pageSize;
+        $('#sysPopulations .ga-ctrl-footer .select_default_page').val(10);
+        data.pageNum = paramData.pageNum;
+        data.pageSize = paramData.pageSize;
+        getData(data,data.pageNum);
+        //modified by zjt 2018-3-29
     })
 
     // 分页
@@ -284,10 +329,10 @@ $(function (){
 
                 if (selectedNum>mathCeil) {
                     selectedDatas.pageNum = 1;
-                    getData(selectedDatas,1);
+                    getData(selectedDatas,1,filterCondition);
                 }else{
                     // page.curr = selectedNum;
-                    getData(selectedDatas,selectedDatas.pageNum);
+                    getData(selectedDatas,selectedDatas.pageNum,filterCondition);
                 }
             }
         }
@@ -298,7 +343,7 @@ $(function (){
     var curr = 1;
     var currPageNumber = 1;
     //ajax 请求
-    function getData(data,curr){
+    function getData(data,curr,fn){
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
@@ -398,21 +443,23 @@ $(function (){
                             "<td class='paramTag primordialStimulationFruitbodyT'>" + primordialStimulationFruitbodyT +"</td>"+
                             "<td class='paramTag reproductiveModeT'>" + reproductiveModeT +"</td>"+
                             "<td class='paramTag lifestyleT'>" + lifestyleT +"</td>"+
+                            "<td class='paramTag preservationT'>" + preservationT +"</td>"+
                             "<td class='paramTag domesticationT'>" + domesticationT +"</td>"+
                             "<td class='paramTag nuclearPhaseT'>" + nuclearPhaseT +"</td>"+
-                            "<td class='paramTag preservationT'>" + preservationT +"</td>"+
                             "<td class='paramTag matingTypeT'>" + matingTypeT +"</td>"+
                             "</tr>"
                         var $tbody = $("#tableShow table tbody");
                         $tbody.append(tr);
                     }
+                    fn&&fn();
                 }
                 // 分页
                 laypage({
                     cont: $('#sysPopulations .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                     pages: Math.ceil(result.data.total /  page.pageSize), //通过后台拿到的总页数
                     curr: curr || 1, //当前页
-                    skin: '#5c8de5',
+                    /*skin: '#5c8de5',*/
+                    skin: '#0f9145',
                     skip: true,
                     first: 1, //将首页显示为数字1,。若不显示，设置false即可
                     last: Math.ceil(result.data.total /  page.pageSize), //将尾页显示为总页数。若不显示，设置false即可
@@ -426,7 +473,7 @@ $(function (){
                             tmp.pageNum = obj.curr;
                             currPageNumber = obj.curr;
                             tmp.pageSize = pageSizeNum;
-                            getData(tmp,obj.curr);
+                            getData(tmp,obj.curr,filterCondition);
                         }
                     }
                 });
@@ -439,7 +486,8 @@ $(function (){
     }
 
     // pageSize 事件
-    $("body").on("change",".lay-per-page-count-select", function() {
+    //modified by zjt 2018-3-27
+    /*$("body").on("change",".lay-per-page-count-select", function() {
         var curr = Number($(".laypage_curr").text());
         var pageSize = Number($(this).val());
         var total= Number($("#total-page-count span").text());
@@ -449,14 +497,25 @@ $(function (){
         if(pageSize>mathCeil){
                 data.pageSize = pageSize;
                 data.pageNum = 1;
-                getData(data,1);
+                getData(data,1,filterCondition);
         }else{
             data.pageSize = pageSize;
             data.pageNum =curr;
-            getData(data,data.pageNum);
+            getData(data,data.pageNum,filterCondition);
 
         }
+    });*/
+    $('#sysPopulations .select_item_page li').click(function(){
+        var curr = Number($(this).text());
+        page.pageSize = $(this).text();
+        var data = getParamas();
+        data.pageNum = 1;
+        data.pageSize = page.pageSize;
+        getData(data,data.pageNum,filterCondition);
     });
+    //modified by zjt 2018-3-27
+
+
 
     // 表格导出
     $("#exportData").click(function (){
@@ -476,7 +535,7 @@ $(function (){
             url:CTXROOT + "/export",
             data:{
                   "titles":unSelectedLists,
-                  // "condition":JSON.stringify(exportCondition)
+                  "condition":JSON.stringify(exportCondition)
                 },
             dataType: "json",
             contentType: "application/json",

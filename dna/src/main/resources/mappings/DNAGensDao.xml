@@ -13,7 +13,7 @@
     </select>
 
     <select id="findDNAGensInfoByGene" parameterType="String" resultType="com.gooalgene.dna.entity.DNAGens">
-        SELECT * FROM dna_gens WHERE gene_id=#{geneId}
+        SELECT * FROM gens_baseinfo WHERE gene_id=#{geneId}
     </select>
 
     <select id="findById" parameterType="int" resultType="com.gooalgene.dna.entity.DNAGens">
@@ -77,14 +77,25 @@
     </delete>
 
     <select id="getByRegion" resultType="string">
-        SELECT * FROM gens_baseinfo WHERE chromosome = #{chr} AND
+        SELECT gene_id FROM gens_baseinfo WHERE chromosome = #{chr} AND
         ((start <![CDATA[ <= ]]> #{start} AND end <![CDATA[ >= ]]> #{start}) OR
          (start <![CDATA[ <= ]]> #{end} AND end <![CDATA[ >= ]]> #{end})
          OR (start <![CDATA[ >= ]]> #{start} AND end <![CDATA[ <= ]]> #{end}))
     </select>
 
+    <select id="findMinAndMax" resultType="com.gooalgene.dna.entity.result.GeneMinAndMax">
+        SELECT min(start) AS min , max(end) AS max, chromosome FROM gens_baseinfo WHERE chromosome = #{chr} AND
+                                                ((start <![CDATA[ <= ]]> #{start} AND end <![CDATA[ >= ]]> #{start}) OR
+                                                 (start <![CDATA[ <= ]]> #{end} AND end <![CDATA[ >= ]]> #{end})
+                                                 OR (start <![CDATA[ >= ]]> #{start} AND end <![CDATA[ <= ]]> #{end}))
+    </select>
+
     <select id="findByGeneId" resultType="com.gooalgene.dna.entity.DNAGens">
         SELECT * FROM gens_baseinfo WHERE gene_id = #{0}
+    </select>
+
+    <select id="fetchAllChromosome" resultType="com.gooalgene.dna.entity.ChromosomeList">
+        SELECT * FROM chromosome_list
     </select>
 
 </mapper>
