@@ -463,9 +463,10 @@ footer p{    clear: both;    text-align: center;padding-bottom: 25px}
     background-color: #ccc;
 }
 .active{
-    background-color: rgb(92, 140, 230);
+    /*background-color: rgb(92, 140, 230);*/
+    background-color: #0F9145;
     /*color:#fff!important;*/
-    color: #0f9145;
+    /*color: #0f9145;*/
     padding: 10px;
     border-radius: 2px;
 }

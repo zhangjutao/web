@@ -244,7 +244,6 @@ $(function () {
         globFlag = 0;
         pageNumber = 1;
         pageSize = 10;
-        pageSizeSNP = 10;
         gloableSnpSelectedNum = 10;
         $("#snp-paginate .lay-per-page-count-select").val(10);
         if(!$(".custom-groups-content").is(":hidden")){
@@ -1010,9 +1009,9 @@ $(function () {
     })
 
     $(".js-clear-btn").click(function() {
-        // if($("#allSelected").hasClass("rightOk")){
-        //     $("#allSelected").removeClass("rightOk").addClass("whiteOk");
-        // };
+        if($("#allSelected").hasClass("rightOk")){
+            $("#allSelected").removeClass("rightOk").addClass("whiteOk");
+        };
 
         var _labels = $(this).parents(".choose-default").siblings(".checkbox-item").find(".table_header_setting label");
         $(".js-choose-all").removeClass("js-choose-all-ac");
@@ -1069,11 +1068,9 @@ $(function () {
         var fma = $(".t_fmajorAllele").find("option:selected").text();
         var panelType = GetPanelParams.getPanelType();
         if(panelType == "gene") {
-            // 根据基因
             var _form = $("#exportGeneForm");
             var params = GetPanelParams.getGeneParams();
             // params.total = total;
-            _form.find(".model").val("GENE");
             _form.find(".gene").val(params.gene);
             _form.find(".upstream").val(params.upstream);
             _form.find(".downstream").val(params.downstream);
@@ -1108,10 +1105,9 @@ $(function () {
             _form.find(".group").val(snpPintDatasGene.group);
             _form.submit();
         } else {
-            // 根据范围查询
             var _form = $("#exportRegionForm");
             if(isPop == 1){
-                _form.find(".model").val("REGION");
+                _form.find(".model").val("GENE");
                 _form.find(".gene").val($("#GlyIds .GlyColor").text());
             }else {
                 _form.find(".model").val("REGION");
@@ -1587,7 +1583,7 @@ $(function () {
 
             $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
             var obj = getPanelParams();
-            // obj.params.type="SNP";
+            obj.params.type="SNP";
             obj.params.group = JSON.parse(obj.params.group);
             obj.params.ctype = "all";
             var panelType = GetPanelParams.getPanelType();
