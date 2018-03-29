@@ -1224,6 +1224,9 @@
         $(".colse-sample span").click(function () {
             $(".custom-groups-content").hide();
             $(".cover").hide();
+            //修复input的值 modified by zjt 2018-3-29
+            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+            //修复input的值 modified by zjt 2018-3-29
 //            $(".sample-text").empty();
         });
 
