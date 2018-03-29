@@ -2,7 +2,7 @@
 function fetchAllChromosome() {
 }
 /**
- * @api {get} /dna/fetch-all-chromosome 获取所有染色体
+ * @api {get} dna/fetch-all-chromosome 获取所有染色体
  * @apiName fetchAllChromosome
  * @apiGroup DNA
  * @apiDescription 蘑菇数据库DNA页面加载时获取所有染色体以及该染色体的最大长度
@@ -25,7 +25,7 @@ function fetchAllChromosome() {
 function queryForSNPTableByRegion() {
 }
 /**
- * @api {POST} /dna/queryForTable DNA数据库确认时下方表格数据(Search By Region)
+ * @api {POST} dna/queryForTable 区间搜索图标数据
  * @apiName queryForSNPTableByRegion
  * @apiGroup DNA
  * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方表格数据
