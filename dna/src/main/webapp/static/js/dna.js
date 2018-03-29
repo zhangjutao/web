@@ -1362,7 +1362,7 @@ $(function () {
                 obj.x = (snpLocalPoints[i].pos - startPos) / scale;
                 obj.y = 90;
                 obj.index = snpLocalPoints[i].index;
-                obj.consequencetypeColor = snpLocalPoints[i].consequenceTypeColor;
+                obj.consequenceTypeColor = snpLocalPoints[i].consequenceTypeColor;
                 newArr.push(obj);
             }
         } else {
@@ -1372,7 +1372,7 @@ $(function () {
                 obj.y = 90;
                 // obj.id = snpLocalPoints[i].id;
                 obj.index = snpLocalPoints[i].index;
-                obj.consequencetypeColor = snpLocalPoints[i].consequenceTypeColor;
+                obj.consequenceTypeColor = snpLocalPoints[i].consequenceTypeColor;
 
                 newArr.push(obj);
             }
@@ -1398,14 +1398,14 @@ $(function () {
             for (var m = 0; m < arr.length; m++) {
                 var a = g1.append("a").attr("href", "#" + arr[m].index);
                 // var a = g1.append("a");
-                if (arr[m].consequencetypeColor == 1) {
+                if (arr[m].consequenceTypeColor == 1) {
                     a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#02ccb1").attr("data-index", arr[m].index).attr("data-status", "snp1");
                     continue;
-                } else if (arr[m].consequencetypeColor == 2) {
+                } else if (arr[m].consequenceTypeColor == 2) {
                     a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#0ccdf1").attr("data-index", arr[m].index).attr("data-status", "indel1");
                     ;
                     continue;
-                } else if (arr[m].consequencetypeColor == 3) {
+                } else if (arr[m].consequenceTypeColor == 3) {
                     a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#df39e0").attr("data-index", arr[m].index).attr("data-status", "indel2");
                     continue;
                 }else {
@@ -1450,7 +1450,7 @@ $(function () {
                     for (var i=0;i<snps.length;i++){
                         if(snps[i].index == idIndex){
                             d3.select("#snpid").select("a[href='#" +idIndex+ "']").select("rect").attr("fill","#ff0000");
-                        }else if(snps[i].consequencetypeColor ==1){
+                        }else if(snps[i].consequenceTypeColor ==1){
                             d3.select("#snpid").select("a[href='#" +snps[i].index+ "']").select("rect").attr("fill"," #02ccb1");
                         }else {
                             d3.select("#snpid").select("a[href='#" +snps[i].index+ "']").select("rect").attr("fill","#6b69d6");
@@ -1461,9 +1461,9 @@ $(function () {
                         if(snps[i].index == idIndex){
                             d3.select("#indelid").select("a[href='#" +idIndex+ "']").select("rect").attr("fill","#ff0000");
                         }
-                        else if(snps[i].consequencetypeColor ==2){
+                        else if(snps[i].consequenceTypeColor ==2){
                             d3.select("#indelid").select("a[href='#" +snps[i].index+ "']").select("rect").attr("fill","#0ccdf1");
-                        }  else if(snps[i].consequencetypeColor ==3){
+                        }  else if(snps[i].consequenceTypeColor ==3){
                             d3.select("#indelid").select("a[href='#" +snps[i].index+ "']").select("rect").attr("fill","#df39e0");
                         }  else {
                             d3.select("#indelid").select("a[href='#" +snps[i].index+ "']").select("rect").attr("fill","#6b69d6");
@@ -1507,7 +1507,7 @@ $(function () {
         for (var i=0;i<snps.length;i++){
             if(snps[i].index == id){
                 d3.select("#snpid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
-            }else if(snps[i].consequencetypeColor ==1){
+            }else if(snps[i].consequenceTypeColor ==1){
                 d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill"," #02ccb1");
             }else {
                 d3.select("#snpid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
@@ -1545,9 +1545,9 @@ $(function () {
             if(snps[i].index == id){
                 d3.select("#indelid").select("a[href='#" +id+ "']").select("rect").attr("fill","#ff0000");
             }
-            else if(snps[i].consequencetypeColor ==2){
+            else if(snps[i].consequenceTypeColor ==2){
                 d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#0ccdf1");
-            }  else if(snps[i].consequencetypeColor ==3){
+            }  else if(snps[i].consequenceTypeColor ==3){
                 d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#df39e0");
             }  else {
                 d3.select("#indelid").select("a[href='#" +snps[i].id+ "']").select("rect").attr("fill","#6b69d6");
