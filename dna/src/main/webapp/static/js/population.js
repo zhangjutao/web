@@ -153,8 +153,10 @@ $(function (){
 
 
     // 确定按钮（过滤条件）
+    var filterInputs = [];
     // 过滤条件（封装）
     function filterCondition(){
+        filterInputs.length = 0;
         var lists = $("#selectedDetails li");
         for(var i=0;i<lists.length;i++){
             var $input = $(lists[i]).find("input");
@@ -163,6 +165,7 @@ $(function (){
                 var newClassVal = "." + classVal + "T";
                 $("#tableShow thead").find(newClassVal).hide();
                 $("#tableShow tbody").find(newClassVal).hide();
+                filterInputs.push(newClassVal);
             }
             else {
                 var classVal = $input.attr("name");
@@ -329,10 +332,12 @@ $(function (){
 
                 if (selectedNum>mathCeil) {
                     selectedDatas.pageNum = 1;
-                    getData(selectedDatas,1,filterCondition);
+                    // getData(selectedDatas,1,filterCondition);
+                    getData(selectedDatas,1);
                 }else{
                     // page.curr = selectedNum;
-                    getData(selectedDatas,selectedDatas.pageNum,filterCondition);
+                    // getData(selectedDatas,selectedDatas.pageNum,filterCondition);
+                    getData(selectedDatas,selectedDatas.pageNum);
                 }
             }
         }
@@ -343,7 +348,8 @@ $(function (){
     var curr = 1;
     var currPageNumber = 1;
     //ajax 请求
-    function getData(data,curr,fn){
+    // function getData(data,curr,fn){
+    function getData(data,curr){
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",
@@ -451,7 +457,11 @@ $(function (){
                         var $tbody = $("#tableShow table tbody");
                         $tbody.append(tr);
                     }
-                    fn&&fn();
+                    for(var i=0;i<filterInputs.length;i++){
+                        $("#tableShow thead").find(filterInputs[i]).hide();
+                        $("#tableShow tbody tr").find(filterInputs[i]).hide();
+                    }
+                    // fn&&fn();
                 }
                 // 分页
                 laypage({
@@ -473,7 +483,8 @@ $(function (){
                             tmp.pageNum = obj.curr;
                             currPageNumber = obj.curr;
                             tmp.pageSize = pageSizeNum;
-                            getData(tmp,obj.curr,filterCondition);
+                            // getData(tmp,obj.curr,filterCondition);
+                            getData(tmp,obj.curr);
                         }
                     }
                 });
@@ -511,7 +522,8 @@ $(function (){
         var data = getParamas();
         data.pageNum = 1;
         data.pageSize = page.pageSize;
-        getData(data,data.pageNum,filterCondition);
+        // getData(data,data.pageNum,filterCondition);
+        getData(data,data.pageNum);
     });
     //modified by zjt 2018-3-27
 

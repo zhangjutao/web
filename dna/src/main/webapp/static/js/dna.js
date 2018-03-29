@@ -755,7 +755,11 @@ $(function () {
             }
 
         }
-        TableHeaderSettingSnp();
+        // TableHeaderSettingSnp();
+        for(var i=0;i<snpHideTableTitles.length;i++){
+                $(".js-snp-table").find(snpHideTableTitles[i]).hide();
+                // $("#tableBody").find("")
+        }
     }
 
     // 生成INDELs表格
@@ -823,7 +827,11 @@ $(function () {
         });
         $("#indel-paginate .total-page-count span").html(res.total);
         fn&&fn();
-        TableHeaderSettingIndel();
+        // TableHeaderSettingIndel();?
+        for(var i=0;i<indelHideTableTitles.length;i++){
+            $(".js-indel-table").find(indelHideTableTitles[i]).hide();
+            // $("#tableBody").find("")
+        }
     }
 
     // 表头的 major 和 minor 切换
@@ -843,24 +851,34 @@ $(function () {
         tab[i].onclick=function(){
         }
     }
+    var snpHideTableTitles = [];
+    var indelHideTableTitles = [];
     // 表头设置
     window.TableHeaderSettingSnp = function () {
+        snpHideTableTitles.length = 0;
         var headers = $(".js-table-header-setting-snp").find("label");
         $.each(headers, function(idx, item) {
             if(!$(item).hasClass("checkbox-ac")) {
-                $(".js-snp-table").find(".t_"+$(item).attr("for")).hide();
+                $(".js-snp-table thead").find(".t_"+$(item).attr("for")).hide();
+                $(".js-snp-table tbody").find(".t_"+$(item).attr("for")).hide();
+                snpHideTableTitles.push(".t_"+$(item).attr("for"));
             } else {
-                $(".js-snp-table").find(".t_"+$(item).attr("for")).show();
+                $(".js-snp-table thead").find(".t_"+$(item).attr("for")).show();
+                $(".js-snp-table tbody").find(".t_"+$(item).attr("for")).show();
             }
         });
     }
     window.TableHeaderSettingIndel = function () {
+        indelHideTableTitles.length = 0;
         var headers = $(".js-table-header-setting-indel").find("label");
         $.each(headers, function(idx, item) {
             if(!$(item).hasClass("checkbox-ac")) {
-                $(".js-indel-table").find(".t_"+$(item).attr("for")).hide();
+                $(".js-indel-table thead").find(".t_"+$(item).attr("for")).hide();
+                $(".js-indel-table tbody").find(".t_"+$(item).attr("for")).hide();
+                indelHideTableTitles.push(".t_"+$(item).attr("for"));
             } else {
-                $(".js-indel-table").find(".t_"+$(item).attr("for")).show();
+                $(".js-indel-table thead").find(".t_"+$(item).attr("for")).show();
+                $(".js-indel-table tbody").find(".t_"+$(item).attr("for")).show();
             }
         });
     }
@@ -1340,7 +1358,7 @@ $(function () {
                 obj.x = (snpLocalPoints[i].pos - startPos) / scale;
                 obj.y = 90;
                 obj.index = snpLocalPoints[i].index;
-                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+                obj.consequencetypeColor = snpLocalPoints[i].consequenceTypeColor;
                 newArr.push(obj);
             }
         } else {
@@ -1350,7 +1368,7 @@ $(function () {
                 obj.y = 90;
                 // obj.id = snpLocalPoints[i].id;
                 obj.index = snpLocalPoints[i].index;
-                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+                obj.consequencetypeColor = snpLocalPoints[i].consequenceTypeColor;
 
                 newArr.push(obj);
             }
@@ -1370,8 +1388,8 @@ $(function () {
                         break;
                         j--;
                     }
-                }
-                ;
+                };
+
             }
             for (var m = 0; m < arr.length; m++) {
                 var a = g1.append("a").attr("href", "#" + arr[m].index);
@@ -1386,10 +1404,10 @@ $(function () {
                 } else if (arr[m].consequencetypeColor == 3) {
                     a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#df39e0").attr("data-index", arr[m].index).attr("data-status", "indel2");
                     continue;
-                }
-                ;
+                }else {
+
                 a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", snpColor).attr("data-index", arr[m].index).attr("data-status", "save1");
-                ;
+                }
             }
             loop(temp)
         }
@@ -1405,6 +1423,7 @@ $(function () {
                 var index = Number($(e.target).attr("data-index"));
                 obj.params.group = JSON.parse(obj.params.group);
                 obj.params.index = index;
+                obj.params.ctype ="ALL";
                 obj.params.pageSize = pageSize;
                 delete obj.params.pageNo;
                 var panelType = GetPanelParams.getPanelType();
