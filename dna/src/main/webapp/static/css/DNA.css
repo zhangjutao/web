@@ -195,7 +195,7 @@ td.param:hover >div{display: block}
 #pagination .laypageskin_molv .laypage_curr {    border-top: 1px solid #0f9145;    border-bottom: 1px solid #0f9145;    color: #fff;}
 #pagination .laypage_main input {    height: 33px;    line-height: 33px; width: 50px; margin-right: 5px; margin-left: 5px;}
 #pagination .laypage_main button {    display: none;}
-#total-page-count {    display: inline-block;    vertical-align: bottom;    margin-left: 15px;    height: 24px; margin-top: 11px;}
+#total-page-count {    display: inline-block;    vertical-align: bottom;    margin-left: 15px;    height: 24px; margin-top: 8px;}
 .cont{height: auto!important;width: auto!important;}
 .snpid-td p{    height: 25px;line-height: 25px; text-align: left;}
 .snpid-td span{padding-right: 5px;}

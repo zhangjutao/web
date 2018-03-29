@@ -311,456 +311,459 @@
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
             </div>
-            <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
-                <thead style="overflow-x: scroll;">
-                <tr style="background: #F5F8FF;">
-                <tr>
-                    <th class="param runNoT">测序样品编号
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="runNoI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+            <div style="overflow-x: scroll;overflow-y: hidden; min-height:200px;">
+                <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
+                    <thead style="overflow-x: scroll;">
+                    <tr style="background: #F5F8FF;">
+                    <tr>
+                        <th class="param runNoT">测序样品编号
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="runNoI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param genoTypeT">Genotype
-                        <img src="/dna/static/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="genoTypeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param genoTypeT">Genotype
+                            <img src="/dna/static/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="genoTypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param scientificNameT">物种名称
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="scientificNameI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param sampleIdT">编号
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sampleIdI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param strainNameT">菌株名称
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="strainNameI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param scientificNameT">物种名称
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="scientificNameI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param sampleIdT">编号
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sampleIdI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param strainNameT">菌株名称
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="strainNameI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param localityT">地理位置
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="localityI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param preservationLocationT">保藏地点
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入"
-                                   class="preservationLocationI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param typeT">类型
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="typeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param localityT">地理位置
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="localityI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param preservationLocationT">保藏地点
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入"
+                                       class="preservationLocationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param typeT">类型
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="typeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param environmentT">培养环境
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="environmentI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param materialsT">材料
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="materialsI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param environmentT">培养环境
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="environmentI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param materialsT">材料
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="materialsI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param treatT">处理
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="treatI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <%--<th class="paramTag popMoveOn" style="position:relative;">时间--%>
-                    <%--<img src="/dna/static/images/arrow-drop-down.png" alt="logo"--%>
-                    <%--style="width: 15px;vertical-align: middle;">--%>
-                    <%--<div class="popNames">--%>
-                    <%--<ul>--%>
-                    <%--<li>Q1</li>--%>
-                    <%--<li>Q2</li>--%>
-                    <%--<li>Q3</li>--%>
-                    <%--<li>Q4</li>--%>
-                    <%--<li>Q5</li>--%>
-                    <%--<li>Q6</li>--%>
-                    <%--<li>Q7</li>--%>
-                    <%--<li>Q8</li>--%>
-                    <%--<li>Q9</li>--%>
-                    <%--<li>Q10</li>--%>
-                    <%--</ul>--%>
-                    <%--</div>--%>
-                    <%--</th>--%>
-                    <th class="param timeT">时间
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="timeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param taxonomyT">分类地位
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="taxonomyI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param myceliaPhenotypeT">菌丝形态
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="myceliaPhenotypeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param myceliaDiameterT">菌丝直径
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="myceliaDiameterI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param myceliaColorT">菌丝颜色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="myceliaColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param treatT">处理
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="treatI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <%--<th class="paramTag popMoveOn" style="position:relative;">时间--%>
+                        <%--<img src="/dna/static/images/arrow-drop-down.png" alt="logo"--%>
+                        <%--style="width: 15px;vertical-align: middle;">--%>
+                        <%--<div class="popNames">--%>
+                        <%--<ul>--%>
+                        <%--<li>Q1</li>--%>
+                        <%--<li>Q2</li>--%>
+                        <%--<li>Q3</li>--%>
+                        <%--<li>Q4</li>--%>
+                        <%--<li>Q5</li>--%>
+                        <%--<li>Q6</li>--%>
+                        <%--<li>Q7</li>--%>
+                        <%--<li>Q8</li>--%>
+                        <%--<li>Q9</li>--%>
+                        <%--<li>Q10</li>--%>
+                        <%--</ul>--%>
+                        <%--</div>--%>
+                        <%--</th>--%>
+                        <th class="param timeT">时间
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="timeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param taxonomyT">分类地位
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="taxonomyI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param myceliaPhenotypeT">菌丝形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="myceliaPhenotypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param myceliaDiameterT">菌丝直径
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="myceliaDiameterI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param myceliaColorT">菌丝颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="myceliaColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param sporesColorT">孢子颜色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sporesColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param sporesShapeT">孢子形态
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sporesShapeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param sporesColorT">孢子颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sporesColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param sporesShapeT">孢子形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sporesShapeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param clampConnectionT">锁状联合
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="clampConnectionI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param clampConnectionT">锁状联合
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="clampConnectionI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param pileusPhenotypeT">菌盖形态
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="pileusPhenotypeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param pileusPhenotypeT">菌盖形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="pileusPhenotypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param pileusColorT">菌盖颜色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="pileusColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param stipePhenotypeT">菌柄形态
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="stipePhenotypeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param pileusColorT">菌盖颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="pileusColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param stipePhenotypeT">菌柄形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="stipePhenotypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param stipeColorT">菌柄颜色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="stipeColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param stipeColorT">菌柄颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="stipeColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param fruitbodyColorT">子实体颜色
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="fruitbodyColorI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param fruitbodyColorT">子实体颜色
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="fruitbodyColorI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param fruitbodyTypeT">子实体形态
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="fruitbodyTypeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param illuminationT">光照
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="illuminationI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param fruitbodyTypeT">子实体形态
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="fruitbodyTypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param illuminationT">光照
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="illuminationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param collariumT">菌环
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="collariumI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param volvaT">菌托
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="volvaI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param collariumT">菌环
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="collariumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param volvaT">菌托
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="volvaI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param velumT">菌幕
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="velumI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param sclerotiumT">菌核
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="sclerotiumI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param velumT">菌幕
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="velumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param sclerotiumT">菌核
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="sclerotiumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param strainMediumT">菌种培养基
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="strainMediumI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param strainMediumT">菌种培养基
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="strainMediumI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param mainSubstrateT">主要栽培基质
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="mainSubstrateI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param afterRipeningStageT">后熟期
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="afterRipeningStageI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param primordialStimulationFruitbodyT">原基刺激&子实体
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入"
-                                   class="primordialStimulationFruitbodyI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param reproductiveModeT">生殖方式
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="reproductiveModeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param mainSubstrateT">主要栽培基质
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="mainSubstrateI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param afterRipeningStageT">后熟期
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="afterRipeningStageI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param primordialStimulationFruitbodyT">原基刺激&子实体
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入"
+                                       class="primordialStimulationFruitbodyI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param reproductiveModeT">生殖方式
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="reproductiveModeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param lifestyleT">生活方式
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="lifestyleI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param lifestyleT">生活方式
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="lifestyleI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param preservationT">保藏方法
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="preservationI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param preservationT">保藏方法
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="preservationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param domesticationT">驯化
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="domesticationI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param domesticationT">驯化
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="domesticationI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                    <th class="param nuclearPhaseT">核相
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="nuclearPhaseI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
-                    <th class="param matingTypeT">交配型
-                        <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
-                        <div class="inputComponent">
-                            <input type="text" placeholder="请输入" class="matingTypeI inputStyle">
-                            <p>
-                                <a href="javascript:void(0);" class="btnCancel">取消</a>
-                                <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
-                            </p>
-                        </div>
-                    </th>
+                        <th class="param nuclearPhaseT">核相
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="nuclearPhaseI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
+                        <th class="param matingTypeT">交配型
+                            <img src="${ctxStatic}/images/arrow-drop-down.png" alt="logo">
+                            <div class="inputComponent">
+                                <input type="text" placeholder="请输入" class="matingTypeI inputStyle">
+                                <p>
+                                    <a href="javascript:void(0);" class="btnCancel">取消</a>
+                                    <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
+                                </p>
+                            </div>
+                        </th>
 
-                </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
 
         </div>
         <%--laypage 分页 插件  begin--%>
@@ -1250,6 +1253,18 @@
 //        $("#snpinfoTable .inputComponent .btnCancel").click(function (){
             $(this).parent().parent().find("input").val("");
             $(this).parent().parent().hide();
+            //重新获取数据 modified by zjt 2018-3-29
+            var selectedDatas1 = snpGetParams(changeParam);
+            selectedDatas1.pageNum = 1;                 //回到第一页
+            selectedDatas1.pageSize = 10;
+            page.pageSize = selectedDatas1.pageSize;
+            paramData.pageNum = selectedDatas1.pageNum;
+            paramData.pageSize = selectedDatas1.pageSize;
+            selectedDatas1.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            $('#snpInforsPage .ga-ctrl-footer .select_default_page').val(10);
+            console.log(selectedDatas1)
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);
+            //重新获取数据 modified by zjt 2018-3-29
         })
         // 群体信息
         var popuSelectedVal="";
@@ -1309,11 +1324,22 @@
             };
             var selectedDatas1 = snpGetParams(changeParam);
 
-            selectedDatas1.pageNum = paramData.pageNum;
+            //重新回到第一页 modified by zjt 2018-3-29
+            /*selectedDatas1.pageNum = paramData.pageNum;
             selectedDatas1.pageSize = paramData.pageSize;
             selectedDatas1.judgeAllele = $(".changeTagColor").text().split(" ")[0];
             console.log(selectedDatas1)
-            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer);*/
+            selectedDatas1.pageNum = 1;
+            selectedDatas1.pageSize =10;
+            paramData.pageNum = selectedDatas1.pageNum;
+            paramData.pageSize = selectedDatas1.pageSize;
+            page.pageSize = paramData.pageSize;
+            $('#snpInforsPage .ga-ctrl-footer .select_default_page').val(10);
+            selectedDatas1.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            console.log(selectedDatas1)
+            getData(selectedDatas1,selectedDatas1.pageNum,filterParamer)
+            //重新回到第一页 modified by zjt 2018-3-29
         })
         // 导出数据部分
         $('#tableSet').click(function (){
@@ -1467,10 +1493,16 @@
         $("#snpInforsPage ul li").click(function (){
             var val = $(this).text();
             var data =snpGetParams(changeParam);
-            data.pageNum = paramData.pageNum;
+            //重新回到第一页modified by zjt 2018-3-29
+            /*data.pageNum = paramData.pageNum;
             data.pageSize = val;
             data.pageNum = currPageNumber;
             data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            getData(data,data.pageNum);*/
+            data.pageNum = 1;
+            data.pageSize = val;
+            data.judgeAllele = $(".changeTagColor").text().split(" ")[0];
+            page.pageSize = data.pageSize;
             getData(data,data.pageNum);
         })
         // 表格导出

@@ -1,0 +1,1 @@
+<h1>hello, this's common part inside META-INF directory</h1>
