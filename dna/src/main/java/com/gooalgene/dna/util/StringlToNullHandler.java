@@ -1,5 +1,6 @@
 package com.gooalgene.dna.util;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.type.*;
 
 import java.sql.CallableStatement;
@@ -20,16 +21,16 @@ public class StringlToNullHandler implements TypeHandler<String> {
 
     @Override
     public String getResult(ResultSet rs, String columnName) throws SQLException {
-        return (rs.getString(columnName) == null)? "-" : rs.getString(columnName);
+        return (rs.getString(columnName) == null|| StringUtils.equals(rs.getString(columnName),"NONE")|| StringUtils.equals(rs.getString(columnName),""))? "-" : rs.getString(columnName);
     }
 
     @Override
     public String getResult(ResultSet rs, int columnIndex) throws SQLException {
-        return (rs.getString(columnIndex) == null)? "-" : rs.getString(columnIndex);
+        return (rs.getString(columnIndex) == null|| StringUtils.equals(rs.getString(columnIndex),"NONE")|| StringUtils.equals(rs.getString(columnIndex),""))? "-" : rs.getString(columnIndex);
     }
 
     @Override
     public String getResult(CallableStatement cs, int columnIndex) throws SQLException {
-        return (cs.getString(columnIndex) == null)? "-" : cs.getString(columnIndex);
+        return (cs.getString(columnIndex) == null|| StringUtils.equals(cs.getString(columnIndex),"NONE")|| StringUtils.equals(cs.getString(columnIndex),""))? "-" : cs.getString(columnIndex);
     }
 }
