@@ -1685,8 +1685,10 @@
         var popId;
         var currVal = "";
 
+        var customize = 0;
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click", ".label-txt", function () {
+            customize = 1;
             currVal = $(this).text().split(",")[0].substring(0, 6);
             var currKindList = $(this).text().split(",");
 
@@ -1804,6 +1806,7 @@
         };
 
         $(".js-cursom-add2").on("click", ".label-txt", function () {
+            customize = 0;
             currFlag = "group";
             var label = $(this).parent().find("label");
             if (label.hasClass("cur")) {
@@ -1869,12 +1872,17 @@
                 getPopuTable(curr, pageSizeNum)
             }
         });*/
-        $("#popu-paginate #per-page-count .select_item_page li").click(function (){
-            var currentSelected = $(this).text();
+        $("#popu-paginate .per-page-count .select_item_page li").click(function (){
+            var currentSelected = Number($(this).text());
             var pageSizeNum = currentSelected;
             pageSizePopu = currentSelected;
             //paramData.pageSize = pageSizePopu;
-            getPopuTable(1, pageSizeNum)
+
+                if(customize == 1){
+                    getKindInfos(1);
+                }else {
+                    getPopuTable(1)
+                }
         });
         //modified by zjt 2018-3-27
 
@@ -1900,7 +1908,6 @@
         var pageSizePopu = 10;
 
         function getPopuTable(curr) {
-            console.log(currPopu);
             var currData=[];
             currData.push(currPopu)
             var datas={group: JSON.stringify(currPopu), pageNo: curr || 1, pageSize: pageSizePopu};
