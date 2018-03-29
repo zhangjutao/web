@@ -311,7 +311,7 @@
                 <p class="changeTagColor major">Major Allele</p>
                 <p class="minor">Minor Allele</p>
             </div>
-            <div style="overflow-x: scroll;overflow-y: hidden;">
+            <div style="overflow-x: scroll;overflow-y: hidden; min-height:200px;">
                 <table border="1" cellspacing="0" cellpadding="5" style="overflow-x: scroll;overflow-y: hidden; min-height:100px;margin-top:20px;">
                     <thead style="overflow-x: scroll;">
                     <tr style="background: #F5F8FF;">
