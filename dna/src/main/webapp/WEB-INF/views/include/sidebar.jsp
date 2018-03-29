@@ -123,7 +123,7 @@
     .label-txt {
         vertical-align: bottom;
     }
-   #tagsPagination #total-page-count{position: relative;top:-4px;}
+   #tagsPagination #total-page-count{position: relative;top:0px;}
 </style>
 
 
@@ -1734,7 +1734,7 @@
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                offset: ['135px', '320px']
+                offset: ['135px', '390px']
             });
             $("#popu-paginate .select_default_page").val(10);
 
@@ -1829,7 +1829,7 @@
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                offset: ['135px', '320px']
+                offset: ['135px', '390px']
 
             });
             $("#popu-paginate .select_default_page").val(10);

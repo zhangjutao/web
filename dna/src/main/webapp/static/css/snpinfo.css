@@ -71,11 +71,11 @@
 }
 #snpinfoTable{
     width: 1137px;
-    overflow-x: scroll;
+    /*overflow-x: scroll;*/
     min-height: 250px;
     margin-left:33px;
     position:relative;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
 }
 #snpinfoTable table tbody td{
     text-align:center;
