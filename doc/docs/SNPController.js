@@ -2,7 +2,7 @@
 function fetchAllChromosome() {
 }
 /**
- * @api {get} /dna/fetch-all-chromosome 获取所有染色体
+ * @api {get} dna/fetch-all-chromosome 获取所有染色体
  * @apiName fetchAllChromosome
  * @apiGroup DNA
  * @apiDescription 蘑菇数据库DNA页面加载时获取所有染色体以及该染色体的最大长度
@@ -25,10 +25,12 @@ function fetchAllChromosome() {
 function queryForSNPTableByRegion() {
 }
 /**
- * @api {POST} /dna/queryForTable DNA数据库确认时下方表格数据(Search By Region)
+ * @api {POST} dna/queryForTable 区间搜索表格数据
  * @apiName queryForSNPTableByRegion
  * @apiGroup DNA
- * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方表格数据
+ * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方表格数据，这里返回的是染色体上该区间内的所有SNP位点，
+ * 包括基因间数据。在用户点击分页时，也是调用该接口，支持传入的pageNo不同。筛选同样调用该接口，不同consequenceType对应的ctype值
+ * 不一样
  * @apiSampleRequest http://localhost:8080/dna/dna/queryForTable
  * @apiParamExample {json} Request-Example:
  * {
@@ -111,11 +113,12 @@ function queryForSNPTableByRegion() {
 function queryForSNPTableByGene() {
 }
 /**
- * @api {POST} /dna/queryForTable DNA数据库确认时下方表格数据(Search By Gene)
+ * @api {POST} dna/queryForTable 基因搜索表格数据
  * @apiName queryForSNPTableByGene
  * @apiGroup DNA
  * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方表格数据,当用户选择的根据基因搜索，此时只需要传入基因与用户输入的上下游
- * 区间，如果用户不输入，默认上游减2000，下游加2000；如果用户输入该值，则以用户输入值为准
+ * 区间，如果用户不输入，后台默认将上游减2000，下游加2000；如果用户输入该值，则以用户输入值为准。
+ * 此时需要将chromosome字段改为gene字段。分页与consequenceType过滤均调用该接口
  * @apiSampleRequest http://localhost:8080/dna/dna/queryForTable
  * @apiParamExample {json} Request-Example:
  * {
@@ -201,11 +204,19 @@ function queryForSNPTableByGene() {
 function fetchAllPointByGene() {
 }
 /**
- * @api {POST} /dna/fetch-point DNA数据库确认时下方图形数据(Search By Gene)
+ * @api {POST} dna/fetch-point 基因搜索图形数据
  * @apiName fetchAllPointByGene
  * @apiGroup DNA
- * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方表格数据,当用户选择的根据基因搜索，此时只需要传入基因与用户输入的上下游
- * 区间，如果用户不输入，默认上游减2000，下游加2000；获取该基因区间上的所有SNP位点，返回给前端用户画图
+ * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方图形数据,当用户选择的根据基因搜索，此时只需要传入基因与用户输入的上下游
+ * 区间，如果用户不输入，默认上游减2000，下游加2000；获取该基因区间上的所有SNP位点，返回给前端用户画图。
+ * 注意：这里传入的参数只有gene、start、end、type、ctype几个，无需传入其它参数
+ * @apiParam {String} type SNP/INDEL
+ * @apiParam {String} ctype consequenceType值
+ * @apiParam {String} gene 当前选择的基因
+ * @apiParam {int} start 基因上游需减掉的值
+ * @apiParam {int} end 基因下游需加上的值
+ * @apiParam {Object} group 侧标栏已选的群体，每一个群体均具有name、id、condition三个属性，该对象参见GroupCondition，
+ * 如果用户选择的condition为多个样品时，condition这个map中需传入idList，该值的value为多个sample的id，用逗号隔开
  * @apiSampleRequest http://localhost:8080/dna/dna/fetch-point
  * @apiParamExample {json} Request-Example:
  * {
@@ -283,12 +294,23 @@ function fetchAllPointByGene() {
 function fetAllPointByRegion() {
 }
 /**
- * @api {POST} /dna/fetch-point DNA数据库确认时下方图形数据(Search By Region)
+ * @api {POST} dna/fetch-point 区间搜索图形数据
  * @apiName fetchAllPointByGene
  * @apiGroup DNA
- * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方表格数据,当用户选择的根据染色体搜索；获取该染色体指定
- * 区间上的所有SNP位点，返回给前端用户画图（注意:这里geneInsideRegion是该区域内所包含的所有基因个数，后台会默认选择第一个基因
+ * @apiDescription 蘑菇数据库DNA页面侧边栏点击确认时右侧下方图形数据,当用户选择的根据染色体搜索；获取该染色体区间内
+ * 包含的所有基因（注意区间是不需要进行上下游加减2000的），返回该区间内的所有基因，查询集合中第一个基因的upstream、downstream，分别加减2000操作，
+ * 然后到mongodb中查询该区间内的所有SNP并返回给前端，该snpList也即该第一个基因的所有SNP位点，
+ * 返回给前端用户画图（注意:这里geneInsideRegion是该区域内所包含的所有基因个数，后台会默认选择第一个基因
  * 并返回该基因的所有基因结构，这里的structureList就是第一个基因的基因结构，不是所有！！！）
+ * 注意：如果该区间内有多个基因，当用户选择非第一个基因时，前台需调用fetchAllPointByGene接口，此时只能传入geneId，start、end
+ * 均不能传。因为此时查询变为按照基因搜索
+ * @apiParam {String} type SNP/INDEL
+ * @apiParam {String} ctype consequenceType值
+ * @apiParam {String} chromosome 当前选择的染色体
+ * @apiParam {int} start 基因上游需减掉的值
+ * @apiParam {int} end 基因下游需加上的值
+ * @apiParam {Object} group 侧标栏已选的群体，每一个群体均具有name、id、condition三个属性，属性详情参见GroupCondition对象，
+ * 如果用户选择的condition为多个样品时，condition这个map中需传入idList，该值的value为多个sample的id，用逗号隔开
  * @apiSampleRequest http://localhost:8080/dna/dna/fetch-point
  * @apiParamExample {json} Request-Example:
  * {
@@ -596,7 +618,7 @@ function fetAllPointByRegion() {
 function jumpPageByRegion() {
 }
 /**
- * @api {POST} /dna/jump-page DNA数据库中图标联动接口(Search By Region)
+ * @api {POST} dna/jump-page 图表联动(Region)
  * @apiName jumpPageByRegion
  * @apiGroup DNA
  * @apiDescription 蘑菇数据库DNA当右侧出现图表时，用户点击图中某一个SNP位点，后台根据前台传入的index值以及查询条件，计算
@@ -772,7 +794,7 @@ function jumpPageByRegion() {
 function jumpPageByGene() {
 }
 /**
- * @api {POST} /dna/jump-page DNA数据库中图标联动接口(Search By Gene)
+ * @api {POST} dna/jump-page 图表联动(Gene)
  * @apiName jumpPageByGene
  * @apiGroup DNA
  * @apiDescription 蘑菇数据库DNA当右侧出现图表时，用户点击图中某一个SNP位点，后台根据前台传入的index值以及查询条件
