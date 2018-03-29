@@ -250,7 +250,6 @@ public class SNPController {
             // 涉及到基因均需加减上下游2k值区间
             long min = minAndMaxPos.getMin() - 2000 < 0 ? 0 : minAndMaxPos.getMin() - 2000;
             long max = minAndMaxPos.getMax() + 2000;
-            logger.debug("current chromosome min : " + min + " ,max : " + max);
             // 判断起始基因位置是否落在区间start前
             if (min < start) {
                 result[0] = min;
@@ -268,6 +267,7 @@ public class SNPController {
             result[0] = start;
             result[1] = end;
         }
+        logger.debug("current chromosome min : " + result[0] + " ,max : " + result[1]);
         return result;
     }
 
@@ -467,7 +467,7 @@ public class SNPController {
 
     @RequestMapping(value = "/getByCultivar",method = RequestMethod.GET)
     @ResponseBody
-    public ResultVO getByCultivar(@RequestParam("names") List<String> ids,
+    public ResultVO getByCultivar(@RequestParam("names[]") List<String> ids,
                                   @RequestParam(value = "pageNum",defaultValue = "1",required = false) Integer pageNum,
                                   @RequestParam(value = "pageSize",defaultValue = "10",required = false) Integer pageSize) {
         return ResultUtil.success(dnaRunService.getByCultivar(ids,pageNum,pageSize));
