@@ -1218,6 +1218,7 @@
         $(".custom-groups-btn").click(function () {
             $(".custom-groups-content").show();
             $(".cover").show();
+//            $("#tagsPagination .per-page-count .select_default_page").val(10);
         });
 
         /* 自定义群体-关闭 */
