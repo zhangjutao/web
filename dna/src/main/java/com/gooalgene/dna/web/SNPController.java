@@ -109,6 +109,7 @@ public class SNPController {
         String gene = condition.getGene();
         // Search in Region
         if (StringUtils.isEmpty(gene)) {
+
             result = snpService.searchSNPResult(condition.getType(), condition.getCtype(),
                     condition.getChromosome(), String.valueOf(condition.getStart()), String.valueOf(condition.getEnd()),
                     condition.getGroup(), condition.getPageNo(), condition.getPageSize());
@@ -236,6 +237,12 @@ public class SNPController {
         } else { // Search in Gene
             result = searchOnlyByGene(gene, condition.getType(), condition.getStart(), condition.getEnd(), true);
         }
+        return result;
+    }
+
+    private int[] getFinalStartEndInRegion(String chromosome, int start, int end) {
+        int[] result = new int[2];
+
         return result;
     }
 

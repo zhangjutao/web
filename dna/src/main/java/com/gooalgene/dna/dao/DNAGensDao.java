@@ -31,5 +31,7 @@ public interface DNAGensDao extends CrudDao<DNAGens> {
 
     Set<String> getByRegion(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
 
+    List<Integer> findMinAndMax(@Param("chr") String chr, @Param("start") long start, @Param("end") long end);
+
     List<ChromosomeList> fetchAllChromosome();
 }

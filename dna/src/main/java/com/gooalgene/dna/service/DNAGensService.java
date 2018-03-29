@@ -58,4 +58,23 @@ public class DNAGensService {
         Set<String> list= dnaGensDao.getByRegion(chr,start,end);
         return list;
     }
+
+    /**
+     * 查找该染色体该区间内基因的最新位置和最大位置，该方法仅使用于确定有基因的区间，否则调用报错
+     * 如在按照区间搜索，如果该区间内有基因，这里会获取该区间内基因的起始位置极端值
+     * @param chr 染色体
+     * @param start 起点位置
+     * @param end 终点位置
+     * @return 两个值的集合，第一个为最小值，第二个为最大值
+     */
+    public List<Integer> findMinAndMaxPos(String chr,long start, long end) {
+        if (start > end) {
+            throw new IllegalArgumentException("start arguments greater than end arguments");
+        }
+        List<Integer> minAndMax = dnaGensDao.findMinAndMax(chr, start, end);
+        if (minAndMax.size() != 2) {
+            throw new IllegalArgumentException("findMinAndMaxPos only apply for those having genes method");
+        }
+        return minAndMax;
+    }
 }
