@@ -44,8 +44,8 @@ public class DNAMongoService {
     Logger logger = LoggerFactory.getLogger(DNAMongoService.class);
 
     private final String EXONIC_NONSYNONYMOUS_SNV = "exonic_nonsynonymous SNV";
-    private final String EXONIC_FRAMESHIFT_INSERTION = "exonic_frameshift deletion";
-    private final String EXONIC_FRAMESHIFT_DELETION = "Exonic_frameshift insertion";
+    private final String EXONIC_FRAMESHIFT_INSERTION = "exonic_frameshift insertion";
+    private final String EXONIC_FRAMESHIFT_DELETION = "exonic_frameshift deletion";
 
     @Autowired
     private MongoTemplate mongoTemplate;
