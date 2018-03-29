@@ -244,6 +244,7 @@ $(function () {
         globFlag = 0;
         pageNumber = 1;
         pageSize = 10;
+        pageSizeSNP = 10;
         gloableSnpSelectedNum = 10;
         $("#snp-paginate .lay-per-page-count-select").val(10);
         if(!$(".custom-groups-content").is(":hidden")){
@@ -278,20 +279,28 @@ $(function () {
         var currSearchType = GetPanelParams.getPanelType();
         gloableSelectedGene = obj.params.gene;
         if(currSearchType == "gene"){
+            globFlag = 1;
             if(!$("#GlyIds").is(":hidden")){
                 $("#GlyIds ul").empty();
                 $("#GlyIds").hide();
             }
+
+            getQueryForTable(obj.params,"SNP");
+            getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
         }else {
+            globFlag = 1;
             if($("#GlyIds").is(":hidden")){
                 $("#GlyIds").show();
                 $("#GlyIds ul").empty();
             }else{
                 $("#GlyIds ul").empty();
             }
+            delete obj.params.gene;
+            getQueryForTable(obj.params,"SNP");
+            getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
         }
-        getQueryForTable(obj.params,"SNP");
-        getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
+        // getQueryForTable(obj.params,"SNP");
+        // getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
         renderTableHead();
         // 获取表格数据--ajax
          $(".page-tables").show();
@@ -323,7 +332,7 @@ $(function () {
         }else {
             deleteTableColorIndel();
         }
-        if(isGeneFirst != 1){
+        // if(isGeneFirst != 1){
             var version = getUrlParam("version");
             var geneName =$(this).text();
             $(".js-gene-head-name").html(geneName);
@@ -349,7 +358,7 @@ $(function () {
                 /* 关闭信息信息、弹框 */
                 layer.close(genesInfoIndex);
             });
-        }
+        // }
 
 
         if(!$(this).hasClass("GlyColor")){
@@ -370,12 +379,34 @@ $(function () {
                 globFlag = 1;
         //判断当前是根据snp查询还是根据indel查询
         var currType = $(".tab-item li.item-ac").text();
+            var currSearchType = GetPanelParams.getPanelType();
+
         if(currType.indexOf("SNPs")!=-1){
-            obj.params.type = "SNP";
-            getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
+            if(currSearchType == "gene"){
+
+                getQueryForChat(obj.params,"constructorPanel","snpid","SNP");
+            }else {
+                obj.params.type = "SNP";
+                var geneObj = {};
+                geneObj.gene = obj.params.gene;
+                geneObj.type = obj.params.type;
+                geneObj.ctype = obj.params.ctype;
+                geneObj.group = obj.params.group;
+                getQueryForChat(geneObj,"constructorPanel","snpid","SNP");
+            }
         }else{
-            obj.params.type = "INDEL";
-            getQueryForChat(obj.params,"constructorPanel2","indelid","INDEL");
+            if(currSearchType == "gene"){
+                getQueryForChat(obj.params, "constructorPanel2", "indelid", "INDEL");
+            }else {
+                obj.params.type = "INDEL";
+                var geneObj = {};
+                geneObj.gene = obj.params.gene;
+                geneObj.type = obj.params.type;
+                geneObj.ctype = obj.params.ctype;
+                geneObj.group = obj.params.group;
+
+                getQueryForChat(geneObj, "constructorPanel2", "indelid", "INDEL");
+            }
         }
     })
     // 生成搜索描述文字
@@ -1142,200 +1173,231 @@ $(function () {
         })
     }
     // 基因结构图
-    function drawGeneConstructor(result,id,gsnpid,type){
+    function drawGeneConstructor(result,id,gsnpid,type) {
 
         // 参考值
         var ttdistance;
-        if(!result.structureList){
+        if (!result.structureList) {
             var direction = -1;
-        }else {
+        } else {
             var direction = result.structureList[0].strand;
         }
         var startPos = parseInt(result.upstream);
-        var endPos =parseInt(result.downstream);
+        var endPos = parseInt(result.downstream);
         var geneLength = endPos - startPos;
-       d3.select("#" + id).selectAll("svg").remove();
-       // 创建一个svg 元素
+        d3.select("#" + id).selectAll("svg").remove();
+        // 创建一个svg 元素
         var svgTotal = $("#" + id).width();
         var totalLength;
-        if(geneLength >svgTotal*10){
-            var svg = d3.select("#" +id).append("svg").attr("width",parseInt(geneLength/10) + "px").attr("height","250px");
+        if (geneLength > svgTotal * 10) {
+            var svg = d3.select("#" + id).append("svg").attr("width", parseInt(geneLength / 10) + "px").attr("height", "250px");
 
-            var acrossLineData = [[20,220],[Math.ceil(geneLength/10)+100,220]];
-            var topLineData = [[20,1],[Math.ceil(geneLength/10)+100,1]];
-            var centerLineData = [[20,90],[Math.ceil(geneLength/10)+100,90]]
-            totalLength = Math.ceil(geneLength/10)+100;
-        }else {
-            var svg = d3.select("#" + id).append("svg").attr("width",svgTotal + "px").attr("height","250px");
-            var acrossLineData = [[20,220],[svgTotal+133,220]];
-            var topLineData = [[20,1],[svgTotal+133,1]];
-            var centerLineData = [[20,90],[svgTotal+133,90]]
-            totalLength = svgTotal+133;
+            var acrossLineData = [[20, 220], [Math.ceil(geneLength / 10) + 100, 220]];
+            var topLineData = [[20, 1], [Math.ceil(geneLength / 10) + 100, 1]];
+            var centerLineData = [[20, 90], [Math.ceil(geneLength / 10) + 100, 90]]
+            totalLength = Math.ceil(geneLength / 10) + 100;
+        } else {
+            var svg = d3.select("#" + id).append("svg").attr("width", svgTotal + "px").attr("height", "250px");
+            var acrossLineData = [[20, 220], [svgTotal + 133, 220]];
+            var topLineData = [[20, 1], [svgTotal + 133, 1]];
+            var centerLineData = [[20, 90], [svgTotal + 133, 90]]
+            totalLength = svgTotal + 133;
 
         }
         // 创建一个直线生成器
         var line = d3.line()
-            .x(function (d){return d[0]})
-            .y(function (d){return d[1]})
+            .x(function (d) {
+                return d[0]
+            })
+            .y(function (d) {
+                return d[1]
+            })
         // 起始竖线
-        var verticalLineData = [[20,0],[20,220]];
+        var verticalLineData = [[20, 0], [20, 220]];
         // 画方向箭头 向左
-        var dirArrowsLeft  =  [[60,60],[40,72],[60,84],[50,72]];
+        var dirArrowsLeft = [[60, 60], [40, 72], [60, 84], [50, 72]];
         // 画方向箭头 向右
-        var dirArrowsRight = [[totalLength-30,60],[totalLength-10,72],[totalLength-29,84],[totalLength-20,72]];
+        var dirArrowsRight = [[totalLength - 30, 60], [totalLength - 10, 72], [totalLength - 29, 84], [totalLength - 20, 72]];
         var intervalLineData = [];
         var svgLength = $("#" + id).find("svg").width();
         // to do
-        if (svgLength >885){
-            var intervalNums = Math.ceil(svgLength/100);
+        if (svgLength > 885) {
+            var intervalNums = Math.ceil(svgLength / 100);
             // 每份的长度
-            ttdistance = parseInt(svgLength/intervalNums);
+            ttdistance = parseInt(svgLength / intervalNums);
 
             // ttdistance =100;
-        }else {
+        } else {
             // 如果svg 长度小于容器长度，则默认分为10份
             // var intervalNums = Math.floor(svgLength/100);
             var intervalNums = 10;
             // 每份的长度
             // ttdistance = svgLength/intervalNums;
-            ttdistance = parseInt(geneLength/100);
+            ttdistance = parseInt(geneLength / 100);
         }
-        for (var i=0;i<intervalNums;i++){
+        for (var i = 0; i < intervalNums; i++) {
             var intervalElement1 = [];
             var intervalElement2 = [];
             var faultElement = [];
-                intervalElement1[0] = parseInt(i*100 + 20);
-                // y轴的值不能设置为0 *****
-                intervalElement1[1] =1;
-            intervalElement2[0] =  parseInt(i*100 + 20);
+            intervalElement1[0] = parseInt(i * 100 + 20);
+            // y轴的值不能设置为0 *****
+            intervalElement1[1] = 1;
+            intervalElement2[0] = parseInt(i * 100 + 20);
             intervalElement2[1] = 219;
             faultElement[0] = -1;
             faultElement[1] = -1;
             intervalLineData.push(intervalElement1);
             intervalLineData.push(intervalElement2);
             intervalLineData.push(faultElement);
-                if(svgLength>885){
-                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
+            if (isNaN(startPos)) {
+                if (svgLength > 885) {
+                    svg.append("text").text(parseInt(0 + 0)).attr("fontSize", "30px").attr("x", intervalElement1[0]).attr("y", 245).attr("text-anchor", "middle");
                 }
-                else if(svgLength<=885&&geneLength>100){
-                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
-                }else{
-                    svg.append("text").text(parseInt(startPos+ i*ttdistance*10)).attr("fontSize","30px").attr("x",intervalElement1[0]).attr("y",245).attr("text-anchor","middle");
+                else if (svgLength <= 885 && geneLength > 100) {
+                    svg.append("text").text(parseInt(0 + 0)).attr("fontSize", "30px").attr("x", intervalElement1[0]).attr("y", 245).attr("text-anchor", "middle");
+                } else {
+                    svg.append("text").text(parseInt(0 + 0)).attr("fontSize", "30px").attr("x", intervalElement1[0]).attr("y", 245).attr("text-anchor", "middle");
                 }
-        }
-        // 利用defined 把一条路径切割成一段一段的多条路径
-            var line2 = line.defined(function(d, i, index) {
-                //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
-                return d[0] > 0 && d[1] > 0;
-            })(intervalLineData);
-            // 利用直线生成器生成相应的直线
-            svg.append("path").attr("stroke","#6E6E6E").attr("stroke-width","3").attr("d",line(acrossLineData));
-            svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line(topLineData));
-            svg.append("path").attr("stroke","#666666").attr("stroke-width","2").attr("d",line(centerLineData)).attr("id","centerLine");
-
-            svg.append("path").attr("stroke","#E1E1E1").attr("stroke-width","2").attr("d",line2);
-            svg.append("path").attr("stroke","#ff0000").attr("stroke-width","3").attr("d",line(verticalLineData));
+            } else {
 
 
-            // 画基因结构图
-            var topY = 70;   // 基因结构图距离上边距离
-            var rectHeight = 20;   // 基因结构图高度
-            var leftMargin = 60;
-            var snpWidth = 5;
-            // var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
-            var g = svg.append("g").attr("transform","translate(20,10)");
-            var g1 = svg.append("g").attr("transform","translate(20,30)").attr("id",gsnpid);  //?问题点
-            var geneConstructs = result.structureList;
-            var snpLocalPoints = result.snpList;
-            var snpColor = "#6b69d6";
-            // 根据染色体不同绘制不同的颜色
-            function chromoColor (str){
-                if(str == "three_prime_UTR"){
-                    return "#ffb902";
-                }else if(str == "CDS"){
-                    return "#0099bb";
-                }else if(str == "five_prime_UTR"){
-                    return "#f76919";
+                if (svgLength > 885) {
+                    svg.append("text").text(parseInt(startPos + i * ttdistance * 10)).attr("fontSize", "30px").attr("x", intervalElement1[0]).attr("y", 245).attr("text-anchor", "middle");
+                }
+                else if (svgLength <= 885 && geneLength > 100) {
+                    svg.append("text").text(parseInt(startPos + i * ttdistance * 10)).attr("fontSize", "30px").attr("x", intervalElement1[0]).attr("y", 245).attr("text-anchor", "middle");
+                } else {
+                    svg.append("text").text(parseInt(startPos + i * ttdistance * 10)).attr("fontSize", "30px").attr("x", intervalElement1[0]).attr("y", 245).attr("text-anchor", "middle");
                 }
             }
-            // 基因结构
-                if(geneConstructs){
-                    for (var i=0;i<geneConstructs.length;i++){
-                        var feature = geneConstructs[i].feature;
-                        var colorVal = chromoColor(feature);
-                        if(geneLength<8850){
-                            var scale = geneLength/885;
-                            g.append("rect").attr("x",(geneConstructs[i].start-startPos)/scale).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/scale).attr("height",rectHeight).attr("fill",colorVal);
-                        }else {
-                            g.append("rect").attr("x",(geneConstructs[i].start-startPos)/10).attr("y",topY).attr("width",(geneConstructs[i].end - geneConstructs[i].start)/10).attr("height",rectHeight).attr("fill",colorVal);
-                        }
-                    };
-                }
-        // 方向箭头
-        if(direction == "-"){
-            svg.append("path").attr("stroke","#B3B3B3").attr('stroke-width', '2').attr("fill","#B3B3B3").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
-        }else if(direction == "+"){
-            svg.append("path").attr("stroke","#B3B3B3").attr('stroke-width', '2').attr("fill","#B3B3B3").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)").attr("id","arrows");
+        }
+        // 利用defined 把一条路径切割成一段一段的多条路径
+        var line2 = line.defined(function (d, i, index) {
+            //   在返回值为false的位置进行切割，并且当前数据不再计入到路径中
+            return d[0] > 0 && d[1] > 0;
+        })(intervalLineData);
+        // 利用直线生成器生成相应的直线
+        svg.append("path").attr("stroke", "#6E6E6E").attr("stroke-width", "3").attr("d", line(acrossLineData));
+        svg.append("path").attr("stroke", "#E1E1E1").attr("stroke-width", "2").attr("d", line(topLineData));
+        svg.append("path").attr("stroke", "#666666").attr("stroke-width", "2").attr("d", line(centerLineData)).attr("id", "centerLine");
+
+        svg.append("path").attr("stroke", "#E1E1E1").attr("stroke-width", "2").attr("d", line2);
+        svg.append("path").attr("stroke", "#ff0000").attr("stroke-width", "3").attr("d", line(verticalLineData));
+
+
+        // 画基因结构图
+        var topY = 70;   // 基因结构图距离上边距离
+        var rectHeight = 20;   // 基因结构图高度
+        var leftMargin = 60;
+        var snpWidth = 5;
+        // var g = svg.append("g").attr("transform","translate(" +leftMargin + ",10)");
+        var g = svg.append("g").attr("transform", "translate(20,10)");
+        var g1 = svg.append("g").attr("transform", "translate(20,30)").attr("id", gsnpid);  //?问题点
+        var geneConstructs = result.structureList;
+        var snpLocalPoints = result.snpList;
+        var snpColor = "#6b69d6";
+
+        // 根据染色体不同绘制不同的颜色
+        function chromoColor(str) {
+            if (str == "three_prime_UTR") {
+                return "#ffb902";
+            } else if (str == "CDS") {
+                return "#0099bb";
+            } else if (str == "five_prime_UTR") {
+                return "#f76919";
+            }
         }
 
-            // 画snp 位点
-                    var newArr = [];
-                    if(geneLength<8850){
-                            var scale = geneLength/885;
-                            for(var i=0;i<snpLocalPoints.length;i++){
-                                var obj = {x:0,y:0,id:""};
-                                    obj.x = (snpLocalPoints[i].pos - startPos)/scale;
-                                obj.y = 90;
-                                obj.index = snpLocalPoints[i].index;
-                                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
-                                newArr.push(obj);
-                            }
-                    }else {
-                        for(var i=0;i<snpLocalPoints.length;i++){
-                            var obj = {x:0,y:0,id:""};
-                                obj.x = (snpLocalPoints[i].pos - startPos)/10;
-                            obj.y = 90;
-                            // obj.id = snpLocalPoints[i].id;
-                            obj.index = snpLocalPoints[i].index;
-                            obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+        // 基因结构
+        if (geneConstructs) {
+            for (var i = 0; i < geneConstructs.length; i++) {
+                var feature = geneConstructs[i].feature;
+                var colorVal = chromoColor(feature);
+                if (geneLength < 8850) {
+                    var scale = geneLength / 885;
+                    g.append("rect").attr("x", (geneConstructs[i].start - startPos) / scale).attr("y", topY).attr("width", (geneConstructs[i].end - geneConstructs[i].start) / scale).attr("height", rectHeight).attr("fill", colorVal);
+                } else {
+                    g.append("rect").attr("x", (geneConstructs[i].start - startPos) / 10).attr("y", topY).attr("width", (geneConstructs[i].end - geneConstructs[i].start) / 10).attr("height", rectHeight).attr("fill", colorVal);
+                }
+            }
+            ;
+        }
+        // 方向箭头
+        if (direction == "-") {
+            svg.append("path").attr("stroke", "#b3b3b3").attr('stroke-width', '0').attr("fill", "#b3b3b3").attr("fill-opacity", "0.7").attr("d", line(dirArrowsLeft)).attr("transform", "translate(-10,18)").attr("id", "arrows");
+        } else if (direction == "+") {
+            svg.append("path").attr("stroke", "#b3b3b3").attr('stroke-width', '0').attr("fill", "#b3b3b3").attr("fill-opacity", "0.7").attr("d", line(dirArrowsRight)).attr("transform", "translate(0,18)").attr("id", "arrows");
+        }
 
-                            newArr.push(obj);
-                        }
+        // 画snp 位点
+        if (snpLocalPoints) {
+
+
+        var newArr = [];
+        if (geneLength < 8850) {
+            var scale = geneLength / 885;
+            for (var i = 0; i < snpLocalPoints.length; i++) {
+                var obj = {x: 0, y: 0, id: ""};
+                obj.x = (snpLocalPoints[i].pos - startPos) / scale;
+                obj.y = 90;
+                obj.index = snpLocalPoints[i].index;
+                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+                newArr.push(obj);
+            }
+        } else {
+            for (var i = 0; i < snpLocalPoints.length; i++) {
+                var obj = {x: 0, y: 0, id: ""};
+                obj.x = (snpLocalPoints[i].pos - startPos) / 10;
+                obj.y = 90;
+                // obj.id = snpLocalPoints[i].id;
+                obj.index = snpLocalPoints[i].index;
+                obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
+
+                newArr.push(obj);
+            }
+        }
+        var globalY = 10;
+
+        function loop(arr) {
+            if (arr.length <= 0) return;
+            var temp = [];
+            for (var j = 0; j < arr.length; j++) {
+                for (var k = 0; k < arr.length; k++) {
+                    if (k === j) continue;
+                    if (Math.abs(arr[j].x - arr[k].x) < 15) {
+                        arr[j].y += globalY;
+                        temp.push(arr[j]);
+                        arr.splice(j, 1);
+                        break;
+                        j--;
                     }
-                    var globalY = 10;
-                    function loop(arr) {
-                        if(arr.length<=0) return;
-                        var temp = [];
-                        for (var j = 0; j < arr.length; j++) {
-                            for (var k = 0; k < arr.length; k++) {
-                                if (k === j) continue;
-                                if (Math.abs(arr[j].x - arr[k].x) < 15 ) {
-                                    arr[j].y +=globalY;
-                                    temp.push(arr[j]);
-                                    arr.splice(j,1);
-                                    break;
-                                    j--;
-                                }
-                            };
-                        }
-                        for (var m=0;m<arr.length;m++){
-                            var a = g1.append("a").attr("href","#" +arr[m].index);
-                            // var a = g1.append("a");
-                            if(arr[m].consequencetypeColor == 1){
-                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#02ccb1").attr("data-index",arr[m].index).attr("data-status","snp1");
-                              continue;
-                            }else if(arr[m].consequencetypeColor == 2){
-                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#0ccdf1").attr("data-index",arr[m].index).attr("data-status","indel1");;
-                                continue;
-                            }else if (arr[m].consequencetypeColor == 3){
-                                a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill","#df39e0").attr("data-index",arr[m].index).attr("data-status","indel2");
-                                continue;
-                            };
-                              a.append("rect").attr("x",arr[m].x).attr("y",arr[m].y).attr("width",snpWidth).attr("height",snpWidth).attr("fill",snpColor).attr("data-index",arr[m].index).attr("data-status","save1");;
-                        }
-                        loop(temp)
-                    }
-                    loop(newArr);
+                }
+                ;
+            }
+            for (var m = 0; m < arr.length; m++) {
+                var a = g1.append("a").attr("href", "#" + arr[m].index);
+                // var a = g1.append("a");
+                if (arr[m].consequencetypeColor == 1) {
+                    a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#02ccb1").attr("data-index", arr[m].index).attr("data-status", "snp1");
+                    continue;
+                } else if (arr[m].consequencetypeColor == 2) {
+                    a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#0ccdf1").attr("data-index", arr[m].index).attr("data-status", "indel1");
+                    ;
+                    continue;
+                } else if (arr[m].consequencetypeColor == 3) {
+                    a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", "#df39e0").attr("data-index", arr[m].index).attr("data-status", "indel2");
+                    continue;
+                }
+                ;
+                a.append("rect").attr("x", arr[m].x).attr("y", arr[m].y).attr("width", snpWidth).attr("height", snpWidth).attr("fill", snpColor).attr("data-index", arr[m].index).attr("data-status", "save1");
+                ;
+            }
+            loop(temp)
+        }
+
+        loop(newArr);
+
+    }
 
         //每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
@@ -1515,15 +1577,43 @@ $(function () {
     $("#mask-test2 table thead").on("change","td.t_ifmajorAllele",function (){
         deleteSelectedSnp();
     })
-    var gloableSnpSelectedNum = 10;
+
         // SNP 按钮的点击事件
 
         $(".tab-item .geneSnps").click(function(){
-            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
 
+            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+            var obj = getPanelParams();
+            // obj.params.type="SNP";
+            obj.params.group = JSON.parse(obj.params.group);
+            obj.params.ctype = "all";
+            var panelType = GetPanelParams.getPanelType();
+
+            if(panelType == "region" && obj.params.gene){
+                delete obj.params.gene;
+            }
+            if(obj.params.index){
+                delete obj.params.index;
+            }
+            if(globFlag == 1){
+                var currSearchType = GetPanelParams.getPanelType();
+                if(currSearchType == "gene"){
+                    console.log(obj)
+                    getQueryForChat(obj.params,"constructorPanel","snpid","SNP")
+                }else {
+                    var geneObj = {};
+                    geneObj.gene = $("#GlyIds ul li.GlyColor").text();
+                    geneObj.type = "SNP";
+                    geneObj.ctype = "all";
+                    geneObj.group = obj.params.group;
+                    getQueryForChat(geneObj,"constructorPanel","snpid","SNP");
+                }
+            }
         })
     // add by jarry at 3-23
     $(".tab-item .geneIndels").click(function (){
+
+
         pageNumber = 1;
         pageSizeINDEL = 10;
         $("#indel-paginate .lay-per-page-count-select").val(10)  ;
@@ -1531,17 +1621,36 @@ $(function () {
         obj.params.type="INDEL";
         obj.params.group = JSON.parse(obj.params.group);
         obj.params.ctype = "all";
-        globFlag = 1;
         obj.params.pageSize = pageSizeINDEL;
         var panelType = GetPanelParams.getPanelType();
+
         if(panelType == "region" && obj.params.gene){
             delete obj.params.gene;
         }
         if(obj.params.index){
             delete obj.params.index;
         }
-        getQueryForChat(obj.params,"constructorPanel2","indelid","IDNEL");
         getQueryForTable(obj.params,"INDEL",1);
-    })
 
+        var GlyList = $("#GlyIds ul li");
+
+        if(globFlag == 1){
+            var currSearchType = GetPanelParams.getPanelType();
+            if(currSearchType == "gene"){
+                console.log(obj)
+                getQueryForChat(obj.params,"constructorPanel2","indelid","IDNEL")
+            }else {
+                if(!GlyList.length){
+                    getQueryForChat(obj.params,"constructorPanel2","indelid","IDNEL")
+                }else {
+                    var geneObj = {};
+                    geneObj.gene = $("#GlyIds ul li.GlyColor").text();
+                    geneObj.type = "INDEL";
+                    geneObj.ctype = "all";
+                    geneObj.group = obj.params.group;
+                    getQueryForChat(geneObj,"constructorPanel2","indelid","IDNEL");
+                }
+            }
+        }
+    })
 })

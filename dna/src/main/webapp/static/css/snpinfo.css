@@ -71,14 +71,15 @@
 }
 #snpinfoTable{
     width: 1137px;
-    overflow-x: scroll;
+    /*overflow-x: scroll;*/
     min-height: 250px;
     margin-left:33px;
     position:relative;
-    overflow-y: hidden;
+    /*overflow-y: hidden;*/
 }
 #snpinfoTable table tbody td{
     text-align:center;
+    border: 1px solid #E4E4E4;
 }
 #snpinfoTable table{
     border-collapse: collapse;
@@ -291,6 +292,8 @@ a {
     white-space: nowrap;
 
 }
+
+
 /*详情页添加导出数据*/
 #tableCnt{
     overflow: hidden;

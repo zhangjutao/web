@@ -316,6 +316,10 @@ $(function (){
     // 获取表格数据
     $("#tagKind .btnConfirmInfo").click(function (){
         var selectedDatas = getParamas();
+        paramData.pageNum = 1;
+        paramData.pageSize = 10;
+        page.pageSize = paramData.pageSize;
+        $('#tagKind .ga-ctrl-footer .select_default_page').val(10);
         selectedDatas.pageNum = paramData.pageNum;
         selectedDatas.pageSize = paramData.pageSize;
         getData(selectedDatas,paramData.pageNum,resetSaveStatus);
@@ -348,7 +352,7 @@ $(function (){
         data.pageSize = 10;               //每页条数重置为10条每页
         page.pageSize = 10;
         paramData.pageSize = data.pageSize;
-        $('.ga-ctrl-footer .select_default_page').val('10');
+        $('#tagKind .ga-ctrl-footer .select_default_page').val(10);
         //modified by zjt 2018-3-27
        getData(data,paramData.pageNum,resetSaveStatus);
     });
@@ -362,6 +366,16 @@ $(function (){
     $("#tagKind .inputComponent .btnCancel").click(function (){
         $(this).parent().parent().find("input").val("");
         $(this).parent().parent().hide();
+        //重新获取数据 modifide by zjt 2018-3-29
+        var selectedDatas = getParamas();
+        selectedDatas.pageNum = 1;                 //回到第一页
+        selectedDatas.pageSize = 10;
+        page.pageSize = selectedDatas.pageSize;
+        $('#tagKind .ga-ctrl-footer .select_default_page').val(10);
+        paramData.pageNum = selectedDatas.pageNum;
+        paramData.pageSize = selectedDatas.pageSize;
+        getData(selectedDatas,paramData.pageNum,resetSaveStatus);
+        //重新获取数据 modifide by zjt 2018-3-29
     })
     // // pageSize 选择事件
     //modified by zjt 2018-3-27

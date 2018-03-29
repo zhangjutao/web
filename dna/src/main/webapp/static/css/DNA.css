@@ -3,7 +3,7 @@ button, input, optgroup, select, textarea{font-family: "Microsoft YaHei"!importa
 .snp-content{margin-bottom: 25px}
 .snp-content:after{content: "";display: block;clear: both}
 select{-moz-appearance: none;-webkit-appearance:none;appearance:none;background: url("http://ourjs.github.io/static/2015/arrow.png") no-repeat scroll right center transparent;  }
-select.f-ma{background: url("../images/down.png") no-repeat scroll right center transparent;background-size: 19px 19px; padding-right: 25px;}
+select.f-ma{background: url("../images/down.png") no-repeat scroll right center transparent;background-size: 15px 10px; padding-right: 25px;}
 /*aside*/
 button:hover{cursor: pointer}
 .aside{float: left;width: 300px;background-color: #fff;display: none;}
@@ -195,7 +195,7 @@ td.param:hover >div{display: block}
 #pagination .laypageskin_molv .laypage_curr {    border-top: 1px solid #0f9145;    border-bottom: 1px solid #0f9145;    color: #fff;}
 #pagination .laypage_main input {    height: 33px;    line-height: 33px; width: 50px; margin-right: 5px; margin-left: 5px;}
 #pagination .laypage_main button {    display: none;}
-#total-page-count {    display: inline-block;    vertical-align: bottom;    margin-left: 15px;    height: 24px; margin-top: 11px;}
+#total-page-count {    display: inline-block;    vertical-align: bottom;    margin-left: 15px;    height: 24px; margin-top: 8px;}
 .cont{height: auto!important;width: auto!important;}
 .snpid-td p{    height: 25px;line-height: 25px; text-align: left;}
 .snpid-td span{padding-right: 5px;}

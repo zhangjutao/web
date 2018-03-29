@@ -47,7 +47,7 @@ $(function () {
                         if(status == 1){
                             var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>已审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
                         }else{
-                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>待审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>待审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
                         }
                         console.log(status);
                         var $tbl = $("#tblbody table");

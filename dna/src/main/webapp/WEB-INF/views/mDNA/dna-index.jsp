@@ -21,12 +21,12 @@
         #snp-paginate .total-page-count {
             display: inline-block !important;
             height: 28px;
-            top: -4px;
+            top: 0px;
         }
         #indel-paginate .total-page-count {
             display: inline-block !important;
             height: 28px;
-            top: -4px;
+            top: 0px;
         }
     </style>
     <!--jquery-1.11.0-->
@@ -34,6 +34,7 @@
     <script src="${ctxStatic}/js/layer/layer.js"></script>
     <script>
         var CTXROOT = "${ctxroot}";
+        var gloableSnpSelectedNum = 10;
     </script>
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>

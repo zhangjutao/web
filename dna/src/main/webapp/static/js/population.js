@@ -250,9 +250,19 @@ $(function (){
 
     // 获取表格数据
     $(".btnConfirmInfo").click(function (){
-        $(".lay-per-page-count-select option:nth-child(1)").prop("selected", 'selected');
+        //modified by zjt 2018-3-29
+        /*$(".lay-per-page-count-select option:nth-child(1)").prop("selected", 'selected');
         var data = getParamas();
-        getData(data,page.pageNum);
+        getData(data,page.pageNum);*/
+        var data = getParamas();
+        paramData.pageNum = 1;
+        paramData.pageSize = 10;
+        page.pageSize = paramData.pageSize;
+        $('#sysPopulations .ga-ctrl-footer .select_default_page').val(10);
+        data.pageNum = paramData.pageNum;
+        data.pageSize = paramData.pageSize;
+        getData(data,data.pageNum);
+        //modified by zjt 2018-3-29
     })
 
     //表格筛选框显示隐藏
@@ -266,6 +276,16 @@ $(function (){
     $("#tableShow .inputComponent .btnCancel").click(function (){
         $(this).parent().parent().find("input").val("");
         $(this).parent().parent().hide();
+        //modified by zjt 2018-3-29
+        var data = getParamas();
+        paramData.pageNum = 1;
+        paramData.pageSize = 10;
+        page.pageSize = paramData.pageSize;
+        $('#sysPopulations .ga-ctrl-footer .select_default_page').val(10);
+        data.pageNum = paramData.pageNum;
+        data.pageSize = paramData.pageSize;
+        getData(data,data.pageNum);
+        //modified by zjt 2018-3-29
     })
 
     // 分页
@@ -423,9 +443,9 @@ $(function (){
                             "<td class='paramTag primordialStimulationFruitbodyT'>" + primordialStimulationFruitbodyT +"</td>"+
                             "<td class='paramTag reproductiveModeT'>" + reproductiveModeT +"</td>"+
                             "<td class='paramTag lifestyleT'>" + lifestyleT +"</td>"+
+                            "<td class='paramTag preservationT'>" + preservationT +"</td>"+
                             "<td class='paramTag domesticationT'>" + domesticationT +"</td>"+
                             "<td class='paramTag nuclearPhaseT'>" + nuclearPhaseT +"</td>"+
-                            "<td class='paramTag preservationT'>" + preservationT +"</td>"+
                             "<td class='paramTag matingTypeT'>" + matingTypeT +"</td>"+
                             "</tr>"
                         var $tbody = $("#tableShow table tbody");

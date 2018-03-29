@@ -6,7 +6,7 @@
     #popu-paginate .total-page-count {
         display: inline-block !important;
         height: 28px;
-        top: -4px;
+        top: 0px;
     }
     .label-txt {
         cursor: pointer;
@@ -119,12 +119,11 @@
 
     .total-page-count {
         position: relative;
-        top: 1px;
     }
     .label-txt {
         vertical-align: bottom;
     }
-   #tagsPagination #total-page-count{position: relative;top:-4px;}
+   #tagsPagination #total-page-count{position: relative;top:0px;}
 </style>
 
 
@@ -253,7 +252,7 @@
                             <%--</div>--%>
                         </div>
                         <div class="category-protein " data-name="protein">
-                            <label><b class="category-title">分类地位:</b><span>Basidiomycetes</span><span>wood-rottingfungi</span><span>White rot fungus</span></label>
+                            <label><b class="category-title">分类地位:</b><span>Basidiomycetes</span><span>wood-rottingfungi</span></label>
                             <%--<div class="oil-content-section">--%>
                                 <%--<div class="input-range"><input type="number" min="0"--%>
                                                                 <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
@@ -1225,6 +1224,9 @@
         $(".colse-sample span").click(function () {
             $(".custom-groups-content").hide();
             $(".cover").hide();
+            //修复input的值 modified by zjt 2018-3-29
+            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+            //修复input的值 modified by zjt 2018-3-29
 //            $(".sample-text").empty();
         });
 
@@ -1735,7 +1737,7 @@
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                offset: ['135px', '320px']
+                offset: ['135px', '390px']
             });
             $("#popu-paginate .select_default_page").val(10);
 
@@ -1830,7 +1832,7 @@
                 scrollbar: false,
                 move: '#tabDetailTitle',
                 closeBtn: 0,
-                offset: ['135px', '320px']
+                offset: ['135px', '390px']
 
             });
             $("#popu-paginate .select_default_page").val(10);
@@ -2020,6 +2022,10 @@
 //            $("#mid").hide();
             layer.close(index1);
             layer.close(index2);
+            //重置页面展示条数 modified by zjt
+            pageSizePopu = 10;
+            $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+            //重置页面展示条数 modified by zjt
         });
 
         var popuSamples = {}; // 存储选中的样本数据
