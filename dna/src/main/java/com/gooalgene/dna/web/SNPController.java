@@ -250,7 +250,6 @@ public class SNPController {
             // 涉及到基因均需加减上下游2k值区间
             long min = minAndMaxPos.getMin() - 2000 < 0 ? 0 : minAndMaxPos.getMin() - 2000;
             long max = minAndMaxPos.getMax() + 2000;
-            logger.debug("current chromosome min : " + min + " ,max : " + max);
             // 判断起始基因位置是否落在区间start前
             if (min < start) {
                 result[0] = min;
@@ -268,6 +267,7 @@ public class SNPController {
             result[0] = start;
             result[1] = end;
         }
+        logger.debug("current chromosome min : " + result[0] + " ,max : " + result[1]);
         return result;
     }
 
