@@ -120,7 +120,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                                 authentication = TokenFactory.getAuthenticationByJwt(tokenPojo.getAccess_token(),userDetailsService);
                                 if (authentication!=null && authentication.isAuthenticated()) {
                                     SecurityContextHolder.getContext().setAuthentication(authentication);
-                                    //向前台推送刷新后的token，存入sessionSotrage，取代之前token
+                                    //向前台推送刷新后的token，存入localSotrage，取代之前token
                                     webSocket.sendMessage(tokenPojo.getAccess_token());
                                     redisService.setJwt(tokenPojo.getAccess_token(), tokenPojo);
                                     authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);

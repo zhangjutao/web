@@ -978,7 +978,7 @@
         /* 自定义样本选中 */
         $("body").on("click", ".sample-category > div span", function(){
             console.log($(this).text());
-            debugger;
+
             $(this).parent().find("span").removeClass("js-span-ac");
             $(this).addClass("js-span-ac");
 

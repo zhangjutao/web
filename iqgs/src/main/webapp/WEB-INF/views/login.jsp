@@ -67,7 +67,6 @@
             console.log($('.form').serializeObject());
             var data=$('.form').serializeObject();
             $.post("${ctxroot}/sso/token",data,function (result) {
-                debugger
                 console.log(JSON.stringify(result))
                 if(result.code!=0){
                     var msg=result.msg;
