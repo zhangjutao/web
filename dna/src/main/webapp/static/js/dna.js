@@ -244,6 +244,7 @@ $(function () {
         globFlag = 0;
         pageNumber = 1;
         pageSize = 10;
+        pageSizeSNP = 10;
         gloableSnpSelectedNum = 10;
         $("#snp-paginate .lay-per-page-count-select").val(10);
         if(!$(".custom-groups-content").is(":hidden")){
@@ -1583,7 +1584,7 @@ $(function () {
 
             $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
             var obj = getPanelParams();
-            obj.params.type="SNP";
+            // obj.params.type="SNP";
             obj.params.group = JSON.parse(obj.params.group);
             obj.params.ctype = "all";
             var panelType = GetPanelParams.getPanelType();
