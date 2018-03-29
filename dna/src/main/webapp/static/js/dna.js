@@ -209,12 +209,23 @@ $(function () {
                                 }
                                 $("#GlyIds li:first").addClass("GlyColor");
                             };
-                            if(isGeneFirst == 1){
-                                $("#GlyIds li:first").trigger("click");
-                                    return ;
-                            }
                     }
                 };
+                // gene 搜索添加gene
+                var currSearchType = GetPanelParams.getPanelType();
+                if(currSearchType == "gene"){
+                    if(!$("#GlyIds").is(":hidden")){
+                        $("#GlyIds ul").empty();
+                        var li = "<li style='background:#0F9145;color:#fff;'>" +gloableSelectedGene +  "</li>";
+                        $("#GlyIds ul").append(li);
+                        // $("#GlyIds").hide();
+                    }else {
+                        $("#GlyIds").show();
+                        $("#GlyIds ul").empty();
+                        var li = "<li style='background:#0F9145;color:#fff;'>" +gloableSelectedGene +  "</li>";
+                        $("#GlyIds ul").append(li);
+                    }
+                }
                     drawGeneConstructor(res,parentCont,gid,type);
                 svgPanZoom("#"+ parentCont + " svg", {
                     zoomEnabled: true,
@@ -227,8 +238,9 @@ $(function () {
         })
     }
     // 筛选面板 确认
-
+    var gloableSelectedGene ;
     $(".js-panel-btn").click(function() {
+
         globFlag = 0;
         pageNumber = 1;
         pageSize = 10;
@@ -264,7 +276,7 @@ $(function () {
             delete obj.params.index;
         }
         var currSearchType = GetPanelParams.getPanelType();
-
+        gloableSelectedGene = obj.params.gene;
         if(currSearchType == "gene"){
             if(!$("#GlyIds").is(":hidden")){
                 $("#GlyIds ul").empty();
@@ -287,86 +299,6 @@ $(function () {
     });
 
     // 根据基因查询所有的snp位点信息
-    function getAllSnpInfosGene(curr, params,type,parentCont,tblBody,reginChr,gid,url){
-        params['pageNo'] = curr || 1;
-        params['pageSize'] = pageSizeSNP;
-        params['type'] =type;
-        params['ctype'] = CTypeSnp;
-
-            $.ajax({
-                url: ctxRoot + url,
-                data: params,
-                type: "POST",
-                dataType: "json",
-                success: function (res) {
-
-                   if(type == "SNP"){
-                       globelTotalSnps.snp = res.data.snps;
-                   }else if(type == "INDEL"){
-                       globelTotalSnps.indel = res.data.snps;
-                   };
-                   if(res.code == 0 ){
-                       if(!$(".geneError").is(":hidden")){
-                           $(".geneError").hide();
-                       };
-                       drawGeneConstructor(res, parentCont, tblBody, reginChr, type, gid, params);
-                       svgPanZoom("#" + parentCont + " svg", {
-                           zoomEnabled: true,
-                           controlIconsEnabled: true
-                       });
-                   }else {
-                       if($(".geneError").is(":hidden")){
-                           $(".geneError").show();
-                       };
-                   }
-                },
-                error: function (error) {
-                    console.log(error);
-                }
-            })
-    }
-    // 根据范围查询所有的snp位点信息
-    function getAllSnpInfos(curr, params,type,parentCont,tblBody,reginChr,gid,url){
-        params['pageNo'] = curr || 1;
-        params['pageSize'] = pageSizeSNP;
-        params['type'] = type;
-        params['ctype'] = CTypeSnp;
-        $.ajax({
-            url:ctxRoot + url,
-            data: params,
-            type: "POST",
-            dataType: "json",
-            success: function(res) {
-                if(type == "SNP"){
-                    globelTotalSnps.snp = res.data.snps;
-                }else if(type == "INDEL"){
-                    globelTotalSnps.indel = res.data.snps;
-                };
-                if(res.code == 0 ){
-                    if(!$(".geneError").is(":hidden")){
-                        $(".geneError").hide();
-                    };
-                    drawGeneConstructor(res,parentCont,tblBody,reginChr,type,gid,params);
-                    svgPanZoom("#" + parentCont + " svg", {
-                        zoomEnabled: true,
-                        controlIconsEnabled: true
-                    });
-                }else {
-                    if($(".geneError").is(":hidden")){
-                        $(".geneError").show();
-                    };
-                }
-            },
-            error:function (error){
-                console.log(error);
-            }
-        })
-    }
-    // 初始化第一个样式
-    //     function initFirstStyle (){
-    //         $("#GlyIds ul li:first-child").addClass("GlyColor");
-    //
-    //     };
     // 删除当前显示的table tr
     function deleteTableColorSnp(){
         var snpTableList =$(".js-snp-table #tableBody tr");
@@ -446,34 +378,6 @@ $(function () {
             getQueryForChat(obj.params,"constructorPanel2","indelid","INDEL");
         }
     })
-    // 从regin 页面点击基因开始查询
-    function reginIntoGene(curr,params,type,parentCnt,tblBody,gid,url){
-        params['pageNo'] = curr || 1;
-        params['pageSize'] = pageSizeSNP;
-        params['type'] = type;
-        params['ctype'] = CTypeSnp;
-        $.ajax({
-            url:ctxRoot + url,
-            data: params,
-            type: "POST",
-            dataType: "json",
-            success: function(res) {
-                if(type == "SNP"){
-                    globelTotalSnps.snp = res.data.snps;
-                }else if(type == "INDEL"){
-                    globelTotalSnps.indel = res.data.snps;
-                };
-                drawGeneConstructor(res,parentCnt,tblBody,"",type,gid,params);
-                svgPanZoom("#" + parentCnt + " svg", {
-                    zoomEnabled: true,
-                    controlIconsEnabled: true
-                });
-            },
-            error:function (error){
-                console.log(error);
-            }
-        })
-    }
     // 生成搜索描述文字
     function renderSearchText() {
         var panelType = GetPanelParams.getPanelType();
@@ -517,10 +421,8 @@ $(function () {
     var snpOffset,indelOffset;
 
     var pageSizeSNP = 10;
-    //$("#snp-paginate .lay-per-page-count-select").val(pageSizeSNP);
     // 配置默认每页显示条数
     var pageSizeINDEL = 10;
-    //$("#indel-paginate .lay-per-page-count-select").val(pageSizeINDEL);
     //去除snp 图中的选中位点
     function deleteSelectedSnp (){
         if(CurrentTab == "SNP"){
@@ -551,32 +453,10 @@ $(function () {
         };
 
     };
-    // 修改每页显示条数
-    //modified by zjt 2018-3-28
-    /*
-    $(".tab-item .js-snp-tab").on("change", ".lay-per-page-count-select", function() {
-                pageSize = Number($(this).val());
-        var obj = getPanelParams();
-        deleteSelectedSnp();
-            obj.params.pageNo = pageNumber;
-            obj.params.pageSize =  Number($(this).val());
-            obj.params.group = JSON.parse(obj.params.group);
-        getQueryForTable(obj.params,"SNP",pageNumber);
-    });
-    $(".js-indel-tab").on("change", ".lay-per-page-count-select", function() {
-        pageSize = Number($(this).val());
-        var obj = getPanelParams();
-        deleteSelectedSnp()
-        obj.params.pageNo = pageNumber;
-        obj.params.pageSize =  Number($(this).val());
-        obj.params.group = JSON.parse(obj.params.group);
-        getQueryForTable(obj.params,"INDEL",pageNumber);
-    });
-    */
+
     $("#snp-paginate .select_item_page li").click(function(){
         pageSizeSNP = Number($(this).text());
         $("#snp-paginate .select_default_page").val(pageSizeSNP);
-        //$("#snp-paginate.checkbox-item-tab #per-page-count .select_default_page").val($(this).text()); //修改显示的数字
         var obj = getPanelParams();
         deleteSelectedSnp();
         obj.params.pageNo = pageNumber;
@@ -588,7 +468,6 @@ $(function () {
         }
         obj.params.type = "SNP";
         getQueryForTable(obj.params,"SNP",1);
-        // pageSize = 10;
     });
     $("#indel-paginate .select_item_page li").click(function(){
         pageSizeINDEL = Number($(this).text());
@@ -605,7 +484,6 @@ $(function () {
         }
         obj1.params.type = "INDEL";
         getQueryForTable(obj1.params,"INDEL",1);
-        // pageSize = 10;
     });
     //modified by zjt 2018-3-28
 
@@ -749,16 +627,6 @@ $(function () {
     function snpTableColor(){
         var trsList = $(".js-snp-table #tableBody tr");
         $(trsList[snpOffset]).addClass("tabTrColor");
-        // for(var i=0;i<trsList.length;i++){
-        //     var tdGenotypes  = $(trsList[i]).find("td.t_genoType").find("div");
-        //     for(var k=0;k<tdGenotypes.length;k++){
-        //         if($(tdGenotypes[k]).find("p:first").hasClass("addTrColor")){
-        //             $(tdGenotypes[k]).find("p:first").removeClass("addTrColor");
-        //         }else {
-        //             $(tdGenotypes[k]).find("p:first").addClass("addTrColor");
-        //         }
-        //     }
-        // }
     }
     function indelTableColor(){
         var trsList = $(".js-indel-table #tableBody2 tr");
@@ -814,8 +682,6 @@ $(function () {
             $("tr").data(item.id, item.geneType);
         });
             $(".js-snp-table>tbody").empty().append(str);
-            // $(".js-snp-table>tbody").empty().append(str);
-            //$("#snp-paginate .lay-per-page-count-select").val(10);  modified by zjt
         laypage({
             cont: $('#snp-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: Math.ceil(res.total / pageSizeSNP), //通过后台拿到的总页数
@@ -859,8 +725,6 @@ $(function () {
             }
 
         }
-            // var trsList = $(".js-snp-table #tableBody tr");
-            // $(trsList[snpOffset]).addClass("tabTrColor");
         TableHeaderSettingSnp();
     }
 
@@ -900,7 +764,6 @@ $(function () {
         });
 
         $(".js-indel-table>tbody").empty().append(str);
-        // $("#indel-paginate .lay-per-page-count-select").val(10);
         laypage({
             cont: $('#indel-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
             pages: Math.ceil(res.total / pageSizeINDEL), //通过后台拿到的总页数
@@ -929,8 +792,6 @@ $(function () {
             }
         });
         $("#indel-paginate .total-page-count span").html(res.total);
-        // var trsList = $(".js-indel-table #tableBody2 tr");
-        // $(trsList[indelOffset]).addClass("tabTrColor");
         fn&&fn();
         TableHeaderSettingIndel();
     }
@@ -955,10 +816,8 @@ $(function () {
     // 表头设置
     window.TableHeaderSettingSnp = function () {
         var headers = $(".js-table-header-setting-snp").find("label");
-        //var hideHeaders = [];
         $.each(headers, function(idx, item) {
             if(!$(item).hasClass("checkbox-ac")) {
-                //hideHeaders.push($(item).attr("for"));
                 $(".js-snp-table").find(".t_"+$(item).attr("for")).hide();
             } else {
                 $(".js-snp-table").find(".t_"+$(item).attr("for")).show();
@@ -969,7 +828,6 @@ $(function () {
         var headers = $(".js-table-header-setting-indel").find("label");
         $.each(headers, function(idx, item) {
             if(!$(item).hasClass("checkbox-ac")) {
-                //hideHeaders.push($(item).attr("for"));
                 $(".js-indel-table").find(".t_"+$(item).attr("for")).hide();
             } else {
                 $(".js-indel-table").find(".t_"+$(item).attr("for")).show();
@@ -1011,31 +869,6 @@ $(function () {
             delete obj.params.gene;
         }
         getQueryForTable(obj.params,"SNP",pageNumber);
-        // var type = $(".js-snp-table .consequence-type").find(".active").attr("data-type");
-        // if(type == "effect") {
-        //     CTypeSnp = "_" + $(".js-snp-table .consequence-type").find(".active").attr("data-value");
-        // } else if(type == "type") {
-        //     CTypeSnp = $(".js-snp-table .consequence-type").find(".active").attr("data-value") + "_";
-        // } else {
-        //     CTypeSnp = 'all';
-        // }
-        // var currSelectId = $("#GlyIds").find("li.GlyColor").text();
-        // if(filterEvent){
-        //     var obj = getPanelParams();
-        //     obj.url=CTXROOT + "/dna/searchSNPinGene";
-        //     obj.params.ctype=snpPintDatas.ctype;
-        //     obj.params.type = "SNP";
-        //     // obj.params.type = CurrentTab;
-        //     obj.params.gene = currSelectId;
-        //     delete obj.params.start;
-        //     delete obj.params.end;
-        //     delete obj.params.chromosome;
-        //     requestForSnpData(1, obj.url, obj.params);
-        //
-        // }else {
-        //     var obj = getPanelParams();
-        //     requestForSnpData(1, obj.url, obj.params);
-        // }
     });
 
     var CTypeIndel = 'all';
@@ -1163,9 +996,6 @@ $(function () {
             CurrentTab = "SNP";
             $(".page-num-tab-indel").hide();
             $(".page-num-tab-snp").show();
-            //modified by zjt 重新获取数据
-            //$("#snp-paginate .per-page-count .select_default_page").val('10');
-
             if($(".snpTipE").is(":hidden")){
                 $(".snpTipE").show();
             };
@@ -1183,7 +1013,6 @@ $(function () {
             CurrentTab = "INDEL";
             $(".page-num-tab-snp").hide();
             $(".page-num-tab-indel").show();
-            //$("#indel-paginate .per-page-count .select_default_page").val('10');//modified by zjt
         }
         $(".table-item").hide();
         $(".tab .export-data").show();
@@ -1313,7 +1142,6 @@ $(function () {
         })
     }
     // 基因结构图
-    // function drawGeneConstructor(result,id,tabId,reginChr,type,gsnpid,params){
     function drawGeneConstructor(result,id,gsnpid,type){
 
         // 参考值
@@ -1445,9 +1273,9 @@ $(function () {
                 }
         // 方向箭头
         if(direction == "-"){
-            svg.append("path").attr("stroke","#cccccc").attr('stroke-width', '2').attr("fill","#cccccc").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
+            svg.append("path").attr("stroke","#B3B3B3").attr('stroke-width', '2').attr("fill","#B3B3B3").attr("d",line(dirArrowsLeft)).attr("transform","translate(-10,18)").attr("id","arrows");
         }else if(direction == "+"){
-            svg.append("path").attr("stroke","#cccccc").attr('stroke-width', '2').attr("fill","#cccccc").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)").attr("id","arrows");
+            svg.append("path").attr("stroke","#B3B3B3").attr('stroke-width', '2').attr("fill","#B3B3B3").attr("d",line(dirArrowsRight)).attr("transform","translate(0,18)").attr("id","arrows");
         }
 
             // 画snp 位点
@@ -1458,7 +1286,6 @@ $(function () {
                                 var obj = {x:0,y:0,id:""};
                                     obj.x = (snpLocalPoints[i].pos - startPos)/scale;
                                 obj.y = 90;
-                                // obj.id = snpLocalPoints[i].id;
                                 obj.index = snpLocalPoints[i].index;
                                 obj.consequencetypeColor = snpLocalPoints[i].consequencetypeColor;
                                 newArr.push(obj);
@@ -1510,94 +1337,7 @@ $(function () {
                     }
                     loop(newArr);
 
-        // 点击每个snp位点重新获取数据  -->根据范围
-        // function getSnpPoint(tabid){
-        //     var allSnpNum =  $("#" + gsnpid + " a rect");
-        //     var singleData = {};
-        //             singleData.index = snpIndex;
-        //             singleData.id =tabid;
-        //             singleData.type = type;
-        //             singleData.chr = reginChr;
-        //             singleData.pageSize = pageSizeSNP;
-        //             singleData.start = snpPintDatas.start;
-        //             singleData.end = snpPintDatas.end;
-        //             singleData.ctype = snpPintDatas.ctype;
-        //             singleData.group = snpGroup.group;
-        //     $.ajax({
-        //         type:'GET',
-        //         url:ctxRoot + snpPintDatas.url,
-        //         data:singleData,
-        //         contentType:"application/json",
-        //         dataType:"json",
-        //         success:function (result){
-        //             if(type == "SNP"){
-        //                 renderSNPTable(result.data);
-        //                 clickToId (tabid)
-        //             }else if(type="INDEL"){
-        //                 renderINDELTable(result.data)
-        //                 clickToId (tabid)
-        //             }
-        //         },
-        //         error:function (error){
-        //             console.log(error);
-        //         }
-        //     })
-        // }
-        // // snp 位点基因查询
-        // function getSnpPointGene(tabid){
-        //     var allSnpNum =  $("#" + gsnpid + " a rect");
-        //     var singleData = {};
-        //         singleData.index = snpIndex;
-        //         singleData.id = tabid;
-        //         singleData.type = type;
-        //         singleData.pageSize = pageSizeSNP;
-        //         singleData.ctype = snpPintDatasGene.ctype;
-        //         singleData.upstream = snpPintDatasGene.upstream;
-        //         singleData.downstream = snpPintDatasGene.downstream;
-        //         singleData.group = params.group;
-        //         singleData.gene = globelGeneId;
-        //     $.ajax({
-        //         type:'GET',
-        //         url:ctxRoot + snpPintDatasGene.url,
-        //         data:singleData,
-        //         contentType:"application/json",
-        //         dataType:"json",
-        //         success:function (result){
-        //             if(type == "SNP"){
-        //                 renderSNPTable(result.data);
-        //                 clickToId (tabid)
-        //             }else if(type="INDEL"){
-        //                 renderINDELTable(result.data)
-        //                 clickToId (tabid)
-        //             }
-        //         },
-        //         error:function (error){
-        //             console.log(error);
-        //         }
-        //     })
-        // }
-        // 点击条状到锚点的封装
-        // function clickToId (tabid){
-        //     var trlist = $("#" + tabId).find("tr");
-        //     for (var i=0;i<trlist.length;i++){
-        //         if ($(trlist[i]).hasClass("tabTrColor")){
-        //             $(trlist[i]).removeClass("tabTrColor");
-        //             if( i%2 == 0){
-        //                 $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#fff");
-        //             }else{
-        //                 $(trlist[i]).find("td:last-child>div>p:first-child").css("background","#F5F8FF");
-        //             }
-        //         }
-        //     }
-        //     $("#" + tabid).addClass("tabTrColor");
-        //     var pps = $("#" + tabid).find("td.t_genoType div");
-        //     for (var i=0;i<pps.length;i++){
-        //       $(pps[i]).find("p:first").css("background","#5D8CE6");
-        //       $(pps[i]).find("p:first").css("background","#5D8CE6");
-        //     }
-        // }
-        //     var snpIndex;
-        // // 每个snp位点的点击事件
+        //每个snp位点的点击事件
             $("#" + gsnpid + " a rect").click(function (e){
                 var obj = getPanelParams();
                 // pageSize = 10;

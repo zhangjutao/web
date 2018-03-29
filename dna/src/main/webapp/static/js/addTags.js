@@ -41,7 +41,7 @@ $(function (){
         var tdInputs = $("#tagTBody").find("input");
         var selInputs = $(".sample-text").find("span");
         for (var i=0;i<selInputs.length;i++){
-            var selInputsName = $(selInputs[i]).text().substring(3,$(selInputs[i]).text().length-1);
+            var selInputsName = $(selInputs[i]).text().substring(6,$(selInputs[i]).text().length-1);
             for (var j=0;j<tdInputs.length;j++){
                 var tdParent = $(tdInputs[j]).parent().next().text();
                 if(tdParent==selInputsName){
@@ -52,7 +52,7 @@ $(function (){
     }
     // 重置按钮点击事件
     $(".resetBtn").click(function (){
-        var data = getParamas();
+        var data = resetBtnParams;
             // 默认回到第一页，
         data.pageNum = 1;
         //modified by zjt 2018-3-27
@@ -66,7 +66,7 @@ $(function (){
         $(pageSizeP[0]).addClass("pageColor");
         getData(data,curr,resetSaveStatus);*/
         //每页展示数目还原为10
-        $(".ga-ctrl-footer .select_default_page").val('10');
+        $("#tagsPagination .ga-ctrl-footer .select_default_page").val(10);
         page.pageSize = 10;
         paramData.pageSize = page.pageSize;
         paramData.pageNum = data.pageNum;
@@ -217,7 +217,52 @@ $(function (){
         for(var i=0;i<selectedInputs.length;i++){
             $(selectedInputs[i]).removeAttr("checked");
         }
-    })
+    });
+    var resetBtnParams = {
+        runNo:"", // 测序样品编号
+        scientificName:"",// 物种名称
+        sampleId:"", // 编号
+        strainName:"", // 菌株名称
+        locality:"", // 地理位置
+        preservationLocation:"",//保藏地点
+        type:"",//类型
+        environment:"",//培养环境
+        materials:"", //材料
+        treat:"",//处理
+        definitionTime:"",//采集时间
+        taxonomy:"",//分类地位
+        myceliaPhenotype:"",//菌丝形态
+        myceliaDiameter:"",//菌丝直径
+        myceliaColor:"",//菌丝颜色
+        sporesColor:"",//孢子颜色
+        sporesShape:"",//孢子形态
+        clampConnection:"",//锁状联合
+        pileusPhenotype:"",//菌盖形态
+        pileusColor:"",//菌盖颜色
+        stipePhenotype:"",//菌柄形态
+        stipeColor:"",//菌柄颜色
+        fruitbodyColor:"",//子实体颜色
+        fruitbodyType:"",//子实体形态
+        illumination:"",//光照
+        collarium:"",//菌环
+        volva:"",//菌托
+        velum:"",//菌幕
+        sclerotium:"",//菌核
+        strainMedium:"",//菌种培养基
+        mainSubstrate:"",//主要栽培基质
+        afterRipeningStage:"",//后熟期
+        primordialStimulationFruitbody:"",//原基刺激&子实体
+        reproductiveMode:"",//生殖方式
+        lifestyle:"",//生活方式
+        preservation:"",//保藏方法
+        domestication:"",//驯化
+        nuclearPhase:"",//核相
+        matingType:"",//交配型
+        group:"",
+        pageSize:10,
+        pageNum:1,
+        isPage:1
+    }
     // 获取数据--》请求参数
     function getParamas (){
         var datas = {
