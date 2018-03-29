@@ -221,7 +221,7 @@ public class SNPController {
         // Search in Region
         if (StringUtils.isEmpty(gene)) {
             // 获取该范围内的所有gene_id
-            Set<String> geneIds = dnaGensService.getByRegionNoCompare(condition.getChromosome(), condition.getStart(),
+            List<String> geneIds = dnaGensService.getByRegionNoCompare(condition.getChromosome(), condition.getStart(),
                     condition.getEnd());
             // 如果用户查询为区间查询，且该区间内存在基因，这里默认取第一个基因作为图形数据查询条件
             if (geneIds.size() > 0) {
@@ -243,7 +243,7 @@ public class SNPController {
      * 根据用户输入区间范围，判断SNP区间的极大值、极小值
      */
     private long[] getFinalStartEndInRegion(String chromosome, long start, long end) {
-        Set<String> geneIds = dnaGensService.getByRegionNoCompare(chromosome, start, end);
+        List<String> geneIds = dnaGensService.getByRegionNoCompare(chromosome, start, end);
         long[] result = new long[2];
         if (geneIds.size() > 0) {
             GeneMinAndMax minAndMaxPos = dnaGensService.findMinAndMaxPos(chromosome, start, end);
