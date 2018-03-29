@@ -23,6 +23,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
@@ -45,6 +46,8 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
 
     @Autowired
     private AuthenticationSuccessHandler authenticationSuccessHandler;
+    @Autowired
+    private ConcurrentSessionControlAuthenticationStrategy sessionControlAuthenticationStrategy;
 
     @Override
     public void afterPropertiesSet() throws ServletException {
