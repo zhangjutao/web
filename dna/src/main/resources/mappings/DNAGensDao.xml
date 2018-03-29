@@ -83,8 +83,8 @@
          OR (start <![CDATA[ >= ]]> #{start} AND end <![CDATA[ <= ]]> #{end}))
     </select>
 
-    <select id="findMinAndMax" resultType="int">
-        SELECT min(start), max(end) FROM gens_baseinfo WHERE chromosome = #{chr} AND
+    <select id="findMinAndMax" resultType="com.gooalgene.dna.entity.result.GeneMinAndMax">
+        SELECT min(start) AS min , max(end) AS max, chromosome FROM gens_baseinfo WHERE chromosome = #{chr} AND
                                                 ((start <![CDATA[ <= ]]> #{start} AND end <![CDATA[ >= ]]> #{start}) OR
                                                  (start <![CDATA[ <= ]]> #{end} AND end <![CDATA[ >= ]]> #{end})
                                                  OR (start <![CDATA[ >= ]]> #{start} AND end <![CDATA[ <= ]]> #{end}))

@@ -4,6 +4,7 @@ import com.github.pagehelper.PageHelper;
 import com.gooalgene.dna.dao.DNAGensDao;
 import com.gooalgene.dna.entity.ChromosomeList;
 import com.gooalgene.dna.entity.DNAGens;
+import com.gooalgene.dna.entity.result.GeneMinAndMax;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -67,12 +68,12 @@ public class DNAGensService {
      * @param end 终点位置
      * @return 两个值的集合，第一个为最小值，第二个为最大值
      */
-    public List<Integer> findMinAndMaxPos(String chr,long start, long end) {
+    public GeneMinAndMax findMinAndMaxPos(String chr,long start, long end) {
         if (start > end) {
             throw new IllegalArgumentException("start arguments greater than end arguments");
         }
-        List<Integer> minAndMax = dnaGensDao.findMinAndMax(chr, start, end);
-        if (minAndMax.size() != 2) {
+        GeneMinAndMax minAndMax = dnaGensDao.findMinAndMax(chr, start, end);
+        if (minAndMax == null) {
             throw new IllegalArgumentException("findMinAndMaxPos only apply for those having genes method");
         }
         return minAndMax;
