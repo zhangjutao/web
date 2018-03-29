@@ -1687,11 +1687,12 @@
 
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click", ".label-txt", function () {
-            currVal = $(this).text().split(",")[0].substring(0, 3);
+            currVal = $(this).text().split(",")[0].substring(0, 6);
             var currKindList = $(this).text().split(",");
+
             kindNames = [];
             for (var i = 0; i < currKindList.length; i++) {
-                var name = currKindList[i].substring(3, currKindList[i].length);
+                var name = currKindList[i].substring(6, currKindList[i].length);
                 kindNames.push(name);
             }
             var label = $(this).parent().find("label");
@@ -1704,7 +1705,7 @@
             $(".tab-detail-thead p span").text($(this).text());
 
             popId = $(this).parent("label").attr("data-index");
-            if (currVal == "品种名") {
+            if (currVal == "测序样品编号") {
                 currPopu = selectKindVal(popId)[0];
                 var data = {
                     names: kindNames.join(",")
@@ -1757,11 +1758,17 @@
         getAllChoice();
         // 选则品种 之后 详情页
         function getKindInfos(curr) {
+            console.log(kindNames);
+            console.log(currPopu);
+            var idlists = currPopu.condition.idList;
+            console.log(idlists.split(","));
+
             $.ajax({
                 type: 'GET',
                 url: CTXROOT + "/dna/getByCultivar",
                 data: {
-                    names: kindNames.join(","),
+//                    names: kindNames.join(","),
+                    names:idlists.split(",") ,
                     pageNum: curr || 1,
                     pageSize: pageSizePopu
                 },
@@ -1893,6 +1900,7 @@
         var pageSizePopu = 10;
 
         function getPopuTable(curr) {
+            console.log(currPopu);
             var currData=[];
             currData.push(currPopu)
             var datas={group: JSON.stringify(currPopu), pageNo: curr || 1, pageSize: pageSizePopu};
