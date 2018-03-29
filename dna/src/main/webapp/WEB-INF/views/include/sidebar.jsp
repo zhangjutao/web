@@ -2019,6 +2019,9 @@
 //            $("#mid").hide();
             layer.close(index1);
             layer.close(index2);
+            //重置页面展示条数 modified by zjt
+            pageSizePopu = 10;
+            //重置页面展示条数 modified by zjt
         });
 
         var popuSamples = {}; // 存储选中的样本数据
