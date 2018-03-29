@@ -21,12 +21,12 @@
         #snp-paginate .total-page-count {
             display: inline-block !important;
             height: 28px;
-            top: -4px;
+            top: 0px;
         }
         #indel-paginate .total-page-count {
             display: inline-block !important;
             height: 28px;
-            top: -4px;
+            top: 0px;
         }
     </style>
     <!--jquery-1.11.0-->

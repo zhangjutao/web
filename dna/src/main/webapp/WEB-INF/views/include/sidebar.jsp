@@ -6,7 +6,7 @@
     #popu-paginate .total-page-count {
         display: inline-block !important;
         height: 28px;
-        top: -4px;
+        top: 0px;
     }
     .label-txt {
         cursor: pointer;
@@ -119,7 +119,6 @@
 
     .total-page-count {
         position: relative;
-        top: 1px;
     }
     .label-txt {
         vertical-align: bottom;

@@ -33,7 +33,7 @@
         }
         .total-page-count{
             position: relative;
-            top:-4px;
+            top:0px;
         }
 
         #tableShow>table tbody>tr>td,#tableShow>table thead>tr>th{
