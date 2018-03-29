@@ -252,7 +252,7 @@
                             <%--</div>--%>
                         </div>
                         <div class="category-protein " data-name="protein">
-                            <label><b class="category-title">分类地位:</b><span>Basidiomycetes</span><span>wood-rottingfungi</span><span>White rot fungus</span></label>
+                            <label><b class="category-title">分类地位:</b><span>Basidiomycetes</span><span>wood-rottingfungi</span></label>
                             <%--<div class="oil-content-section">--%>
                                 <%--<div class="input-range"><input type="number" min="0"--%>
                                                                 <%--onkeyup="this.value=this.value.replace(/\D/g,'')"> ---%>
