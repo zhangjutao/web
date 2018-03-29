@@ -2445,7 +2445,7 @@
                         layer.open({
                             type: 0,
                             title: "温馨提示:",
-                            content: "输入值超过该基因最大值",
+                            content: "输入值超过该染色体最大值",
                             shadeClose: true,
                         });
                         return;
