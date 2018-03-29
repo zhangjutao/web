@@ -5,14 +5,16 @@ import com.gooalgene.dna.dao.DNAGensDao;
 import com.gooalgene.dna.entity.ChromosomeList;
 import com.gooalgene.dna.entity.DNAGens;
 import com.gooalgene.dna.entity.result.GeneMinAndMax;
+import com.google.common.base.Function;
+import com.google.common.collect.Collections2;
+import com.google.common.collect.ImmutableList;
+import com.google.common.collect.Iterables;
+import com.google.common.collect.Ordering;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class DNAGensService {
@@ -55,9 +57,15 @@ public class DNAGensService {
         return result;
     }
 
-    public Set<String> getByRegionNoCompare(String chr,long start, long end){
+    public List<String> getByRegionNoCompare(String chr,long start, long end){
         Set<String> list= dnaGensDao.getByRegion(chr,start,end);
-        return list;
+        List<String> resultList = Ordering.natural().onResultOf(new Function<String, Long>() {
+            @Override
+            public Long apply(String input) {
+                return Long.parseLong(input.substring(4));
+            }
+        }).sortedCopy(new ArrayList<>(list));
+        return resultList;
     }
 
     /**
