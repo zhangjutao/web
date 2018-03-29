@@ -756,7 +756,11 @@ $(function () {
             }
 
         }
-        TableHeaderSettingSnp();
+        // TableHeaderSettingSnp();
+        for(var i=0;i<snpHideTableTitles.length;i++){
+                $(".js-snp-table").find(snpHideTableTitles[i]).hide();
+                // $("#tableBody").find("")
+        }
     }
 
     // 生成INDELs表格
@@ -824,7 +828,11 @@ $(function () {
         });
         $("#indel-paginate .total-page-count span").html(res.total);
         fn&&fn();
-        TableHeaderSettingIndel();
+        // TableHeaderSettingIndel();?
+        for(var i=0;i<indelHideTableTitles.length;i++){
+            $(".js-indel-table").find(indelHideTableTitles[i]).hide();
+            // $("#tableBody").find("")
+        }
     }
 
     // 表头的 major 和 minor 切换
@@ -844,24 +852,34 @@ $(function () {
         tab[i].onclick=function(){
         }
     }
+    var snpHideTableTitles = [];
+    var indelHideTableTitles = [];
     // 表头设置
     window.TableHeaderSettingSnp = function () {
+        snpHideTableTitles.length = 0;
         var headers = $(".js-table-header-setting-snp").find("label");
         $.each(headers, function(idx, item) {
             if(!$(item).hasClass("checkbox-ac")) {
-                $(".js-snp-table").find(".t_"+$(item).attr("for")).hide();
+                $(".js-snp-table thead").find(".t_"+$(item).attr("for")).hide();
+                $(".js-snp-table tbody").find(".t_"+$(item).attr("for")).hide();
+                snpHideTableTitles.push(".t_"+$(item).attr("for"));
             } else {
-                $(".js-snp-table").find(".t_"+$(item).attr("for")).show();
+                $(".js-snp-table thead").find(".t_"+$(item).attr("for")).show();
+                $(".js-snp-table tbody").find(".t_"+$(item).attr("for")).show();
             }
         });
     }
     window.TableHeaderSettingIndel = function () {
+        indelHideTableTitles.length = 0;
         var headers = $(".js-table-header-setting-indel").find("label");
         $.each(headers, function(idx, item) {
             if(!$(item).hasClass("checkbox-ac")) {
-                $(".js-indel-table").find(".t_"+$(item).attr("for")).hide();
+                $(".js-indel-table thead").find(".t_"+$(item).attr("for")).hide();
+                $(".js-indel-table tbody").find(".t_"+$(item).attr("for")).hide();
+                indelHideTableTitles.push(".t_"+$(item).attr("for"));
             } else {
-                $(".js-indel-table").find(".t_"+$(item).attr("for")).show();
+                $(".js-indel-table thead").find(".t_"+$(item).attr("for")).show();
+                $(".js-indel-table tbody").find(".t_"+$(item).attr("for")).show();
             }
         });
     }
@@ -1409,6 +1427,7 @@ $(function () {
                 var index = Number($(e.target).attr("data-index"));
                 obj.params.group = JSON.parse(obj.params.group);
                 obj.params.index = index;
+                obj.params.ctype ="ALL";
                 obj.params.pageSize = pageSize;
                 delete obj.params.pageNo;
                 var panelType = GetPanelParams.getPanelType();
