@@ -16,7 +16,7 @@ $(function () {
                 }
             },
             error:function (err){
-                console.log(err);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
@@ -156,7 +156,7 @@ $(function () {
 
             },
             error:function (err){
-                console.log(err);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
@@ -233,7 +233,7 @@ $(function () {
                 });
             },
             error:function (err){
-                console.log(err);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
@@ -1196,7 +1196,7 @@ $(function () {
                 }
             },
             error:function (err){
-                console.log(err);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }

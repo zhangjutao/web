@@ -1800,7 +1800,7 @@
                     $("#popu-paginate .total-page-count > span").html(result.data.total);
                 },
                 error: function (error) {
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         };
