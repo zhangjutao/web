@@ -50,7 +50,7 @@
        <mvc:resources mapping="/static/**" location="/static/" cache-period="31536000"/>
 
        <!-- 定义无Controller的path<->view直接映射 -->
-       <mvc:view-controller path="/" view-name="/login"/>
+       <mvc:view-controller path="/" view-name="/dna/index"/>
        <mvc:view-controller path="/primer3" view-name="/primer3-input"/>
 
        <!-- 上传文件拦截，设置最大上传文件大小   10M=10*1024*1024(B)=10485760 bytes -->
