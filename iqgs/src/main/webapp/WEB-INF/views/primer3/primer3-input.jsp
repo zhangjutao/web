@@ -544,7 +544,7 @@
                         form.submit();*/
                     },
                     function (error) {
-                        console.log(error);
+                        if(error.status==901){window.location.href=CTXROOT + "/login"};
                         alert("序列输入错误！")
                     }
                 );

@@ -38,6 +38,7 @@
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
         <sec:custom-filter ref="rememberMeAuthenticationFilter" position="FORM_LOGIN_FILTER"/>
         <sec:custom-filter ref="ssoAuthenticationFilterByJwt" before="ANONYMOUS_FILTER"/>
+        <sec:custom-filter ref="ajaxTimeoutRedirectFilter" after="EXCEPTION_TRANSLATION_FILTER" />
     </sec:http>
 
     <!--session控制相关-->
@@ -68,6 +69,10 @@
         </constructor-arg>
     </bean>
 
+
+    <bean id="ajaxTimeoutRedirectFilter" class="com.gooalgene.common.authority.filter.AjaxTimeoutRedirectFilter">
+        <property name="customSessionExpiredErrorCode" value="901"/>
+    </bean>
     <bean id="ssoAuthenticationFilterByJwt" class="com.gooalgene.common.authority.filter.SsoAuthenticationFilterByJwt">
         <constructor-arg index="0" ref="redisService"></constructor-arg>
         <constructor-arg index="1" ref="webSocket"></constructor-arg>

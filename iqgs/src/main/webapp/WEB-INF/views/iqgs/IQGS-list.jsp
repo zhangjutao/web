@@ -559,7 +559,7 @@
                     $(".js-search-total").text(result.data.total);
                 }
             }, function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     }
@@ -732,7 +732,7 @@
                 }
             },
             error: function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }

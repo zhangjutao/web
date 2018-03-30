@@ -247,7 +247,7 @@ $(function () {
                    }
                 },
                 error: function (error) {
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
     }
@@ -284,7 +284,7 @@ $(function () {
                 }
             },
             error:function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
@@ -354,7 +354,10 @@ $(function () {
                 }
             },
             error:function (error){
-                console.log(error);
+                alert(error.status)
+                if(error.status==901){
+                    window.location.href=CTXROOT + "/login"
+                };
             }
         })
     }
@@ -449,7 +452,7 @@ $(function () {
                 });
             },
             error:function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
@@ -881,7 +884,7 @@ $(function () {
 
             },
             error:function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
 
         });
@@ -1710,7 +1713,7 @@ $(function () {
                     }
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         }
@@ -1842,7 +1845,7 @@ $(function () {
                     }
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         }

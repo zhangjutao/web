@@ -295,7 +295,7 @@
                 })
             },
             function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     };
@@ -336,7 +336,7 @@
                 $('.sort_xz select').comboSelect();
             },
             function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     }
@@ -408,7 +408,7 @@
                 // 关闭遮罩层
                 layer.close(load);
             }, function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     }
@@ -438,7 +438,7 @@
                     });
                 }
             }, function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     }
@@ -526,7 +526,7 @@
                 window.location.href = path + result.data;
             },
             error: function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
