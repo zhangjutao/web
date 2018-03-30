@@ -60,7 +60,6 @@
     </bean>
     <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
 
-
     <bean id="sas" class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
         <constructor-arg>
             <list>

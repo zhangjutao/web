@@ -60,8 +60,6 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
 
     }
 
-    private static PropertiesLoader loader = new PropertiesLoader("classpath:oauth/oauth.properties");
-
     private Logger log = LoggerFactory.getLogger(SsoAuthenticationFilterByJwt.class);
 
     private MyBearerTokenExtractor tokenExtractor = new MyBearerTokenExtractor();
