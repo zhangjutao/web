@@ -354,7 +354,7 @@ $(function () {
                 }
             },
             error:function (error){
-                alert(error.status)
+                console.log("status: "+error.status)
                 if(error.status==901){
                     window.location.href=CTXROOT + "/login"
                 };
