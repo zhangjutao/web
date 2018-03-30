@@ -303,7 +303,11 @@ $(function () {
         renderTableHead();
         // 获取表格数据--ajax
          $(".page-tables").show();
-          $(".page-circle").hide();
+         $(".page-circle").hide();
+         //生成上方的筛选条件文字 modified by zjt 2018-3-30
+        renderSearchText();
+        //生成上方的筛选条件文字 modified by zjt 2018-3-30
+
     });
 
     // 根据基因查询所有的snp位点信息
@@ -416,14 +420,14 @@ $(function () {
             var desc = '染色体 ' + params.chromosome + ", 范围 " + params.start + "bp-" + params.end + "bp";
         } else {
             var params = GetPanelParams.getGeneParams();
-            if(!params.downstream && !params.upstream) {
+            if(!params.end && !params.start) {
                 var desc = '基因 ' + params.gene ;
-            } else if(!params.upstream && params.downstream) {
-                var desc = '基因 ' + params.gene + ", 范围 Downstream " + params.downstream + "bp";
-            } else if(!params.downstream && params.upstream) {
-                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.upstream + "bp";
+            } else if(!params.start && params.end) {
+                var desc = '基因 ' + params.gene + ", 范围 Downstream " + params.end + "bp";
+            } else if(!params.end && params.start) {
+                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.start + "bp";
             } else {
-                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.upstream + "bp -Downstream " + params.downstream + "bp";
+                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.start + "bp -Downstream " + params.end + "bp";
             }
         }
         $(".js-search-desc").html(desc);
@@ -449,6 +453,8 @@ $(function () {
     var pageNumber = 1;
     var pageSize = 10;
     var snpOffset,indelOffset;
+    var pageNumberSnp = 1;
+    var pageNumberIndel = 1;
 
     var pageSizeSNP = 10;
     // 配置默认每页显示条数
@@ -591,7 +597,7 @@ $(function () {
         }
     }
 
-    var SNPData = [];
+    var SNPData;
     var currPageNumb=1;
     var Major_Or_Minor_SNP = "major";
     var INDELData = [];
@@ -679,6 +685,8 @@ $(function () {
         if(!$("#tableErrorShow").is(":hidden")){
             $("#tableErrorShow").hide();
         }
+        SNPData = res;
+
         var str = '';
         $.each(res.data, function (idx, item) {
             var ref = item.ref;
@@ -732,6 +740,7 @@ $(function () {
                     if(panelType == "region" && tmp.params.gene){
                         delete tmp.params.gene;
                     }
+                    pageNumberSnp = obj.curr;
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
                     tmp.params.pageSize = pageSizeSNP;
@@ -777,6 +786,7 @@ $(function () {
         if(!$("#tableErrorShow2").is(":hidden")){
             $("#tableErrorShow2").hide();
         }
+        INDELData = res;
         var str = '';
         $.each(res.data, function(idx, item) {
             str += '<tr id="' +item.id + '" data-index="' + item.index+'" >'
@@ -818,6 +828,7 @@ $(function () {
                     if(panelType == "region" && tmp.params.gene){
                         delete tmp.params.gene;
                     }
+                    pageNumberIndel =obj.curr;
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
                     tmp.params.pageSize = pageSizeINDEL;
@@ -838,13 +849,13 @@ $(function () {
     $(".js-snp-table").on("change", ".f-ma", function () {
         Major_Or_Minor_SNP = $(this).val();
         $(".js-snp-table .f-ma").val(Major_Or_Minor_SNP);
-        renderSNPTable(SNPData, Major_Or_Minor_SNP);
+        renderSNPTable(SNPData, pageNumberSnp);
     });
 
     $(".js-indel-table").on("change", ".f-ma", function () {
         Major_Or_Minor_INDEL = $(this).val();
         $(".js-indel-table .f-ma").val(Major_Or_Minor_INDEL);
-        renderINDELTable(INDELData, Major_Or_Minor_INDEL);
+        renderINDELTable(INDELData, pageNumberIndel);
     });
     var tab=$(".js-table-header-setting-indel").find("label");
     for(var i=0;i<tab.length;i++){
