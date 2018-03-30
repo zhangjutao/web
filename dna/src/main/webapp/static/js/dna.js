@@ -453,6 +453,8 @@ $(function () {
     var pageNumber = 1;
     var pageSize = 10;
     var snpOffset,indelOffset;
+    var pageNumberSnp = 1;
+    var pageNumberIndel = 1;
 
     var pageSizeSNP = 10;
     // 配置默认每页显示条数
@@ -595,7 +597,7 @@ $(function () {
         }
     }
 
-    var SNPData = [];
+    var SNPData;
     var currPageNumb=1;
     var Major_Or_Minor_SNP = "major";
     var INDELData = [];
@@ -683,6 +685,8 @@ $(function () {
         if(!$("#tableErrorShow").is(":hidden")){
             $("#tableErrorShow").hide();
         }
+        SNPData = res;
+
         var str = '';
         $.each(res.data, function (idx, item) {
             var ref = item.ref;
@@ -736,6 +740,7 @@ $(function () {
                     if(panelType == "region" && tmp.params.gene){
                         delete tmp.params.gene;
                     }
+                    pageNumberSnp = obj.curr;
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
                     tmp.params.pageSize = pageSizeSNP;
@@ -781,6 +786,7 @@ $(function () {
         if(!$("#tableErrorShow2").is(":hidden")){
             $("#tableErrorShow2").hide();
         }
+        INDELData = res;
         var str = '';
         $.each(res.data, function(idx, item) {
             str += '<tr id="' +item.id + '" data-index="' + item.index+'" >'
@@ -822,6 +828,7 @@ $(function () {
                     if(panelType == "region" && tmp.params.gene){
                         delete tmp.params.gene;
                     }
+                    pageNumberIndel =obj.curr;
                     tmp.params.group = JSON.parse(tmp.params.group);
                     tmp.params.pageNo = obj.curr;
                     tmp.params.pageSize = pageSizeINDEL;
@@ -842,13 +849,13 @@ $(function () {
     $(".js-snp-table").on("change", ".f-ma", function () {
         Major_Or_Minor_SNP = $(this).val();
         $(".js-snp-table .f-ma").val(Major_Or_Minor_SNP);
-        renderSNPTable(SNPData, Major_Or_Minor_SNP);
+        renderSNPTable(SNPData, pageNumberSnp);
     });
 
     $(".js-indel-table").on("change", ".f-ma", function () {
         Major_Or_Minor_INDEL = $(this).val();
         $(".js-indel-table .f-ma").val(Major_Or_Minor_INDEL);
-        renderINDELTable(INDELData, Major_Or_Minor_INDEL);
+        renderINDELTable(INDELData, pageNumberIndel);
     });
     var tab=$(".js-table-header-setting-indel").find("label");
     for(var i=0;i<tab.length;i++){
