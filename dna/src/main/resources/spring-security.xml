@@ -17,6 +17,7 @@
         <property name="defaultTargetUrl" value="/dna/index" />
     </bean>
     <sec:http pattern="/dna/fetch-all-chromosome" security="none"/>
+    <sec:http pattern="/dna/index" security="none" />
     <sec:http auto-config='false' use-expressions="true">
         <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
         <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
