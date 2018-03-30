@@ -303,7 +303,11 @@ $(function () {
         renderTableHead();
         // 获取表格数据--ajax
          $(".page-tables").show();
-          $(".page-circle").hide();
+         $(".page-circle").hide();
+         //生成上方的筛选条件文字 modified by zjt 2018-3-30
+        renderSearchText();
+        //生成上方的筛选条件文字 modified by zjt 2018-3-30
+
     });
 
     // 根据基因查询所有的snp位点信息
@@ -416,14 +420,14 @@ $(function () {
             var desc = '染色体 ' + params.chromosome + ", 范围 " + params.start + "bp-" + params.end + "bp";
         } else {
             var params = GetPanelParams.getGeneParams();
-            if(!params.downstream && !params.upstream) {
+            if(!params.end && !params.start) {
                 var desc = '基因 ' + params.gene ;
-            } else if(!params.upstream && params.downstream) {
-                var desc = '基因 ' + params.gene + ", 范围 Downstream " + params.downstream + "bp";
-            } else if(!params.downstream && params.upstream) {
-                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.upstream + "bp";
+            } else if(!params.start && params.end) {
+                var desc = '基因 ' + params.gene + ", 范围 Downstream " + params.end + "bp";
+            } else if(!params.end && params.start) {
+                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.start + "bp";
             } else {
-                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.upstream + "bp -Downstream " + params.downstream + "bp";
+                var desc = '基因 ' + params.gene + ", 范围 Upstream " + params.start + "bp -Downstream " + params.end + "bp";
             }
         }
         $(".js-search-desc").html(desc);
