@@ -7,6 +7,9 @@ $(function () {
             type:"get",
             url:"/dna/dna/fetch-all-chromosome",
             contentType:"application/json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("init","true");
+            },
             dataType:"json",
                 success:function (res){
                 console.log(res);
