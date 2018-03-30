@@ -1218,6 +1218,7 @@
         $(".custom-groups-btn").click(function () {
             $(".custom-groups-content").show();
             $(".cover").show();
+//            $("#tagsPagination .per-page-count .select_default_page").val(10);
         });
 
         /* 自定义群体-关闭 */
@@ -1257,7 +1258,7 @@
         }, {
             "name": "保藏地点Jilin agricultural university",
             "id": 004,
-            "condition": {"environment": "Jilin agricultural university"}
+            "condition": {"preservationLocation": "Jilin agricultural university"}
         }, {
             "name": "培养环境indoorcultivation",
             "id": 005,
@@ -1685,13 +1686,16 @@
         var popId;
         var currVal = "";
 
+        var customize = 0;
         /* 显示群体信息、弹框 */
         $(".js-cursom-add").on("click", ".label-txt", function () {
-            currVal = $(this).text().split(",")[0].substring(0, 3);
+            customize = 1;
+            currVal = $(this).text().split(",")[0].substring(0, 6);
             var currKindList = $(this).text().split(",");
+
             kindNames = [];
             for (var i = 0; i < currKindList.length; i++) {
-                var name = currKindList[i].substring(3, currKindList[i].length);
+                var name = currKindList[i].substring(6, currKindList[i].length);
                 kindNames.push(name);
             }
             var label = $(this).parent().find("label");
@@ -1704,7 +1708,7 @@
             $(".tab-detail-thead p span").text($(this).text());
 
             popId = $(this).parent("label").attr("data-index");
-            if (currVal == "品种名") {
+            if (currVal == "测序样品编号") {
                 currPopu = selectKindVal(popId)[0];
                 var data = {
                     names: kindNames.join(",")
@@ -1757,11 +1761,17 @@
         getAllChoice();
         // 选则品种 之后 详情页
         function getKindInfos(curr) {
+            console.log(kindNames);
+            console.log(currPopu);
+            var idlists = currPopu.condition.idList;
+            console.log(idlists.split(","));
+
             $.ajax({
                 type: 'GET',
                 url: CTXROOT + "/dna/getByCultivar",
                 data: {
-                    names: kindNames.join(","),
+//                    names: kindNames.join(","),
+                    names:idlists.split(",") ,
                     pageNum: curr || 1,
                     pageSize: pageSizePopu
                 },
@@ -1797,6 +1807,7 @@
         };
 
         $(".js-cursom-add2").on("click", ".label-txt", function () {
+            customize = 0;
             currFlag = "group";
             var label = $(this).parent().find("label");
             if (label.hasClass("cur")) {
@@ -1862,12 +1873,17 @@
                 getPopuTable(curr, pageSizeNum)
             }
         });*/
-        $("#popu-paginate #per-page-count .select_item_page li").click(function (){
-            var currentSelected = $(this).text();
+        $("#popu-paginate .per-page-count .select_item_page li").click(function (){
+            var currentSelected = Number($(this).text());
             var pageSizeNum = currentSelected;
             pageSizePopu = currentSelected;
             //paramData.pageSize = pageSizePopu;
-            getPopuTable(1, pageSizeNum)
+
+                if(customize == 1){
+                    getKindInfos(1);
+                }else {
+                    getPopuTable(1)
+                }
         });
         //modified by zjt 2018-3-27
 

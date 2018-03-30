@@ -385,8 +385,8 @@ $(function (){
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
     });*/
-    $("#tagsPagination #per-page-count .select_item_page li").click(function (e){
-        var currentSelected = $(this).text();
+    $("#tagsPagination .per-page-count .select_item_page li").click(function (e){
+        var currentSelected = Number($(this).text());
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
     });
@@ -465,6 +465,7 @@ $(function (){
     });
     //ajax 请求
     function getData(data,curr,fn){
+        console.log(curr);
         $.ajax({
             type:"GET",
             url:CTXROOT + "/dna/condition",

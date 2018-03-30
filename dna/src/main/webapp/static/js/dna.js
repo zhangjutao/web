@@ -493,7 +493,7 @@ $(function () {
         $("#snp-paginate .select_default_page").val(pageSizeSNP);
         var obj = getPanelParams();
         deleteSelectedSnp();
-        obj.params.pageNo = pageNumber;
+        obj.params.pageNo = 1;
         obj.params.pageSize =  pageSizeSNP;
         obj.params.group = JSON.parse(obj.params.group);
         var panelType = GetPanelParams.getPanelType();
@@ -509,7 +509,7 @@ $(function () {
         var obj1 = getPanelParams();
         deleteSelectedSnp();
 
-        obj1.params.pageNo = pageNumber;
+        obj1.params.pageNo = 1;
         obj1.params.pageSize = pageSizeINDEL;
         obj1.params.group = JSON.parse(obj1.params.group);
         var panelType = GetPanelParams.getPanelType();

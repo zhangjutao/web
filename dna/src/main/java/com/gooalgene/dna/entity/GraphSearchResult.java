@@ -27,7 +27,7 @@ public class GraphSearchResult {
     /**
      * 该区间内的所有基因ID
      */
-    private Set<String> geneInsideRegion;
+    private List<String> geneInsideRegion;
 
     /**
      * 当前SNP位点图形中的基因ID
@@ -68,11 +68,11 @@ public class GraphSearchResult {
         this.downstream = downstream;
     }
 
-    public Set<String> getGeneInsideRegion() {
+    public List<String> getGeneInsideRegion() {
         return geneInsideRegion;
     }
 
-    public void setGeneInsideRegion(Set<String> geneInsideRegion) {
+    public void setGeneInsideRegion(List<String> geneInsideRegion) {
         this.geneInsideRegion = geneInsideRegion;
     }
 
