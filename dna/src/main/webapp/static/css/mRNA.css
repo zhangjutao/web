@@ -120,7 +120,7 @@ button {
     display: inline-block;
     width: 14px;
     height: 14px;
-    /*background-image: url(../images/contrast-ac.png);*/
+    background-image: url(../images/contrast.png);
     vertical-align: middle;
     margin-right: 8px;
 }

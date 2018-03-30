@@ -264,7 +264,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="weightPer100seedsI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="weightPer100seedsI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -281,7 +281,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="proteinI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="proteinI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -298,7 +298,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="oilI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="oilI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -325,7 +325,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="heightI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="heightI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -402,7 +402,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="yieldI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="yieldI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -419,7 +419,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="upperLeafletLengthI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="upperLeafletLengthI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -436,7 +436,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="linoleicI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="linoleicI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -453,7 +453,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="linolenicI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="linolenicI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -470,7 +470,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="oleicI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="oleicI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -487,7 +487,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="palmiticI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="palmiticI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -504,7 +504,7 @@
                                     <option value=">"> > </option>
                                 </select>
                                 <br>
-                                <input type="text" placeholder="请输入" class="stearicI inputStyle">
+                                <input type="text" onkeyup="value=value.replace(/[^\d]/g,'')" placeholder="请输入数字" class="stearicI inputStyle">
                                 <p>
                                     <a href="javascript:void(0);" class="btnCancel">取消</a>
                                     <a href="javascript:void(0);" class="btnConfirmInfo">确定</a>
@@ -519,7 +519,7 @@
 
         </div>
         <%--laypage 分页 插件  begin--%>
-        <div class="checkbox-item-tab" id="sysPopulations">
+        <div class="checkbox-item-tab" id="sysPopulations" style="height:60px;">
             <%@ include file="/WEB-INF/views/include/pagination.jsp" %>
         </div>
         <%--laypage 分页 end --%>

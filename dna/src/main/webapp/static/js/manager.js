@@ -45,9 +45,9 @@ $(function () {
                         var domains = totalDatas[i].domains?totalDatas[i].domains:"-";
                         var university = totalDatas[i].university?totalDatas[i].university:"-";
                         if(status == 1){
-                            var str=" <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>"+domains+"</td><td>"+university+"</td><td>已审核</td><td>"+totalDatas[i].enableDay+"</td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>已审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
                         }else{
-                            var str="  <tr myid="+totalDatas[i].id+"><td>"+totalDatas[i].username+"</td><td>"+totalDatas[i].email+"</td><td>"+domains+"</td><td>"+university+"</td><td>待审核</td><td>"+totalDatas[i].enableDay+"</td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>待审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
                         }
                         console.log(status);
                         var $tbl = $("#tblbody table");
@@ -230,19 +230,19 @@ $(function () {
                     // 0  为成功
                     if(result.code == 0){
                         $p.removeClass("btnWait").addClass("btnAudited").text("已审核");
-                        $p.parent().prev().text("已审核");
+                        $p.parent().prev().prev().text("已审核");
                         // -1 为系统异常
                     }else if(result.code == -1){
-                        $p.parent().prev().text("审核失败")
+                        $p.parent().prev().prev().text("审核失败")
                         $p.text("待审核");
                         $p.removeClass("btnWait").addClass("btnAudit");
                         //  -2 审核没通过
                     }else if(result.code == -2){
                         $p.removeClass("btnWait").addClass("btnAudited").text("未通过");
-                        $p.parent().prev().text("未通过");
+                        $p.parent().prev().prev().text("未通过");
                         // -3 邮箱重复
                     }else if(result.code == -3){
-                        $p.parent().prev().text("邮箱重复").css("color","#ff0000");
+                        $p.parent().prev().prev().text("邮箱重复").css("color","#ff0000");
                         $p.removeClass("btnWait").addClass("btnAudited").text("未通过");
                     }
                 },

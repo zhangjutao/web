@@ -181,7 +181,6 @@
         },2000);
     }
     $('.snp-link').on('click',function () {
-        alert(localStorage.getItem("access_token"))
         var token=localStorage.getItem("access_token");
         var myWindow=window.open("${dnaIndex}?access_token="+token);
         sendMessage(myWindow,"${dnaIndex}",token);

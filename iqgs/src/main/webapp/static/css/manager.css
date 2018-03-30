@@ -37,50 +37,67 @@ body {
 }
 
 #containerAdmin #tblhead tr td:first-child,
-#containerAdmin #tblbody tr td:first-child {
+#containerAdmin #tblbody tr td:first-child p.notOverflow{
     width: 150px;
     height: 50px;
 }
-
+.notOverflow{
+    height:50px;
+    line-height:50px;
+    overflow: hidden;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    -o-text-overflow: ellipsis;
+    white-space:nowrap;
+}
 
 
 #containerAdmin #tblhead tr td:nth-child(2),
-#containerAdmin #tblbody tr td:nth-child(2) {
+#containerAdmin #tblbody tr td:nth-child(2) p.notOverflow{
     width: 230px;
     height: 50px;
+    margin:0 auto;
+
+
 }
 
 #containerAdmin #tblhead tr td:nth-child(3),
-#containerAdmin #tblbody tr td:nth-child(3) {
+#containerAdmin #tblbody tr td:nth-child(3) p.notOverflow{
     width: 160px;
     height: 50px;
+    margin:0 auto;
+
 }
 
 #containerAdmin #tblhead tr td:nth-child(4),
-#containerAdmin #tblbody tr td:nth-child(4) {
+#containerAdmin #tblbody tr td:nth-child(4) p.notOverflow{
     width: 160px;
     height: 50px;
+    margin:0 auto;
 }
 #containerAdmin #tblhead tr td:nth-child(5),
-#containerAdmin #tblbody tr td:nth-child(5) {
+#containerAdmin #tblbody tr td:nth-child(5) p.notOverflow{
     width: 140px;
     height: 50px;
+    margin:0 auto;
 }
 #containerAdmin #tblhead tr td:nth-child(6),
-#containerAdmin #tblbody tr td:nth-child(6) {
+#containerAdmin #tblbody tr td:nth-child(6) p.notOverflow{
     width: 123px;
     height: 50px;
+    margin:0 auto;
 }
 #containerAdmin #tblhead tr td:nth-child(7),
-#containerAdmin #tblbody tr td:nth-child(7) {
-    width: 130px;
+#containerAdmin #tblbody tr td:nth-child(7){
+    width: 128px;
     height: 50px;
+    /*margin:0 auto;*/
 }
 /*#containerAdmin #tblhead tr td:first-child,#containerAdmin #tblhead tr td:nth-child(2),#containerAdmin #tblhead tr td:nth-child(3)，#containerAdmin #tblhead tr td:nth-child(4){*/
-    /*height:45px;*/
+/*height:45px;*/
 /*}*/
 #containerAdmin .btnCommon {
-    padding: 3px 2px;
+    padding: 3px 0px;
     width: 100px;
     height: 26px;
     line-height: 26px;
