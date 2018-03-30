@@ -3,7 +3,14 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context" xmlns:tx="http://www.springframework.org/schema/tx"
        xmlns:task="http://www.springframework.org/schema/task"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task.xsd">
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+        http://www.springframework.org/schema/task
+        http://www.springframework.org/schema/task/spring-task.xsd">
 
     <description>Spring Configuration</description>
 
@@ -89,7 +96,7 @@
     </bean>
     <bean id="jedisPool" class="redis.clients.jedis.JedisPool">
         <constructor-arg index="0" ref="jedisPoolConfig"></constructor-arg>
-        <constructor-arg index="1" value="192.168.110.130"/>
+        <constructor-arg index="1" value="192.168.110.131"/>
         <constructor-arg index="2" value="6379" type="int"/>
         <constructor-arg index="3" value="2000" type="int"/>
         <constructor-arg index="4" value="123"/>

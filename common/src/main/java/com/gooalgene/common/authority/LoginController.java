@@ -40,7 +40,13 @@ public class LoginController {
         model.setViewName("login");
 
         return model;
+    }
 
+    @RequestMapping(value = "/session-invalid", method = RequestMethod.GET)
+    public ModelAndView invalid() {
+        ModelAndView model = new ModelAndView();
+        model.setViewName("sessionInvalid");
+        return model;
     }
 
     @RequestMapping(value="/logout", method = RequestMethod.GET)

@@ -25,7 +25,7 @@
                 <c:if test="${not empty error}">
                     <div class="er">${error}</div>
                 </c:if>
-                <div class="er"></div>
+                <div class="er-not-in-el"></div>
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
                 </c:if>
@@ -70,7 +70,8 @@
                 console.log(JSON.stringify(result))
                 if(result.code!=0){
                     var msg=result.msg;
-                    $('.er').text(msg);
+                    $('.er').text('');
+                    $('.er-not-in-el').text(msg);
                 }else {
                     var token=result.data;
                     //sessionStorage.setItem("access_token",token);
@@ -92,7 +93,7 @@
         }
     }
     function init() {
-        $('.er').text("");
+        $('.er-not-in-el').text("");
         $('.msg').text("");
     }
     $(function () {

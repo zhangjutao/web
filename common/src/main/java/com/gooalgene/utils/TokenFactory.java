@@ -85,8 +85,8 @@ public class TokenFactory {
     private static List<HttpMessageConverter<?>> MESSAGE_CONVERTERS = Lists.newArrayList();
 
     public static String getToken(Map<String, String> parameters){
-        //String accessTokenUri = oauthInfo.get("oauth_url")+oauthInfo.get("request_and_refresh_token");
-        String accessTokenUri = "http://172.168.1.119:9999/server"+oauthInfo.get("request_and_refresh_token");
+        String accessTokenUri = oauthInfo.get("oauth_url")+oauthInfo.get("request_and_refresh_token");
+        //String accessTokenUri = "http://172.168.1.119:9999/server"+oauthInfo.get("request_and_refresh_token");
         final HttpHeaders headers = new HttpHeaders();
         //headers.add("Authorization", "Basic Y2xpZW50MjpjbGllbnQy");
         String authorization=parameters.get("authorization");

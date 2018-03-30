@@ -531,10 +531,19 @@ input::-webkit-input-placeholder {
     padding-top: 10px;
     /*display: none*/
 }
+.form .er-not-in-el{
+    color: #f00;
+    position: absolute;
+    padding-top: 10px;
+    /*display: none*/
+}
 .signup .form{
     margin-top: 10px;
 }
 .signup .form .er{
+    top: -38px;
+}
+.signup .form .er-not-in-el{
     top: -38px;
 }
 .form label{

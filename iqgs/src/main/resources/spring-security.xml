@@ -1,13 +1,18 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:context="http://www.springframework.org/schema/context"
        xmlns:sec="http://www.springframework.org/schema/security"
        xmlns:c="http://www.springframework.org/schema/c"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
                         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
                         http://www.springframework.org/schema/security
-                        http://www.springframework.org/schema/security/spring-security.xsd">
+                        http://www.springframework.org/schema/security/spring-security.xsd
+                        http://www.springframework.org/schema/context
+                        http://www.springframework.org/schema/context/spring-context.xsd ">
 
+    <!-- 加载配置属性文件 -->
+    <context:property-placeholder ignore-unresolvable="true" location="classpath:qtldb.properties"/>
     <!-- 目前不需要将ajax请求拒绝 -->
     <!--<bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />-->
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
@@ -22,6 +27,7 @@
     <sec:http pattern="/**/*.png" security="none"/>
     <sec:http pattern="/**/*.jpg" security="none"/>
     <sec:http pattern="/advance-search/query-all-organic" security="none"/>
+
     <sec:http auto-config='false' use-expressions="true" entry-point-ref="ssoAuthenticationEntryPoint" >
         <sec:session-management invalid-session-url="/login" session-authentication-strategy-ref="sas" >
             <!--第二个人登录,第一个人的认证会失效 -->
@@ -50,7 +56,7 @@
         <constructor-arg ref="sessionInformationExpiredStrategy" />
     </bean>
     <bean id="sessionInformationExpiredStrategy" class="org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy">
-        <constructor-arg value="/login"/>
+        <constructor-arg value="/session-invalid"/>
     </bean>
     <bean id="sessionAuthenticationStrategy"
                 class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">

@@ -41,8 +41,8 @@ public class RedisService {
         JedisPoolConfig jedisPoolConfig=new JedisPoolConfig();
         jedisPoolConfig.setMaxIdle(10);
         jedisPoolConfig.setMaxTotal(20);
-        JedisPool jedisPool=new JedisPool(jedisPoolConfig,"172.168.1.119",6379,5000);
-//        JedisPool jedisPool=new JedisPool(jedisPoolConfig,"192.168.110.130",6379,20000);
+//        JedisPool jedisPool=new JedisPool(jedisPoolConfig,"172.168.1.119",6379,5000);
+        JedisPool jedisPool=new JedisPool(jedisPoolConfig,"192.168.110.130",6379,20000);
         Jedis resource = jedisPool.getResource();
         resource.auth("123");
         String pong = resource.ping();
