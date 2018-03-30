@@ -354,7 +354,8 @@ $(function (){
         paramData.pageSize = data.pageSize;
         $('#tagKind .ga-ctrl-footer .select_default_page').val(10);
         //modified by zjt 2018-3-27
-       getData(data,paramData.pageNum,resetSaveStatus);
+        getData(data,paramData.pageNum,resetSaveStatus);
+        gloabletagKindSelectNum = 10; //将全局变量赋值为默认的10 modified by zjt 2018-3-30
     });
     //表格筛选框显示隐藏
     $("#tagKind thead th").mouseover(function (){
@@ -376,6 +377,7 @@ $(function (){
         paramData.pageSize = selectedDatas.pageSize;
         getData(selectedDatas,paramData.pageNum,resetSaveStatus);
         //重新获取数据 modifide by zjt 2018-3-29
+        gloabletagKindSelectNum = 10; //全局变量赋值
     })
     // // pageSize 选择事件
     //modified by zjt 2018-3-27
@@ -389,6 +391,7 @@ $(function (){
         var currentSelected = Number($(this).text());
         page.pageSize = currentSelected;
         paramData.pageSize = page.pageSize;
+        gloabletagKindSelectNum = Number($(this).text()); //全局变量赋值
     });
     //modified by zjt 2018-3-27
 
@@ -440,6 +443,7 @@ $(function (){
         data.pageNum =  1;
         data.pageNum = paramData.pageNum;
         getData(data,data.pageNum,resetSaveStatus);
+        gloabletagKindSelectNum = Number($(this).text()); //全局变量赋值
     });
     //midified by zjt 2018-3-27
     // 分页

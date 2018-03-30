@@ -35,6 +35,7 @@
     <script>
         var CTXROOT = "${ctxroot}";
         var gloableSnpSelectedNum = 10;
+        var gloabletagKindSelectNum = 10;
     </script>
     <script src="${ctxStatic}/js/jquery-ui.js"></script>
     <script src="${ctxStatic}/js/jquery.pure.tooltips.js"></script>
