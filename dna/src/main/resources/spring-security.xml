@@ -10,6 +10,9 @@
 
     <!-- 目前不需要将ajax请求拒绝 -->
     <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint" c:loginFormUrl="/login" />
+    <bean id="ajaxTimeoutRedirectFilter" class="com.gooalgene.dna.util.AjaxTimeoutRedirectFilter">
+        <property name="customSessionExpiredErrorCode" value="901"/>
+    </bean>
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
         <property name="defaultTargetUrl" value="/dna/index" />
     </bean>
@@ -23,6 +26,7 @@
         <sec:access-denied-handler error-page="/403" />
         <sec:logout invalidate-session="true" logout-success-url="/dna/index" logout-url="/j_spring_security_logout" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR" />
+        <sec:custom-filter ref="ajaxTimeoutRedirectFilter" after="EXCEPTION_TRANSLATION_FILTER" />
     </sec:http>
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">
         <property name="dataSource" ref="dataSource" />
