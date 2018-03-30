@@ -1884,7 +1884,6 @@
                     getPopuTable(1)
                 }
             $('#tagKind .ga-ctrl-footer .select_default_page').val(gloabletagKindSelectNum);//将全局变量的值赋值给input框
-            alert(gloabletagKindSelectNum);
         });
 
         // 注册 enter 事件的元素
