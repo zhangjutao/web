@@ -7,6 +7,9 @@ $(function () {
             type:"get",
             url:"/dna/dna/fetch-all-chromosome",
             contentType:"application/json",
+            beforeSend: function (xhr) {
+                xhr.setRequestHeader("init","true");
+            },
             dataType:"json",
                 success:function (res){
                 console.log(res);
@@ -16,7 +19,7 @@ $(function () {
                 }
             },
             error:function (err){
-                if(error.status==901){window.location.href=CTXROOT + "/login"};
+                console.log(err);
             }
         })
     }
@@ -156,7 +159,7 @@ $(function () {
 
             },
             error:function (err){
-                if(error.status==901){window.location.href=CTXROOT + "/login"};
+                if(err.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
@@ -233,7 +236,7 @@ $(function () {
                 });
             },
             error:function (err){
-                if(error.status==901){window.location.href=CTXROOT + "/login"};
+                if(err.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
@@ -1196,7 +1199,7 @@ $(function () {
                 }
             },
             error:function (err){
-                if(error.status==901){window.location.href=CTXROOT + "/login"};
+                if(err.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }
