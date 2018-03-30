@@ -250,8 +250,14 @@ $(function (){
 
     // 筛选取消按钮 样式
     $("#tableShow .inputComponent .btnCancel").click(function (){
-        $(this).parent().parent().find("input").val("");
+        $(this).parent().parent().find("input").val("");//清空input框的值
+        $(this).parent().parent().find("select").val(""); //清空select框的值
+        //重新获取表格的值 modified by zjt 2018-3-30
+        var data = getParamas();
+        getData(data,page.pageNum);
+        //重新获取表格的值 modified by zjt 2018-3-30 btnConfirmInfo
         $(this).parent().parent().hide();
+
     })
 
     // 分页
