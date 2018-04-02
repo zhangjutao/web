@@ -2,7 +2,6 @@ package com.gooalgene.iqgs.web;
 
 import com.github.pagehelper.PageInfo;
 import com.gooalgene.common.Page;
-import com.gooalgene.common.constant.CommonConstant;
 import com.gooalgene.common.vo.ResultVO;
 import com.gooalgene.dna.entity.DNAGenStructure;
 import com.gooalgene.dna.entity.DNAGens;
@@ -135,7 +134,6 @@ public class DNAGenBaseInfoController implements InitializingBean {
         String idOrName = req.getParameter("keyword");
         int pageNo = Integer.parseInt(req.getParameter("pageNo"));
         int pageSize = Integer.parseInt(req.getParameter("pageSize"));
-        ResultVO resultVO = new ResultVO();
         PageInfo<DNAGeneSearchResult> resultPageInfo = dnaGenBaseInfoService.queryDNAGenBaseSearchResult(SearchConditionEnum.ID, idOrName, pageNo, pageSize);
         return ResultUtil.success(resultPageInfo);
     }
