@@ -58,6 +58,18 @@ public class SearchRegexpTest extends TestCase {
     }
 
     @Test
+    public void testMatchMushroomGeneId() {
+        String regex = "(^[^a-zA-Z0-9]*)([A-Za-z\\d\\s;,_]+)([^a-zA-Z0-9]*$)";
+        String geneId = "PT1_10000285";
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(geneId);
+        if (matcher.find()) {
+            String result = matcher.group(2);
+            System.out.println(result);
+        }
+    }
+
+    @Test
     public void testMatchGene(){
         String deviation = "Glyma01G00100";
         //使用多个零宽度正先行断言作用会重叠,没能达到想要的作用

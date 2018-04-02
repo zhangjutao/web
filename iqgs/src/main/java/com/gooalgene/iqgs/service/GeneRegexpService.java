@@ -39,7 +39,7 @@ public class GeneRegexpService {
      */
     public static List<String> interpretGeneInput(String userInput){
         //去除开头或结尾的特殊字符,针对中间出现的一些特殊字符(如;,\t\n等)予以保留
-        String regex = "(^[^a-zA-Z0-9]*)([A-Za-z\\d\\s;,.]+)([^a-zA-Z0-9]*$)";
+        String regex = "(^[^a-zA-Z0-9]*)([A-Za-z\\d\\s;,_]+)([^a-zA-Z0-9]*$)";
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(userInput);
         String result = "";
