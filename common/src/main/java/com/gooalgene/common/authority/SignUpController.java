@@ -101,10 +101,10 @@ public class SignUpController {
             return modelAndView;
         }
 
-        if ((realname == null) || realname.isEmpty()) {
-            modelAndView.addObject("error", "未填写真实姓名");
-            return modelAndView;
-        }
+//        if ((realname == null) || realname.isEmpty()) {
+//            modelAndView.addObject("error", "未填写真实姓名");
+//            return modelAndView;
+//        }
 
         if ((email == null) || email.isEmpty()) {
             modelAndView.addObject("error", "电子邮件没有填写");
@@ -127,7 +127,11 @@ public class SignUpController {
             modelAndView.addObject("error", "电话号码没有填写");
             return modelAndView;
         } else {
-            //判断电话
+            if (userService.getPhoneCount(phone) > 0) {
+                modelAndView.addObject("error", "电话号码已被使用");
+                return modelAndView;
+            }
+            //判断电话格式是否正确
             String phoneRex = "\\d{3}-\\d{8}|\\d{4}-\\d{7,8}|\\d{11}";
             Pattern phonePatten = Pattern.compile(phoneRex);
             Matcher phoneMatcher = phonePatten.matcher(phone);

@@ -181,4 +181,8 @@ public class UserService implements ApplicationContextAware {
     public Integer getEmailCount(String email){
         return userDao.getEmailCount(email);
     }
+
+    public Integer getPhoneCount(String phone) {
+        return userDao.getPhoneCount(phone);
+    }
 }
