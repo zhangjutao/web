@@ -101,10 +101,10 @@ public class SignUpController {
             return modelAndView;
         }
 
-//        if ((realname == null) || realname.isEmpty()) {
-//            modelAndView.addObject("error", "未填写真实姓名");
-//            return modelAndView;
-//        }
+        if ((realname == null) || realname.isEmpty()) {
+            modelAndView.addObject("error", "未填写真实姓名");
+            return modelAndView;
+        }
 
         if ((email == null) || email.isEmpty()) {
             modelAndView.addObject("error", "电子邮件没有填写");
