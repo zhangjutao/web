@@ -44,20 +44,6 @@ public class SsoTokenController {
     @Autowired
     private RandomValueStringGenerator generator;
 
-    private static PropertiesLoader loader = new PropertiesLoader("classpath:oauth/oauth.properties");
-
-    @RequestMapping(value = "/sso/authorize", method = RequestMethod.GET)
-    public void authorize(@RequestParam Map<String, String> parameters, HttpServletResponse response ) throws IOException {
-        String authorizeUrl = loader.getProperty("oauth_url");
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizeUrl);
-        for (Map.Entry<String, String> param : parameters.entrySet()) {
-            builder.queryParam(param.getKey(), param.getValue());
-        }
-        builder.queryParam("state", generator.generate());
-        String redirectUrl = response.encodeRedirectURL(builder.build().encode().toUriString());
-        response.sendRedirect(redirectUrl);
-    }
-
     @RequestMapping(value = "/sso/token", method = RequestMethod.POST)
     public ResultVO token(@RequestParam Map<String, String> parameters, HttpServletResponse response) throws IOException {
         // 从认证服务器中获取token值
