@@ -31,13 +31,16 @@
             <div id="tblhead">
                 <table border="1" cellspacing="0" cellpadding="0" bordercolor="#ccc">
                     <tr style="background:#F5F8FF;">
-                        <td style="height:45px;">待审核用户</td>
+                        <td style="height:45px;width:156px;">待审核用户</td>
+                        <td style="height:45px;">姓名</td>
                         <td style="height:45px;">注册邮箱</td>
+                        <td style="height:45px;">联系方式</td>
+
                         <td style="height:45px;width:159px;" >从事行业</td>
                         <td style="height:45px;">所属院校</td>
                         <td style="height:45px;">状态</td>
-                        <td style="height:45px;">剩余天数</td>
-                        <td style="height:45px;">确认审核</td>
+                        <td style="height:45px;width: 128px;">剩余天数</td>
+                        <td style="height:45px;width:128px;">确认审核</td>
                     </tr>
                 </table>
             </div>

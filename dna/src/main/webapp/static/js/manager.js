@@ -23,7 +23,6 @@ $(function () {
             url: ctxRoot + "/manager/users",
             data:data,
             success:function (result) {
-                console.log(result);
                 count = result.data.total;
                 if(count <40){
                     $("#page").css({"padding-left":"186px"});
@@ -45,9 +44,9 @@ $(function () {
                         var domains = totalDatas[i].domains?totalDatas[i].domains:"-";
                         var university = totalDatas[i].university?totalDatas[i].university:"-";
                         if(status == 1){
-                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>已审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].realname+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+totalDatas[i].phone+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>已审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
                         }else{
-                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>待审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].realname+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+totalDatas[i].phone+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>待审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
                         }
                         console.log(status);
                         var $tbl = $("#tblbody table");
