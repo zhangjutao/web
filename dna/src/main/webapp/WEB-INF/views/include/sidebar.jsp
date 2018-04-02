@@ -1028,7 +1028,7 @@
         </div>
         <div class="choose-default">
             <div class="btn-default">
-                <label><span class="js-choose-all testClass whiteOk" id="allSelected"></span>全选</label>
+                <label><span class="js-choose-all testClass rightOk js-choose-all-ac" id="allSelected"></span>全选</label>
                 <%--<label class="js-btn-default btn-default-ac"><span></span>默认</label>--%>
             </div>
             <div class="btn-group" style="display: block;">
@@ -1918,7 +1918,7 @@
                 dataType: "json",
                 success: function (res) {
                     popCount = res.total;
-                    renderPopuTable(res.data);
+                    renderPopuTable(res.list);
                     laypage({
                         cont: $('#popu-paginate .pagination'), //容器。值支持id名、原生dom对象，jquery对象。【如该容器为】：<div id="page1"></div>
                         pages: Math.ceil(res.total / pageSizePopu), //通过后台拿到的总页数
@@ -1948,7 +1948,8 @@
         function renderPopuTable(data) {
             $(".js-table-header-setting-popu").find("label").addClass("checkbox-ac");
             var str = '';
-            $.each(data, function (idx, item) {
+            for(var i = 0; i < data.length; i++) {
+                var item = data[i];
                 str += '<tr>'
                 str += '<td class="runNo">' + item.runNo + '</td>'
                 str += '<td class="scientificName">' + item.scientificName + '</td>'
@@ -1990,7 +1991,7 @@
                 str += '<td class="nuclearPhase">' + item.nuclearPhase + '</td>'
                 str += '<td class="matingType">' + item.matingType + '</td>'
                 str += '</tr>'
-            });
+            };
             $(".popu-table > tbody").empty().append(str);
         }
 
@@ -2322,7 +2323,7 @@
                 $(this).removeClass("whiteOk").addClass("rightOk");
 //                $("js-clear-btn").trigger("click");
             }else {
-                $(this).addClass("whiteOk").removeClass("rightOk");
+                $(this).removeClass("rightOk").addClass("whiteOk");
             }
         })
 
