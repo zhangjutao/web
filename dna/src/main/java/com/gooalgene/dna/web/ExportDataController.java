@@ -293,22 +293,15 @@ public class ExportDataController {
                     }
                     page.setPageSize(total);
                     if (flag.equals("group")) {
-                        result = dnaRunService.queryDNARunByGroup(group, page);
+                        content = createCsvStr(dnaRunService.queryDNARunByGroup(group, 1, total).getList(), Arrays.asList(columns.split(",")));
                     } else {
                         String ids = request.getParameter("cultivar");
                         String[] idArray = ids.split(",");
-                        Map tempResult = new HashMap();
                         List<String> idList;
                         idList = Arrays.asList(idArray);
                         List<SampleInfoDto> dnaRunList = dnaRunDao.getByCultivarForExport(idList, false);
-                        JSONArray data = new JSONArray();
-                        for (SampleInfoDto dnaRun : dnaRunList) {
-
-                        }
-                        tempResult.put("data", data);
-                        result = tempResult;
+                        content = createCsvStr(dnaRunList, Arrays.asList(columns.split(",")));
                     }
-                    content = serialList(model, result, columns.split(","));
                 }
             } else {
                 content = "请选择导出数据类型";

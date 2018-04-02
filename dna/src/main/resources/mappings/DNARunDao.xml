@@ -592,7 +592,7 @@
                 <include refid="Base_Column_List"/>
             </otherwise>
         </choose>
-        FROM dna_run WHERE id IN
+        FROM dna_run WHERE run_no IN
         <foreach collection="list" item="id" open="(" close=")" separator=",">
             #{id}
         </foreach>
