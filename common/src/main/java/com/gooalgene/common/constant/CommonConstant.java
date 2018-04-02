@@ -58,4 +58,35 @@ public interface CommonConstant {
      * V2版本
      */
     String VERSIONTWO = "Gmax_275_v2.0";
+
+
+    /**
+     * 在security资源过滤器中校验用户所属的client（白名单）在session中的key
+     */
+    String CLIENT_ID="clientId";
+
+    /**
+     * rememberMe的key
+     */
+    String REMEMBER_ME_KEY="remember-me";
+
+    /**
+     * rememberMe的过期时间
+     */
+    Integer REMEMBER_ME_TIME_OUT=60*60*24*7;
+
+    /**
+     * 签发jwt秘钥
+     */
+    String JWT_KEY="guao";
+
+    /**
+     * 刷新token过期时间
+     */
+    Integer REFRESH_TOKEN_TIME_OUT=60*60*3;
+
+    /**
+     * clientId在cookie中的key
+     */
+    String CLIENT_ID_IN_COOKIE="checkoutWhite";
 }

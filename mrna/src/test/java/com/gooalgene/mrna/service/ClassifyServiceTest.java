@@ -1,7 +1,11 @@
 package com.gooalgene.mrna.service;
 
+import com.fasterxml.jackson.core.JsonEncoding;
+import com.fasterxml.jackson.core.JsonGenerator;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gooalgene.mrna.entity.Classifys;
 import junit.framework.TestCase;
+import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +13,31 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.ContextHierarchy;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.io.IOException;
 import java.util.List;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextHierarchy(@ContextConfiguration(value = {"classpath:spring-context-test.xml"}))
 public class ClassifyServiceTest extends TestCase {
 
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    private JsonGenerator jsonGenerator = null;
+
     @Autowired
     private ClassifyService classifyService;
 
     @Autowired
     private TService tService;
+
+    @Before
+    public void setUp(){
+        try {
+            jsonGenerator = objectMapper.getFactory().createGenerator(System.out, JsonEncoding.UTF8);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 
     @Test
     public void testQuery(){
@@ -36,6 +54,11 @@ public class ClassifyServiceTest extends TestCase {
         assertEquals(8, classifyTree.size());
         String chineseName = classifyTree.get(0).getChinese();
         assertEquals("豆荚", chineseName);
+        try {
+            jsonGenerator.writeObject(classifyTree);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

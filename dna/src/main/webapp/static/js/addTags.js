@@ -476,7 +476,7 @@ $(function (){
                 //modified by zjt 2018-3-22
             },
             error:function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }

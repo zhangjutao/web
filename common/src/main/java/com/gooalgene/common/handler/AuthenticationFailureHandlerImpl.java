@@ -36,8 +36,8 @@ public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFai
      */
     public static final String LAST_USERNAME_KEY = "SPRING_SECURITY_LAST_USERNAME";
 
-    @Autowired
-    private UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter;
+    /*@Autowired
+    private UsernamePasswordAuthenticationFilter usernamePasswordAuthenticationFilter;*/
 
     private RedirectStrategy redirectStrategy=new DefaultRedirectStrategy();
     @Override
@@ -53,11 +53,11 @@ public class AuthenticationFailureHandlerImpl extends SimpleUrlAuthenticationFai
         }else if(e instanceof DisabledException){
             errorMessgae="账户未启用";
         }
-        String usernameParameter = usernamePasswordAuthenticationFilter.getUsernameParameter();
-        String lastUsername = request.getParameter(usernameParameter); //拿到填入的用户名
+        //String usernameParameter = usernamePasswordAuthenticationFilter.getUsernameParameter();
+        //String lastUsername = request.getParameter(usernameParameter); //拿到填入的用户名
         HttpSession session = request.getSession(false);
         if (session != null){
-            request.getSession().setAttribute(LAST_USERNAME_KEY, lastUsername);
+            //request.getSession().setAttribute(LAST_USERNAME_KEY, lastUsername);
         }
         //RedirectAttributes
         redirectStrategy.sendRedirect(request,response,"/login?error="+ URLEncoder.encode(errorMessgae,"UTF-8"));

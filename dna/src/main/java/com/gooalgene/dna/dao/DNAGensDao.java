@@ -13,7 +13,7 @@ import java.util.List;
 @MyBatisDao
 public interface DNAGensDao extends CrudDao<DNAGens> {
 
-    List<DNAGens> findDNAGensList(DNAGens dnaGens);
+    List<DNAGens> findDNAGeneList(DNAGens dnaGens);
 
     boolean add(DNAGens dnaGens);
 

@@ -85,7 +85,7 @@ var globleObject = {};
                 }
             },
             function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     });
@@ -217,7 +217,7 @@ var globleObject = {};
                 }
             },
             function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     };
@@ -238,7 +238,7 @@ var globleObject = {};
                 }
             },
             function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     };
@@ -259,7 +259,7 @@ var globleObject = {};
                 }
             },
             function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     };
@@ -275,7 +275,7 @@ var globleObject = {};
                 }
             },
             function (error){
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         )
     };

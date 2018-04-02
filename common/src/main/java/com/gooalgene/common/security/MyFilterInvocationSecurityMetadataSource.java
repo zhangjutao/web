@@ -4,7 +4,7 @@ import org.springframework.beans.factory.InitializingBean;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.security.web.util.RequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Collection;
@@ -57,6 +57,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
      * 获取所有权限
      * 该方法只会在系统启动时执行
      */
+    @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {
         Set<ConfigAttribute> allAttributes = new HashSet<ConfigAttribute>();
         for (Map.Entry<RequestMatcher, Collection<ConfigAttribute>> entry : requestMap.entrySet()) {
@@ -67,6 +68,7 @@ public class MyFilterInvocationSecurityMetadataSource implements FilterInvocatio
     }
 
     //判断传入的class类型是否与FilterInvocation相同或者是它的父类、父接口
+    @Override
     public boolean supports(Class<?> clazz) {
         return FilterInvocation.class.isAssignableFrom(clazz);
     }

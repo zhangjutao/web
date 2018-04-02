@@ -746,7 +746,7 @@
                         content:"因意外情况导出中断，请重新开始..."
                     })
 
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
     })
@@ -1342,7 +1342,7 @@
                 window.location.href = path + result.data;
             },
             error: function (error) {
-                console.log(error);
+                if(error.status==901){window.location.href=CTXROOT + "/login"};
             }
         })
     }

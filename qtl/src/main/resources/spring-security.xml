@@ -9,24 +9,85 @@
                         http://www.springframework.org/schema/security/spring-security.xsd">
 
     <!-- 目前不需要将ajax请求拒绝 -->
-    <bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint"
-          c:loginFormUrl="/login"/>
+    <!--<bean id="authEntryPoint" class="com.gooalgene.common.authority.AjaxAwareLoginUrlAuthenticationEntryPoint"
+          c:loginFormUrl="/login"/>-->
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
         <property name="defaultTargetUrl" value="/search/index" />
     </bean>
-
-    <sec:http auto-config='false' use-expressions="true">
+    <bean id="ssoAuthenticationEntryPoint" class="com.gooalgene.common.authority.SsoAuthenticationEntryPoint">
+        <constructor-arg value="/login"></constructor-arg>
+    </bean>
+    <sec:http pattern="/**/*.css" security="none"/>
+    <sec:http pattern="/**/*.js" security="none"/>
+    <sec:http pattern="/**/*.png" security="none"/>
+    <sec:http pattern="/**/*.jpg" security="none"/>
+    <sec:http auto-config='false' use-expressions="true" entry-point-ref="ssoAuthenticationEntryPoint">
+        <sec:session-management invalid-session-url="/login"  session-authentication-strategy-ref="sas">
+            <!--第二个人登录,第一个人的认证会失效 -->
+            <!--<sec:concurrency-control max-sessions="1"  expired-url="/login"/>-->
+            <!--第一个人登录后,第二个人无法用相同账户登录-->
+            <!--<sec:concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/>-->
+        </sec:session-management>
+        <sec:csrf disabled="true"/>
+        <sec:intercept-url pattern="/sso/token" access="permitAll()"/>
         <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
         <sec:intercept-url pattern="/**" access="hasRole('ROLE_USER') or hasRole('ROLE_ADMIN')" />
-        <sec:form-login login-page="/login"
+        <!--<sec:form-login login-page="/login"
                         authentication-success-handler-ref="authenticationSuccessHandler"
                         authentication-failure-handler-ref="authenticationFailureHandler"
-                        login-processing-url="/j_spring_security_check"/>
+                        login-processing-url="/j_spring_security_check"/>-->
         <sec:access-denied-handler error-page="/403"/>
         <sec:logout invalidate-session="true" logout-success-url="/search/index"
                     logout-url="/j_spring_security_logout"/>
+        <sec:custom-filter position="CONCURRENT_SESSION_FILTER" ref="concurrencyFilter" />
         <sec:custom-filter ref="filterSecurityInterceptor" before="FILTER_SECURITY_INTERCEPTOR"/>
+        <sec:custom-filter ref="rememberMeAuthenticationFilter" position="FORM_LOGIN_FILTER"/>
+        <sec:custom-filter ref="ssoAuthenticationFilterByJwt" before="ANONYMOUS_FILTER"/>
+        <sec:custom-filter ref="ajaxTimeoutRedirectFilter" after="EXCEPTION_TRANSLATION_FILTER" />
     </sec:http>
+
+    <!--session控制相关-->
+    <bean id="concurrencyFilter" class="org.springframework.security.web.session.ConcurrentSessionFilter">
+        <constructor-arg ref="sessionRegistry" />
+        <constructor-arg ref="sessionInformationExpiredStrategy" />
+    </bean>
+    <bean id="sessionInformationExpiredStrategy" class="org.springframework.security.web.session.SimpleRedirectSessionInformationExpiredStrategy">
+        <constructor-arg value="/login"/>
+    </bean>
+    <bean id="sessionAuthenticationStrategy"
+          class="org.springframework.security.web.authentication.session.ConcurrentSessionControlAuthenticationStrategy">
+        <constructor-arg name="sessionRegistry" ref="sessionRegistry" />
+        <property name="maximumSessions" value="1" />
+        <property name="exceptionIfMaximumExceeded" value="false"/>
+    </bean>
+    <bean id="sessionRegistry" class="org.springframework.security.core.session.SessionRegistryImpl" />
+
+    <bean id="sas" class="org.springframework.security.web.authentication.session.CompositeSessionAuthenticationStrategy">
+        <constructor-arg>
+            <list>
+                <ref bean="sessionAuthenticationStrategy"/>
+                <bean class="org.springframework.security.web.authentication.session.SessionFixationProtectionStrategy"/>
+                <bean class="org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy">
+                    <constructor-arg ref="sessionRegistry" />
+                </bean>
+            </list>
+        </constructor-arg>
+    </bean>
+
+
+    <bean id="ajaxTimeoutRedirectFilter" class="com.gooalgene.common.authority.filter.AjaxTimeoutRedirectFilter">
+        <property name="customSessionExpiredErrorCode" value="901"/>
+    </bean>
+    <bean id="ssoAuthenticationFilterByJwt" class="com.gooalgene.common.authority.filter.SsoAuthenticationFilterByJwt">
+        <constructor-arg index="0" ref="redisService"></constructor-arg>
+        <constructor-arg index="1" ref="webSocket"></constructor-arg>
+        <constructor-arg index="2" ref="myUserDetailsService"></constructor-arg>
+    </bean>
+
+    <bean id="rememberMeAuthenticationFilter" class="com.gooalgene.common.authority.filter.RememberMeAuthenticationFilter">
+        <constructor-arg index="0" ref="redisService"/>
+        <constructor-arg index="1" ref="myUserDetailsService"/>
+    </bean>
     <bean id="builder" class="com.gooalgene.common.security.JdbcRequestMapBuilder">
         <property name="dataSource" ref="dataSource"/>
         <property name="resourceQuery"

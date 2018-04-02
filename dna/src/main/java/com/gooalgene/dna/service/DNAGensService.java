@@ -39,7 +39,7 @@ public class DNAGensService {
             }//空白查询所有
         }
         dnaGens.setPage(page);
-        List<DNAGens> list = dnaGensDao.findDNAGensList(dnaGens);
+        List<DNAGens> list = dnaGensDao.findDNAGeneList(dnaGens);
         page.setList(list);
         for (DNAGens dnaGens1 : list) {
             data.add(dnaGens1.toJSON());
@@ -92,7 +92,7 @@ public class DNAGensService {
             DNAGens dnaGens = new DNAGens();
             dnaGens.setKeywords(gene);
             dnaGens.setPage(page);
-            List<DNAGens> list = dnaGensDao.findDNAGensList(dnaGens);
+            List<DNAGens> list = dnaGensDao.findDNAGeneList(dnaGens);
             page.setList(list);
             for (DNAGens dnaGens1 : list) {
                 data.add(dnaGens1.toJSON());

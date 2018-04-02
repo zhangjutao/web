@@ -67,7 +67,8 @@ public class GeneViewController {
     }
 
     @RequestMapping("/innerGene")
-    public ModelAndView innerGene(HttpServletRequest request) {
+    public ModelAndView innerGene(HttpServletRequest request, HttpServletResponse response) {
+        response.setHeader("X-Frame-Options", "SAMEORIGIN");
         ModelAndView test = new ModelAndView("search/inner-gene");
         String chr = request.getParameter("chr");
         String version = request.getParameter("version");

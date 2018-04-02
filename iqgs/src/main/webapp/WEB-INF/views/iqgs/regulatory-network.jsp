@@ -98,7 +98,7 @@
 					}
 				},
 				error:function(error){
-				    console.log(error);
+				    if(error.status==901){window.location.href=CTXROOT + "/login"};
 				}
 			})
 		};

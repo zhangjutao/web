@@ -912,7 +912,7 @@
 //                    $("#total-page-count span").html(count);
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         }
@@ -1026,7 +1026,7 @@
                     }
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             });
         })
@@ -1313,7 +1313,7 @@
                     window.location.href = result;
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         })

@@ -21,20 +21,23 @@
             <p>账号密码登录</p>
         </div>
         <div class="login-b">
-            <form method="POST" action="<c:url value='/j_spring_security_check' />" name='loginForm' class="form">
+            <form method="POST" name='loginForm' class="form">
                 <c:if test="${not empty error}">
                     <div class="er">${error}</div>
                 </c:if>
+                <div class="er-not-in-el"></div>
                 <c:if test="${not empty msg}">
                     <div class="msg">${msg}</div>
                 </c:if>
-                <label class="user" for="u-mail"><input type="text" id="u-mail" name="j_username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" placeholder="用户名/邮箱"/><span class="clear js-clear-u">X</span></label>
-                <label class="pwd"  for="pwd"><input type="password" id="pwd" name="j_password" placeholder="密码"/><span class="clear js-clear-p">X</span></label>
+                <label class="user" for="u-mail"><input type="text" id="u-mail" name="username" value="${sessionScope['SPRING_SECURITY_LAST_USERNAME']}" placeholder="用户名/邮箱"/><span class="clear js-clear-u">X</span></label>
+                <label class="pwd"  for="pwd"><input type="password" id="pwd" name="password" placeholder="密码"/><span class="clear js-clear-p">X</span></label>
                 <div class="m-unlogin">
                     <a href="${ctxroot}/signup/forget" class="forgetpwd" style="color:#5C8CE6;">忘记密码</a>
                 </div>
+                <input type="hidden" name="grant_type" value="password">
+                <input type="hidden" name="authorization" value="aXFnczppcWdz">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
-                <button type="submit" href="javascript:;" class="loginbox">登录</button>
+                <button type="button" href="javascript:;" class="loginbox">登录</button>
                 <div class="reg">
                     <p>还没有账号,<a href="${ctxroot}/signup/action"> 立即注册</a></p>
                 </div>
@@ -43,5 +46,60 @@
     </div>
 </div>
 <%@ include file="/WEB-INF/views/include/footer.jsp" %>
+<script>
+    $.fn.serializeObject = function(){
+        var o = {};
+        var a = this.serializeArray();
+        $.each(a, function() {
+            if (o[this.name] !== undefined) {
+                if (!o[this.name].push) {
+                    o[this.name] = [o[this.name]];
+                }
+                o[this.name].push(this.value || '');
+            } else {
+                o[this.name] = this.value || '';
+            }
+        });
+        return o;
+    };
+    function enableLogin() {
+        $('.loginbox').on('click',function () {
+            console.log($('.form').serializeObject());
+            var data=$('.form').serializeObject();
+            $.post("${ctxroot}/sso/token",data,function (result) {
+                console.log(JSON.stringify(result));
+                if(result.code!=0){
+                    var msg=result.msg;
+                    $('.er').text('');
+                    $('.er-not-in-el').text(msg);
+                }else {
+                    var token=result.data;
+                    //sessionStorage.setItem("access_token",token);
+                    localStorage.setItem("access_token",token);
+                    window.location.href="${ctxroot}/iqgs/index?access_token="+token;
+                }
+            });
+        })
+    }
+
+    function setTokenInHeader() {
+        var token=sessionStorage.getItem("access_token");
+        if(token){
+            $.ajaxSetup( {
+                headers: { // 默认添加请求头
+                    "Authorization": "bearer "+token
+                } ,
+            });
+        }
+    }
+    function init() {
+        $('.er-not-in-el').text("");
+        $('.msg').text("");
+    }
+    $(function () {
+        init();
+        enableLogin();
+    })
+</script>
 </body>
 </html>

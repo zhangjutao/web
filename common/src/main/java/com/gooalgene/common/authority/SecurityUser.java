@@ -23,4 +23,19 @@ public class SecurityUser extends User {
     public Integer getId() {
         return id;
     }
+
+    @Override
+    public String toString() {
+        return super.getUsername();
+    }
+
+    @Override
+    public int hashCode() {
+        return super.getUsername().hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.toString().equals(obj.toString());
+    }
 }
