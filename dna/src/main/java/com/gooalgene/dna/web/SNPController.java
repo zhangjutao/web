@@ -92,11 +92,12 @@ public class SNPController {
      */
     @RequestMapping(value = "/queryByGroup", method = RequestMethod.POST, produces = "application/json")
     @ResponseBody
-    public Map QueryByGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
+    public PageInfo<SampleInfoDto> QueryByGroup(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String group = request.getParameter("group");
+        int pageNo = Integer.parseInt(request.getParameter("pageNo"));
+        int pageSize = Integer.parseInt(request.getParameter("pageSize"));
         logger.info("QueryByGroup:" + group);
-        Page<SampleInfoDto> page = new Page<>(request, response);
-        return dnaRunService.queryDNARunByGroup(group, page);
+        return dnaRunService.queryDNARunByGroup(group, pageNo, pageSize);
     }
 
     /**

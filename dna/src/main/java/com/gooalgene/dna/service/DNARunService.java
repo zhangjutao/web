@@ -135,31 +135,31 @@ public class DNARunService {
      * 根据条件查询样本数据
      *
      * @param group
-     * @param page
+     * @param pageNo
+     * @param pageSize
      * @return
      */
-    public Map queryDNARunByGroup(String group, Page<SampleInfoDto> page) throws IOException {
-        Map result = new HashMap();
-        result.put("group", group);
-        result.put("pageNo", page.getPageNo());
-        result.put("pageSize", page.getPageSize());
-        JSONArray data = new JSONArray();
+    public PageInfo<SampleInfoDto> queryDNARunByGroup(String group, int pageNo, int pageSize) throws IOException {
+//        Map result = new HashMap();
+//        result.put("group", group);
+//        result.put("pageNo", page.getPageNo());
+//        result.put("pageSize", page.getPageSize());
+//        JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(group)) {
             GroupCondition groupCondition=JacksonUtils.convertJsonToObject(group,GroupCondition.class);
             SampleInfo sampleInfo=getQuery(groupCondition.getCondition());
             SampleInfoDto sampleInfoDto=new SampleInfoDto();
             BeanUtils.copyProperties(sampleInfo,sampleInfoDto);
-            com.github.pagehelper.Page<Object> resultPage = PageHelper.startPage(page.getPageNo(), page.getPageSize());
+            PageHelper.startPage(pageNo, pageSize);
             List<SampleInfoDto> list=dnaRunDao.findListWithTypeHandler(sampleInfoDto);
-            page.setCount(resultPage.getTotal());
-            page.setList(list);
-            for (SampleInfoDto sampleInfoDtoItem : list) {
-                data.add(sampleInfoDtoItem);
-            }
+            PageInfo<SampleInfoDto> pageInfo = new PageInfo(list);
+            return pageInfo;
+        }else {
+            return new PageInfo<SampleInfoDto>();
         }
-        result.put("total", page.getCount());
-        result.put("data", data);
-        return result;
+//        result.put("total", page.getCount());
+//        result.put("data", data);
+//        return result;
     }
 
     public PageInfo<SampleInfoDto> getListByConditionWithTypeHandler(SampleInfoDto sampleInfoDto, Integer pageNum, Integer pageSize, String isPage){
