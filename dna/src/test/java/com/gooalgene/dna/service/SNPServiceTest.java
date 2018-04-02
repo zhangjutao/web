@@ -24,9 +24,9 @@ public class SNPServiceTest extends TestCase {
     @Test
     public void testSearchSNPByGene() throws JsonProcessingException {
         String type = "SNP";
-        String[] consequenceTypes = new String[]{"downstream", "exonic_nonsynonymous SNV"};
+        String consequenceType ="downstream";
         String gene = "PT1_10000698";
-        Map map = snpService.searchSNPByGene(type, consequenceTypes, gene, new Page<DNAGens>(1, 10));
+        Map map = snpService.searchSNPByGene(type, consequenceType, gene, new Page<DNAGens>(1, 10));
         ObjectMapper mapper = new ObjectMapper();
         System.out.println(mapper.writeValueAsString(map));
     }
