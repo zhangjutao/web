@@ -77,6 +77,7 @@
         .domain-structure tbody tr td{
             border:1px solid #e6e6e6;
             padding: 5px 10px;
+            height: 20px;
         }
         .basic-information tbody tr:nth-child(odd){
             background-color: #F9F9F9;
