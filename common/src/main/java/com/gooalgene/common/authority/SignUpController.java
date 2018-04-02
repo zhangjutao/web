@@ -141,6 +141,11 @@ public class SignUpController {
             }
         }
 
+        if (university == null || university.isEmpty()) {
+            modelAndView.addObject("error", "所属院校没有填写");
+            return modelAndView;
+        }
+
         if ((password == null) || password.isEmpty()) {
             modelAndView.addObject("error", "密码没有填写");
             return modelAndView;
