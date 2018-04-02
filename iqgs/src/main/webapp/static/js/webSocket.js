@@ -16,7 +16,6 @@ webSocket.onclose=function (event) {
 }
 webSocket.onmessage =function (event) {
     //todo 将过期刷新的token存入sessionStorage中
-    alert("webSocket接到token："+event.data);
     localStorage.setItem("access_token",event.data);
     console.log("收到服务端消息："+event.data);
 }
@@ -45,7 +44,6 @@ webSocketDna.onclose=function (event) {
 }
 webSocketDna.onmessage =function (event) {
     //todo 将过期刷新的token存入sessionStorage中
-    alert("dna webSocket接到token："+event.data);
     localStorage.setItem("access_token",event.data);
     console.log("收到dna服务端消息："+event.data);
 }
@@ -75,7 +73,6 @@ webSocketMrna.onclose=function (event) {
 }
 webSocketMrna.onmessage =function (event) {
     //todo 将过期刷新的token存入sessionStorage中
-    alert("mrna webSocket接到token："+event.data);
     localStorage.setItem("access_token",event.data);
     console.log("收到mrna服务端消息："+event.data);
 }
@@ -106,7 +103,6 @@ webSocketQtl.onclose=function (event) {
 }
 webSocketQtl.onmessage =function (event) {
     //todo 将过期刷新的token存入sessionStorage中
-    alert("qtl webSocket接到token："+event.data);
     localStorage.setItem("access_token",event.data);
     console.log("收到qtl服务端消息："+event.data);
 }

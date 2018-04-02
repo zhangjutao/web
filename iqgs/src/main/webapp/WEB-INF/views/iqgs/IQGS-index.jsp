@@ -117,7 +117,7 @@
     </div>
 
     <div class="database-link">
-        <div class="qlt-link">
+        <div class="qlt-link" style="cursor: pointer;">
             <%--<a target="_blank" href="${qtlIndex}">--%>
                 <div class="line-h">
                     <p>大豆QTL数据库</p>
@@ -127,7 +127,7 @@
                 </div>
             <%--</a>--%>
         </div>
-        <div class="mrna-link">
+        <div class="mrna-link" style="cursor: pointer;">
             <%--<a  target="_blank" href="${mrnaIndex}">--%>
                 <div class="line-h">
                     <p>大豆基因表达量数据库</p>
@@ -137,7 +137,7 @@
                 </div>
             <%--</a>--%>
         </div>
-        <div class="snp-link">
+        <div class="snp-link" style="cursor: pointer;">
             <%--<a target="_blank"  href="${dnaIndex}">--%>
                 <div class="line-h">
                     <p>大豆SNP/INDEL数据库</p>
