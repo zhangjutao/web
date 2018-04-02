@@ -102,7 +102,7 @@ public class SignUpController {
         }
 
         if ((realname == null) || realname.isEmpty()) {
-            modelAndView.addObject("error", "未填写真实姓名");
+            modelAndView.addObject("error", "真实姓名没有填写");
             return modelAndView;
         }
 
@@ -139,6 +139,11 @@ public class SignUpController {
 //            modelAndView.addObject("error","联系方式输入不合法");
                 return modelAndView;
             }
+        }
+
+        if (university == null || university.isEmpty()) {
+            modelAndView.addObject("error", "所属院校没有填写");
+            return modelAndView;
         }
 
         if ((password == null) || password.isEmpty()) {
