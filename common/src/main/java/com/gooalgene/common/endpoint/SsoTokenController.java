@@ -74,11 +74,9 @@ public class SsoTokenController {
                 redisService.setex(rememberMeInRediskey, CommonConstant.REMEMBER_ME_TIME_OUT,authentication.getPrincipal().toString());
                 CookieUtils.setCookie(response, CommonConstant.REMEMBER_ME_KEY,rememberMeInRediskey, CommonConstant.REMEMBER_ME_TIME_OUT);
             }
-            //将clientId存入cookie
-            /*String clientIdKey = CookieUtils.getCookie(request,CommonConstant.CLIENT_ID_IN_COOKIE);
-            TokenFactory.takeClientIdInCookie(redisService,loader.getProperty("client_id"),response,clientIdKey);*/
             return ResultUtil.success(tokenPojo.getAccess_token());
         } catch (UnrecognizedPropertyException e) {
+            //解析token异常，说明认证未成功（密码错误等情况）
             e.printStackTrace();
             Map map = JsonUtils.Json2Bean(result, Map.class);
             return ResultUtil.error(999,(String)map.get("errorMessgae"));
