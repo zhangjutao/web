@@ -328,11 +328,11 @@ public class SNPService {
         return result;
     }
 
-    public Map searchSNPByGene(String type, String[] ctypeList, String gene, Page<DNAGens> page) {
+    public Map searchSNPByGene(String type, String ctype, String gene, Page<DNAGens> page) {
         DNAGens dnaGens = dnaGensService.findByGene(gene);
         String start = Long.toString(dnaGens.getStart() - 2000 < 0 ? 0 : dnaGens.getStart() - 2000);
         String end = Long.toString(dnaGens.getEnd() + 2000);
-        List<SNP> snps = dnaMongoService.searchInGene(type,ctypeList[0],gene,start,end,page);
+        List<SNP> snps = dnaMongoService.searchInGene(type,ctype,gene,start,end,page);
         Map result = new HashMap();
         result.put("pageNo", page.getPageNo());
         result.put("pageSize", page.getPageSize());
