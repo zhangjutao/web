@@ -23,6 +23,9 @@ public interface UserDao extends CrudDao<User>{
     @Select("SELECT count(1) from user where email =#{email}")
     Integer getEmailCount(String email);
 
+    @Select("SELECT count(1) from user where phone =#{phone}")
+    Integer getPhoneCount(String phone);
+
     Long getCount();
 
     @Select("SELECT u.id,u.username,u.password,u.due_time,u.enabled from user u where username=#{username} or email=#{username}")

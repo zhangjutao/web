@@ -70,8 +70,8 @@ public class UserService implements ApplicationContextAware {
         Date date=new Date();
         Calendar calendar=Calendar.getInstance();
         logger.info("添加之前的时间:", calendar.getTime().toString());
-        user.setCreate_time(calendar.getTime());
         calendar.setTime(date);
+        user.setCreate_time(calendar.getTime());
         calendar.add(Calendar.MONTH, 2);
         logger.info("添加之后的时间:", calendar.getTime());
         Date due_date=calendar.getTime();
@@ -180,5 +180,9 @@ public class UserService implements ApplicationContextAware {
 
     public Integer getEmailCount(String email){
         return userDao.getEmailCount(email);
+    }
+
+    public Integer getPhoneCount(String phone) {
+        return userDao.getPhoneCount(phone);
     }
 }

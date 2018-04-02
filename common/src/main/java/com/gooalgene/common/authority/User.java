@@ -24,6 +24,7 @@ public class User {
     private int id;
     private int enableDay;
     private int loginCount;
+    private String realname;
 
     public User(){
 
@@ -160,5 +161,13 @@ public class User {
 
     public void setEnableDay(int enableDay) {
         this.enableDay = enableDay;
+    }
+
+    public String getRealname() {
+        return realname;
+    }
+
+    public void setRealname(String realname) {
+        this.realname = realname;
     }
 }
