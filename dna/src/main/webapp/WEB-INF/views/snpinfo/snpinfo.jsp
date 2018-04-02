@@ -165,7 +165,7 @@
                                     <input type="checkbox" name="runNo" class="runNo" checked="checked"> 测序样品编号
                                 </li>
                                 <li>
-                                    <input type="checkbox" name="genotype" class="genoType" checked="checked"> Genotype
+                                    <input type="checkbox" name="genoType" class="genoType" checked="checked"> Genotype
                                 </li>
                                 <li>
                                     <%--无--%>
@@ -1108,7 +1108,7 @@
 //                    $("#total-page-count span").html(count);
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         }
@@ -1222,7 +1222,7 @@
                     }
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             });
         })
@@ -1528,7 +1528,7 @@
                     window.location.href = result;
                 },
                 error:function (error){
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         })

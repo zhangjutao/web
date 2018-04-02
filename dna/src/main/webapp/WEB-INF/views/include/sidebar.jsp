@@ -1112,17 +1112,16 @@
 <script>
     //为弹窗出来的ga-ctrl-footer添加hover触发事件 modified by zjt 2018-3-27
     $(document).ready(function(){
-        var    $sel_page = $("#tab-detail #popu-paginate #per-page-count #select_page"),
-            $sel_default_page = $("#tab-detail #popu-paginate #per-page-count .select_default_page"),
-            $sel_item_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page"),
-            $sel_item_li_page = $("#tab-detail #popu-paginate #per-page-count .select_item_page li");
-        $sel_default_page.val($("#tab-detail #popu-paginate #per-page-count .select_item_page li:first").text());
+        var    $sel_page = $("#popu-paginate .per-page-count .select_page"),
+            $sel_default_page = $("#popu-paginate .per-page-count .select_default_page"),
+            $sel_item_page = $("#popu-paginate .per-page-count .select_item_page"),
+            $sel_item_li_page = $("#popu-paginate .per-page-count .select_item_page li");
+        $sel_default_page.val($("#popu-paginate .per-page-count .select_item_page li:first").text());
         $sel_page.hover(function(){
             $sel_item_page.show();
-            console.log('hahaha');
             $sel_default_page.addClass("rotate");
             $sel_item_li_page.hover(function(){
-                $index_page = $sel_item_li_page.index(this);
+                var $index_page = $sel_item_li_page.index(this);
                 $sel_item_li_page.eq($index_page).addClass("hover");
             },function(){
                 $sel_item_li_page.removeClass("hover");
@@ -1801,7 +1800,7 @@
                     $("#popu-paginate .total-page-count > span").html(result.data.total);
                 },
                 error: function (error) {
-                    console.log(error);
+                    if(error.status==901){window.location.href=CTXROOT + "/login"};
                 }
             })
         };
@@ -1884,8 +1883,8 @@
                 }else {
                     getPopuTable(1)
                 }
+            $('#tagKind .ga-ctrl-footer .select_default_page').val(gloabletagKindSelectNum);//将全局变量的值赋值给input框
         });
-        //modified by zjt 2018-3-27
 
         // 注册 enter 事件的元素
         $(document).keyup(function (event) {
@@ -2041,6 +2040,7 @@
             //重置页面展示条数 modified by zjt
             pageSizePopu = 10;
             $("#snp-paginate .select_default_page").val(Number(gloableSnpSelectedNum));
+            $('#tagKind .ga-ctrl-footer .select_default_page').val(gloabletagKindSelectNum);//将全局变量的值赋值给input框
             //重置页面展示条数 modified by zjt
         });
 
