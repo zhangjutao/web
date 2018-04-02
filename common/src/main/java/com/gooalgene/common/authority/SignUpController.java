@@ -102,7 +102,7 @@ public class SignUpController {
         }
 
         if ((realname == null) || realname.isEmpty()) {
-            modelAndView.addObject("error", "未填写真实姓名");
+            modelAndView.addObject("error", "真实姓名没有填写");
             return modelAndView;
         }
 
