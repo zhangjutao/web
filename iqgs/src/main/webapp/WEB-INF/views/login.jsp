@@ -21,7 +21,7 @@
             <p>账号密码登录</p>
         </div>
         <div class="login-b">
-            <form method="POST"  name='loginForm' class="form">
+            <form method="POST" name='loginForm' class="form">
                 <c:if test="${not empty error}">
                     <div class="er">${error}</div>
                 </c:if>
@@ -67,7 +67,7 @@
             console.log($('.form').serializeObject());
             var data=$('.form').serializeObject();
             $.post("${ctxroot}/sso/token",data,function (result) {
-                console.log(JSON.stringify(result))
+                console.log(JSON.stringify(result));
                 if(result.code!=0){
                     var msg=result.msg;
                     $('.er').text('');

@@ -33,35 +33,22 @@ import java.util.UUID;
  * create by Administrator on2018/1/18 0018
  */
 @RestController
-public class SsoTokenController implements InitializingBean {
+public class SsoTokenController {
 
     private final static Logger logger = LoggerFactory.getLogger(SsoTokenController.class);
     private ObjectMapper objectMapper=new ObjectMapper();
 
     @Autowired
     private RedisService redisService;
-    @Autowired
-    private CacheManager guavaCacheManager;
-    private Cache cache;
-
-    private static PropertiesLoader loader = new PropertiesLoader("classpath:oauth/oauth.properties");
-
-    @Autowired
-    private ApplicationContext context;
-    @Override
-    public void afterPropertiesSet() throws Exception {
-        if (context.getParent() != null) {
-            cache = guavaCacheManager.getCache("config");
-        }
-    }
-
-
 
     @Autowired
     private RandomValueStringGenerator generator;
+
+    private static PropertiesLoader loader = new PropertiesLoader("classpath:oauth/oauth.properties");
+
     @RequestMapping(value = "/sso/authorize", method = RequestMethod.GET)
     public void authorize(@RequestParam Map<String, String> parameters, HttpServletResponse response ) throws IOException {
-        String authorizeUrl = "http://localhost:9999/server/oauth/authorize";
+        String authorizeUrl = loader.getProperty("oauth_url");
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(authorizeUrl);
         for (Map.Entry<String, String> param : parameters.entrySet()) {
             builder.queryParam(param.getKey(), param.getValue());
@@ -72,7 +59,8 @@ public class SsoTokenController implements InitializingBean {
     }
 
     @RequestMapping(value = "/sso/token", method = RequestMethod.POST)
-    public ResultVO token(@RequestParam Map<String, String> parameters, HttpServletResponse response, HttpServletRequest request) throws IOException {
+    public ResultVO token(@RequestParam Map<String, String> parameters, HttpServletResponse response) throws IOException {
+        // 从认证服务器中获取token值
         String result = TokenFactory.getToken(parameters);
         System.out.println(result);
         try {

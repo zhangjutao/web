@@ -49,25 +49,17 @@ public class TokenFactory {
 
     public static Map<String, String> oauthInfo = new HashMap<String, String>();
 
-    static{
+    static {
         ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
         Resource[] resources;
-         PropertiesLoader loader = new PropertiesLoader("classpath:oauth.properties");
         try {
             resources = patternResolver.getResources(location);
             location = resources[0].getFile().getAbsolutePath();
             logger.info("location" + location);
             Properties props = new Properties();
             try {
-                if (location.contains("dev")) {
-                    props = PropertiesLoaderUtils.loadAllProperties("dev/oauth.properties");
-                } else if (location.contains("test")) {
-                    props = PropertiesLoaderUtils.loadAllProperties("test/oauth.properties");
-                } else if (location.contains("production")) {
-                    props = PropertiesLoaderUtils.loadAllProperties("production/oauth.properties");
-                }else {
-                    props = PropertiesLoaderUtils.loadAllProperties("oauth.properties");
-                }
+                // 运行时classpath目录下只有一个oauth.properties文件
+                props = PropertiesLoaderUtils.loadAllProperties("oauth.properties");
                 for (Object key : props.keySet()) {
                     logger.warn(key + " : " + (String) props.get(key));
                     oauthInfo.put((String) key, (String) props.get(key));
@@ -84,23 +76,20 @@ public class TokenFactory {
     //private static final List<HttpMessageConverter<?>> MESSAGE_CONVERTERS = Collections.singletonList(new StringHttpMessageConverter());
     private static List<HttpMessageConverter<?>> MESSAGE_CONVERTERS = Lists.newArrayList();
 
-    public static String getToken(Map<String, String> parameters){
-//        String accessTokenUri = oauthInfo.get("oauth_url")+oauthInfo.get("request_and_refresh_token");
-        String accessTokenUri = "http://172.168.1.119:9999/server"+oauthInfo.get("request_and_refresh_token");
+    public static String getToken(Map<String, String> parameters) {
+        String accessTokenUri = oauthInfo.get("oauth_url")+oauthInfo.get("request_and_refresh_token");
         final HttpHeaders headers = new HttpHeaders();
-        //headers.add("Authorization", "Basic Y2xpZW50MjpjbGllbnQy");
-        String authorization=parameters.get("authorization");
-        headers.add("Authorization", "Basic "+authorization);
+        String authorization = parameters.get("authorization");
+        headers.add("Authorization", "Basic " + authorization);
         final MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
         String grant_type = parameters.get("grant_type");
         form.add("grant_type", grant_type);
-        form.add("tokenType",parameters.get("tokenType"));
-        if(org.apache.commons.lang3.StringUtils.equals(grant_type,"authorization_code")){
+        form.add("tokenType", parameters.get("tokenType"));
+        if (org.apache.commons.lang3.StringUtils.equals(grant_type, "authorization_code")) {
             form.add("code", parameters.get("code"));
-        }else if(org.apache.commons.lang3.StringUtils.equals(parameters.get("grant_type"),"password")){
+        } else if (org.apache.commons.lang3.StringUtils.equals(parameters.get("grant_type"), "password")) {
             form.add("username", parameters.get("username"));
             form.add("password", parameters.get("password"));
-            //form.add("scope", "all");
         }
         form.add("redirect_uri", oauthInfo.get("redirect_uri"));
         RequestCallback requestCallback = new RequestCallback() {
@@ -114,7 +103,7 @@ public class TokenFactory {
         ResponseExtractor<String> responseExtractor = new ResponseExtractor<String>() {
             @Override
             public String extractData(ClientHttpResponse response) throws IOException {
-                if(MESSAGE_CONVERTERS.size()<1){
+                if (MESSAGE_CONVERTERS.size() < 1) {
                     MESSAGE_CONVERTERS.add(new StringHttpMessageConverter());
                 }
                 return new HttpMessageConverterExtractor<String>(String.class, MESSAGE_CONVERTERS).extractData(response);
@@ -124,11 +113,11 @@ public class TokenFactory {
         return result;
     }
 
-    public static String getTokenByRefreshToken(String refreshToken,String authorization){
-        String accessTokenUri = oauthInfo.get("oauth_url")+oauthInfo.get("request_and_refresh_token");
+    public static String getTokenByRefreshToken(String refreshToken, String authorization) {
+        String accessTokenUri = oauthInfo.get("oauth_url") + oauthInfo.get("request_and_refresh_token");
         final HttpHeaders headers = new HttpHeaders();
 //        headers.add("Authorization", "Basic "+oauthInfo.get("authorization"));
-        headers.add("Authorization", "Basic "+authorization);
+        headers.add("Authorization", "Basic " + authorization);
         final MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
         form.add("grant_type", "refresh_token");
         form.add("refresh_token", refreshToken);
@@ -195,12 +184,12 @@ public class TokenFactory {
         throw new IllegalArgumentException("Authorities must be either a String or a Collection");
     }
 
-    public static void takeClientIdInCookie(RedisService redisService, String clientId, HttpServletResponse response,String oldClienrIdKey){
-        if(oldClienrIdKey!=null){
+    public static void takeClientIdInCookie(RedisService redisService, String clientId, HttpServletResponse response, String oldClienrIdKey) {
+        if (oldClienrIdKey != null) {
             redisService.del(oldClienrIdKey);
         }
-        String newClientIdKey= org.apache.commons.lang3.StringUtils.substring(UUID.randomUUID().toString()+System.currentTimeMillis(),5,18) ;
-        redisService.setex(newClientIdKey, CommonConstant.REFRESH_TOKEN_TIME_OUT,clientId);
-        CookieUtils.setCookie(response, CommonConstant.CLIENT_ID_IN_COOKIE,newClientIdKey, CommonConstant.REFRESH_TOKEN_TIME_OUT);
+        String newClientIdKey = org.apache.commons.lang3.StringUtils.substring(UUID.randomUUID().toString() + System.currentTimeMillis(), 5, 18);
+        redisService.setex(newClientIdKey, CommonConstant.REFRESH_TOKEN_TIME_OUT, clientId);
+        CookieUtils.setCookie(response, CommonConstant.CLIENT_ID_IN_COOKIE, newClientIdKey, CommonConstant.REFRESH_TOKEN_TIME_OUT);
     }
 }
