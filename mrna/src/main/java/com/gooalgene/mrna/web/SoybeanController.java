@@ -102,7 +102,8 @@ public class SoybeanController {
         String json = "{}";
         logger.info("line:genes{" + genes + "}");
         if (StringUtils.isNotBlank(genes)) {
-            String[] gens = genes.split(",");
+            String s = genes.replaceAll(" ", "");
+            String[] gens = s.split(",");
             GenResult genResult = tService.generateData(gens);
             json = JsonUtils.Bean2Json(genResult);
         }
@@ -128,7 +129,8 @@ public class SoybeanController {
         logger.info("boxplot:genes{" + genes + "}");
         JSONArray data = new JSONArray();
         if (StringUtils.isNotBlank(genes)) {
-            String[] gens = genes.split(",");
+            String s = genes.replaceAll(" ", "");
+            String[] gens = s.split(",");
             Criteria criteria = new Criteria();
             criteria.and("gene").in(gens);
             long start = System.currentTimeMillis();
