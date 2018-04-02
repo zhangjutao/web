@@ -7,6 +7,7 @@ import com.gooalgene.common.authority.Token;
 import com.gooalgene.common.authority.token.MyBearerTokenExtractor;
 import com.gooalgene.common.authority.token.TokenPojo;
 import com.gooalgene.common.cache.RedisService;
+import com.gooalgene.utils.JsonUtils;
 import com.gooalgene.utils.PropertiesLoader;
 import com.gooalgene.utils.TokenFactory;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -33,6 +34,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * create by Administrator on2018/2/2 0002
@@ -118,7 +120,7 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                             String refreshToken = tokenPojo.getRefresh_token();
                             String result = TokenFactory.getTokenByRefreshToken(refreshToken,tokenPojo.getAuthorizationByClientId());
                             System.out.println(result);
-                            //在jwtPojp被重新赋值之前，先删除redis中存在原先的jwt对象
+                            //在tokenPojo被重新赋值之前，先删除redis中存在原先的jwt对象
                             redisService.del(tokenPojo.getAccess_token());
                             try{
                                 //todo 当刷新token返回是异常信息时需要扩展
@@ -133,8 +135,9 @@ public class SsoAuthenticationFilterByJwt extends OncePerRequestFilter {
                                     authenticationSuccessHandler.onAuthenticationSuccess(request,response,authentication);
                                 }
                             }catch (UnrecognizedPropertyException ex) {
-                                //返回token解析异常
+                                //返回token解析异常（账号已过期等信息），需要重新登录
                                 ex.printStackTrace();
+                                Map map = JsonUtils.Json2Bean(result, Map.class);
                                 SecurityContextHolder.clearContext();
                             }
                         }

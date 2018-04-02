@@ -52,7 +52,6 @@ public class TokenFactory {
     static{
         ResourcePatternResolver patternResolver = new PathMatchingResourcePatternResolver();
         Resource[] resources;
-         PropertiesLoader loader = new PropertiesLoader("classpath:oauth.properties");
         try {
             resources = patternResolver.getResources(location);
             location = resources[0].getFile().getAbsolutePath();
@@ -88,7 +87,6 @@ public class TokenFactory {
 //        String accessTokenUri = oauthInfo.get("oauth_url")+oauthInfo.get("request_and_refresh_token");
         String accessTokenUri = "http://172.168.1.119:9999/server"+oauthInfo.get("request_and_refresh_token");
         final HttpHeaders headers = new HttpHeaders();
-        //headers.add("Authorization", "Basic Y2xpZW50MjpjbGllbnQy");
         String authorization=parameters.get("authorization");
         headers.add("Authorization", "Basic "+authorization);
         final MultiValueMap<String, String> form = new LinkedMultiValueMap<String, String>();
