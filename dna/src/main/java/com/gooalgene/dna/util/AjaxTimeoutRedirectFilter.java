@@ -65,14 +65,11 @@ public class AjaxTimeoutRedirectFilter extends GenericFilterBean
                     {
                         logger.info("User session expired or not logged in yet");
                         String ajaxHeader = ((HttpServletRequest) request).getHeader("X-Requested-With");
-                        String initPage = ((HttpServletRequest) request).getHeader("init");
                         if ("XMLHttpRequest".equals(ajaxHeader))
                         {
                             logger.info("Ajax call detected, send {} error code", this.customSessionExpiredErrorCode);
                             HttpServletResponse resp = (HttpServletResponse) response;
                             resp.sendError(this.customSessionExpiredErrorCode);
-                        } else if (initPage.equals("true")) {
-                            logger.info("initial page, pass");
                         }
                         else
                         {
