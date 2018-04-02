@@ -115,7 +115,7 @@ public class TokenFactory {
     }
 
     public static String getTokenByRefreshToken(String refreshToken, String authorization) {
-        String accessTokenUri = oauthInfo.get("oauth_url") + oauthInfo.get("request_and_refresh_token");
+        String accessTokenUri = "http://172.168.1.119:9999/server" + oauthInfo.get("request_and_refresh_token");
         final HttpHeaders headers = new HttpHeaders();
 //        headers.add("Authorization", "Basic "+oauthInfo.get("authorization"));
         headers.add("Authorization", "Basic " + authorization);
