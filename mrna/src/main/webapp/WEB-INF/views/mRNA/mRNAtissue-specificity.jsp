@@ -310,8 +310,9 @@
             var str = '';
             for(var i in specificGenes) {
                 var gene = specificGenes[i].split(".")[0] + specificGenes[i].split(".")[1];
-//                var gene = specificGenes[i];
-                str += '<dd><label class="ga-checkbox js-checkbox-item-gene cls_'+gene+'" for="'+ gene +'"><span id="'+ gene +'"></span>'+ gene +'</label></dd>'
+                var geneClass = specificGenes[i];
+
+                str += '<dd><label data-gene=" '+ geneClass+' " class="ga-checkbox js-checkbox-item-gene cls_'+gene+'" for="'+ gene +'"><span id="'+ gene +'"></span>'+ gene +'</label></dd>'
             }
             $(".js-checkbox-gene > dl").empty().append(str);
 
@@ -330,16 +331,18 @@
         // 二次选择
         $(".js-checkbox-list").on("click", ".js-checkbox-item-gene", function() {
             var checked = $(this).hasClass("choose-tab-ac");
-            var gene = $(this).text();
+            var gene = $(this).text()
+            var genes = $(this).attr("data-gene");
+
             if(checked) {
                 $(this).removeClass("choose-tab-ac");
-                _.pull(secondSpecificGenes, gene);
+                _.pull(secondSpecificGenes, genes);
             } else {
                 if(secondSpecificGenes.length > 4) {
                     alert("最多选5个基因");
                 } else {
                     $(this).addClass("choose-tab-ac");
-                    secondSpecificGenes.push(gene);
+                    secondSpecificGenes.push(genes);
                 }
             }
             render2ndCheckboxGene();
@@ -349,16 +352,18 @@
         function render2ndCheckboxGene() {
             var str = '';
             for(var i in secondSpecificGenes) {
-                str += '<label class="choose-tab-ac js-2nd-choose-item"><span></span>'+ secondSpecificGenes[i] +'</label>'
+                var geneO = secondSpecificGenes[i].split(".")[0] + secondSpecificGenes[i].split(".")[1] ;
+                str += '<label data-geneO = "'+geneO+'" class="choose-tab-ac js-2nd-choose-item"><span></span>'+ secondSpecificGenes[i] +'</label>'
             }
             $(".js-2nd-choose-gene").empty().append(str);
         }
 
         $(".js-checkbox-list").on("click", ".js-2nd-choose-item", function() {
-            var gene = $(this).text()
+            var gene = $(this).text();
+            var geneO = $(this).attr("data-geneO").trim();
             _.pull(secondSpecificGenes, gene);
             render2ndCheckboxGene();
-            var cls = ".cls_" + gene;
+            var cls = ".cls_" + geneO;
             $(".js-2nd-choose-gene").find(cls).parents("dd").remove();
             $(".js-checkbox-gene").find(cls).removeClass("choose-tab-ac");
             renderChooseText();
