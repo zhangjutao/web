@@ -54,7 +54,7 @@ body {
 
 #containerAdmin #tblhead tr td:nth-child(2),
 #containerAdmin #tblbody tr td:nth-child(2) p.notOverflow{
-    width: 230px;
+    width: 90px;
     height: 50px;
     margin:0 auto;
 
@@ -63,7 +63,7 @@ body {
 
 #containerAdmin #tblhead tr td:nth-child(3),
 #containerAdmin #tblbody tr td:nth-child(3) p.notOverflow{
-    width: 160px;
+    width: 280px;
     height: 50px;
     margin:0 auto;
 
@@ -77,7 +77,7 @@ body {
 }
 #containerAdmin #tblhead tr td:nth-child(5),
 #containerAdmin #tblbody tr td:nth-child(5) p.notOverflow{
-    width: 140px;
+    width: 159px;
     height: 50px;
     margin:0 auto;
 }
@@ -88,7 +88,19 @@ body {
     margin:0 auto;
 }
 #containerAdmin #tblhead tr td:nth-child(7),
-#containerAdmin #tblbody tr td:nth-child(7){
+#containerAdmin #tblbody tr td:nth-child(7) p.notOverflow{
+    width: 128px;
+    height: 50px;
+    /*margin:0 auto;*/
+}
+#containerAdmin #tblhead tr td:nth-child(8),
+#containerAdmin #tblbody tr td:nth-child(8) p.notOverflow{
+    width: 80px;
+    height: 50px;
+    /*margin:0 auto;*/
+}
+#containerAdmin #tblhead tr td:nth-child(9),
+#containerAdmin #tblbody tr td:nth-child(9) p{
     width: 128px;
     height: 50px;
     /*margin:0 auto;*/
@@ -98,9 +110,9 @@ body {
 /*}*/
 #containerAdmin .btnCommon {
     padding: 3px 0px;
-    width: 100px;
-    height: 26px;
-    line-height: 26px;
+    width: 100px!important;
+    height: 26px!important;
+    line-height: 26px!important;
     margin: 0 auto;
     cursor: pointer;
     font-size: 14px;
@@ -120,21 +132,27 @@ body {
     margin: 0 auto;
     padding-left: -3px;
     position: relative;
-    width: 1100px;
+    overflow: auto;
+    /*width: 1100px;*/
     /*background: #fff;*/
     /*height: 547px;*/
 }
 
+
 #containerAdmin #tblhead {
     position: absolute;
     top: 0;
+    overflow-x: auto;
+    width:1359px;
 }
 
 #containerAdmin #tblbody {
     position: relative;
     top: 45px;
-    /*overflow-y: auto;*/
+    /*overflow-y:auto;*/
     background: #fff;
+    overflow-x: auto;
+    width:1359px;
     /*max-height: 501px;*/
 }
 #containerAdmin #tblbody tr{

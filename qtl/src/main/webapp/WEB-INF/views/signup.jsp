@@ -37,6 +37,17 @@
                 <span class="tips real">输入后不可更改,<br/>只支持2到14位的英文和数字</span>
                 <span class="tips errorU" style="display:none;">该用户名已存在</span>
             </div>
+
+            <%--新增用户姓名--%>
+            <div class="reg-name">
+                <label>
+                    <span><b>*</b>姓名:</span>
+                    <input type="text" name="realname" id="realname" placeholder="请输入用户姓名" value="${realname}"  style="line-height:36px;">
+                    <span class="tips errorM" style="display:none;">该用户已存在</span>
+                </label>
+                <span class="tips realnameTip" style="display:none;color:#ff0000;">用户姓名不能为空</span>
+            </div>
+
             <div class="reg-mail">
                 <label>
                     <span><b>*</b>邮箱:</span>
@@ -61,9 +72,10 @@
             </div>
             <div class="reg-contact">
                 <label>
-                    <span>联系方式:</span>
+                    <span><b>*</b>联系方式:</span>
                     <input type="tel" name="phone" id="contact" placeholder="请输入联系方式" value="${phone}" style="line-height:36px;">
                 </label>
+                <span class="tips phoneTip" style="display:none;color:#ff0000;">联系方式不能为空或输入不正确</span>
             </div>
             <div class="reg-industry">
                 <label>
@@ -74,10 +86,10 @@
             </div>
             <div class="reg-Colleges">
                 <label>
-                    <span>所属院校:</span>
+                    <span><b>*</b>所属院校:</span>
                     <input type="text" name="university" id="Colleges" placeholder="请输入所属院校" value="${university}" style="line-height:36px;">
                 </label>
-                <span class="tips CollegesTip" style="display:none;color:#ff0000;">不能包含特殊字符</span>
+                <span class="tips CollegesTip" style="display:none;color:#ff0000;">不能包含特殊字符/不能为空</span>
             </div>
             <div class="stars-tips">带<b>*</b>的选项为必填项</div>
             <button type="submit" class="js-ref" name="submit"  href="javascript:;">提交审核</button>
@@ -108,6 +120,19 @@
             $("#username").css("border","1px solid #E6E6E6");
         }
     });
+
+    // 新增用户姓名
+
+    $("#realname").blur(function (){
+        var val = $(this).val().toLowerCase().trim().toString();
+        if(val==""){
+            $("#realname").css("border","1px solid #ff0000");
+            $(".realnameTip").show();
+        }else {
+            $("#realname").css("border","1px solid #E6E6E6");
+            $(".realnameTip").hide();
+        }
+    });
     $("#pwd").blur(function (){
         var val = $("#pwd").val();
         console.log(val);
@@ -135,12 +160,12 @@
         var val = $(this).val().trim().toString();
         RegExp = /^((0\d{2,3}-\d{7,8})|(1[35847]\d{9}))$/;
         console.log(val)
-        if(!RegExp.test(val) && val !=""){
+        if(!RegExp.test(val) ||  val ==""){
             $("#contact").css("border","1px solid #ff0000");
-
+            $(".phoneTip").show();
         }else {
             $("#contact").css("border","1px solid #E6E6E6");
-
+            $(".phoneTip").hide();
         }
     })
     $("#industry").blur(function (){
@@ -162,7 +187,7 @@
         var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
             regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
 
-        if (regEn.test(val) || regCn.test(val)) {
+        if (regEn.test(val) || regCn.test(val) || val=="") {
             $("#Colleges").css("border","1px solid #ff0000");
             $(".CollegesTip").show();
         }else {

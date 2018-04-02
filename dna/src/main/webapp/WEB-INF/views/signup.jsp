@@ -86,10 +86,10 @@
             </div>
             <div class="reg-Colleges">
                 <label>
-                    <span>所属院校:</span>
+                    <span><b>*</b>所属院校:</span>
                     <input type="text" name="university" id="Colleges" placeholder="请输入所属院校" value="${university}" style="line-height:36px;">
                 </label>
-                <span class="tips CollegesTip" style="display:none;color:#ff0000;">不能包含特殊字符</span>
+                <span class="tips CollegesTip" style="display:none;color:#ff0000;">不能包含特殊字符/不能为空</span>
             </div>
             <div class="stars-tips">带<b>*</b>的选项为必填项</div>
             <button type="submit" class="js-ref" name="submit"  href="javascript:;">提交审核</button>
@@ -183,12 +183,13 @@
         }
 
     })
+    // 所属院校
     $("#Colleges").blur(function (){
         var val = $(this).val().trim().toString();
         var regEn = /[`~!@#$%^&*()_+<>?:"{},.\/;'[\]]/im,
             regCn = /[·！#￥（——）：；“”‘、，|《。》？、【】[\]]/im;
 
-        if (regEn.test(val) || regCn.test(val)) {
+        if (regEn.test(val) || regCn.test(val) || val=="") {
             $("#Colleges").css("border","1px solid #ff0000");
             $(".CollegesTip").show();
         }else {

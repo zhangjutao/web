@@ -43,10 +43,11 @@ $(function () {
                         var status = totalDatas[i].enabled==1?"1":"0";
                         var domains = totalDatas[i].domains?totalDatas[i].domains:"-";
                         var university = totalDatas[i].university?totalDatas[i].university:"-";
+                       var realname =  totalDatas[i].realname?totalDatas[i].realname:"-"
                         if(status == 1){
-                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].realname+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+totalDatas[i].phone+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>已审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+realname+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+totalDatas[i].phone+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>已审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td style='width:128px;'><p class=\'btnAudited btnCommon\'>已审核</p></td></tr>";
                         }else{
-                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+totalDatas[i].realname+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+totalDatas[i].phone+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>待审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
+                            var str=" <tr myid="+totalDatas[i].id+"><td><p class='notOverflow'>"+totalDatas[i].username+"</p></td><td><p class='notOverflow'>"+realname+"</p></td><td><p class='notOverflow'>"+totalDatas[i].email+"</p></td><td><p class='notOverflow'>"+totalDatas[i].phone+"</p></td><td><p class='notOverflow'>"+domains+"</p></td><td><p class='notOverflow'>"+university+"</p></td><td><p class='notOverflow'>待审核</p></td><td><p class='notOverflow'>"+totalDatas[i].enableDay+"</p></td><td style='width:128px;'><p class=\'btnAudit btnCommon\'>待审核</p></td></tr>";
                         }
                         console.log(status);
                         var $tbl = $("#tblbody table");
@@ -54,7 +55,6 @@ $(function () {
                         pageStyle(nums,intNums);
                         $("#totals").text(count);
                     }
-
                 }
             },
             error:function (error){
