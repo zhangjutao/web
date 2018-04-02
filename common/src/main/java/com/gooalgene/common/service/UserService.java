@@ -67,7 +67,7 @@ public class UserService implements ApplicationContextAware {
     }
      //向user表中插入用户
     public boolean createUser(User user){
-        Date date=new Date();
+        Date date = Calendar.getInstance().getTime();
         Calendar calendar=Calendar.getInstance();
         logger.info("添加之前的时间:", calendar.getTime().toString());
         calendar.setTime(date);
