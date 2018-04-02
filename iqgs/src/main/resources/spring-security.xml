@@ -13,10 +13,11 @@
     <bean id="authenticationSuccessHandler" class="com.gooalgene.common.handler.AuthenticationSuccessHandlerImpl">
         <property name="defaultTargetUrl" value="/iqgs/index" />
     </bean>
-    <sec:http pattern="/sort/**" security="none"/>
-    <sec:http pattern="/advance-search/query-all-organic" security="none"/>
+
     <sec:http auto-config='false' use-expressions="true">
         <sec:intercept-url pattern="/managerPage" access="hasRole('ROLE_ADMIN')" />
+        <sec:intercept-url pattern="/sort/**" access="permitAll()" />
+        <sec:intercept-url pattern="/advance-search/query-all-organic" access="permitAll()" />
         <sec:form-login login-page="/login"
                         login-processing-url="/j_spring_security_check"
                         authentication-success-handler-ref="authenticationSuccessHandler"

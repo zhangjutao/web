@@ -93,10 +93,6 @@ public class DNAGenBaseInfoController implements InitializingBean {
         String mrnaIndex = loader.getProperty("mrna.index");
         String dnaIndex = loader.getProperty("dna.index");
         String qtlIndex = loader.getProperty("qtl.index");
-        String qtlExample = loader.getProperty("qtl.example");
-        int exampleQtlId = dnaGenBaseInfoService.getAssociateGeneIdByQtlAndVersion(qtlExample, CommonConstant.VERSIONTWO);
-        modelAndView.addObject("qtlExample", qtlExample);
-        modelAndView.addObject("exampleQtlId", exampleQtlId);
         modelAndView.addObject("mrnaIndex", mrnaIndex);
         modelAndView.addObject("dnaIndex", dnaIndex);
         modelAndView.addObject("qtlIndex", qtlIndex);

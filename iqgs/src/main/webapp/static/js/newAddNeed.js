@@ -145,14 +145,6 @@ var globleObject = {};
             window.location = DOMAIN + "/search/list?keyword=" + encodeURI(qtlNames)+ "&searchType=4" ;
         }
     })
-    // qtl 示例搜索
-    $("#qtlAdd .qtlExample").click(function (){
-        var qtlNames = $(this).text();
-        var qtlNameArr = [];
-        qtlNameArr.push(qtlNames);
-        storage.setItem("qtlSearchNames",JSON.stringify(qtlNameArr));
-        window.location = DOMAIN + "/search/list?keyword=" + sessionStorage.getItem("exampleQtlId") + "&searchType=4" ;
-    });
 
     // geneID 示例搜索
     $("#GeneIdName .geneExampleId,#GeneIdName .geneExampleName").click(function (){

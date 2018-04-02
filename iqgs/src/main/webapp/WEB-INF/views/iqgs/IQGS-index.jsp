@@ -107,7 +107,6 @@
                         <ul>
                         </ul>
                     </div>
-                    <p class="search-tips">示例: <a class="qtlExample" href="javascript:void(0);">${qtlExample}</a></p>
                     <div class="sureBtn">
                         <p>确定</p>
                     </div>
@@ -164,7 +163,6 @@
     window.DOMAIN = "${ctxroot}/iqgs";
     window.ctxROOT = "${ctxroot}";
     window.ctxStatic = "${ctxStatic}";
-    sessionStorage.exampleQtlId = "${exampleQtlId}";
 </script>
 
 <script src="${ctxStatic}/js/mock/mock.js"></script>
