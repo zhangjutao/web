@@ -91,12 +91,8 @@ public class FPKMService implements InitializingBean {
         String geneId = baseInfo.getGeneId();  //用户输入的geneId，这里需要调正则匹配服务
         //先判断是根据ID/name查询还是根据function查询，拿到基因ID集合
         if (geneId != null && !geneId.trim().equals("")){  //如果用户输入为geneFunction，这里不存在geneId
-            List<String> matchedGene = GeneRegexpService.interpretGeneInput(geneId);  //基因匹配结果
-            if (matchedGene != null && matchedGene.size() > 0) {
-                //先取第一个匹配到的值
-                baseInfo.setGeneId(matchedGene.get(0));
-                baseInfo.setGeneOldId(matchedGene.get(0));
-            }
+            baseInfo.setGeneId(geneId);
+            baseInfo.setGeneOldId(geneId);
         }
         //如果是function，那么ID/name均为null，直接拿到从前台传过来的DNAGenBaseInfo即可，这里获取到符合条件的基因ID集合
         properGeneIdList = dnaGenBaseInfoDao.findProperGeneId(baseInfo);
