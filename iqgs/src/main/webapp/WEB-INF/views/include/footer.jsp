@@ -7,8 +7,8 @@
 
         <dl class="">
             <dt>产品链接</dt>
-            <dd><a target="_blank" href="http://report.gooalgene.com">可交互报告</a></dd>
             <dd><a target="_blank" href="http://dms.gooalgene.com:81">数据管理工具</a></dd>
+            <dd><a target="_blank" href="http://report.gooalgene.com">可交互报告</a></dd>
             <dd><a target="_blank" href="http://www.gooalgene.com/pages/dataBase.html">数据库</a></dd>
         </dl>
         <dl>
